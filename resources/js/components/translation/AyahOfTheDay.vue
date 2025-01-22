@@ -5,7 +5,7 @@
       v-if="ayah"
       style="padding: 5px; background: #268a75; border: 3px solid black; border-radius: 8px; position: relative;">
       <!-- Close Icon -->
-      <button
+      <!-- <button
         @click="closeMessageBox"
         style="
           position: absolute;
@@ -17,7 +17,7 @@
           font-size: 1.3rem;
           cursor: pointer;">
         &times;
-      </button>
+      </button> -->
 
       <!-- Header Row -->
       <div class="row pt-1" style="padding: 10px;">
