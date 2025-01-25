@@ -55,6 +55,7 @@
         "primeicons": "^7.0.0",
         "primevue": "^3.53.0",
         "quill": "^2.0.2",
+        "rss-parser": "^3.13.0",
         "shetabit-laravel-vue-pagination": "^2.3.7",
         "stripe": "^14.15.0",
         "sweetalert2": "^11.9.0",

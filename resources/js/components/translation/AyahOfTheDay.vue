@@ -20,7 +20,7 @@
       </button> -->
 
       <!-- Header Row -->
-      <div class="row pt-1" style="padding: 10px;">
+      <div class="row pt-1" style="padding: 5px;">
         <div class="col-md-6">
           <h5 class="pt-3 text-white text-left"><b>Ayah of the Day:</b></h5>
         </div>
