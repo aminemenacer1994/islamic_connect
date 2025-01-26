@@ -1,34 +1,111 @@
 <template>
-    <div class="row justify-content-center text-center mb-3">
-      <div class="col-lg-8 col-xl-7">
-        <h1 class="display-5 mb-3 pt-3 fw-bold">The History of Islam</h1>
-        <p class="pt-3" style="line-height: 1.8rem;">Dive deep into the rich history of Islam with our carefully curated playlist of audio podcasts. Each episode takes you on a journey through key historical events, significant figures, and important milestones that shaped the Islamic world. Whether you're a history enthusiast or looking to understand the origins and evolution of Islam, these podcasts provide insightful and thought-provoking content.</p>
+  <div class="container mt-5">
+    <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
+
+    <!-- Main description (non-bold) -->
+    <p class="text-center mb-4">Explore the latest Islamic podcasts. Use the filters below to refine your search.</p>
+
+    <!-- Filter Section -->
+    <div class="row mb-4">
+      <!-- Topic Filter -->
+      <div class="col-md-3">
+        <select v-model="filters.topic" class="form-select" @change="applyFilters">
+          <option value="">All Topics</option>
+          <option value="Islamic">Islamic</option>
+          <option value="Education">Education</option>
+          <option value="History">History</option>
+          <option value="Fiqh">Fiqh</option>
+          <option value="Seerah">Seerah</option>
+          <option value="Aqeedah">Aqeedah</option>
+          <option value="Current Affairs">Current Affairs</option>
+          <option value="Islamic Law">Islamic Law</option>
+          <!-- Add more topics here -->
+        </select>
+      </div>
+
+      <!-- Date Filter -->
+      <div class="col-md-3">
+        <select v-model="filters.dateRange" class="form-select" @change="applyFilters">
+          <option value="">All Time</option>
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+
+      <!-- Time Filter -->
+      <div class="col-md-3">
+        <select v-model="filters.time" class="form-select" @change="applyFilters">
+          <option value="">All Time</option>
+          <option value="morning">Morning</option>
+          <option value="afternoon">Afternoon</option>
+          <option value="evening">Evening</option>
+        </select>
+      </div>
+
+      <!-- Search Filter -->
+      <div class="col-md-3">
+        <input v-model="filters.search" type="text" class="form-control" placeholder="Search podcasts..." @input="applyFilters">
       </div>
     </div>
-  <div class="container podcast-list">
-    <!-- Loop over podcasts in pairs -->
-    <div class="row">
-      <div class="col-md-6" v-for="(podcast, index) in podcasts" :key="podcast.guid">
-        <div class="podcast-item card shadow-sm mb-4">
-          <div class="podcast-details p-3">
-            <!-- Podcast Title -->
-            <h3 class="podcast-title" style="color:rgba(0, 191, 166)">{{ podcast.title }}</h3>
-            <!-- Podcast Description -->
-            <p class="podcast-description text-muted" v-html="podcast.description"></p>
-            <!-- Audio Player -->
-            <audio :src="podcast.audioUrl" controls preload="metadata" class="w-100">
-              Your browser does not support the audio element.
-            </audio>
-            <!-- Listen Link -->
-            <p class="audio-source mt-2">
-              <a :href="podcast.audioUrl" target="_blank" class="btn btn-link btn-sm text-primary">Listen here</a>
-            </p>
+
+    <!-- Pagination and Grid for podcast items -->
+    <div v-if="loading" class="text-center">Loading podcasts...</div>
+
+    <div v-if="!loading && podcasts.length">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Display podcasts in a 2-column layout -->
+        <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <!-- Podcast Title -->
+              <h5 class="card-title fw-bold">{{ podcast.title }}</h5>
+
+              <!-- Podcast Description -->
+              <p class="card-text">{{ podcast.description }}</p>
+
+              <!-- Audio Player -->
+              <audio :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl" class="w-100">
+                Your browser does not support the audio element.
+              </audio>
+              <p v-else>No audio available for this podcast.</p>
+
+              <!-- Publication Date -->
+              <p class="text-muted">Published on: {{ podcast.pubDate }}</p>
+            </div>
           </div>
         </div>
       </div>
-      <!-- Add an empty column every two podcasts to create a new row -->
-      <div class="col-md-6" v-if="(index + 1) % 2 === 0"></div>
+
+      <!-- Pagination controls -->
+      <div class="d-flex justify-content-center mt-4">
+        <ul class="pagination justify-content-center">
+          <!-- Previous Button -->
+          <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <button class="page-link" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
+          </li>
+
+          <!-- Pagination Buttons -->
+          <li v-for="page in pages" :key="page" class="page-item" :class="{ active: page === currentPage }">
+            <button class="page-link" @click="changePage(page)">{{ page }}</button>
+          </li>
+
+          <!-- Next Button -->
+          <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+            <button class="page-link" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
+          </li>
+
+          <!-- Last Button -->
+          <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+            <button class="page-link" @click="changePage(totalPages)" :disabled="currentPage === totalPages">End</button>
+          </li>
+        </ul>
+      </div>
     </div>
+
+    <!-- No podcasts found message -->
+    <div v-if="!loading && !filteredPodcasts.length" class="text-center">No podcasts found</div>
   </div>
 </template>
 
@@ -37,123 +114,172 @@ export default {
   data() {
     return {
       podcasts: [],
+      filteredPodcasts: [],
       loading: true,
-      error: null,
+      rssUrl: 'https://themadmamluks.libsyn.com/rss', // Example RSS feed URL
+      currentPage: 1,
+      podcastsPerPage: 10,
+      filters: {
+        topic: '',
+        dateRange: '',
+        time: '',
+        search: '',
+      },
     };
   },
-  created() {
-    this.fetchPodcasts();
+  computed: {
+    totalPages() {
+      return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
+    },
+    pages() {
+      let pageNumbers = [];
+      for (let i = 1; i <= this.totalPages; i++) {
+        pageNumbers.push(i);
+      }
+      return pageNumbers.slice(0, 5); // Show only 5 pagination buttons
+    },
+    paginatedPodcasts() {
+      const start = (this.currentPage - 1) * this.podcastsPerPage;
+      const end = start + this.podcastsPerPage;
+      return this.filteredPodcasts.slice(start, end);
+    },
   },
   methods: {
-     // Remove unwanted text from the description
-     cleanDescription(description) {
-      return description.replace(/Hosted on Acast.*?privacy.*?for more information./is, '');
+    // Method to remove HTML tags from a string
+    removeHtmlTags(inputString) {
+      return inputString.replace(/<\/?[^>]+(>|$)/g, "");
     },
 
-    // Automatically skip the intro ad by setting a time to start the podcast after
-    skipIntroAd(event) {
-      const audio = this.$refs.audioPlayer;
-      const introAdDuration = 30; // Skip first 30 seconds
-      if (audio.currentTime < introAdDuration) {
-        audio.currentTime = introAdDuration;
+    // Method to clean up the description by removing unwanted URLs, hashtags, and specific text
+    cleanDescription(description) {
+      // Remove URLs (https://, http://)
+      description = description.replace(/https?:\/\/[^\s]+/g, "");
+
+      // Remove hashtags (#)
+      description = description.replace(/#\w+/g, "");
+
+      // Define donation-related patterns and social media links to remove
+      const donationPatterns = [
+        /donate[\s\S]*?(?:on|here|to)[\s\S]*?/gi,   // 'donate' followed by donation request
+        /support[\s\S]*?(?:us|on)[\s\S]*?/gi,        // 'support' followed by support request
+        /patreon[\s\S]*?(?:here|on)[\s\S]*?/gi,      // 'patreon' followed by support request
+        /paypal[\s\S]*?(?:here|on)[\s\S]*?/gi,       // 'paypal' followed by donation request
+        /gofund[^\w]*?[\w\s]+/gi,                    // 'gofund' followed by text
+        /buy\s*(?:us|our)\s*[\w\s]+/gi,              // 'buy' followed by support request
+        /(?:Follow\s+|Visit\s+)?\s*(?:our\s+)?(?:social\s+)?(?:media\s+)?(?:on\s+)?\S+/gi, // Generic social media
+      ];
+
+      // Apply all donation-related patterns to the description
+      donationPatterns.forEach(pattern => {
+        description = description.replace(pattern, "");
+      });
+
+      return description.trim(); // Trim leading/trailing spaces
+    },
+
+    // Function to apply the selected filters
+    applyFilters() {
+      let filtered = this.podcasts;
+
+      // Filter by Topic
+      if (this.filters.topic) {
+        filtered = filtered.filter(podcast => podcast.title.includes(this.filters.topic));
+      }
+
+      // Filter by Date Range (Daily, Weekly, Monthly, Yearly)
+      if (this.filters.dateRange) {
+        const currentDate = new Date();
+        filtered = filtered.filter(podcast => {
+          const pubDate = new Date(podcast.pubDate);
+          const timeDifference = currentDate - pubDate;
+          switch (this.filters.dateRange) {
+            case 'daily':
+              return timeDifference <= 86400000; // 24 hours
+            case 'weekly':
+              return timeDifference <= 604800000; // 7 days
+            case 'monthly':
+              return timeDifference <= 2592000000; // 30 days
+            case 'yearly':
+              return timeDifference <= 31536000000; // 365 days
+            default:
+              return true;
+          }
+        });
+      }
+
+      // Filter by Time (Morning, Afternoon, Evening)
+      if (this.filters.time) {
+        filtered = filtered.filter(podcast => {
+          const hours = new Date(podcast.pubDate).getHours();
+          switch (this.filters.time) {
+            case 'morning':
+              return hours >= 5 && hours < 12;
+            case 'afternoon':
+              return hours >= 12 && hours < 18;
+            case 'evening':
+              return hours >= 18 && hours < 22;
+            default:
+              return true;
+          }
+        });
+      }
+
+      // Search Filter (Title and Description)
+      if (this.filters.search) {
+        filtered = filtered.filter(podcast =>
+          podcast.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+          podcast.description.toLowerCase().includes(this.filters.search.toLowerCase())
+        );
+      }
+
+      // Set the filtered podcasts
+      this.filteredPodcasts = filtered;
+      this.currentPage = 1; // Reset to the first page when filters change
+    },
+
+    // Change the page
+    changePage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
       }
     },
-    async fetchPodcasts() {
-  try {
-    this.loading = true;
-    this.error = null;
 
-    // Use a CORS proxy to fetch the RSS feed
-    const response = await fetch(
-      `https://cors-anywhere.herokuapp.com/https://feeds.acast.com/public/shows/9b71a968-0061-4508-9609-6371a36cdcb0`
-    );
+    // Fetch and parse the RSS feed
+    fetchPodcasts() {
+      this.loading = true;
+      fetch(this.rssUrl)
+        .then(response => response.text())
+        .then(data => {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data, "application/xml");
+          const items = xmlDoc.getElementsByTagName("item");
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch the RSS feed.');
-    }
+          this.podcasts = Array.from(items).map(item => {
+            return {
+              title: item.getElementsByTagName("title")[0].textContent,
+              description: this.cleanDescription(item.getElementsByTagName("description")[0].textContent),
+              audioUrl: item.getElementsByTagName("enclosure")[0] ? item.getElementsByTagName("enclosure")[0].getAttribute("url") : null,
+              pubDate: item.getElementsByTagName("pubDate")[0].textContent,
+              topic: item.getElementsByTagName("category")[0] ? item.getElementsByTagName("category")[0].textContent : "Unknown",
+            };
+          });
 
-    const rssText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(rssText, 'application/xml');
-
-    // Parse the RSS feed
-    const items = xmlDoc.querySelectorAll('item');
-    this.podcasts = Array.from(items).map((item) => ({
-      guid: item.querySelector('guid').textContent,
-      title: item.querySelector('title').textContent,
-      description: item.querySelector('description').textContent
-        .replace(/(Hosted on Acast\. See acast\.com\/privacy for more information\.)/g, '')
-        .replace(/SoundCloud/g, ''), // Remove "SoundCloud"
-      audioUrl: item.querySelector('enclosure').getAttribute('url'),
-    }));
-  } catch (error) {
-    this.error = error.message;
-    console.error('Error fetching podcasts:', error);
-  } finally {
-    this.loading = false;
-  }
-}
-
+          // Apply filters after fetching the data
+          this.applyFilters();
+          this.loading = false;
+        })
+        .catch(error => {
+          console.error('Error fetching podcasts:', error);
+          this.loading = false;
+        });
+    },
+  },
+  mounted() {
+    this.fetchPodcasts();
   },
 };
 </script>
 
 <style scoped>
-/* Container styling */
-.podcast-list {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-/* Podcast Item Styling */
-.podcast-item {
-  background-color: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-}
-
-/* Hover effect for the podcast items */
-.podcast-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Podcast Title Styling */
-.podcast-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-/* Podcast Description Styling */
-.podcast-description {
-  font-size: 1em;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-/* Audio player full width */
-audio {
-  width: 100%;
-  margin-bottom: 15px;
-}
-
-/* Listen link styling */
-.audio-source {
-  margin-top: 10px;
-}
-
-.audio-source .btn-link {
-  font-size: 1em;
-  font-weight: 500;
-}
-
-/* Adjust for larger screens */
-@media (min-width: 768px) {
-  .podcast-item {
-    margin-bottom: 30px;
-  }
-}
+/* Styles for the podcast list page */
 </style>
