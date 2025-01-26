@@ -120,9 +120,9 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran</b></a></h6>
                 </li>
-                {{-- <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/content"><b>Features</b></a></h6>
-                </li> --}}
+                <li class="nav-item mt-3">
+                    <h6><a class="nav-link ml-3 pl-3" href="/content"><b>Audio Podcasts</b></a></h6>
+                </li> 
                 {{-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/about"><b>About Us</b></a></h6>
                 </li> --}}

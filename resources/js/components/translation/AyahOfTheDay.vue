@@ -3,7 +3,7 @@
   <div v-if="isVisible">
     <div
       v-if="ayah"
-      style="padding: 5px; background: #268a75; border: 3px solid black; border-radius: 8px; position: relative;">
+      style="padding: 5px; background: #268a75; border-radius: 8px; position: relative;">
       <!-- Close Icon -->
       <!-- <button
         @click="closeMessageBox"
@@ -14,19 +14,19 @@
           background: transparent;
           border: none;
           color: white;
-          font-size: 1.3rem;
+          font-size: 1.5rem;
           cursor: pointer;">
         &times;
       </button> -->
 
       <!-- Header Row -->
-      <div class="row pt-1" style="padding: 5px;">
+      <div class="row" style="padding: 15px;">
         <div class="col-md-6">
-          <h5 class="pt-3 text-white text-left"><b>Ayah of the Day:</b></h5>
+          <h5 class="pt-2 text-white text-left">Ayah of the Day:</h5>
         </div>
         <div class="col-md-6">
           <h5
-            class="pt-3 text-white text-right"
+            class="pt-2 text-white text-right"
             style="text-align: center;">
             {{ ayah.surahNumber }}:{{ ayah.ayahNumber }} - {{ ayah.surah }}
           </h5>
@@ -35,7 +35,7 @@
 
       <!-- Ayah Content -->
       <div style="padding: 5px;" class="pb-1 card-body text-white">
-        <h4 class="arabic text-dark text-white text-right"><b>{{ ayah.arabic }}</b></h4>
+        <h4 class="arabic text-dark text-white text-right">{{ ayah.arabic }}</h4>
       </div>
     </div>
   </div>

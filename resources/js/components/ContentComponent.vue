@@ -1,23 +1,33 @@
 <template>
-  <div class="podcast-container">
-    <h1>Islamic Podcasts</h1>
-    <div v-if="loading" class="loading">Loading podcasts...</div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-else>
-      <ul class="podcast-list">
-        <li v-for="podcast in podcasts" :key="podcast.guid" class="podcast-item">
-          <div class="podcast-details">
-            <h3>{{ podcast.title }}</h3>
-            <p class="podcast-description" v-html="podcast.description"></p>
-          </div>
-          <div class="audio-player">
-            <audio :src="podcast.audioUrl" controls preload="metadata">
+    <div class="row justify-content-center text-center mb-3">
+      <div class="col-lg-8 col-xl-7">
+        <h1 class="display-5 mb-3 pt-3 fw-bold">The History of Islam</h1>
+        <p class="pt-3" style="line-height: 1.8rem;">Dive deep into the rich history of Islam with our carefully curated playlist of audio podcasts. Each episode takes you on a journey through key historical events, significant figures, and important milestones that shaped the Islamic world. Whether you're a history enthusiast or looking to understand the origins and evolution of Islam, these podcasts provide insightful and thought-provoking content.</p>
+      </div>
+    </div>
+  <div class="container podcast-list">
+    <!-- Loop over podcasts in pairs -->
+    <div class="row">
+      <div class="col-md-6" v-for="(podcast, index) in podcasts" :key="podcast.guid">
+        <div class="podcast-item card shadow-sm mb-4">
+          <div class="podcast-details p-3">
+            <!-- Podcast Title -->
+            <h3 class="podcast-title" style="color:rgba(0, 191, 166)">{{ podcast.title }}</h3>
+            <!-- Podcast Description -->
+            <p class="podcast-description text-muted" v-html="podcast.description"></p>
+            <!-- Audio Player -->
+            <audio :src="podcast.audioUrl" controls preload="metadata" class="w-100">
               Your browser does not support the audio element.
             </audio>
-            <p class="audio-source"><a :href="podcast.audioUrl" target="_blank">Listen here</a></p>
+            <!-- Listen Link -->
+            <p class="audio-source mt-2">
+              <a :href="podcast.audioUrl" target="_blank" class="btn btn-link btn-sm text-primary">Listen here</a>
+            </p>
           </div>
-        </li>
-      </ul>
+        </div>
+      </div>
+      <!-- Add an empty column every two podcasts to create a new row -->
+      <div class="col-md-6" v-if="(index + 1) % 2 === 0"></div>
     </div>
   </div>
 </template>
@@ -35,125 +45,115 @@ export default {
     this.fetchPodcasts();
   },
   methods: {
-    async fetchPodcasts() {
-      try {
-        this.loading = true;
-        this.error = null;
+     // Remove unwanted text from the description
+     cleanDescription(description) {
+      return description.replace(/Hosted on Acast.*?privacy.*?for more information./is, '');
+    },
 
-        // Use a CORS proxy to fetch the RSS feed
-        const response = await fetch(
-          `https://cors-anywhere.herokuapp.com/https://feeds.acast.com/public/shows/9b71a968-0061-4508-9609-6371a36cdcb0`
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch the RSS feed.');
-        }
-
-        const rssText = await response.text();
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(rssText, 'application/xml');
-
-        // Parse the RSS feed
-        const items = xmlDoc.querySelectorAll('item');
-        this.podcasts = Array.from(items).map((item) => ({
-          guid: item.querySelector('guid').textContent,
-          title: item.querySelector('title').textContent,
-          description: item.querySelector('description').textContent,
-          audioUrl: item.querySelector('enclosure').getAttribute('url'),
-        }));
-      } catch (error) {
-        this.error = error.message;
-        console.error('Error fetching podcasts:', error);
-      } finally {
-        this.loading = false;
+    // Automatically skip the intro ad by setting a time to start the podcast after
+    skipIntroAd(event) {
+      const audio = this.$refs.audioPlayer;
+      const introAdDuration = 30; // Skip first 30 seconds
+      if (audio.currentTime < introAdDuration) {
+        audio.currentTime = introAdDuration;
       }
     },
+    async fetchPodcasts() {
+  try {
+    this.loading = true;
+    this.error = null;
+
+    // Use a CORS proxy to fetch the RSS feed
+    const response = await fetch(
+      `https://cors-anywhere.herokuapp.com/https://feeds.acast.com/public/shows/9b71a968-0061-4508-9609-6371a36cdcb0`
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch the RSS feed.');
+    }
+
+    const rssText = await response.text();
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(rssText, 'application/xml');
+
+    // Parse the RSS feed
+    const items = xmlDoc.querySelectorAll('item');
+    this.podcasts = Array.from(items).map((item) => ({
+      guid: item.querySelector('guid').textContent,
+      title: item.querySelector('title').textContent,
+      description: item.querySelector('description').textContent
+        .replace(/(Hosted on Acast\. See acast\.com\/privacy for more information\.)/g, '')
+        .replace(/SoundCloud/g, ''), // Remove "SoundCloud"
+      audioUrl: item.querySelector('enclosure').getAttribute('url'),
+    }));
+  } catch (error) {
+    this.error = error.message;
+    console.error('Error fetching podcasts:', error);
+  } finally {
+    this.loading = false;
+  }
+}
+
   },
 };
 </script>
 
 <style scoped>
-.podcast-container {
-  width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  color: #333;
-  background-color: #f9f9f9;
-}
-
-h1 {
-  text-align: center;
-  color: #2c3e50;
-}
-
-.loading {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.error {
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
+/* Container styling */
 .podcast-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
+/* Podcast Item Styling */
 .podcast-item {
-  background-color: white;
-  margin-bottom: 20px;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
+/* Hover effect for the podcast items */
 .podcast-item:hover {
-  transform: scale(1.03);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
 }
 
-.podcast-details h3 {
-  font-size: 1.2rem;
-  color: #2980b9;
+/* Podcast Title Styling */
+.podcast-title {
+  font-size: 1.5em;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
+/* Podcast Description Styling */
 .podcast-description {
-  font-size: 1rem;
-  color: #7f8c8d;
+  font-size: 1em;
+  line-height: 1.6;
   margin-bottom: 15px;
 }
 
-.audio-player {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
+/* Audio player full width */
 audio {
   width: 100%;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  margin-bottom: 15px;
 }
 
+/* Listen link styling */
 .audio-source {
-  font-size: 0.9rem;
-  color: #2980b9;
+  margin-top: 10px;
 }
 
-.audio-source a {
-  text-decoration: none;
-  color: #2980b9;
+.audio-source .btn-link {
+  font-size: 1em;
+  font-weight: 500;
 }
 
-.audio-source a:hover {
-  text-decoration: underline;
+/* Adjust for larger screens */
+@media (min-width: 768px) {
+  .podcast-item {
+    margin-bottom: 30px;
+  }
 }
 </style>

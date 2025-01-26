@@ -1,53 +1,66 @@
 <template>
-  <div class="prayer-times-wrapper">
-    <button @click="toggleSection" class="toggle-btn">
-      {{ isSectionOpen ? "Close" : "Open" }} Prayer Times
-    </button>
+  <div class="container-fluid mt-3">
+    <div class="text-center container">
+      <div class="row mb-3" style="align-items: center; text-align: center">
+        <div class="col-md-4">
+          <p class="display-6 mt-3 fw-bold ">Prayer times</p>
+        </div>
+        
+        <div class="col-md-4">
+          <!-- City Name -->
+          <h4 v-if="cityName" class="text-center fw-bold ">
+            Prayer times in: <b class="text-warning">{{ cityName }}</b>
+          </h4>
+        </div>
 
-    <div v-if="isSectionOpen" class="prayer-times">
-      <!-- City Name -->
-      <p v-if="cityName" class="city-name">Prayer times for {{ cityName }}</p>
+        <div class="col-md-4">
+          <!-- Search Form -->
+          <form class="d-flex pb-" @submit.prevent="fetchPrayerTimesByCity">
+            <input
+              v-model="city"
+              class="form-control me-2"
+              type="search"
+              placeholder="Enter a city"
+              aria-label="Search"
+              @keyup.enter="fetchPrayerTimesByCity"
+            />
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+        </div>
 
-      <!-- Search Bar -->
-      <div class="search-bar">
-        <input
-          type="text"
-          v-model="city"
-          placeholder="Enter a city"
-          @keyup.enter="fetchPrayerTimesByCity"
-        />
-        <button @click="fetchPrayerTimesByCity">Search</button>
+        <!-- Loading Spinner -->
+        <div v-if="loading" class="text-center mb-4">
+          <p>Loading prayer times...</p>
+        </div>
+        <hr />
       </div>
-
-      <!-- Loading Spinner -->
-      <div v-if="loading" class="loading-spinner">
-        <p>Loading prayer times...</p>
-      </div>
-
+      
       <!-- Prayer Times -->
-      <div v-if="prayerTimes && !loading">
-        <ul class="list-group">
+      <div v-if="prayerTimes && !loading" class="row">
+        
+        <ul
+          class="list-group col-md-2 mb-3"
+          v-for="(time, prayer) in filteredPrayerTimes"
+          :key="prayer"
+        >
           <li
-            class="list-group-item"
-            :class="{ 'next-prayer': prayer === nextPrayer }"
-            v-for="(time, prayer) in prayerTimes"
-            :key="prayer"
+            class="list-group-item list-group-item-success active"
+            style="border: 2px solid rgb(0, 191, 166); border-radius: 5px"
+            aria-current="true"
+            :class="{ 'border-warning': prayer === nextPrayer }"
           >
-            <b>{{ prayer }}</b
-            >: {{ time }}
+            <div class="text-center">
+              <h5 class="card-title">{{ prayer }}</h5>
+              <p class="card-text">{{ time }}</p>
+            </div>
           </li>
         </ul>
-      </div>
-
-      <!-- Error Message -->
-      <div v-if="error" class="error">
-        <p>{{ error }}</p>
       </div>
     </div>
   </div>
 </template>
-  
 <script>
+
 export default {
   data() {
     return {
@@ -58,42 +71,82 @@ export default {
       nextPrayer: null, // Next prayer name
       loading: false, // Loading state
       error: null, // Error message
+      lat: null, // Latitude from geolocation
+      lon: null, // Longitude from geolocation
+      gregorianDate: "", // Current Gregorian date
+      hijriDate: "", // Current Hijri date
     };
   },
+  computed: {
+    filteredPrayerTimes() {
+      // Filter out unwanted prayer times
+      if (!this.prayerTimes) return {};
+      const unwantedKeys = ["Sunset", "Imsak", "Firstthird", "Lastthird", "Midnight"];
+      return Object.fromEntries(
+        Object.entries(this.prayerTimes).filter(([key]) => !unwantedKeys.includes(key))
+      );
+    },
+  },
+  mounted() {
+    this.getCurrentLocation(); // Automatically fetch prayer times on page load
+    this.setCurrentDate(); // Set the current date
+  },
   methods: {
+    // Set current Gregorian and Hijri dates
+    setCurrentDate() {
+      const currentGregorianDate = new Date();
+      this.gregorianDate = currentGregorianDate.toLocaleDateString(); // Display current Gregorian date
+
+      // Use moment-hijri to get the current Hijri date
+      this.hijriDate = moment().format("iYYYY/iM/iD"); // Hijri Date format: iYYYY/iM/iD
+    },
+
     // Toggle section open/close
     toggleSection() {
       this.isSectionOpen = !this.isSectionOpen;
     },
 
-    // Automatically fetch prayer times for the user's location
+    // Get the current location of the user
+    getCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.lat = position.coords.latitude;
+            this.lon = position.coords.longitude;
+            this.fetchPrayerTimesByLocation();
+          },
+          (error) => {
+            this.error = "Unable to retrieve your location.";
+            console.error(error);
+          }
+        );
+      } else {
+        this.error = "Geolocation is not supported by this browser.";
+      }
+    },
+
+    // Fetch prayer times based on the current location (latitude and longitude)
     async fetchPrayerTimesByLocation() {
+      if (!this.lat || !this.lon) return;
+
       this.loading = true;
       this.error = null;
 
       try {
-        // Get user's geolocation
-        const position = await new Promise((resolve, reject) =>
-          navigator.geolocation.getCurrentPosition(resolve, reject)
-        );
-
-        const { latitude, longitude } = position.coords;
-
-        // Fetch prayer times directly without resolving city name
         const prayerResponse = await fetch(
-          `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`
+          `https://api.aladhan.com/v1/timings?latitude=${this.lat}&longitude=${this.lon}&method=2`
         );
         const prayerData = await prayerResponse.json();
 
         if (prayerData.code === 200) {
           this.prayerTimes = prayerData.data.timings;
-          this.cityName = "Your Location"; // Use a generic placeholder
+          this.cityName = prayerData.data.location.city; // City name based on location
           this.calculateNextPrayer();
         } else {
           this.error = "Unable to fetch prayer times for your location.";
         }
       } catch (error) {
-        this.error = "An error occurred while fetching your location.";
+        this.error = "An error occurred while fetching prayer times.";
         console.error("Error:", error.message);
       } finally {
         this.loading = false;
@@ -112,13 +165,13 @@ export default {
 
       try {
         const prayerResponse = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=${this.city}&method=2`
+          `https://api.aladhan.com/v1/timingsByCity?city=${this.city}&country=auto&method=2`
         );
         const prayerData = await prayerResponse.json();
 
         if (prayerData.code === 200) {
           this.prayerTimes = prayerData.data.timings;
-          this.cityName = this.city; // Update city name
+          this.cityName = this.city; // Update city name (country auto-detected)
           this.calculateNextPrayer();
         } else {
           this.error = "Unable to fetch prayer times for the specified city.";
@@ -134,10 +187,10 @@ export default {
     // Calculate the next prayer time
     calculateNextPrayer() {
       const currentTime = new Date();
-      const prayerKeys = Object.keys(this.prayerTimes);
+      const prayerKeys = Object.keys(this.filteredPrayerTimes);
 
       for (const prayer of prayerKeys) {
-        const prayerTime = this.prayerTimes[prayer];
+        const prayerTime = this.filteredPrayerTimes[prayer];
         const [hours, minutes] = prayerTime.split(":").map(Number);
 
         const prayerDate = new Date();
@@ -154,91 +207,20 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchPrayerTimesByLocation(); // Fetch prayer times on load
-  },
 };
 </script>
-  <style scoped>
-.prayer-times-wrapper {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  text-align: center;
+<style scoped>
+.border-warning {
+  border-width: 3px !important;
 }
 
-.toggle-btn {
-  margin-bottom: 10px;
-  padding: 10px 20px;
-  background-color: #63be8c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.toggle-btn:hover {
-  background-color: #4fa373;
-}
-
-.prayer-times h2 {
-  color: #2c3e50;
-}
-
-.city-name {
+.card-title {
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
-.search-bar {
-  margin-bottom: 20px;
-}
-
-.search-bar input {
-  padding: 10px;
-  width: 250px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.search-bar button {
-  padding: 10px 20px;
-  font-size: 13px;
-  color: #fff;
-  background-color: #63be8c;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #4fa373;
-}
-
-.loading-spinner p {
-  font-size: 1.2em;
-  color: #2c3e50;
-}
-
-.prayer-times ul {
-  list-style-type: none;
-  padding: 0;
-  font-size: 1.2em;
-}
-
-.prayer-times li {
-  padding: 10px;
-  color: #34495e;
-}
-
-.prayer-times .next-prayer {
-  background-color: #f1c40f;
-  color: white;
-}
-
-.error {
-  color: red;
-  font-weight: bold;
+.card-text {
+  font-size: 1.2rem;
 }
 </style>
-  
+
+
