@@ -51,7 +51,7 @@
           >
             <div class="text-center">
               <h5 class="card-title">{{ prayer }}</h5>
-              <p class="card-text">{{ time }}</p>
+              <p class="card-text text-white">{{ time }}</p>
             </div>
           </li>
         </ul>

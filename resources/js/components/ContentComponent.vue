@@ -1,110 +1,84 @@
 <template>
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
+    <p class="text-center container mb-4">Explore and discover the latest Islamic podcasts, featuring insightful discussions, inspiring content, and topics to deepen your understanding and connection with Islam.</p>
 
-    <!-- Main description (non-bold) -->
-    <p class="text-center container mb-4">Discover and explore the latest Islamic podcasts, covering a range of topics from Islamic teachings to contemporary issues. Whether you are looking to deepen your understanding of the Quran, learn more about Seerah, or stay updated on Islamic affairs, you'll find a podcast that suits your interests.</p>
-
-    <!-- Filter Section -->
-    <div  class="row container mb-4">
-      <!-- Topic Filter -->
-      <div class="col-md-3" style="padding: 5px;">
-        <select v-model="filters.topic" class="form-select" @change="applyFilters">
-          <option value="">All Topics</option>
-          <option value="Islamic">Islamic</option>
-          <option value="Education">Education</option>
-          <option value="History">History</option>
-          <option value="Fiqh">Fiqh</option>
-          <option value="Seerah">Seerah</option>
-          <option value="Aqeedah">Aqeedah</option>
-          <option value="Current Affairs">Current Affairs</option>
-          <option value="Islamic Law">Islamic Law</option>
-          <!-- Add more topics here -->
-        </select>
-      </div>
-
-      <!-- Date Filter -->
-      <div class="col-md-3" style="padding: 5px;">
-        <select v-model="filters.dateRange" class="form-select" @change="applyFilters">
-          <option value="">All Time</option>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-          <option value="yearly">Yearly</option>
-        </select>
-      </div>
-
-      <!-- Time Filter -->
-      <div class="col-md-3" style="padding: 5px;">
-        <select v-model="filters.time" class="form-select" @change="applyFilters">
-          <option value="">All Time</option>
-          <option value="morning">Morning</option>
-          <option value="afternoon">Afternoon</option>
-          <option value="evening">Evening</option>
-        </select>
-      </div>
-
-      <!-- Search Filter -->
-      <div class="col-md-3" style="padding: 5px;">
-        <input v-model="filters.search" type="text" class="form-control" placeholder="Search podcasts..." @input="applyFilters">
-      </div>
-    </div>
-
-    <!-- Pagination and Grid for podcast items -->
-    <div v-if="loading" class="text-center">Loading podcasts...</div>
 
     <div v-if="!loading && podcasts.length">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
-        <!-- Display podcasts in a responsive grid -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-4">
         <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <!-- Podcast Title -->
+          <div class="card h-100 " style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+            <div class="card-body" style="border: 2px solid rgb(13, 182, 145); ">
               <h5 class="card-title fw-bold">{{ podcast.title }}</h5>
 
-              <!-- Podcast Description -->
-              <p class="card-text">{{ podcast.description }}</p>
-
-              <!-- Audio Player -->
-              <audio :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl" class="w-100 audio">
-                Your browser does not support the audio element.
-              </audio>
-              <p v-else>No audio available for this podcast.</p>
-
-              <!-- Publication Date -->
+              
+              <p class="text-muted">Views: {{ podcast.views }}</p>
               <p class="text-muted">Published on: {{ formatDate(podcast.pubDate) }}</p>
+
+              <div class="container text-center d-flex justify-content-between">
+                <!-- Bookmark Icon -->
+                <i 
+                  :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'" 
+                  @click="toggleBookmark(podcast)" 
+                  style="cursor: pointer; font-size: 1.5rem;"
+                ></i>
+                <!-- Favourite Icon -->
+                <i 
+                  :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" 
+                  @click="toggleFavourite(podcast)" 
+                  style="cursor: pointer; font-size: 1.5rem;"
+                ></i>
+                <!-- share Icon -->
+                <i 
+                  class="bi bi-share"        
+                  style="cursor: pointer; font-size: 1.5rem;"
+                ></i>
+              </div>
+            </div>
+
+            <!-- Audio Player -->
+            <audio
+              ref="audioPlayer"
+              :controls="true"
+              :src="podcast.audioUrl"
+              v-if="podcast.audioUrl"
+              class="w-100 audio"
+              @timeupdate="updateTimeLeft(podcast)"
+              style="border-radius: 0;background:rgb(13, 182, 145);"
+            >
+              Your browser does not support the audio element.
+            </audio>
+            <p v-else>No audio available for this podcast.</p>
+
+            <!-- Display Time Left -->
+            <div v-if="currentTimeLeft[podcast.title] !== undefined" class="time-left">
+              Time left: {{ currentTimeLeft[podcast.title] }} seconds
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Pagination controls -->
-      <div class="d-flex justify-content-center mt-4">
+      <!-- Pagination -->
+      <nav aria-label="Podcast pagination mt-3">
         <ul class="pagination justify-content-center">
-          <!-- Previous Button -->
-          <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <button class="page-link" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
+          <li class="page-item" :class="{'disabled': currentPage === 1}">
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
           </li>
-
-          <!-- Pagination Buttons -->
-          <li v-for="page in pages" :key="page" class="page-item" :class="{ active: page === currentPage }">
-            <button class="page-link" @click="changePage(page)">{{ page }}</button>
+          <li 
+            v-for="page in pages" 
+            :key="page" 
+            class="page-item" 
+            :class="{'active': currentPage === page}"
+          >
+            <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
           </li>
-
-          <!-- Next Button -->
-          <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-            <button class="page-link" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">Next</button>
-          </li>
-
-          <!-- Last Button -->
-          <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-            <button class="page-link" @click="changePage(totalPages)" :disabled="currentPage === totalPages">End</button>
+          <li class="page-item" :class="{'disabled': currentPage === totalPages}">
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
           </li>
         </ul>
-      </div>
+      </nav>
     </div>
 
-    <!-- No podcasts found message -->
     <div v-if="!loading && !filteredPodcasts.length" class="text-center">No podcasts found</div>
   </div>
 </template>
@@ -116,15 +90,18 @@ export default {
       podcasts: [],
       filteredPodcasts: [],
       loading: true,
-      rssUrl: 'https://themadmamluks.libsyn.com/rss', // Example RSS feed URL
+      rssUrl: 'https://themadmamluks.libsyn.com/rss',
       currentPage: 1,
-      podcastsPerPage: 10,
+      podcastsPerPage: 12,
       filters: {
         topic: '',
         dateRange: '',
-        time: '',
+        duration: '',
         search: '',
       },
+      bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
+      favourites: JSON.parse(localStorage.getItem('favourites')) || [],
+      currentTimeLeft: {}, // Store the time left for each podcast
     };
   },
   computed: {
@@ -136,7 +113,7 @@ export default {
       for (let i = 1; i <= this.totalPages; i++) {
         pageNumbers.push(i);
       }
-      return pageNumbers.slice(0, 5); // Show only 5 pagination buttons
+      return pageNumbers.slice(0, 5); // Show only the first 5 pages for simplicity
     },
     paginatedPodcasts() {
       const start = (this.currentPage - 1) * this.podcastsPerPage;
@@ -145,86 +122,82 @@ export default {
     },
   },
   methods: {
-    // Method to remove HTML tags from a string
-    removeHtmlTags(inputString) {
-      return inputString.replace(/<\/?[^>]+(>|$)/g, "");
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-GB');
     },
 
-    // Method to clean up the description by removing unwanted URLs, hashtags, and specific text
-    cleanDescription(description) {
-      // Remove URLs (https://, http://)
-      description = description.replace(/https?:\/\/[^\s]+/g, "");
+    async fetchPodcasts() {
+      const response = await fetch(this.rssUrl);
+      const data = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, 'text/xml');
+      const items = xmlDoc.getElementsByTagName('item');
 
-      // Remove hashtags (#)
-      description = description.replace(/#\w+/g, "");
+      let podcasts = [];
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        const podcast = {
+          title: item.getElementsByTagName('title')[0].textContent,
+          pubDate: item.getElementsByTagName('pubDate')[0].textContent,
+          description: item.getElementsByTagName('description')[0].textContent,
+          audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || '',
+          views: Math.floor(Math.random() * 1000),
+          duration: Math.floor(Math.random() * 60) + 15,
+          summary: '',
+          summaryLoading: true,
+        };
+        podcasts.push(podcast);
+      }
 
-      // Define donation-related patterns and social media links to remove
-      const donationPatterns = [
-        /donate[\s\S]*?(?:on|here|to)[\s\S]*?/gi,   // 'donate' followed by donation request
-        /support[\s\S]*?(?:us|on)[\s\S]*?/gi,        // 'support' followed by support request
-        /patreon[\s\S]*?(?:here|on)[\s\S]*?/gi,      // 'patreon' followed by support request
-        /paypal[\s\S]*?(?:here|on)[\s\S]*?/gi,       // 'paypal' followed by donation request
-        /gofund[^\w]*?[\w\s]+/gi,                    // 'gofund' followed by text
-        /buy\s*(?:us|our)\s*[\w\s]+/gi,              // 'buy' followed by support request
-        /(?:Follow\s+|Visit\s+)?\s*(?:our\s+)?(?:social\s+)?(?:media\s+)?(?:on\s+)?\S+/gi, // Generic social media
-      ];
-
-      // Apply all donation-related patterns to the description
-      donationPatterns.forEach(pattern => {
-        description = description.replace(pattern, "");
-      });
-
-      return description.trim(); // Trim leading/trailing spaces
+      this.podcasts = podcasts;
+      this.filteredPodcasts = podcasts;
+      this.loading = false;
     },
 
-    // Function to apply the selected filters
+    toggleBookmark(podcast) {
+      if (this.isBookmarked(podcast)) {
+        this.bookmarks = this.bookmarks.filter(item => item.title !== podcast.title);
+      } else {
+        this.bookmarks.push(podcast);
+      }
+      localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
+    },
+
+    toggleFavourite(podcast) {
+      if (this.isFavourite(podcast)) {
+        this.favourites = this.favourites.filter(item => item.title !== podcast.title);
+      } else {
+        this.favourites.push(podcast);
+      }
+      localStorage.setItem('favourites', JSON.stringify(this.favourites));
+    },
+
+    isBookmarked(podcast) {
+      return this.bookmarks.some(bookmark => bookmark.title === podcast.title);
+    },
+
+    isFavourite(podcast) {
+      return this.favourites.some(fav => fav.title === podcast.title);
+    },
+
+    // Update time left for the currently playing podcast
+    updateTimeLeft(podcast) {
+      const audioElement = this.$refs.audioPlayer;
+      if (audioElement && podcast.audioUrl === audioElement.src) {
+        const timeLeft = audioElement.duration - audioElement.currentTime;
+        this.$set(this.currentTimeLeft, podcast.title, Math.ceil(timeLeft)); // Round to nearest second
+        console.log(`Time left for ${podcast.title}: ${Math.ceil(timeLeft)} seconds`);
+      }
+    },
+
     applyFilters() {
       let filtered = this.podcasts;
 
-      // Filter by Topic
       if (this.filters.topic) {
         filtered = filtered.filter(podcast => podcast.title.includes(this.filters.topic));
       }
 
-      // Filter by Date Range (Daily, Weekly, Monthly, Yearly)
-      if (this.filters.dateRange) {
-        const currentDate = new Date();
-        filtered = filtered.filter(podcast => {
-          const pubDate = new Date(podcast.pubDate);
-          const timeDifference = currentDate - pubDate;
-          switch (this.filters.dateRange) {
-            case 'daily':
-              return timeDifference <= 86400000; // 24 hours
-            case 'weekly':
-              return timeDifference <= 604800000; // 7 days
-            case 'monthly':
-              return timeDifference <= 2592000000; // 30 days
-            case 'yearly':
-              return timeDifference <= 31536000000; // 365 days
-            default:
-              return true;
-          }
-        });
-      }
-
-      // Filter by Time (Morning, Afternoon, Evening)
-      if (this.filters.time) {
-        filtered = filtered.filter(podcast => {
-          const hours = new Date(podcast.pubDate).getHours();
-          switch (this.filters.time) {
-            case 'morning':
-              return hours >= 5 && hours < 12;
-            case 'afternoon':
-              return hours >= 12 && hours < 18;
-            case 'evening':
-              return hours >= 18 && hours < 22;
-            default:
-              return true;
-          }
-        });
-      }
-
-      // Search Filter (Title and Description)
       if (this.filters.search) {
         filtered = filtered.filter(podcast =>
           podcast.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
@@ -232,127 +205,61 @@ export default {
         );
       }
 
-      // Set the filtered podcasts
-      this.filteredPodcasts = filtered;
-      this.currentPage = 1; // Reset to the first page when filters change
-    },
-
-    // Change the page
-    changePage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-      }
-    },
-
-    // Fetch and parse the RSS feed
-    fetchPodcasts() {
-      this.loading = true;
-      fetch(this.rssUrl)
-        .then(response => response.text())
-        .then(data => {
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data, "application/xml");
-          const items = xmlDoc.querySelectorAll("item");
-
-          // Extract and clean podcast data
-          this.podcasts = Array.from(items).map(item => {
-            return {
-              title: this.removeHtmlTags(item.querySelector("title").textContent),
-              description: this.cleanDescription(item.querySelector("description").textContent),
-              audioUrl: item.querySelector("enclosure") ? item.querySelector("enclosure").getAttribute("url") : '',
-              pubDate: item.querySelector("pubDate").textContent,
-            };
-          });
-
-          // Apply filters after fetching data
-          this.applyFilters();
-          this.loading = false;
-        })
-        .catch(error => {
-          console.error('Error fetching RSS feed:', error);
-          this.loading = false;
+      if (this.filters.dateRange) {
+        const now = new Date();
+        filtered = filtered.filter(podcast => {
+          const pubDate = new Date(podcast.pubDate);
+          if (this.filters.dateRange === 'last-week') {
+            return now - pubDate <= 7 * 24 * 60 * 60 * 1000;
+          }
+          if (this.filters.dateRange === 'last-month') {
+            return now - pubDate <= 30 * 24 * 60 * 60 * 1000;
+          }
+          if (this.filters.dateRange === 'last-year') {
+            return now - pubDate <= 365 * 24 * 60 * 60 * 1000;
+          }
+          return true;
         });
+      }
+
+      if (this.filters.duration) {
+        filtered = filtered.filter(podcast => podcast.duration <= this.filters.duration);
+      }
+
+      this.filteredPodcasts = filtered;
+      this.currentPage = 1; // Reset to first page
     },
 
-    // Format date into a more readable form
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('en-GB', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
-    }
+    changePage(pageNumber) {
+      if (pageNumber < 1 || pageNumber > this.totalPages) return;
+      this.currentPage = pageNumber;
+    },
   },
-
-  created() {
+  mounted() {
     this.fetchPodcasts();
   },
 };
 </script>
-
 <style scoped>
-
-.audio{
-  .hide-unwanted-elements .dropdown,
-  .hide-unwanted-elements .custom-icon-increase,
-  .hide-unwanted-elements .custom-icon-decrease,
-  .hide-unwanted-elements .settings,
-  .hide-unwanted-elements .custom-icon-play,
-  .hide-unwanted-elements .summary,
-  .hide-unwanted-elements .count {
-    display: none !important;
-  }
-
-  .custom-switch {
-    position: relative;
-    display: inline-block;
-    width: 70px;
-    height: 20px;
-    border-radius: 50px;
-    background-color: rgba(0, 191, 166); /* Green background by default */
-    transition: background-color 0.3s ease; /* Smooth transition for background */
-  }
-
-  .custom-prev-ayah:hover,
-  .custom-last-verse:hover {
-    color: black; /* Default color */
-    transition: color 0.3s ease; /* Smooth transition */
-  }
-
-  .custom-audio::-webkit-media-controls-play-button,
-  .custom-audio::-webkit-media-controls-mute-button,
-  .custom-audio::-webkit-media-controls-seek-back-button,
-  .custom-audio::-webkit-media-controls-seek-forward-button,
-  .custom-audio::-webkit-media-controls-fullscreen-button,
-  .custom-audio::-webkit-media-controls-rewind-button,
-  .custom-audio::-webkit-media-controls-return-to-realtime-button,
-  .custom-audio::-webkit-media-controls-toggle-closed-captions-button {
-    color: white !important;
-  }
-
-  .custom-audio::-webkit-media-controls-timeline-container {
-    background-color: #ebebeb !important;
-  }
-
-  .custom-audio::-webkit-media-controls-current-time-display,
-  .custom-audio::-webkit-media-controls-time-remaining-display {
-    color: rgb(0, 0, 0) !important;
-  }
-
-  .custom-audio::-webkit-media-controls-timeline {
-    background-color: #00574a !important;
-  }
-
-  .custom-audio::-webkit-media-controls-volume-slider-container {
-    background-color: #ffffff !important;
-  }
-
-  .custom-audio::-webkit-media-controls-volume-slider {
-    background-color: #008c7a !important;
-  }
+.audio {
+  border-radius: 0 !important;
 }
+
+audio::-webkit-media-controls-panel {
+  background:rgb(13, 182, 145)
+}
+
+audio::-webkit-media-controls-current-time-display
+audio::-webkit-media-controls-time-remaining-display
+audio::-webkit-media-controls-timeline
+audio::-webkit-media-controls-volume-slider-container
+audio::-webkit-media-controls-volume-slider
+audio::-webkit-media-controls-seek-back-button
+audio::-webkit-media-controls-seek-forward-button
+audio::-webkit-media-controls-fullscreen-button
+audio::-webkit-media-controls-rewind-button
+audio::-webkit-media-controls-return-to-realtime-button
+audio::-webkit-media-controls-toggle-closed-captions-button
 
 .card {
   height: 100%;
