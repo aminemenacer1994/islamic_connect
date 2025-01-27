@@ -7,7 +7,7 @@
     
     <!-- Section Header with Collapsible Toggle for Bookmarks -->
     <h3 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
-      Bookmarked Podcasts
+      Bookmark Podcasts
       <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
       <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
         <i class="bi bi-chevron-down"></i>
@@ -83,14 +83,14 @@
 
 
     <div v-if="!loading && podcasts.length">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-4">
+      <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
         <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
           <div class="card h-100" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-            <div class="card-body" style="border: 2px solid rgb(13, 182, 145); border-top-left-radius: 10px; border-top-right-radius: 10px;">
-              <h5 class="card-title fw-bold">{{ podcast.title }}</h5>
+            <div class="card-body" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+              <h4 class="card-title display-5 fw-bold">{{ podcast.title }}</h4>
               <p class="text-muted">Views: {{ podcast.views }}</p>
               <p class="text-muted">Published on: {{ formatDate(podcast.pubDate) }}</p>
-              <div class="container text-center d-flex justify-content-between">
+              <div class="container text-center d-flex justify-content-between" style="bottom: 0px;">
                 <i :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'" @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"></i>
@@ -105,7 +105,7 @@
       </div>
 
       <!-- Pagination -->
-      <nav aria-label="Podcast pagination mt-3">
+      <nav aria-label="Podcast pagination mt-4 mb-3">
         <ul class="pagination justify-content-center">
           <li class="page-item" :class="{'disabled': currentPage === 1}">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
@@ -226,18 +226,11 @@ export default {
     removeBookmark(podcast) {
       this.bookmarks = this.bookmarks.filter(item => item.title !== podcast.title);
       localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
-      const index = this.bookmarks.findIndex(b => b.title === podcast.title);
-      if (index !== -1) {
-        this.bookmarks.splice(index, 1);
-      }
+      
     },
     removeFavourite(podcast) {
       this.favourites = this.favourites.filter(item => item.title !== podcast.title);
       localStorage.setItem('favourites', JSON.stringify(this.favourites));
-      const index = this.favourites.findIndex(f => f.title === podcast.title);
-      if (index !== -1) {
-        this.favourites.splice(index, 1);
-      }
     },
     goToPodcast(podcast) {
       window.location.href = podcast.audioUrl;
