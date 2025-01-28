@@ -204,6 +204,9 @@ export default {
         this.isDownloading = false; // Hide global spinner
       }
     },
+    handleSearchChange() {
+      this.currentPage = 1; // Reset to first page when search query changes
+    },
     changePage(page) {
       if (page === '...') return; // Ignore click on ellipsis
       this.currentPage = page;
@@ -329,6 +332,11 @@ export default {
   mounted() {
     this.fetchPodcasts();
   },
+  watch: {
+    searchQuery(newQuery) {
+      this.handleSearchChange(); // Reset pagination on search query change
+    }
+  }
 };
 </script>
 
