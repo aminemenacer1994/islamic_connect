@@ -96,7 +96,12 @@
                   @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
                   style="cursor: pointer; font-size: 1.5rem;"></i>
-                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="sharePodcast(podcast)"></i>
+                <!-- <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="sharePodcast(podcast)"></i> -->
+                <i
+                  class="bi bi-share-fill"
+                  style="cursor: pointer; font-size: 1.5rem;"
+                  @click="shareOnWhatsApp(podcast)"
+                ></i>
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -109,7 +114,7 @@
       </div>
 
       <!-- Pagination -->
-      <nav aria-label="Podcast pagination mt-4 mb-4">
+      <nav aria-label="Podcast pagination " class="mt-4 mb-4">
         <ul class="pagination justify-content-center">
           <li class="page-item" :class="{'disabled': currentPage === 1}">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
@@ -152,7 +157,7 @@ export default {
       for (let i = 1; i <= this.totalPages; i++) {
         pageNumbers.push(i);
       }
-      return pageNumbers.slice(0, 5);
+      return pageNumbers.slice(0, 8);
     },
     paginatedPodcasts() {
       const start = (this.currentPage - 1) * this.podcastsPerPage;
@@ -165,23 +170,12 @@ export default {
       if (page === '...') return; // Ignore click on ellipsis
       this.currentPage = page;
     },
-    sharePodcast() {
-      // Check if 'this.podcast' is populated
-      if (!this.podcast || !this.podcast.title || !this.podcast.audioUrl) {
-        console.error("Podcast data is missing or incomplete");
-        return; // Exit if podcast data is missing
-      }
+    shareOnWhatsApp(podcast) {
+      const message = `${podcast.title}\nListen here: ${podcast.audioUrl}`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappURL = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+      window.open(whatsappURL, "_blank");
 
-      // Construct the message you want to share
-      const message = `Podcast Title: ${this.podcast.title}\n\n` +
-        `Listen to the episode: ${this.podcast.audioUrl}\n\n` +
-        'Visit our website: www.islamiconnect.com for more';
-
-      // Encode the message to be used in a URL for sharing
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-
-      // Open WhatsApp with the pre-populated message
-      window.open(whatsappUrl, '_blank');
     },
     onSearch() {
       // Normalise the search query for comparison
