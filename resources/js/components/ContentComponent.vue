@@ -81,12 +81,11 @@
     </div>
 
     <!-- Podcast Cards -->
-    <div v-if="!loading && paginatedPodcasts.length" class="mb-3">
+    <div v-if="!loading && paginatedPodcasts.length">
       <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
         <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
-          <div class="card h-100" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
-                 border-top-left-radius: 10px; 
-                 border-top-right-radius: 10px;">
+          <div class="card h-100"
+            style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
             <div class="card-body">
               <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4>
               <p class="text-muted">Views: {{ podcast.views }}</p>
@@ -96,12 +95,10 @@
                   @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
                   style="cursor: pointer; font-size: 1.5rem;"></i>
-                <!-- <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="sharePodcast(podcast)"></i> -->
-                <i
-                  class="bi bi-share-fill"
-                  style="cursor: pointer; font-size: 1.5rem;"
-                  @click="shareOnWhatsApp(podcast)"
-                ></i>
+                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
+                  @click="shareOnWhatsApp(podcast)"></i>
+                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
+                  @click="downloadAudio(podcast.audioUrl, podcast.title)"></i>
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -111,18 +108,24 @@
             <p v-else>No audio available for this podcast.</p>
           </div>
         </div>
+        <!-- Spinner Outside Cards -->
+        <div v-if="isDownloading" class="spinner-container">
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Downloading...</span>
+          </div>
+        </div>
       </div>
 
       <!-- Pagination -->
       <nav aria-label="Podcast pagination " class="mt-4 mb-4">
         <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{'disabled': currentPage === 1}">
+          <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
           </li>
-          <li v-for="page in pages" :key="page" class="page-item" :class="{'active': currentPage === page}">
+          <li v-for="page in pages" :key="page" class="page-item" :class="{ 'active': currentPage === page }">
             <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
           </li>
-          <li class="page-item" :class="{'disabled': currentPage === totalPages}">
+          <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
           </li>
         </ul>
@@ -136,6 +139,7 @@
 export default {
   data() {
     return {
+      isDownloading: false,
       showToast: false,
       toastType: '',
       podcasts: [],
@@ -166,6 +170,40 @@ export default {
     },
   },
   methods: {
+    async downloadAudio(url, title) {
+      this.isDownloading = true; // Show global spinner
+      try {
+        // Fetch the audio file
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error("Failed to download the audio file.");
+        }
+
+        const blob = await response.blob();
+
+        // Create a temporary Blob URL
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Create an <a> element for downloading
+        const link = document.createElement("a");
+        link.href = blobUrl;
+
+        // Use the podcast title for the filename (sanitised)
+        const sanitizedTitle = title.replace(/[^\w\s\-]/g, "").replace(/\s+/g, "_");
+        link.download = `${sanitizedTitle || "audio"}.mp3`;
+
+        // Trigger the download
+        link.click();
+
+        // Revoke the Blob URL to free memory
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Error downloading the file:", error);
+        alert("An error occurred while downloading the audio.");
+      } finally {
+        this.isDownloading = false; // Hide global spinner
+      }
+    },
     changePage(page) {
       if (page === '...') return; // Ignore click on ellipsis
       this.currentPage = page;
@@ -292,6 +330,20 @@ export default {
 </script>
 
 <style scoped>
+.spinner-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .toast-container {
   z-index: 1050;
 }
