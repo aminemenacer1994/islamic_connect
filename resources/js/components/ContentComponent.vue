@@ -219,20 +219,20 @@ export default {
       // Normalise the search query for comparison
       const query = this.searchQuery.toLowerCase();
 
-      // Dynamically filter podcasts based on the search query
+      // Filter the entire dataset, not just the current page
       this.filteredPodcasts = this.podcasts.filter((podcast) =>
         podcast.title.toLowerCase().includes(query)
       );
 
-      // Example: Log the search query (could also trigger analytics events)
-      console.log("User searched for:", this.searchQuery);
-
-      // Example: Additional dynamic action
+      // Log search results for debugging
       if (this.filteredPodcasts.length === 0) {
         console.log("No podcasts found for the search term.");
       } else {
         console.log(`${this.filteredPodcasts.length} podcast(s) found.`);
       }
+
+      // Reset to the first page after a search
+      this.currentPage = 1;
     },
     highlightText(title) {
       if (!this.searchQuery) {
@@ -240,7 +240,10 @@ export default {
       }
       const query = this.searchQuery;
       const regex = new RegExp(`(${query})`, "gi"); // Case-insensitive match
-      return title.replace(regex, `<span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">$1</span>`);
+      return title.replace(
+        regex,
+        `<span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">$1</span>`
+      );
     },
     formatDate(dateString) {
       const date = new Date(dateString);
