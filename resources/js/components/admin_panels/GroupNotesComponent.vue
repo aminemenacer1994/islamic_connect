@@ -45,9 +45,9 @@
             {{ option.label }}
           </span>
           
-          <!-- <strong>The total amount of notes:</strong>
+          <strong>The total amount of notes:</strong>
           <b style="color:rgb(0, 191, 166)">{{ notes.length }}</b>
-          -->
+         
         </h5>
       </div>
       <div class="col-md-6">

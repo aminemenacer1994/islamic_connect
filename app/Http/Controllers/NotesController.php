@@ -45,10 +45,10 @@ class NotesController extends Controller
 
     public function fetchNotes()
     {
-        $publicNotes = Note::where('option', 0)->orderBy('created_at', 'desc')->get();
-
+        $publicNotes = Note::where('visibility_option', 'public')->orderBy('created_at', 'desc')->get();
         return response()->json($publicNotes);
     }
+
 
     public function store(Request $request)
     {
@@ -59,8 +59,7 @@ class NotesController extends Controller
             'ayah_verse_ar' => 'nullable|string',
             'ayah_verse_en' => 'nullable|string',
             'ayah_info' => 'nullable|string',
-            // Make sure 'ayah_notes' can handle large text content (e.g., with HTML, images, audio, etc.)
-            'ayah_notes' => 'required|string', // Validate as string to allow HTML
+            'ayah_notes' => 'required|string', 
             'is_speech_to_text' => 'boolean',
         ]);
 
@@ -97,8 +96,7 @@ class NotesController extends Controller
             'ayah_verse_ar' => 'nullable|string',
             'ayah_verse_en' => 'nullable|string',
             'ayah_info' => 'nullable|string',
-            // Ensure 'ayah_notes' can handle large content such as HTML, base64 images, etc.
-            'ayah_notes' => 'required|string', // Validate as string to allow HTML
+            'ayah_notes' => 'required|string', 
             'visibility_option' => 'required|integer|in:0,1',  // 0 for public, 1 for private
             'is_speech_to_text' => 'boolean',
         ]);

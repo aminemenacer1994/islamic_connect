@@ -69,6 +69,8 @@
           <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
         </div>
       </div>
+
+      
     </div>
 
     <!-- Search Bar -->
@@ -116,9 +118,8 @@
         </div>
       </div>
 
-      <!-- Pagination -->
-      <nav aria-label="Podcast pagination " class="mt-4 mb-4">
-        <ul class="pagination justify-content-center">
+      <nav aria-label="Podcast pagination" class="mt-4 mb-4">
+        <ul class="pagination justify-content-center flex-nowrap">
           <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
           </li>
@@ -130,6 +131,7 @@
           </li>
         </ul>
       </nav>
+
     </div>
 
     <div v-else-if="!loading" class="text-center">No podcasts found</div>
@@ -341,6 +343,14 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 576px) {
+  .pagination {
+    /* display: flex; */
+    flex-wrap: nowrap;  /* Prevent wrapping */
+    justify-content: center; /* Centre the pagination */
+  }
+}
+
 .spinner-container {
   position: fixed;
   top: 50%;
@@ -391,7 +401,7 @@ audio::-webkit-media-controls-panel {
 
 @media (max-width: 767px) {
   .pagination {
-    display: block;
+    /* display: block; */
     text-align: center;
   }
 }

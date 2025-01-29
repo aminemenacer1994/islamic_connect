@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('api/update-notes/{id}',  [NotesController::class, 'updateNotes']);
     Route::delete('api/delete-notes/{id}',  [NotesController::class, 'deleteNotes']);
-    Route::get('api/fetch-notes/{userId}', [NotesController::class, 'getNotes']);
+    Route::get('/fetch-notes/{userId}', [NotesController::class, 'getNotes']);
 
     Route::get('/notes', [NotesController::class, 'index']);
     Route::get('/api/notes/{userId}', [NotesController::class, 'getNotes']);
@@ -109,7 +109,6 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/notes/store', [NotesController::class, 'store'])->middleware('auth');
 
 
-Route::get('/fetch-notes', [NotesController::class, 'fetchNotes']); // Publicly fetch notes
 
 Route::get('/notes', [NotesController::class, 'showNotes']);
 Route::get('/group_notes', [NotesController::class, 'showGroupNotes']);
