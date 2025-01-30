@@ -6,10 +6,10 @@
       to deepen your understanding and connection with Islam.
     </p>
 
+
     <!-- Bookmarks Section -->
     <div v-if="bookmarks.length || favourites.length" class="mb-4">
-      <!-- Bookmarks -->
-      <h3 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
+      <!-- <h3 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
         Bookmark Podcasts
         <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
         <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
@@ -37,10 +37,10 @@
         <div v-else>
           <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
         </div>
-      </div>
+      </div> -->
 
       <!-- Favourites -->
-      <h3 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
+      <!-- <h3 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
         Favourite Podcasts
         <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
         <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
@@ -68,19 +68,67 @@
         <div v-else>
           <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
         </div>
-      </div>
+      </div> -->
 
-      
+
     </div>
+
+    
 
     <!-- Search Bar -->
     <div class="row">
-      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <select class="form-select " id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
+          <option disabled value="">Select a podcast</option>
+          <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
+            {{ podcast.name }}
+          </option>
+        </select>
+      </div>
       <div class="mb-3 col-md-6">
         <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery"
           @input="onSearch" />
       </div>
     </div>
+
+    <!-- Search and Filters -->
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <select class="form-select" v-model="selectedPodcast" @change="fetchPodcasts">
+          <option disabled value="">Select a podcast</option>
+          <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
+            {{ podcast.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery" @input="onSearch" />
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" v-model="selectedDateFilter" @change="applyFilters">
+          <option value="">Filter by Date</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" v-model="selectedDuration" @change="applyFilters">
+          <option value="">Filter by Duration</option>
+          <option value="short">Short (&lt; 10 min)</option>
+          <option value="medium">Medium (10-30 min)</option>
+          <option value="long">Long (&gt; 30 min)</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" v-model="selectedSort" @change="applyFilters">
+          <option value="">Sort by</option>
+          <option value="mostViewed">Most Viewed</option>
+          <option value="leastViewed">Least Viewed</option>
+        </select>
+      </div>
+    </div>
+
 
     <!-- Podcast Cards -->
     <div v-if="!loading && paginatedPodcasts.length">
@@ -141,213 +189,215 @@
 export default {
   data() {
     return {
+      selectedPodcast: "", // Initially empty
+      islamicPodcasts: [
+        { name: 'The Mad Mamluks', rssUrl: 'https://themadmamluks.libsyn.com/rss' },
+        { name: 'The Deen Show', rssUrl: 'https://thedeenshow.com/feed/podcast/' },
+        { name: 'SeekersGuidance', rssUrl: 'https://seekersguidance.org/feed/podcast/' }
+      ],
       isDownloading: false,
       showToast: false,
       toastType: '',
       podcasts: [],
       filteredPodcasts: [],
       loading: true,
-      rssUrl: 'https://themadmamluks.libsyn.com/rss',
+      rssUrl: '',
+      searchQuery: '',
       currentPage: 1,
       podcastsPerPage: 12,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
+      selectedDateFilter: "",
+      selectedDuration: "",
+      selectedSort: "",
     };
   },
+
   computed: {
     totalPages() {
       return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
     },
     pages() {
-      let pageNumbers = [];
-      for (let i = 1; i <= this.totalPages; i++) {
-        pageNumbers.push(i);
-      }
-      return pageNumbers.slice(0, 8);
+      return Array.from({ length: Math.min(this.totalPages, 8) }, (_, i) => i + 1);
     },
     paginatedPodcasts() {
       const start = (this.currentPage - 1) * this.podcastsPerPage;
-      const end = start + this.podcastsPerPage;
-      return this.filteredPodcasts.slice(start, end);
+      return this.filteredPodcasts.slice(start, start + this.podcastsPerPage);
     },
   },
+
   methods: {
     async downloadAudio(url, title) {
-      this.isDownloading = true; // Show global spinner
+      this.isDownloading = true;
       try {
-        // Fetch the audio file
         const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error("Failed to download the audio file.");
-        }
+        if (!response.ok) throw new Error("Failed to download the audio file.");
 
         const blob = await response.blob();
-
-        // Create a temporary Blob URL
         const blobUrl = URL.createObjectURL(blob);
 
-        // Create an <a> element for downloading
         const link = document.createElement("a");
         link.href = blobUrl;
-
-        // Use the podcast title for the filename (sanitised)
-        const sanitizedTitle = title.replace(/[^\w\s\-]/g, "").replace(/\s+/g, "_");
-        link.download = `${sanitizedTitle || "audio"}.mp3`;
-
-        // Trigger the download
+        link.download = `${title.replace(/[^\w\s\-]/g, "").replace(/\s+/g, "_") || "audio"}.mp3`;
         link.click();
 
-        // Revoke the Blob URL to free memory
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
         console.error("Error downloading the file:", error);
         alert("An error occurred while downloading the audio.");
       } finally {
-        this.isDownloading = false; // Hide global spinner
+        this.isDownloading = false;
       }
     },
-    handleSearchChange() {
-      this.currentPage = 1; // Reset to first page when search query changes
-    },
-    changePage(page) {
-      if (page === '...') return; // Ignore click on ellipsis
-      this.currentPage = page;
-    },
-    shareOnWhatsApp(podcast) {
-      const message = `${podcast.title}\nListen here: ${podcast.audioUrl}`;
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappURL = `https://api.whatsapp.com/send?text=${encodedMessage}`;
-      window.open(whatsappURL, "_blank");
 
-    },
-    onSearch() {
-      // Normalise the search query for comparison
-      const query = this.searchQuery.toLowerCase();
-
-      // Filter the entire dataset, not just the current page
-      this.filteredPodcasts = this.podcasts.filter((podcast) =>
-        podcast.title.toLowerCase().includes(query)
-      );
-
-      // Log search results for debugging
-      if (this.filteredPodcasts.length === 0) {
-        console.log("No podcasts found for the search term.");
-      } else {
-        console.log(`${this.filteredPodcasts.length} podcast(s) found.`);
-      }
-
-      // Reset to the first page after a search
-      this.currentPage = 1;
-    },
-    highlightText(title) {
-      if (!this.searchQuery) {
-        return title; // Return the original title if no search query
-      }
-      const query = this.searchQuery;
-      const regex = new RegExp(`(${query})`, "gi"); // Case-insensitive match
-      return title.replace(
-        regex,
-        `<span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">$1</span>`
-      );
-    },
     formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString('en-GB');
     },
-    async fetchPodcasts() {
-      const response = await fetch(this.rssUrl);
-      const data = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(data, 'text/xml');
-      const items = xmlDoc.getElementsByTagName('item');
 
-      let podcasts = [];
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const podcast = {
-          title: item.getElementsByTagName('title')[0].textContent,
-          pubDate: item.getElementsByTagName('pubDate')[0].textContent,
-          description: item.getElementsByTagName('description')[0].textContent,
+    async fetchPodcasts() {
+      if (!this.selectedPodcast) return;
+
+      this.loading = true;
+      this.rssUrl = this.selectedPodcast.rssUrl; // Update the RSS URL
+
+      try {
+        const response = await fetch(this.rssUrl);
+        const data = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, 'text/xml');
+        const items = xmlDoc.getElementsByTagName('item');
+
+        this.podcasts = Array.from(items).map(item => ({
+          title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
+          pubDate: item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown',
+          description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
           audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || '',
           views: Math.floor(Math.random() * 1000),
-        };
-        podcasts.push(podcast);
+          duration: Math.floor(Math.random() * 3600), // Simulating duration in seconds (for filtering)
+        }));
+
+        this.filteredPodcasts = [...this.podcasts];
+      } catch (error) {
+        console.error("Error fetching podcasts:", error);
+      } finally {
+        this.loading = false;
+        this.applyFilters();
+      }
+    },
+
+    applyFilters() {
+      let filtered = [...this.podcasts];
+
+      // Filter by Date
+      if (this.selectedDateFilter) {
+        const now = new Date();
+        filtered = filtered.filter(podcast => {
+          const pubDate = new Date(podcast.pubDate);
+          if (this.selectedDateFilter === "weekly") {
+            return (now - pubDate) / (1000 * 60 * 60 * 24) <= 7;
+          } else if (this.selectedDateFilter === "monthly") {
+            return (now - pubDate) / (1000 * 60 * 60 * 24) <= 30;
+          } else if (this.selectedDateFilter === "yearly") {
+            return (now - pubDate) / (1000 * 60 * 60 * 24) <= 365;
+          }
+          return true;
+        });
       }
 
-      this.podcasts = podcasts;
-      this.filteredPodcasts = podcasts;
-      this.loading = false;
-    },
-    toggleBookmark(podcast) {
-      if (this.isBookmarked(podcast)) {
-        this.bookmarks = this.bookmarks.filter(item => item.title !== podcast.title);
-      } else {
-        this.bookmarks.push(podcast);
+      // Filter by Duration
+      if (this.selectedDuration) {
+        filtered = filtered.filter(podcast => {
+          const duration = podcast.duration || 0;
+          if (this.selectedDuration === "short") return duration < 600;
+          if (this.selectedDuration === "medium") return duration >= 600 && duration <= 1800;
+          if (this.selectedDuration === "long") return duration > 1800;
+          return true;
+        });
       }
+
+      // Sort by Views
+      if (this.selectedSort) {
+        filtered.sort((a, b) => {
+          if (this.selectedSort === "mostViewed") return b.views - a.views;
+          if (this.selectedSort === "leastViewed") return a.views - b.views;
+          return 0;
+        });
+      }
+
+      this.filteredPodcasts = filtered;
+      this.currentPage = 1; // Reset pagination
+    },
+
+    onSearch() {
+      this.currentPage = 1;
+      const query = this.searchQuery.toLowerCase();
+      this.filteredPodcasts = this.podcasts.filter(podcast => podcast.title.toLowerCase().includes(query));
+    },
+
+    highlightText(title) {
+      if (!this.searchQuery) return title;
+      return title.replace(
+        new RegExp(`(${this.searchQuery})`, "gi"),
+        `<span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">$1</span>`
+      );
+    },
+
+    toggleBookmark(podcast) {
+      const index = this.bookmarks.findIndex(item => item.title === podcast.title);
+      if (index > -1) this.bookmarks.splice(index, 1);
+      else this.bookmarks.push(podcast);
       localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
     },
+
     toggleFavourite(podcast) {
-      if (this.isFavourite(podcast)) {
-        this.favourites = this.favourites.filter(item => item.title !== podcast.title);
-      } else {
-        this.favourites.push(podcast);
-      }
+      const index = this.favourites.findIndex(item => item.title === podcast.title);
+      if (index > -1) this.favourites.splice(index, 1);
+      else this.favourites.push(podcast);
       localStorage.setItem('favourites', JSON.stringify(this.favourites));
     },
+
     isBookmarked(podcast) {
       return this.bookmarks.some(bookmark => bookmark.title === podcast.title);
     },
+
     isFavourite(podcast) {
       return this.favourites.some(fav => fav.title === podcast.title);
     },
-    addBookmark(podcast) {
-      this.bookmarks.push(podcast);
-      this.showConfirmationToast('bookmarks');
-    },
-    addFavourite(podcast) {
-      this.favourites.push(podcast);
-      this.showConfirmationToast('favourites');
-    },
-    showConfirmationToast(type) {
-      this.toastType = type;
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 3000); // Automatically close the toast after 3 seconds
-    },
-    removeBookmark(podcast) {
-      this.bookmarks = this.bookmarks.filter(item => item.title !== podcast.title);
-      localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
 
+    shareOnWhatsApp(podcast) {
+      const message = `${podcast.title}\nListen here: ${podcast.audioUrl}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, "_blank");
     },
-    removeFavourite(podcast) {
-      this.favourites = this.favourites.filter(item => item.title !== podcast.title);
-      localStorage.setItem('favourites', JSON.stringify(this.favourites));
-    },
-    goToPodcast(podcast) {
-      window.location.href = podcast.audioUrl;
-    },
+
     changePage(page) {
-      this.currentPage = page;
+      if (page !== '...') this.currentPage = page;
     },
   },
+
   mounted() {
     this.fetchPodcasts();
   },
+
   watch: {
-    searchQuery(newQuery) {
-      this.handleSearchChange(); // Reset pagination on search query change
-    }
+    searchQuery: "onSearch",
+    selectedDateFilter: "applyFilters",
+    selectedDuration: "applyFilters",
+    selectedSort: "applyFilters",
   }
 };
 </script>
+
+
 
 <style scoped>
 @media (max-width: 576px) {
   .pagination {
     /* display: flex; */
-    flex-wrap: nowrap;  /* Prevent wrapping */
-    justify-content: center; /* Centre the pagination */
+    flex-wrap: nowrap;
+    /* Prevent wrapping */
+    justify-content: center;
+    /* Centre the pagination */
   }
 }
 
