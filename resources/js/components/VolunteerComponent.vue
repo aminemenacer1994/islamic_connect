@@ -1,14 +1,17 @@
 <template>
   <div class="container py-4">
     <div class="row justify-content-center text-center mb-3">
-      <div class="col-lg-10 col-xl-8">
+      <div class="col-lg-10 col-xl-10">
         <h2 class="display-5 fw-bold">The Holy Quran</h2>
-        <p class="lead">Welcome to the Islamic Connect FAQ section! Here, we address common questions to help you
-          navigate our platform and understand our mission better.</p>
+        <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
+          Search for specific words, Ayahs, or Surahs, and listen to beautiful recitations to enhance your
+          understanding.
+          Select a Surah, Juz, or specific verse, and immerse yourself in the wisdom of the Quran.
+        </p>
       </div>
     </div>
-    <!-- Dropdowns in a Single Row -->
-    <div class="row mb-4">
+    <!-- Sticky Dropdowns -->
+    <div class="sticky-dropdown row mb-4">
       <!-- Dropdown to select Surah -->
       <div class="col-md-4 mb-3">
         <label for="surah-select" class="form-label">Select Surah:</label>
@@ -19,8 +22,6 @@
           </option>
         </select>
       </div>
-
-
 
       <!-- Dropdown to select Reciter -->
       <div class="col-md-4 mb-3">
@@ -43,14 +44,8 @@
         </select>
       </div>
 
-      <!-- Dropdown or Input to select Juz -->
-      <!-- <div class="col-md-3 mb-3">
-        <label for="juz-select" class="form-label">Select Juz:</label>
-        <input id="juz-select" type="number" class="form-control shadow-sm" v-model="selectedJuz" min="1" max="30"
-          placeholder="Enter Juz number (1-30)" @change="fetchJuzDetails" />
-      </div> -->
-      <hr />
     </div>
+
 
 
 
@@ -72,22 +67,22 @@
 
         <div class="row">
           <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
-            <div class="card shadow-sm p-3 h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+            <div class="card shadow-sm  h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
                 border-top-left-radius: 10px; 
                 border-top-right-radius: 10px; 
                 border-bottom-left-radius: 0px; 
                 border-bottom-right-radius: 0px;">
 
               <!-- Surah and Ayah Number -->
-              <div class="d-flex justify-content-between text-muted ltr-text">
+              <div class="d-flex justify-content-between p-3 text-muted ltr-text">
                 <h4>{{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
               </div>
 
               <!-- Arabic Text (RTL) -->
-              <p class="arabic-text fw-bold text-end mb-3" v-html="highlightText(ayah.text)"></p>
+              <p class="arabic-text p-3 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"></p>
 
               <!-- Translation (LTR) -->
-              <p class="mb-3 fw-regular ltr-text" v-html="highlightText(ayah.translation)"></p>
+              <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"></p>
 
               <!-- Audio Player Stuck to Bottom -->
               <div class="audio-container">
@@ -95,6 +90,7 @@
                   <source :src="ayah.audio" type="audio/mpeg" />
                 </audio>
               </div>
+
             </div>
           </div>
         </div>
@@ -238,6 +234,54 @@ export default {
 };
 </script>
 <style scoped>
+/* Sticky Dropdown Styling */
+.sticky-dropdown {
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensures it stays above other elements */
+  background-color: white; /* Matches background */
+  padding: 7px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adds a shadow effect */
+  border-bottom: 2px solid #ddd; /* Subtle separator */
+}
+
+/* Smooth transition when scrolling */
+.sticky-dropdown select {
+  transition: all 0.3s ease-in-out;
+}
+/* Container for the audio player */
+.audio-container {
+  width: 100%;
+  background-color: rgb(13, 182, 145);
+  /* Full background color */
+  display: flex;
+  bottom: 0px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Customizing the audio player */
+.audio-player {
+  width: 100%;
+  background: rgb(13, 182, 145);
+  /* Forces background color */
+  filter: invert(1) hue-rotate(180deg);
+  /* Changes button & progress bar color */
+}
+
+/* Hide default styling (Optional) */
+.audio-player::-webkit-media-controls-panel {
+  background: rgb(13, 182, 145) !important;
+}
+
+.audio-player::-webkit-media-controls-play-button {
+  filter: invert(1);
+}
+
+.audio-player::-webkit-media-controls-volume-slider {
+  filter: invert(1);
+}
+
 /* Arabic Text */
 .arabic-text {
   font-size: 1.5rem;
@@ -255,7 +299,6 @@ export default {
 
 /* Card Styling */
 .card {
-  border-radius: 10px 10px 0 0;
   /* Top rounded, bottom flat */
   text-align: right;
   direction: rtl;
