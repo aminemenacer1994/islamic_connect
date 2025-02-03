@@ -10,10 +10,10 @@
     <!-- Dropdowns in a Single Row -->
     <div class="row mb-4">
       <!-- Dropdown to select Surah -->
-      <div class="col-md-3 mb-3">
-        <label for="surah-select" class="form-label">Select a Surah:</label>
+      <div class="col-md-4 mb-3">
+        <label for="surah-select" class="form-label">Select Surah:</label>
         <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
-          <option disabled value="">Select a Surah</option> <!-- Placeholder Option -->
+          <option value="" disabled selected> Select a Surah </option> <!-- Placeholder Option -->
           <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
             {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
           </option>
@@ -21,8 +21,9 @@
       </div>
 
 
+
       <!-- Dropdown to select Reciter -->
-      <div class="col-md-3 mb-3">
+      <div class="col-md-4 mb-3">
         <label for="reciter-select" class="form-label">Select Reciter:</label>
         <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter" @change="fetchSurahDetails">
           <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
@@ -32,7 +33,7 @@
       </div>
 
       <!-- Dropdown to select Translation Language -->
-      <div class="col-md-3 mb-3">
+      <div class="col-md-4 mb-3">
         <label for="translation-select" class="form-label">Select Translation:</label>
         <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
           @change="fetchSurahDetails">
@@ -43,11 +44,11 @@
       </div>
 
       <!-- Dropdown or Input to select Juz -->
-      <div class="col-md-3 mb-3">
+      <!-- <div class="col-md-3 mb-3">
         <label for="juz-select" class="form-label">Select Juz:</label>
         <input id="juz-select" type="number" class="form-control shadow-sm" v-model="selectedJuz" min="1" max="30"
           placeholder="Enter Juz number (1-30)" @change="fetchJuzDetails" />
-      </div>
+      </div> -->
       <hr />
     </div>
 
@@ -70,7 +71,7 @@
         </div>
 
         <div class="row">
-          <div v-for="ayah in surahDetails.ayahs" :key="ayah.number" class="col-md-6 mb-4">
+          <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
             <div class="card shadow-sm p-3 h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
                 border-top-left-radius: 10px; 
                 border-top-right-radius: 10px; 
