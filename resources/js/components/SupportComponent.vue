@@ -1,33 +1,46 @@
 <template>
-<div>
-  <div class="container pt-3">
-    <div class="row gx-4 align-items-center justify-content-between">
-      <div class="col-md-6 order-2 order-md-1 pb-3">
-        <div class="mt-3 mt-md-0">
-          <h2 class="display-5 fw-bold pb-3">Support Us</h2>
-          <p class="lead">
-            At Islamic Connect, we are committed to breaking down barriers and making Islamic knowledge freely accessible to Muslims everywhere. Your donation helps us expand our platform, improve our resources, and ensure that every Muslim can engage with the Quran and Islamic teachings, no matter their circumstances.          </p>
-          <p class="lead">
-            Your Impact: Provide free, accessible tools for Muslims worldwide, Expand our platform to reach more individuals and Develop innovative features that enhance the learning experience.          
-          </p>
-          <p class="lead">
-            Together, we can create a future where Islamic knowledge is available to everyone. Every contribution brings us closer to this goal.          
-          </p>
+  <div>
+    <div class="container pt-3">
+      <div class="row gx-4 align-items-center justify-content-between">
+        <div class="col-md-8 order-2 order-md-1 pb-3">
+          <div class="mt-3 mt-md-0">
+            <h2 class="display-5 fw-bold pb-3">Empower the Future of Islamic Learning</h2>
+            <p class="lead">
+              At <strong>Islamic Connect</strong>, we are dedicated to transforming access to Islamic knowledge through
+              technology, accessibility, and AI-driven innovations. Our mission is to ensure that every
+              Muslim regardless of background, ability, or location can engage with the Quran and Islamic teachings
+              effortlessly.
+            </p>
+            <p class="lead">
+              <b>Your support makes a difference.</b> Every donation fuels our vision by:
+            </p>
+            <ul class="lead ps-3">
+              <li>Expanding our platform with more Islamic content, including Hadith, Seerah, and Dua.</li>
+              <li>Enhancing accessibility tools for the visually and hearing impaired.</li>
+              <li>Improving AI-powered learning, from voice search to personalised recitation guidance.</li>
+              <li>Covering essential costs such as servers, security, and third-party integrations.</li>
+              <li>Supporting our dedicated team working on continuous development and innovation.</li>
+            </ul>
+            <p class="lead">
+              <strong>Every contribution brings us closer</strong> to a world where Islamic knowledge is accessible to
+              all, breaking barriers and creating lasting impact. Join us in shaping the future—<strong>give
+                today</strong> and be part of something transformative.
+            </p>
 
-
-          <!-- Donate Button -->
-          <button class="container form-control" style="background:#00BFA6; color:white" onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-            Donate Now
-          </button>
-
+            <!-- Donate Button -->
+            <button class="container form-control" style="background:#00BFA6; color:white"
+              onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
+              Donate Now
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4 order-2">
+          <img src="/images/heart.png" width="100%" alt="Support Islamic Connect" />
         </div>
       </div>
-      <div class="col-md-6 order-2">
-        <img src="/images/money1.png" width="100%" />
-      </div>
     </div>
+
   </div>
-</div>
 </template>
 
 <script>

@@ -491,6 +491,17 @@
                   ></i
                 ></a>
               </div>
+              <div class="me-3">
+                <a
+                  class="me-2"
+                  href="https://x.com/islamiconnect24"
+                  ><i
+                    class="bi bi-twitter-x
+                     h4"
+                    style="color: rgb(0, 191, 166)"
+                  ></i
+                ></a>
+              </div>
             </div>
           </div>
         </div>

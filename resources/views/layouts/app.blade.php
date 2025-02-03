@@ -136,7 +136,7 @@
                     <h6><a class="nav-link  ml-3 pl-3" href="/join_us"><b>Mailing list</b></a></h6>
                 </li> -->
                 <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Pricings</b></a></h6>
+                    <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/updates" data-path="/updates"><b>Updates</b></a></h6>

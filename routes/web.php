@@ -290,32 +290,9 @@ Route::get('/access', [AccessController::class, 'index'])->name('access');
 // content
 Route::get('/content', [ContentController::class, 'index'])->name('content');
 
-Route::get('/podcasts', function () {
-    // RSS feed URL
-    $rssUrl = 'https://muslimcentral.com/audio/aarij-anwer/feed/';
-    
-    // Fetch the RSS feed
-    $response = Http::get($rssUrl);
-    
-    // Check if the request was successful
-    if ($response->successful()) {
-        // Convert the XML to array
-        $xml = simplexml_load_string($response->body());
-        $json = json_encode($xml);
-        $array = json_decode($json, TRUE);
-        
-        // Clean up any "Hosted on Acast" text from the description field
-        foreach ($array['channel']['item'] as &$item) {
-            // Remove "Hosted on Acast" from the description or any field where it's located
-            if (isset($item['description'])) {
-                $item['description'] = preg_replace('/Hosted on Acast.*?privacy.*?for more information./is', '', $item['description']);
-            }
-        }
-
-        // Return the cleaned-up podcast data as a JSON response
-        return response()->json($array);
-    }
-
-    // If something goes wrong, return an error message
-    return response()->json(['error' => 'Failed to fetch podcasts'], 500);
+Route::get('/fetch-podcast', function () {
+    $url = "https://themuslimvibe.com/feed/podcast";
+    $response = Http::get($url);
+    return response($response->body(), 200)
+        ->header('Content-Type', 'application/xml');
 });

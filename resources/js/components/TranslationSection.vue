@@ -1,11 +1,12 @@
 <template>
-<div class="w-100 my-element" :class="{ 'full-screen': isFullScreen }">
-  <button v-if="isFullScreen" @click="toggleFullScreen" class="close-button mb-3 text-left btn btn-secondary ">Close</button>
-  <div ref="targetTranslationElement">
-    <AyahInfo :information="information" />      
+  <div class="w-100 my-element" :class="{ 'full-screen': isFullScreen }">
+    <button v-if="isFullScreen" @click="toggleFullScreen"
+      class="close-button mb-3 text-left btn btn-secondary ">Close</button>
+    <div ref="targetTranslationElement">
+      <AyahInfo :information="information" />
       <div class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
-        <!-- 
+          <!-- 
           <i 
             @click="toggleSpeechAyah" 
             class="bi-play-circle-fill h4 custom-icon-play-main"
@@ -22,11 +23,8 @@
       <div class="row text-left mt-2">
         <div class="col-10">
           <div>
-            <h4 
-              class="ayah-translation"
-              v-html="renderedText"
-              :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"
-            ></h4>
+            <h4 class="ayah-translation" v-html="renderedText"
+              :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
             <hr>
             <div class="text-left word-count mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
@@ -56,49 +54,38 @@
         <!-- Icons Column (Stacked Vertically) -->
         <div v-if="!isPremium" class="col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
-          <i
-            @click="toggleSpeech"
-            :class="[
-              'bi',
-              isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
-              'h3',
-              'custom-icon-play'
-            ]"
-            style="cursor: pointer;"
-            aria-label="Play or pause translation audio"
-          ></i>
+          <i @click="toggleSpeech" :class="[
+            'bi',
+            isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
+            'h3',
+            'custom-icon-play'
+          ]" style="cursor: pointer;" aria-label="Play or pause translation audio"></i>
 
           <!-- Stop Button -->
-          <i
-            @click="stopReading"
-            :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
-            style="cursor: pointer;"
-            aria-label="Stop reading audio"
-          ></i>
-          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase" aria-placeholder="Increase text size" @click="increaseFontSize"></i>
-          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease" aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
+          <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
+            style="cursor: pointer;" aria-label="Stop reading audio"></i>
+          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
+            aria-placeholder="Increase text size" @click="increaseFontSize"></i>
+          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
+            aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
           <p class="d-inline-flex gap-1">
-            <i style="cursor: pointer;" 
-              class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease" 
-              data-bs-toggle="collapse" 
-              href="#collapseExample" 
-              role="button" 
-              aria-expanded="false" 
-              aria-controls="collapseExample" 
-              @click="toggleIcon">
+            <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
+              data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+              aria-controls="collapseExample" @click="toggleIcon">
             </i>
           </p>
-          
+
         </div>
-       
-      </div>  
+
+      </div>
       <!-- <div class="text-left word-count mt-2">
         <h6 class="text-left mt-3"><img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>
       </div> -->
 
-    <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
-  </div>
+      <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+        :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
+    </div>
 
   </div>
 </template>
@@ -203,7 +190,7 @@ export default {
   },
   emits: ['toggle-audio'],
   computed: {
-    
+
     wordCount() {
       const text = this.expanded ?
         this.information.translation : this.information.translation;
@@ -214,8 +201,8 @@ export default {
       // Get the ayah_text from information
       const ayahText =
         typeof this.information.ayah_text === "object" ?
-        this.information.ayah_text.text :
-        this.information.ayah_text;
+          this.information.ayah_text.text :
+          this.information.ayah_text;
       // Return the formatted string
       return `Translation: ${this.ayah_text}`;
     },
@@ -288,7 +275,7 @@ export default {
   },
 
   mounted() {
-    
+
     this.renderedText = this.information.translation;
     this.clearHighlight();
     this.stopReading();
@@ -300,12 +287,12 @@ export default {
     // Load saved settings from local storage
     const savedFontSize = localStorage.getItem('fontSize');
     if (savedFontSize) {
-			this.currentFontSize = parseInt(savedFontSize, 10);
-		} else {
-			this.currentFontSize = 14; // Default font size
+      this.currentFontSize = parseInt(savedFontSize, 10);
+    } else {
+      this.currentFontSize = 14; // Default font size
     }
   },
-  
+
   methods: {
     toggleIcon(event) {
       const icon = event.target;
@@ -315,7 +302,7 @@ export default {
     downloadAsExport() {
       // Prepare dynamic content for export
       const content = {
-        Translation: this.renderedText.replace(/<\/?[^>]+(>|$)/g, ""), 
+        Translation: this.renderedText.replace(/<\/?[^>]+(>|$)/g, ""),
         translationInfo: "Ahmed Ali",
         wordCount: this.wordCount,
         ayahInfo: {
@@ -372,7 +359,7 @@ export default {
         this.readTextAloud(); // Start reading if not reading
       }
     },
-   
+
     // Open the off-canvas modal
     toggleOffcanvas() {
       const offcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasRight'));
@@ -380,23 +367,23 @@ export default {
     },
     // Save settings to localStorage
     saveSettings() {
-			// Save settings to local storage
-			localStorage.setItem('selectedVoice', JSON.stringify(this.selectedVoiceName));
-			localStorage.setItem('rate', this.rate);
-			localStorage.setItem('pitch', this.pitch);
-			// Show success message
-			this.successMessage = true;
-			// Close the modal after a short delay
-			setTimeout(() => {
-					this.successMessage = false;
-					const offcanvasElement = document.getElementById('offcanvasRight'); // Change to the correct element ID
-					const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-					if (offcanvasInstance) {
-							offcanvasInstance.hide(); // Close the offcanvas
-					}
-			}, 1000); // 1 second delay
-		},
-    
+      // Save settings to local storage
+      localStorage.setItem('selectedVoice', JSON.stringify(this.selectedVoiceName));
+      localStorage.setItem('rate', this.rate);
+      localStorage.setItem('pitch', this.pitch);
+      // Show success message
+      this.successMessage = true;
+      // Close the modal after a short delay
+      setTimeout(() => {
+        this.successMessage = false;
+        const offcanvasElement = document.getElementById('offcanvasRight'); // Change to the correct element ID
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+        if (offcanvasInstance) {
+          offcanvasInstance.hide(); // Close the offcanvas
+        }
+      }, 1000); // 1 second delay
+    },
+
     clearSuccessMessage() {
       setTimeout(() => {
         this.successMessage = '';
@@ -418,521 +405,537 @@ export default {
     },
     downloadAsCsv() {
       const formatCsvValue = (value, options = { isLtr: false, isRtl: false }) => {
-          if (value == null) return '';
+        if (value == null) return '';
 
-          // Convert to string and escape quotes
-          let formattedValue = String(value)
-              .replace(/"/g, '""')         // Escape quotes
-              .replace(/[\r\n]+/g, ' ')    // Replace newlines with spaces
-              .trim();
+        // Convert to string and escape quotes
+        let formattedValue = String(value)
+          .replace(/"/g, '""')         // Escape quotes
+          .replace(/[\r\n]+/g, ' ')    // Replace newlines with spaces
+          .trim();
 
-          // Add directional markers based on content type
-          if (options.isRtl) {
-              return `"\u202B\u200F${formattedValue}\u202C"`;
-          }
-          if (options.isLtr) {
-              return `"\u202A${formattedValue}\u202C"`;
-          }
+        // Add directional markers based on content type
+        if (options.isRtl) {
+          return `"\u202B\u200F${formattedValue}\u202C"`;
+        }
+        if (options.isLtr) {
+          return `"\u202A${formattedValue}\u202C"`;
+        }
 
-          return `"${formattedValue}"`;
+        return `"${formattedValue}"`;
       };
 
       try {
-          // Prepare CSV rows with proper text direction
-          const csvRows = [
-              ['"Title"', '"Content"'],
-              [
-                  '"Surah name (Arabic)"',
-                  formatCsvValue(this.information?.ayah?.surah?.name_ar, { isRtl: true })
-              ],
-              [
-                  '"Surah name (English)"',
-                  formatCsvValue(this.information?.ayah?.surah?.name_en, { isLtr: true })
-              ],
-              [
-                  '"Surah number"',
-                  formatCsvValue(this.information?.ayah?.surah_id, { isLtr: true })
-              ],
-              [
-                  '"Ayah number"',
-                  formatCsvValue(this.information?.ayah?.ayah_id, { isLtr: true })
-              ],
-              [
-                  '"Ayah"',
-                  formatCsvValue(this.information?.ayah?.ayah_text, { isRtl: true })
-              ],
-              [
-                  '"Translation"',
-                  formatCsvValue(this.information?.translation, { isLtr: true })
-              ],
-              [
-                  '"Translator"',
-                  formatCsvValue('Ahmed Ali', { isLtr: true })
-              ]
-          ];
+        // Prepare CSV rows with proper text direction
+        const csvRows = [
+          ['"Title"', '"Content"'],
+          [
+            '"Surah name (Arabic)"',
+            formatCsvValue(this.information?.ayah?.surah?.name_ar, { isRtl: true })
+          ],
+          [
+            '"Surah name (English)"',
+            formatCsvValue(this.information?.ayah?.surah?.name_en, { isLtr: true })
+          ],
+          [
+            '"Surah number"',
+            formatCsvValue(this.information?.ayah?.surah_id, { isLtr: true })
+          ],
+          [
+            '"Ayah number"',
+            formatCsvValue(this.information?.ayah?.ayah_id, { isLtr: true })
+          ],
+          [
+            '"Ayah"',
+            formatCsvValue(this.information?.ayah?.ayah_text, { isRtl: true })
+          ],
+          [
+            '"Translation"',
+            formatCsvValue(this.information?.translation, { isLtr: true })
+          ],
+          [
+            '"Translator"',
+            formatCsvValue('Ahmed Ali', { isLtr: true })
+          ]
+        ];
 
-          // Convert rows to CSV string with RTL marker for the whole document
-          const csvContent = '\u202B' + csvRows
-              .map(row => row.join(','))
-              .join('\n');
+        // Convert rows to CSV string with RTL marker for the whole document
+        const csvContent = '\u202B' + csvRows
+          .map(row => row.join(','))
+          .join('\n');
 
-          // Add BOM for UTF-8
-          const bom = '\uFEFF';
-          const fullContent = bom + csvContent;
+        // Add BOM for UTF-8
+        const bom = '\uFEFF';
+        const fullContent = bom + csvContent;
 
-          // Create blob with proper encoding
-          const blob = new Blob([fullContent], {
-              type: 'text/csv;charset=utf-8'
-          });
+        // Create blob with proper encoding
+        const blob = new Blob([fullContent], {
+          type: 'text/csv;charset=utf-8'
+        });
 
-          // Generate filename with surah/ayah info
-          const date = new Date().toISOString().split('T')[0];
-          const surahNum = this.information?.ayah?.surah_id || 'unknown-surah';
-          const ayahNum = this.information?.ayah?.ayah_id || 'unknown-ayah';
-          const filename = `translation_csv_surah_${surahNum}_ayah_${ayahNum}_${date}.csv`;
+        // Generate filename with surah/ayah info
+        const date = new Date().toISOString().split('T')[0];
+        const surahNum = this.information?.ayah?.surah_id || 'unknown-surah';
+        const ayahNum = this.information?.ayah?.ayah_id || 'unknown-ayah';
+        const filename = `translation_csv_surah_${surahNum}_ayah_${ayahNum}_${date}.csv`;
 
-          // Handle download for different browsers
-          if (window.navigator.msSaveOrOpenBlob) {
-              // For IE/Edge
-              window.navigator.msSaveBlob(blob, filename);
-          } else {
-              // For modern browsers
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
+        // Handle download for different browsers
+        if (window.navigator.msSaveOrOpenBlob) {
+          // For IE/Edge
+          window.navigator.msSaveBlob(blob, filename);
+        } else {
+          // For modern browsers
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
 
-              link.href = url;
-              link.download = filename;
+          link.href = url;
+          link.download = filename;
 
-              // Trigger download
-              document.body.appendChild(link);
-              link.click();
+          // Trigger download
+          document.body.appendChild(link);
+          link.click();
 
-              // Cleanup
-              setTimeout(() => {
-                  document.body.removeChild(link);
-                  URL.revokeObjectURL(url);
-              }, 100);
-          }
+          // Cleanup
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }, 100);
+        }
       } catch (error) {
-          console.error('Failed to download CSV:', error);
-          this.$emit('csv-error', error);
+        console.error('Failed to download CSV:', error);
+        this.$emit('csv-error', error);
       }
     },
     async downloadAsWord() {
       const doc = new Document({
         sections: [
-            {
-                properties: {
-                    page: {
-                        margin: {
-                            top: 1440,    // 1 inch
-                            right: 1440,
-                            bottom: 1440,
-                            left: 1440,
-                        },
-                    },
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 1440,    // 1 inch
+                  right: 1440,
+                  bottom: 1440,
+                  left: 1440,
                 },
+              },
+            },
+            children: [
+              // Title Section
+              new Paragraph({
                 children: [
-                  // Title Section
-                  new Paragraph({
-                    children: [
-                        new TextRun({
-                            text: "Quran Translation Document",
-                            bold: true,
-                            size: 48,
-                            color: "1F4E79",
-                        }),
-                    ],
-                    alignment: "CENTER",
-                    spacing: {
-                        before: 400,
-                        after: 800,
-                        line: 360,
-                    },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // surah Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Surah:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Surah Info
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: `${this.information?.ayah?.surah?.name_en} (${this.information?.ayah?.surah?.name_ar})`,
-                            bold: false,
-                            size: 28,
-                            italics:false,
-                            color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Number
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: `Ayah Number:`,
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Number
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: `${this.information?.ayah?.ayah_id}`,
-                              bold: false,
-                              size: 28,
-                              italics:false,
-                              color: "000000",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Ayah:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Text
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: this.information?.ayah?.ayah_text,
-                              size: 28,
-                              color: "333333",
-                              rightToLeft: true,  // Enable RTL for Arabic text
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,
-                      },
-                      indent: {
-                          left: 720,  // 0.5 inch indent
-                          right: 720,
-                      },
-                      alignment: "RIGHT",  // Right align Arabic text
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-                  // Tafseer Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Translation:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Tafseer Content
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: this.information?.translation,
-                              size: 28,
-                              color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,  // 1.5 line spacing
-                      },
-                      indent: {
-                          left: 720,
-                          right: 720,
-                      },
-                  }),
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Translator Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Translator:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Translator Content
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Ahmed Ali",
-                              italics: false,
-                              size: 28,
-                              color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,
-                      },
+                  new TextRun({
+                    text: "Quran Translation Document",
+                    bold: true,
+                    size: 48,
+                    color: "1F4E79",
                   }),
                 ],
-            },
+                alignment: "CENTER",
+                spacing: {
+                  before: 400,
+                  after: 800,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // surah Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Surah:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Surah Info
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${this.information?.ayah?.surah?.name_en} (${this.information?.ayah?.surah?.name_ar})`,
+                    bold: false,
+                    size: 28,
+                    italics: false,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Number
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `Ayah Number:`,
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Number
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${this.information?.ayah?.ayah_id}`,
+                    bold: false,
+                    size: 28,
+                    italics: false,
+                    color: "000000",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Ayah:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Text
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: this.information?.ayah?.ayah_text,
+                    size: 28,
+                    color: "333333",
+                    rightToLeft: true,  // Enable RTL for Arabic text
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,
+                },
+                indent: {
+                  left: 720,  // 0.5 inch indent
+                  right: 720,
+                },
+                alignment: "RIGHT",  // Right align Arabic text
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+              // Tafseer Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Translation:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Tafseer Content
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: this.information?.translation,
+                    size: 28,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,  // 1.5 line spacing
+                },
+                indent: {
+                  left: 720,
+                  right: 720,
+                },
+              }),
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Translator Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Translator:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Translator Content
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Ahmed Ali",
+                    italics: false,
+                    size: 28,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,
+                },
+              }),
+            ],
+          },
         ],
-    });
-    try {
-      const blob = await Packer.toBlob(doc);
+      });
+      try {
+        const blob = await Packer.toBlob(doc);
 
-      // Generate a clean, ISO date string
-      const date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
+        // Generate a clean, ISO date string
+        const date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
 
-      // Dynamically include Surah and Ayah numbers with fallbacks
-      const surahNum = this.information?.ayah?.surah?.id || "unknown_surah";
-      const ayahNum = this.information?.ayah?.ayah_id || "unknown_ayah";
+        // Dynamically include Surah and Ayah numbers with fallbacks
+        const surahNum = this.information?.ayah?.surah?.id || "unknown_surah";
+        const ayahNum = this.information?.ayah?.ayah_id || "unknown_ayah";
 
-      // Create a clean filename
-      const filename = `translation_doc_surah_${surahNum}_ayah_${ayahNum}_${date}.docx`;
+        // Create a clean filename
+        const filename = `translation_doc_surah_${surahNum}_ayah_${ayahNum}_${date}.docx`;
 
-      // Save the file
-      saveAs(blob, filename);
-    } catch (error) {
-      console.error("Failed to generate Word document:", error);
-      this.$emit("word-error", error);
-    }
-  },
-
-  // Additional methods if needed, such as toggling expanded state, etc.
-  toggleSpeechAyah() {
-    this.$emit('toggle-audio', this.isReading);
-  },
-  toggleAudio() {
-    this.$emit('toggle-audio');
-  },
-  toggleExpand() {
-    this.expanded = !this.expanded;
-  },
-  
-  closeModal() {
-    const modalElement = document.getElementById("speechModal");
-    const modalInstance = bootstrap.Modal.getInstance(modalElement);
-
-    if (modalInstance) {
-      modalInstance.hide();
-      // Dispose of the modal to remove the grey background
-      modalInstance.dispose();
-    }
-  },
-  adjustRate(value) {
-    this.rate = parseFloat(value);
-  },
-  adjustPitch(value) {
-    this.pitch = parseFloat(value);
-  },
-  increaseFontSize() {
-    this.fontSize += 0.2; // Increase font size
-    this.saveFontSize();
-  },
-  decreaseFontSize() {
-    if (this.fontSize > 1) {
-      this.fontSize -= 0.2; // Decrease font size
-      this.saveFontSize();
-    }
-  },
-  saveFontSize() {
-    localStorage.setItem('ayahFontSize', this.fontSize); // Store font size in local storage
-  },
-  readTextAloud() {
-    const text = this.information.translation;
-    window.speechSynthesis.cancel();
-    this.utterance = new SpeechSynthesisUtterance(text);
-    this.utterance.rate = 0.9;
-    this.utterance.pitch = 1;
-
-    this.utterance.onboundary = (event) => {
-      if (event.name === "word") {
-        const currentWord = text.slice(event.charIndex).split(" ")[0];
-        this.highlightText(event.charIndex, currentWord);
+        // Save the file
+        saveAs(blob, filename);
+      } catch (error) {
+        console.error("Failed to generate Word document:", error);
+        this.$emit("word-error", error);
       }
-    };
+    },
 
-    this.utterance.onend = () => {
+    // Additional methods if needed, such as toggling expanded state, etc.
+    toggleSpeechAyah() {
+      this.$emit('toggle-audio', this.isReading);
+    },
+    toggleAudio() {
+      this.ksdkld
+
+      $emit('toggle-audio');
+    },
+    toggleExpand() {
+      this.expanded = !this.expanded;
+    },
+
+    closeModal() {
+      const modalElement = document.getElementById("speechModal");
+      const modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+      if (modalInstance) {
+        modalInstance.hide();
+        // Dispose of the modal to remove the grey background
+        modalInstance.dispose();
+      }
+    },
+    adjustRate(value) {
+      this.rate = parseFloat(value);
+    },
+    adjustPitch(value) {
+      this.pitch = parseFloat(value);
+    },
+    increaseFontSize() {
+      this.fontSize += 0.2; // Increase font size
+      this.saveFontSize();
+    },
+    decreaseFontSize() {
+      if (this.fontSize > 1) {
+        this.fontSize -= 0.2; // Decrease font size
+        this.saveFontSize();
+      }
+    },
+    saveFontSize() {
+      localStorage.setItem('ayahFontSize', this.fontSize); // Store font size in local storage
+    },
+    readTextAloud() {
+      const text = this.information.translation;
+      if (!window.speechSynthesis) {
+        console.error("Speech synthesis is not supported in this browser.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      this.utterance = new SpeechSynthesisUtterance(text);
+      this.utterance.rate = 0.9;
+      this.utterance.pitch = 1;
+
+      // Set a male voice if available
+      const voices = window.speechSynthesis.getVoices();
+      const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+      if (maleVoice) {
+        this.utterance.voice = maleVoice;
+      }
+
+      this.utterance.onboundary = (event) => {
+        console.log("Boundary event:", event);
+        if (event.name === "word") {
+          const currentWord = text.slice(event.charIndex).split(" ")[0];
+          console.log("Current word:", currentWord, "Char index:", event.charIndex);
+          this.highlightText(event.charIndex, currentWord);
+        }
+      };
+
+      this.utterance.onend = () => {
+        this.isReading = false;
+        this.clearHighlight();
+      };
+
+      this.isReading = true;
+      window.speechSynthesis.speak(this.utterance);
+    },
+
+    highlightText(charIndex, currentWord) {
+      const text = this.information.translation;
+      const before = text.slice(0, charIndex);
+      const after = text.slice(charIndex + currentWord.length);
+      this.renderedText = `
+    <span>${before}</span>
+    <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
+      ${currentWord}
+    </span>
+    <span>${after}</span>`;
+    },
+
+    clearHighlight() {
+      this.renderedText = `<span>${this.information.translation}</span>`;
+    },
+
+    updateRenderedText(newText) {
+      this.renderedText = `<span>${newText}</span>`;
+    },
+
+    formatText(text) {
+      return `<span>${text}</span>`;
+    },
+
+    stopReading() {
+      speechSynthesis.cancel();
       this.isReading = false;
       this.clearHighlight();
-    };
-
-    this.isReading = true;
-    window.speechSynthesis.speak(this.utterance);
-  },
-  
-  highlightText(charIndex, currentWord) {
-    const text = this.information.translation;
-    const before = text.slice(0, charIndex);
-    const after = text.slice(charIndex + currentWord.length);
-    this.renderedText = `
-      <span>${before}</span>
-      <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
-        ${currentWord}
-      </span>
-      <span>${after}</span>`;
-  },
-  
-  clearHighlight() {
-    this.renderedText = `<span>${this.information.translation}</span>`;
-  },
-  updateRenderedText(newText) {
-    this.renderedText = `<span>${newText}</span>`;
-  },
-    
-  formatText(text) {
-    // Formats the text to ensure consistent display
-    return `<span>${text}</span>`;
-  },
-
-  stopReading() {
-    speechSynthesis.cancel();
-    this.isReading = false;
-    this.clearHighlight();
-  },
-  // Pause reading
-  pauseReading() {
-    if (this.isReading && !this.isPaused) {
+    },
+    // Pause reading
+    pauseReading() {
+      if (this.isReading && !this.isPaused) {
         window.speechSynthesis.pause(); // Pause the speech synthesis
         this.isPaused = true; // Set paused state
         console.log("Speech paused.");
-    }
-  },
-    
-  getWordIndex(charIndex, text) {
-    // Calculate the word index based on the character index
-    const beforeText = text.slice(0, charIndex);
-    return beforeText.split(" ").length - 1;
-  },
+      }
+    },
+
+    getWordIndex(charIndex, text) {
+      // Calculate the word index based on the character index
+      const beforeText = text.slice(0, charIndex);
+      return beforeText.split(" ").length - 1;
+    },
 
     toggleFullScreen() {
       this.$emit("toggle-full-screen");
@@ -953,7 +956,7 @@ export default {
       this.$emit("close-alert-text");
     }
   },
-  
+
   watch: {
     'information.translation': {
       immediate: true,
@@ -973,7 +976,7 @@ export default {
     },
     isPremium() {
     }
-    
+
   }
 };
 </script>

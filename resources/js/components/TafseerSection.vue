@@ -1,10 +1,6 @@
 <template>
   <div class="w-100 my-element" :class="{ 'full-screen': isFullScreen }">
-    <button
-      v-if="isFullScreen"
-      @click="toggleFullScreen"
-      class="close-button mb-3 text-left btn btn-secondary"
-    >
+    <button v-if="isFullScreen" @click="toggleFullScreen" class="close-button mb-3 text-left btn btn-secondary">
       Close
     </button>
 
@@ -12,9 +8,7 @@
       <AyahInfo :information="information" />
       <div class="swipeable-div w-100">
         <div class="row">
-          <div
-            class="col-md-2 pt-2 d-flex align-items-center justify-content-center"
-          >
+          <div class="col-md-2 pt-2 d-flex align-items-center justify-content-center">
             <!-- <i 
               @click="toggleSpeechAyah" 
               class="bi-play-circle-fill h4 custom-icon-play-main"
@@ -30,47 +24,22 @@
         <div class="row text-left mt-2">
           <div class="col-10">
             <div>
-              <h4
-                class="ayah-translation"
-                v-html="renderedText"
-                :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"
-              ></h4>
+              <h4 class="ayah-translation" v-html="renderedText"
+                :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
               <hr />
               <div class="text-left word-count mt-2">
-                <img
-                  src="/images/art.png"
-                  class="pr-2"
-                  width="30px"
-                  alt="lamp"
-                  loading="lazy"
-                />
+                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
-              <div
-                v-if="!isPremium"
-                class="row collapse pt-3"
-                id="collapseExample"
-              >
+              <div v-if="!isPremium" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    class="btn btn-dark btn-sm px-3 py-2"
-                    @click="downloadAsCsv"
-                  >
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                     <i class="bi bi-filetype-csv pr-2"></i>CSV Export
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-dark btn-sm px-3 py-2"
-                    @click="downloadAsWord"
-                  >
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
                     <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-dark btn-sm px-3 py-2"
-                    @click="downloadAsExport"
-                  >
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
                     <i class="bi bi-filetype-json pr-2"></i>JSON Export
                   </button>
                 </div>
@@ -87,76 +56,44 @@
                   <strong>Total Word count: </strong>{{ wordCount }}
                 </h6>
               </div> -->
-              
+
             </div>
           </div>
 
           <!-- Icons Column (Stacked Vertically) -->
-          <div
-            v-if="!isPremium"
-            class="col-2 d-flex align-items-center justify-content-center flex-column"
-          >
+          <div v-if="!isPremium" class="col-2 d-flex align-items-center justify-content-center flex-column">
             <!-- Play/Pause Button -->
-            <i
-              @click="toggleSpeech"
-              :class="[
-                'bi',
-                isReading
-                  ? isPaused
-                    ? 'bi-play-circle-fill'
-                    : 'bi-pause-circle-fill'
-                  : 'bi-play-circle-fill',
-                'h3',
-                'custom-icon-play',
-              ]"
-              style="cursor: pointer"
-              aria-label="Play or pause translation audio"
-            ></i>
+            <i @click="toggleSpeech" :class="[
+              'bi',
+              isReading
+                ? isPaused
+                  ? 'bi-play-circle-fill'
+                  : 'bi-pause-circle-fill'
+                : 'bi-play-circle-fill',
+              'h3',
+              'custom-icon-play',
+            ]" style="cursor: pointer" aria-label="Play or pause translation audio"></i>
 
             <!-- Stop Button -->
-            <i
-              @click="stopReading"
-              :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
-              style="cursor: pointer"
-              aria-label="Stop reading audio"
-            ></i>
-            <i
-              style="cursor: pointer"
-              class="bi bi-plus-circle-fill h3 custom-icon-increase"
-              aria-placeholder="Increase text size"
-              @click="increaseFontSize"
-            ></i>
-            <i
-              style="cursor: pointer"
-              class="bi bi-dash-circle-fill h3 custom-icon-decrease"
-              aria-placeholder="Decrease text size"
-              @click="decreaseFontSize"
-            ></i>
+            <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
+              style="cursor: pointer" aria-label="Stop reading audio"></i>
+            <i style="cursor: pointer" class="bi bi-plus-circle-fill h3 custom-icon-increase"
+              aria-placeholder="Increase text size" @click="increaseFontSize"></i>
+            <i style="cursor: pointer" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
+              aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
             <p class="d-inline-flex gap-1">
-              <i
-                style="cursor: pointer"
-                class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
-                data-bs-toggle="collapse"
-                href="#collapseExample"
-                role="button"
-                aria-expanded="false"
-                aria-controls="collapseExample"
-                @click="toggleIcon"
-              >
+              <i style="cursor: pointer" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
+                data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample" @click="toggleIcon">
               </i>
             </p>
           </div>
         </div>
       </div>
       <!-- Alert Modal -->
-      <AlertModal
-        :showAlertText="showAlertText"
-        :showAlert="showAlert"
-        :showErrorAlert="showErrorAlert"
-        :showAlertTextNote="showAlertTextNote"
-        @close-alert-text="closeAlertText"
-      />
+      <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+        :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
     </div>
   </div>
 </template>
@@ -276,7 +213,7 @@ export default {
     //   // Replace this with the actual source of your text
     //   return document.querySelector('.ayah-translation').innerHTML;
     //  },
-    isPremium() {},
+    isPremium() { },
   },
   mounted() {
     this.fetchTafseer(this.information.ayah.id);
@@ -308,7 +245,7 @@ export default {
     };
   },
   methods: {
-    
+
     toggleIcon(event) {
       const icon = event.target;
       icon.classList.toggle("bi-arrow-down-circle-fill");
@@ -892,47 +829,78 @@ export default {
       console.log("Speech rewinded.");
     },
     readTextAloud() {
-      const text = this.tafseer;
+      const text = this.tafseer; // Ensure `this.tafseer` contains the correct text
+      if (!window.speechSynthesis) {
+        console.error("Speech synthesis is not supported in this browser.");
+        return;
+      }
+
+      // Cancel any ongoing speech synthesis
       window.speechSynthesis.cancel();
+
+      // Create a new utterance
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
 
+      // Ensure voices are loaded before setting a voice
+      const setVoice = () => {
+        const voices = window.speechSynthesis.getVoices();
+        const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+        if (maleVoice) {
+          this.utterance.voice = maleVoice;
+        }
+      };
+
+      // Wait for voices to be loaded
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = setVoice;
+      } else {
+        setVoice();
+      }
+
+      // Handle word boundaries for highlighting
       this.utterance.onboundary = (event) => {
+        console.log("Boundary event:", event);
         if (event.name === "word") {
-          const currentWord = text.slice(event.charIndex).split(" ")[0];
+          const currentWord = text.slice(event.charIndex, event.charIndex + event.charLength);
+          console.log("Current word:", currentWord, "Char index:", event.charIndex);
           this.highlightText(event.charIndex, currentWord);
         }
       };
 
+      // Handle end of speech
       this.utterance.onend = () => {
         this.isReading = false;
         this.clearHighlight();
       };
 
+      // Start speaking
       this.isReading = true;
       window.speechSynthesis.speak(this.utterance);
     },
+
     highlightText(charIndex, currentWord) {
-      const text = this.tafseer;
+      const text = this.tafseer; // Use `this.tafseer` instead of `this.information.translation`
       const before = text.slice(0, charIndex);
       const after = text.slice(charIndex + currentWord.length);
       this.renderedText = `
-        <span>${before}</span>
-        <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
-          ${currentWord}
-        </span>
-        <span>${after}</span>`;
+    <span>${before}</span>
+    <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
+      ${currentWord}
+    </span>
+    <span>${after}</span>`;
     },
+
     clearHighlight() {
-      this.renderedText = `<span>${this.tafseer}</span>`;
+      this.renderedText = `<span>${this.tafseer}</span>`; // Use `this.tafseer` instead of `this.information.translation`
     },
+
     updateRenderedText(newText) {
       this.renderedText = `<span>${newText}</span>`;
     },
 
     formatText(text) {
-      // Formats the text to ensure consistent display
       return `<span>${text}</span>`;
     },
 
@@ -1000,7 +968,7 @@ export default {
     isPremium() {
     },
   },
-  
+
 };
 </script>
 
@@ -1118,6 +1086,7 @@ audio {
 }
 
 @media (max-width: 768px) {
+
   /* Adjust this width as needed for your breakpoint */
   .mobile-only {
     display: flex;
