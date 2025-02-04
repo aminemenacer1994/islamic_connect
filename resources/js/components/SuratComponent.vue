@@ -156,7 +156,7 @@ export default {
       surahs: [], // List of all Surahs
       reciters: [], // List of all Reciters
       translations: [], // List of all Translations
-      selectedSurah: null, // Selected Surah number
+      selectedSurah: '', // Selected Surah number
       selectedReciter: 'ar.alafasy', // Default reciter
       selectedTranslation: 'en.asad', // Default translation
       selectedJuz: null, // Selected Juz number
