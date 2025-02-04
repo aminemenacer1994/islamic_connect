@@ -54,7 +54,7 @@
 
       <div v-if="surahDetails" class="col-12">
         <p class="text-center fw-bold display-5 mb-4">
-         {{ surahDetails.englishName }} ({{ surahDetails.name }})
+          {{ surahDetails.englishName }} ({{ surahDetails.name }})
         </p>
 
         <!-- Search Bar -->
@@ -77,7 +77,7 @@
 
               <!-- Surah and Ayah Number -->
               <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-                <h4><img src="images/art.png"  width="35px"/> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
+                <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
               </div>
 
               <!-- Arabic Text (RTL) -->
@@ -181,6 +181,8 @@ export default {
         if (!response.ok) throw new Error("Failed to fetch Surah details");
 
         const data = await response.json();
+        console.log("API Response:", data);
+
         const arabicText = data.data[0];
         const translation = data.data[1];
 
@@ -189,12 +191,14 @@ export default {
           englishName: arabicText.englishName,
           name: arabicText.name,
           ayahs: arabicText.ayahs.map((ayah, index) => ({
-            ayahNumber: ayah.ayahNumber,
+            number: ayah.number,
             text: ayah.text,
             translation: translation.ayahs[index]?.text || "Translation not available",
             audio: ayah.audio || "",
           })),
         };
+
+        console.log("Processed Surah Details:", this.surahDetails);
       } catch (error) {
         console.error("Error fetching Surah details:", error);
       }
@@ -252,8 +256,10 @@ export default {
 }
 
 .action-icon:hover {
-  color: #0db691; /* Green hover effect */
+  color: #0db691;
+  /* Green hover effect */
 }
+
 /* Sticky Dropdown Styling */
 .sticky-dropdown {
   position: sticky;
