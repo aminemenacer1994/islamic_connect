@@ -80,11 +80,34 @@
                 <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
               </div>
 
+
+
               <!-- Arabic Text (RTL) -->
-              <p class="arabic-text p-3 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"></p>
+              <p class="arabic-text p-3 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
+                :style="{ fontSize: arabicFontSize + 'px' }">
+              </p>
+
+
 
               <!-- Translation (LTR) -->
-              <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"></p>
+              <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"
+                :style="{ fontSize: translationFontSize + 'px' }">
+              </p>
+
+              <div class="container text-center d-flex justify-content-between" style="bottom: 0;">
+                <!-- Share on WhatsApp -->
+                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)">
+                </i>
+                <div class="font-size-controls">
+                  <button @click="decreaseFontSize" class="btn btn-sm btn-outline-dark pr-2">-</button>
+                  <button @click="increaseFontSize" class="btn btn-sm btn-outline-dark">+</button>
+                </div>
+
+                <!-- Download Audio -->
+                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
+                  @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
+                </i>
+              </div>
 
               <!-- Audio Player Stuck to Bottom -->
               <div class="audio-container">
@@ -114,7 +137,9 @@ export default {
       selectedTranslation: 'en.asad', // Default translation
       selectedJuz: null, // Selected Juz number
       surahDetails: null, // Details of the selected Surah or Juz
-      searchQuery: ""
+      searchQuery: "",
+      arabicFontSize: 20, // Default font size for Arabic text
+      translationFontSize: 16,
     };
   },
   created() {
@@ -135,6 +160,51 @@ export default {
     },
   },
   methods: {
+    increaseFontSize() {
+      if (this.arabicFontSize < 40) this.arabicFontSize += 2; // Limit max size
+      if (this.translationFontSize < 30) this.translationFontSize += 2;
+    },
+
+    /**
+     * Decrease the Arabic and Translation font size
+     */
+    decreaseFontSize() {
+      if (this.arabicFontSize > 16) this.arabicFontSize -= 2; // Limit min size
+      if (this.translationFontSize > 12) this.translationFontSize -= 2;
+    },
+    shareOnWhatsApp(ayah) {
+      const message = `Surah ${this.surahDetails.englishName.surahNumber} (Ayah ${ayah.number})\n\n` +
+        `Arabic: ${ayah.text}\n\n` +
+        `Translation: ${ayah.translation}\n\n` +
+        `Listen here: ${ayah.audio}`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+
+      window.open(whatsappLink, "_blank");
+    },
+    async downloadAudio(audioUrl, filename) {
+      if (!audioUrl) {
+        alert("Audio not available for this Ayah.");
+        return;
+      }
+
+      try {
+        const response = await fetch(audioUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.mp3`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error downloading audio:", error);
+        alert("Failed to download audio.");
+      }
+    },
     // Fetch all Surahs
     async fetchSurahs() {
       try {
