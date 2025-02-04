@@ -68,36 +68,39 @@
         <div class="row">
           <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
             <div class="card shadow-sm h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-             border-top-left-radius: 10px; 
-             border-top-right-radius: 10px; 
-             border-bottom-left-radius: 0px; 
-             border-bottom-right-radius: 0px;
-             display: flex;
-             flex-direction: column;">
+         border-top-left-radius: 10px; 
+         border-top-right-radius: 10px; 
+         border-bottom-left-radius: 0px; 
+         border-bottom-right-radius: 0px;
+         display: flex;
+         flex-direction: column;">
 
               <!-- Surah and Ayah Number -->
               <div class="d-flex justify-content-between p-3 text-muted ltr-text">
                 <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
               </div>
 
-
-
               <!-- Arabic Text (RTL) -->
               <p class="arabic-text p-3 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
                 :style="{ fontSize: arabicFontSize + 'px' }">
               </p>
-
-
 
               <!-- Translation (LTR) -->
               <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }">
               </p>
 
-              <div class="container text-center d-flex justify-content-between" style="bottom: 0;">
+              <!-- Share, Font Size, Copy & Download Icons -->
+              <div class="container text-center d-flex justify-content-between align-items-center" style="bottom: 0;">
                 <!-- Share on WhatsApp -->
                 <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)">
                 </i>
+
+                <!-- Copy Both Arabic & Translation -->
+                <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)">
+                </i>
+
+                <!-- Font Size Controls -->
                 <div class="font-size-controls">
                   <button @click="decreaseFontSize" class="btn btn-sm btn-outline-dark pr-2">-</button>
                   <button @click="increaseFontSize" class="btn btn-sm btn-outline-dark">+</button>
@@ -119,6 +122,8 @@
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
 
@@ -160,14 +165,20 @@ export default {
     },
   },
   methods: {
+    async copyAyah(ayah) {
+      const ayahText = `${ayah.text}\n\n${ayah.translation}`;
+      
+      try {
+        await navigator.clipboard.writeText(ayahText);
+        alert("Ayah (Arabic & Translation) copied to clipboard!");
+      } catch (error) {
+        console.error("Error copying text:", error);
+      }
+    },
     increaseFontSize() {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2; // Limit max size
       if (this.translationFontSize < 30) this.translationFontSize += 2;
     },
-
-    /**
-     * Decrease the Arabic and Translation font size
-     */
     decreaseFontSize() {
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2; // Limit min size
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
@@ -309,6 +320,20 @@ export default {
 };
 </script>
 <style scoped>
+.copy-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  color: #0db691;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.copy-icon:hover {
+  color: #0a7e64;
+  transform: scale(1.1);
+}
+
 .action-container {
   width: 100%;
   background-color: white;
