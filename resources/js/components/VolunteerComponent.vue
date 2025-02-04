@@ -27,11 +27,13 @@
       <div class="col-md-4 mb-3">
         <label for="reciter-select" class="form-label">Select Reciter:</label>
         <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter" @change="fetchSurahDetails">
+          <option value="" disabled>Select a reciter</option>
           <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
             {{ reciter.englishName }}
           </option>
         </select>
       </div>
+
 
       <!-- Dropdown to select Translation Language -->
       <div class="col-md-4 mb-3">
@@ -85,7 +87,8 @@
 
               <!-- Surah and Ayah Number -->
               <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-                <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
+                <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}
+                </h4>
               </div>
 
               <!-- Arabic Text (RTL) -->
@@ -255,13 +258,21 @@ export default {
       }
     },
 
-    // Fetch all Reciters
     async fetchReciters() {
       try {
         const response = await fetch('https://api.alquran.cloud/v1/edition/format/audio');
         if (!response.ok) throw new Error('Failed to fetch Reciters');
+
         const data = await response.json();
-        this.reciters = data.data;
+
+        // Ensure data structure is correct
+        this.reciters = data.data
+          .filter(reciter => reciter.identifier && reciter.englishName) // Filter valid reciters
+          .map(reciter => ({
+            identifier: reciter.identifier,
+            englishName: reciter.englishName || "Unknown Reciter"
+          }));
+
       } catch (error) {
         console.error('Error fetching Reciters:', error);
       }

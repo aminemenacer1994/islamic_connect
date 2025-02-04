@@ -58,6 +58,7 @@ import MissionComponent from "./components/MissionComponent.vue";
 import AiComponent from "./components/AiComponent.vue";
 import AccessComponent from "./components/AccessComponent.vue";
 import ContentComponent from "./components/ContentComponent.vue";
+import SuratComponent from "./components/SuratComponent.vue";
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
 import Donation from "./components/intro/Donation.vue";
@@ -120,7 +121,7 @@ app.component("mission-component", MissionComponent);
 app.component("ai-component", AiComponent);
 app.component("access-component", AccessComponent);
 app.component("content-component", ContentComponent);
-
+app.component("surat-component", SuratComponent);
 app.component("search-component", CustomSurahSelection);
 app.component("surah-list-component", SurahList);
 app.component("donations-component", Donation);

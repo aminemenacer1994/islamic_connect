@@ -34,6 +34,8 @@ use App\Http\Controllers\MissionController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\SuratController;
+
 use GuzzleHttp\Client;
 
 
@@ -289,6 +291,8 @@ Route::get('/ai', [AiController::class, 'index'])->name('ai');
 Route::get('/access', [AccessController::class, 'index'])->name('access');
 // content
 Route::get('/content', [ContentController::class, 'index'])->name('content');
+// surat
+Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 
 Route::get('/fetch-podcast', function () {
     $url = "https://themuslimvibe.com/feed/podcast";
