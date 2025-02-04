@@ -181,10 +181,13 @@
                   @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
                   style="cursor: pointer; font-size: 1.5rem;"></i>
-                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
-                  @click="shareOnWhatsApp(podcast)"></i>
-                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                  @click="downloadAudio(podcast.audioUrl, podcast.title)"></i>
+                <!-- Share on WhatsApp -->
+                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(podcast)">
+                </i>
+
+                <!-- Download Audio -->
+                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;" @click="downloadAudio(podcast)">
+                </i>
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -310,7 +313,29 @@ export default {
   },
 
   methods: {
+    shareOnWhatsApp(podcast) {
+      if (!podcast || !podcast.audioUrl) {
+        alert("Podcast information is missing!");
+        return;
+      }
 
+      const text = `Listen to this Podcast:\n\n ${podcast.title}\n\n Listen here: ${podcast.audioUrl}`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(whatsappUrl, '_blank');
+    },
+    downloadAudio(podcast) {
+      if (!podcast || !podcast.audioUrl) {
+        alert("No audio available for download!");
+        return;
+      }
+
+      const link = document.createElement("a");
+      link.href = podcast.audioUrl;
+      link.download = `Podcast_${podcast.title.replace(/\s+/g, '_')}.mp3`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
     // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
       this.selectedMonth = "";
