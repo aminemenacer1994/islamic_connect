@@ -44,8 +44,15 @@
         </select>
       </div>
 
-    </div>
 
+
+    </div>
+    <!-- Bootstrap Alert -->
+    <div v-if="toastVisible" class="alert container text-center alert-success alert-dismissible fade show mx-3"
+      role="alert">
+      {{ toastMessage }}
+      <button type="button" class="btn-close" @click="toastVisible = false" aria-label="Close"></button>
+    </div>
 
 
 
@@ -89,6 +96,10 @@
               <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }">
               </p>
+
+
+
+
 
               <!-- Share, Font Size, Copy & Download Icons -->
               <div class="container text-center d-flex justify-content-between align-items-center" style="bottom: 0;">
@@ -145,6 +156,8 @@ export default {
       searchQuery: "",
       arabicFontSize: 20, // Default font size for Arabic text
       translationFontSize: 16,
+      toastMessage: "",
+      toastVisible: false
     };
   },
   created() {
@@ -167,13 +180,21 @@ export default {
   methods: {
     async copyAyah(ayah) {
       const ayahText = `${ayah.text}\n\n${ayah.translation}`;
-      
+
       try {
         await navigator.clipboard.writeText(ayahText);
-        alert("Ayah (Arabic & Translation) copied to clipboard!");
+        this.showToast("Ayah & Translation copied to clipboard");
       } catch (error) {
         console.error("Error copying text:", error);
       }
+    },
+
+    showToast(message) {
+      this.toastMessage = message;
+      this.toastVisible = true;
+      setTimeout(() => {
+        this.toastVisible = false;
+      }, 3000); // Hide after 3 seconds
     },
     increaseFontSize() {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2; // Limit max size
@@ -184,10 +205,11 @@ export default {
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
     },
     shareOnWhatsApp(ayah) {
-      const message = `Surah ${this.surahDetails.englishName.surahNumber} (Ayah ${ayah.number})\n\n` +
+      const message = `Surah ${this.surahDetails.surahNumber} - ${this.surahDetails.englishName} (Ayah ${ayah.number})\n\n` +
         `Arabic: ${ayah.text}\n\n` +
         `Translation: ${ayah.translation}\n\n` +
         `Listen here: ${ayah.audio}`;
+
       const encodedMessage = encodeURIComponent(message);
       const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
 

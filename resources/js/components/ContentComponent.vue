@@ -184,10 +184,11 @@
                 <!-- Share on WhatsApp -->
                 <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(podcast)">
                 </i>
+                <i class="bi bi-download" 
+   style="cursor: pointer; font-size: 1.5rem;" 
+   @click="downloadAudio(podcast)">
+</i>
 
-                <!-- Download Audio -->
-                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;" @click="downloadAudio(podcast)">
-                </i>
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -323,19 +324,23 @@ export default {
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(whatsappUrl, '_blank');
     },
-    downloadAudio(podcast) {
-      if (!podcast || !podcast.audioUrl) {
-        alert("No audio available for download!");
-        return;
-      }
+    
+  downloadAudio(podcast) {
+    if (!podcast || !podcast.audioUrl) {
+      alert("No audio available for download!");
+      return;
+    }
 
-      const link = document.createElement("a");
-      link.href = podcast.audioUrl;
-      link.download = `Podcast_${podcast.title.replace(/\s+/g, '_')}.mp3`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
+    // Create an anchor element dynamically
+    const link = document.createElement("a");
+    link.href = podcast.audioUrl; // Direct link to the MP3 file
+    link.download = podcast.title ? `${podcast.title}.mp3` : "podcast.mp3"; // Set a filename
+    link.style.display = "none";
+
+    document.body.appendChild(link);
+    link.click(); // Trigger the download
+    document.body.removeChild(link); // Cleanup
+  },
     // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
       this.selectedMonth = "";
