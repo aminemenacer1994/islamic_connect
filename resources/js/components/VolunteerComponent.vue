@@ -54,7 +54,7 @@
 
       <div v-if="surahDetails" class="col-12">
         <p class="text-center fw-bold display-5 mb-4">
-          {{ surahDetails.englishName }} ({{ surahDetails.name }})
+         {{ surahDetails.englishName }} ({{ surahDetails.name }})
         </p>
 
         <!-- Search Bar -->
@@ -67,15 +67,17 @@
 
         <div class="row">
           <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
-            <div class="card shadow-sm  h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
-                border-top-left-radius: 10px; 
-                border-top-right-radius: 10px; 
-                border-bottom-left-radius: 0px; 
-                border-bottom-right-radius: 0px;">
+            <div class="card shadow-sm h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+             border-top-left-radius: 10px; 
+             border-top-right-radius: 10px; 
+             border-bottom-left-radius: 0px; 
+             border-bottom-right-radius: 0px;
+             display: flex;
+             flex-direction: column;">
 
               <!-- Surah and Ayah Number -->
               <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-                <h4>{{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
+                <h4><img src="images/art.png"  width="35px"/> {{ surahDetails.surahNumber }} : {{ ayah.number }}</h4>
               </div>
 
               <!-- Arabic Text (RTL) -->
@@ -94,7 +96,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -188,7 +189,7 @@ export default {
           englishName: arabicText.englishName,
           name: arabicText.name,
           ayahs: arabicText.ayahs.map((ayah, index) => ({
-            number: ayah.number,
+            ayahNumber: ayah.ayahNumber,
             text: ayah.text,
             translation: translation.ayahs[index]?.text || "Translation not available",
             audio: ayah.audio || "",
@@ -234,21 +235,47 @@ export default {
 };
 </script>
 <style scoped>
+.action-container {
+  width: 100%;
+  background-color: white;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.action-icon:hover {
+  color: #0db691; /* Green hover effect */
+}
 /* Sticky Dropdown Styling */
 .sticky-dropdown {
   position: sticky;
   top: 0;
-  z-index: 1000; /* Ensures it stays above other elements */
-  background-color: white; /* Matches background */
+  z-index: 1000;
+  /* Ensures it stays above other elements */
+  background-color: rgba(255, 255, 255, 1.76);
+  /* Matches background */
   padding: 7px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adds a shadow effect */
-  border-bottom: 2px solid #ddd; /* Subtle separator */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* Adds a shadow effect */
+  border-bottom: 2px solid #ddd;
+  border: 2px solid #0db691;
+  border-radius: 5px;
+  /* Subtle separator */
 }
 
 /* Smooth transition when scrolling */
 .sticky-dropdown select {
   transition: all 0.3s ease-in-out;
 }
+
 /* Container for the audio player */
 .audio-container {
   width: 100%;
