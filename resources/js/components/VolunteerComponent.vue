@@ -75,12 +75,13 @@
         <div class="row">
           <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
             <div class="card shadow-sm h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-         border-top-left-radius: 10px; 
-         border-top-right-radius: 10px; 
-         border-bottom-left-radius: 0px; 
-         border-bottom-right-radius: 0px;
-         display: flex;
-         flex-direction: column;">
+                border-top-left-radius: 10px; 
+                border-top-right-radius: 10px; 
+                border-bottom-left-radius: 0px; 
+                border-bottom-right-radius: 0px;
+                display: flex;
+                flex-direction: column;
+                height: 100%;">
 
               <!-- Surah and Ayah Number -->
               <div class="d-flex justify-content-between p-3 text-muted ltr-text">
@@ -93,46 +94,50 @@
               </p>
 
               <!-- Translation (LTR) -->
-              <p class="mb-3 fw-regular p-3 ltr-text" v-html="highlightText(ayah.translation)"
+              <p class="mb-3 fw-regular p-3 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }">
               </p>
 
-
-
-
-
-              <!-- Share, Font Size, Copy & Download Icons -->
-              <div class="container text-center d-flex justify-content-between align-items-center" style="bottom: 0;">
-                <!-- Share on WhatsApp -->
-                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)">
-                </i>
-
-                <!-- Copy Both Arabic & Translation -->
-                <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)">
-                </i>
-
-                <!-- Font Size Controls -->
-                <div class="font-size-controls">
-                  <button @click="decreaseFontSize" class="btn btn-sm btn-outline-dark pr-2">-</button>
-                  <button @click="increaseFontSize" class="btn btn-sm btn-outline-dark">+</button>
+              <!-- Stick to bottom container -->
+              <div class="mt-auto">
+                <!-- Button Section -->
+                <div class="container pb-3 text-center">
+                  <div class="row">
+                    <div class="col">
+                      <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
+                        @click="shareOnWhatsApp(ayah)"></i>
+                    </div>
+                    <div class="col">
+                      <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"></i>
+                    </div>
+                    <div class="col">
+                      <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
+                        @click="decreaseFontSize"></i>
+                    </div>
+                    <div class="col">
+                      <i style="cursor: pointer; font-size: 1.5rem;" @click="increaseFontSize"
+                        class="bi bi-plus-circle mx-2"></i>
+                    </div>
+                    <div class="col">
+                      <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
+                        @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
+                      </i>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- Download Audio -->
-                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                  @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
-                </i>
-              </div>
-
-              <!-- Audio Player Stuck to Bottom -->
-              <div class="audio-container">
-                <audio controls class="audio-player">
-                  <source :src="ayah.audio" type="audio/mpeg" />
-                </audio>
+                <!-- Audio Player Stuck to Bottom -->
+                <div class="pt-2">
+                  <audio controls class="audio-player w-100">
+                    <source :src="ayah.audio" type="audio/mpeg" />
+                  </audio>
+                </div>
               </div>
 
             </div>
           </div>
         </div>
+
 
 
       </div>
@@ -346,7 +351,7 @@ export default {
   cursor: pointer;
   font-size: 1.5rem;
   margin-left: 10px;
-  color: #0db691;
+  color: #000;
   transition: color 0.3s ease-in-out;
 }
 
