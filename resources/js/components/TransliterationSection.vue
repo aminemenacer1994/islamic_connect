@@ -18,7 +18,7 @@
               {{ expanded ? information.transliteration : information.transliteration }}
             </h4>
             <hr>
-            <div v-if="!isPremium" class="row collapse pt-3" id="collapseExample">
+            <div v-if="isPremium" class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                   <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -37,7 +37,7 @@
                 <strong>Total Word count: </strong>{{ wordCount }}
               </h6>
             </div> -->
-            <div class="text-left word-count mt-3">
+            <div v-if="!isPremium" class="text-left word-count mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Transliteration: </strong>Saheeh International
             </div>
@@ -48,7 +48,7 @@
           <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase" aria-placeholder="Increase text size" @click="increaseFontSize"></i>
           <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease" aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
-          <p v-if="!isPremium" class="d-inline-flex gap-1">
+          <p v-if="isPremium" class="d-inline-flex gap-1">
             <i style="cursor: pointer;" 
               class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease" 
               data-bs-toggle="collapse" 
@@ -121,6 +121,7 @@ export default {
       expanded: false,
       isPaused: false,
       isReading: false,
+      isPremium: false,
     }
   },
   computed: {

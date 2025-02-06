@@ -386,14 +386,16 @@
                 </ul>
                 <div class="row">
                   <div class="col-md-6">
-                    <button class="w-100 btn button mb-2" style="background:rgb(0 163 164);color:white" role="button">
+                    <button class="w-100 btn button mb-2" @click="redirectToMonthlySubscription"
+                      style="background:rgb(0 163 164);color:white" role="button">
                       <span style="color:white;font-size:16px;">
                         <b>Pay monthly (£ 2.99)</b>
                       </span>
                     </button>
                   </div>
                   <div class="col-md-6">
-                    <button class="w-100 btn button" style="background:rgb(0 163 164);color:white" role="button">
+                    <button @click="redirectToYearlySubscription" class="w-100 btn button"
+                      style="background:rgb(0 163 164);color:white" role="button">
                       <span style="color:white;font-size:16px;">
                         <b>Pay yearly (£ 29.99) </b>
                         <span class="badge rounded-pill text-bg-light">Save % 16</span>
@@ -438,12 +440,12 @@
                       the way of your spiritual journey.</p>
                     <div class="col-md-6">
                       <button class="w-100 btn button" style="background:rgb(0 163 164);color:white" role="button"
-                        @click="subscribe('free_monthly')"><span style="color:white;font-size:16px;"><b>Monthly
+                        @click="redirectToMonthlySubscription()"><span style="color:white;font-size:16px;"><b>Monthly
                             Plan</b></span></button>
                     </div>
                     <div class="col-md-6">
                       <button class="w-100 btn button" style="background:rgb(0 163 164);color:white" role="button"
-                        @click="subscribe('free_yearly')"><span style="color:white;font-size:16px;"><b>Yearly
+                        @click="redirectToYearlySubscription()"><span style="color:white;font-size:16px;"><b>Yearly
                             Plan</b></span></button>
                     </div>
                   </div>
@@ -653,9 +655,24 @@ export default {
     );
   },
   methods: {
+    // redirectToMonthlySubscription() {
+    //   // Replace with your Stripe Payment Link for monthly subscription
+    //   window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
+    // },
+    // redirectToYearlySubscription() {
+    //   // Replace with your Stripe Payment Link for yearly subscription
+    //   window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
+    // },
+    redirectToMonthlySubscription() {
+      window.location.href = "https://buy.stripe.com/test_cN24jzdgbc67dHyeUU"; // Test mode link
+      
+    },
+    redirectToYearlySubscription() {
+      window.location.href = "https://buy.stripe.com/test_3cs2br3FBb2346Y4gh"; // Test mode link
+    },
     redirectToRegister() {
-  location.assign("/register");
-},
+      location.assign("/register");
+    },
     async donate() {
       if (this.amount <= 0) {
         alert("Please enter a valid donation amount.");

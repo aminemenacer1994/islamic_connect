@@ -27,11 +27,11 @@
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
               <hr />
-              <div class="text-left word-count mt-2">
+              <div v-if="!isPremium" class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
-              <div v-if="!isPremium" class="row collapse pt-3" id="collapseExample">
+              <div v-if="isPremium" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
                   <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                     <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -185,7 +185,6 @@ export default {
       selectedVoiceName: "",
       selectedVoice: null,
       successMessage: false,
-
       currentWordIndex: 0,
       ayahAudio: null, // Store the audio URL
       ayahId: 1,

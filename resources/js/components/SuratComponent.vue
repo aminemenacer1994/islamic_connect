@@ -11,44 +11,45 @@
       </div>
     </div>
     <!-- Sticky Dropdowns -->
-    <div class="sticky-dropdown row mb-4">
-      <!-- Dropdown to select Surah -->
-      <div class="col-md-4 mb-3">
-        <label for="surah-select" class="form-label">Select Surah:</label>
-        <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
-          <option value="" disabled selected> Select a Surah </option> <!-- Placeholder Option -->
-          <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
-            {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
-          </option>
-        </select>
+    <div  class="sticky-dropdown container-fluid">
+      <div class="row g-3" style="padding: 8px;">
+        <!-- Dropdown to select Surah -->
+        <div class="col-md-4">
+          <label for="surah-select" class="form-label">Select Surah:</label>
+          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
+            <option value="" disabled selected>Select a Surah</option> <!-- Placeholder Option -->
+            <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
+              {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
+            </option>
+          </select>
+        </div>
+
+        <!-- Dropdown to select Reciter -->
+        <div class="col-md-4">
+          <label for="reciter-select" class="form-label">Select Reciter:</label>
+          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter"
+            @change="fetchSurahDetails">
+            <option value="" disabled selected>Select a reciter</option>
+            <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
+              {{ reciter.englishName }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Dropdown to select Translation Language -->
+        <div class="col-md-4">
+          <label for="translation-select" class="form-label">Select Translation:</label>
+          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
+            @change="fetchSurahDetails">
+            <option value="" disabled selected>Select Translation</option>
+            <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
+              {{ translation.englishName }}
+            </option>
+          </select>
+        </div>
       </div>
-
-      <!-- Dropdown to select Reciter -->
-      <div class="col-md-4 mb-3">
-        <label for="reciter-select" class="form-label">Select Reciter:</label>
-        <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter" @change="fetchSurahDetails">
-          <option value="" disabled>Select a reciter</option>
-          <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
-            {{ reciter.englishName }}
-          </option>
-        </select>
-      </div>
-
-
-      <!-- Dropdown to select Translation Language -->
-      <div class="col-md-4 mb-3">
-        <label for="translation-select" class="form-label">Select Translation:</label>
-        <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
-          @change="fetchSurahDetails">
-          <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
-            {{ translation.englishName }}
-          </option>
-        </select>
-      </div>
-
-
-
     </div>
+
     <!-- Bootstrap Alert -->
     <div v-if="toastVisible" class="alert container text-center alert-success alert-dismissible fade show mx-3"
       role="alert">
@@ -62,7 +63,7 @@
     <div class="row" dir="rtl">
 
       <div v-if="surahDetails" class="col-12">
-        <p class="text-center fw-bold display-5 mb-4">
+        <p class="text-center fw-bold display-5 pt-3 mb-2">
           {{ surahDetails.englishName }} ({{ surahDetails.name }})
         </p>
 
@@ -92,12 +93,12 @@
               </div>
 
               <!-- Arabic Text (RTL) -->
-              <p class="arabic-text p-3 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
+              <p class="arabic-text p-2 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
                 :style="{ fontSize: arabicFontSize + 'px' }">
-              </p>
+              </p> 
 
               <!-- Translation (LTR) -->
-              <p class="mb-3 fw-regular p-3 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+              <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }">
               </p>
 
@@ -131,8 +132,8 @@
 
                 <!-- Audio Player Stuck to Bottom -->
                 <div class="pt-2">
-                  <audio controls class="audio-player w-100">
-                    <source :src="ayah.audio" type="audio/mpeg" />
+                  <audio ref="audioPlayer" controls class="audio-player w-100" @timeupdate="syncHighlight">
+                    <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
                   </audio>
                 </div>
               </div>
@@ -151,41 +152,86 @@
 
 <script>
 export default {
+  props: ["ayah", "arabicFontSize"],
   data() {
     return {
       surahs: [], // List of all Surahs
       reciters: [], // List of all Reciters
       translations: [], // List of all Translations
-      selectedSurah: '', // Selected Surah number
-      selectedReciter: 'ar.alafasy', // Default reciter
-      selectedTranslation: 'en.asad', // Default translation
+      selectedSurah: "", // Selected Surah number
+      selectedReciter: "ar.alafasy", // Default reciter
+      selectedTranslation: "en.asad", // Default translation
       selectedJuz: null, // Selected Juz number
       surahDetails: null, // Details of the selected Surah or Juz
       searchQuery: "",
       arabicFontSize: 20, // Default font size for Arabic text
       translationFontSize: 16,
       toastMessage: "",
-      toastVisible: false
+      toastVisible: false,
+      words: [],
+      timestamps: [],
+      highlightedAyah: "",
+      // isPremium: true,
     };
+  },
+  mounted() {
+    this.prepareAyahText();
   },
   created() {
     this.fetchSurahs();
     this.fetchReciters();
     this.fetchTranslations();
   },
+  watch: {
+    ayah: {
+      handler(newAyah) {
+        console.log("Ayah received:", newAyah); // Debugging log
+        if (newAyah && newAyah.text) {
+          this.prepareAyahText();
+        }
+      },
+      immediate: true,
+    },
+  },
   computed: {
     // Filter ayahs based on search query
     filteredAyahs() {
-      if (!this.surahDetails) return [];  // If no Surah is selected, return empty
-      if (!this.searchQuery) return this.surahDetails.ayahs;  // If search is empty, return all ayahs
+      if (!this.surahDetails) return [];
+      if (!this.searchQuery) return this.surahDetails.ayahs;
 
-      const query = this.searchQuery.toLowerCase(); // Convert search query to lowercase
-      return this.surahDetails.ayahs.filter(ayah =>
-        ayah.text.toLowerCase().includes(query) || ayah.translation.toLowerCase().includes(query)
+      const query = this.searchQuery.toLowerCase();
+      return this.surahDetails.ayahs.filter(
+        (ayah) =>
+          ayah.text.toLowerCase().includes(query) ||
+          ayah.translation.toLowerCase().includes(query)
       );
     },
   },
   methods: {
+    prepareAyahText() {
+      if (!this.ayah || !this.ayah.text) {
+        console.error("prepareAyahText: ayah.text is missing!", this.ayah);
+        return;
+      }
+
+      this.words = this.ayah.text.split(" ");
+      this.timestamps = this.words.map((_, index) => index * 0.5);
+      this.highlightedAyah = this.words.join(" ");
+
+      console.log("Highlighted Ayah Text:", this.highlightedAyah); // Debugging log
+    },
+    syncHighlight() {
+      const audio = this.$refs.audioPlayer;
+      if (!audio) return;
+
+      let currentTime = audio.currentTime;
+      let highlightedWords = this.words.map((word, index) => {
+        return currentTime >= this.timestamps[index]
+          ? `<span class="highlight">${word}</span>`
+          : word;
+      });
+      this.highlightedAyah = highlightedWords.join(" ");
+    },
     async copyAyah(ayah) {
       const ayahText = `${ayah.text}\n\n${ayah.translation}`;
 
@@ -204,14 +250,17 @@ export default {
         this.toastVisible = false;
       }, 3000); // Hide after 3 seconds
     },
+
     increaseFontSize() {
-      if (this.arabicFontSize < 40) this.arabicFontSize += 2; // Limit max size
+      if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
     },
+
     decreaseFontSize() {
-      if (this.arabicFontSize > 16) this.arabicFontSize -= 2; // Limit min size
+      if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
     },
+
     shareOnWhatsApp(ayah) {
       const message = `Surah ${this.surahDetails.surahNumber} - ${this.surahDetails.englishName} (Ayah ${ayah.number})\n\n` +
         `Arabic: ${ayah.text}\n\n` +
@@ -223,6 +272,7 @@ export default {
 
       window.open(whatsappLink, "_blank");
     },
+
     async downloadAudio(audioUrl, filename) {
       if (!audioUrl) {
         alert("Audio not available for this Ayah.");
@@ -246,47 +296,45 @@ export default {
         alert("Failed to download audio.");
       }
     },
+
     // Fetch all Surahs
     async fetchSurahs() {
       try {
-        const response = await fetch('https://api.alquran.cloud/v1/surah');
-        if (!response.ok) throw new Error('Failed to fetch Surahs');
+        const response = await fetch("https://api.alquran.cloud/v1/surah");
+        if (!response.ok) throw new Error("Failed to fetch Surahs");
         const data = await response.json();
         this.surahs = data.data;
       } catch (error) {
-        console.error('Error fetching Surahs:', error);
+        console.error("Error fetching Surahs:", error);
       }
     },
 
     async fetchReciters() {
       try {
-        const response = await fetch('https://api.alquran.cloud/v1/edition/format/audio');
-        if (!response.ok) throw new Error('Failed to fetch Reciters');
+        const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
+        if (!response.ok) throw new Error("Failed to fetch Reciters");
 
         const data = await response.json();
-
-        // Ensure data structure is correct
         this.reciters = data.data
-          .filter(reciter => reciter.identifier && reciter.englishName) // Filter valid reciters
-          .map(reciter => ({
+          .filter((reciter) => reciter.identifier && reciter.englishName)
+          .map((reciter) => ({
             identifier: reciter.identifier,
-            englishName: reciter.englishName || "Unknown Reciter"
+            englishName: reciter.englishName || "Unknown Reciter",
           }));
-
       } catch (error) {
-        console.error('Error fetching Reciters:', error);
+        console.error("Error fetching Reciters:", error);
       }
     },
 
     // Fetch all Translations
     async fetchTranslations() {
       try {
-        const response = await fetch('https://api.alquran.cloud/v1/edition/type/translation');
-        if (!response.ok) throw new Error('Failed to fetch Translations');
+        const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
+        if (!response.ok) throw new Error("Failed to fetch Translations");
         const data = await response.json();
         this.translations = data.data;
       } catch (error) {
-        console.error('Error fetching Translations:', error);
+        console.error("Error fetching Translations:", error);
       }
     },
 
@@ -300,7 +348,6 @@ export default {
         if (!response.ok) throw new Error("Failed to fetch Surah details");
 
         const data = await response.json();
-        console.log("API Response:", data);
 
         const arabicText = data.data[0];
         const translation = data.data[1];
@@ -316,17 +363,15 @@ export default {
             audio: ayah.audio || "",
           })),
         };
-
-        console.log("Processed Surah Details:", this.surahDetails);
       } catch (error) {
         console.error("Error fetching Surah details:", error);
       }
     },
 
     highlightText(text) {
-      if (!this.searchQuery) return text;  // No highlighting if search is empty
-      const regex = new RegExp(`(${this.searchQuery})`, "gi"); // Case-insensitive match
-      return text.replace(regex, `<span class="highlight">$1</span>`); // Wrap matches in <span>
+      if (!this.searchQuery) return text;
+      const regex = new RegExp(`(${this.searchQuery})`, "gi");
+      return text.replace(regex, `<span class="highlight">$1</span>`);
     },
 
     // Fetch details of the selected Juz
@@ -334,30 +379,51 @@ export default {
       if (!this.selectedJuz || this.selectedJuz < 1 || this.selectedJuz > 30) return;
 
       try {
-        const response = await fetch(`https://api.alquran.cloud/v1/juz/${this.selectedJuz}/ar.alafasy`);
-        if (!response.ok) throw new Error('Failed to fetch Juz details');
+        const response = await fetch(
+          `https://api.alquran.cloud/v1/juz/${this.selectedJuz}/editions/${this.selectedReciter},${this.selectedTranslation}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch Juz details");
 
         const data = await response.json();
+
+        const arabicText = data.data[0];
+        const translation = data.data[1];
 
         this.surahDetails = {
           englishName: `Juz ${this.selectedJuz}`,
           name: `Juz ${this.selectedJuz}`,
-          englishNameTranslation: `Juz ${this.selectedJuz}`,
-          ayahs: data.data.ayahs.map((ayah) => ({
+          ayahs: arabicText.ayahs.map((ayah, index) => ({
             number: ayah.number,
-            text: ayah.text, // Arabic text
-            translation: "Translation not available for Juz",
+            text: ayah.text,
+            translation: translation.ayahs[index]?.text || "Translation not available",
             audio: ayah.audio || "",
           })),
         };
       } catch (error) {
-        console.error('Error fetching Juz details:', error);
+        console.error("Error fetching Juz details:", error);
       }
     },
   },
 };
 </script>
+
 <style scoped>
+.highlight {
+  background-color: yellow;
+  transition: background-color 0.3s ease;
+}
+
+.sticky-dropdown {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
+  /* Prevent transparency */
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
 .copy-icon {
   cursor: pointer;
   font-size: 1.5rem;

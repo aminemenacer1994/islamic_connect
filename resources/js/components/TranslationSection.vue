@@ -3,8 +3,8 @@
     <button v-if="isFullScreen" @click="toggleFullScreen"
       class="close-button mb-3 text-left btn btn-secondary ">Close</button>
     <div ref="targetTranslationElement">
-      <AyahInfo :information="information" />
-      <div class="row">
+      <AyahInfo v-if="!isPremium" :information="information" />
+      <div  class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
           <!-- 
           <i 
@@ -15,7 +15,7 @@
           ></i>
         -->
         </div>
-        <div class="col-md-11">
+        <div v-if="!isPremium" class="col-md-11">
           <MainAyah :information="information" />
         </div>
       </div>
@@ -26,11 +26,11 @@
             <h4 class="ayah-translation" v-html="renderedText"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
             <hr>
-            <div class="text-left word-count mt-3">
+            <div v-if="!isPremium" class="text-left word-count mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Translation: </strong>Ahmed Ali
             </div>
-            <div v-if="!isPremium" class="row collapse pt-3" id="collapseExample">
+            <div v-if="isPremium" class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                   <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -52,7 +52,7 @@
           </div>
         </div>
         <!-- Icons Column (Stacked Vertically) -->
-        <div v-if="!isPremium" class="col-2 d-flex align-items-center justify-content-center flex-column">
+        <div v-if="isPremium" class="col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
           <i @click="toggleSpeech" :class="[
             'bi',

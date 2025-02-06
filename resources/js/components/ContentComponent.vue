@@ -86,55 +86,50 @@
     </div>
 
 
-    <div class="row" v-if="selectedPodcast">
-
-      <!-- Date Filter -->
-      <!-- <div class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedDateFilter" @change="filterByDate">
-          <option value="select date filter" disabled>Select a Date Filter</option>
+    <!-- Date Filter -->
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedDateFilter" @change="onDateFilterChange">
+          <option value="" disabled>Select a Date Filter</option>
           <option value="yearly">This Year</option>
           <option value="monthly">This Month</option>
           <option value="weekly">This Week</option>
           <option value="daily">Today</option>
         </select>
-      </div> -->
+      </div>
 
-      <!-- Select Date Filter -->
       <!-- Yearly Filter -->
-      <!-- <div v-if="selectedDateFilter === 'yearly'" class="col-md-3 mb-3">
+      <div v-if="selectedDateFilter === 'yearly'" class="col-md-3 mb-3">
         <select class="form-select" v-model="selectedYear" @change="onYearSelect">
           <option value="" disabled>Select Year</option>
           <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
         </select>
-      </div> -->
+      </div>
 
       <!-- Monthly Filter (Only If a Year Is Selected) -->
-      <!-- <div v-if="selectedDateFilter === 'yearly' && selectedYear" class="col-md-3 mb-3">
+      <div v-if="selectedDateFilter === 'yearly' && selectedYear" class="col-md-3 mb-3">
         <select class="form-select" v-model="selectedMonth" @change="onMonthSelect">
           <option value="" disabled>Select Month</option>
           <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
         </select>
-      </div> -->
+      </div>
 
       <!-- Weekly Filter (Appears If a Month Is Selected in 'yearly' or If 'weekly' is chosen) -->
-      <!-- <div v-if="(selectedDateFilter === 'yearly' && selectedMonth) || selectedDateFilter === 'weekly'"
+      <div v-if="(selectedDateFilter === 'yearly' && selectedMonth) || selectedDateFilter === 'weekly'"
         class="col-md-3 mb-3">
         <select class="form-select" v-model="selectedWeek" @change="onWeekSelect">
           <option value="" disabled>Select Week</option>
           <option v-for="week in weeks" :key="week" :value="week">{{ week }}</option>
         </select>
-      </div> -->
+      </div>
 
       <!-- Daily Filter (Only If a Week Is Selected) -->
-      <!-- <div v-if="selectedWeek" class="col-md-3 mb-3">
+      <div v-if="selectedWeek" class="col-md-3 mb-3">
         <select class="form-select" v-model="selectedDay" @change="updatePodcasts">
           <option value="" disabled>Select Day</option>
           <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
         </select>
       </div>
-      -->
-
-
     </div>
 
     <div class="pb-3 pt-3" v-if="selectedPodcast">
@@ -184,10 +179,8 @@
                 <!-- Share on WhatsApp -->
                 <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(podcast)">
                 </i>
-                <i class="bi bi-download" 
-   style="cursor: pointer; font-size: 1.5rem;" 
-   @click="downloadAudio(podcast)">
-</i>
+                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;" @click="downloadAudio(podcast)">
+                </i>
 
               </div>
             </div>
@@ -324,42 +317,40 @@ export default {
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(whatsappUrl, '_blank');
     },
-    
-  downloadAudio(podcast) {
-    if (!podcast || !podcast.audioUrl) {
-      alert("No audio available for download!");
-      return;
-    }
 
-    // Create an anchor element dynamically
-    const link = document.createElement("a");
-    link.href = podcast.audioUrl; // Direct link to the MP3 file
-    link.download = podcast.title ? `${podcast.title}.mp3` : "podcast.mp3"; // Set a filename
-    link.style.display = "none";
+    downloadAudio(podcast) {
+      if (!podcast || !podcast.audioUrl) {
+        alert("No audio available for download!");
+        return;
+      }
 
-    document.body.appendChild(link);
-    link.click(); // Trigger the download
-    document.body.removeChild(link); // Cleanup
-  },
-    // When a year is selected, reset other filters and update podcasts
+      // Create an anchor element dynamically
+      const link = document.createElement("a");
+      link.href = podcast.audioUrl; // Direct link to the MP3 file
+      link.download = podcast.title ? `${podcast.title}.mp3` : "podcast.mp3"; // Set a filename
+      link.style.display = "none";
+
+      document.body.appendChild(link);
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Cleanup
+    },
+    onDateFilterChange() {
+      this.selectedYear = null;
+      this.selectedMonth = null;
+      this.selectedWeek = null;
+      this.selectedDay = null;
+    },
     onYearSelect() {
-      this.selectedMonth = "";
-      this.selectedWeek = "";
-      this.selectedDay = "";
-      this.updatePodcasts();
+      this.selectedMonth = null;
+      this.selectedWeek = null;
+      this.selectedDay = null;
     },
-
-    // When a month is selected, reset week/day and update podcasts
     onMonthSelect() {
-      this.selectedWeek = "";
-      this.selectedDay = "";
-      this.updatePodcasts();
+      this.selectedWeek = null;
+      this.selectedDay = null;
     },
-
-    // When a week is selected, reset day and update podcasts
     onWeekSelect() {
-      this.selectedDay = "";
-      this.updatePodcasts();
+      this.selectedDay = null;
     },
 
     // Fetch and update podcasts when filters change
