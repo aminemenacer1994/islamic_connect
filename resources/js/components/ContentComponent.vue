@@ -71,11 +71,11 @@
     <!-- </div> -->
 
 
-    <!-- Search Bar -->
+    
     <!-- Podcast Selection Dropdown -->
     <div class="d-flex align-items-center justify-content-between pb-3">
-      <h5>Select a Podcast:</h5>
-      <select class="form-select" v-model="selectedPodcast" @change="fetchPodcasts">
+      <h4>Select a Podcast:</h4>
+      <select class="form-select w-30" v-model="selectedPodcast" @change="fetchPodcasts">
         <option disabled value="">Select a podcast</option>
         <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
           {{ podcast.name }}
@@ -83,16 +83,13 @@
       </select>
     </div>
 
+    <div v-if="selectedPodcast" class="d-flex align-items-start pt-3">
+      <div>
+        <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
+        <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
+      </div>      
+      <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-img" style="align-items: center; text-align: center;">
 
-
-
-    <div class="row" v-if="selectedPodcast">
-
-    </div>
-
-    <div class="pb-3 pt-3" v-if="selectedPodcast">
-      <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
-      <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
     </div>
 
     <div class="row">
@@ -119,11 +116,12 @@
       </div>
     </div>
 
-    <!-- Loading Spinner -->
-    <div v-if="loading" class="text-center my-4">
-      <div class="spinner-border text-success" role="status">
+    <!-- Loading Spinner Appears Only When Podcasts Are Loading -->
+    <div v-if="loading" class="d-flex align-items-center justify-content-center my-4">
+      <div class="spinner-border text-success me-2" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
+      <span class="text-muted">Podcasts are loading, please wait...</span>
     </div>
 
     <!-- Podcast Cards -->
@@ -156,8 +154,8 @@
         </div>
       </div>
 
-      <nav aria-label="Podcast pagination" class="mt-4 mb-4">
-        <ul class="pagination justify-content-center flex-nowrap">
+      <nav aria-label="Podcast pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
           <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
           </li>
@@ -172,8 +170,6 @@
 
     </div>
 
-    <!-- No Podcasts Found -->
-    <div v-else class="text-center">No podcasts found</div>
   </div>
 </template>
 <script>
@@ -199,58 +195,51 @@ export default {
         {
           name: "Abdur-Raheem McCarthy",
           rssUrl: "https://muslimcentral.com/audio/abdur-raheem-mccarthy/feed/",
-          desc: "Shaykh Abdur-Raheem McCarthy is a well-known Islamic speaker and educator with a unique ability to connect with people from diverse backgrounds. Born and raised in the United States, he converted to Islam and pursued Islamic studies in the Middle East. His lectures focus on practical applications of Islamic teachings, covering topics such as faith, character development, family life, and navigating the challenges of modern society. With a straightforward and engaging style, he emphasizes the importance of authentic knowledge, spiritual growth, and the balance between deen and dunya. His thought-provoking talks inspire listeners to implement Islamic values in their daily lives."
+          desc: "Shaykh Abdur-Raheem McCarthy is a well-known Islamic speaker and educator with a unique ability to connect with people from diverse backgrounds. Born and raised in the United States, he converted to Islam and pursued Islamic studies in the Middle East. His lectures focus on practical applications of Islamic teachings, covering topics such as faith, character development, family life, and navigating the challenges of modern society. With a straightforward and engaging style, he emphasizes the importance of authentic knowledge, spiritual growth, and the balance between deen and dunya. His thought-provoking talks inspire listeners to implement Islamic values in their daily lives.",
+          image: ('./images/abdur-raheem-mccarthy-150x150.jpg')
         },
         {
           name: "Hamza Tzortzis",
           rssUrl: "https://muslimcentral.com/audio/hamza-tzortzis/feed/",
-          desc: "Ustadh Hamza Tzortzis is a prominent Muslim intellectual and da'ee specializing in Islamic philosophy, theology, and contemporary ideological challenges. As a former atheist who embraced Islam, he brings deep insights into debates on atheism, secularism, and the existence of God. His lectures explore the rational foundations of Islamic belief, demonstrating how faith is not just spiritual but intellectually fulfilling. Hamza engages with scholars, academics, and students, breaking down complex ideas into simple concepts, and empowering Muslims with confidence in their faith. His work with iERA (Islamic Education and Research Academy) has contributed significantly to da’wah efforts worldwide."
+          desc: "Ustadh Hamza Tzortzis is a prominent Muslim intellectual and da'ee specializing in Islamic philosophy, theology, and contemporary ideological challenges. As a former atheist who embraced Islam, he brings deep insights into debates on atheism, secularism, and the existence of God. His lectures explore the rational foundations of Islamic belief, demonstrating how faith is not just spiritual but intellectually fulfilling. Hamza engages with scholars, academics, and students, breaking down complex ideas into simple concepts, and empowering Muslims with confidence in their faith. His work with iERA (Islamic Education and Research Academy) has contributed significantly to da’wah efforts worldwide.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Hamza-Tzortzis.jpg"
         },
         {
           name: "Mikaeel Smith",
           rssUrl: "https://muslimcentral.com/audio/mikaeel-smith/feed/",
-          desc: "Ustadh Mikaeel Smith is a scholar, teacher, and author focusing on Islamic character development, emotional intelligence, and the prophetic way of living. His lectures delve into the spiritual and psychological dimensions of Islam, exploring how faith can nurture inner peace, resilience, and positive relationships. He passionately emphasizes the importance of prophetic manners (akhlaq), dealing with emotions through an Islamic lens, and fostering a strong connection with Allah through love and mindfulness. With a soothing and empathetic teaching style, he helps listeners connect with their faith on a personal and transformative level."
-        },
-        {
-          name: "The Deen Show",
-          rssUrl: "https://muslimcentral.com/audio/the-deen-show/feed/",
-          desc: "Hosted by Eddie Redzovic, The Deen Show is one of the most well-known Islamic talk shows designed for both Muslims and non-Muslims. With a focus on educating the public about Islam, Eddie interviews scholars, da'ees, and converts, addressing misconceptions and answering common questions about faith. The show covers a wide range of topics, including Islamic history, the purpose of life, health, fitness, and current events. The Deen Show is particularly known for featuring inspiring conversion stories, highlighting individuals from different backgrounds who found Islam. Through engaging discussions, it provides practical guidance for living a fulfilling and God-conscious life."
-        },
-        {
-          name: "Riyadul Haqq",
-          rssUrl: "https://muslimcentral.com/audio/riyadul-haqq/feed/",
-          desc: "Shaykh Riyadul Haqq is a deeply knowledgeable Islamic scholar specializing in classical Islamic studies, seerah, Hadith, and Islamic history. His lectures are meticulously researched, providing detailed insights into the lives of the Prophet Muhammad (PBUH), the Sahaba, and the early generations of Islam. Known for his eloquent delivery and scholarly depth, he addresses contemporary challenges through the lens of traditional knowledge, offering wisdom and guidance to help Muslims navigate their faith in modern society. His talks emphasize purification of the heart, adherence to the Sunnah, and the significance of living a life rooted in Islamic values."
+          desc: "Ustadh Mikaeel Smith is a scholar, teacher, and author focusing on Islamic character development, emotional intelligence, and the prophetic way of living. His lectures delve into the spiritual and psychological dimensions of Islam, exploring how faith can nurture inner peace, resilience, and positive relationships. He passionately emphasizes the importance of prophetic manners (akhlaq), dealing with emotions through an Islamic lens, and fostering a strong connection with Allah through love and mindfulness. With a soothing and empathetic teaching style, he helps listeners connect with their faith on a personal and transformative level.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Mikaeel-Smith.jpg"
         },
         {
           name: "Jamal Abdinasir",
           rssUrl: "https://muslimcentral.com/audio/jamal-abdinasir/feed/",
-          desc: "Sheikh Jamal Abdinasir is an inspiring speaker known for his ability to make Islamic teachings accessible and applicable to everyday life. His lectures focus on self-improvement, spirituality, and family values, helping listeners build a stronger connection with their faith. He frequently addresses issues faced by Muslim youth, offering practical advice on navigating modern challenges while remaining steadfast in Islam. His engaging and motivational talks resonate with audiences seeking a deeper understanding of their faith."
+          desc: "Sheikh Jamal Abdinasir is an inspiring speaker known for his ability to make Islamic teachings accessible and applicable to everyday life. His lectures focus on self-improvement, spirituality, and family values, helping listeners build a stronger connection with their faith. He frequently addresses issues faced by Muslim youth, offering practical advice on navigating modern challenges while remaining steadfast in Islam. His engaging and motivational talks resonate with audiences seeking a deeper understanding of their faith.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Jamal-Abdinasir.jpg"
         },
         {
           name: "Ikram Sanaullah",
           rssUrl: "https://muslimcentral.com/audio/ikram-sanaullah/feed/",
-          desc: "Ustadh Ikram Sanaullah is a passionate speaker dedicated to strengthening the faith of young Muslims. His lectures highlight the importance of Islamic identity, community involvement, and developing good character. Through storytelling and real-life examples, he connects with listeners on a personal level, encouraging them to embody Islamic values in their daily lives. His talks serve as a source of motivation for youth facing societal pressures, providing them with a strong foundation in Islamic teachings."
+          desc: "Ustadh Ikram Sanaullah is a passionate speaker dedicated to strengthening the faith of young Muslims. His lectures highlight the importance of Islamic identity, community involvement, and developing good character. Through storytelling and real-life examples, he connects with listeners on a personal level, encouraging them to embody Islamic values in their daily lives. His talks serve as a source of motivation for youth facing societal pressures, providing them with a strong foundation in Islamic teachings.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Ikram-Sanaullah.jpg"
         },
         {
           name: "Iqbal Gora",
           rssUrl: "https://muslimcentral.com/audio/iqbal-gora/feed/",
-          desc: "Sheikh Iqbal Gora delivers insightful lectures on Islamic spirituality, the meaning of worship, and the significance of maintaining a strong relationship with Allah. His talks focus on personal development, patience, and gratitude as key aspects of a fulfilling Islamic life. He emphasizes the transformative power of faith, encouraging Muslims to develop sincerity in their worship and excellence in their daily interactions."
+          desc: "Sheikh Iqbal Gora delivers insightful lectures on Islamic spirituality, the meaning of worship, and the significance of maintaining a strong relationship with Allah. His talks focus on personal development, patience, and gratitude as key aspects of a fulfilling Islamic life. He emphasizes the transformative power of faith, encouraging Muslims to develop sincerity in their worship and excellence in their daily interactions.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Iqbal-Gora.jpg"
         },
         {
           name: "Isam Rajab",
           rssUrl: "https://muslimcentral.com/audio/isam-rajab/feed/",
-          desc: "Dr. Isam Rajab is a distinguished Islamic scholar specializing in Fiqh (Islamic jurisprudence) and ethics. His lectures provide detailed discussions on various aspects of Islamic law, including halal and haram, financial ethics, and family issues. He simplifies complex rulings for a broad audience, making Islamic law more accessible and practical for everyday life. His scholarly approach blends traditional Islamic knowledge with modern-day applications."
+          desc: "Dr. Isam Rajab is a distinguished Islamic scholar specializing in Fiqh (Islamic jurisprudence) and ethics. His lectures provide detailed discussions on various aspects of Islamic law, including halal and haram, financial ethics, and family issues. He simplifies complex rulings for a broad audience, making Islamic law more accessible and practical for everyday life. His scholarly approach blends traditional Islamic knowledge with modern-day applications.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Isam-Rajab.jpg"
         },
         {
           name: "Khalid Yasin",
           rssUrl: "https://muslimcentral.com/audio/khalid-yasin/feed/",
-          desc: "Sheikh Khalid Yasin is a renowned da'ee known for his passionate and thought-provoking lectures on Islam. His powerful speeches cover topics such as Tawheed (the oneness of Allah), the purpose of life, and the role of Muslims in contemporary society. He has traveled extensively, giving lectures and debates that address misconceptions about Islam, while inviting people to explore the truth of the religion. His lectures leave a lasting impact on both Muslims and non-Muslims alike."
+          desc: "Sheikh Khalid Yasin is a renowned da'ee known for his passionate and thought-provoking lectures on Islam. His powerful speeches cover topics such as Tawheed (the oneness of Allah), the purpose of life, and the role of Muslims in contemporary society. He has traveled extensively, giving lectures and debates that address misconceptions about Islam, while inviting people to explore the truth of the religion. His lectures leave a lasting impact on both Muslims and non-Muslims alike.",
+          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Khalid-Yasin.jpg",
         },
-        {
-          name: "Safi Khan",
-          rssUrl: "https://muslimcentral.com/audio/safi-khan/feed/",
-          desc: "Imam Safi Khan is a highly respected Islamic scholar and community leader focusing on the role of family, community engagement, and personal transformation. His lectures offer guidance on marriage, parenting, and societal issues from an Islamic perspective. He encourages Muslims to be active members of their communities while upholding strong Islamic principles. His work has helped shape the lives of many, strengthening faith and fostering a sense of responsibility among Muslims."
-        }
       ],
       durationFilter: "",
       sortBy: "most-viewed",
@@ -261,11 +250,11 @@ export default {
       toastType: '',
       podcasts: [],
       filteredPodcasts: [],
-      loading: true,
+      loading: false,
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
       currentPage: 1,
-      podcastsPerPage: 9,
+      podcastsPerPage: 7,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       sortOption: 'mostViewed',
@@ -428,8 +417,6 @@ export default {
       this.fetchPodcasts();
     },
 
-
-
     applyDateFilter(filtered) {
       const now = new Date();
       return filtered.filter(podcast => {
@@ -464,13 +451,13 @@ export default {
       if (!this.selectedPodcast) return;
 
       this.loading = true;
+      this.podcasts = [];
       this.rssUrl = this.selectedPodcast.rssUrl;
 
       try {
         // Use a CORS proxy to fetch the RSS feed
         const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(this.rssUrl)}`);
         const data = await response.json();
-
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data.contents, "text/xml");
         const items = xmlDoc.getElementsByTagName("item");
@@ -481,11 +468,12 @@ export default {
             pubDate: item.getElementsByTagName("pubDate")[0]?.textContent || "Unknown",
             description: item.getElementsByTagName("description")[0]?.textContent || "No description available.",
             audioUrl: item.getElementsByTagName("enclosure")[0]?.getAttribute("url") || null,
+            // audioUrl: this.getAudioUrl(item),
+
             views: Math.floor(Math.random() * 1000),
             duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
             language: this.detectLanguage(item.getElementsByTagName("title")[0]?.textContent || '') // Detect language
-          }))
-          .filter(podcast => podcast.audioUrl); // Remove items without audio
+          })).filter(podcast => podcast.audioUrl); // Remove items without audio
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -494,6 +482,11 @@ export default {
         this.loading = false;
       }
     },
+
+    // getAudioUrl(item) {
+    //   const enclosure = item.getElementsByTagName("enclosure")[0];
+    //   return enclosure ? enclosure.getAttribute("url") : null;
+    // },
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
