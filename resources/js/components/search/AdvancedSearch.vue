@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Search Input Group -->
-    <div v-if="!isPremium">
+    <div >
 
       <div class="container input-group pb-2" style="position: relative; width: 100%;">
         <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Explore the words of the Quran"
@@ -198,7 +198,6 @@ export default {
 
   data() {
     return {
-      isPremium: true,
       data: [],
       errorMessage: '',
       selectedAyah: null,

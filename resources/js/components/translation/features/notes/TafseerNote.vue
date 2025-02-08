@@ -17,7 +17,6 @@
          Basic
         </label>
        </div> 
-       <!-- v-if="isPremium"  -->
        <div v-if="!isPremium" class="col" >
         <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio" v-model="inputMode">
         <label class="form-check-label" for="audioMode">
@@ -36,7 +35,7 @@
 
      <div class="mt-3">
       <!-- Audio Recording Mode -->
-      <div v-if="isPremium && inputMode === 'audio'">
+      <div v-if=" inputMode === 'audio'">
        <div class="container text-center">
         <div class="row">
          <div class="col">
@@ -69,10 +68,10 @@
       </div>
 
       <!-- Rich Text Editor Mode -->
-      <Editor v-if="isPremium && inputMode === 'editor'" v-model="form.ayah_notes" editorStyle="height: 400px" name="ayah_notes" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></Editor>
+      <Editor v-if=" inputMode === 'editor'" v-model="form.ayah_notes" editorStyle="height: 400px" name="ayah_notes" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></Editor>
 
       <!-- Basic Mode -->
-      <textarea v-if="!isPremium && inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></textarea>
+      <textarea v-if=" inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></textarea>
      </div>
 
      <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
@@ -121,7 +120,7 @@ export default {
    isListening: false,
    isPaused: false,
    recognition: null,
-   isPremium:false,
+  //  isPremium:false,
    form: {
     ayah_notes: "",
     surah_name: ""

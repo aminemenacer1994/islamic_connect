@@ -1,137 +1,67 @@
 <template>
     <div id="app">
-        
+
         <div class="pt-3 text-center">
             <Title />
 
-            <div
-                style="display: flex"
-                class="container align-items-center"
-            ></div>
-            <AdvancedSearch
-                v-if="!isVisible"
-                @input-change="handleInputChange"
-            />
-            <custom-surah-selection
-                :customSurat="customSuratList"
-                v-model="selectedSurah"
-            ></custom-surah-selection>
-
-            
-        <!-- accordion headers -->
-        <div class="row container-fluid">
-            <div class="col-md-4 container">
-                <FilteredSurahList
-                    :filteredSurah="filteredSurah"
-                    @select-surah="selectSurahFromResults"
-                />
-
-                <div style="display: flex" class="row">
-                    <AyahOfTheDay />
-                    <SurahDropdown
-                        class="col-md-12 pt-2"
-                        :selectedSurah="selectedSurahId"
-                        :filteredSurah="filteredSurah"
-                        :surat="surat"
-                        @update:selectedSurah="updateSelectedSurah"
-                        @fetchAyat="getAyat"
-                    />
-
-                    <AddBookmark />
-                </div>
-                <AyahDropdown
-                    :selectedSurahId="selectedSurahId"
-                    :dropdownHidden="dropdownHidden"
-                    @update-information="updateInformation"
-                    @update-tafseer="updateTafseer"
-                    v-if="ayah == null && !dropdownHidden"
-                    class="ayah-dropdown-hidden-on-desktop d-block d-md-none"
-                />
+            <div style="display: flex" class="container align-items-center"></div>
+            <AdvancedSearch v-if="!isVisible" @input-change="handleInputChange" />
+            <custom-surah-selection :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
 
 
-                <!-- List of Ayat for Surah (desktop) -->
-                <div
-                    class="tab-content hide-on-mobile-tablet"
-                    id="nav-tabContent"
-                    v-if="ayah == null && !dropdownHidden"
-                 >
-                    <div
-                        class="tab-pane fade show active"
-                        id="nav-home"
-                        role="tabpanel"
-                        aria-labelledby="nav-home-tab"
-                        v-if="ayah == null"
-                    >
-                        <form
-                            class="d-flex pb-2"
-                            role="search"
-                            @submit.prevent="scrollToAyah"
-                        >
-                            <input
-                                class="form-control me-2"
-                                type="number"
-                                placeholder="Enter Verse Number"
-                                v-model="verseNumber"
-                                required
-                            />
-                            <button
-                                class="btn btn-success mb-1 ml-2"
-                                style="background: #00bfa6"
-                                type="submit"
-                            >
-                                Search
-                            </button>
-                        </form>
+            <!-- accordion headers -->
+            <div class="row container-fluid">
+                <div class="col-md-4 container">
+                    <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" />
 
-                        <!-- Error alert -->
-                        <ErrorAlert
-                            :showError="showError"
-                            @dismiss-error="dismissError"
-                        />
+                    <div style="display: flex" class="row">
+                        <AyahOfTheDay />
+                        <SurahDropdown class="col-md-12 pt-2" :selectedSurah="selectedSurahId"
+                            :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
+                            @fetchAyat="getAyat" />
 
-                        <div class="row container-fluid">
-                            <hr
-                                class="container"
-                                style="height: 4px; background: lightgrey"
-                            />
+                        <AddBookmark />
+                    </div>
+                    <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
+                        @update-information="updateInformation" @update-tafseer="updateTafseer"
+                        v-if="ayah == null && !dropdownHidden"
+                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
 
-                            <div
-                                :selectedSurahId="selectedSurah"
-                                @update-tafseer="updateTafseer"
-                                @update-information="updateInformation"
-                                :style="iconStyle"
-                                class="icon-container pb-2"
-                            >
-                                <i
-                                    class="bi bi-chevron-bar-left h4 custom-first-verse desktop-icon"
-                                    style="cursor: pointer"
-                                    @click="goToFirstAyah"
-                                    title="First verse"
-                                ></i>
-                                <i
-                                    class="bi bi-arrow-left-circle h4 custom-prev-ayah desktop-icon"
-                                    style="cursor: pointer"
-                                    @click="goToPreviousAyah"
-                                    title="Previous verse"
-                                ></i>
-                                <i
-                                    class="bi bi-arrow-right-circle h4 custom-next-ayah desktop-icon"
-                                    style="cursor: pointer"
-                                    @click="goToNextAyah"
-                                    title="Next verse"
-                                ></i>
-                                <i
-                                    class="bi bi-chevron-bar-right h4 custom-last-verse desktop-icon"
-                                    style="cursor: pointer"
-                                    @click="goToLastAyah"
-                                    title="Last verse"
-                                ></i>
-                                <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
-                            </div>
 
-                            <div
-                                class="custom-scrollbar pb-5"
-                                style="
+                    <!-- List of Ayat for Surah (desktop) -->
+                    <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
+                        v-if="ayah == null && !dropdownHidden">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                            aria-labelledby="nav-home-tab" v-if="ayah == null">
+                            <form class="d-flex pb-2" role="search" @submit.prevent="scrollToAyah">
+                                <input class="form-control me-2" type="number" placeholder="Enter Verse Number"
+                                    v-model="verseNumber" required />
+                                <button class="btn btn-success mb-1 ml-2" style="background: #00bfa6" type="submit">
+                                    Search
+                                </button>
+                            </form>
+
+                            <!-- Error alert -->
+                            <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
+
+                            <div class="row container-fluid">
+                                <hr class="container" style="height: 4px; background: lightgrey" />
+
+                                <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                    @update-information="updateInformation" :style="iconStyle"
+                                    class="icon-container pb-2">
+                                    <i class="bi bi-chevron-bar-left h4 custom-first-verse desktop-icon"
+                                        style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
+                                    <i class="bi bi-arrow-left-circle h4 custom-prev-ayah desktop-icon"
+                                        style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
+                                    <i class="bi bi-arrow-right-circle h4 custom-next-ayah desktop-icon"
+                                        style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
+                                    <i class="bi bi-chevron-bar-right h4 custom-last-verse desktop-icon"
+                                        style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
+                                    <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
+                                </div>
+
+                                <div class="custom-scrollbar pb-5" style="
                                     overflow-y: auto;
                                     max-height: 600px;
                                     background: white;
@@ -139,1189 +69,526 @@
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
                                             12px -2px,
                                         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-                                "
-                            >
-                                <ul
-                                    class="col-md-12 list-group container-fluid root"
-                                    id="toggle"
-                                    ref="ayahList"
-                                    style="list-style-type: none"
-                                >
-                                    <li
-                                        v-for="(ayah, index) in ayat"
-                                        :key="index"
-                                        @click="selectAyah(index)"
-                                        :class="{
-                                            selected:
-                                                selectedIndexAyah === index ||
-                                                (verseNumber &&
-                                                    parseInt(verseNumber) ===
+                                ">
+                                    <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList"
+                                        style="list-style-type: none">
+                                        <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
+                                            :class="{
+                                                selected:
+                                                    selectedIndexAyah === index ||
+                                                    (verseNumber &&
+                                                        parseInt(verseNumber) ===
                                                         ayah.ayah_id),
-                                        }"
-                                        style="
+                                            }" style="
                                             padding: 10px;
                                             border-radius: 10px;
-                                        "
-                                    >
-                                        <h5
-                                            class="text-right"
-                                            style="display: flex"
-                                        >
-                                            Verse: {{ ayah.ayah_id }}
-                                        </h5>
-                                        <h5 class="text-right">
-                                            {{ ayah.ayah_text }}
-                                        </h5>
-                                    </li>
-                                </ul>
+                                        ">
+                                            <h5 class="text-right" style="display: flex">
+                                                Verse: {{ ayah.ayah_id }}
+                                            </h5>
+                                            <h5 class="text-right">
+                                                {{ ayah.ayah_text }}
+                                            </h5>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-8 card-hide">
-                <div
-                    class="card content"
-                    style="
+                <div class="col-md-8 card-hide">
+                    <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-                    "
-                >
-                    <div class="content">
-                        <div
-                            class="container-fluid content"
-                            v-if="information != null"
-                        >
-                            <div class="row">
-                                <NavTabs />
-                                <!-- toogle between basic/advanced -->
-                                <div class="container text-center">
-                                    <div
-                                        class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light"
-                                    >
-                                        <div class="col">
-                                            <span class="fw-semibold text-muted"
-                                                >Advanced</span
-                                            >
-                                        </div>
-                                        <div class="col">
-                                            <div
-                                                class="form-check form-switch d-flex justify-content-center align-items-center"
-                                            >
-                                                <input
-                                                    class="form-check-input pr-5 custom-switch shadow-lg text-center"
-                                                    style="
+                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                        <div class="content">
+                            <div class="container-fluid content" v-if="information != null">
+                                <div class="row">
+                                    <NavTabs />
+                                    <!-- toogle between basic/advanced -->
+                                    <div class="container text-center">
+                                        <div
+                                            class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
+                                            <div class="col">
+                                                <span class="fw-semibold text-muted">Advanced</span>
+                                            </div>
+                                            <div class="col">
+                                                <div
+                                                    class="form-check form-switch d-flex justify-content-center align-items-center">
+                                                    <input
+                                                        class="form-check-input pr-5 custom-switch shadow-lg text-center"
+                                                        style="
                                                         border-color: #00bfa6;
                                                         color: #00bfa6;
-                                                    "
-                                                    type="checkbox"
-                                                    role="switch"
-                                                    id="flexSwitchCheckDefault"
-                                                    v-model="isVisible"
-                                                    @change="saveToggleState"
-                                                />
+                                                    " type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                                        v-model="isVisible" @change="saveToggleState" />
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <span class="fw-semibold text-muted">Basic</span>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <span class="fw-semibold text-muted"
-                                                >Basic</span
-                                            >
+                                    </div>
+                                </div>
+                                <!-- Surah info Modal -->
+                                <div class="modal fade" id="translationInfo" tabindex="-1"
+                                    aria-labelledby="surahInfoModalLabel" aria-hidden="true" @click.self="closeModal">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="surahInfoModalLabel">
+                                                    <strong>Surah Information</strong>
+                                                </h1>
+                                                <button type="button" class="btn-close" @click="closeModal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="container text-left">
+                                                    <div class="mb-3 container" v-if="
+                                                        information.ayah &&
+                                                        information.ayah.surah
+                                                    ">
+                                                        <label for="formGroupExampleInput" class="form-label">Surah Name
+                                                            (English):</label>
+                                                        <p class="mt-2 text-dark text-left">
+                                                            {{
+                                                                information.ayah
+                                                                    .surah.name_en
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="mb-3 container" v-if="
+                                                        information.ayah &&
+                                                        information.ayah.surah
+                                                    ">
+                                                        <label for="formGroupExampleInput"
+                                                            class="form-label text-left">Surah
+                                                            Information:</label>
+                                                        <p class="text-left">
+                                                            {{
+                                                                information.ayah
+                                                                    .surah.text
+                                                            }}
+                                                        </p>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    @click="closeModal">
+                                                    Close
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Surah info Modal -->
-                            <div
-                                class="modal fade"
-                                id="translationInfo"
-                                tabindex="-1"
-                                aria-labelledby="surahInfoModalLabel"
-                                aria-hidden="true"
-                                @click.self="closeModal"
-                            >
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1
-                                                class="modal-title fs-5"
-                                                id="surahInfoModalLabel"
-                                            >
-                                                <strong
-                                                    >Surah Information</strong
-                                                >
-                                            </h1>
-                                            <button
-                                                type="button"
-                                                class="btn-close"
-                                                @click="closeModal"
-                                                aria-label="Close"
-                                            ></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form class="container text-left">
-                                                <div
-                                                    class="mb-3 container"
-                                                    v-if="
-                                                        information.ayah &&
-                                                        information.ayah.surah
-                                                    "
-                                                >
-                                                    <label
-                                                        for="formGroupExampleInput"
-                                                        class="form-label"
-                                                        >Surah Name
-                                                        (English):</label
-                                                    >
-                                                    <p
-                                                        class="mt-2 text-dark text-left"
-                                                    >
-                                                        {{
-                                                            information.ayah
-                                                                .surah.name_en
-                                                        }}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    class="mb-3 container"
-                                                    v-if="
-                                                        information.ayah &&
-                                                        information.ayah.surah
-                                                    "
-                                                >
-                                                    <label
-                                                        for="formGroupExampleInput"
-                                                        class="form-label text-left"
-                                                        >Surah
-                                                        Information:</label
-                                                    >
-                                                    <p class="text-left">
-                                                        {{
-                                                            information.ayah
-                                                                .surah.text
-                                                        }}
-                                                    </p>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary"
-                                                data-bs-dismiss="modal"
-                                                @click="closeModal"
-                                            >
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="card-body content" id="alertContainer">
-                            <div class="tab-content text-center">
-                                <Welcome :information="information" />
+                            <div class="card-body content" id="alertContainer">
+                                <div class="tab-content text-center">
+                                    <Welcome :information="information" />
 
-                                <!-- Translation Section -->
-                                <div
-                                    class="tab-pane active content"
-                                    id="home"
-                                    role="tabpanel"
-                                    v-if="information != null"
-                                >
-                                    <!-- desktop top features -->
-                                    <div v-if="!isVisible" :style="iconStyle">
-                                        <div class="col pb-2">
-                                            <i
-                                                :class="
-                                                    isOpen
+                                    <!-- Translation Section -->
+                                    <div class="tab-pane active content" id="home" role="tabpanel"
+                                        v-if="information != null">
+                                        <!-- desktop top features -->
+                                        <div v-if="!isVisible" :style="iconStyle">
+                                            <div class="col pb-2">
+                                                <i :class="isOpen
                                                         ? 'bi bi-x-circle-fill'
                                                         : 'bi bi-plus-circle-fill'
-                                                "
-                                                class="text-left hide-on-mobile h4"
-                                                @click="toggleContent"
-                                            ></i>
-                                        </div>
-                                        <div
-                                            v-if="isOpen"
-                                            class="hide-on-mobile"
-                                        >
-                                            <div class="text-center">
-                                                <div class="row pt-2">
-                                                    <div
-                                                        class="col desktop-icon"
-                                                    >
-                                                        <i
-                                                            class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                            style="
-                                                                cursor: pointer;
-                                                            "
-                                                            aria-expanded="false"
-                                                            data-bs-placement="top"
-                                                            title="Write a note"
-                                                            @click="
-                                                                openModal(
-                                                                    'translationNote'
-                                                                )
-                                                            "
-                                                        ></i>
-                                                    </div>
-                                                    <div
-                                                        class="col desktop-icon"
-                                                    >
-                                                        <i
-                                                            @click="submitForm"
-                                                            style="
-                                                                cursor: pointer;
-                                                            "
-                                                            class="bi bi-bookmark text-right mr-2 h4"
-                                                            aria-expanded="false"
-                                                            title="Bookmark verse"
-                                                        ></i>
-                                                    </div>
-                                                    <!-- <div class="col desktop-icon"><ScreenTranslationCapture style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div> -->
-                                                    <!-- <div class="col" v-if="isVisible"><PdfDownload style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div>                 -->
-                                                    <!-- <div class="col"><VideoModal  @save-video-data="handleSave" /><i class="bi bi-play-circle h3" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#videoModal"></i></div> -->
-                                                    <!-- <div class="col"><i class="bi bi-paint-bucket h2" data-bs-toggle="offcanvas" style="cursor:pointer" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i></div> -->
-                                                    <div
-                                                        class="col desktop-icon"
-                                                    >
-                                                        <i
-                                                            style="
-                                                                cursor: pointer;
-                                                            "
-                                                            class="bi bi-info-circle h4 mr-2 pl-2"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#translationInfo"
-                                                            aria-expanded="false"
-                                                            data-bs-placement="top"
-                                                            title="Surah info"
-                                                        ></i>
-                                                    </div>
-                                                    <div
-                                                        class="col desktop-icon"
-                                                    >
-                                                        <i
-                                                            title="Give feedback"
-                                                            style="
-                                                                cursor: pointer;
-                                                            "
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal"
-                                                            class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
-                                                            aria-expanded="false"
-                                                            data-bs-placement="top"
-                                                        ></i>
-                                                    </div>
-                                                    <div
-                                                        class="col desktop-icon"
-                                                    >
-                                                        <i
-                                                            class="bi bi-arrows-fullscreen h4"
-                                                            style="
-                                                                cursor: pointer;
-                                                            "
-                                                            @click="
-                                                                toggleFullScreen
-                                                            "
-                                                            title="Full screen"
-                                                        ></i>
-                                                    </div>
-                                                </div>
+                                                    " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
                                             </div>
-                                            <hr
-                                                style="border: 2px solid #333"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <!-- mobile navigation  -->
-                                    <div class="dropdown mobile-only pb-2">
-                                        <div
-                                            :style="iconStyle"
-                                            class="icon-container"
-                                        >
-                                            <i
-                                                @click="submitForm"
-                                                class="bi bi-bookmark mb-2 h4"
-                                                aria-expanded="false"
-                                                data-bs-placement="top"
-                                                title="Bookmark verse"
-                                            ></i>
-                                            <i
-                                                class="bi bi-chevron-bar-left h4"
-                                                style="cursor: pointer"
-                                                @click="goToFirstAyah()"
-                                                title="Last verse"
-                                            ></i>
-                                            <i
-                                                class="bi bi-arrow-left-circle h4"
-                                                style="cursor: pointer"
-                                                @click="goToPreviousAyah()"
-                                                title="Previous verse"
-                                            ></i>
-                                            <i
-                                                class="bi bi-arrow-right-circle h4"
-                                                style="cursor: pointer"
-                                                @click="goToNextAyah()"
-                                                title="Next verse"
-                                            ></i>
-                                            <i
-                                                class="bi bi-chevron-bar-right h4"
-                                                style="cursor: pointer"
-                                                @click="goToLastAyah()"
-                                                title="End verse"
-                                            ></i>
-                                            <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
-                                            <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
-                                        </div>
-                                    </div>
-                                    <!-- dropdown mobile content -->
-                                    <div>
-                                        <div
-                                            class="pt-2"
-                                            ref="targetTranslationElement"
-                                        >
-                                            <TranslationSection
-                                                :currentAyah="currentAyah"
-                                                :isVisible="!isVisible"
-                                                :information="information"
-                                                :isFullScreen="isFullScreen"
-                                                :expanded="expanded"
-                                                :showMoreLink="showMoreLink"
-                                                :showAlertText="showAlertText"
-                                                :showAlert="showAlert"
-                                                :showErrorAlert="showErrorAlert"
-                                                :showAlertTextNote="
-                                                    showAlertTextNote
-                                                "
-                                                :isPlaying="isPlaying"
-                                                @highlightText="highlightText"
-                                                @clearHighlight="clearHighlight"
-                                                @toggle-change="saveToggleState"
-                                                @toggle-full-screen="
-                                                    toggleFullScreen
-                                                "
-                                                @toggle-expand="toggleExpand"
-                                                @close-alert-text="
-                                                    closeAlertText
-                                                "
-                                                @toggle-audio="
-                                                    toggleAudioPlayback
-                                                "
-                                                @update-success-message="
-                                                    updateSuccessMessage
-                                                "
-                                            />
-                                        </div>
-
-                                        <div
-                                            v-if="!isVisible"
-                                            class="container-fluid text-center mobile-only"
-                                        >
-                                            <div class="row">
-                                                <div class="col">
-                                                    <i
-                                                        :class="
-                                                            isOpen
-                                                                ? 'bi bi-x-circle'
-                                                                : 'bi bi-plus-circle-fill'
-                                                        "
-                                                        class="text-center mobile-only h3 pt-3"
-                                                        @click="toggleContent"
-                                                    ></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- toolbar mobile -->
-                                        <div
-                                            v-if="isOpen"
-                                            class="collapse-content mobile-only"
-                                        >
-                                            <div
-                                                v-if="!isVisible"
-                                                class="card text-bg-light card-body"
-                                            >
-                                                <TranslationActions
-                                                    :targetTranslationRef="'targetTranslationElement'"
-                                                    :translation="translation"
-                                                    @open-modal="openModal"
-                                                    @submit-form="submitForm"
-                                                    @toggle-audio="
-                                                        toggleAudioPlayback
-                                                    "
-                                                    :isPlaying="isPlaying"
-                                                ></TranslationActions>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Tafseer Section -->
-                                <div
-                                    class="tab-pane content"
-                                    id="profile"
-                                    role="tabpanel"
-                                    v-if="information != null"
-                                >
-                                    <div>
-                                        <!-- desktop top features -->
-                                        <div
-                                            v-if="!isVisible"
-                                            :style="iconStyle"
-                                        >
-                                            <div class="col pb-2">
-                                                <i
-                                                    :class="
-                                                        isOpen
-                                                            ? 'bi bi-x-circle-fill'
-                                                            : 'bi bi-plus-circle-fill'
-                                                    "
-                                                    class="text-left hide-on-mobile h4"
-                                                    @click="toggleContent"
-                                                ></i>
-                                            </div>
-                                            <div
-                                                v-if="isOpen"
-                                                class="icon-container-fluid hide-on-mobile"
-                                            >
+                                            <div v-if="isOpen" class="hide-on-mobile">
                                                 <div class="text-center">
                                                     <div class="row pt-2">
-                                                        <div
-                                                            class="col desktop-icon"
-                                                        >
-                                                            <i
-                                                                style="
-                                                                    cursor: pointer;
-                                                                "
-                                                                class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                aria-expanded="false"
-                                                                data-bs-placement="top"
-                                                                title="Write a note"
-                                                                @click="
+                                                        <div class="col desktop-icon">
+                                                            <i class="bi bi-file-earmark-text text-right mr-2 h4" style="
+                                                                cursor: pointer;
+                                                            " aria-expanded="false" data-bs-placement="top"
+                                                                title="Write a note" @click="
                                                                     openModal(
-                                                                        'tafseerNote'
+                                                                        'translationNote'
                                                                     )
-                                                                "
-                                                            ></i>
+                                                                    "></i>
                                                         </div>
-                                                        <div
-                                                            class="col desktop-icon"
-                                                        >
-                                                            <i
-                                                                @click="
-                                                                    submitFormTafseer
-                                                                "
-                                                                style="
-                                                                    cursor: pointer;
-                                                                "
-                                                                class="bi bi-bookmark text-right mr-2 h4"
-                                                                aria-expanded="false"
-                                                                data-bs-placement="top"
-                                                                title="Bookmark verse"
-                                                            ></i>
+                                                        <div class="col desktop-icon">
+                                                            <i @click="submitForm" style="
+                                                                cursor: pointer;
+                                                            " class="bi bi-bookmark text-right mr-2 h4"
+                                                                aria-expanded="false" title="Bookmark verse"></i>
                                                         </div>
-                                                        <!-- <div class="col desktop-icon"><ScreenTafseerCapture style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'" /></div> -->
-                                                        <!-- <div class="col"><PdfDownloadTafsser style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'"/></div> -->
-                                                        <div
-                                                            class="col desktop-icon"
-                                                        >
-                                                            <i
-                                                                style="
-                                                                    cursor: pointer;
-                                                                "
-                                                                class="bi bi-info-circle h4 mr-2 pl-2"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#translationInfo"
-                                                                aria-expanded="false"
-                                                                data-bs-placement="top"
-                                                                title="Surah info"
-                                                            ></i>
+                                                        <!-- <div class="col desktop-icon"><ScreenTranslationCapture style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div> -->
+                                                        <!-- <div class="col" v-if="isVisible"><PdfDownload style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div>                 -->
+                                                        <!-- <div class="col"><VideoModal  @save-video-data="handleSave" /><i class="bi bi-play-circle h3" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#videoModal"></i></div> -->
+                                                        <!-- <div class="col"><i class="bi bi-paint-bucket h2" data-bs-toggle="offcanvas" style="cursor:pointer" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i></div> -->
+                                                        <div class="col desktop-icon">
+                                                            <i style="
+                                                                cursor: pointer;
+                                                            " class="bi bi-info-circle h4 mr-2 pl-2"
+                                                                data-bs-toggle="modal" data-bs-target="#translationInfo"
+                                                                aria-expanded="false" data-bs-placement="top"
+                                                                title="Surah info"></i>
                                                         </div>
-                                                        <div
-                                                            class="col desktop-icon"
-                                                        >
-                                                            <i
-                                                                title="Give feedback"
-                                                                style="
-                                                                    cursor: pointer;
-                                                                "
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                class="bi bi-chat-left-text text-right mr-2 h4"
-                                                                aria-expanded="false"
-                                                                data-bs-placement="top"
-                                                            ></i>
+                                                        <div class="col desktop-icon">
+                                                            <i title="Give feedback" style="
+                                                                cursor: pointer;
+                                                            " data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                                class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
+                                                                aria-expanded="false" data-bs-placement="top"></i>
                                                         </div>
-                                                        <div
-                                                            class="col desktop-icon"
-                                                        >
-                                                            <i
-                                                                class="bi bi-arrows-fullscreen h4"
-                                                                style="
-                                                                    cursor: pointer;
-                                                                "
-                                                                @click="
-                                                                    toggleFullScreen
-                                                                "
-                                                                title="Full screen"
-                                                                aria-expanded="false"
-                                                                data-bs-placement="top"
-                                                            ></i>
+                                                        <div class="col desktop-icon">
+                                                            <i class="bi bi-arrows-fullscreen h4" style="
+                                                                cursor: pointer;
+                                                            " @click="toggleFullScreen
+                                                                " title="Full screen"></i>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr
-                                                    style="
-                                                        border: 2px solid #333;
-                                                    "
-                                                />
+                                                <hr style="border: 2px solid #333" />
                                             </div>
                                         </div>
 
                                         <!-- mobile navigation  -->
-                                        <div class="dropdown mobile-only">
-                                            <div
-                                                :style="iconStyle"
-                                                class="icon-container pb-2"
-                                            >
-                                                <i
-                                                    @click="submitFormTafseer"
-                                                    class="bi bi-bookmark mb-2 h4"
-                                                    aria-expanded="false"
-                                                    data-bs-placement="top"
-                                                    title="Bookmark verse"
-                                                ></i>
-                                                <i
-                                                    class="bi bi-chevron-bar-left h4"
-                                                    style="cursor: pointer"
-                                                    @click="goToFirstAyah()"
-                                                    title="Last verse"
-                                                ></i>
-                                                <i
-                                                    class="bi bi-arrow-left-circle h4"
-                                                    style="cursor: pointer"
-                                                    @click="goToPreviousAyah()"
-                                                    title="Previous verse"
-                                                ></i>
-                                                <i
-                                                    class="bi bi-arrow-right-circle h4"
-                                                    style="cursor: pointer"
-                                                    @click="goToNextAyah()"
-                                                    title="Next verse"
-                                                ></i>
-                                                <i
-                                                    class="bi bi-chevron-bar-right h4"
-                                                    style="cursor: pointer"
-                                                    @click="goToLastAyah()"
-                                                    title="End verse"
-                                                ></i>
-                                                <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
+                                        <div class="dropdown mobile-only pb-2">
+                                            <div :style="iconStyle" class="icon-container">
+                                                <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
+                                                    aria-expanded="false" data-bs-placement="top"
+                                                    title="Bookmark verse"></i>
+                                                <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                    @click="goToFirstAyah()" title="Last verse"></i>
+                                                <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                    @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                    @click="goToNextAyah()" title="Next verse"></i>
+                                                <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                    @click="goToLastAyah()" title="End verse"></i>
                                                 <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
+                                                <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <!-- Main content  -->
-                                    <div
-                                        class="pt-2"
-                                        ref="targetTafseerElement"
-                                    >
-                                        <TafseerSection
-                                            :currentAyah="currentAyah"
-                                            :isVisible="!isVisible"
-                                            :information="information"
-                                            :isFullScreen="isFullScreen"
-                                            :expanded="expanded"
-                                            :showMoreLink="showMoreLink"
-                                            :showAlertText="showAlertText"
-                                            :showAlert="showAlert"
-                                            :showErrorAlert="showErrorAlert"
-                                            :showAlertTextNote="
-                                                showAlertTextNote
-                                            "
-                                            :isPlaying="isPlaying"
-                                            @highlightText="highlightText"
-                                            @clearHighlight="clearHighlight"
-                                            @toggle-change="saveToggleState"
-                                            @toggle-full-screen="
-                                                toggleFullScreen
-                                            "
-                                            @toggle-expand="toggleExpand"
-                                            @close-alert-text="closeAlertText"
-                                            @toggle-audio="toggleAudioPlayback"
-                                            @update-success-message="
-                                                updateSuccessMessage
-                                            "
-                                        />
-                                    </div>
-
-                                    <div
-                                        v-if="!isVisible"
-                                        class="container-fluid text-center mobile-only"
-                                    >
-                                        <div class="row">
-                                            <div class="col">
-                                                <i
-                                                    :class="
-                                                        isOpen
-                                                            ? 'bi bi-x-circle'
-                                                            : 'bi bi-plus-circle-fill'
-                                                    "
-                                                    class="text-center mobile-only h3 pt-3"
-                                                    @click="toggleContent"
-                                                ></i>
+                                        <!-- dropdown mobile content -->
+                                        <div>
+                                            <div class="pt-2" ref="targetTranslationElement">
+                                                <TranslationSection :currentAyah="currentAyah" :isVisible="!isVisible"
+                                                    :information="information" :isFullScreen="isFullScreen"
+                                                    :expanded="expanded" :showMoreLink="showMoreLink"
+                                                    :showAlertText="showAlertText" :showAlert="showAlert"
+                                                    :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
+                                                        " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                    @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
+                                                    @toggle-full-screen="toggleFullScreen
+                                                        " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
+                                                    " @toggle-audio="toggleAudioPlayback
+                                                    " @update-success-message="updateSuccessMessage
+                                                    " />
                                             </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- toolbar mobile -->
-                                    <div
-                                        v-if="isOpen"
-                                        class="collapse-content mobile-only"
-                                    >
-                                        <div
-                                            v-if="!isVisible"
-                                            class="card text-bg-light card-body"
-                                        >
-                                            <TafseerActions
-                                                :targetTranslationRef="'targetTranslationElement'"
-                                                :translation="translation"
-                                                @open-modal="openModal"
-                                                @submit-form="submitFormTafseer"
-                                                @toggle-audio="
-                                                    toggleAudioPlayback
-                                                "
-                                                :isPlaying="isPlaying"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <SurahInfoModal
-                                        :information="information"
-                                    />
-                                </div>
-
-                                <!-- Transliteration Section -->
-                                <div
-                                    class="tab-pane content"
-                                    id="messages"
-                                    role="tabpanel"
-                                    v-if="information != null"
-                                >
-                                    <div>
-                                        <!-- Ayah Controls -->
-                                        <div class="pb-3">
-                                            <!-- desktop top features -->
-                                            <div :style="iconStyle">
-                                                <div
-                                                    v-if="!isVisible"
-                                                    class="col pb-2"
-                                                >
-                                                    <i
-                                                        :class="
-                                                            isOpen
-                                                                ? 'bi bi-x-circle-fill'
+                                            <div v-if="!isVisible" class="container-fluid text-center mobile-only">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <i :class="isOpen
+                                                                ? 'bi bi-x-circle'
                                                                 : 'bi bi-plus-circle-fill'
-                                                        "
-                                                        class="text-left hide-on-mobile h4"
-                                                        @click="toggleContent"
-                                                    ></i>
+                                                            " class="text-center mobile-only h3 pt-3"
+                                                            @click="toggleContent"></i>
+                                                    </div>
                                                 </div>
-                                                <div
-                                                    v-if="isOpen"
-                                                    class="hide-on-mobile"
-                                                >
+                                            </div>
+
+                                            <!-- toolbar mobile -->
+                                            <div v-if="isOpen" class="collapse-content mobile-only">
+                                                <div v-if="!isVisible" class="card text-bg-light card-body">
+                                                    <TranslationActions
+                                                        :targetTranslationRef="'targetTranslationElement'"
+                                                        :translation="translation" @open-modal="openModal"
+                                                        @submit-form="submitForm" @toggle-audio="toggleAudioPlayback
+                                                            " :isPlaying="isPlaying"></TranslationActions>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tafseer Section -->
+                                    <div class="tab-pane content" id="profile" role="tabpanel"
+                                        v-if="information != null">
+                                        <div>
+                                            <!-- desktop top features -->
+                                            <div v-if="!isVisible" :style="iconStyle">
+                                                <div class="col pb-2">
+                                                    <i :class="isOpen
+                                                            ? 'bi bi-x-circle-fill'
+                                                            : 'bi bi-plus-circle-fill'
+                                                        " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
+                                                </div>
+                                                <div v-if="isOpen" class="icon-container-fluid hide-on-mobile">
                                                     <div class="text-center">
                                                         <div class="row pt-2">
-                                                            <div
-                                                                class="col desktop-icon"
-                                                            >
-                                                                <i
-                                                                    style="
-                                                                        cursor: pointer;
-                                                                    "
-                                                                    class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                    aria-expanded="false"
-                                                                    data-bs-placement="top"
-                                                                    title="Write a note"
-                                                                    @click="
+                                                            <div class="col desktop-icon">
+                                                                <i style="
+                                                                    cursor: pointer;
+                                                                " class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                    aria-expanded="false" data-bs-placement="top"
+                                                                    title="Write a note" @click="
                                                                         openModal(
-                                                                            'transliterationNote'
+                                                                            'tafseerNote'
                                                                         )
-                                                                    "
-                                                                ></i>
+                                                                        "></i>
                                                             </div>
-                                                            <div
-                                                                class="col desktop-icon"
-                                                            >
-                                                                <i
-                                                                    @click="
-                                                                        submitFormTransliteration
-                                                                    "
-                                                                    style="
-                                                                        cursor: pointer;
-                                                                    "
-                                                                    class="bi bi-bookmark text-right mr-2 h4"
-                                                                    aria-expanded="false"
-                                                                    title="Bookmark verse"
-                                                                ></i>
+                                                            <div class="col desktop-icon">
+                                                                <i @click="submitFormTafseer
+                                                                    " style="
+                                                                    cursor: pointer;
+                                                                " class="bi bi-bookmark text-right mr-2 h4"
+                                                                    aria-expanded="false" data-bs-placement="top"
+                                                                    title="Bookmark verse"></i>
                                                             </div>
-                                                            <!-- <div class="col desktop-icon"><ScreenTransliterationCapture style="cursor:pointer"  :targetTransliterationRef="'targetTransliterationElement'" /></div> -->
-                                                            <!-- <div class="col"><PdfDownloadTransliteration style="cursor:pointer"  :targetTransliterationRef="'targetTransliterationElement'" /></div> -->
-                                                            <div
-                                                                class="col desktop-icon"
-                                                            >
-                                                                <i
-                                                                    style="
-                                                                        cursor: pointer;
-                                                                    "
-                                                                    class="bi bi-info-circle h4 mr-2 pl-2"
+                                                            <!-- <div class="col desktop-icon"><ScreenTafseerCapture style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'" /></div> -->
+                                                            <!-- <div class="col"><PdfDownloadTafsser style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'"/></div> -->
+                                                            <div class="col desktop-icon">
+                                                                <i style="
+                                                                    cursor: pointer;
+                                                                " class="bi bi-info-circle h4 mr-2 pl-2"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#translationInfo"
-                                                                    aria-expanded="false"
-                                                                    data-bs-placement="top"
-                                                                    title="Surah info"
-                                                                ></i>
+                                                                    aria-expanded="false" data-bs-placement="top"
+                                                                    title="Surah info"></i>
                                                             </div>
-                                                            <div
-                                                                class="col desktop-icon"
-                                                            >
-                                                                <i
-                                                                    title="Give feedback"
-                                                                    style="
-                                                                        cursor: pointer;
-                                                                    "
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal"
+                                                            <div class="col desktop-icon">
+                                                                <i title="Give feedback" style="
+                                                                    cursor: pointer;
+                                                                " data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                                     class="bi bi-chat-left-text text-right mr-2 h4"
-                                                                    aria-expanded="false"
-                                                                    data-bs-placement="top"
-                                                                ></i>
+                                                                    aria-expanded="false" data-bs-placement="top"></i>
                                                             </div>
-                                                            <!-- <div class="col"><VideoModal  @save-video-data="handleSave" /><i class="bi bi-play-circle h3" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#videoModal"></i></div> -->
-                                                            <!-- <div class="col"><i class="bi bi-paint-bucket h2" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i></div> -->
-                                                            <div
-                                                                class="col desktop-icon"
-                                                            >
-                                                                <i
-                                                                    class="bi bi-arrows-fullscreen h4"
-                                                                    style="
-                                                                        cursor: pointer;
-                                                                    "
-                                                                    @click="
-                                                                        toggleFullScreen
-                                                                    "
-                                                                    title="Full screen"
-                                                                ></i>
+                                                            <div class="col desktop-icon">
+                                                                <i class="bi bi-arrows-fullscreen h4" style="
+                                                                    cursor: pointer;
+                                                                " @click="toggleFullScreen
+                                                                    " title="Full screen" aria-expanded="false"
+                                                                    data-bs-placement="top"></i>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <hr
-                                                        style="
-                                                            border: 2px solid
-                                                                #333;
-                                                        "
-                                                    />
+                                                    <hr style="
+                                                        border: 2px solid #333;
+                                                    " />
                                                 </div>
                                             </div>
 
-                                            <!-- mobile navigation -->
+                                            <!-- mobile navigation  -->
                                             <div class="dropdown mobile-only">
-                                                <div
-                                                    :style="iconStyle"
-                                                    class="icon-container"
-                                                >
-                                                    <i
-                                                        @click="
-                                                            submitFormTransliteration
-                                                        "
-                                                        class="bi bi-bookmark mb-2 h4"
-                                                        aria-expanded="false"
-                                                        data-bs-placement="top"
-                                                        title="Bookmark verse"
-                                                    ></i>
-                                                    <i
-                                                        class="bi bi-chevron-bar-left h4"
-                                                        style="cursor: pointer"
-                                                        @click="goToFirstAyah()"
-                                                        title="Last verse"
-                                                    ></i>
-                                                    <i
-                                                        class="bi bi-arrow-left-circle h4"
-                                                        style="cursor: pointer"
-                                                        @click="goToPreviousAyah()"
-                                                        title="Previous verse"
-                                                    ></i>
-                                                    <i
-                                                        class="bi bi-arrow-right-circle h4"
-                                                        style="cursor: pointer"
-                                                        @click="goToNextAyah()"
-                                                        title="Next verse"
-                                                    ></i>
-                                                    <i
-                                                        class="bi bi-chevron-bar-right h4"
-                                                        style="cursor: pointer"
-                                                        @click="goToLastAyah()"
-                                                        title="End verse"
-                                                    ></i>
+                                                <div :style="iconStyle" class="icon-container pb-2">
+                                                    <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
+                                                        aria-expanded="false" data-bs-placement="top"
+                                                        title="Bookmark verse"></i>
+                                                    <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                        @click="goToFirstAyah()" title="Last verse"></i>
+                                                    <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                        @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                    <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                        @click="goToNextAyah()" title="Next verse"></i>
+                                                    <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                        @click="goToLastAyah()" title="End verse"></i>
                                                     <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
                                                     <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div ref="targetTransliterationElement">
-                                            <TransliterationSection
-                                                :currentAyah="currentAyah"
-                                                :isVisible="!isVisible"
-                                                :information="information"
-                                                :isFullScreen="isFullScreen"
-                                                :expanded="expanded"
-                                                :showMoreLink="showMoreLink"
-                                                :showAlertText="showAlertText"
-                                                :showAlert="showAlert"
-                                                :showErrorAlert="showErrorAlert"
-                                                :showAlertTextNote="
-                                                    showAlertTextNote
-                                                "
-                                                :isPlaying="isPlaying"
-                                                @highlightText="highlightText"
-                                                @clearHighlight="clearHighlight"
-                                                @toggle-change="saveToggleState"
-                                                @toggle-full-screen="
-                                                    toggleFullScreen
-                                                "
-                                                @toggle-expand="toggleExpand"
-                                                @close-alert-text="
-                                                    closeAlertText
-                                                "
-                                                @toggle-audio="
-                                                    toggleAudioPlayback
-                                                "
-                                            />
+                                        <!-- Main content  -->
+                                        <div class="pt-2" ref="targetTafseerElement">
+                                            <TafseerSection :currentAyah="currentAyah" :isVisible="!isVisible"
+                                                :information="information" :isFullScreen="isFullScreen"
+                                                :expanded="expanded" :showMoreLink="showMoreLink"
+                                                :showAlertText="showAlertText" :showAlert="showAlert"
+                                                :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote
+                                                    " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
+                                                @toggle-full-screen="toggleFullScreen
+                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
+                                                @toggle-audio="toggleAudioPlayback" @update-success-message="updateSuccessMessage
+                                                    " />
                                         </div>
 
-                                        <div
-                                            v-if="!isVisible"
-                                            class="container-fluid text-center mobile-only"
-                                        >
+                                        <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                             <div class="row">
                                                 <div class="col">
-                                                    <i
-                                                        :class="
-                                                            isOpen
-                                                                ? 'bi bi-x-circle'
-                                                                : 'bi bi-plus-circle-fill'
-                                                        "
-                                                        class="text-center mobile-only h3 pt-3"
-                                                        @click="toggleContent"
-                                                    ></i>
+                                                    <i :class="isOpen
+                                                            ? 'bi bi-x-circle'
+                                                            : 'bi bi-plus-circle-fill'
+                                                        " class="text-center mobile-only h3 pt-3"
+                                                        @click="toggleContent"></i>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- toolbar mobile -->
-                                        <div
-                                            v-if="isOpen"
-                                            class="collapse-content mobile-only"
-                                        >
-                                            <div
-                                                v-if="!isVisible"
-                                                class="card text-bg-light card-body"
-                                            >
-                                                <TransliterationActions
-                                                    :targetTranslationRef="'targetTranslationElement'"
-                                                    :translation="translation"
-                                                    @open-modal="openModal"
-                                                    @submit-form="
-                                                        submitFormTransliteration
-                                                    "
-                                                    @toggle-audio="
-                                                        toggleAudioPlayback
-                                                    "
-                                                    :isPlaying="isPlaying"
-                                                />
+                                        <div v-if="isOpen" class="collapse-content mobile-only">
+                                            <div v-if="!isVisible" class="card text-bg-light card-body">
+                                                <TafseerActions :targetTranslationRef="'targetTranslationElement'"
+                                                    :translation="translation" @open-modal="openModal"
+                                                    @submit-form="submitFormTafseer" @toggle-audio="toggleAudioPlayback
+                                                        " :isPlaying="isPlaying" />
                                             </div>
                                         </div>
-                                        <!-- end toolbar mobile -->
 
-                                        <SurahInfoModal
-                                            :information="information"
-                                        />
+                                        <SurahInfoModal :information="information" />
+                                    </div>
+
+                                    <!-- Transliteration Section -->
+                                    <div class="tab-pane content" id="messages" role="tabpanel"
+                                        v-if="information != null">
+                                        <div>
+                                            <!-- Ayah Controls -->
+                                            <div class="pb-3">
+                                                <!-- desktop top features -->
+                                                <div :style="iconStyle">
+                                                    <div v-if="!isVisible" class="col pb-2">
+                                                        <i :class="isOpen
+                                                                ? 'bi bi-x-circle-fill'
+                                                                : 'bi bi-plus-circle-fill'
+                                                            " class="text-left hide-on-mobile h4"
+                                                            @click="toggleContent"></i>
+                                                    </div>
+                                                    <div v-if="isOpen" class="hide-on-mobile">
+                                                        <div class="text-center">
+                                                            <div class="row pt-2">
+                                                                <div class="col desktop-icon">
+                                                                    <i style="
+                                                                        cursor: pointer;
+                                                                    " class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                        aria-expanded="false" data-bs-placement="top"
+                                                                        title="Write a note" @click="
+                                                                            openModal(
+                                                                                'transliterationNote'
+                                                                            )
+                                                                            "></i>
+                                                                </div>
+                                                                <div class="col desktop-icon">
+                                                                    <i @click="submitFormTransliteration
+                                                                        " style="
+                                                                        cursor: pointer;
+                                                                    " class="bi bi-bookmark text-right mr-2 h4"
+                                                                        aria-expanded="false"
+                                                                        title="Bookmark verse"></i>
+                                                                </div>
+                                                                <div class="col desktop-icon">
+                                                                    <i style="
+                                                                        cursor: pointer;
+                                                                    " class="bi bi-info-circle h4 mr-2 pl-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#translationInfo"
+                                                                        aria-expanded="false" data-bs-placement="top"
+                                                                        title="Surah info"></i>
+                                                                </div>
+                                                                <div class="col desktop-icon">
+                                                                    <i title="Give feedback" style="
+                                                                        cursor: pointer;
+                                                                    " data-bs-toggle="modal"
+                                                                        data-bs-target="#exampleModal"
+                                                                        class="bi bi-chat-left-text text-right mr-2 h4"
+                                                                        aria-expanded="false"
+                                                                        data-bs-placement="top"></i>
+                                                                </div>
+                                                                <div class="col desktop-icon">
+                                                                    <i class="bi bi-arrows-fullscreen h4" style="
+                                                                        cursor: pointer;
+                                                                    " @click="toggleFullScreen
+                                                                        " title="Full screen"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr style="
+                                                            border: 2px solid
+                                                                #333;
+                                                        " />
+                                                    </div>
+                                                </div>
+
+                                                <!-- mobile navigation -->
+                                                <div class="dropdown mobile-only">
+                                                    <div :style="iconStyle" class="icon-container">
+                                                        <i @click="submitFormTransliteration
+                                                            " class="bi bi-bookmark mb-2 h4" aria-expanded="false"
+                                                            data-bs-placement="top" title="Bookmark verse"></i>
+                                                        <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
+                                                            @click="goToFirstAyah()" title="Last verse"></i>
+                                                        <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
+                                                            @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                        <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
+                                                            @click="goToNextAyah()" title="Next verse"></i>
+                                                        <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
+                                                            @click="goToLastAyah()" title="End verse"></i>
+                                                        <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
+                                                        <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ref="targetTransliterationElement">
+                                                <TransliterationSection :currentAyah="currentAyah"
+                                                    :isVisible="!isVisible" :information="information"
+                                                    :isFullScreen="isFullScreen" :expanded="expanded"
+                                                    :showMoreLink="showMoreLink" :showAlertText="showAlertText"
+                                                    :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+                                                    :showAlertTextNote="showAlertTextNote
+                                                        " :isPlaying="isPlaying" @highlightText="highlightText"
+                                                    @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
+                                                    @toggle-full-screen="toggleFullScreen
+                                                        " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
+                                                    " @toggle-audio="toggleAudioPlayback
+                                                    " />
+                                            </div>
+
+                                            <div v-if="!isVisible" class="container-fluid text-center mobile-only">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <i :class="isOpen
+                                                                ? 'bi bi-x-circle'
+                                                                : 'bi bi-plus-circle-fill'
+                                                            " class="text-center mobile-only h3 pt-3"
+                                                            @click="toggleContent"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- toolbar mobile -->
+                                            <div v-if="isOpen" class="collapse-content mobile-only">
+                                                <div v-if="!isVisible" class="card text-bg-light card-body">
+                                                    <TransliterationActions
+                                                        :targetTranslationRef="'targetTranslationElement'"
+                                                        :translation="translation" @open-modal="openModal" @submit-form="submitFormTransliteration
+                                                            " @toggle-audio="toggleAudioPlayback
+                                                        " :isPlaying="isPlaying" />
+                                                </div>
+                                            </div>
+                                            <!-- end toolbar mobile -->
+
+                                            <SurahInfoModal :information="information" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <CorrectionModal />
+
+                            <!-- Modals -->
+                            <TranslationNote ref="translationNote" :information="modalInformation" />
+                            <TafseerNote ref="tafseerNote" :information="modalInformation" />
+                            <TransliterationNote ref="transliterationNote" :information="modalInformation" />
                         </div>
-
-                        <CorrectionModal />
-
-                        <!-- Modals -->
-                        <TranslationNote
-                            ref="translationNote"
-                            :information="modalInformation"
-                        />
-                        <TafseerNote
-                            ref="tafseerNote"
-                            :information="modalInformation"
-                        />
-                        <TransliterationNote
-                            ref="transliterationNote"
-                            :information="modalInformation"
-                        />
-                    </div>
-                    <!-- <audio v-if="information != null" 
+                        <!-- <audio v-if="information != null" 
                         ref="audioPlayer" 
                         :src="fullAudioLink"  
                         class="w-100 custom-audio" 
                         loop controls 
                         />  -->
-                </div>
-
-                <!-- theme styles -->
-                <div
-                    class="offcanvas offcanvas-end custom-offcanvas"
-                    tabindex="-1"
-                    id="styleOffcanvas"
-                    aria-labelledby="styleOffcanvasLabel"
-                 >
-                    <div class="offcanvas-header">
-                        <h4
-                            class="offcanvas-title"
-                            style="color: white"
-                            id="styleOffcanvasLabel"
-                        >
-                            Customize Your Layout
-                        </h4>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                        ></button>
                     </div>
-                    <div class="offcanvas-body" style="color: white">
-                        <form>
-                            <div class="row">
-                                <!-- Row: Select Default Style -->
-                                <!-- <div class="col-md-12 mb-3"> -->
-                                <!-- <label for="styleSelect" class="form-label">Select Custom Style Theme </label>
-                <select id="styleSelect" v-model="selectedStyle" @change="applyStyle" class="form-control">
-                    <option v-for="style in defaultStyles" :key="style.name" :value="style">
-                    {{ style.name }}
-                    </option>
-                </select>
-                </div>
-                <hr class="container"> -->
-                                <!-- Row: Background Color -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="bgColor" class="form-label"
-                                        >Background Color:</label
-                                    >
-                                    <input
-                                        type="color"
-                                        id="bgColor"
-                                        v-model="bgColor"
-                                        class="form-control color-input"
-                                    />
-                                </div>
 
-                                <!-- Row: Icon Color -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="iconColor" class="form-label"
-                                        >Icons Color:</label
-                                    >
-                                    <input
-                                        type="color"
-                                        id="iconColor"
-                                        v-model="iconColor"
-                                        class="form-control"
-                                    />
-                                </div>
-
-                                <!-- Row: Text Color -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="textColor" class="form-label"
-                                        >Text Color:</label
-                                    >
-                                    <input
-                                        type="color"
-                                        id="textColor"
-                                        v-model="textColor"
-                                        class="form-control"
-                                    />
-                                </div>
-
-                                <!-- Row: Shadow Style -->
-                                <div class="col-md-12 mb-3">
-                                    <label
-                                        for="shadow-dropdown"
-                                        class="form-label"
-                                        >Shadow Style</label
-                                    >
-                                    <select
-                                        v-model="selectedShadow"
-                                        id="shadow-dropdown"
-                                        class="form-control"
-                                    >
-                                        <option
-                                            v-for="shadow in shadows"
-                                            :key="shadow.name"
-                                            :value="shadow.style"
-                                        >
-                                            {{ shadow.name }}
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <!-- Row: Font Family -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="fontFamily" class="form-label"
-                                        >Font Family</label
-                                    >
-                                    <select
-                                        id="fontFamily"
-                                        v-model="fontFamily"
-                                        class="form-control"
-                                    >
-                                        <option
-                                            v-for="font in fontFamilies"
-                                            :key="font"
-                                            :value="font"
-                                        >
-                                            {{ font }}
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <!-- Row: Font Style Checkboxes -->
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Font Style</label>
-                                    <div class="d-flex gap-3">
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                id="boldCheckbox"
-                                                v-model="isBold"
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="boldCheckbox"
-                                                >Bold</label
-                                            >
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                id="italicCheckbox"
-                                                v-model="isItalic"
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="italicCheckbox"
-                                                >Italic</label
-                                            >
-                                        </div>
-                                        <div class="form-check">
-                                            <input
-                                                class="form-check-input"
-                                                type="checkbox"
-                                                id="lightCheckbox"
-                                                v-model="isLight"
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="lightCheckbox"
-                                                >Light</label
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Row: Text Transformation -->
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label"
-                                        >Text Transformation</label
-                                    >
-                                    <select
-                                        v-model="textTransform"
-                                        class="form-control"
-                                     >
-                                        <option value="none">None</option>
-                                        <option value="uppercase">
-                                            Uppercase
-                                        </option>
-                                        <option value="lowercase">
-                                            Lowercase
-                                        </option>
-                                        <option value="capitalize">
-                                            Capitalize
-                                        </option>
-                                    </select>
-                                </div>
-
-                                <!-- Row: Font Size -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="fontSize" class="form-label"
-                                        >Font Size (px)</label
-                                    >
-                                    <input
-                                        type="number"
-                                        id="fontSize"
-                                        v-model.number="fontSize"
-                                        class="form-control"
-                                    />
-                                </div>
-
-                                <!-- Row: Font Spacing -->
-                                <div class="col-md-12 mb-3">
-                                    <label for="fontSpacing" class="form-label"
-                                        >Font Spacing (px)</label
-                                    >
-                                    <input
-                                        type="number"
-                                        id="fontSpacing"
-                                        v-model.number="fontSpacing"
-                                        class="form-control"
-                                    />
-                                </div>
-
-                                <!-- Success message -->
-                                <div
-                                    v-if="showSuccessMessage"
-                                    class="alert alert-success"
-                                    role="alert"
-                                >
-                                    Styles have been successfully applied!
-                                </div>
-
-                                <div class="col-md-12 mb-3 d-flex gap-3">
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary flex-grow-1"
-                                        data-bs-dismiss="offcanvas"
-                                    >
-                                        Close
-                                    </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-success flex-grow-1"
-                                        @click="applyCustomStyles"
-                                    >
-                                        Apply Styles
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -1449,7 +716,6 @@ export default {
 
     data() {
         return {
-            isPremium: false,
             selectedSurahId: 1,
             isVisible: false,
             showAudio: false,
@@ -1701,15 +967,15 @@ export default {
                 fontWeight: this.isBold
                     ? "bold"
                     : this.isLight
-                    ? "300"
-                    : "normal",
+                        ? "300"
+                        : "normal",
                 fontStyle: this.isItalic ? "italic" : "normal",
                 textShadow: this.selectedShadow,
                 textDecoration: this.isUnderline
                     ? "underline"
                     : this.isStrikethrough
-                    ? "line-through"
-                    : "none",
+                        ? "line-through"
+                        : "none",
                 textTransform: this.textTransform,
                 textAlign: this.textAlign,
             };
@@ -1727,7 +993,7 @@ export default {
         },
     },
     methods: {
-        
+
         setSelectedSurah(value) {
             console.log(value);
             this.selectedSurah = value;
@@ -1755,7 +1021,7 @@ export default {
         //     this.ayat = [];
         // },
         fetchAyat: async function () {
-            
+
             try {
                 this.isLoading = true;
                 const response = await axios.get("/get_ayat", {
@@ -2031,15 +1297,15 @@ export default {
                 card.style.fontWeight = this.isBold
                     ? "bold"
                     : this.isLight
-                    ? "300"
-                    : "normal";
+                        ? "300"
+                        : "normal";
                 card.style.fontStyle = this.isItalic ? "italic" : "normal";
                 card.style.textShadow = this.selectedShadow;
                 card.style.textDecoration = this.isUnderline
                     ? "underline"
                     : this.isStrikethrough
-                    ? "line-through"
-                    : "none";
+                        ? "line-through"
+                        : "none";
                 card.style.textTransform = this.textTransform;
                 card.style.textAlign = this.textAlign;
                 card.style.iconColor = this.iconColor;
@@ -2500,7 +1766,6 @@ export default {
 </script>
 
 <style scoped src="./css/styles.css">
-
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -2568,7 +1833,8 @@ export default {
 }
 
 .selected {
-    background-color: #d1e7dd; /* Change this to your selected color */
+    background-color: #d1e7dd;
+    /* Change this to your selected color */
 }
 
 .custom-offcanvas {
@@ -2576,22 +1842,33 @@ export default {
     color: white;
     width: 40%;
 }
+
 .custom-prev-ayah:hover {
-    color: black; /* Default color */
-    transition: color 0.3s ease; /* Smooth transition */
+    color: black;
+    /* Default color */
+    transition: color 0.3s ease;
+    /* Smooth transition */
 }
+
 .custom-prev-ayah:hover {
-    color: black; /* Default color */
-    transition: color 0.3s ease; /* Smooth transition */
+    color: black;
+    /* Default color */
+    transition: color 0.3s ease;
+    /* Smooth transition */
 }
+
 .custom-last-verse:hover {
-    color: black; /* Default color */
-    transition: color 0.3s ease; /* Smooth transition */
+    color: black;
+    /* Default color */
+    transition: color 0.3s ease;
+    /* Smooth transition */
 }
+
 .highlight {
     background-color: yellow;
     font-weight: bold;
 }
+
 .result-item {
     padding: 10px;
     border-bottom: 1px solid #ccc;
@@ -2629,7 +1906,7 @@ export default {
 
 .price-card.featured {
     border-color: var(--accent-color);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .price {

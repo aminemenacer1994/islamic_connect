@@ -171,7 +171,6 @@ export default {
       words: [],
       timestamps: [],
       highlightedAyah: "",
-      // isPremium: true,
     };
   },
   mounted() {

@@ -18,15 +18,14 @@
                     Basic
                   </label>
                 </div>
-                <!-- v-if="isPremium"  -->
-                <div v-if="isPremium" class="col">
+                <div class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio"
                     v-model="inputMode">
                   <label class="form-check-label" for="audioMode">
                     Audio Note Recording
                   </label>
                 </div>
-                <div v-if="isPremium" class="col">
+                <div class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor"
                     v-model="inputMode">
                   <label class="form-check-label" for="editorMode">
@@ -37,7 +36,7 @@
             </div>
 
             <!-- Audio Recording Mode -->
-            <div v-if="isPremium && inputMode === 'audio'">
+            <div v-if="inputMode === 'audio'">
               <div class="container text-center">
                 <div class="row">
                   <div class="col">
@@ -68,28 +67,29 @@
 
 
               <!-- Rich Text Editor Mode -->
-              <Editor v-if="isPremium && inputMode === 'editor'" v-model="form.ayah_notes" name="ayah_notes"
+              <Editor v-if="inputMode === 'editor'" v-model="form.ayah_notes" name="ayah_notes"
                 :placeholder="editorPlaceholder" editorStyle="height: 400px"></Editor>
 
               <!-- Basic Mode -->
-              <textarea v-if="!isPremium && inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5"
+              <textarea v-if="inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5"
                 placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></textarea>
 
             </div>
 
             <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
-        <b style="margin-right: 10px;" class="pr-2">Make your note either:</b>
-        <div style="display: flex; align-items: center;">
-        <div class="form-check form-check-inline" style="margin-right: 15px;">
-          <input class="form-check-input" type="radio" name="option" v-model="option" id="public" value="0">
-          <label class="form-check-label" for="public" style="margin-left: 5px;">Public</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="option" v-model="option" id="private" value="1">
-          <label class="form-check-label" for="private" style="margin-left: 5px;">Private</label>
-        </div>
-        </div>
-      </div> -->
+                <b style="margin-right: 10px;" class="pr-2">Make your note either:</b>
+                <div style="display: flex; align-items: center;">
+                <div class="form-check form-check-inline" style="margin-right: 15px;">
+                  <input class="form-check-input" type="radio" name="option" v-model="option" id="public" value="0">
+                  <label class="form-check-label" for="public" style="margin-left: 5px;">Public</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="option" v-model="option" id="private" value="1">
+                  <label class="form-check-label" for="private" style="margin-left: 5px;">Private</label>
+                </div>
+                </div>
+              </div> 
+            -->
 
 
             <div class="modal-footer">
@@ -127,14 +127,12 @@ import {
 export default {
   data() {
     return {
-      isPremium: false,
       isAuthenticated: false,
       editorPlaceholder: "Write your personal reflections and notes here. Let your connection to the Quran grow.",
       inputMode: 'basic',
       option: 0,
       isListening: false,
       recognition: null,
-      isPremium: false,
       form: {
         ayah_notes: "",
         surah_name: ""
@@ -143,8 +141,6 @@ export default {
   },
   components: {
     Editor,
-  },
-  computed: {
   },
   mounted() {
     this.initRecognition();

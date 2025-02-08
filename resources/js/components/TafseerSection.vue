@@ -27,11 +27,11 @@
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
               <hr />
-              <div v-if="!isPremium" class="text-left word-count mt-2">
+              <div  class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
-              <div v-if="isPremium" class="row collapse pt-3" id="collapseExample">
+              <div class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
                   <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                     <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -61,7 +61,7 @@
           </div>
 
           <!-- Icons Column (Stacked Vertically) -->
-          <div v-if="!isPremium" class="col-2 d-flex align-items-center justify-content-center flex-column">
+          <div class="col-2 d-flex align-items-center justify-content-center flex-column">
             <!-- Play/Pause Button -->
             <i @click="toggleSpeech" :class="[
               'bi',
@@ -199,7 +199,6 @@ export default {
       surat: [],
       ayat: [],
       tafseers: [],
-      isPremium: false,
     };
   },
 
@@ -212,7 +211,7 @@ export default {
     //   // Replace this with the actual source of your text
     //   return document.querySelector('.ayah-translation').innerHTML;
     //  },
-    isPremium() { },
+    
   },
   mounted() {
     this.fetchTafseer(this.information.ayah.id);
@@ -964,8 +963,7 @@ export default {
         this.updateRenderedText(newTafseer); // Update displayed tafseer
       },
     },
-    isPremium() {
-    },
+    
   },
 
 };

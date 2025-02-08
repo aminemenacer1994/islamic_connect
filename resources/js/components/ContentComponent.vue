@@ -72,64 +72,22 @@
 
 
     <!-- Search Bar -->
-    <div class="row">
-      <div class="col-md-6 pb-3 text-center">
-
-        <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
-          <option disabled value="">Select a podcast</option>
-          <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
-            {{ podcast.name }}
-          </option>
-        </select>
-      </div>
-
+    <!-- Podcast Selection Dropdown -->
+    <div class="d-flex align-items-center justify-content-between pb-3">
+      <h5 >Select a Podcast:</h5>
+      <select class="form-select w-30" v-model="selectedPodcast" @change="fetchPodcasts">
+        <option disabled value="">Select a podcast</option>
+        <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
+          {{ podcast.name }}
+        </option>
+      </select>
     </div>
 
 
-    <!-- Date Filter -->
-    <div class="row">
-      <div class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedDateFilter" @change="onDateFilterChange">
-          <option value="" disabled>Select a Date Filter</option>
-          <option value="yearly">This Year</option>
-          <option value="monthly">This Month</option>
-          <option value="weekly">This Week</option>
-          <option value="daily">Today</option>
-        </select>
-      </div>
+    
 
-      <!-- Yearly Filter -->
-      <div v-if="selectedDateFilter === 'yearly'" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedYear" @change="onYearSelect">
-          <option value="" disabled>Select Year</option>
-          <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-        </select>
-      </div>
+    <div class="row" v-if="selectedPodcast">
 
-      <!-- Monthly Filter (Only If a Year Is Selected) -->
-      <div v-if="selectedDateFilter === 'yearly' && selectedYear" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedMonth" @change="onMonthSelect">
-          <option value="" disabled>Select Month</option>
-          <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-        </select>
-      </div>
-
-      <!-- Weekly Filter (Appears If a Month Is Selected in 'yearly' or If 'weekly' is chosen) -->
-      <div v-if="(selectedDateFilter === 'yearly' && selectedMonth) || selectedDateFilter === 'weekly'"
-        class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedWeek" @change="onWeekSelect">
-          <option value="" disabled>Select Week</option>
-          <option v-for="week in weeks" :key="week" :value="week">{{ week }}</option>
-        </select>
-      </div>
-
-      <!-- Daily Filter (Only If a Week Is Selected) -->
-      <div v-if="selectedWeek" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedDay" @change="updatePodcasts">
-          <option value="" disabled>Select Day</option>
-          <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-        </select>
-      </div>
     </div>
 
     <div class="pb-3 pt-3" v-if="selectedPodcast">
@@ -161,14 +119,20 @@
       </div>
     </div>
 
+    <!-- <div v-if="loading" class="text-center mt-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div> -->
+
     <!-- Podcast Cards -->
-    <div v-if="!loading && paginatedPodcasts.length">
+    <div v-if="podcasts.length > 0" >
       <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
         <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
           <div class="card h-100"
             style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
             <div class="card-body">
-              <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4>
+              <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
               <p class="text-muted">Views: {{ podcast.views }}</p>
               <p class="text-muted">Published on: {{ formatDate(podcast.pubDate) }}</p>
               <div class="container text-center d-flex justify-content-between" style="bottom: 0;">
@@ -176,12 +140,10 @@
                   @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
                 <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
                   style="cursor: pointer; font-size: 1.5rem;"></i>
-                <!-- Share on WhatsApp -->
                 <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(podcast)">
                 </i>
                 <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;" @click="downloadAudio(podcast)">
                 </i>
-
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -189,12 +151,6 @@
               Your browser does not support the audio element.
             </audio>
             <p v-else>No audio available for this podcast.</p>
-          </div>
-        </div>
-        <!-- Spinner Outside Cards -->
-        <div v-if="isDownloading" class="spinner-container">
-          <div class="spinner-border text-success" role="status">
-            <span class="visually-hidden">Downloading...</span>
           </div>
         </div>
       </div>
@@ -238,33 +194,40 @@ export default {
       selectedDateFilter: 'select date filter',
       selectedPodcast: "",
       islamicPodcasts: [
+        // {
+        //   name: "Bilal Assad",
+        //   rssUrl: "https://muslimcentral.com/audio/bilal-assad/feed/",
+        //   desc: "Shaykh Bilal Assad shares engaging lectures on Islamic history, theology, and contemporary issues."
+        // },
         {
-          name: "The Mad Mamluks",
-          rssUrl: "https://themadmamluks.libsyn.com/rss",
-          desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community."
+          name: "Abdur-Raheem McCarthy",
+          rssUrl: "https://muslimcentral.com/audio/abdur-raheem-mccarthy/feed/",
+          desc: "Shaykh Abdur-Raheem McCarthy discusses various Islamic topics, focusing on practical applications in daily life."
         },
         {
-
+          name: "Hamza Tzortzis",
+          rssUrl: "https://muslimcentral.com/audio/hamza-tzortzis/feed/",
+          desc: "Ustadh Hamza Tzortzis engages in discussions on Islamic philosophy, theology, and contemporary challenges."
+        },
+        {
+          name: "Mikaeel Smith",
+          rssUrl: "https://muslimcentral.com/audio/mikaeel-smith/feed/",
+          desc: "Ustadh Mikaeel Smith provides engaging discussions on Islamic character and emotional intelligence."
+        },
+        {
           name: "The Deen Show",
-          rssUrl: "https://thedeenshow.com/feed/podcast/",
-          desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you."
+          rssUrl: "https://muslimcentral.com/audio/the-deen-show/feed/",
+          desc: "Hosted by Eddie, this show interviews scholars and speakers about Islam and comparative religion."
         },
         {
-          name: "SeekersGuidance",
-          rssUrl: "https://seekersguidance.org/feed/podcast/",
-          desc: "SeekersGuidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide."
-        },
-        {
-          name: "Tech Won't Save Us",
-          rssUrl: "https://feeds.buzzsprout.com/1004689.rss",
-          desc: "Tech Won’t Save Us is a podcast hosted by Paris Marx that critically examines the narratives surrounding the tech industry. It challenges the myths of innovation, progress, and disruption, exposing how technology is often driven by corporate interests, profit motives, and political agendas rather than genuine social good. Through in-depth discussions with experts, journalists, and activists, the podcast explores the broader societal impacts of technological developments."
-        },
-        {
-          name: "test",
-          rssUrl: "https://www.understandingislam.org/feed/podcast",
-          desc: "A series dedicated to the lives of the first generation of Muslims."
+          name: "Riyadul Haqq",
+          rssUrl: "https://muslimcentral.com/audio/riyadul-haqq/feed/",
+          desc: "Shaykh Riyadul Haqq gives extensive lectures on the seerah, Hadith, and Islamic history."
         },
       ],
+      durationFilter: "",
+      sortBy: "most-viewed",
+      selectedDateFilter: "",
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
       showToast: false,
@@ -275,7 +238,7 @@ export default {
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
       currentPage: 1,
-      podcastsPerPage: 12,
+      podcastsPerPage: 9,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       sortOption: 'mostViewed',
@@ -307,6 +270,42 @@ export default {
   },
 
   methods: {
+    applyFilters() {
+      let filtered = [...this.podcasts];
+
+      // Apply Duration Filter
+      if (this.durationFilter) {
+        filtered = filtered.filter(podcast => {
+          if (this.durationFilter === "short") return podcast.duration <= 10;
+          if (this.durationFilter === "medium") return podcast.duration > 10 && podcast.duration <= 30;
+          if (this.durationFilter === "long") return podcast.duration > 30 && podcast.duration <= 60;
+          if (this.durationFilter === "veryLong") return podcast.duration > 60;
+          return true;
+        });
+      }
+
+      // Apply Date Filter
+      if (this.selectedDateFilter) {
+        const now = new Date();
+        filtered = filtered.filter(podcast => {
+          const pubDate = new Date(podcast.pubDate);
+          if (this.selectedDateFilter === "yearly") return pubDate.getFullYear() === now.getFullYear();
+          if (this.selectedDateFilter === "monthly") return pubDate.getFullYear() === now.getFullYear() && pubDate.getMonth() === now.getMonth();
+          if (this.selectedDateFilter === "weekly") return (now - pubDate) <= 7 * 24 * 60 * 60 * 1000;
+          if (this.selectedDateFilter === "daily") return now.toDateString() === pubDate.toDateString();
+          return true;
+        });
+      }
+
+      // Apply Sorting by Views
+      if (this.sortBy === "most-viewed") {
+        filtered.sort((a, b) => b.views - a.views);
+      } else if (this.sortBy === "least-viewed") {
+        filtered.sort((a, b) => a.views - b.views);
+      }
+
+      this.filteredPodcasts = filtered;
+    },
     shareOnWhatsApp(podcast) {
       if (!podcast || !podcast.audioUrl) {
         alert("Podcast information is missing!");
@@ -334,23 +333,25 @@ export default {
       link.click(); // Trigger the download
       document.body.removeChild(link); // Cleanup
     },
-    onDateFilterChange() {
-      this.selectedYear = null;
-      this.selectedMonth = null;
-      this.selectedWeek = null;
-      this.selectedDay = null;
-    },
+    // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
-      this.selectedMonth = null;
-      this.selectedWeek = null;
-      this.selectedDay = null;
+      this.selectedMonth = "";
+      this.selectedWeek = "";
+      this.selectedDay = "";
+      this.updatePodcasts();
     },
+
+    // When a month is selected, reset week/day and update podcasts
     onMonthSelect() {
-      this.selectedWeek = null;
-      this.selectedDay = null;
+      this.selectedWeek = "";
+      this.selectedDay = "";
+      this.updatePodcasts();
     },
+
+    // When a week is selected, reset day and update podcasts
     onWeekSelect() {
-      this.selectedDay = null;
+      this.selectedDay = "";
+      this.updatePodcasts();
     },
 
     // Fetch and update podcasts when filters change
@@ -439,21 +440,23 @@ export default {
       this.rssUrl = this.selectedPodcast.rssUrl;
 
       try {
-        const response = await fetch(this.rssUrl);
-        const data = await response.text();
+        // Use a CORS proxy to fetch the RSS feed
+        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(this.rssUrl)}`);
+        const data = await response.json();
+
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, 'text/xml');
-        const items = xmlDoc.getElementsByTagName('item');
+        const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+        const items = xmlDoc.getElementsByTagName("item");
 
         this.podcasts = Array.from(items)
           .map(item => ({
-            title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
-            pubDate: item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown',
-            description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
-            audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || null,
+            title: item.getElementsByTagName("title")[0]?.textContent || "No title",
+            pubDate: item.getElementsByTagName("pubDate")[0]?.textContent || "Unknown",
+            description: item.getElementsByTagName("description")[0]?.textContent || "No description available.",
+            audioUrl: item.getElementsByTagName("enclosure")[0]?.getAttribute("url") || null,
             views: Math.floor(Math.random() * 1000),
             duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
-            language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '') // Detect language
+            language: this.detectLanguage(item.getElementsByTagName("title")[0]?.textContent || '') // Detect language
           }))
           .filter(podcast => podcast.audioUrl); // Remove items without audio
 
@@ -464,7 +467,6 @@ export default {
         this.loading = false;
       }
     },
-
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
