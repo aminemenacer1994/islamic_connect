@@ -71,28 +71,29 @@
     <!-- </div> -->
 
 
-    
-    <!-- Podcast Selection Dropdown -->
-    <div class="d-flex align-items-center justify-content-between pb-3">
-      <h4>Select a Podcast:</h4>
-      <select class="form-select w-30" v-model="selectedPodcast" @change="fetchPodcasts">
-        <option disabled value="">Select a podcast</option>
-        <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
-          {{ podcast.name }}
-        </option>
-      </select>
+    <div class="row container">
+      <div class="col" style="display: flex;">
+        <h6 class="col-md-2 display-7 pt-2"><b>Select a Podcast:</b></h6>
+        <select class="col-md-6 form-select" v-model="selectedPodcast" @change="fetchPodcasts">
+          <option disabled value="">Select a podcast</option>
+          <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
+            {{ podcast.name }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div v-if="selectedPodcast" class="d-flex align-items-start pt-3">
       <div>
         <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
         <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
-      </div>      
-      <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-img" style="align-items: center; text-align: center;">
-
+        <h3 class="small container pb-2"><b>Total Episodes:</b> {{ selectedPodcast.episodeCount || 'Loading...' }}</h3>
+      </div>
+      <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-img w-95"
+        style="align-items: center; text-align: center;">
     </div>
 
-    <div class="row">
+    <div class="row pt-3">
       <div class="col-md-3" v-if="selectedPodcast">
         <select class="form-select" v-model="sortBy" @change="sortPodcasts">
           <option value="most-viewed">Most Viewed</option>
@@ -111,7 +112,7 @@
         </select>
       </div>
       <div class="mb-3 col-md-6" v-if="selectedPodcast">
-        <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery"
+        <input type="search" class="form-control" placeholder="Search Keyword..." v-model="searchQuery"
           @input="onSearch" />
       </div>
     </div>
@@ -125,7 +126,7 @@
     </div>
 
     <!-- Podcast Cards -->
-    <div v-else-if="paginatedPodcasts.length">
+    <div v-else-if="paginatedPodcasts.length" class="pt-3">
       <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
         <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
           <div class="card h-100"
@@ -176,6 +177,8 @@
 export default {
   data() {
     return {
+      allPodcasts: [],
+      displayedPodcasts: [],
       podcastMeta: new Map(),
       ddurationFilter: "",
       selectedYear: "",
@@ -191,54 +194,62 @@ export default {
       sortBy: 'most-viewed',
       selectedDateFilter: 'select date filter',
       selectedPodcast: "",
-      islamicPodcasts:[
+      islamicPodcasts: [
         {
           name: "Abdur-Raheem McCarthy",
           rssUrl: "https://muslimcentral.com/audio/abdur-raheem-mccarthy/feed/",
           desc: "Shaykh Abdur-Raheem McCarthy is a well-known Islamic speaker and educator with a unique ability to connect with people from diverse backgrounds. Born and raised in the United States, he converted to Islam and pursued Islamic studies in the Middle East. His lectures focus on practical applications of Islamic teachings, covering topics such as faith, character development, family life, and navigating the challenges of modern society. With a straightforward and engaging style, he emphasizes the importance of authentic knowledge, spiritual growth, and the balance between deen and dunya. His thought-provoking talks inspire listeners to implement Islamic values in their daily lives.",
-          image: ('./images/abdur-raheem-mccarthy-150x150.jpg')
+          image: ('./images/abdur-raheem-mccarthy-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Hamza Tzortzis",
           rssUrl: "https://muslimcentral.com/audio/hamza-tzortzis/feed/",
-          desc: "Ustadh Hamza Tzortzis is a prominent Muslim intellectual and da'ee specializing in Islamic philosophy, theology, and contemporary ideological challenges. As a former atheist who embraced Islam, he brings deep insights into debates on atheism, secularism, and the existence of God. His lectures explore the rational foundations of Islamic belief, demonstrating how faith is not just spiritual but intellectually fulfilling. Hamza engages with scholars, academics, and students, breaking down complex ideas into simple concepts, and empowering Muslims with confidence in their faith. His work with iERA (Islamic Education and Research Academy) has contributed significantly to da’wah efforts worldwide.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Hamza-Tzortzis.jpg"
+          desc: "Ustadh Hamza Tzortzis is a prominent Muslim intellectual and da'ee specializing in Islamic philosophy, theology, and contemporary ideological challenges. As a former atheist who embraced Islam, he brings deep insights into debates on atheism, secularism, and the existence of God. His lectures explore the rational foundations of Islamic belief, demonstrating how faith is not just spiritual but intellectually fulfilling.",
+          image: ('./images/hamza-tzortzis-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Mikaeel Smith",
           rssUrl: "https://muslimcentral.com/audio/mikaeel-smith/feed/",
-          desc: "Ustadh Mikaeel Smith is a scholar, teacher, and author focusing on Islamic character development, emotional intelligence, and the prophetic way of living. His lectures delve into the spiritual and psychological dimensions of Islam, exploring how faith can nurture inner peace, resilience, and positive relationships. He passionately emphasizes the importance of prophetic manners (akhlaq), dealing with emotions through an Islamic lens, and fostering a strong connection with Allah through love and mindfulness. With a soothing and empathetic teaching style, he helps listeners connect with their faith on a personal and transformative level.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Mikaeel-Smith.jpg"
+          desc: "Ustadh Mikaeel Smith is a scholar, teacher, and author focusing on Islamic character development, emotional intelligence, and the prophetic way of living. His lectures delve into the spiritual and psychological dimensions of Islam, exploring how faith can nurture inner peace, resilience, and positive relationships.",
+          image: ('./images/mikaeel-smith-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Jamal Abdinasir",
           rssUrl: "https://muslimcentral.com/audio/jamal-abdinasir/feed/",
-          desc: "Sheikh Jamal Abdinasir is an inspiring speaker known for his ability to make Islamic teachings accessible and applicable to everyday life. His lectures focus on self-improvement, spirituality, and family values, helping listeners build a stronger connection with their faith. He frequently addresses issues faced by Muslim youth, offering practical advice on navigating modern challenges while remaining steadfast in Islam. His engaging and motivational talks resonate with audiences seeking a deeper understanding of their faith.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Jamal-Abdinasir.jpg"
+          desc: "Sheikh Jamal Abdinasir is an inspiring speaker known for his ability to make Islamic teachings accessible and applicable to everyday life. His lectures focus on self-improvement, spirituality, and family values, helping listeners build a stronger connection with their faith. He frequently addresses issues faced by Muslim youth, offering practical advice on navigating modern challenges while remaining steadfast in Islam.",
+          image: ('./images/jamal-abdinasir-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Ikram Sanaullah",
           rssUrl: "https://muslimcentral.com/audio/ikram-sanaullah/feed/",
-          desc: "Ustadh Ikram Sanaullah is a passionate speaker dedicated to strengthening the faith of young Muslims. His lectures highlight the importance of Islamic identity, community involvement, and developing good character. Through storytelling and real-life examples, he connects with listeners on a personal level, encouraging them to embody Islamic values in their daily lives. His talks serve as a source of motivation for youth facing societal pressures, providing them with a strong foundation in Islamic teachings.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Ikram-Sanaullah.jpg"
+          desc: "Ustadh Ikram Sanaullah is a passionate speaker dedicated to strengthening the faith of young Muslims. His lectures highlight the importance of Islamic identity, community involvement, and developing good character. Through storytelling and real-life examples, he connects with listeners on a personal level, encouraging them to embody Islamic values in their daily lives.",
+          image: ('./images/ikram-sanaullah-150x150.jpg'),
+          episodeCount: null,
         },
         {
           name: "Iqbal Gora",
           rssUrl: "https://muslimcentral.com/audio/iqbal-gora/feed/",
-          desc: "Sheikh Iqbal Gora delivers insightful lectures on Islamic spirituality, the meaning of worship, and the significance of maintaining a strong relationship with Allah. His talks focus on personal development, patience, and gratitude as key aspects of a fulfilling Islamic life. He emphasizes the transformative power of faith, encouraging Muslims to develop sincerity in their worship and excellence in their daily interactions.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Iqbal-Gora.jpg"
+          desc: "Sheikh Iqbal Gora delivers insightful lectures on Islamic spirituality, the meaning of worship, and the significance of maintaining a strong relationship with Allah. His talks focus on personal development, patience, and gratitude as key aspects of a fulfilling Islamic life.",
+          image: ('./images/iqbal-gora-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Isam Rajab",
           rssUrl: "https://muslimcentral.com/audio/isam-rajab/feed/",
-          desc: "Dr. Isam Rajab is a distinguished Islamic scholar specializing in Fiqh (Islamic jurisprudence) and ethics. His lectures provide detailed discussions on various aspects of Islamic law, including halal and haram, financial ethics, and family issues. He simplifies complex rulings for a broad audience, making Islamic law more accessible and practical for everyday life. His scholarly approach blends traditional Islamic knowledge with modern-day applications.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Isam-Rajab.jpg"
+          desc: "Dr. Isam Rajab is a distinguished Islamic scholar specializing in Fiqh (Islamic jurisprudence) and ethics. His lectures provide detailed discussions on various aspects of Islamic law, including halal and haram, financial ethics, and family issues. He simplifies complex rulings for a broad audience, making Islamic law more accessible and practical for everyday life.",
+          image: ('./images/isam-rajab-150x150.jpg'),
+          episodeCount: null
         },
         {
           name: "Khalid Yasin",
           rssUrl: "https://muslimcentral.com/audio/khalid-yasin/feed/",
-          desc: "Sheikh Khalid Yasin is a renowned da'ee known for his passionate and thought-provoking lectures on Islam. His powerful speeches cover topics such as Tawheed (the oneness of Allah), the purpose of life, and the role of Muslims in contemporary society. He has traveled extensively, giving lectures and debates that address misconceptions about Islam, while inviting people to explore the truth of the religion. His lectures leave a lasting impact on both Muslims and non-Muslims alike.",
-          image: "https://muslimcentral.com/wp-content/uploads/2020/06/Khalid-Yasin.jpg",
+          desc: "Sheikh Khalid Yasin is a renowned da'ee known for his passionate and thought-provoking lectures on Islam. His powerful speeches cover topics such as Tawheed (the oneness of Allah), the purpose of life, and the role of Muslims in contemporary society.",
+          image: ('./images/khalid-yasin-150x150.jpg'),
+          episodeCount: null
         },
       ],
       durationFilter: "",
@@ -286,6 +297,11 @@ export default {
   },
 
   methods: {
+    async resetAndFetchPodcasts() {
+      this.displayedPodcasts = [];
+      this.allPodcasts = [];
+      await this.fetchPodcasts();
+    },
     applyFilters() {
       let filtered = [...this.podcasts];
 
@@ -452,6 +468,8 @@ export default {
 
       this.loading = true;
       this.podcasts = [];
+      this.allPodcasts = [];
+      this.displayedPodcasts = [];
       this.rssUrl = this.selectedPodcast.rssUrl;
 
       try {
@@ -483,10 +501,21 @@ export default {
       }
     },
 
-    // getAudioUrl(item) {
-    //   const enclosure = item.getElementsByTagName("enclosure")[0];
-    //   return enclosure ? enclosure.getAttribute("url") : null;
-    // },
+    async fetchEpisodeCounts() {
+      for (let podcast of this.islamicPodcasts) {
+        try {
+          const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(podcast.rssUrl)}`);
+          const data = await response.json();
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+          const episodeCount = xmlDoc.getElementsByTagName("item").length;
+
+          podcast.episodeCount = episodeCount;
+        } catch (error) {
+          console.error(`Error fetching episode count for ${podcast.name}:`, error);
+        }
+      }
+    },
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -620,6 +649,7 @@ export default {
   mounted() {
     this.fetchPodcasts().then(() => {
       this.applyFilters(); // Apply filters once podcasts are loaded
+      this.fetchEpisodeCounts();
     });
   },
 

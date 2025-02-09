@@ -314,7 +314,7 @@ audio.custom-audio {
 
 .custom-audio::-webkit-media-controls-current-time-display,
 .custom-audio::-webkit-media-controls-time-remaining-display {
-  color: rgb(0, 0, 0) !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 /* .custom-audio::-webkit-media-controls-timeline {

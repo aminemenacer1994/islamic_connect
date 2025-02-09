@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <section class="py-5">
+    <!-- <section class="py-5"> -->
       <div class="container pt-3 pb-3">
         <div class="row gx-4 align-items-center justify-content-between">
           <div class="col-md-8 order-2 order-md-1 pb-3">
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <hr class="container" />
+      <!-- <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -127,18 +127,18 @@
           </div>
         </div>
       </div>
-    </section>
-    <hr class="container" />
-    <section class="py-4 pt-2">
+    </section> -->
+    <!-- <hr class="container" /> -->
+    <!-- <section class="py-4 pt-2">
       <div class="container ">
         <div class="row mb-4 justify-content-md-center">
           <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <h1 class="display-5 fw-bold text-center">Our Pricings</h1>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="container">
+      <!-- <div class="container">
         <div class="row">
           <div class="col-12 col-lg-6">
             <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular">
@@ -172,14 +172,14 @@
                         d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                     </svg>
                     <span>Save basic notes & bookmarks</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#90EE90" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
                 <span>Surah Information</span>
               </li> -->
-                  <li class="list-group-item bg-transparent">
+                  <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
@@ -210,14 +210,14 @@
                         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                     <span>Text-to-Speech for English Translations and Tafsir</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                 </svg>
                 <span>Download Screen Captures</span>
               </li> -->
-                  <li class="list-group-item bg-transparent">
+                  <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
@@ -233,7 +233,7 @@
                         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                     <span>Export Quranic verses via CSV, DOC and JSON</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -246,31 +246,31 @@
                   </svg>
                   <span>Speech-to-text settings for enhanced audio experience</span>
                 </li> -->
-                  <li class="list-group-item bg-transparent">
+                  <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
                         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                     <span>Early access to exclusive Islamic Connect features.</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                 </svg>
                 <span>Customizable folders for bookmark storage.</span>
               </li> -->
-                </ul>
+                <!-- </ul> -->
 
-                <button class="w-100 btn button" style="background: rgb(0 163 164); color:white" role="button"
+                <!-- <button class="w-100 btn button" style="background: rgb(0 163 164); color:white" role="button"
                   @click="redirectToRegister">
                   <span style="color:white;font-size:19px;">Get Started</span>
-                </button>
-
+                </button> -->
+<!-- 
               </div>
             </div>
-          </div>
-          <div class="col-12 col-lg-6">
+          </div> -->
+          <!-- <div class="col-12 col-lg-6">
             <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular"
               style="border:2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px;">
               <div class="card-body">
@@ -281,8 +281,8 @@
                     <p class="text-secondary mb-2"><b>Monthly</b></p>
                   </div>
 
-                </div>
-                <ul class="list-group list-group-flush mb-4">
+                </div> -->
+                <!-- <ul class="list-group list-group-flush mb-4">
                   <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
@@ -306,14 +306,14 @@
                         d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                     </svg>
                     <span>Save basic notes & bookmarks</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
                 <span>Surah Information</span>
               </li> -->
-                  <li class="list-group-item bg-transparent">
+                  <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
                       <path
@@ -361,21 +361,21 @@
                         d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                     </svg>
                     <span>Export Quranic verses via CSV, DOC and JSON</span>
-                  </li>
+                  </li> -->
                   <!-- <li class="list-group-item bg-transparent">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
                     <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                   </svg>
                   <span>Speech-to-text settings for enhanced audio experience</span>
                 </li> -->
-                  <li class="list-group-item bg-transparent">
+                  <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
                       <path
                         d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                     </svg>
                     <span>Early access to exclusive Islamic Connect features.</span>
-                  </li>
+                  </li> -->
 
                   <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
@@ -383,7 +383,7 @@
                 </svg>
                 <span>Customizable folders for bookmark storage.</span>
               </li> -->
-                </ul>
+                <!-- </ul>
                 <div class="row">
                   <div class="col-md-6">
                     <button class="w-100 btn button mb-2" @click="redirectToMonthlySubscription"
@@ -405,8 +405,8 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row container">
+          </div> -->
+          <!-- <div class="row container"> -->
             <!-- Button trigger modal -->
             <!-- HTML !-->
 
@@ -425,7 +425,7 @@
           </div> -->
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -454,13 +454,13 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
 
-        </div>
+        <!-- </div>
       </div>
-    </section>
-    <hr class="container" />
+    </section> -->
+    <!-- <hr class="container" />
     <section class="py-4 pt-2">
       <div class="container">
         <div class="row justify-content-center text-center mb-3">
@@ -628,7 +628,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
   </div>
 </template>

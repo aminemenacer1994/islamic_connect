@@ -44,7 +44,7 @@
                   access to Islamic knowledge, fostering spiritual growth, and
                   uniting the global Muslim community. Discover a new era of
                   learning, connection, and service as we leverage cutting-edge
-                  technology to bring the teachings of Islam closer to
+                  technology which bring the teachings of Islam closer to
                   you.</strong
                 >
               </h2>
