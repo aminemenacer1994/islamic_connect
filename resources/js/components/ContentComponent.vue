@@ -93,25 +93,25 @@
         style="align-items: center; text-align: center;">
     </div>
 
-    <div class="row pt-3">
-      <div class="col-md-3" v-if="selectedPodcast">
+    <div class="row ">
+      <div class="col-md-3 pt-2 pt-md-0" v-if="selectedPodcast">
         <select class="form-select" v-model="sortBy" @change="sortPodcasts">
+          <option value="" selected disabled>Sort by</option>
           <option value="most-viewed">Most Viewed</option>
           <option value="least-viewed">Least Viewed</option>
         </select>
       </div>
-      <div class="col-md-3 mb-3" v-if="selectedPodcast">
-        <select class="form-select" v-model="durationFilter" @change="filterPodcasts">
-          <option value="">All Durations</option>
-          <option value="longest">Longest</option>
-          <option value="shortest">Shortest</option>
-          <option value="0-10">0 - 10 min</option>
-          <option value="10-30">10 - 30 min</option>
-          <option value="30-60">30 - 60 min</option>
-          <option value="more-than-60">More than 1 hour</option>
+      <div class="col-md-3 mb-3 pt-2 pt-md-0" v-if="selectedPodcast">
+        <select v-model="durationFilter" class="form-select" id="durationFilter" @change="applyFilters">
+          <option value="" selected disabled>Duration</option>
+          <option value="all">Show All</option>
+          <option value="short">Short (≤ 10 min)</option>
+          <option value="medium">Medium (10 - 30 min)</option>
+          <option value="long">Long (30 - 60 min)</option>
+          <option value="veryLong">Very Long (> 60 min)</option>
         </select>
       </div>
-      <div class="mb-3 col-md-6" v-if="selectedPodcast">
+      <div class="mb-3 col-md-6 pt-2 pt-md-0" v-if="selectedPodcast">
         <input type="search" class="form-control" placeholder="Search Keyword..." v-model="searchQuery"
           @input="onSearch" />
       </div>
@@ -134,6 +134,7 @@
             <div class="card-body">
               <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
               <p class="text-muted">Views: {{ podcast.views }}</p>
+              <p>Duration: {{ podcast.duration }} min</p>
               <p class="text-muted">Published on: {{ formatDate(podcast.pubDate) }}</p>
               <div class="container text-center d-flex justify-content-between" style="bottom: 0;">
                 <i :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"
@@ -147,9 +148,11 @@
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-              class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);">
+              @loadedmetadata="updateDuration(podcast, $event)" class="w-100 audio"
+              style="border-radius: 0; background: rgb(13, 182, 145);">
               Your browser does not support the audio element.
             </audio>
+
             <p v-else>No audio available for this podcast.</p>
           </div>
         </div>
@@ -180,7 +183,7 @@ export default {
       allPodcasts: [],
       displayedPodcasts: [],
       podcastMeta: new Map(),
-      ddurationFilter: "",
+      durationFilter: "",
       selectedYear: "",
       selectedMonth: "",
       selectedWeek: "",
@@ -252,8 +255,6 @@ export default {
           episodeCount: null
         },
       ],
-      durationFilter: "",
-      sortBy: "most-viewed",
       selectedDateFilter: "",
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
@@ -268,9 +269,8 @@ export default {
       podcastsPerPage: 7,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
-      sortOption: 'mostViewed',
+      sortOption: 'most-viewed',
       dateFilter: 'weekly',
-      durationFilter: 'longest',
     };
   },
 
@@ -297,6 +297,13 @@ export default {
   },
 
   methods: {
+    updateDuration(podcast, event) {
+      if (event && event.target && event.target.duration) {
+        podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
+        this.$forceUpdate(); // Ensure Vue updates UI
+        this.applyFilters(); // Re-apply filters after durations are set
+      }
+    },
     async resetAndFetchPodcasts() {
       this.displayedPodcasts = [];
       this.allPodcasts = [];
@@ -308,6 +315,8 @@ export default {
       // Apply Duration Filter
       if (this.durationFilter) {
         filtered = filtered.filter(podcast => {
+          console.log(`Checking duration ${podcast.duration} against filter ${this.durationFilter}`);
+
           if (this.durationFilter === "short") return podcast.duration <= 10;
           if (this.durationFilter === "medium") return podcast.duration > 10 && podcast.duration <= 30;
           if (this.durationFilter === "long") return podcast.duration > 30 && podcast.duration <= 60;
@@ -468,30 +477,28 @@ export default {
 
       this.loading = true;
       this.podcasts = [];
-      this.allPodcasts = [];
-      this.displayedPodcasts = [];
+      this.filteredPodcasts = [];
       this.rssUrl = this.selectedPodcast.rssUrl;
 
       try {
-        // Use a CORS proxy to fetch the RSS feed
         const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(this.rssUrl)}`);
         const data = await response.json();
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data.contents, "text/xml");
         const items = xmlDoc.getElementsByTagName("item");
 
-        this.podcasts = Array.from(items)
-          .map(item => ({
+        this.podcasts = Array.from(items).map(item => {
+          const podcast = {
             title: item.getElementsByTagName("title")[0]?.textContent || "No title",
             pubDate: item.getElementsByTagName("pubDate")[0]?.textContent || "Unknown",
             description: item.getElementsByTagName("description")[0]?.textContent || "No description available.",
             audioUrl: item.getElementsByTagName("enclosure")[0]?.getAttribute("url") || null,
-            // audioUrl: this.getAudioUrl(item),
-
             views: Math.floor(Math.random() * 1000),
-            duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
-            language: this.detectLanguage(item.getElementsByTagName("title")[0]?.textContent || '') // Detect language
-          })).filter(podcast => podcast.audioUrl); // Remove items without audio
+            duration: null, // Initially set to null, will update after audio loads
+          };
+
+          return podcast;
+        }).filter(podcast => podcast.audioUrl); // Remove items without audio
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -523,31 +530,7 @@ export default {
       return date.toLocaleDateString('en-GB', options); // Using 'en-GB' for British date format
     },
 
-    applyFilters() {
-      let filtered = [...this.podcasts];
 
-      // Apply language filter
-      if (this.selectedLanguageFilter) {
-        filtered = filtered.filter(podcast => podcast.language === this.selectedLanguageFilter);
-      }
-
-      // Apply date filter
-      if (this.selectedDateFilter) {
-        filtered = this.applyDateFilter(filtered);
-      }
-
-      // Apply duration filter
-      if (this.durationFilter) {
-        filtered = this.applyDurationFilter(filtered);
-      }
-
-      // Apply sorting
-      if (this.sortOption) {
-        filtered = this.applySorting(filtered);
-      }
-
-      this.filteredPodcasts = filtered; // Update filtered podcasts
-    },
 
     detectLanguage(text) {
       if (/[؀-ۿ]/.test(text)) {

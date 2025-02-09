@@ -1,49 +1,52 @@
 <template>
   <div id="app">
     <!-- <section class="py-5"> -->
-      <div class="container pt-3 pb-3">
-        <div class="row gx-4 align-items-center justify-content-between">
-          <div class="col-md-8 order-2 order-md-1 pb-3">
-            <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Empower the Future of Islamic Learning</h2>
-              <p class="lead">
-                At <strong>Islamic Connect</strong>, we are dedicated to transforming access to Islamic knowledge
-                through
-                technology, accessibility, and AI-driven innovations. Our mission is to ensure that every
-                Muslim regardless of background, ability, or location can engage with the Quran and Islamic teachings
-                effortlessly.
-              </p>
-              <p class="lead">
-                <b>Your support makes a difference.</b> Every donation fuels our vision by:
-              </p>
-              <ul class="lead ps-3">
-                <li>Expanding our platform with more Islamic content, including Hadith, Seerah, and Dua.</li>
-                <li>Enhancing accessibility tools for the visually and hearing impaired.</li>
-                <li>Improving AI-powered learning, from voice search to personalised recitation guidance.</li>
-                <li>Covering essential costs such as servers, security, and third-party integrations.</li>
-                <li>Supporting our dedicated team working on continuous development and innovation.</li>
-              </ul>
-              <p class="lead">
-                <strong>Every contribution brings us closer</strong> to a world where Islamic knowledge is accessible to
-                all, breaking barriers and creating lasting impact. Join us in shaping the future—<strong>give
-                  today</strong> and be part of something transformative.
-              </p>
+    <div class="container pt-3 pb-3">
+      <div class="row gx-4 align-items-center justify-content-between">
+        <div class="col-md-8 order-2 order-md-1 pb-3">
+          <div class="mt-3 mt-md-0">
+            <h2 class="display-5 fw-bold pb-3">Empower the Future of Islamic Learning</h2>
+            <p class="lead">
+              At <strong>Islamic Connect</strong>, we are dedicated to transforming access to Islamic knowledge through
+              technology, accessibility, and AI-driven innovations. Our mission is to ensure that every Muslim,
+              regardless of
+              background, ability, or location, can engage with the Quran and Islamic teachings effortlessly.
+            </p>
+            <p class="lead">
+              <b>Your support makes a difference.</b> Every donation fuels our vision by:
+            </p>
+            <ul class="lead ps-3">
+              <li>Expanding our platform with more Islamic content, including Hadith, Seerah, Dua, and more.</li>
+              <li>Enhancing accessibility tools for the visually and hearing impaired.</li>
+              <li>Enhancing AI-powered tools, including voice search and personalized recitation guidance.</li>
+              <li>Covering essential costs like servers, security, AI tools, and third-party integrations to keep the platform fast, smart, and secure.</li>
+              <li>Supporting our dedicated team working on continuous development and innovation.</li>
+            </ul>
+            <p class="lead">
+              <strong>Every contribution brings us closer</strong> to a world where Islamic knowledge is accessible to
+              all, breaking barriers and creating lasting impact. Join us in shaping the future—<strong>give
+                today</strong>
+              and be part of something transformative.
+            </p>
 
-              <!-- Donate Button -->
-              <div class="col-md-8">
-                <button class="container form-control" style="background:#00BFA6; color:white"
-                  onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  Donate Now
-                </button>
-              </div>
+            <!-- Donate Button -->
+            <div class="col-md-8">
+              <button class="container form-control" style="background:#00BFA6; color:white"
+                onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
+                Donate Now
+              </button>
             </div>
           </div>
-          <div class="col-md-4 order-2">
-            <img src="/images/heart.png" width="80%" alt="Support Islamic Connect" />
-          </div>
+        </div>
+
+        <!-- Image (Hidden on Mobile, Visible on Desktop) -->
+        <div class="col-md-4 order-2 d-none d-md-block">
+          <img src="/images/heart.png" width="80%" alt="Support Islamic Connect" />
         </div>
       </div>
-      <!-- <hr class="container" />
+    </div>
+
+    <!-- <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -138,7 +141,7 @@
         </div>
       </div> -->
 
-      <!-- <div class="container">
+    <!-- <div class="container">
         <div class="row">
           <div class="col-12 col-lg-6">
             <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular">
@@ -173,13 +176,13 @@
                     </svg>
                     <span>Save basic notes & bookmarks</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#90EE90" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
                 <span>Surah Information</span>
               </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
@@ -211,13 +214,13 @@
                     </svg>
                     <span>Text-to-Speech for English Translations and Tafsir</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                 </svg>
                 <span>Download Screen Captures</span>
               </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
@@ -234,19 +237,19 @@
                     </svg>
                     <span>Export Quranic verses via CSV, DOC and JSON</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                   </svg>
                   <span>Generate text summaries</span>
                 </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                   </svg>
                   <span>Speech-to-text settings for enhanced audio experience</span>
                 </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
                       <path
@@ -254,23 +257,23 @@
                     </svg>
                     <span>Early access to exclusive Islamic Connect features.</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x text-danger" viewBox="0 0 16 16">
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                 </svg>
                 <span>Customizable folders for bookmark storage.</span>
               </li> -->
-                <!-- </ul> -->
+    <!-- </ul> -->
 
-                <!-- <button class="w-100 btn button" style="background: rgb(0 163 164); color:white" role="button"
+    <!-- <button class="w-100 btn button" style="background: rgb(0 163 164); color:white" role="button"
                   @click="redirectToRegister">
                   <span style="color:white;font-size:19px;">Get Started</span>
                 </button> -->
-<!-- 
+    <!-- 
               </div>
             </div>
           </div> -->
-          <!-- <div class="col-12 col-lg-6">
+    <!-- <div class="col-12 col-lg-6">
             <div class="card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular"
               style="border:2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px;">
               <div class="card-body">
@@ -282,7 +285,7 @@
                   </div>
 
                 </div> -->
-                <!-- <ul class="list-group list-group-flush mb-4">
+    <!-- <ul class="list-group list-group-flush mb-4">
                   <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
@@ -307,13 +310,13 @@
                     </svg>
                     <span>Save basic notes & bookmarks</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
                 <span>Surah Information</span>
               </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
                       <path
@@ -362,13 +365,13 @@
                     </svg>
                     <span>Export Quranic verses via CSV, DOC and JSON</span>
                   </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
                     <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                   </svg>
                   <span>Speech-to-text settings for enhanced audio experience</span>
                 </li> -->
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check"
                       viewBox="0 0 16 16">
                       <path
@@ -377,13 +380,13 @@
                     <span>Early access to exclusive Islamic Connect features.</span>
                   </li> -->
 
-                  <!-- <li class="list-group-item bg-transparent">
+    <!-- <li class="list-group-item bg-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#66C466" class="bi bi-check" viewBox="0 0 16 16">
                   <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
                 </svg>
                 <span>Customizable folders for bookmark storage.</span>
               </li> -->
-                <!-- </ul>
+    <!-- </ul>
                 <div class="row">
                   <div class="col-md-6">
                     <button class="w-100 btn button mb-2" @click="redirectToMonthlySubscription"
@@ -406,11 +409,11 @@
               </div>
             </div>
           </div> -->
-          <!-- <div class="row container"> -->
-            <!-- Button trigger modal -->
-            <!-- HTML !-->
+    <!-- <div class="row container"> -->
+    <!-- Button trigger modal -->
+    <!-- HTML !-->
 
-            <!-- <div class="container-fluid text-center pt-2">
+    <!-- <div class="container-fluid text-center pt-2">
             <div class="row">
               <div class="col">
               </div>
@@ -424,8 +427,8 @@
             </div>
           </div> -->
 
-            <!-- Modal -->
-            <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -455,9 +458,9 @@
                 </div>
               </div>
             </div> -->
-          <!-- </div> -->
+    <!-- </div> -->
 
-        <!-- </div>
+    <!-- </div>
       </div>
     </section> -->
     <!-- <hr class="container" />
@@ -665,7 +668,7 @@ export default {
     // },
     redirectToMonthlySubscription() {
       window.location.href = "https://buy.stripe.com/test_cN24jzdgbc67dHyeUU"; // Test mode link
-      
+
     },
     redirectToYearlySubscription() {
       window.location.href = "https://buy.stripe.com/test_3cs2br3FBb2346Y4gh"; // Test mode link
