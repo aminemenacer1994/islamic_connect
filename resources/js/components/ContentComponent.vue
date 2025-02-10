@@ -6,93 +6,116 @@
       to deepen your understanding and connection with Islam.
     </p>
 
-    <!-- Bookmarks Section -->
-    <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4">
-      <h4 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
-        Bookmark Podcasts
-        <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
-        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-          data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </h4>
-      <div id="bookmarksCollapse" class="collapse">
-        <div v-if="bookmarks.length" class="list-group">
-          <div v-for="podcast in bookmarks" :key="podcast.title"
-            class="list-group-item d-flex justify-content-between align-items-center row">
-            <div class="col-12 col-md-6">
-              <span class="fs-6">{{ podcast.title }}</span>
-            </div>
-            <div class="col-12 col-md-6 text-md-end">
-              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-play-circle"></i> Play Podcast
-              </button>
-              <button @click="removeBookmark(podcast)" class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash-fill"></i> Remove Bookmark
-              </button>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
-        </div>
-      </div> -->
 
-    <!-- Favourites -->
-    <!-- <h4 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
-        Favourite Podcasts
-        <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
-        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-          data-bs-target="#favouritesCollapse" aria-expanded="false" aria-controls="favouritesCollapse">
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </h4>
-      <div id="favouritesCollapse" class="collapse">
-        <div v-if="favourites.length" class="list-group">
-          <div v-for="podcast in favourites" :key="podcast.title"
-            class="list-group-item d-flex justify-content-between align-items-center row">
-            <div class="col-12 col-md-6">
-              <span class="fs-6">{{ podcast.title }}</span>
-            </div>
-            <div class="col-12 col-md-6 text-md-end">
-              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-play-circle"></i> Play Podcast
-              </button>
-              <button @click="removeFavourite(podcast)" class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash-fill"></i> Remove Favourite
-              </button>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
-        </div>
-      </div> -->
-    <!-- </div> -->
+    <div class="row d-flex align-items-center flex-wrap">
+      <!-- Label -->
+      <h5 class="col-12 col-md-2 fw-bold text-nowrap fs-6 fs-md-5 pt-2">
+        Select a Podcast:
+      </h5>
 
-
-    <div class="row container">
-      <div class="col" style="display: flex;">
-        <h6 class="col-md-2 display-7 pt-2"><b>Select a Podcast:</b></h6>
-        <select class="col-md-6 form-select" v-model="selectedPodcast" @change="fetchPodcasts">
-          <option disabled value="">Select a podcast</option>
+      <!-- Dropdown -->
+      <div class="col-12 col-md-6 mt-2 mt-md-0">
+        <select class="form-select w-100" v-model="selectedPodcast" @change="fetchPodcasts">
+          <option disabled value="" selected hidden>Select a podcast</option>
           <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
             {{ podcast.name }}
           </option>
         </select>
       </div>
+
     </div>
+
+
+    <!-- Bookmarks Section -->
+    <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4 mt-3" > -->
+    <!-- Bookmarks -->
+    <!-- <h4 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
+      Bookmark Podcasts
+      <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
+      <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
+        data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </h4> -->
+    <!-- <div id="bookmarksCollapse" class="collapse">
+      <div v-if="bookmarks.length" class="list-group">
+        <div v-for="(podcast, index) in bookmarks" 
+          :key="podcast.id || podcast.title"
+          :id="'podcast-' + (podcast.id || index)"
+          :class="{ highlight: highlightedPodcast === (podcast.id || index) }"
+          class="list-group-item d-flex justify-content-between align-items-center row">
+          
+          <div class="col-12 col-md-6">
+            <span class="fs-6 pb-2">{{ podcast.title }}</span>
+          </div>
+          <div class="col-12 col-md-6 text-md-end">
+            -- Go To Podcast --
+            <button @click="scrollToPodcast(podcast, index)" class="btn btn-sm btn-outline-primary me-2">
+              <i class="bi bi-play-circle"></i> Go To Podcast
+            </button>
+            -- Remove Bookmark --
+            <button @click="removeBookmark(index)" class="btn btn-sm btn-outline-danger">
+              <i class="bi bi-trash-fill"></i> Remove Bookmark
+            </button>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
+      </div>
+    </div> -->
+
+    <!-- Favourites -->
+    <!-- <h4 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
+      Favourite Podcasts
+      <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
+      <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
+        data-bs-target="#favouritesCollapse" aria-expanded="false" aria-controls="favouritesCollapse">
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </h4> -->
+    <!-- <div id="favouritesCollapse" class="collapse">
+      <div v-if="favourites.length" class="list-group">
+        <div v-for="(podcast, index) in favourites" 
+          :key="podcast.id || podcast.title"
+          :id="'podcast-' + (podcast.id || index)"
+          :class="{ highlight: highlightedPodcast === (podcast.id || index) }"
+          class="list-group-item d-flex justify-content-between align-items-center row">
+          
+          <div class="col-12 col-md-6">
+            <span class="fs-6 pb-2">{{ podcast.title }}</span>
+          </div>
+          <div class="col-12 col-md-6 text-md-end">
+            -- Go To Podcast --
+            <button @click="scrollToPodcast(podcast, index)" class="btn btn-sm btn-outline-primary me-2">
+              <i class="bi bi-play-circle"></i> Go To Podcast
+            </button>
+            -- Remove Favourite --
+            <button @click="removeFavourite(index)" class="btn btn-sm btn-outline-danger">
+              <i class="bi bi-trash-fill"></i> Remove Favourite
+            </button>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
+      </div>
+    </div> -->
+    <!-- </div> -->
 
     <div v-if="selectedPodcast" class="d-flex align-items-start pt-3">
       <div>
         <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
         <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
-        <h3 class="small container pb-2"><b>Total Episodes:</b> {{ selectedPodcast.episodeCount || 'Loading...' }}</h3>
+        <h6 class="medium container pb-2"><b>Total Episodes:</b> {{ selectedPodcast.episodeCount || 'Loading...' }}</h6>
       </div>
       <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-img w-95"
         style="align-items: center; text-align: center;">
     </div>
 
+
+
+    <!-- filters -->
     <div class="row ">
       <div class="col-md-3 pt-2 pt-md-0" v-if="selectedPodcast">
         <select class="form-select" v-model="sortBy" @change="sortPodcasts">
@@ -112,10 +135,11 @@
         </select>
       </div>
       <div class="mb-3 col-md-6 pt-2 pt-md-0" v-if="selectedPodcast">
-        <input type="search" class="form-control" placeholder="Search Keyword..." v-model="searchQuery"
-          @input="onSearch" />
+        <input type="search" class="form-control" style="border: lightgrey solid 3px;" placeholder="Search Keyword..."
+          v-model="searchQuery" @input="onSearch" />
       </div>
     </div>
+    <!-- -->
 
     <!-- Loading Spinner Appears Only When Podcasts Are Loading -->
     <div v-if="loading" class="d-flex align-items-center justify-content-center my-4">
@@ -132,19 +156,22 @@
           <div class="card h-100"
             style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
             <div class="card-body">
-              <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
-              <p class="text-muted">Views: {{ podcast.views }}</p>
-              <p>Duration: {{ podcast.duration }} min</p>
-              <p class="text-muted">Published on: {{ formatDate(podcast.pubDate) }}</p>
-              <div class="container text-center d-flex justify-content-between" style="bottom: 0;">
-                <i :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"
+              <h2 class="card-title display-4 fw-bold" v-html="highlightText(podcast.title)"></h2><br /><br />
+              Views: {{ podcast.views }}<br />
+              Duration: {{ podcast.duration }} min<br />
+              Published on: {{ formatDate(podcast.pubDate) }}
+              <!-- Fixed Bottom Controls -->
+              <div class="podcast-controls pt-3" style="bottom: 0px;">
+                <!-- <i :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"
                   @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
-                <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
-                  style="cursor: pointer; font-size: 1.5rem;"></i>
-                <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(podcast)">
-                </i>
-                <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;" @click="downloadAudio(podcast)">
-                </i>
+                  <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
+                  style="cursor: pointer; font-size: 1.5rem;"></i> -->
+                <div class="container text-center d-flex justify-content-evenly">
+                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="shareOnWhatsApp(podcast)"></i>
+                  <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="downloadAudio(podcast)"></i>
+                </div>
               </div>
             </div>
             <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
@@ -159,7 +186,7 @@
       </div>
 
       <nav aria-label="Podcast pagination" class="mt-4">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center custom-pagination">
           <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
             <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
           </li>
@@ -171,6 +198,7 @@
           </li>
         </ul>
       </nav>
+
 
     </div>
 
@@ -271,6 +299,10 @@ export default {
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       sortOption: 'most-viewed',
       dateFilter: 'weekly',
+      bookmarks: [],
+      favourites: [],
+      selectedPodcast: null,
+      highlightedPodcast: null,
     };
   },
 
@@ -297,6 +329,42 @@ export default {
   },
 
   methods: {
+    
+    // Load saved podcasts from localStorage
+    loadData() {
+      this.bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+      this.favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    },
+    // Save data to localStorage
+    saveData() {
+      localStorage.setItem("bookmarks", JSON.stringify(this.bookmarks));
+      localStorage.setItem("favourites", JSON.stringify(this.favourites));
+    },
+    // Scroll to Podcast Card and Highlight
+    scrollToPodcast(podcast) {
+      const podcastId = "podcast-card-" + (podcast.id || podcast.title.replace(/\s/g, '-'));
+      const podcastElement = document.getElementById(podcastId);
+
+      if (podcastElement) {
+        podcastElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        this.highlightedPodcast = podcastId;
+
+        // Remove highlight after 3 seconds
+        setTimeout(() => {
+          this.highlightedPodcast = null;
+        }, 3000);
+      } else {
+        console.warn("Podcast element not found:", podcast);
+      }
+    },
+    removeBookmark(index) {
+      this.bookmarks.splice(index, 1);
+      this.saveData();
+    },
+    removeFavourite(index) {
+      this.favourites.splice(index, 1);
+      this.saveData();
+    },
     updateDuration(podcast, event) {
       if (event && event.target && event.target.duration) {
         podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
@@ -623,7 +691,6 @@ export default {
     isFavourite(podcast) {
       return this.favourites.some(fav => fav.title === podcast.title);
     },
-
     changePage(page) {
       if (page !== '...') this.currentPage = page;
     },
@@ -633,6 +700,7 @@ export default {
     this.fetchPodcasts().then(() => {
       this.applyFilters(); // Apply filters once podcasts are loaded
       this.fetchEpisodeCounts();
+      this.loadData();
     });
   },
 
@@ -650,6 +718,34 @@ export default {
 </script>
 
 <style scoped>
+/* Custom Pagination Styles */
+.custom-pagination .page-link {
+  background-color: rgb(13, 182, 145);
+  color: white;
+  border: 1px solid rgb(13, 182, 145);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover Effect */
+.custom-pagination .page-link:hover {
+  background-color: rgb(10, 150, 120);
+  color: white;
+}
+
+/* Active Page */
+.custom-pagination .active .page-link {
+  background-color: rgb(10, 150, 120);
+  border-color: rgb(10, 150, 120);
+}
+
+/* Disabled Pages */
+.custom-pagination .disabled .page-link {
+  background-color: lightgray;
+  color: gray;
+  border-color: lightgray;
+  cursor: not-allowed;
+}
+
 @media (max-width: 576px) {
   .pagination {
     /* display: flex; */
@@ -658,6 +754,17 @@ export default {
     justify-content: center;
     /* Centre the pagination */
   }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Highlight effect */
+.highlight {
+  background-color: yellow !important;
+  transition: background-color 0.5s ease-in-out;
 }
 
 .spinner-container {
