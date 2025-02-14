@@ -28,16 +28,19 @@
           </form>
         </div>
 
-        <!-- Loading Spinner -->
-        <div v-if="loading" class="text-center mb-4">
-          <p>Loading prayer times...</p>
-        </div>
+        <!-- Loading Spinner with Transition -->
+        <transition name="fade">
+          <div v-if="loading" class="text-center mb-4">
+            <div class="spinner"></div>
+            <p>Loading prayer times...</p>
+          </div>
+        </transition>
+
         <hr />
       </div>
       
       <!-- Prayer Times -->
       <div v-if="prayerTimes && !loading" class="row">
-        
         <ul
           class="list-group col-md-2 mb-3"
           v-for="(time, prayer) in filteredPrayerTimes"
@@ -59,8 +62,8 @@
     </div>
   </div>
 </template>
-<script>
 
+<script>
 export default {
   data() {
     return {
@@ -209,6 +212,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .border-warning {
   border-width: 3px !important;
@@ -221,6 +225,32 @@ export default {
 .card-text {
   font-size: 1.2rem;
 }
+
+/* CSS Spinner */
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: rgb(12, 208, 149);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Transition Styles */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
-
-

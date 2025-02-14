@@ -2,7 +2,7 @@
 <div class="container">
 
   <div class="row ml-4 mt-3 container-fluid">
-    <h2 class="text-left mt-3 mb-2 container" style="line-height: 1.7em; tafseer; "><img src="/images/art.png" style="width: 40px;" class="mb-1 mr-2 display-4" /><b>Introducing User Accounts with Notes, Bookmarks, and Google Sign-In</b></h2>
+    <h2 class="text-left mt-3 mb-2 container" style="line-height: 1.7em; tafseer"><img src="/images/art.png" style="width: 40px;" class="mb-1 mr-2 display-4" /><b>Introducing User Accounts with Notes, Bookmarks, and Google Sign-In</b></h2>
     <div class="col-md-5">
       <h5 class="text-left text-dark" width="80%" style="line-height: 1.7em; tafseer">December 31st, 2024</h5>
       <div>

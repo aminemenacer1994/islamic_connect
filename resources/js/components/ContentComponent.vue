@@ -72,9 +72,9 @@
 
 
     <!-- Search Bar -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6 pb-3 text-center">
-
+        <p style="display: flex;">Select a podcast</p>
         <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
           <option disabled value="">Select a podcast</option>
           <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
@@ -82,7 +82,24 @@
           </option>
         </select>
       </div>
+    </div> -->
 
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-2">
+          <h5 class="pt-1" style="display: flex;"><b>Select a podcast:</b></h5>
+        </div>
+        <div class="col-md-5">
+          <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
+            <option disabled value="">Select a podcast</option>
+            <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
+              {{ podcast.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3">
+        </div>
+      </div>
     </div>
 
 
@@ -139,7 +156,8 @@
 
     <div class="pb-3 pt-3" v-if="selectedPodcast">
       <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
-      <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
+      <p class="col-md-8 display-7">{{ selectedPodcast.desc }}</p>
+      <img class="col-md-3" style="display: flex;" :src="selectedPodcast.image" :alt="selectedPodcast.name">
     </div>
 
     <div class="row">
@@ -251,20 +269,20 @@ export default {
           name: "The Mad Mamluks",
           rssUrl: "https://themadmamluks.libsyn.com/rss",
           desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community.",
-          image: '/images/mad_mamluk.jpg',
+          image: ('./images/mad_mamluk.jpg'),
         },
         {
 
           name: "The Deen Show",
           rssUrl: "https://thedeenshow.com/feed/podcast/",
           desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you.",
-          image: '/images/deen_show.png',
+          image: ('./images/deen_show.png'),
         },
         {
           name: "SeekersGuidance",
           rssUrl: "https://seekersguidance.org/feed/podcast/",
-          desc: "SeekersGuidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide.",
-          image: '/images/seekers_guidance.png'
+          desc: "Seekers Guidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide.",
+          image: ('./images/seekers_guidance.png'),
         },
         // {
         //   name: "Tech Won't Save Us",
