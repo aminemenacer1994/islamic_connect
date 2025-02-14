@@ -35,6 +35,42 @@
 
 
 
+
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dyslexia-friendly theme */
+.dyslexia-friendly {
+  font-family: 'OpenDyslexic', sans-serif;
+  line-height: 1.6;
+  letter-spacing: 1.2px;
+}
+
+/* Color-blind-friendly theme */
+.color-blind-friendly {
+  --primary-color: #005f73;
+  --secondary-color: #0a9396;
+  --background-color: #e9d8a6;
+  --text-color: #001219;
+}
+
+/* Epilepsy-friendly theme (reduced motion and no flashing) */
+.epilepsy-friendly {
+  animation: none;
+}
+
+/* Dysphoria-friendly theme (soft colors) */
+.dysphoria-friendly {
+  --primary-color: #f4c2c2;
+  --secondary-color: #ffdfdf;
+  --background-color: #fff0f0;
+  --text-color: #333;
+}
+
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -56,7 +92,7 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-   }
+  }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }

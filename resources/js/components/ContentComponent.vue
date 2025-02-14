@@ -6,17 +6,77 @@
       to deepen your understanding and connection with Islam.
     </p>
 
+    <!-- Bookmarks Section -->
+    <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4">
+      <h4 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
+        Bookmark Podcasts
+        <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
+        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
+          data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </h4>
+      <div id="bookmarksCollapse" class="collapse">
+        <div v-if="bookmarks.length" class="list-group">
+          <div v-for="podcast in bookmarks" :key="podcast.title"
+            class="list-group-item d-flex justify-content-between align-items-center row">
+            <div class="col-12 col-md-6">
+              <span class="fs-6">{{ podcast.title }}</span>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
+                <i class="bi bi-play-circle"></i> Play Podcast
+              </button>
+              <button @click="removeBookmark(podcast)" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash-fill"></i> Remove Bookmark
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
+        </div>
+      </div> -->
 
-    <div class="row d-flex align-items-center flex-wrap">
-      <!-- Label -->
-      <h5 class="col-12 col-md-2 fw-bold text-nowrap fs-6 fs-md-5 pt-2">
-        Select a Podcast:
-      </h5>
+    <!-- Favourites -->
+    <!-- <h4 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
+        Favourite Podcasts
+        <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
+        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
+          data-bs-target="#favouritesCollapse" aria-expanded="false" aria-controls="favouritesCollapse">
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </h4>
+      <div id="favouritesCollapse" class="collapse">
+        <div v-if="favourites.length" class="list-group">
+          <div v-for="podcast in favourites" :key="podcast.title"
+            class="list-group-item d-flex justify-content-between align-items-center row">
+            <div class="col-12 col-md-6">
+              <span class="fs-6">{{ podcast.title }}</span>
+            </div>
+            <div class="col-12 col-md-6 text-md-end">
+              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
+                <i class="bi bi-play-circle"></i> Play Podcast
+              </button>
+              <button @click="removeFavourite(podcast)" class="btn btn-sm btn-outline-danger">
+                <i class="bi bi-trash-fill"></i> Remove Favourite
+              </button>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
+        </div>
+      </div> -->
+    <!-- </div> -->
 
-      <!-- Dropdown -->
-      <div class="col-12 col-md-6 mt-2 mt-md-0">
-        <select class="form-select w-100" v-model="selectedPodcast" @change="fetchPodcasts">
-          <option disabled value="" selected hidden>Select a podcast</option>
+
+    <!-- Search Bar -->
+    <div class="row">
+      <div class="col-md-6 pb-3 text-center">
+
+        <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
+          <option disabled value="">Select a podcast</option>
           <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
             {{ podcast.name }}
           </option>
@@ -26,192 +86,158 @@
     </div>
 
 
-    <!-- Bookmarks Section -->
-    <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4 mt-3" > -->
-    <!-- Bookmarks -->
-    <!-- <h4 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
-      Bookmark Podcasts
-      <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
-      <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-        data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
-        <i class="bi bi-chevron-down"></i>
-      </button>
-    </h4> -->
-    <!-- <div id="bookmarksCollapse" class="collapse">
-      <div v-if="bookmarks.length" class="list-group">
-        <div v-for="(podcast, index) in bookmarks" 
-          :key="podcast.id || podcast.title"
-          :id="'podcast-' + (podcast.id || index)"
-          :class="{ highlight: highlightedPodcast === (podcast.id || index) }"
-          class="list-group-item d-flex justify-content-between align-items-center row">
-          
-          <div class="col-12 col-md-6">
-            <span class="fs-6 pb-2">{{ podcast.title }}</span>
-          </div>
-          <div class="col-12 col-md-6 text-md-end">
-            -- Go To Podcast --
-            <button @click="scrollToPodcast(podcast, index)" class="btn btn-sm btn-outline-primary me-2">
-              <i class="bi bi-play-circle"></i> Go To Podcast
-            </button>
-            -- Remove Bookmark --
-            <button @click="removeBookmark(index)" class="btn btn-sm btn-outline-danger">
-              <i class="bi bi-trash-fill"></i> Remove Bookmark
-            </button>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
-      </div>
-    </div> -->
+    <div class="row" v-if="selectedPodcast">
 
-    <!-- Favourites -->
-    <!-- <h4 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
-      Favourite Podcasts
-      <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
-      <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-        data-bs-target="#favouritesCollapse" aria-expanded="false" aria-controls="favouritesCollapse">
-        <i class="bi bi-chevron-down"></i>
-      </button>
-    </h4> -->
-    <!-- <div id="favouritesCollapse" class="collapse">
-      <div v-if="favourites.length" class="list-group">
-        <div v-for="(podcast, index) in favourites" 
-          :key="podcast.id || podcast.title"
-          :id="'podcast-' + (podcast.id || index)"
-          :class="{ highlight: highlightedPodcast === (podcast.id || index) }"
-          class="list-group-item d-flex justify-content-between align-items-center row">
-          
-          <div class="col-12 col-md-6">
-            <span class="fs-6 pb-2">{{ podcast.title }}</span>
-          </div>
-          <div class="col-12 col-md-6 text-md-end">
-            -- Go To Podcast --
-            <button @click="scrollToPodcast(podcast, index)" class="btn btn-sm btn-outline-primary me-2">
-              <i class="bi bi-play-circle"></i> Go To Podcast
-            </button>
-            -- Remove Favourite --
-            <button @click="removeFavourite(index)" class="btn btn-sm btn-outline-danger">
-              <i class="bi bi-trash-fill"></i> Remove Favourite
-            </button>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
-      </div>
-    </div> -->
-    <!-- </div> -->
+      <!-- Date Filter -->
+      <!-- <div class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedDateFilter" @change="filterByDate">
+          <option value="select date filter" disabled>Select a Date Filter</option>
+          <option value="yearly">This Year</option>
+          <option value="monthly">This Month</option>
+          <option value="weekly">This Week</option>
+          <option value="daily">Today</option>
+        </select>
+      </div> -->
 
-    <div v-if="selectedPodcast" class="d-flex align-items-start pt-3">
-      <div>
-        <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
-        <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
-        <h6 class="medium container pb-2"><b>Total Episodes:</b> {{ selectedPodcast.episodeCount || 'Loading...' }}</h6>
+      <!-- Select Date Filter -->
+      <!-- Yearly Filter -->
+      <!-- <div v-if="selectedDateFilter === 'yearly'" class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedYear" @change="onYearSelect">
+          <option value="" disabled>Select Year</option>
+          <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
+        </select>
+      </div> -->
+
+      <!-- Monthly Filter (Only If a Year Is Selected) -->
+      <!-- <div v-if="selectedDateFilter === 'yearly' && selectedYear" class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedMonth" @change="onMonthSelect">
+          <option value="" disabled>Select Month</option>
+          <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+        </select>
+      </div> -->
+
+      <!-- Weekly Filter (Appears If a Month Is Selected in 'yearly' or If 'weekly' is chosen) -->
+      <!-- <div v-if="(selectedDateFilter === 'yearly' && selectedMonth) || selectedDateFilter === 'weekly'"
+        class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedWeek" @change="onWeekSelect">
+          <option value="" disabled>Select Week</option>
+          <option v-for="week in weeks" :key="week" :value="week">{{ week }}</option>
+        </select>
+      </div> -->
+
+      <!-- Daily Filter (Only If a Week Is Selected) -->
+      <!-- <div v-if="selectedWeek" class="col-md-3 mb-3">
+        <select class="form-select" v-model="selectedDay" @change="updatePodcasts">
+          <option value="" disabled>Select Day</option>
+          <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+        </select>
       </div>
-      <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-img w-95"
-        style="align-items: center; text-align: center;">
+      -->
+
+
     </div>
 
+    <div class="pb-3 pt-3" v-if="selectedPodcast">
+      <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
+      <p class="col-md-9 display-7">{{ selectedPodcast.desc }}</p>
+    </div>
 
-
-    <!-- filters -->
-    <div class="row ">
-      <div class="col-md-3 pt-2 pt-md-0" v-if="selectedPodcast">
+    <div class="row">
+      <div class="col-md-3" v-if="selectedPodcast">
         <select class="form-select" v-model="sortBy" @change="sortPodcasts">
-          <option value="" selected disabled>Sort by</option>
           <option value="most-viewed">Most Viewed</option>
           <option value="least-viewed">Least Viewed</option>
         </select>
       </div>
-      <div class="col-md-3 mb-3 pt-2 pt-md-0" v-if="selectedPodcast">
-        <select v-model="durationFilter" class="form-select" id="durationFilter" @change="applyFilters">
-          <option value="" selected disabled>Duration</option>
-          <option value="all">Show All</option>
-          <option value="short">Short (≤ 10 min)</option>
-          <option value="medium">Medium (10 - 30 min)</option>
-          <option value="long">Long (30 - 60 min)</option>
-          <option value="veryLong">Very Long (> 60 min)</option>
+      <div class="col-md-3 mb-3" v-if="selectedPodcast">
+        <select class="form-select" v-model="durationFilter" @change="filterPodcasts">
+          <option value="">All Durations</option>
+          <option value="longest">Longest</option>
+          <option value="shortest">Shortest</option>
+          <option value="0-10">0 - 10 min</option>
+          <option value="10-30">10 - 30 min</option>
+          <option value="30-60">30 - 60 min</option>
+          <option value="more-than-60">More than 1 hour</option>
         </select>
       </div>
-      <div class="mb-3 col-md-6 pt-2 pt-md-0" v-if="selectedPodcast">
-        <input type="search" class="form-control" style="border: lightgrey solid 3px;" placeholder="Search Keyword..."
-          v-model="searchQuery" @input="onSearch" />
+      <div class="mb-3 col-md-6" v-if="selectedPodcast">
+        <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery"
+          @input="onSearch" />
       </div>
-    </div>
-    <!-- -->
-
-    <!-- Loading Spinner Appears Only When Podcasts Are Loading -->
-    <div v-if="loading" class="d-flex align-items-center justify-content-center my-4">
-      <div class="spinner-border text-success me-2" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <span class="text-muted">Podcasts are loading, please wait...</span>
     </div>
 
     <!-- Podcast Cards -->
-    <div v-else-if="paginatedPodcasts.length" class="pt-3">
-      <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
-        <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
-          <div class="card h-100"
-            style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
-            <div class="card-body">
-              <h2 class="card-title display-4 fw-bold" v-html="highlightText(podcast.title)"></h2><br /><br />
-              Views: {{ podcast.views }}<br />
-              Duration: {{ podcast.duration }} min<br />
-              Published on: {{ formatDate(podcast.pubDate) }}
-              <!-- Fixed Bottom Controls -->
-              <div class="podcast-controls pt-3" style="bottom: 0px;">
-                <!-- <i :class="isBookmarked(podcast) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"
-                  @click="toggleBookmark(podcast)" style="cursor: pointer; font-size: 1.5rem;"></i>
-                  <i :class="isFavourite(podcast) ? 'bi bi-heart-fill' : 'bi bi-heart'" @click="toggleFavourite(podcast)"
-                  style="cursor: pointer; font-size: 1.5rem;"></i> -->
-                <div class="container text-center d-flex justify-content-evenly">
+    <div v-if="!loading && paginatedPodcasts.length">
+      <div v-if="!loading && paginatedPodcasts.length">
+        <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
+          <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
+            <div class="card h-100"
+              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+              <div class="card-body pb-2">
+                <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
+                Views: {{ podcast.views }}<br />
+                Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}<br />
+                Published on: {{ formatDate(podcast.pubDate) }}
+                <div class="container pt-3 text-center d-flex justify-content-between" style="bottom: 0;">
+                  <div class=""></div>
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
                     @click="shareOnWhatsApp(podcast)"></i>
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
                     @click="downloadAudio(podcast)"></i>
+                    <div class=""></div>
                 </div>
+                
               </div>
+              <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
+                class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);"
+                @loadedmetadata="updateDuration(podcast, $event)">
+                Your browser does not support the audio element.
+              </audio>
+              <p v-else>No audio available for this podcast.</p>
             </div>
-            <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-              @loadedmetadata="updateDuration(podcast, $event)" class="w-100 audio"
-              style="border-radius: 0; background: rgb(13, 182, 145);">
-              Your browser does not support the audio element.
-            </audio>
-
-            <p v-else>No audio available for this podcast.</p>
           </div>
         </div>
       </div>
 
+
       <nav aria-label="Podcast pagination" class="mt-4">
-        <ul class="pagination justify-content-center custom-pagination">
+        <ul class="pagination justify-content-center">
           <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)"
+              style="background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);">
+              Previous
+            </a>
           </li>
           <li v-for="page in pages" :key="page" class="page-item" :class="{ 'active': currentPage === page }">
-            <a class="page-link" href="#" @click.prevent="changePage(page)">{{ page }}</a>
+            <a class="page-link" href="#" @click.prevent="changePage(page)" :style="currentPage === page ? 'background-color: white; color: rgb(13, 182, 145); border-color: rgb(13, 182, 145);'
+              : 'background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);'">
+              {{ page }}
+            </a>
           </li>
           <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-            <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)">Next</a>
+            <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)"
+              style="background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);">
+              Next
+            </a>
           </li>
         </ul>
       </nav>
 
 
+
+
+
     </div>
 
+    <div v-else-if="!loading" class="text-center">No podcasts found</div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      allPodcasts: [],
-      displayedPodcasts: [],
       podcastMeta: new Map(),
-      durationFilter: "",
+      ddurationFilter: "",
       selectedYear: "",
       selectedMonth: "",
       selectedWeek: "",
@@ -227,82 +253,48 @@ export default {
       selectedPodcast: "",
       islamicPodcasts: [
         {
-          name: "Abdur-Raheem McCarthy",
-          rssUrl: "https://muslimcentral.com/audio/abdur-raheem-mccarthy/feed/",
-          desc: "Shaykh Abdur-Raheem McCarthy is a well-known Islamic speaker and educator with a unique ability to connect with people from diverse backgrounds. Born and raised in the United States, he converted to Islam and pursued Islamic studies in the Middle East. His lectures focus on practical applications of Islamic teachings, covering topics such as faith, character development, family life, and navigating the challenges of modern society. With a straightforward and engaging style, he emphasizes the importance of authentic knowledge, spiritual growth, and the balance between deen and dunya. His thought-provoking talks inspire listeners to implement Islamic values in their daily lives.",
-          image: ('./images/abdur-raheem-mccarthy-150x150.jpg'),
-          episodeCount: null
+          name: "The Mad Mamluks",
+          rssUrl: "https://themadmamluks.libsyn.com/rss",
+          desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community."
         },
         {
-          name: "Hamza Tzortzis",
-          rssUrl: "https://muslimcentral.com/audio/hamza-tzortzis/feed/",
-          desc: "Ustadh Hamza Tzortzis is a prominent Muslim intellectual and da'ee specializing in Islamic philosophy, theology, and contemporary ideological challenges. As a former atheist who embraced Islam, he brings deep insights into debates on atheism, secularism, and the existence of God. His lectures explore the rational foundations of Islamic belief, demonstrating how faith is not just spiritual but intellectually fulfilling.",
-          image: ('./images/hamza-tzortzis-150x150.jpg'),
-          episodeCount: null
+
+          name: "The Deen Show",
+          rssUrl: "https://thedeenshow.com/feed/podcast/",
+          desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you."
         },
         {
-          name: "Mikaeel Smith",
-          rssUrl: "https://muslimcentral.com/audio/mikaeel-smith/feed/",
-          desc: "Ustadh Mikaeel Smith is a scholar, teacher, and author focusing on Islamic character development, emotional intelligence, and the prophetic way of living. His lectures delve into the spiritual and psychological dimensions of Islam, exploring how faith can nurture inner peace, resilience, and positive relationships.",
-          image: ('./images/mikaeel-smith-150x150.jpg'),
-          episodeCount: null
+          name: "SeekersGuidance",
+          rssUrl: "https://seekersguidance.org/feed/podcast/",
+          desc: "SeekersGuidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide."
         },
-        {
-          name: "Jamal Abdinasir",
-          rssUrl: "https://muslimcentral.com/audio/jamal-abdinasir/feed/",
-          desc: "Sheikh Jamal Abdinasir is an inspiring speaker known for his ability to make Islamic teachings accessible and applicable to everyday life. His lectures focus on self-improvement, spirituality, and family values, helping listeners build a stronger connection with their faith. He frequently addresses issues faced by Muslim youth, offering practical advice on navigating modern challenges while remaining steadfast in Islam.",
-          image: ('./images/jamal-abdinasir-150x150.jpg'),
-          episodeCount: null
-        },
-        {
-          name: "Ikram Sanaullah",
-          rssUrl: "https://muslimcentral.com/audio/ikram-sanaullah/feed/",
-          desc: "Ustadh Ikram Sanaullah is a passionate speaker dedicated to strengthening the faith of young Muslims. His lectures highlight the importance of Islamic identity, community involvement, and developing good character. Through storytelling and real-life examples, he connects with listeners on a personal level, encouraging them to embody Islamic values in their daily lives.",
-          image: ('./images/ikram-sanaullah-150x150.jpg'),
-          episodeCount: null,
-        },
-        {
-          name: "Iqbal Gora",
-          rssUrl: "https://muslimcentral.com/audio/iqbal-gora/feed/",
-          desc: "Sheikh Iqbal Gora delivers insightful lectures on Islamic spirituality, the meaning of worship, and the significance of maintaining a strong relationship with Allah. His talks focus on personal development, patience, and gratitude as key aspects of a fulfilling Islamic life.",
-          image: ('./images/iqbal-gora-150x150.jpg'),
-          episodeCount: null
-        },
-        {
-          name: "Isam Rajab",
-          rssUrl: "https://muslimcentral.com/audio/isam-rajab/feed/",
-          desc: "Dr. Isam Rajab is a distinguished Islamic scholar specializing in Fiqh (Islamic jurisprudence) and ethics. His lectures provide detailed discussions on various aspects of Islamic law, including halal and haram, financial ethics, and family issues. He simplifies complex rulings for a broad audience, making Islamic law more accessible and practical for everyday life.",
-          image: ('./images/isam-rajab-150x150.jpg'),
-          episodeCount: null
-        },
-        {
-          name: "Khalid Yasin",
-          rssUrl: "https://muslimcentral.com/audio/khalid-yasin/feed/",
-          desc: "Sheikh Khalid Yasin is a renowned da'ee known for his passionate and thought-provoking lectures on Islam. His powerful speeches cover topics such as Tawheed (the oneness of Allah), the purpose of life, and the role of Muslims in contemporary society.",
-          image: ('./images/khalid-yasin-150x150.jpg'),
-          episodeCount: null
-        },
+        // {
+        //   name: "Tech Won't Save Us",
+        //   rssUrl: "https://feeds.buzzsprout.com/1004689.rss",
+        //   desc: "Tech Won’t Save Us is a podcast hosted by Paris Marx that critically examines the narratives surrounding the tech industry. It challenges the myths of innovation, progress, and disruption, exposing how technology is often driven by corporate interests, profit motives, and political agendas rather than genuine social good. Through in-depth discussions with experts, journalists, and activists, the podcast explores the broader societal impacts of technological developments."
+        // },
+        // {
+        //   name: "test",
+        //   rssUrl: "https://www.understandingislam.org/feed/podcast",
+        //   desc: "A series dedicated to the lives of the first generation of Muslims."
+        // },
       ],
-      selectedDateFilter: "",
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
       showToast: false,
       toastType: '',
       podcasts: [],
       filteredPodcasts: [],
-      loading: false,
+      loading: true,
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
       currentPage: 1,
-      podcastsPerPage: 7,
+      podcastsPerPage: 9,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
-      sortOption: 'most-viewed',
+      sortOption: 'mostViewed',
       dateFilter: 'weekly',
-      bookmarks: [],
-      favourites: [],
-      selectedPodcast: null,
-      highlightedPodcast: null,
+      durationFilter: 'longest',
     };
   },
 
@@ -329,92 +321,13 @@ export default {
   },
 
   methods: {
-    
-    // Load saved podcasts from localStorage
-    loadData() {
-      this.bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
-      this.favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    },
-    // Save data to localStorage
-    saveData() {
-      localStorage.setItem("bookmarks", JSON.stringify(this.bookmarks));
-      localStorage.setItem("favourites", JSON.stringify(this.favourites));
-    },
-    // Scroll to Podcast Card and Highlight
-    scrollToPodcast(podcast) {
-      const podcastId = "podcast-card-" + (podcast.id || podcast.title.replace(/\s/g, '-'));
-      const podcastElement = document.getElementById(podcastId);
-
-      if (podcastElement) {
-        podcastElement.scrollIntoView({ behavior: "smooth", block: "center" });
-        this.highlightedPodcast = podcastId;
-
-        // Remove highlight after 3 seconds
-        setTimeout(() => {
-          this.highlightedPodcast = null;
-        }, 3000);
-      } else {
-        console.warn("Podcast element not found:", podcast);
-      }
-    },
-    removeBookmark(index) {
-      this.bookmarks.splice(index, 1);
-      this.saveData();
-    },
-    removeFavourite(index) {
-      this.favourites.splice(index, 1);
-      this.saveData();
-    },
     updateDuration(podcast, event) {
-      if (event && event.target && event.target.duration) {
-        podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
-        this.$forceUpdate(); // Ensure Vue updates UI
-        this.applyFilters(); // Re-apply filters after durations are set
-      }
-    },
-    async resetAndFetchPodcasts() {
-      this.displayedPodcasts = [];
-      this.allPodcasts = [];
-      await this.fetchPodcasts();
-    },
-    applyFilters() {
-      let filtered = [...this.podcasts];
-
-      // Apply Duration Filter
-      if (this.durationFilter) {
-        filtered = filtered.filter(podcast => {
-          console.log(`Checking duration ${podcast.duration} against filter ${this.durationFilter}`);
-
-          if (this.durationFilter === "short") return podcast.duration <= 10;
-          if (this.durationFilter === "medium") return podcast.duration > 10 && podcast.duration <= 30;
-          if (this.durationFilter === "long") return podcast.duration > 30 && podcast.duration <= 60;
-          if (this.durationFilter === "veryLong") return podcast.duration > 60;
-          return true;
-        });
-      }
-
-      // Apply Date Filter
-      if (this.selectedDateFilter) {
-        const now = new Date();
-        filtered = filtered.filter(podcast => {
-          const pubDate = new Date(podcast.pubDate);
-          if (this.selectedDateFilter === "yearly") return pubDate.getFullYear() === now.getFullYear();
-          if (this.selectedDateFilter === "monthly") return pubDate.getFullYear() === now.getFullYear() && pubDate.getMonth() === now.getMonth();
-          if (this.selectedDateFilter === "weekly") return (now - pubDate) <= 7 * 24 * 60 * 60 * 1000;
-          if (this.selectedDateFilter === "daily") return now.toDateString() === pubDate.toDateString();
-          return true;
-        });
-      }
-
-      // Apply Sorting by Views
-      if (this.sortBy === "most-viewed") {
-        filtered.sort((a, b) => b.views - a.views);
-      } else if (this.sortBy === "least-viewed") {
-        filtered.sort((a, b) => a.views - b.views);
-      }
-
-      this.filteredPodcasts = filtered;
-    },
+    if (event && event.target && event.target.duration) {
+      podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
+      this.$forceUpdate(); // Ensure Vue updates UI
+      this.applyFilters(); // Re-apply filters after durations are set
+    }
+  },
     shareOnWhatsApp(podcast) {
       if (!podcast || !podcast.audioUrl) {
         alert("Podcast information is missing!");
@@ -510,6 +423,8 @@ export default {
       this.fetchPodcasts();
     },
 
+
+
     applyDateFilter(filtered) {
       const now = new Date();
       return filtered.filter(podcast => {
@@ -544,29 +459,26 @@ export default {
       if (!this.selectedPodcast) return;
 
       this.loading = true;
-      this.podcasts = [];
-      this.filteredPodcasts = [];
       this.rssUrl = this.selectedPodcast.rssUrl;
 
       try {
-        const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(this.rssUrl)}`);
-        const data = await response.json();
+        const response = await fetch(this.rssUrl);
+        const data = await response.text();
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-        const items = xmlDoc.getElementsByTagName("item");
+        const xmlDoc = parser.parseFromString(data, 'text/xml');
+        const items = xmlDoc.getElementsByTagName('item');
 
-        this.podcasts = Array.from(items).map(item => {
-          const podcast = {
-            title: item.getElementsByTagName("title")[0]?.textContent || "No title",
-            pubDate: item.getElementsByTagName("pubDate")[0]?.textContent || "Unknown",
-            description: item.getElementsByTagName("description")[0]?.textContent || "No description available.",
-            audioUrl: item.getElementsByTagName("enclosure")[0]?.getAttribute("url") || null,
+        this.podcasts = Array.from(items)
+          .map(item => ({
+            title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
+            pubDate: item.getElementsByTagName('pubDate')[0]?.textContent || 'Unknown',
+            description: item.getElementsByTagName('description')[0]?.textContent || 'No description available.',
+            audioUrl: item.getElementsByTagName('enclosure')[0]?.getAttribute('url') || null,
             views: Math.floor(Math.random() * 1000),
-            duration: null, // Initially set to null, will update after audio loads
-          };
-
-          return podcast;
-        }).filter(podcast => podcast.audioUrl); // Remove items without audio
+            duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
+            language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '') // Detect language
+          }))
+          .filter(podcast => podcast.audioUrl); // Remove items without audio
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -576,21 +488,6 @@ export default {
       }
     },
 
-    async fetchEpisodeCounts() {
-      for (let podcast of this.islamicPodcasts) {
-        try {
-          const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(podcast.rssUrl)}`);
-          const data = await response.json();
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
-          const episodeCount = xmlDoc.getElementsByTagName("item").length;
-
-          podcast.episodeCount = episodeCount;
-        } catch (error) {
-          console.error(`Error fetching episode count for ${podcast.name}:`, error);
-        }
-      }
-    },
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -598,7 +495,31 @@ export default {
       return date.toLocaleDateString('en-GB', options); // Using 'en-GB' for British date format
     },
 
+    applyFilters() {
+      let filtered = [...this.podcasts];
 
+      // Apply language filter
+      if (this.selectedLanguageFilter) {
+        filtered = filtered.filter(podcast => podcast.language === this.selectedLanguageFilter);
+      }
+
+      // Apply date filter
+      if (this.selectedDateFilter) {
+        filtered = this.applyDateFilter(filtered);
+      }
+
+      // Apply duration filter
+      if (this.durationFilter) {
+        filtered = this.applyDurationFilter(filtered);
+      }
+
+      // Apply sorting
+      if (this.sortOption) {
+        filtered = this.applySorting(filtered);
+      }
+
+      this.filteredPodcasts = filtered; // Update filtered podcasts
+    },
 
     detectLanguage(text) {
       if (/[؀-ۿ]/.test(text)) {
@@ -643,6 +564,22 @@ export default {
           return podcasts.filter(podcast => podcast.duration > 60);
         default:
           return podcasts;
+      }
+    },
+
+    async fetchEpisodeCounts() {
+      for (let podcast of this.islamicPodcasts) {
+        try {
+          const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(podcast.rssUrl)}`);
+          const data = await response.json();
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+          const episodeCount = xmlDoc.getElementsByTagName("item").length;
+
+          podcast.episodeCount = episodeCount;
+        } catch (error) {
+          console.error(`Error fetching episode count for ${podcast.name}:`, error);
+        }
       }
     },
 
@@ -691,6 +628,7 @@ export default {
     isFavourite(podcast) {
       return this.favourites.some(fav => fav.title === podcast.title);
     },
+
     changePage(page) {
       if (page !== '...') this.currentPage = page;
     },
@@ -700,7 +638,6 @@ export default {
     this.fetchPodcasts().then(() => {
       this.applyFilters(); // Apply filters once podcasts are loaded
       this.fetchEpisodeCounts();
-      this.loadData();
     });
   },
 
@@ -718,34 +655,6 @@ export default {
 </script>
 
 <style scoped>
-/* Custom Pagination Styles */
-.custom-pagination .page-link {
-  background-color: rgb(13, 182, 145);
-  color: white;
-  border: 1px solid rgb(13, 182, 145);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Hover Effect */
-.custom-pagination .page-link:hover {
-  background-color: rgb(10, 150, 120);
-  color: white;
-}
-
-/* Active Page */
-.custom-pagination .active .page-link {
-  background-color: rgb(10, 150, 120);
-  border-color: rgb(10, 150, 120);
-}
-
-/* Disabled Pages */
-.custom-pagination .disabled .page-link {
-  background-color: lightgray;
-  color: gray;
-  border-color: lightgray;
-  cursor: not-allowed;
-}
-
 @media (max-width: 576px) {
   .pagination {
     /* display: flex; */
@@ -754,17 +663,6 @@ export default {
     justify-content: center;
     /* Centre the pagination */
   }
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Highlight effect */
-.highlight {
-  background-color: yellow !important;
-  transition: background-color 0.5s ease-in-out;
 }
 
 .spinner-container {

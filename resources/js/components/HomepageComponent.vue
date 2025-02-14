@@ -435,7 +435,7 @@
                   <div class="d-grid">
                     <button
                       class="form-control"
-                      style="background: #00bfa6; color: white"
+                      style="background: #57c7b9; color: white; border: white solid 2px;"
                       type="submit"
                     >
                       Subscribe
@@ -458,7 +458,7 @@
           <div class="d-lg-flex justify-content-between py-lg-2">
             <div class="md mb-2 mb-lg-0">
               <p class="mb-0 me-5">
-                <b>© 2024 islamiconnect All rights reserved.</b>
+                <b>© 2025 islamiconnect All rights reserved.</b>
               </p>
             </div>
             <!-- Social icons container, aligned to the right -->

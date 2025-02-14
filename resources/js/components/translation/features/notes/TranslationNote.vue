@@ -18,14 +18,14 @@
                     Basic
                   </label>
                 </div>
-                <div class="col">
+                <div v-if="!isPremium" class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio"
                     v-model="inputMode">
                   <label class="form-check-label" for="audioMode">
                     Audio Note Recording
                   </label>
                 </div>
-                <div class="col">
+                <div v-if="!isPremium" class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor"
                     v-model="inputMode">
                   <label class="form-check-label" for="editorMode">

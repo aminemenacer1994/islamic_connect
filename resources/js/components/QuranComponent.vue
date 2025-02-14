@@ -68,8 +68,11 @@
                                     border-radius: 10px;
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
                                             12px -2px,
-                                        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-                                ">
+                                        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                                    
+
+                                   
+                                        
                                     <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
                                         <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
@@ -81,8 +84,7 @@
                                                         ayah.ayah_id),
                                             }" style="
                                             padding: 10px;
-                                            border-radius: 10px;
-                                        ">
+                                            border-radius: 10px;">
                                             <h5 class="text-right" style="display: flex">
                                                 Verse: {{ ayah.ayah_id }}
                                             </h5>
@@ -195,8 +197,8 @@
                                         <div v-if="!isVisible" :style="iconStyle">
                                             <div class="col pb-2">
                                                 <i :class="isOpen
-                                                        ? 'bi bi-x-circle-fill'
-                                                        : 'bi bi-plus-circle-fill'
+                                                    ? 'bi bi-x-circle-fill'
+                                                    : 'bi bi-plus-circle-fill'
                                                     " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
                                             </div>
                                             <div v-if="isOpen" class="hide-on-mobile">
@@ -279,17 +281,17 @@
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
                                                         " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                    " @toggle-audio="toggleAudioPlayback
-                                                    " @update-success-message="updateSuccessMessage
-                                                    " />
+                                                            " @toggle-audio="toggleAudioPlayback
+                                                                " @update-success-message="updateSuccessMessage
+                                                                    " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
                                                     <div class="col">
                                                         <i :class="isOpen
-                                                                ? 'bi bi-x-circle'
-                                                                : 'bi bi-plus-circle-fill'
+                                                            ? 'bi bi-x-circle'
+                                                            : 'bi bi-plus-circle-fill'
                                                             " class="text-center mobile-only h3 pt-3"
                                                             @click="toggleContent"></i>
                                                     </div>
@@ -317,9 +319,10 @@
                                             <div v-if="!isVisible" :style="iconStyle">
                                                 <div class="col pb-2">
                                                     <i :class="isOpen
-                                                            ? 'bi bi-x-circle-fill'
-                                                            : 'bi bi-plus-circle-fill'
-                                                        " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
+                                                        ? 'bi bi-x-circle-fill'
+                                                        : 'bi bi-plus-circle-fill'
+                                                        " class="text-left hide-on-mobile h4"
+                                                        @click="toggleContent"></i>
                                                 </div>
                                                 <div v-if="isOpen" class="icon-container-fluid hide-on-mobile">
                                                     <div class="text-center">
@@ -415,8 +418,8 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <i :class="isOpen
-                                                            ? 'bi bi-x-circle'
-                                                            : 'bi bi-plus-circle-fill'
+                                                        ? 'bi bi-x-circle'
+                                                        : 'bi bi-plus-circle-fill'
                                                         " class="text-center mobile-only h3 pt-3"
                                                         @click="toggleContent"></i>
                                                 </div>
@@ -446,8 +449,8 @@
                                                 <div :style="iconStyle">
                                                     <div v-if="!isVisible" class="col pb-2">
                                                         <i :class="isOpen
-                                                                ? 'bi bi-x-circle-fill'
-                                                                : 'bi bi-plus-circle-fill'
+                                                            ? 'bi bi-x-circle-fill'
+                                                            : 'bi bi-plus-circle-fill'
                                                             " class="text-left hide-on-mobile h4"
                                                             @click="toggleContent"></i>
                                                     </div>
@@ -537,16 +540,16 @@
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
                                                         " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                    " @toggle-audio="toggleAudioPlayback
-                                                    " />
+                                                            " @toggle-audio="toggleAudioPlayback
+                                                                " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
                                                     <div class="col">
                                                         <i :class="isOpen
-                                                                ? 'bi bi-x-circle'
-                                                                : 'bi bi-plus-circle-fill'
+                                                            ? 'bi bi-x-circle'
+                                                            : 'bi bi-plus-circle-fill'
                                                             " class="text-center mobile-only h3 pt-3"
                                                             @click="toggleContent"></i>
                                                     </div>
@@ -560,7 +563,7 @@
                                                         :targetTranslationRef="'targetTranslationElement'"
                                                         :translation="translation" @open-modal="openModal" @submit-form="submitFormTransliteration
                                                             " @toggle-audio="toggleAudioPlayback
-                                                        " :isPlaying="isPlaying" />
+                                                                " :isPlaying="isPlaying" />
                                                 </div>
                                             </div>
                                             <!-- end toolbar mobile -->
@@ -711,11 +714,18 @@ export default {
             this.applyStyle();
         }
         this.loadBackgroundColor();
+        this.prepareAyahText();
 
     },
 
     data() {
         return {
+            surahs: [], // List of all Surahs
+            reciters: [], // List of all Reciters
+            translations: [], // List of all Translations
+            selectedSurah: "", // Selected Surah number
+            selectedReciter: "", // Default reciter
+            selectedTranslation: "", // Default translation
             selectedSurahId: 1,
             isVisible: false,
             showAudio: false,
@@ -941,6 +951,18 @@ export default {
         };
     },
     computed: {
+        // Filter ayahs based on search query
+        filteredAyahs() {
+            if (!this.surahDetails) return [];
+            if (!this.searchQuery) return this.surahDetails.ayahs;
+
+            const query = this.searchQuery.toLowerCase();
+            return this.surahDetails.ayahs.filter(
+                (ayah) =>
+                    ayah.text.toLowerCase().includes(query) ||
+                    ayah.translation.toLowerCase().includes(query)
+            );
+        },
         combinedText() {
             // Check if ayah_text and translation have nested structure
             const translation =
@@ -993,6 +1015,88 @@ export default {
         },
     },
     methods: {
+        prepareAyahText() {
+            if (!this.ayah || !this.ayah.text) {
+                console.error("prepareAyahText: ayah.text is missing!", this.ayah);
+                return;
+            }
+
+            this.words = this.ayah.text.split(" ");
+            this.timestamps = this.words.map((_, index) => index * 0.5);
+            this.highlightedAyah = this.words.join(" ");
+
+            console.log("Highlighted Ayah Text:", this.highlightedAyah); // Debugging log
+        },
+        // Fetch all Surahs
+        async fetchSurahs() {
+            try {
+                const response = await fetch("https://api.alquran.cloud/v1/surah");
+                if (!response.ok) throw new Error("Failed to fetch Surahs");
+                const data = await response.json();
+                this.surahs = data.data;
+            } catch (error) {
+                console.error("Error fetching Surahs:", error);
+            }
+        },
+
+        async fetchReciters() {
+            try {
+                const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
+                if (!response.ok) throw new Error("Failed to fetch Reciters");
+
+                const data = await response.json();
+                this.reciters = data.data
+                    .filter((reciter) => reciter.identifier && reciter.englishName)
+                    .map((reciter) => ({
+                        identifier: reciter.identifier,
+                        englishName: reciter.englishName || "Unknown Reciter",
+                    }));
+            } catch (error) {
+                console.error("Error fetching Reciters:", error);
+            }
+        },
+
+        // Fetch all Translations
+        async fetchTranslations() {
+            try {
+                const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
+                if (!response.ok) throw new Error("Failed to fetch Translations");
+                const data = await response.json();
+                this.translations = data.data;
+            } catch (error) {
+                console.error("Error fetching Translations:", error);
+            }
+        },
+
+        async fetchSurahDetails() {
+            if (!this.selectedSurah) return;
+
+            try {
+                const response = await fetch(
+                    `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`
+                );
+                if (!response.ok) throw new Error("Failed to fetch Surah details");
+
+                const data = await response.json();
+
+                const arabicText = data.data[0];
+                const translation = data.data[1];
+
+                this.surahDetails = {
+                    surahNumber: this.selectedSurah,
+                    englishName: arabicText.englishName,
+                    name: arabicText.name,
+                    ayahs: arabicText.ayahs.map((ayah, index) => ({
+                        number: ayah.number,
+                        text: ayah.text,
+                        translation: translation.ayahs[index]?.text || "Translation not available",
+                        audio: ayah.audio || "",
+                    })),
+                };
+            } catch (error) {
+                console.error("Error fetching Surah details:", error);
+            }
+        },
 
         setSelectedSurah(value) {
             console.log(value);
@@ -1734,8 +1838,20 @@ export default {
     },
     created() {
         this.userId = localStorage.getItem("userId");
+        this.fetchSurahs();
+        this.fetchReciters();
+        this.fetchTranslations();
     },
     watch: {
+        ayah: {
+            handler(newAyah) {
+                console.log("Ayah received:", newAyah); // Debugging log
+                if (newAyah && newAyah.text) {
+                    this.prepareAyahText();
+                }
+            },
+            immediate: true,
+        },
         selectedSurah(newSurah) {
             this.selectedSurahId = newSurah;
             this.getAyat();

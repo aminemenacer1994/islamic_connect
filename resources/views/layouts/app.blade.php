@@ -96,7 +96,7 @@
         <!-- Navbar -->
     <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm py-1">
     <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url('/welcome') }}" aria-label="Home">
+    <a class="navbar-brand" href="{{ url('/welcome') }}" data-path="/welcome" aria-label="Home">
         <img 
             src="/images/logo_main.png" 
             width="300"
