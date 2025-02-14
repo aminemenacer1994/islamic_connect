@@ -184,9 +184,8 @@
                     @click="shareOnWhatsApp(podcast)"></i>
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
                     @click="downloadAudio(podcast)"></i>
-                    <div class=""></div>
+                  <div class=""></div>
                 </div>
-                
               </div>
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);"
@@ -223,10 +222,6 @@
         </ul>
       </nav>
 
-
-
-
-
     </div>
 
     <div v-else-if="!loading" class="text-center">No podcasts found</div>
@@ -255,18 +250,21 @@ export default {
         {
           name: "The Mad Mamluks",
           rssUrl: "https://themadmamluks.libsyn.com/rss",
-          desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community."
+          desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community.",
+          image: '/images/mad_mamluk.jpg',
         },
         {
 
           name: "The Deen Show",
           rssUrl: "https://thedeenshow.com/feed/podcast/",
-          desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you."
+          desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you.",
+          image: '/images/deen_show.png',
         },
         {
           name: "SeekersGuidance",
           rssUrl: "https://seekersguidance.org/feed/podcast/",
-          desc: "SeekersGuidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide."
+          desc: "SeekersGuidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide.",
+          image: '/images/seekers_guidance.png'
         },
         // {
         //   name: "Tech Won't Save Us",
@@ -322,12 +320,12 @@ export default {
 
   methods: {
     updateDuration(podcast, event) {
-    if (event && event.target && event.target.duration) {
-      podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
-      this.$forceUpdate(); // Ensure Vue updates UI
-      this.applyFilters(); // Re-apply filters after durations are set
-    }
-  },
+      if (event && event.target && event.target.duration) {
+        podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
+        this.$forceUpdate(); // Ensure Vue updates UI
+        this.applyFilters(); // Re-apply filters after durations are set
+      }
+    },
     shareOnWhatsApp(podcast) {
       if (!podcast || !podcast.audioUrl) {
         alert("Podcast information is missing!");
@@ -422,8 +420,6 @@ export default {
       console.log("Updating podcasts...");
       this.fetchPodcasts();
     },
-
-
 
     applyDateFilter(filtered) {
       const now = new Date();
@@ -650,7 +646,7 @@ export default {
     sortOption: 'applyFilters',
     durationFilter: 'applyFilters',
     dateFilter: 'applyFilters',
-  }
+  },
 };
 </script>
 
