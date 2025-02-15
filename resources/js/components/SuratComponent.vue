@@ -11,7 +11,7 @@
       </div>
     </div>
     <!-- Sticky Dropdowns -->
-    <div  class="sticky-dropdown container-fluid">
+    <div class="sticky-dropdown container-fluid">
       <div class="row g-3" style="padding: 8px;">
         <!-- Dropdown to select Surah -->
         <div class="col-md-4">
@@ -59,91 +59,69 @@
 
 
 
-    <!-- Ayahs in Two Columns -->
-    <div class="row" dir="rtl">
+    <div class="row rtl-text">
+      <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4 mt-3">
+        <div ref="audioCard" class="card shadow-sm h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-top-left-radius: 10px; 
+        border-top-right-radius: 10px; 
+        border-bottom-left-radius: 0px; 
+        border-bottom-right-radius: 0px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;">
 
-      <div v-if="surahDetails" class="col-12">
-        <p class="text-center fw-bold display-5 pt-3 mb-2">
-          {{ surahDetails.englishName }} ({{ surahDetails.name }})
-        </p>
-
-        <!-- Search Bar -->
-        <div class="row mb-4">
-          <div class="col-md-6">
-            <input type="text" class="form-control shadow-sm ltr-text" v-model="searchQuery"
-              placeholder="Search for a keyword..." />
+          <!-- Surah and Ayah Number -->
+          <div class="d-flex justify-content-between p-3 text-muted ltr-text">
+            <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}
+            </h4>
           </div>
-        </div>
 
-        <div class="row">
-          <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4">
-            <div class="card shadow-sm h-100 d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-                border-top-left-radius: 10px; 
-                border-top-right-radius: 10px; 
-                border-bottom-left-radius: 0px; 
-                border-bottom-right-radius: 0px;
-                display: flex;
-                flex-direction: column;
-                height: 100%;">
+          <!-- Arabic Text (RTL) -->
+          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
+            :style="{ fontSize: arabicFontSize + 'px' }">
+          </p>
 
-              <!-- Surah and Ayah Number -->
-              <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-                <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}
-                </h4>
-              </div>
+          <!-- Translation (LTR) -->
+          <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+            :style="{ fontSize: translationFontSize + 'px' }">
+          </p>
 
-              <!-- Arabic Text (RTL) -->
-              <p class="arabic-text p-2 fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
-                :style="{ fontSize: arabicFontSize + 'px' }">
-              </p> 
-
-              <!-- Translation (LTR) -->
-              <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
-                :style="{ fontSize: translationFontSize + 'px' }">
-              </p>
-
-              <!-- Stick to bottom container -->
-              <div class="mt-auto">
-                <!-- Button Section -->
-                <div class="container pb-3 text-center">
-                  <div class="row">
-                    <div class="col">
-                      <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
-                        @click="shareOnWhatsApp(ayah)"></i>
-                    </div>
-                    <div class="col">
-                      <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"></i>
-                    </div>
-                    <div class="col">
-                      <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
-                        @click="decreaseFontSize"></i>
-                    </div>
-                    <div class="col">
-                      <i style="cursor: pointer; font-size: 1.5rem;" @click="increaseFontSize"
-                        class="bi bi-plus-circle mx-2"></i>
-                    </div>
-                    <div class="col">
-                      <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                        @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
-                      </i>
-                    </div>
-                  </div>
+          <!-- Stick to bottom container -->
+          <div class="mt-auto">
+            <!-- Button Section -->
+            <div class="container pb-3 text-center">
+              <div class="row">
+                <div class="col">
+                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"></i>
                 </div>
-
-                <!-- Audio Player Stuck to Bottom -->
-                <div class="pt-2">
-                  <audio ref="audioPlayer" controls class="audio-player w-100" @timeupdate="syncHighlight">
-                    <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
-                  </audio>
+                <div class="col">
+                  <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"></i>
+                </div>
+                <div class="col">
+                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
+                    @click="decreaseFontSize"></i>
+                </div>
+                <div class="col">
+                  <i style="cursor: pointer; font-size: 1.5rem;" @click="increaseFontSize"
+                    class="bi bi-plus-circle mx-2"></i>
+                </div>
+                <div class="col">
+                  <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
+                  </i>
                 </div>
               </div>
+            </div>
 
+            <!-- Audio Player Stuck to Bottom -->
+            <div class="pt-2">
+              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)" @ended="playNextAyah">
+                <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
+              </audio>
             </div>
           </div>
+
         </div>
-
-
-
       </div>
     </div>
 
@@ -155,6 +133,7 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      currentlyPlaying: null,
       surahs: [], // List of all Surahs
       reciters: [], // List of all Reciters
       translations: [], // List of all Translations
@@ -165,12 +144,13 @@ export default {
       surahDetails: null, // Details of the selected Surah or Juz
       searchQuery: "",
       arabicFontSize: 20, // Default font size for Arabic text
-      translationFontSize: 16,
+      translationFontSize: 18,
       toastMessage: "",
       toastVisible: false,
       words: [],
       timestamps: [],
       highlightedAyah: "",
+
     };
   },
   mounted() {
@@ -296,6 +276,16 @@ export default {
       }
     },
 
+    playNextAyah() {
+      if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
+        const nextIndex = this.currentlyPlayingIndex + 1;
+        this.playAudio(nextIndex); // Play the next ayah
+      } else {
+        // Reset if no next ayah is available
+        this.currentlyPlayingIndex = null;
+      }
+    },
+
     // Fetch all Surahs
     async fetchSurahs() {
       try {
@@ -365,6 +355,32 @@ export default {
       } catch (error) {
         console.error("Error fetching Surah details:", error);
       }
+    },
+
+    playAudio(index) {
+      const audioPlayer = this.$refs.audioPlayer[index];
+
+      if (this.currentlyPlaying !== null && this.currentlyPlaying !== audioPlayer) {
+        this.currentlyPlaying.pause(); // Stop the previously playing audio
+        this.currentlyPlaying = null;
+      }
+
+      if (this.currentlyPlaying === audioPlayer) {
+        audioPlayer.pause();
+        this.currentlyPlaying = null;
+      } else {
+        audioPlayer.play();
+        this.currentlyPlaying = audioPlayer;
+      }
+
+      // Highlight the card
+      this.$refs.audioCard.forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('highlighted');
+        } else {
+          card.classList.remove('highlighted');
+        }
+      });
     },
 
     highlightText(text) {
@@ -454,8 +470,8 @@ export default {
 }
 
 .action-icon:hover {
-  color: #0db691;
-  /* Green hover effect */
+  color: rgb(13, 182, 145)
+    /* Green hover effect */
 }
 
 /* Sticky Dropdown Styling */
@@ -470,7 +486,7 @@ export default {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   /* Adds a shadow effect */
   border-bottom: 2px solid #ddd;
-  border: 2px solid #0db691;
+  border: 2px solid rgb(13, 182, 145);
   border-radius: 5px;
   /* Subtle separator */
 }
@@ -543,7 +559,7 @@ export default {
   margin-top: auto;
   /* Pushes audio player to the bottom */
   width: 100%;
-  background: rgb(13, 182, 145);
+  background: rgb(13, 182, 145)
 }
 
 .audio-player {

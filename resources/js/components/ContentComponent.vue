@@ -188,8 +188,8 @@
     <div v-if="!loading && paginatedPodcasts.length">
       <div v-if="!loading && paginatedPodcasts.length">
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
-          <div v-for="podcast in paginatedPodcasts" :key="podcast.title" class="col">
-            <div class="card h-100"
+          <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
+            <div ref="podcastCard" class="card h-100"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
               <div class="card-body pb-2">
                 <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
@@ -206,7 +206,7 @@
                 </div>
               </div>
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);"
+                class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);" @play="playAudio(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
@@ -249,6 +249,7 @@
 export default {
   data() {
     return {
+      currentlyPlaying: null,
       podcastMeta: new Map(),
       ddurationFilter: "",
       selectedYear: "",
@@ -356,20 +357,10 @@ export default {
     },
 
     downloadAudio(podcast) {
-      if (!podcast || !podcast.audioUrl) {
-        alert("No audio available for download!");
-        return;
-      }
-
-      // Create an anchor element dynamically
-      const link = document.createElement("a");
-      link.href = podcast.audioUrl; // Direct link to the MP3 file
-      link.download = podcast.title ? `${podcast.title}.mp3` : "podcast.mp3"; // Set a filename
-      link.style.display = "none";
-
-      document.body.appendChild(link);
-      link.click(); // Trigger the download
-      document.body.removeChild(link); // Cleanup
+      const link = document.createElement('a');
+      link.href = podcast.audioUrl;
+      link.download = podcast.title + '.mp3';
+      link.click();
     },
     // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
@@ -501,7 +492,31 @@ export default {
         this.loading = false;
       }
     },
+    playAudio(index) {
+      const audioPlayer = this.$refs.audioPlayer[index];
 
+      if (this.currentlyPlaying !== null && this.currentlyPlaying !== audioPlayer) {
+        this.currentlyPlaying.pause(); // Stop the previously playing audio
+        this.currentlyPlaying = null;
+      }
+
+      if (this.currentlyPlaying === audioPlayer) {
+        audioPlayer.pause();
+        this.currentlyPlaying = null;
+      } else {
+        audioPlayer.play();
+        this.currentlyPlaying = audioPlayer;
+      }
+
+      // Highlight the card
+      this.$refs.podcastCard.forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('highlighted');
+        } else {
+          card.classList.remove('highlighted');
+        }
+      });
+    },
 
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -644,7 +659,16 @@ export default {
     },
 
     changePage(page) {
-      if (page !== '...') this.currentPage = page;
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.updatePaginatedPodcasts();
+      }
+    },
+
+    updatePaginatedPodcasts() {
+      const start = (this.currentPage - 1) * 9; // Assuming 9 items per page
+      const end = start + 9;
+      this.paginatedPodcasts = this.podcasts.slice(start, end);
     },
   },
 
@@ -669,6 +693,11 @@ export default {
 </script>
 
 <style scoped>
+.highlighted {
+  border: 2px solid rgb(13, 182, 145); /* Green border for highlighting */
+  box-shadow: 0 0 10px rgba(13, 182, 145, 0.5); /* Optional: Add a shadow for better visibility */
+}
+
 @media (max-width: 576px) {
   .pagination {
     /* display: flex; */

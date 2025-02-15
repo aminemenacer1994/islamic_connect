@@ -52,7 +52,7 @@
   width: 70px;
   height: 20px;
   border-radius: 50px;
-  background-color: rgba(0, 191, 166); /* Green background by default */
+  background: rgb(13, 182, 145) !important;
   transition: background-color 0.3s ease; /* Smooth transition for background */
 }
 
@@ -80,7 +80,7 @@
 }
 
 .custom-offcanvas {
-  background-color: #10584f;
+  background: rgb(13, 182, 145) !important;
   color: white;
   width: 30%;
 }
@@ -221,7 +221,7 @@
   }
 
   .custom-offcanvas {
-    background-color: #10584f;
+    background: rgb(13, 182, 145) !important;
     color: white;
     width: 100%;
   }
@@ -286,7 +286,7 @@
 
 audio.custom-audio {
   width: 100% !important;
-  background-color: #0a7e64 !important;
+  background: rgb(13, 182, 145) !important;
   border: none !important;
   border-radius: 0 !important;
   bottom: 0px;
@@ -294,7 +294,7 @@ audio.custom-audio {
 
 /* Custom styling for WebKit audio controls, specific to .custom-audio class */
 .custom-audio::-webkit-media-controls-panel {
-  background-color: #0a7e64 !important;
+  background: rgb(13, 182, 145) !important;
 }
 
 .custom-audio::-webkit-media-controls-play-button,
@@ -326,7 +326,7 @@ audio.custom-audio {
 }
 
 .custom-audio::-webkit-media-controls-volume-slider {
-  background-color: #0a7e64 !important;
+  background: rgb(13, 182, 145) !important;
 }
 
 .highlight {
