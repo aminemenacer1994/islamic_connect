@@ -103,71 +103,23 @@
     </div>
 
 
-    <div class="row" v-if="selectedPodcast">
-
-      <!-- Date Filter -->
-      <!-- <div class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedDateFilter" @change="filterByDate">
-          <option value="select date filter" disabled>Select a Date Filter</option>
-          <option value="yearly">This Year</option>
-          <option value="monthly">This Month</option>
-          <option value="weekly">This Week</option>
-          <option value="daily">Today</option>
-        </select>
-      </div> -->
-
-      <!-- Select Date Filter -->
-      <!-- Yearly Filter -->
-      <!-- <div v-if="selectedDateFilter === 'yearly'" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedYear" @change="onYearSelect">
-          <option value="" disabled>Select Year</option>
-          <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-        </select>
-      </div> -->
-
-      <!-- Monthly Filter (Only If a Year Is Selected) -->
-      <!-- <div v-if="selectedDateFilter === 'yearly' && selectedYear" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedMonth" @change="onMonthSelect">
-          <option value="" disabled>Select Month</option>
-          <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-        </select>
-      </div> -->
-
-      <!-- Weekly Filter (Appears If a Month Is Selected in 'yearly' or If 'weekly' is chosen) -->
-      <!-- <div v-if="(selectedDateFilter === 'yearly' && selectedMonth) || selectedDateFilter === 'weekly'"
-        class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedWeek" @change="onWeekSelect">
-          <option value="" disabled>Select Week</option>
-          <option v-for="week in weeks" :key="week" :value="week">{{ week }}</option>
-        </select>
-      </div> -->
-
-      <!-- Daily Filter (Only If a Week Is Selected) -->
-      <!-- <div v-if="selectedWeek" class="col-md-3 mb-3">
-        <select class="form-select" v-model="selectedDay" @change="updatePodcasts">
-          <option value="" disabled>Select Day</option>
-          <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-        </select>
-      </div>
-      -->
-
-
-    </div>
-
     <div class="pb-3 pt-3" v-if="selectedPodcast">
       <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
-      <p class="col-md-8 display-7">{{ selectedPodcast.desc }}</p>
-      <img class="col-md-3" style="display: flex;" :src="selectedPodcast.image" :alt="selectedPodcast.name">
+      <div class="d-flex justify-content-between align-items-start">
+        <p class="col-md-8 display-7">{{ selectedPodcast.desc }}</p>
+        <img class="col-md-4" :src="selectedPodcast.image" :alt="selectedPodcast.name">
+      </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-3" v-if="selectedPodcast">
+
+    <div class="row g-2 g-md-3">
+      <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
         <select class="form-select" v-model="sortBy" @change="sortPodcasts">
           <option value="most-viewed">Most Viewed</option>
           <option value="least-viewed">Least Viewed</option>
         </select>
       </div>
-      <div class="col-md-3 mb-3" v-if="selectedPodcast">
+      <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
         <select class="form-select" v-model="durationFilter" @change="filterPodcasts">
           <option value="">All Durations</option>
           <option value="longest">Longest</option>
@@ -178,15 +130,24 @@
           <option value="more-than-60">More than 1 hour</option>
         </select>
       </div>
-      <div class="mb-3 col-md-6" v-if="selectedPodcast">
+      <div class="col-md-6 px-2 px-md-3 mb-3" v-if="selectedPodcast">
         <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery"
           @input="onSearch" />
       </div>
     </div>
 
+
+
     <!-- Podcast Cards -->
     <div v-if="!loading && paginatedPodcasts.length">
       <div v-if="!loading && paginatedPodcasts.length">
+        <!-- Loading Spinner -->
+        <div v-if="loading" class="text-center mt-4">
+          <p class="mt-2 fw-bold">Loading podcasts, please wait...</p>
+          <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
             <div ref="podcastCard" class="card h-100"
@@ -215,6 +176,9 @@
           </div>
         </div>
       </div>
+
+      <!-- No Podcasts Found Message -->
+      <div v-else-if="!loading" class="text-center">No podcasts found</div>
 
 
       <nav aria-label="Podcast pagination" class="mt-4">
@@ -249,6 +213,7 @@
 export default {
   data() {
     return {
+      loading: false,
       currentlyPlaying: null,
       podcastMeta: new Map(),
       ddurationFilter: "",
@@ -269,32 +234,35 @@ export default {
         {
           name: "The Mad Mamluks",
           rssUrl: "https://themadmamluks.libsyn.com/rss",
-          desc: "The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders, tackling topics ranging from faith and history to social and political challenges faced by Muslims today. With a mix of humour, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community.",
-          image: ('./images/mad_mamluk.jpg'),
-        },
-        {
+          desc: `The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders.  
+            The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.  
 
+            With a mix of humor, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community, addressing issues that are often overlooked in mainstream media.`,
+          image: "./images/mad_mamluk.jpg",
+        },
+
+        {
           name: "The Deen Show",
           rssUrl: "https://thedeenshow.com/feed/podcast/",
-          desc: "The Deen Show is an American show hosted by Eddie who himself is a convert to the religion of Islam. The show is geared towards non-Muslims wanting to know more about the deen of Islam. Eddie's mission is to spread the pure deen of Islam without cultural deviances. Thinking of converting to Islam? Then this show is for you.",
-          image: ('./images/deen_show.png'),
+          desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
+            With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.  
+
+            The show aims to provide clear, authentic knowledge about Islam, tackling topics such as spirituality, faith, science, relationships, and contemporary issues affecting the Muslim community worldwide.`,
+          image: "./images/deen_show.png",
         },
+
         {
           name: "SeekersGuidance",
           rssUrl: "https://seekersguidance.org/feed/podcast/",
-          desc: "Seekers Guidance is a non-profit Islamic educational platform offering free and accessible online courses, articles, and answers on various aspects of Islam. Founded by Shaykh Faraz Rabbani, it provides structured learning, scholarly guidance, and spiritual mentorship to Muslims worldwide.",
-          image: ('./images/seekers_guidance.png'),
+          desc: `SeekersGuidance is a global Islamic educational platform dedicated to providing high-quality, accessible, and free Islamic knowledge to students worldwide.  
+            Founded by Shaykh Faraz Rabbani, it offers structured online courses, scholarly guidance, and spiritual mentorship.  
+
+            The podcast covers various aspects of Islam, including theology, Quranic exegesis, hadith studies, Islamic law, spirituality, and contemporary challenges.  
+
+            With a strong emphasis on authentic traditional scholarship, SeekersGuidance aims to empower individuals with the knowledge they need to lead a life rooted in faith, ethics, and service to humanity.`,
+          image: "./images/seekers_guidance.png",
         },
-        // {
-        //   name: "Tech Won't Save Us",
-        //   rssUrl: "https://feeds.buzzsprout.com/1004689.rss",
-        //   desc: "Tech Won’t Save Us is a podcast hosted by Paris Marx that critically examines the narratives surrounding the tech industry. It challenges the myths of innovation, progress, and disruption, exposing how technology is often driven by corporate interests, profit motives, and political agendas rather than genuine social good. Through in-depth discussions with experts, journalists, and activists, the podcast explores the broader societal impacts of technological developments."
-        // },
-        // {
-        //   name: "test",
-        //   rssUrl: "https://www.understandingislam.org/feed/podcast",
-        //   desc: "A series dedicated to the lives of the first generation of Muslims."
-        // },
+
       ],
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
@@ -462,7 +430,6 @@ export default {
 
     async fetchPodcasts() {
       if (!this.selectedPodcast) return;
-
       this.loading = true;
       this.rssUrl = this.selectedPodcast.rssUrl;
 
@@ -472,7 +439,12 @@ export default {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, 'text/xml');
         const items = xmlDoc.getElementsByTagName('item');
-
+        // Simulate API call delay
+        setTimeout(async () => {
+          // Your API call logic here
+          this.paginatedPodcasts = await getPodcastsFromAPI();
+          this.loading = false;
+        }, 2000); // Simulated delay for better UX
         this.podcasts = Array.from(items)
           .map(item => ({
             title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
@@ -488,6 +460,7 @@ export default {
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
         console.error("Error fetching podcasts:", error);
+        this.loading = false;
       } finally {
         this.loading = false;
       }
@@ -693,10 +666,30 @@ export default {
 </script>
 
 <style scoped>
-.highlighted {
-  border: 2px solid rgb(13, 182, 145); /* Green border for highlighting */
-  box-shadow: 0 0 10px rgba(13, 182, 145, 0.5); /* Optional: Add a shadow for better visibility */
+img {
+  max-width: 150px;  /* Adjust as needed */
+  height: auto;
 }
+
+.highlighted {
+  border: 2px solid rgb(13, 182, 145);
+  /* Green border for highlighting */
+  box-shadow: 0 0 10px rgba(13, 182, 145, 0.5);
+  /* Optional: Add a shadow for better visibility */
+}
+
+.mobile-padding {
+  padding: 10px;
+  /* Adjust as needed */
+}
+
+@media (min-width: 768px) {
+  .mobile-padding {
+    padding: 20px;
+    /* Increased padding for larger screens */
+  }
+}
+
 
 @media (max-width: 576px) {
   .pagination {
@@ -705,6 +698,13 @@ export default {
     /* Prevent wrapping */
     justify-content: center;
     /* Centre the pagination */
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-padding {
+    margin-bottom: 1rem;
+    /* Adjust as needed */
   }
 }
 
