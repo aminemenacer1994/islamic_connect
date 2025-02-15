@@ -465,6 +465,17 @@ export default {
         this.loading = false;
       }
     },
+
+    playPodcast(podcast) {
+      const allAudios = document.querySelectorAll("audio");
+      allAudios.forEach(audio => {
+        if (audio !== podcast.audioElement) {
+          audio.pause();
+        }
+      });
+      podcast.audioElement.play();
+    },
+    
     playAudio(index) {
       const audioPlayer = this.$refs.audioPlayer[index];
 
