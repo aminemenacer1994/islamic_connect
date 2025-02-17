@@ -2,10 +2,9 @@
   <div class="container py-4">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
-        <h2 class="display-5 fw-bold">The Holy Quran</h2>
+        <h2 class="display-5 fw-bold">Quran Explorer</h2>
         <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
-          Search for specific words, Ayahs, or Surahs, and listen to beautiful recitations to enhance your
-          understanding.
+          Listen to beautiful recitations to enhance your understanding.
           Select a Surah, Juz, or specific verse, and immerse yourself in the wisdom of the Quran.
         </p>
       </div>
@@ -56,7 +55,7 @@
             </option>
           </select>
         </div>
-
+      
       </div>
     </div>
 
@@ -69,13 +68,16 @@
 
 
 
+
     <div class="row rtl-text">
+      <!-- Reading Progress Bar -->
+
       <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        border-top-left-radius: 20px; 
-        border-top-right-radius: 20px; 
-        border-bottom-left-radius: 0px; 
-        border-bottom-right-radius: 0px;
+        border-top-left-radius: 25px; 
+        border-top-right-radius: 25px; 
+        border-bottom-left-radius: 20px; 
+        border-bottom-right-radius: 20px;
         display: flex;
         flex-direction: column;
         height: 100%;">
@@ -136,7 +138,7 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" style="background: rgb(13, 182, 145);"
+              <audio ref="audioPlayer" controls class="audio-player w-100" style="background: rgb(13, 182, 145); border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;"
                 @play="playAudio(index)" @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
@@ -184,8 +186,8 @@ export default {
       timestamps: [],
       highlightedAyah: "",
       wordTimings: [], // Stores timestamps for words
-      highlightedWordIndex: -1 // Tracks which word is currently highlighted
-
+      highlightedWordIndex: -1, // Tracks which word is currently highlighted
+      currentAyahIndex: 0,
     };
   },
   mounted() {
@@ -212,6 +214,7 @@ export default {
     },
   },
   computed: {
+    
     // Filter ayahs based on search query
     filteredAyahs() {
       if (!this.surahDetails) return [];
@@ -255,7 +258,6 @@ export default {
         audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
       }
     },
-
     // Fast forward 15 seconds
     fastForwardAudio(index) {
       const audio = this.$refs.audioPlayer[index];
@@ -354,12 +356,16 @@ export default {
 
     // This method is triggered when the current audio ends
     playNextAyah() {
+
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
         const nextIndex = this.currentlyPlayingIndex + 1;
         this.playAudio(nextIndex); // Instantly play next ayah
       } else {
         this.currentlyPlayingIndex = null;
         this.currentlyPlaying = null;
+      }
+      if (this.currentAyahIndex < this.filteredAyahs.length) {
+        this.currentAyahIndex++;
       }
     },
 
@@ -451,6 +457,8 @@ export default {
       this.currentlyPlaying = audioPlayers[index];
       this.currentlyPlayingIndex = index;
       this.highlightedWordIndex = -1; // Reset previous highlights
+      this.currentAyahIndex = index + 1;
+
 
       // Ensure `ontimeupdate` updates the highlights
       audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
@@ -542,6 +550,7 @@ export default {
 .fab:hover {
   background-color: #0a8a72;
 }
+
 .highlight {
   background-color: yellow;
   transition: background-color 0.3s ease;
