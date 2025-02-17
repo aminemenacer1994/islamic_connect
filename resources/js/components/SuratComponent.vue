@@ -15,7 +15,7 @@
       <div class="row g-3" style="padding: 8px;">
         <!-- Dropdown to select Surah -->
         <div class="col-md-4">
-          <label for="surah-select" class="form-label">Select Surah:</label>
+          <label for="surah-select" class="form-label text-white">Select Surah:</label>
           <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
             <option value="" disabled selected>Select a Surah</option> <!-- Placeholder Option -->
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
@@ -26,7 +26,7 @@
 
         <!-- Dropdown to select Reciter -->
         <div class="col-md-4">
-          <label for="reciter-select" class="form-label">Select Reciter:</label>
+          <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
           <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter"
             @change="fetchSurahDetails">
             <option value="" disabled selected>Select a reciter</option>
@@ -38,7 +38,7 @@
 
         <!-- Dropdown to select Translation Language -->
         <div class="col-md-4">
-          <label for="translation-select" class="form-label">Select Translation:</label>
+          <label for="translation-select" class="form-label text-white">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
             @change="fetchSurahDetails">
             <option value="" disabled selected>Select Translation</option>
@@ -61,14 +61,14 @@
 
     <div class="row rtl-text">
       <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
-        <div ref="audioCard" class="card shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-top-left-radius: 10px; 
-    border-top-right-radius: 10px; 
-    border-bottom-left-radius: 0px; 
-    border-bottom-right-radius: 0px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;">
+        <div ref="audioCard" class="shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          border-top-left-radius: 10px; 
+          border-top-right-radius: 10px; 
+          border-bottom-left-radius: 0px; 
+          border-bottom-right-radius: 0px;
+          display: flex;
+          flex-direction: column;
+          height: 100%;">
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
@@ -76,8 +76,10 @@
           </div>
 
           <!-- Arabic Text (RTL) -->
-          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
-            :style="{ fontSize: arabicFontSize + 'px' }"></p>
+          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+            :style="{ fontSize: arabicFontSize + 'px' }">
+          </p>
+
 
           <!-- Translation (LTR) -->
           <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
@@ -88,6 +90,10 @@
             <!-- Button Section -->
             <div class="container pb-3 text-center">
               <div class="row">
+                <div class="col">
+                  <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="rewindAudio(index)"></i>
+                </div>
                 <div class="col">
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"></i>
                 </div>
@@ -106,6 +112,10 @@
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
                     @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
                   </i>
+                </div>
+                <div class="col">
+                  <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="fastForwardAudio(index)"></i>
                 </div>
               </div>
             </div>
@@ -144,13 +154,15 @@ export default {
       selectedJuz: null, // Selected Juz number
       surahDetails: null, // Details of the selected Surah or Juz
       searchQuery: "",
-      arabicFontSize: 20, // Default font size for Arabic text
-      translationFontSize: 18,
+      arabicFontSize: 22, // Default font size for Arabic text
+      translationFontSize: 20,
       toastMessage: "",
       toastVisible: false,
       words: [],
       timestamps: [],
       highlightedAyah: "",
+      wordTimings: [], // Stores timestamps for words
+      highlightedWordIndex: -1 // Tracks which word is currently highlighted
 
     };
   },
@@ -187,8 +199,36 @@ export default {
           ayah.translation.toLowerCase().includes(query)
       );
     },
+
+    highlightedText() {
+      return (ayah) => {
+        if (!ayah.text) return ""; // Ensure the text exists
+
+        const words = ayah.text.split(" "); // Split ayah text into words
+
+        return words.map((word, index) => {
+          const isHighlighted = index === this.highlightedWordIndex ? 'highlighted-word' : '';
+          return `<span class="${isHighlighted}">${word}</span>`;
+        }).join(" ");
+      };
+    }
   },
   methods: {
+    // Rewind 15 seconds
+    rewindAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
+      }
+    },
+
+    // Fast forward 15 seconds
+    fastForwardAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
+      }
+    },
     prepareAyahText() {
       if (!this.ayah || !this.ayah.text) {
         console.error("prepareAyahText: ayah.text is missing!", this.ayah);
@@ -281,7 +321,7 @@ export default {
     playNextAyah() {
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
         const nextIndex = this.currentlyPlayingIndex + 1;
-        this.playAudio(nextIndex); // Play the next ayah and trigger scrolling
+        this.playAudio(nextIndex); // Instantly play next ayah
       } else {
         this.currentlyPlayingIndex = null;
         this.currentlyPlaying = null;
@@ -365,36 +405,64 @@ export default {
 
       if (!audioPlayers || !audioPlayers[index]) return;
 
-      // Pause the currently playing audio if different
+      // Pause the previous audio if different
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
         this.currentlyPlaying.pause();
         this.currentlyPlaying.currentTime = 0; // Reset previous audio
       }
 
-      // Play the new one
+      // Play the new one immediately
       audioPlayers[index].play();
       this.currentlyPlaying = audioPlayers[index];
       this.currentlyPlayingIndex = index;
+      this.highlightedWordIndex = -1; // Reset previous highlights
 
-      // Highlight the card
+      // Ensure `ontimeupdate` updates the highlights
+      audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
+
+      // Highlight the playing card
       audioCards.forEach((card, i) => {
         card.classList.toggle('highlighted', i === index);
       });
 
-      // Scroll to the highlighted card
+      // Smooth scroll to the playing ayah
       this.scrollToCard(index);
     },
 
-    // Scroll to the currently highlighted card
+    updateHighlight(audioElement) {
+      if (!this.wordTimings || this.wordTimings.length === 0) return;
+
+      const currentTime = audioElement.currentTime;
+      let newHighlightIndex = -1;
+
+      // Find the word that should be highlighted
+      for (let i = 0; i < this.wordTimings.length; i++) {
+        if (currentTime >= this.wordTimings[i]) {
+          newHighlightIndex = i;
+        } else {
+          break;
+        }
+      }
+
+      // Update the highlighted word if changed
+      if (newHighlightIndex !== this.highlightedWordIndex) {
+        this.highlightedWordIndex = newHighlightIndex;
+      }
+    },
+
+    // Smoothly scroll to the currently playing audio
     scrollToCard(index) {
       const card = this.$refs.audioCard[index];
       if (card) {
-        card.scrollIntoView({
-          behavior: 'smooth', // Smooth scroll transition
-          block: 'center'     // Align the card to the center of the container
-        });
+        setTimeout(() => {
+          card.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }, 100);
       }
     },
+
 
     highlightText(text) {
       if (!this.searchQuery) return text;
@@ -436,6 +504,11 @@ export default {
 </script>
 
 <style scoped>
+.highlighted-word {
+  background-color: rgb(255, 0, 0);
+  transition: background-color 0.3s ease-in-out;
+}
+
 .highlight {
   background-color: yellow;
   transition: background-color 0.3s ease;
@@ -445,7 +518,7 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: white;
+  background: rgb(13, 182, 145);
   /* Prevent transparency */
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -462,11 +535,11 @@ export default {
 
 /* Hover Effect */
 .copy-icon:hover {
-  color: #0a7e64;
+  color: #dce7e464;
   transform: scale(1.1);
 }
 
-.action-container {
+/* .action-container {
   width: 100%;
   background-color: white;
   padding: 10px 0;
@@ -474,7 +547,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .action-icon {
   cursor: pointer;
@@ -483,7 +556,7 @@ export default {
 }
 
 .action-icon:hover {
-  color: rgb(13, 182, 145)
+  color: rgba(13, 182, 145, 0.26)
     /* Green hover effect */
 }
 
@@ -492,16 +565,10 @@ export default {
   position: sticky;
   top: 0;
   z-index: 1000;
-  /* Ensures it stays above other elements */
-  background-color: rgba(255, 255, 255, 1.76);
-  /* Matches background */
   padding: 7px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  /* Adds a shadow effect */
   border-bottom: 2px solid #ddd;
-  border: 2px solid rgb(13, 182, 145);
   border-radius: 5px;
-  /* Subtle separator */
 }
 
 /* Smooth transition when scrolling */
@@ -512,7 +579,7 @@ export default {
 /* Container for the audio player */
 .audio-container {
   width: 100%;
-  background-color: rgb(13, 182, 145);
+  background-color: rgba(89, 167, 150, 0.798);
   /* Full background color */
   display: flex;
   bottom: 0px;
@@ -559,7 +626,6 @@ export default {
 
 /* Card Styling */
 .card {
-  /* Top rounded, bottom flat */
   text-align: right;
   direction: rtl;
   display: flex;
