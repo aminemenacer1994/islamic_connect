@@ -20,7 +20,7 @@
       </span>
 
       <!-- The entire content of the dropdowns -->
-      <div v-show="isVisible" class="row g-3" style="padding: 8px;">
+      <div v-show="isVisible" class="row g-3" style="padding: 6px;">
 
         <!-- Dropdown to select Surah -->
         <div class="col-md-4">
@@ -102,30 +102,35 @@
               <div class="row">
                 <div class="col">
                   <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="rewindAudio(index)"></i>
+                    @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
                 <div class="col">
-                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"></i>
+                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
                 </div>
                 <div class="col">
-                  <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"></i>
+                  <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Copy Ayah"></i>
                 </div>
                 <div class="col">
                   <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
-                    @click="decreaseFontSize"></i>
+                    @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Decrease Font Size"></i>
                 </div>
                 <div class="col">
                   <i style="cursor: pointer; font-size: 1.5rem;" @click="increaseFontSize"
-                    class="bi bi-plus-circle mx-2"></i>
+                    class="bi bi-plus-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Increase Font Size"></i>
                 </div>
                 <div class="col">
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">
-                  </i>
+                    @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i>
                 </div>
                 <div class="col">
                   <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="fastForwardAudio(index)"></i>
+                    @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Fast Forward"></i>
                 </div>
               </div>
             </div>
@@ -136,6 +141,7 @@
                 @play="playAudio(index)" @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
+
             </div>
           </div>
 
@@ -333,6 +339,7 @@ export default {
       }
     },
 
+    // This method is triggered when the current audio ends
     playNextAyah() {
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
         const nextIndex = this.currentlyPlayingIndex + 1;
@@ -444,26 +451,6 @@ export default {
       this.scrollToCard(index);
     },
 
-    updateHighlight(audioElement) {
-      if (!this.wordTimings || this.wordTimings.length === 0) return;
-
-      const currentTime = audioElement.currentTime;
-      let newHighlightIndex = -1;
-
-      // Find the word that should be highlighted
-      for (let i = 0; i < this.wordTimings.length; i++) {
-        if (currentTime >= this.wordTimings[i]) {
-          newHighlightIndex = i;
-        } else {
-          break;
-        }
-      }
-
-      // Update the highlighted word if changed
-      if (newHighlightIndex !== this.highlightedWordIndex) {
-        this.highlightedWordIndex = newHighlightIndex;
-      }
-    },
 
     // Smoothly scroll to the currently playing audio
     scrollToCard(index) {
@@ -519,6 +506,42 @@ export default {
 </script>
 
 <style scoped>
+/* Apply color changes on hover for each icon */
+.bi-skip-backward-circle:hover {
+  color: rgb(13, 182, 145);
+  /* Change to your desired color */
+}
+
+.bi-share:hover {
+  color: rgb(13, 182, 145);
+  /* Green color for sharing */
+}
+
+.bi-clipboard:hover {
+  color: rgb(13, 182, 145);
+  /* Yellow color for clipboard */
+}
+
+.bi-dash-circle:hover {
+  color: rgb(13, 182, 145);
+  /* Red color for decreasing font size */
+}
+
+.bi-plus-circle:hover {
+  color: rgb(13, 182, 145);
+  /* Blue color for increasing font size */
+}
+
+.bi-download:hover {
+  color: rgb(13, 182, 145);
+  /* Yellow color for download */
+}
+
+.bi-skip-forward-circle:hover {
+  color: rgb(13, 182, 145);
+  /* Purple color for fast forward */
+}
+
 .highlighted-word {
   background-color: rgb(255, 0, 0);
   transition: background-color 0.3s ease-in-out;
@@ -549,7 +572,7 @@ export default {
 
 /* Hover Effect */
 .copy-icon:hover {
-  color: #000;
+  color: rgb(13, 182, 145);
   transform: scale(1.1);
 }
 
@@ -570,7 +593,7 @@ export default {
 }
 
 .action-icon:hover {
-  color: rgba(13, 182, 145, 0.26)
+  color: rgb(13, 182, 145)
     /* Green hover effect */
 }
 
