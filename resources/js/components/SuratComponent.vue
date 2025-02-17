@@ -10,9 +10,18 @@
         </p>
       </div>
     </div>
-    <!-- Sticky Dropdowns -->
+
+    <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown container-fluid">
-      <div class="row g-3" style="padding: 8px;">
+      <!-- Show/Hide icon for the entire container -->
+      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
+        <i v-if="isVisible" class="bi bi-x-lg"></i> <!-- X icon to hide -->
+        <i v-else class="bi bi-plus-lg"></i> <!-- + icon to show -->
+      </span>
+
+      <!-- The entire content of the dropdowns -->
+      <div v-show="isVisible" class="row g-3" style="padding: 8px;">
+
         <!-- Dropdown to select Surah -->
         <div class="col-md-4">
           <label for="surah-select" class="form-label text-white">Select Surah:</label>
@@ -47,6 +56,7 @@
             </option>
           </select>
         </div>
+
       </div>
     </div>
 
@@ -122,8 +132,8 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)"
-                @ended="playNextAyah">
+              <audio ref="audioPlayer" controls class="audio-player w-100" style="background: rgb(13, 182, 145);"
+                @play="playAudio(index)" @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
@@ -142,6 +152,8 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      isVisible: true,
+      loading: true,
       currentlyPlaying: null,
       displayedAyahs: [], // Holds only the ayahs currently loaded
       ayahBatchSize: 10, // Number of ayahs to load per batch
@@ -154,8 +166,8 @@ export default {
       selectedJuz: null, // Selected Juz number
       surahDetails: null, // Details of the selected Surah or Juz
       searchQuery: "",
-      arabicFontSize: 22, // Default font size for Arabic text
-      translationFontSize: 20,
+      arabicFontSize: 23, // Default font size for Arabic text
+      translationFontSize: 19,
       toastMessage: "",
       toastVisible: false,
       words: [],
@@ -214,6 +226,9 @@ export default {
     }
   },
   methods: {
+    toggleVisibility() {
+      this.isVisible = !this.isVisible;  // Toggle the visibility state
+    },
     // Rewind 15 seconds
     rewindAudio(index) {
       const audio = this.$refs.audioPlayer[index];
@@ -519,7 +534,6 @@ export default {
   top: 0;
   z-index: 1000;
   background: rgb(13, 182, 145);
-  /* Prevent transparency */
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -535,7 +549,7 @@ export default {
 
 /* Hover Effect */
 .copy-icon:hover {
-  color: #dce7e464;
+  color: #000;
   transform: scale(1.1);
 }
 
