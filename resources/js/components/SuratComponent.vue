@@ -72,7 +72,7 @@
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-            <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}</h4>
+            <h4><img src="images/art.png" width="35px" /> {{ surahDetails?.surahNumber }} : {{ index + 1 }}</h4>
           </div>
 
           <!-- Arabic Text (RTL) -->
