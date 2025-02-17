@@ -70,8 +70,8 @@
 
 
     <div class="row rtl-text">
-      <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
-        <div ref="audioCard" class="shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+        <div  class="shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           border-top-left-radius: 10px; 
           border-top-right-radius: 10px; 
           border-bottom-left-radius: 0px; 
@@ -422,34 +422,35 @@ export default {
     },
 
     playAudio(index) {
-      const audioPlayers = this.$refs.audioPlayer;
-      const audioCards = this.$refs.audioCard;
+  const audioPlayers = this.$refs.audioPlayer;
+  const audioCards = this.$refs.audioCard;
 
-      if (!audioPlayers || !audioPlayers[index]) return;
+  if (!audioPlayers || !audioPlayers[index]) return;
 
-      // Pause the previous audio if different
-      if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0; // Reset previous audio
-      }
+  // Pause the previous audio if different
+  if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
+    this.currentlyPlaying.pause();
+    this.currentlyPlaying.currentTime = 0; // Reset previous audio
+  }
 
-      // Play the new one immediately
-      audioPlayers[index].play();
-      this.currentlyPlaying = audioPlayers[index];
-      this.currentlyPlayingIndex = index;
-      this.highlightedWordIndex = -1; // Reset previous highlights
+  // Play the new one immediately
+  audioPlayers[index].play();
+  this.currentlyPlaying = audioPlayers[index];
+  this.currentlyPlayingIndex = index;
+  this.highlightedWordIndex = -1; // Reset previous highlights
 
-      // Ensure `ontimeupdate` updates the highlights
-      audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
+  // Ensure `ontimeupdate` updates the highlights
+  audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
 
-      // Highlight the playing card
-      audioCards.forEach((card, i) => {
-        card.classList.toggle('highlighted', i === index);
-      });
+  // Highlight the playing card
+  audioCards.forEach((card, i) => {
+    card.classList.toggle('highlighted', i === index); // Add 'highlighted' class to the current card
+  });
 
-      // Smooth scroll to the playing ayah
-      this.scrollToCard(index);
-    },
+  // Smooth scroll to the playing ayah
+  this.scrollToCard(index);
+},
+
 
 
     // Smoothly scroll to the currently playing audio
@@ -506,6 +507,11 @@ export default {
 </script>
 
 <style scoped>
+.highlight {
+  background-color: yellow;
+  transition: background-color 0.3s ease;
+}
+
 /* Apply color changes on hover for each icon */
 .bi-skip-backward-circle:hover {
   color: rgb(13, 182, 145);
@@ -547,10 +553,6 @@ export default {
   transition: background-color 0.3s ease-in-out;
 }
 
-.highlight {
-  background-color: yellow;
-  transition: background-color 0.3s ease;
-}
 
 .sticky-dropdown {
   position: sticky;
@@ -576,7 +578,7 @@ export default {
   transform: scale(1.1);
 }
 
-/* .action-container {
+.action-container {
   width: 100%;
   background-color: white;
   padding: 10px 0;
@@ -584,7 +586,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-} */
+}
 
 .action-icon {
   cursor: pointer;
