@@ -2,8 +2,10 @@
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
     <p class="text-center container mb-4">
-      Explore and discover the latest Islamic podcasts, featuring insightful discussions, inspiring content, and topics
-      to deepen your understanding and connection with Islam.
+      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
+      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
+      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing
+      the Muslim community.
     </p>
 
     <!-- Bookmarks Section -->

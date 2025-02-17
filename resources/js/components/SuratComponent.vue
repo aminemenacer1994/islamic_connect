@@ -71,14 +71,14 @@
 
     <div class="row rtl-text">
       <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
-        <div  class="shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-          border-top-left-radius: 10px; 
-          border-top-right-radius: 10px; 
-          border-bottom-left-radius: 0px; 
-          border-bottom-right-radius: 0px;
-          display: flex;
-          flex-direction: column;
-          height: 100%;">
+        <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-top-left-radius: 20px; 
+        border-top-right-radius: 20px; 
+        border-bottom-left-radius: 0px; 
+        border-bottom-right-radius: 0px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;">
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
@@ -89,7 +89,6 @@
           <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
             :style="{ fontSize: arabicFontSize + 'px' }">
           </p>
-
 
           <!-- Translation (LTR) -->
           <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
@@ -141,13 +140,17 @@
                 @play="playAudio(index)" @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
-
             </div>
           </div>
 
         </div>
       </div>
     </div>
+
+    <!-- Scroll to Top FAB -->
+    <button v-show="showScrollButton" @click="scrollToTop" class="fab">
+      <i class="bi bi-arrow-up"></i>
+    </button>
 
 
   </div>
@@ -158,6 +161,7 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      showScrollButton: false,
       isVisible: true,
       loading: true,
       currentlyPlaying: null,
@@ -186,7 +190,10 @@ export default {
   },
   mounted() {
     this.prepareAyahText();
-
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
   created() {
     this.fetchSurahs();
@@ -232,6 +239,12 @@ export default {
     }
   },
   methods: {
+    handleScroll() {
+      this.showScrollButton = window.scrollY > 200;
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     toggleVisibility() {
       this.isVisible = !this.isVisible;  // Toggle the visibility state
     },
@@ -422,34 +435,34 @@ export default {
     },
 
     playAudio(index) {
-  const audioPlayers = this.$refs.audioPlayer;
-  const audioCards = this.$refs.audioCard;
+      const audioPlayers = this.$refs.audioPlayer;
+      const audioCards = this.$refs.audioCard;
 
-  if (!audioPlayers || !audioPlayers[index]) return;
+      if (!audioPlayers || !audioPlayers[index]) return;
 
-  // Pause the previous audio if different
-  if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
-    this.currentlyPlaying.pause();
-    this.currentlyPlaying.currentTime = 0; // Reset previous audio
-  }
+      // Pause the previous audio if different
+      if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0; // Reset previous audio
+      }
 
-  // Play the new one immediately
-  audioPlayers[index].play();
-  this.currentlyPlaying = audioPlayers[index];
-  this.currentlyPlayingIndex = index;
-  this.highlightedWordIndex = -1; // Reset previous highlights
+      // Play the new one immediately
+      audioPlayers[index].play();
+      this.currentlyPlaying = audioPlayers[index];
+      this.currentlyPlayingIndex = index;
+      this.highlightedWordIndex = -1; // Reset previous highlights
 
-  // Ensure `ontimeupdate` updates the highlights
-  audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
+      // Ensure `ontimeupdate` updates the highlights
+      audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
 
-  // Highlight the playing card
-  audioCards.forEach((card, i) => {
-    card.classList.toggle('highlighted', i === index); // Add 'highlighted' class to the current card
-  });
+      // Highlight the playing card
+      audioCards.forEach((card, i) => {
+        card.classList.toggle('highlighted', i === index); // Add 'highlighted' class to the current card
+      });
 
-  // Smooth scroll to the playing ayah
-  this.scrollToCard(index);
-},
+      // Smooth scroll to the playing ayah
+      this.scrollToCard(index);
+    },
 
 
 
@@ -507,6 +520,28 @@ export default {
 </script>
 
 <style scoped>
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #0db691;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.fab:hover {
+  background-color: #0a8a72;
+}
 .highlight {
   background-color: yellow;
   transition: background-color 0.3s ease;
