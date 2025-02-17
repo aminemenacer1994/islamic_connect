@@ -1,13 +1,12 @@
 <template>
     <div id="app">
-
         <div class="pt-3 text-center">
             <Title />
 
             <div style="display: flex" class="container align-items-center"></div>
             <AdvancedSearch v-if="!isVisible" @input-change="handleInputChange" />
             <custom-surah-selection :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
-
+            
 
             <!-- accordion headers -->
             <div class="row container-fluid">
@@ -69,10 +68,10 @@
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
                                             12px -2px,
                                         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
-                                    
 
-                                   
-                                        
+
+
+
                                     <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
                                         <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
@@ -597,6 +596,7 @@
 
 <script defer>
 import html2canvas from "html2canvas";
+import DarkModeToggle from './DarkModeToggle.vue';
 import CustomSurahSelection from "./surah_selection/CustomSurahSelection.vue";
 import SearchForm from "./search/SearchForm.vue";
 import SurahList from "./search/SurahList.vue";
@@ -649,6 +649,7 @@ export default {
     name: "QuranComponent",
     props: {},
     components: {
+        DarkModeToggle,
         PrayerTimes,
         AyahOfTheDay,
         SearchContent,
@@ -727,6 +728,7 @@ export default {
             selectedReciter: "", // Default reciter
             selectedTranslation: "", // Default translation
             selectedSurahId: 1,
+            isDarkMode: false,
             isVisible: false,
             showAudio: false,
             userIsLoggedIn: true,
@@ -1015,6 +1017,9 @@ export default {
         },
     },
     methods: {
+        handleDarkModeChange(isDarkMode) {
+            this.isDarkMode = isDarkMode;
+        },
         prepareAyahText() {
             if (!this.ayah || !this.ayah.text) {
                 console.error("prepareAyahText: ayah.text is missing!", this.ayah);
@@ -1882,6 +1887,26 @@ export default {
 </script>
 
 <style scoped src="./css/styles.css">
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Additional styling for the app */
+h1 {
+  margin-top: 20px;
+}
+
+p {
+  font-size: 1.2em;
+}
 .loading-overlay {
     position: fixed;
     top: 0;

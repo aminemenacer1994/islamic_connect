@@ -60,31 +60,28 @@
 
 
     <div class="row rtl-text">
-      <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-6 mb-4 mt-3">
-        <div ref="audioCard" class="card shadow-sm h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        border-top-left-radius: 10px; 
-        border-top-right-radius: 10px; 
-        border-bottom-left-radius: 0px; 
-        border-bottom-right-radius: 0px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;">
+      <div v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+        <div ref="audioCard" class="card shadow-lg h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+    border-bottom-left-radius: 0px; 
+    border-bottom-right-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;">
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
-            <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}
-            </h4>
+            <h4><img src="images/art.png" width="35px" /> {{ surahDetails.surahNumber }} : {{ ayah.ayahNumber }}</h4>
           </div>
 
           <!-- Arabic Text (RTL) -->
           <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightText(ayah.text)"
-            :style="{ fontSize: arabicFontSize + 'px' }">
-          </p>
+            :style="{ fontSize: arabicFontSize + 'px' }"></p>
 
           <!-- Translation (LTR) -->
           <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
-            :style="{ fontSize: translationFontSize + 'px' }">
-          </p>
+            :style="{ fontSize: translationFontSize + 'px' }"></p>
 
           <!-- Stick to bottom container -->
           <div class="mt-auto">
@@ -115,7 +112,8 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)" @ended="playNextAyah">
+              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)"
+                @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
@@ -124,6 +122,7 @@
         </div>
       </div>
     </div>
+
 
   </div>
 </template>
@@ -134,6 +133,8 @@ export default {
   data() {
     return {
       currentlyPlaying: null,
+      displayedAyahs: [], // Holds only the ayahs currently loaded
+      ayahBatchSize: 10, // Number of ayahs to load per batch
       surahs: [], // List of all Surahs
       reciters: [], // List of all Reciters
       translations: [], // List of all Translations
@@ -155,6 +156,7 @@ export default {
   },
   mounted() {
     this.prepareAyahText();
+
   },
   created() {
     this.fetchSurahs();
@@ -279,10 +281,10 @@ export default {
     playNextAyah() {
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
         const nextIndex = this.currentlyPlayingIndex + 1;
-        this.playAudio(nextIndex); // Play the next ayah
+        this.playAudio(nextIndex); // Play the next ayah and trigger scrolling
       } else {
-        // Reset if no next ayah is available
         this.currentlyPlayingIndex = null;
+        this.currentlyPlaying = null;
       }
     },
 
@@ -358,29 +360,40 @@ export default {
     },
 
     playAudio(index) {
-      const audioPlayer = this.$refs.audioPlayer[index];
+      const audioPlayers = this.$refs.audioPlayer;
+      const audioCards = this.$refs.audioCard;
 
-      if (this.currentlyPlaying !== null && this.currentlyPlaying !== audioPlayer) {
-        this.currentlyPlaying.pause(); // Stop the previously playing audio
-        this.currentlyPlaying = null;
+      if (!audioPlayers || !audioPlayers[index]) return;
+
+      // Pause the currently playing audio if different
+      if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0; // Reset previous audio
       }
 
-      if (this.currentlyPlaying === audioPlayer) {
-        audioPlayer.pause();
-        this.currentlyPlaying = null;
-      } else {
-        audioPlayer.play();
-        this.currentlyPlaying = audioPlayer;
-      }
+      // Play the new one
+      audioPlayers[index].play();
+      this.currentlyPlaying = audioPlayers[index];
+      this.currentlyPlayingIndex = index;
 
       // Highlight the card
-      this.$refs.audioCard.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('highlighted');
-        } else {
-          card.classList.remove('highlighted');
-        }
+      audioCards.forEach((card, i) => {
+        card.classList.toggle('highlighted', i === index);
       });
+
+      // Scroll to the highlighted card
+      this.scrollToCard(index);
+    },
+
+    // Scroll to the currently highlighted card
+    scrollToCard(index) {
+      const card = this.$refs.audioCard[index];
+      if (card) {
+        card.scrollIntoView({
+          behavior: 'smooth', // Smooth scroll transition
+          block: 'center'     // Align the card to the center of the container
+        });
+      }
     },
 
     highlightText(text) {

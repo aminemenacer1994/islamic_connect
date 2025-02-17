@@ -157,24 +157,28 @@
                 Views: {{ podcast.views }}<br />
                 Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}<br />
                 Published on: {{ formatDate(podcast.pubDate) }}
-                <div class="container pt-3 text-center d-flex justify-content-between" style="bottom: 0;">
-                  <div class=""></div>
+
+                <div class="container pt-3 text-center d-flex justify-content-between">
+                  <button @click="rewindAudio(index)" class="btn btn-outline-secondary">-15s</button>
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
                     @click="shareOnWhatsApp(podcast)"></i>
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
                     @click="downloadAudio(podcast)"></i>
-                  <div class=""></div>
+                  <button @click="fastForwardAudio(index)" class="btn btn-outline-secondary">+15s</button>
                 </div>
               </div>
+
+              <!-- Audio Player -->
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);" @play="playAudio(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
-              <p v-else>No audio available for this podcast.</p>
+              <!-- <p v-else>No audio available for this podcast.</p> -->
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- No Podcasts Found Message -->
@@ -306,6 +310,21 @@ export default {
   },
 
   methods: {
+    // Rewind 15 seconds
+    rewindAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
+      }
+    },
+
+    // Fast forward 15 seconds
+    fastForwardAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
+      }
+    },
     updateDuration(podcast, event) {
       if (event && event.target && event.target.duration) {
         podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
@@ -439,12 +458,15 @@ export default {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, 'text/xml');
         const items = xmlDoc.getElementsByTagName('item');
+
         // Simulate API call delay
         setTimeout(async () => {
           // Your API call logic here
           this.paginatedPodcasts = await getPodcastsFromAPI();
           this.loading = false;
         }, 2000); // Simulated delay for better UX
+
+        // Map and filter podcasts
         this.podcasts = Array.from(items)
           .map(item => ({
             title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
@@ -455,7 +477,8 @@ export default {
             duration: Math.floor(Math.random() * 60) + 5, // Simulated duration
             language: this.detectLanguage(item.getElementsByTagName('title')[0]?.textContent || '') // Detect language
           }))
-          .filter(podcast => podcast.audioUrl); // Remove items without audio
+          .filter(podcast => podcast.audioUrl) // Remove items without audio
+          .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort by pubDate (newest to oldest)
 
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
@@ -466,16 +489,22 @@ export default {
       }
     },
 
-    playPodcast(podcast) {
-      const allAudios = document.querySelectorAll("audio");
-      allAudios.forEach(audio => {
-        if (audio !== podcast.audioElement) {
-          audio.pause();
-        }
-      });
-      podcast.audioElement.play();
+    // Rewind 15 seconds
+    rewindAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
+      }
     },
-    
+
+    // Fast forward 15 seconds
+    fastForwardAudio(index) {
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
+      }
+    },
+
     playAudio(index) {
       const audioPlayer = this.$refs.audioPlayer[index];
 
@@ -678,7 +707,8 @@ export default {
 
 <style scoped>
 img {
-  max-width: 150px;  /* Adjust as needed */
+  max-width: 150px;
+  /* Adjust as needed */
   height: auto;
 }
 

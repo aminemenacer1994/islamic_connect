@@ -66,9 +66,41 @@ import TinymceEditor from './components/tinymce/TinymceEditor.vue';
 
 import SurahList from "./components/search/SurahList.vue";
 import SearchForm from "./components/search/SearchForm.vue";
+import DarkModeToggle from "./components/DarkModeToggle.vue";
 
 
-const app = createApp({});
+const app = createApp({
+  data() {
+    return {
+      darkModeState: {
+        isDarkMode: false,
+        setDarkMode: this.setDarkMode, // Method to update dark mode state
+      },
+    };
+  },
+  created() {
+    // Load dark mode preference from localStorage on app creation
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode !== null) {
+      this.darkModeState.isDarkMode = savedMode === 'true';
+    }
+  },
+  methods: {
+    setDarkMode(isDarkMode) {
+      this.darkModeState.isDarkMode = isDarkMode;
+      // Save the preference to localStorage
+      localStorage.setItem('darkMode', isDarkMode);
+    },
+  },
+  provide() {
+    // Provide the dark mode state to all child components
+    return {
+      darkModeState: this.darkModeState,
+    };
+  },
+});
+
+
 
 window.Form = Form;
 window.Swal = swal;
@@ -96,6 +128,7 @@ app.component("Dialog", Dialog);
 app.component("Image", Image);
 app.component("Editor", Editor);
 
+app.component('dark-mode-toggle', DarkModeToggle);
 app.component("users-component", UsersComponent);
 app.component("mailing-list-component", MailingListComponent);
 app.component("feedback-component", FeedbackComponent);
