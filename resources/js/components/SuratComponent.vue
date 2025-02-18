@@ -74,13 +74,13 @@
 
       <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        border-top-left-radius: 25px; 
-        border-top-right-radius: 25px; 
-        border-bottom-left-radius: 20px; 
-        border-bottom-right-radius: 20px;
-        display: flex;
-        flex-direction: column;
-        height: 100%;">
+    border-top-left-radius: 25px; 
+    border-top-right-radius: 25px; 
+    border-bottom-left-radius: 20px; 
+    border-bottom-right-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;">
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
@@ -145,7 +145,6 @@
               </audio>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -164,10 +163,12 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      currentlyPlaying: null,
+      currentlyPlayingIndex: null,
+      scrollTimeout: null,
       showScrollButton: false,
       isVisible: true,
       loading: true,
-      currentlyPlaying: null,
       displayedAyahs: [], // Holds only the ayahs currently loaded
       ayahBatchSize: 9, // Number of ayahs to load per batch
       surahs: [], // List of all Surahs
@@ -355,17 +356,9 @@ export default {
       }
     },
 
-    // This method is triggered when the current audio ends
     playNextAyah() {
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
-        const nextIndex = this.currentlyPlayingIndex + 1;
-        this.playAudio(nextIndex); // Instantly play next ayah
-      } else {
-        this.currentlyPlayingIndex = null;
-        this.currentlyPlaying = null;
-      }
-      if (this.currentAyahIndex < this.filteredAyahs.length) {
-        this.currentAyahIndex++;
+        this.playAudio(this.currentlyPlayingIndex + 1);
       }
     },
 
@@ -448,45 +441,78 @@ export default {
 
       // Pause the previous audio if different
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
+        console.log("Pausing previous audio");
         this.currentlyPlaying.pause();
         this.currentlyPlaying.currentTime = 0;
+
+        // Remove highlight from the previous card
+        const previousIndex = this.currentlyPlayingIndex;
+        if (audioCards[previousIndex]) {
+          audioCards[previousIndex].classList.remove('highlighted');
+        }
       }
 
+      // Play the new audio
       audioPlayers[index].play();
       this.currentlyPlaying = audioPlayers[index];
       this.currentlyPlayingIndex = index;
-      this.highlightedWordIndex = -1;
-      this.currentAyahIndex = index + 1;
 
       // Ensure ontimeupdate updates the highlights
       audioPlayers[index].ontimeupdate = () => {
-        if (typeof this.updateHighlight === "function") {
-          this.updateHighlight(audioPlayers[index]);
-        }
+        requestAnimationFrame(() => {
+          if (typeof this.updateHighlight === "function") {
+            this.updateHighlight(audioPlayers[index]);
+          }
+        });
       };
 
       // Highlight the playing card
-      audioCards.forEach((card, i) => {
-        card.classList.toggle('highlighted', i === index);
-      });
+      if (audioCards[index]) {
+        audioCards[index].classList.add('highlighted');
+      }
 
       // Smooth scroll to the playing ayah
       this.scrollToCard(index);
     },
 
+
     scrollToCard(index) {
       const audioCards = this.$refs.audioCard;
       if (!audioCards || !audioCards[index]) return;
 
-      audioCards[index].scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      // Debounce the scroll
+      clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = setTimeout(() => {
+        audioCards[index].scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100); // Adjust the delay as needed
     },
 
     updateHighlight(audioElement) {
       if (!audioElement) return;
-      console.log("Updating highlight at", audioElement.currentTime);
+
+      // Perform lightweight operations only
+      const currentTime = audioElement.currentTime;
+      console.log("Updating highlight at", currentTime);
+    },
+
+    rewindAudio(index) {
+      const audioPlayers = this.$refs.audioPlayer;
+      if (audioPlayers && audioPlayers[index]) {
+        audioPlayers[index].currentTime = Math.max(0, audioPlayers[index].currentTime - 5);
+      }
+    },
+
+    fastForwardAudio(index) {
+      const audioPlayers = this.$refs.audioPlayer;
+      if (audioPlayers && audioPlayers[index]) {
+        audioPlayers[index].currentTime = Math.min(
+          audioPlayers[index].duration,
+          audioPlayers[index].currentTime + 5
+        );
+      }
     },
 
     highlightText(text) {
@@ -552,10 +578,20 @@ export default {
   background-color: #0a8a72;
 }
 
-.highlight {
+.highlighted {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transform: scale(1.04);
+  transition: rgba(0, 0, 0, 0.3) 0.2s ease;
+  border-top-left-radius: 25px; 
+  border-top-right-radius: 25px; 
+  border-bottom-left-radius: 20px; 
+  border-bottom-right-radius: 20px;
+}
+
+/* .highlight {
   background-color: yellow;
   transition: background-color 0.3s ease;
-}
+} */
 
 /* Apply color changes on hover for each icon */
 .bi-skip-backward-circle:hover {

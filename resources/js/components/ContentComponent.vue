@@ -108,8 +108,8 @@
     <div class="pb-3 pt-3" v-if="selectedPodcast">
       <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
       <div class="d-flex justify-content-between align-items-start">
-        <p class="col-md-8 display-7">{{ selectedPodcast.desc }}</p>
-        <img class="col-md-4" :src="selectedPodcast.image" :alt="selectedPodcast.name">
+        <p class="col-md-10 display-7">{{ selectedPodcast.desc }}</p>
+        <img class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
       </div>
     </div>
 
