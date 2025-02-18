@@ -152,7 +152,7 @@
         </div>
         <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
-            <div ref="podcastCard" class="card h-100"
+            <div :class="['card h-100', { highlighted: highlightedIndex === index }]"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
               <div class="card-body pb-2">
                 <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
@@ -161,12 +161,14 @@
                 Published on: {{ formatDate(podcast.pubDate) }}
 
                 <div class="container pt-3 text-center d-flex justify-content-between">
-                  <button @click="rewindAudio(index)" class="btn btn-outline-secondary">-15s</button>
+                  <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="rewindAudio(index)"></i>
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
                     @click="shareOnWhatsApp(podcast)"></i>
                   <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
                     @click="downloadAudio(podcast)"></i>
-                  <button @click="fastForwardAudio(index)" class="btn btn-outline-secondary">+15s</button>
+                  <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="fastForwardAudio(index)"></i>
                 </div>
               </div>
 
@@ -176,7 +178,6 @@
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
-              <!-- <p v-else>No audio available for this podcast.</p> -->
             </div>
           </div>
         </div>
@@ -219,6 +220,7 @@
 export default {
   data() {
     return {
+      highlightedIndex: null, // Track the highlighted card index
       loading: false,
       currentlyPlaying: null,
       podcastMeta: new Map(),
@@ -327,10 +329,11 @@ export default {
         audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
       }
     },
+
+    // Update podcast duration
     updateDuration(podcast, event) {
       if (event && event.target && event.target.duration) {
         podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
-        this.$forceUpdate(); // Ensure Vue updates UI
         this.applyFilters(); // Re-apply filters after durations are set
       }
     },
@@ -449,6 +452,7 @@ export default {
       this.fetchPodcasts();
     },
 
+    // Fetch podcasts from RSS feed
     async fetchPodcasts() {
       if (!this.selectedPodcast) return;
       this.loading = true;
@@ -463,7 +467,6 @@ export default {
 
         // Simulate API call delay
         setTimeout(async () => {
-          // Your API call logic here
           this.paginatedPodcasts = await getPodcastsFromAPI();
           this.loading = false;
         }, 2000); // Simulated delay for better UX
@@ -485,11 +488,11 @@ export default {
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
         console.error("Error fetching podcasts:", error);
-        this.loading = false;
       } finally {
         this.loading = false;
       }
     },
+
 
     // Rewind 15 seconds
     rewindAudio(index) {
@@ -507,30 +510,35 @@ export default {
       }
     },
 
+    // Play or pause audio
     playAudio(index) {
       const audioPlayer = this.$refs.audioPlayer[index];
 
-      if (this.currentlyPlaying !== null && this.currentlyPlaying !== audioPlayer) {
-        this.currentlyPlaying.pause(); // Stop the previously playing audio
+      // Pause the currently playing audio (if any)
+      if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayer) {
+        this.currentlyPlaying.pause();
         this.currentlyPlaying = null;
+        this.highlightedIndex = null; // Reset highlight
       }
 
+      // Toggle play/pause for the clicked audio
       if (this.currentlyPlaying === audioPlayer) {
         audioPlayer.pause();
         this.currentlyPlaying = null;
+        this.highlightedIndex = null; // Reset highlight
       } else {
         audioPlayer.play();
         this.currentlyPlaying = audioPlayer;
+        this.highlightedIndex = index; // Highlight the new audio
       }
+    },
 
-      // Highlight the card
-      this.$refs.podcastCard.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('highlighted');
-        } else {
-          card.classList.remove('highlighted');
-        }
-      });
+    // Handle audio end event
+    handleAudioEnd(index) {
+      if (this.currentlyPlaying === this.$refs.audioPlayer[index]) {
+        this.currentlyPlaying = null;
+        this.highlightedIndex = null; // Reset highlight when audio ends
+      }
     },
 
     formatDate(dateString) {
@@ -714,11 +722,15 @@ img {
   height: auto;
 }
 
-.highlighted {
+/* .highlighted {
   border: 2px solid rgb(13, 182, 145);
-  /* Green border for highlighting */
   box-shadow: 0 0 10px rgba(13, 182, 145, 0.5);
-  /* Optional: Add a shadow for better visibility */
+} */
+
+.highlighted {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 0 15px rgba(13, 182, 145, 0.5);
+  transform: scale(1.02);
 }
 
 .mobile-padding {
