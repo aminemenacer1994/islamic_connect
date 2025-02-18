@@ -474,7 +474,7 @@
                 ></a>
               </div>
               <div class="me-3">
-                <a class="me-2" href=""
+                <a class="me-2" href="https://www.tiktok.com/@islamic_connect24"
                   ><i
                     class="bi bi-tiktok h4"
                     style="color: rgb(0, 191, 166)"

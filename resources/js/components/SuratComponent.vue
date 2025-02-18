@@ -4,7 +4,8 @@
       <div class="col-lg-10 col-xl-10">
         <h2 class="display-5 fw-bold">Quran Explorer</h2>
         <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
-          Listen to beautiful recitations to enhance your understanding. Select a Surah, Juz, or specific verse, and immerse yourself in the wisdom of the Quran.
+          Listen to beautiful recitations to enhance your understanding. Select a Surah, Juz, or specific verse, and
+          immerse yourself in the wisdom of the Quran.
         </p>
       </div>
     </div>
@@ -54,7 +55,7 @@
             </option>
           </select>
         </div>
-      
+
       </div>
     </div>
 
@@ -137,7 +138,8 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" style="background: rgb(13, 182, 145); border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;"
+              <audio ref="audioPlayer" controls class="audio-player w-100"
+                style="background: rgb(13, 182, 145); border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;"
                 @play="playAudio(index)" @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
@@ -167,7 +169,7 @@ export default {
       loading: true,
       currentlyPlaying: null,
       displayedAyahs: [], // Holds only the ayahs currently loaded
-      ayahBatchSize: 10, // Number of ayahs to load per batch
+      ayahBatchSize: 9, // Number of ayahs to load per batch
       surahs: [], // List of all Surahs
       reciters: [], // List of all Reciters
       translations: [], // List of all Translations
@@ -213,7 +215,7 @@ export default {
     },
   },
   computed: {
-    
+
     // Filter ayahs based on search query
     filteredAyahs() {
       if (!this.surahDetails) return [];
@@ -355,7 +357,6 @@ export default {
 
     // This method is triggered when the current audio ends
     playNextAyah() {
-
       if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
         const nextIndex = this.currentlyPlayingIndex + 1;
         this.playAudio(nextIndex); // Instantly play next ayah
@@ -448,44 +449,45 @@ export default {
       // Pause the previous audio if different
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
         this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0; // Reset previous audio
+        this.currentlyPlaying.currentTime = 0;
       }
 
-      // Play the new one immediately
       audioPlayers[index].play();
       this.currentlyPlaying = audioPlayers[index];
       this.currentlyPlayingIndex = index;
-      this.highlightedWordIndex = -1; // Reset previous highlights
+      this.highlightedWordIndex = -1;
       this.currentAyahIndex = index + 1;
 
-
-      // Ensure `ontimeupdate` updates the highlights
-      audioPlayers[index].ontimeupdate = () => this.updateHighlight(audioPlayers[index]);
+      // Ensure ontimeupdate updates the highlights
+      audioPlayers[index].ontimeupdate = () => {
+        if (typeof this.updateHighlight === "function") {
+          this.updateHighlight(audioPlayers[index]);
+        }
+      };
 
       // Highlight the playing card
       audioCards.forEach((card, i) => {
-        card.classList.toggle('highlighted', i === index); // Add 'highlighted' class to the current card
+        card.classList.toggle('highlighted', i === index);
       });
 
       // Smooth scroll to the playing ayah
       this.scrollToCard(index);
     },
 
-
-
-    // Smoothly scroll to the currently playing audio
     scrollToCard(index) {
-      const card = this.$refs.audioCard[index];
-      if (card) {
-        setTimeout(() => {
-          card.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
-        }, 100);
-      }
+      const audioCards = this.$refs.audioCard;
+      if (!audioCards || !audioCards[index]) return;
+
+      audioCards[index].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     },
 
+    updateHighlight(audioElement) {
+      if (!audioElement) return;
+      console.log("Updating highlight at", audioElement.currentTime);
+    },
 
     highlightText(text) {
       if (!this.searchQuery) return text;
