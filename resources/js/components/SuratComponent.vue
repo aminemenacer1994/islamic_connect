@@ -15,7 +15,7 @@
       <!-- Show/Hide icon for the entire container -->
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
         <i v-if="isVisible" class="bi bi-x-lg"></i> <!-- X icon to hide -->
-        <i v-else class="bi bi-plus-lg"></i> <!-- + icon to show -->
+        <i v-else class="bi bi-plus-lg h5"></i> <!-- + icon to show -->
       </span>
 
       <!-- The entire content of the dropdowns -->
@@ -755,7 +755,6 @@ export default {
   width: 100%;
   background: rgb(13, 182, 145);
   /* Forces background color */
-  filter: invert(1) hue-rotate(180deg);
   /* Changes button & progress bar color */
 }
 
@@ -764,9 +763,7 @@ export default {
   background: rgb(13, 182, 145) !important;
 }
 
-.audio-player::-webkit-media-controls-play-button {
-  filter: invert(1);
-}
+
 
 .audio-player::-webkit-media-controls-volume-slider {
   filter: invert(1);
