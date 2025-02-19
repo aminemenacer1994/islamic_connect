@@ -138,8 +138,7 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" preload="auto" @play="playAudio(index)"
-                @ended="playNextAyah">
+              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
@@ -439,45 +438,44 @@ export default {
 
       if (!audioPlayers || !audioPlayers[index]) return;
 
-      // Stop the previous audio if different
+      // Stop any previously playing audio
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
-        await this.stopAudio(this.currentlyPlaying);
-
-        // Remove highlight from the previous card
-        const previousIndex = this.currentlyPlayingIndex;
-        if (audioCards[previousIndex]) {
-          audioCards[previousIndex].classList.remove('highlighted');
-        }
+        console.log("Pausing previous audio");
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0; // Reset time
       }
 
-      try {
-        // Play the new audio
-        await audioPlayers[index].play(); // Wait for the play() promise to resolve
-        this.currentlyPlaying = audioPlayers[index];
-        this.currentlyPlayingIndex = index;
+      // Set the new audio
+      this.currentlyPlaying = audioPlayers[index];
+      this.currentlyPlayingIndex = index;
 
-        // Ensure ontimeupdate updates the highlights
-        audioPlayers[index].ontimeupdate = () => {
-          requestAnimationFrame(() => {
-            if (typeof this.updateHighlight === "function") {
-              this.updateHighlight(audioPlayers[index]);
-            }
-          });
-        };
+      // Remove any previous 'onended' event listeners
+      this.currentlyPlaying.onended = null;
 
-        // Highlight the playing card
-        if (audioCards[index]) {
-          audioCards[index].classList.add('highlighted');
-        }
+      // Play new selection
+      this.currentlyPlaying.play()
+        .then(() => {
+          console.log(`Now playing Ayah ${index}`);
+        })
+        .catch((err) => {
+          console.error("Play error:", err);
+          this.currentlyPlaying = null;
+        });
 
-        // Smooth scroll to the playing ayah
-        this.scrollToCard(index);
-      } catch (error) {
-        console.error("Error playing audio:", error);
+      this.currentlyPlaying.onended = () => {
+        console.log("Audio ended. No auto-play to next.");
+        this.currentlyPlaying = null;
+      };
+
+      // Remove previous highlight and highlight current Ayah
+      audioCards.forEach(card => card.classList.remove('highlighted'));
+      if (audioCards[index]) {
+        audioCards[index].classList.add('highlighted');
       }
+
+      // Scroll to active Ayah
+      this.scrollToCard(index);
     },
-
-
     startAudio(index) {
       const audioPlayers = this.$refs.audioPlayer;
       const audioCards = this.$refs.audioCard;
@@ -512,23 +510,9 @@ export default {
     },
 
     playNextAyah() {
-      if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
-        const nextIndex = this.currentlyPlayingIndex + 1;
-
-        // Ensure previous audio is fully stopped before playing the next
-        if (this.currentlyPlaying) {
-          this.currentlyPlaying.pause();
-          this.currentlyPlaying.currentTime = 0;
-          this.currentlyPlaying = null; // Clear reference
-
-          // Use a short delay to prevent conflicts
-          setTimeout(() => {
-            this.playAudio(nextIndex);
-          }, 100);
-        } else {
-          // If nothing is playing, start next ayah immediately
-          this.playAudio(nextIndex);
-        }
+      const nextIndex = this.currentlyPlayingIndex + 1;
+      if (this.$refs.audioPlayer[nextIndex]) {
+        this.playAudio(nextIndex); // Manually call playAudio with the next index
       }
     },
 
@@ -553,7 +537,7 @@ export default {
       const currentTime = audioElement.currentTime;
       console.log("Updating highlight at", currentTime);
     },
-    
+
     rewindAudio(index) {
       const audioPlayers = this.$refs.audioPlayer;
       if (audioPlayers && audioPlayers[index]) {
@@ -636,11 +620,11 @@ export default {
 
 .ayah-card {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  will-change: transform, box-shadow; /* Optimize for GPU rendering */
+  will-change: transform, box-shadow;
+  /* Optimize for GPU rendering */
 }
 
 .highlighted {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   transform: scale(1.02);
 }
 
@@ -648,19 +632,9 @@ export default {
   background: rgb(13, 182, 145);
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  will-change: transform; /* Optimize for GPU rendering */
+  will-change: transform;
+  /* Optimize for GPU rendering */
 }
-
-/* .highlighted {
-  transform: scale(1.04);
-  transition: rgba(0, 0, 0, 0.3) 0.2s ease;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-} */
-
-
 
 /* Apply color changes on hover for each icon */
 .bi-skip-backward-circle:hover {
