@@ -74,13 +74,13 @@
 
       <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-top-left-radius: 25px; 
-    border-top-right-radius: 25px; 
-    border-bottom-left-radius: 20px; 
-    border-bottom-right-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;">
+          border-top-left-radius: 25px; 
+          border-top-right-radius: 25px; 
+          border-bottom-left-radius: 20px; 
+          border-bottom-right-radius: 20px;
+          display: flex;
+          flex-direction: column;
+          height: 100%;">
 
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
@@ -138,9 +138,8 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100"
-                style="background: rgb(13, 182, 145); border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;"
-                @play="playAudio(index)" @ended="playNextAyah">
+              <audio ref="audioPlayer" controls class="audio-player w-100" preload="auto" @play="playAudio(index)"
+                @ended="playNextAyah">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
@@ -356,12 +355,6 @@ export default {
       }
     },
 
-    playNextAyah() {
-      if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
-        this.playAudio(this.currentlyPlayingIndex + 1);
-      }
-    },
-
     // Fetch all Surahs
     async fetchSurahs() {
       try {
@@ -433,17 +426,22 @@ export default {
       }
     },
 
-    playAudio(index) {
+    async stopAudio(audioElement) {
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0; // Reset to the beginning
+      }
+    },
+
+    async playAudio(index) {
       const audioPlayers = this.$refs.audioPlayer;
       const audioCards = this.$refs.audioCard;
 
       if (!audioPlayers || !audioPlayers[index]) return;
 
-      // Pause the previous audio if different
+      // Stop the previous audio if different
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayers[index]) {
-        console.log("Pausing previous audio");
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
+        await this.stopAudio(this.currentlyPlaying);
 
         // Remove highlight from the previous card
         const previousIndex = this.currentlyPlayingIndex;
@@ -452,8 +450,41 @@ export default {
         }
       }
 
-      // Play the new audio
-      audioPlayers[index].play();
+      try {
+        // Play the new audio
+        await audioPlayers[index].play(); // Wait for the play() promise to resolve
+        this.currentlyPlaying = audioPlayers[index];
+        this.currentlyPlayingIndex = index;
+
+        // Ensure ontimeupdate updates the highlights
+        audioPlayers[index].ontimeupdate = () => {
+          requestAnimationFrame(() => {
+            if (typeof this.updateHighlight === "function") {
+              this.updateHighlight(audioPlayers[index]);
+            }
+          });
+        };
+
+        // Highlight the playing card
+        if (audioCards[index]) {
+          audioCards[index].classList.add('highlighted');
+        }
+
+        // Smooth scroll to the playing ayah
+        this.scrollToCard(index);
+      } catch (error) {
+        console.error("Error playing audio:", error);
+      }
+    },
+
+
+    startAudio(index) {
+      const audioPlayers = this.$refs.audioPlayer;
+      const audioCards = this.$refs.audioCard;
+
+      if (!audioPlayers || !audioPlayers[index]) return;
+
+      audioPlayers[index].play().catch((err) => console.error("Play error:", err));
       this.currentlyPlaying = audioPlayers[index];
       this.currentlyPlayingIndex = index;
 
@@ -473,8 +504,33 @@ export default {
 
       // Smooth scroll to the playing ayah
       this.scrollToCard(index);
+
+      // Automatically play the next Ayah when current one ends
+      audioPlayers[index].onended = () => {
+        this.playNextAyah();
+      };
     },
 
+    playNextAyah() {
+      if (this.currentlyPlayingIndex !== null && this.currentlyPlayingIndex < this.filteredAyahs.length - 1) {
+        const nextIndex = this.currentlyPlayingIndex + 1;
+
+        // Ensure previous audio is fully stopped before playing the next
+        if (this.currentlyPlaying) {
+          this.currentlyPlaying.pause();
+          this.currentlyPlaying.currentTime = 0;
+          this.currentlyPlaying = null; // Clear reference
+
+          // Use a short delay to prevent conflicts
+          setTimeout(() => {
+            this.playAudio(nextIndex);
+          }, 100);
+        } else {
+          // If nothing is playing, start next ayah immediately
+          this.playAudio(nextIndex);
+        }
+      }
+    },
 
     scrollToCard(index) {
       const audioCards = this.$refs.audioCard;
@@ -485,7 +541,7 @@ export default {
       this.scrollTimeout = setTimeout(() => {
         audioCards[index].scrollIntoView({
           behavior: "smooth",
-          block: "center",
+          block: "nearest", // Avoid excessive scrolling
         });
       }, 100); // Adjust the delay as needed
     },
@@ -497,7 +553,7 @@ export default {
       const currentTime = audioElement.currentTime;
       console.log("Updating highlight at", currentTime);
     },
-
+    
     rewindAudio(index) {
       const audioPlayers = this.$refs.audioPlayer;
       if (audioPlayers && audioPlayers[index]) {
@@ -571,27 +627,40 @@ export default {
   font-size: 1.5rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
+  /* transition: background 0.3s ease-in-out; */
 }
 
 .fab:hover {
   background-color: #0a8a72;
 }
 
-.highlighted {
+.ayah-card {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  transform: scale(1.04);
-  transition: rgba(0, 0, 0, 0.3) 0.2s ease;
-  border-top-left-radius: 25px; 
-  border-top-right-radius: 25px; 
-  border-bottom-left-radius: 20px; 
-  border-bottom-right-radius: 20px;
+  will-change: transform, box-shadow; /* Optimize for GPU rendering */
 }
 
-/* .highlight {
-  background-color: yellow;
-  transition: background-color 0.3s ease;
+.highlighted {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
+}
+
+.audio-player {
+  background: rgb(13, 182, 145);
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  will-change: transform; /* Optimize for GPU rendering */
+}
+
+/* .highlighted {
+  transform: scale(1.04);
+  transition: rgba(0, 0, 0, 0.3) 0.2s ease;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 } */
+
+
 
 /* Apply color changes on hover for each icon */
 .bi-skip-backward-circle:hover {

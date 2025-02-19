@@ -172,9 +172,9 @@
                 </div>
               </div>
 
-              <!-- Audio Player -->
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);" @play="playAudio(index)"
+                @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
@@ -337,6 +337,7 @@ export default {
         this.applyFilters(); // Re-apply filters after durations are set
       }
     },
+
     shareOnWhatsApp(podcast) {
       if (!podcast || !podcast.audioUrl) {
         alert("Podcast information is missing!");
@@ -721,11 +722,6 @@ img {
   /* Adjust as needed */
   height: auto;
 }
-
-/* .highlighted {
-  border: 2px solid rgb(13, 182, 145);
-  box-shadow: 0 0 10px rgba(13, 182, 145, 0.5);
-} */
 
 .highlighted {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
