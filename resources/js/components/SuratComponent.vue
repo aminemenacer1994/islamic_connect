@@ -157,7 +157,7 @@
     </div>
 
     <!-- Scroll to Top FAB -->
-    <button v-show="showScrollButton" @click="scrollToTop" class="fab">
+    <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
       <i class="bi bi-arrow-up"></i>
     </button>
 
@@ -270,8 +270,9 @@ export default {
     replayAudio(index) {
       const audioElement = this.$refs.audioPlayer[index];
       if (audioElement) {
+        audioElement.pause(); // Ensure any ongoing playback is stopped
         audioElement.currentTime = 0; // Reset audio to the beginning
-        audioElement.play(); // Play the audio
+        audioElement.play().catch(error => console.error("Playback error:", error)); // Play the audio with error handling
       }
     },
     // Fast forward 15 seconds
