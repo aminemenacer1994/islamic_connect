@@ -28,9 +28,9 @@
             </p>
 
             <!-- Donate Button -->
-            <button class="container form-control" style="background:#00BFA6; color:white"
+            <button class="container form-control " style="background:#00BFA6; color:white"
               onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-              Donate Now
+              <h5>Support Islamic Knowledge</h5>
             </button>
           </div>
         </div>

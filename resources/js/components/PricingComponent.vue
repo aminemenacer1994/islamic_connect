@@ -34,18 +34,18 @@
               <div class="col-md-8">
                 <button class="container form-control" style="background:#00BFA6; color:white"
                   onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  Donate Now
+                  <b class="mt-3 mb-3">Support Islamic Knowledge</b>
                 </button>
               </div>
             </div>
           </div>
-          <div class="col-md-4 order-2 d-none d-md-block">
+          <div class="col-md-4 order-2 d-none d-lg-block">
             <img src="/images/heart.png" width="80%" alt="Support Islamic Connect" />
           </div>
         </div>
       </div>
 
-      <hr class="container" />
+      <!-- <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -133,9 +133,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
-    <section class="py-4 pt-2">        
+    <!-- <section class="py-4 pt-2">        
       <div class="container">
         <div class="row">
           <div class="col-12 col-lg-6">
@@ -395,15 +395,15 @@
 
             <div class="container-fluid text-center pt-2">
               <div class="row">
-                <div class="col">
+                <div class="col-md-2">
                 </div>
-                <div class="col">
+                <div class="col-md-8">
                   <button type="button" class="btn button-37" style="background:rgb(0 163 164);color:white"
                     data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <b>Can't afford Premium ?</b>
                   </button>
                 </div>
-                <div class="col">
+                <div class="col-md-2">
                 </div>
               </div>
             </div>
@@ -442,8 +442,8 @@
 
         </div>
       </div>
-    </section>
-    <hr class="container" />
+    </section> -->
+    <!-- <hr class="container" />
     <section class="py-4 pt-2">
       <div class="container">
         <div class="row justify-content-center text-center mb-3">
@@ -611,7 +611,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
   </div>
 </template>

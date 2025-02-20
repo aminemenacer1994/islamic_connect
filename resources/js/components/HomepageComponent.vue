@@ -279,7 +279,7 @@
                 style="background: #00bfa6; color: white"
                 onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
               >
-                Donate Now
+                <b class="mt-3 mb-3">Support Islamic Knowledge</b>
               </button>
             </div>
           </div>

@@ -106,13 +106,18 @@
                     @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
                 <div class="col">
+                  <i class="bi bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;"
+                    @click="replayAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Replay"></i>
+                </div>
+                <div class="col">
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                   <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Copy Ayah"></i>
-                </div>
+                </div> -->
                 <div class="col">
                   <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
                     @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -256,6 +261,13 @@ export default {
       const audio = this.$refs.audioPlayer[index];
       if (audio) {
         audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
+      }
+    },
+    replayAudio(index) {
+      const audioElement = this.$refs.audioPlayer[index];
+      if (audioElement) {
+        audioElement.currentTime = 0; // Reset audio to the beginning
+        audioElement.play(); // Play the audio
       }
     },
     // Fast forward 15 seconds
