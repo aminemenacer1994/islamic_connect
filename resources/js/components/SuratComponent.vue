@@ -100,15 +100,15 @@
           <div class="mt-auto">
             <!-- Button Section -->
             <div class="container pb-3 text-center">
+              <hr>
               <div class="row">
                 <div class="col">
                   <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
                     @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
                 <div class="col">
-                  <i class="bi bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="replayAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Replay"></i>
+                  <i class="bi bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;" @click="replayAudio(index)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Replay"></i>
                 </div>
                 <div class="col">
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"
@@ -143,7 +143,11 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" controls class="audio-player w-100" @play="playAudio(index)">
+              <audio ref="audioPlayer" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                border-bottom-left-radius: 20px; 
+                border-bottom-right-radius: 20px;
+                display: flex;
+                " controls class="audio-player w-100" @play="playAudio(index)">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
