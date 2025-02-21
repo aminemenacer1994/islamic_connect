@@ -35,6 +35,7 @@ use App\Http\Controllers\AiController;
 use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\SuratController;
+use App\Http\Controllers\DuaController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -294,3 +295,5 @@ Route::get('/access', [AccessController::class, 'index'])->name('access');
 Route::get('/content', [ContentController::class, 'index'])->name('content');
 // surat
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
+// dua
+// Route::get('/dua', [DuaController::class, 'index'])->name('dua');

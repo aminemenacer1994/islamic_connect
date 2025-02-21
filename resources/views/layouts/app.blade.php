@@ -126,9 +126,9 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
                 </li> 
-                {{-- <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/about"><b>About Us</b></a></h6>
-                </li> --}}
+                <!-- <li class="nav-item mt-3">
+                    <h6><a class="nav-link  ml-3 pl-3" href="/dua"><b>Dua</b></a></h6>
+                </li> -->
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
                 </li>

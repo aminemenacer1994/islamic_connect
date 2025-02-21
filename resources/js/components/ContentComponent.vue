@@ -150,10 +150,10 @@
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-3 row-cols-md-3 g-4 mb-2">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2">
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
-            <div :class="['card h-100', { highlighted: highlightedIndex === index }]"
-              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+            <div :class="['card h-100', { 'highlighted': playingIndex === index }]"
+              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; bottom: 0px; border-radius: 20px;">
               <div class="card-body pb-2">
                 <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
                 Views: {{ podcast.views }}<br />
@@ -161,20 +161,27 @@
                 Published on: {{ formatDate(podcast.pubDate) }}
 
                 <div class="container pt-3 text-center d-flex justify-content-between">
-                  <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="rewindAudio(index)"></i>
-                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="shareOnWhatsApp(podcast)"></i>
-                  <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="downloadAudio(podcast)"></i>
-                  <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="fastForwardAudio(index)"></i>
+                  <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+
+                  <i class="bi bi-share icon-tooltip" @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Share"></i>
+
+                  <i class="bi bi-download icon-tooltip" @click="downloadAudio(podcast)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Download"></i>
+
+                  <i class="bi bi-repeat icon-tooltip" @click="replayAudio(index)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Replay"></i>
+
+                  <i class="bi bi-skip-forward-circle icon-tooltip" @click="fastForwardAudio(index)"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
                 </div>
+
               </div>
 
-              <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio" style="border-radius: 0; background: rgb(13, 182, 145);" @play="playAudio(index)"
-                @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
+              <audio ref="audio" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl" class="w-100 audio"
+                style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
+                @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
@@ -220,6 +227,7 @@
 export default {
   data() {
     return {
+      repeatStates: {},
       highlightedIndex: null, // Track the highlighted card index
       loading: false,
       currentlyPlaying: null,
@@ -272,6 +280,7 @@ export default {
         },
 
       ],
+      playingIndex: null,
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
       showToast: false,
@@ -313,7 +322,43 @@ export default {
     }
   },
 
+  mounted() {
+    // Initialize Bootstrap tooltips
+    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  },
+
   methods: {
+    replayAudio(index) {
+      console.log("Attempting to replay audio for index:", index);
+      console.log("Audio refs:", this.$refs.audio);
+
+      const audioElements = this.$refs.audio;
+      if (audioElements && audioElements[index]) {
+        console.log("Found audio element:", audioElements[index]);
+        audioElements[index].currentTime = 0;
+        audioElements[index].play();
+      } else {
+        console.error("Audio element not found for index:", index);
+      }
+    },
+    toggleRepeat(index) {
+      if (this.repeatStates[index] === undefined) {
+        this.$set(this.repeatStates, index, false); // Ensure key exists
+      }
+      this.repeatStates[index] = !this.repeatStates[index];
+    },
+    handleAudioEnd(index) {
+      if (this.repeatStates[index]) { // Check if repeat is enabled
+        const audioElement = this.$refs.audio[index];
+        if (audioElement) {
+          audioElement.currentTime = 0;
+          audioElement.play();
+        }
+      }
+    },
     // Rewind 15 seconds
     rewindAudio(index) {
       const audio = this.$refs.audioPlayer[index];
@@ -495,26 +540,10 @@ export default {
     },
 
 
-    // Rewind 15 seconds
-    rewindAudio(index) {
-      const audio = this.$refs.audioPlayer[index];
-      if (audio) {
-        audio.currentTime = Math.max(0, audio.currentTime - 15); // Ensure it doesn't go below 0
-      }
-    },
-
-    // Fast forward 15 seconds
-    fastForwardAudio(index) {
-      const audio = this.$refs.audioPlayer[index];
-      if (audio) {
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
-      }
-    },
-
     // Play or pause audio
     playAudio(index) {
       const audioPlayer = this.$refs.audioPlayer[index];
-
+      this.playingIndex = index;
       // Pause the currently playing audio (if any)
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayer) {
         this.currentlyPlaying.pause();
@@ -539,6 +568,9 @@ export default {
       if (this.currentlyPlaying === this.$refs.audioPlayer[index]) {
         this.currentlyPlaying = null;
         this.highlightedIndex = null; // Reset highlight when audio ends
+      }
+      if (this.playingIndex === index) {
+        this.playingIndex = null; // Reset when playback ends
       }
     },
 
@@ -717,6 +749,16 @@ export default {
 </script>
 
 <style scoped>
+.icon-tooltip {
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.icon-tooltip:hover {
+  color: rgb(13, 182, 145);
+}
+
 img {
   max-width: 150px;
   /* Adjust as needed */
@@ -724,10 +766,11 @@ img {
 }
 
 .highlighted {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 0 15px rgba(13, 182, 145, 0.5);
-  transform: scale(1.02);
+  border: 2px solid rgb(13, 182, 145); /* Highlight border */
+  background-color: rgba(13, 182, 145, 0.1); /* Light highlight effect */
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
 }
+
 
 .mobile-padding {
   padding: 10px;
@@ -779,6 +822,10 @@ img {
 
 .audio {
   border-radius: 0 !important;
+  border-bottom-left-radius: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-bottom-right-radius: 20px;
+  background: rgb(13, 182, 145);
 }
 
 audio::-webkit-media-controls-panel {

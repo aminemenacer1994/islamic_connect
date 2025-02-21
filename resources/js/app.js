@@ -59,6 +59,8 @@ import AiComponent from "./components/AiComponent.vue";
 import AccessComponent from "./components/AccessComponent.vue";
 import ContentComponent from "./components/ContentComponent.vue";
 import SuratComponent from "./components/SuratComponent.vue";
+import DuaComponent from "./components/DuaComponent.vue";
+
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
 import Donation from "./components/intro/Donation.vue";
@@ -162,5 +164,7 @@ app.component("collection-component", CollectionComponent);
 app.component('TinymceEditor', TinymceEditor);
 app.component('faq-component', FaqComponent);
 app.component('support-component', SupportComponent);
+app.component('dua-component', DuaComponent);
+
 
 app.mount("#app");

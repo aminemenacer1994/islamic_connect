@@ -802,13 +802,13 @@ export default {
 }
 
 /* Card Styling */
-.card {
+/* .card {
   text-align: right;
   direction: rtl;
   display: flex;
   flex-direction: column;
   height: 100%;
-}
+} */
 
 /* Audio Player Stuck to Bottom */
 .audio-container {

@@ -290,6 +290,11 @@ audio.custom-audio {
   border: none !important;
   border-radius: 0 !important;
   bottom: 0px;
+  border-radius: 0 !important;
+  border-bottom-left-radius: 20px; 
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-bottom-right-radius: 20px; 
+  background: rgb(13, 182, 145);
 }
 
 /* Custom styling for WebKit audio controls, specific to .custom-audio class */
