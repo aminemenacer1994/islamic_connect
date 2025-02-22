@@ -107,6 +107,7 @@ Route::post('/notes/{noteId}/unlike', [LikeController::class, 'unlike']);
 
 // routes/web.php
 Route::get('/api/fetch-notes/{userId}', [NotesController::class, 'fetchNotes']);
+Route::get('/api/fetch-notes', [NotesController::class, 'fetchNotes']);
 
 });
 
