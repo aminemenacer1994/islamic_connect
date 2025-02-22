@@ -22,7 +22,7 @@
     <div class="container text-center">
       <div class="row">
         <!-- Filter Section -->
-        <div class="col-md-6 col-12 mb-4">
+        <div class="col-md-5 mb-4">
           <h5>
             <span v-for="option in filterOptions" :key="option.value" @click="handleFilterClick(option.value)"
               class="badge me-2 mb-2 p-2"
@@ -35,12 +35,13 @@
         </div>
 
         <!-- Search Section -->
-        <div class="col-md-6 col-12">
+        <div class="col-md-7">
           <input type="text" v-model="searchTerm" placeholder="Search notes keyword..." class="form-control mb-4"
             style="border: 1px solid #075E54" />
         </div>
-        <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length
-            }}</b></div>
+        <!-- <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length
+            }}</b>
+        </div> -->
       </div>
 
     </div>
@@ -58,9 +59,23 @@
               <p v-html="highlightText(truncatedHtml(note.ayah_notes))"></p>
               <h5><strong>Date created:</strong></h5>
               <p v-if="note.created_at">{{ formatDate(note.created_at) }}</p>
-              <div class="text-center">
-                <i class="bi bi-eye me-3 h3" @click="viewModal(note)" data-bs-toggle="modal"
-                  data-bs-target="#viewNotes"></i>
+
+              <div class="text-center row">
+                <div class="col">
+                  <i class="bi bi-eye me-3 h3" @click="viewModal(note)" data-bs-toggle="modal"
+                    data-bs-target="#viewNotes"></i>
+                </div>
+                <div class="col">
+                  <i class="bi bi-share me-3 h3" @click="shareOnWhatsApp(note)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Share"></i>
+                </div>
+                <div class="col">
+                  <i class="bi bi-clipboard copy-icon h3" @click="copyAyah(note)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Copy Ayah"></i>
+                </div>
+                <!-- Toast container -->
+                <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
               </div>
             </div>
           </div>
@@ -122,6 +137,7 @@ export default {
   },
   async mounted() {
     await this.fetchNotes();
+    this.initializeTooltips();
   },
   computed: {
     filteredNotes() {
@@ -160,32 +176,92 @@ export default {
     },
   },
   methods: {
+    initializeTooltips() {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.forEach((tooltipTriggerEl) => {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    },
+    copyAyah(note) {
+      if (!note || !note.ayah_notes) {
+        console.error("Note or note.ayah_notes is undefined.");
+        return;
+      }
+
+      const textToCopy = note.ayah_notes; // Get the text to copy
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        this.showToast('Note copied to clipboard!', 'success'); // Show success toast
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+        this.showToast('Failed to copy text!', 'danger'); // Show error toast
+      });
+    },
+    showToast(message, type = 'success') {
+      // Create a new toast element
+      const toastEl = document.createElement('div');
+      toastEl.classList.add('toast', 'align-items-center', 'text-white', 'bg-' + type, 'border-0');
+      toastEl.setAttribute('role', 'alert');
+      toastEl.setAttribute('aria-live', 'assertive');
+      toastEl.setAttribute('aria-atomic', 'true');
+
+      // Toast body
+      const toastBody = document.createElement('div');
+      toastBody.classList.add('d-flex', 'align-items-center');
+      toastBody.innerHTML = `
+      <div class="toast-body fs-5"> <!-- Increase font size with fs-5 -->
+        ${message}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    `;
+      toastEl.appendChild(toastBody);
+
+      // Append the toast to the container
+      const toastContainer = document.getElementById('toast-container');
+      toastContainer.appendChild(toastEl);
+
+      // Initialize and show the toast
+      const toast = new bootstrap.Toast(toastEl, {
+        autohide: true,
+        delay: 3000, // Hide after 3 seconds
+      });
+      toast.show();
+
+      // Remove the toast from the DOM after it hides
+      toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+      });
+    },
+
+    shareOnWhatsApp(note) {
+      const message = `Note:\n${note.ayah_notes}\n\nCreated on:\n ${this.formatDate(note.created_at)}`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+    },
     handleFilterClick(value) {
       this.selectedFilter = value;
     },
-    formatDate(date) {
-      if (!date) return "N/A";
-      return new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+    formatDate(dateString) {
+      if (!dateString) return "N/A";
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
     },
     async fetchNotes() {
-      this.isLoading = true; // Show loading state
+      this.isLoading = true;
       try {
-        const response = await fetch(`/api/fetch-notes`); // Ensure the URL is correct
+        const response = await fetch(`/api/fetch-notes`);
         if (!response.ok) throw new Error(`Failed to fetch notes: ${response.statusText}`);
         const data = await response.json();
         this.notes = data;
       } catch (error) {
         console.error("Error fetching notes:", error);
+        this.showToast('Failed to fetch notes!', 'danger');
       } finally {
-        this.isLoading = false; // Hide loading state
+        this.isLoading = false;
       }
     },
     truncatedHtml(html, maxLength = 400) {
-      if (!html) return ""; // Handle null or undefined
+      if (!html) return "";
       const div = document.createElement("div");
       div.innerHTML = html;
       const plainText = div.textContent || div.innerText || "";
@@ -200,21 +276,30 @@ export default {
       return text.replace(regex, '<span class="highlight">$1</span>');
     },
     viewModal(note) {
-      this.selectedNote = note; // Set the selected note for the modal
+      this.selectedNote = note;
     },
-    extractDate(dateTimeString) {
-      return dateTimeString ? dateTimeString.split('T')[0] : "";
-    },
-    formatDate(dateString) { // FIXED: Ensure this function exists
-      if (!dateString) return "";
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
+    textToSpeech(note, index) {
+      if (!window.speechSynthesis) {
+        this.showToast('Your browser does not support text-to-speech.', 'warning');
+        return;
+      }
+
+      const noteText = this.$refs.noteText[index].textContent;
+      const utterance = new SpeechSynthesisUtterance(noteText);
+      window.speechSynthesis.speak(utterance);
     },
   },
-
 };
 </script>
 <style scoped>
+.toast {
+  min-width: 300px; /* Increase the width of the toast */
+  font-size: 1.25rem; /* Increase the font size */
+}
+
+.toast-body {
+  padding: 1rem; /* Add more padding inside the toast */
+}
 .container-notes {
   padding-top: 2rem;
 }
