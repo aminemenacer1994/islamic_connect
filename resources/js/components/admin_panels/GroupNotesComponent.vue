@@ -1,98 +1,66 @@
 <template>
   <div>
     <h2 class="pt-4 pb-3 text-center"><strong>Notes & Reflections Board</strong></h2>
-    <p class="lead container">
-      This page is a space to share your personal Islamic reflections and insights with others. Together, we can inspire, learn, and grow in our faith, helping each other on our spiritual journeys through shared thoughts and reflections.
+    <p class="lead container text-center">
+      This page is a space to share your personal Islamic reflections and insights with others. Together, we can
+      inspire, learn, and grow in our faith, helping each other on our spiritual journeys through shared thoughts and
+      reflections.
     </p>
 
-    <!-- Mobile Navigation -->
+    <!-- Mobile Navigation
     <div class="container text-center mt-3 d-md-none">
-      <div class="row pb-2 text-center">
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#B70D52;background:#ead1dc">
-            <a href="/bookmarks" style="text-decoration:none;color:#B70D52;background:#ead1dc">Bookmarks</a>
-          </span>
-        </div>
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#0263FF;background:#c2d8fb">
-            <a href="/profile" style="text-decoration:none;color:#0263FF;background:#c2d8fb">Profile</a>
-          </span>
-        </div>
-        <div class="col">
-          <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#3D8F67;background:#d1f4d0">
-            <a href="/notes" style="text-decoration:none;color:#3D8F67;background:#d1f4d0">Notes</a>
+      <div class="row pb-2">
+        <div class="col" v-for="(link, index) in mobileNavLinks" :key="index">
+          <span class="badge h3" :style="link.style">
+            <a :href="link.href" style="text-decoration:none;">{{ link.text }}</a>
           </span>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Filter and Search Section -->
     <div class="container text-center">
       <div class="row">
-        <div class="col-md-6">
+        <!-- Filter Section -->
+        <div class="col-md-6 col-12 mb-4">
           <h5>
-            <span
-              v-for="option in filterOptions"
-              :key="option.value"
-              @click="handleFilterClick(option.value)"
+            <span v-for="option in filterOptions" :key="option.value" @click="handleFilterClick(option.value)"
               class="badge me-2 mb-2 p-2"
-              :class="[
-                selectedFilter === option.value 
-                  ? 'bg-primary-whatsapp text-white' 
-                  : 'bg-secondary-whatsapp text-white'
-              ]"
-              style="cursor: pointer; user-select: none;"
-            >
+              :class="selectedFilter === option.value ? 'bg-primary-whatsapp text-white' : 'bg-secondary-whatsapp text-white'"
+              style="cursor: pointer; user-select: none;">
               {{ option.label }}
             </span>
-            <strong>The total amount of notes:</strong>
-            <b style="color:rgb(0, 191, 166)">{{ notes.length }}</b>
+
           </h5>
         </div>
-        <div class="col-md-6">
-          <div class="row">
-            <input
-              type="text"
-              style="border: 1px solid #075E54"
-              v-model="searchTerm"
-              placeholder="Search notes keyword..."
-              class="form-control mb-4"
-            />
-          </div>
+
+        <!-- Search Section -->
+        <div class="col-md-6 col-12">
+          <input type="text" v-model="searchTerm" placeholder="Search notes keyword..." class="form-control mb-4"
+            style="border: 1px solid #075E54" />
         </div>
+        <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length
+            }}</b></div>
       </div>
+
     </div>
 
     <!-- Notes Container -->
-    <div class="container container-notes">
+    <div class="container container-notes pt-4">
       <div v-if="isLoading" class="text-center">
         <p>Loading notes...</p>
       </div>
-      <div v-else ref="targetTranslationElement" class="row collage">
-        <div class="collage-item mb-4" v-for="(note, index) in filteredNotes" :key="note.id">
-          <!-- Note Card -->
-          <div class="card" style="border-radius:8px; padding:4px; background:white; border: 2px solid rgba(0, 191, 166);">
+      <div v-else class="collage">
+        <div class="collage-item" v-for="(note, index) in filteredNotes" :key="note.id">
+          <div class="card">
             <div class="card-body">
-              <div class="mt-2">
-                <h5><strong>Note:</strong></h5>
-                <p :ref="'targetElement-' + index" v-html="highlightText(truncatedHtml(note.ayah_notes))"></p>
-              </div>
+              <h5><strong>Note:</strong></h5>
+              <p v-html="highlightText(truncatedHtml(note.ayah_notes))"></p>
               <h5><strong>Date created:</strong></h5>
-              <p>{{ formatDate(note.created_at) }}</p>
-              <div class="container text-center">
-                <form @submit.prevent="createNote">
-                  <div class="row">
-                    <div class="col">
-                      <i class="bi bi-eye me-3 h3" style="cursor: pointer;" @click="viewModal(note)" data-bs-toggle="modal" data-bs-target="#viewNotes"></i>
-                    </div>
-                    <div class="col">
-                      <i class="bi bi-whatsapp h4 me-3 text-center" style="cursor: pointer;" @click="shareTextViaWhatsApp3(index)"></i>
-                    </div>
-                    <div class="col">
-                      <i class="bi bi-file-earmark-text h4 me-3 text-center" style="cursor: pointer;" @click="createNote"></i>
-                    </div>
-                  </div>
-                </form>
+              <p v-if="note.created_at">{{ formatDate(note.created_at) }}</p>
+              <div class="text-center">
+                <i class="bi bi-eye me-3 h3" @click="viewModal(note)" data-bs-toggle="modal"
+                  data-bs-target="#viewNotes"></i>
               </div>
             </div>
           </div>
@@ -105,17 +73,18 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
+            <h5 class="modal-title text-dark"><b>View Note</b></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" v-if="selectedNote">
             <div class="mb-3">
               <label class="form-label"><strong>Notes:</strong></label>
-              <div class="mt-2 text-dark text-left" v-html="selectedNote.ayah_notes"></div>
+              <div class="mt-2 text-dark" v-html="selectedNote.ayah_notes"></div>
             </div>
             <div class="mb-3">
               <label class="form-label"><strong>Date Created:</strong></label>
-              <p class="mt-2 text-dark text-left">{{ extractDate(selectedNote.created_at) }}</p>
+              <p v-if="selectedNote.created_at">{{ formatDate(selectedNote.created_at) }}</p>
+              <p v-else>N/A</p>
             </div>
           </div>
           <div class="modal-footer">
@@ -124,6 +93,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -131,18 +101,23 @@
 export default {
   data() {
     return {
-      isLoading: false, // Added loading state
+      isLoading: false,
       notes: [],
-      // selectedFilter: this.getStoredFilter() || 'all', // Fixed duplicate declaration
       searchTerm: "",
+      selectedFilter: "all",
+      selectedNote: null,
       filterOptions: [
-        { value: 'all', label: 'All Notes' },
-        { value: 'today', label: 'Today' },
-        { value: 'yesterday', label: 'Yesterday' },
-        { value: 'lastWeek', label: 'Last Week' },
-        { value: 'lastMonth', label: 'Last Month' }
+        { value: "all", label: "All Notes" },
+        { value: "today", label: "Today" },
+        { value: "yesterday", label: "Yesterday" },
+        { value: "lastWeek", label: "Last Week" },
+        { value: "lastMonth", label: "Last Month" },
       ],
-      selectedNote: null, // Added to track the selected note for the modal
+      mobileNavLinks: [
+        { text: "Bookmarks", href: "/bookmarks", style: "width:100%;font-size:18px;border-radius:10px;color:#B70D52;background:#ead1dc" },
+        { text: "Profile", href: "/profile", style: "width:100%;font-size:18px;border-radius:10px;color:#0263FF;background:#c2d8fb" },
+        { text: "Notes", href: "/notes", style: "width:100%;font-size:18px;border-radius:10px;color:#3D8F67;background:#d1f4d0" },
+      ],
     };
   },
   async mounted() {
@@ -150,25 +125,20 @@ export default {
   },
   computed: {
     filteredNotes() {
+      const keyword = this.searchTerm.toLowerCase();
       const today = new Date();
-      const yesterday = new Date(today);
+      const yesterday = new Date();
       yesterday.setDate(today.getDate() - 1);
-      const lastWeek = new Date(today);
+      const lastWeek = new Date();
       lastWeek.setDate(today.getDate() - 7);
-      const lastMonth = new Date(today);
+      const lastMonth = new Date();
       lastMonth.setMonth(today.getMonth() - 1);
-
-      const keyword = this.searchTerm ? this.searchTerm.toLowerCase() : null;
 
       return this.notes.filter(note => {
         const noteDate = new Date(note.created_at);
+        const matchesSearch = !this.searchTerm ||
+          (note.ayah_notes && note.ayah_notes.toLowerCase().includes(keyword));
 
-        // Search term filtering
-        const matchesSearch = !keyword || 
-          (note.surah_name?.toLowerCase().includes(keyword) || 
-           note.ayah_notes?.toLowerCase().includes(keyword));
-
-        // Time period filtering
         let matchesPeriod = true;
         switch (this.selectedFilter) {
           case "today":
@@ -183,15 +153,24 @@ export default {
           case "lastMonth":
             matchesPeriod = noteDate >= lastMonth;
             break;
-          default:
-            matchesPeriod = true;
         }
 
         return matchesSearch && matchesPeriod;
       });
-    }
+    },
   },
   methods: {
+    handleFilterClick(value) {
+      this.selectedFilter = value;
+    },
+    formatDate(date) {
+      if (!date) return "N/A";
+      return new Date(date).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    },
     async fetchNotes() {
       this.isLoading = true; // Show loading state
       try {
@@ -210,8 +189,8 @@ export default {
       const div = document.createElement("div");
       div.innerHTML = html;
       const plainText = div.textContent || div.innerText || "";
-      return plainText.length > maxLength 
-        ? `${plainText.substring(0, maxLength)}...` 
+      return plainText.length > maxLength
+        ? `${plainText.substring(0, maxLength)}...`
         : plainText;
     },
     highlightText(text) {
@@ -224,102 +203,99 @@ export default {
       this.selectedNote = note; // Set the selected note for the modal
     },
     extractDate(dateTimeString) {
-      return dateTimeString.split('T')[0];
+      return dateTimeString ? dateTimeString.split('T')[0] : "";
     },
-    formatDate(dateString) {
+    formatDate(dateString) { // FIXED: Ensure this function exists
+      if (!dateString) return "";
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       return new Date(dateString).toLocaleDateString(undefined, options);
-    }
-  }
+    },
+  },
+
 };
 </script>
-
 <style scoped>
+.container-notes {
+  padding-top: 2rem;
+}
+
+.collage {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.collage-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background-color: #ffffff;
+  margin-bottom: 1.5em;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  border: 2px solid rgba(0, 191, 166);
+  box-shadow: 0 4px 8px rgba(0, 191, 166, 0.1);
+  transition: transform 0.3s ease;
+}
+
+/* Card hover effect */
+.card:hover {
+  transform: translateY(-5px);
+}
 
 i {
-  color: #000; /* Default color of the icon */
-  transition: color 0.3s ease; /* Smooth color transition on hover */
+  color: #000;
+  transition: color 0.3s ease;
 }
 
-/* Change color on hover */
 i:hover {
-  color: #00bfa6; /* Change to your desired color */
+  color: #00bfa6;
 }
 
+/* Media Queries for Responsive Layout */
+@media (max-width: 1200px) {
+  .collage {
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 columns on medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .collage {
+    grid-template-columns: 1fr;
+    /* 1 column on smaller screens */
+  }
+}
 
 .highlight {
   background-color: yellow;
 }
+
 .bg-primary-whatsapp {
- background-color: #00bfa6;
- /* WhatsApp green */
+  background-color: #00bfa6;
 }
 
 .bg-secondary-whatsapp {
- background-color: #075E54;
- /* WhatsApp dark green */
+  background-color: #075E54;
 }
 
 .text-green {
- color: #25D366;
- /* WhatsApp green */
+  color: #00bfa6;
 }
 
 .text-white {
- color: #FFFFFF;
-}
-
-.container-notes {
- column-count: 4;
- max-width: 1500px;
-}
-
-.row.collage {
- display: block;
-}
-
-.collage-item {
- break-inside: avoid;
-}
-
-.card {
- background-color: #ffffff;
- padding: 1em;
- margin-bottom: 1.5em;
-}
-
-@media (max-width: 992px) {
- .container {
-  column-count: 2;
- }
-}
-
-@media (max-width: 576px) {
- .container {
-  column-count: 1;
- }
-}
-
-.like-section {
- display: flex;
- align-items: center;
-}
-
-.bi-heart {
- font-size: 1.5rem;
-}
-
-.bi-heart-fill {
- font-size: 1.5rem;
+  color: #FFFFFF;
 }
 
 .badge.active {
- background-color: rgba(0, 191, 166, 0.2);
- color: rgb(5, 32, 29);
- border: 1px solid rgba(0, 191, 166);
+  background-color: rgba(0, 191, 166, 0.2);
+  color: rgb(5, 32, 29);
+  border: 1px solid rgba(0, 191, 166);
 }
-
-
 
 .close {
   float: right;
@@ -332,5 +308,25 @@ i:hover {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-body h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-body p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.card-body hr {
+  border-color: #ddd;
 }
 </style>
