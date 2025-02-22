@@ -106,18 +106,18 @@
                   <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
                     @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                   <i class="bi bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;" @click="replayAudio(index)"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Replay"></i>
-                </div>
+                </div> -->
                 <div class="col">
                   <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
                 </div>
-                <!-- <div class="col">
+                <div class="col">
                   <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Copy Ayah"></i>
-                </div> -->
+                </div>
                 <div class="col">
                   <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
                     @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -307,7 +307,7 @@ export default {
       this.highlightedAyah = highlightedWords.join(" ");
     },
     async copyAyah(ayah) {
-      const ayahText = `${ayah.text}\n\n${ayah.translation}`;
+      const ayahText = `Surah number: ${this.surahDetails.surahNumber}\n\nSurah name: ${this.surahDetails.englishName}\n\nAyah text:  ${ayah.text}\n\nTranslation:  ${ayah.translation}`;
 
       try {
         await navigator.clipboard.writeText(ayahText);

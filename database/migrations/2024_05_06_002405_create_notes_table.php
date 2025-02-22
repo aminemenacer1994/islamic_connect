@@ -17,12 +17,11 @@ class CreateNotesTable extends Migration
             $table->text('ayah_verse_ar')->nullable();
             $table->text('ayah_verse_en')->nullable();
             $table->longText('ayah_notes')->nullable();
-            $table->string('visibility_option')->default('public');
+            $table->string('visibility_option')->default('public'); // Ensure this line exists
             $table->boolean('is_speech_to_text')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        
     }
 
     public function down()

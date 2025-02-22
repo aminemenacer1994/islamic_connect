@@ -3,8 +3,8 @@
     <button v-if="isFullScreen" @click="toggleFullScreen"
       class="close-button mb-3 text-left btn btn-secondary ">Close</button>
     <div ref="targetTranslationElement">
-      <AyahInfo  :information="information" />
-      <div  class="row">
+      <AyahInfo :information="information" />
+      <div class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
           <!-- 
           <i 
@@ -15,7 +15,7 @@
           ></i>
         -->
         </div>
-        <div  class="col-md-11">
+        <div class="col-md-11">
           <MainAyah :information="information" />
         </div>
       </div>
@@ -26,11 +26,11 @@
             <h4 class="ayah-translation" v-html="renderedText"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
             <hr>
-            <div  class="text-left word-count mt-3">
+            <div class="text-left word-count mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Translation: </strong>Ahmed Ali
             </div>
-            <div  class="row collapse pt-3" id="collapseExample">
+            <div class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                   <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -52,7 +52,7 @@
           </div>
         </div>
         <!-- Icons Column (Stacked Vertically) -->
-        <div  class="col-2 d-flex align-items-center justify-content-center flex-column">
+        <div class="col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
           <i @click="toggleSpeech" :class="[
             'bi',
@@ -862,7 +862,10 @@ export default {
         return;
       }
 
+      // Cancel ongoing speech before starting a new one
       window.speechSynthesis.cancel();
+
+      // Create the utterance object
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
@@ -870,26 +873,45 @@ export default {
       // Set a male voice if available
       const voices = window.speechSynthesis.getVoices();
       const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+
       if (maleVoice) {
         this.utterance.voice = maleVoice;
+      } else if (voices.length > 0) {
+        this.utterance.voice = voices[0]; // Fallback to the first available voice
       }
 
+      // Wait for voices to load if they are not available yet
+      if (voices.length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          const updatedVoices = window.speechSynthesis.getVoices();
+          const maleVoice = updatedVoices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+          this.utterance.voice = maleVoice || updatedVoices[0];
+          window.speechSynthesis.speak(this.utterance);
+        };
+      } else {
+        window.speechSynthesis.speak(this.utterance);
+      }
+
+      // Handle word boundaries for highlighting
       this.utterance.onboundary = (event) => {
-        console.log("Boundary event:", event);
         if (event.name === "word") {
-          const currentWord = text.slice(event.charIndex).split(" ")[0];
-          console.log("Current word:", currentWord, "Char index:", event.charIndex);
+          const words = text.split(/\s+/); // Split text by spaces
+          let currentWord = words.find((_, index) => text.indexOf(words[index]) === event.charIndex);
+
+          if (!currentWord) currentWord = text.slice(event.charIndex).split(/\s+/)[0];
+
           this.highlightText(event.charIndex, currentWord);
         }
       };
 
+      // Handle end of speech
       this.utterance.onend = () => {
         this.isReading = false;
         this.clearHighlight();
       };
 
+      // Start speaking
       this.isReading = true;
-      window.speechSynthesis.speak(this.utterance);
     },
 
     highlightText(charIndex, currentWord) {
@@ -903,6 +925,7 @@ export default {
     </span>
     <span>${after}</span>`;
     },
+
 
     clearHighlight() {
       this.renderedText = `<span>${this.information.translation}</span>`;
@@ -973,7 +996,7 @@ export default {
     isVisible() {
       this.$emit('toggle-change');
     },
-    
+
   }
 };
 </script>
@@ -1051,6 +1074,11 @@ audio {
 .ayah-container {
   margin-bottom: 20px;
 }
+
+.ayah-translation span {
+  display: inline-block;
+}
+
 
 .ayah-text {
   font-size: 18px;

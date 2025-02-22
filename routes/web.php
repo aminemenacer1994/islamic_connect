@@ -40,7 +40,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
-
 // Auth routes
 Auth::routes();
 
@@ -56,7 +55,7 @@ Route::get('api/userId', [UserController::class, 'getUserId']);
 // comment
 Route::get('/notes/{note}/comments', [CommentsController::class, 'getComments']);
 Route::post('/comments', [CommentsController::class, 'store']);
-Route::get('/notes/{note}', [NoteController::class, 'show']);
+Route::get('/notes/{note}', [NotesController::class, 'show']);
 Route::get('/notes/{note}/comments', [CommentsController::class, 'getComments']);
 Route::post('/add-comment', [CommentsController::class, 'addComment'])->name('add-comment');
 
@@ -67,30 +66,29 @@ Route::get('/get-comments/{noteId}', [CommentsController::class, 'getComments'])
 Route::post('/add-comment', [CommentsController::class, 'store']);
 
 // Route to get all notes (and their comments)
-Route::get('/get-notes', [NoteController::class, 'getNotesWithComments']);
+Route::get('/get-notes', [NotesController::class, 'getNotesWithComments']);
 
 
 Route::middleware(['auth'])->group(function () {
-    //bookmark
-    Route::get('/bookmarks', [BookmarkController::class, 'index']);
-    Route::post('/bookmarks', [BookmarkController::class, 'store']);
-    Route::get('api/fetch-bookmarks/{userId}', [BookmarkController::class, 'getBookmarks']);
-    Route::get('api/fetch-bookmarks/folder/{folderId}', [BookmarkController::class, 'getBookmarksByFolder']);
-    Route::delete('api/delete-bookmarks/{id}', [BookmarkController::class, 'deleteBookmarks']);
+//bookmark
+Route::get('/bookmarks', [BookmarkController::class, 'index']);
+Route::post('/bookmarks', [BookmarkController::class, 'store']);
+Route::get('api/fetch-bookmarks/{userId}', [BookmarkController::class, 'getBookmarks']);
+Route::get('api/fetch-bookmarks/folder/{folderId}', [BookmarkController::class, 'getBookmarksByFolder']);
+Route::delete('api/delete-bookmarks/{id}', [BookmarkController::class, 'deleteBookmarks']);
 
-    Route::get('/bookmarks/{userId}', [BookmarkController::class, 'getBookmarks']);
-    Route::delete('/bookmarks/{id}', [BookmarkController::class, 'deleteBookmarks']);
-    Route::get('/folders/bookmarks', [BookmarkController::class, 'getBookmarksByFolder']);
+Route::get('/bookmarks/{userId}', [BookmarkController::class, 'getBookmarks']);
+Route::delete('/bookmarks/{id}', [BookmarkController::class, 'deleteBookmarks']);
+Route::get('/folders/bookmarks', [BookmarkController::class, 'getBookmarksByFolder']);
 
-    Route::get('/folders', [FolderController::class, 'getFolders']);
-    Route::post('/folders', [FolderController::class, 'store']);
+Route::get('/folders', [FolderController::class, 'getFolders']);
+Route::post('/folders', [FolderController::class, 'store']);
 
-    Route::post('/notes/{noteId}/like', [LikeController::class, 'like']);
-    Route::post('/notes/{noteId}/unlike', [LikeController::class, 'unlike']);
-    
-    Route::get('/fetch-notes', [NotesController::class, 'fetchNotes']);
+Route::post('/notes/{noteId}/like', [LikeController::class, 'like']);
+Route::post('/notes/{noteId}/unlike', [LikeController::class, 'unlike']);
 
-    // Route::get('/notes', [NotesController::class, 'index']);
+
+// Route::get('/notes', [NotesController::class, 'index']);
     // Route::get('api/fetch-notes', [NotesController::class, 'getNotes']);
     Route::post('api/submit-note', [NotesController::class, 'store']);
     Route::post('/submit-note', [NotesController::class, 'store']);
@@ -107,8 +105,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/search', [NotesController::class, 'search'])->name('search');
     Route::get('/search-translations', [SurahController::class, 'searchTranslations']);
 
+// routes/web.php
+Route::get('/api/fetch-notes/{userId}', [NotesController::class, 'fetchNotes']);
 
 });
+
 
 Route::post('/notes/store', [NotesController::class, 'store'])->middleware('auth');
 
@@ -119,17 +120,10 @@ Route::get('/group_notes', [NotesController::class, 'showGroupNotes']);
 Route::get('/fetch-notes', [NotesController::class, 'fetchNotes']); // Ensure this is also open
 
 
-
 Route::get('/test-fetch-notes', function () {
     $publicNotes = App\Models\Note::where('option', 0)->orderBy('created_at', 'desc')->get();
     return response()->json($publicNotes);
 });
-
-
-
-
-
-
 
 
 Route::get('/ayahs', [QuranController::class, 'index']);

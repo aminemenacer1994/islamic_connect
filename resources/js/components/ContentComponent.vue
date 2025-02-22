@@ -159,8 +159,8 @@
                 Views: {{ podcast.views }}<br />
                 Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}<br />
                 Published on: {{ formatDate(podcast.pubDate) }}
-
-                <div class="container pt-3 text-center d-flex justify-content-between">
+                <hr>
+                <div class="container text-center d-flex justify-content-between">
                   <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
 
@@ -179,12 +179,13 @@
 
               </div>
 
-              <audio ref="audio" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl" class="w-100 audio"
-                style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
+              <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
+                class="w-100 audio" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; "
                 @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
               </audio>
+
             </div>
           </div>
         </div>
@@ -291,7 +292,7 @@ export default {
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
       currentPage: 1,
-      podcastsPerPage: 9,
+      podcastsPerPage: 8,
       bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       sortOption: 'mostViewed',
@@ -540,10 +541,10 @@ export default {
     },
 
 
-    // Play or pause audio
     playAudio(index) {
-      const audioPlayer = this.$refs.audioPlayer[index];
+      const audioPlayer = this.$refs.audioPlayer[index];  // Ref should now match the template
       this.playingIndex = index;
+
       // Pause the currently playing audio (if any)
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayer) {
         this.currentlyPlaying.pause();
@@ -766,8 +767,10 @@ img {
 }
 
 .highlighted {
-  border: 2px solid rgb(13, 182, 145); /* Highlight border */
-  background-color: rgba(13, 182, 145, 0.1); /* Light highlight effect */
+  border: 2px solid rgb(13, 182, 145);
+  /* Highlight border */
+  background-color: rgba(13, 182, 145, 0.1);
+  /* Light highlight effect */
   transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
 }
 
@@ -822,14 +825,16 @@ img {
 
 .audio {
   border-radius: 0 !important;
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 0px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-bottom-right-radius: 20px;
+  border-bottom-right-radius: 0px;
   background: rgb(13, 182, 145);
 }
 
 audio::-webkit-media-controls-panel {
-  background: rgb(13, 182, 145)
+  background: rgb(13, 182, 145);
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .card {

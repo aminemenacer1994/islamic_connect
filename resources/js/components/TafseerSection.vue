@@ -27,7 +27,7 @@
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
               <hr />
-              <div  class="text-left word-count mt-2">
+              <div class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
@@ -211,7 +211,7 @@ export default {
     //   // Replace this with the actual source of your text
     //   return document.querySelector('.ayah-translation').innerHTML;
     //  },
-    
+
   },
   mounted() {
     this.fetchTafseer(this.information.ayah.id);
@@ -836,21 +836,28 @@ export default {
       // Cancel any ongoing speech synthesis
       window.speechSynthesis.cancel();
 
-      // Create a new utterance
+      // Create the utterance once
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
 
-      // Ensure voices are loaded before setting a voice
+      // Function to set the voice
       const setVoice = () => {
         const voices = window.speechSynthesis.getVoices();
         const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+
         if (maleVoice) {
           this.utterance.voice = maleVoice;
+        } else if (voices.length > 0) {
+          this.utterance.voice = voices[0]; // Fallback to the first available voice
         }
+
+        // Start speaking after voice is set
+        this.isReading = true;
+        window.speechSynthesis.speak(this.utterance);
       };
 
-      // Wait for voices to be loaded
+      // If voices are not yet loaded, wait for them
       if (window.speechSynthesis.getVoices().length === 0) {
         window.speechSynthesis.onvoiceschanged = setVoice;
       } else {
@@ -859,10 +866,8 @@ export default {
 
       // Handle word boundaries for highlighting
       this.utterance.onboundary = (event) => {
-        console.log("Boundary event:", event);
         if (event.name === "word") {
           const currentWord = text.slice(event.charIndex, event.charIndex + event.charLength);
-          console.log("Current word:", currentWord, "Char index:", event.charIndex);
           this.highlightText(event.charIndex, currentWord);
         }
       };
@@ -872,11 +877,8 @@ export default {
         this.isReading = false;
         this.clearHighlight();
       };
-
-      // Start speaking
-      this.isReading = true;
-      window.speechSynthesis.speak(this.utterance);
     },
+
 
     highlightText(charIndex, currentWord) {
       const text = this.tafseer; // Use `this.tafseer` instead of `this.information.translation`
@@ -963,7 +965,7 @@ export default {
         this.updateRenderedText(newTafseer); // Update displayed tafseer
       },
     },
-    
+
   },
 
 };

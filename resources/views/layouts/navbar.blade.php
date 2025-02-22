@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
  <div class="container-fluid">
-     {{-- <a class="navbar-brand" href="{{ url('/') }}">
+     <a class="navbar-brand" href="/welcome">
          <img src="/images/logo_main.png" width="275" height="54" class="d-inline-block align-top" alt="" loading="lazy">
-     </a> --}}
+     </a>
      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
          aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

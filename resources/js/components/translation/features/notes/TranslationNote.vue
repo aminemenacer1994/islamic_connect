@@ -18,14 +18,14 @@
                     Basic
                   </label>
                 </div>
-                <div v-if="!isPremium" class="col">
+                <div class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio"
                     v-model="inputMode">
                   <label class="form-check-label" for="audioMode">
                     Audio Note Recording
                   </label>
                 </div>
-                <div v-if="!isPremium" class="col">
+                <div class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor"
                     v-model="inputMode">
                   <label class="form-check-label" for="editorMode">
@@ -76,7 +76,7 @@
 
             </div>
 
-            <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
+            <div class="pt-3 pb-2" style="display: flex; align-items: center;">
                 <b style="margin-right: 10px;" class="pr-2">Make your note either:</b>
                 <div style="display: flex; align-items: center;">
                 <div class="form-check form-check-inline" style="margin-right: 15px;">
@@ -89,7 +89,7 @@
                 </div>
                 </div>
               </div> 
-            -->
+           
 
 
             <div class="modal-footer">
@@ -133,6 +133,7 @@ export default {
       option: 0,
       isListening: false,
       recognition: null,
+      isPaused: false,
       form: {
         ayah_notes: "",
         surah_name: ""
@@ -274,6 +275,12 @@ export default {
     }
   },
   watch: {
+    inputMode(newVal) {
+      console.log("Input Mode Changed To:", newVal);
+    },
+    isListening(newVal) {
+      console.log("Listening State Changed:", newVal);
+    }
   }
 };
 </script>
