@@ -5,21 +5,12 @@
       v-if="ayah"
       style="padding: 5px; background: #268a75; border-radius: 8px; position: relative;">
       <!-- Close Icon -->
-      <!-- <button
+      <button
         @click="closeMessageBox"
-        style="
-          position: absolute;
-          top: 5px;
-          right: 10px;
-          background: transparent;
-          border: none;
-          color: white;
-          font-size: 1.5rem;
-          cursor: pointer;">
-        &times;
-      </button> -->
+        style="position: absolute; top: 5px; right: 5px; color: white; background: none; border: none; cursor: pointer;">
+        X
+      </button>
 
-      <!-- Header Row -->
       <div class="row" style="padding: 15px;">
         <div class="col-md-6">
           <h5 class="pt-2 text-white text-left">Ayah of the Day:</h5>
@@ -39,6 +30,14 @@
       </div>
     </div>
   </div>
+
+  <!-- Button to Reopen the Card -->
+  <button
+    v-if="!isVisible"
+    @click="openMessageBox"
+    style="margin-top: 10px; padding: 10px; background: #268a75; color: white; border: none; border-radius: 5px; cursor: pointer;">
+    Show Ayah of the Day
+  </button>
 </template>
 
 <script>
@@ -56,6 +55,11 @@ export default {
     closeMessageBox() {
       console.log("Close button clicked."); // Debugging log
       this.isVisible = false; // Hide the message box
+    },
+    // Method to open the message box
+    openMessageBox() {
+      console.log("Open button clicked."); // Debugging log
+      this.isVisible = true; // Show the message box
     },
     // Method to fetch and display the Ayah of the Day
     fetchAyahOfTheDay() {
@@ -130,8 +134,5 @@ button {
 /* Button hover effect */
 button:hover {
   color: #f5f5f5;
-  transform: scale(1.1);
 }
-
-
 </style>
