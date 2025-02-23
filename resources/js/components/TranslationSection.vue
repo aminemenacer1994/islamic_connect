@@ -855,6 +855,7 @@ export default {
     saveFontSize() {
       localStorage.setItem('ayahFontSize', this.fontSize); // Store font size in local storage
     },
+
     readTextAloud() {
       const text = this.information.translation;
       if (!window.speechSynthesis) {
@@ -862,44 +863,41 @@ export default {
         return;
       }
 
-      // Cancel ongoing speech before starting a new one
+      // Cancel any ongoing speech
       window.speechSynthesis.cancel();
-
-      // Create the utterance object
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
 
-      // Set a male voice if available
-      const voices = window.speechSynthesis.getVoices();
-      const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
+      // Ensure voices are loaded before setting one
+      const setVoice = () => {
+        const voices = window.speechSynthesis.getVoices();
 
-      if (maleVoice) {
-        this.utterance.voice = maleVoice;
-      } else if (voices.length > 0) {
-        this.utterance.voice = voices[0]; // Fallback to the first available voice
-      }
+        // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
+        const matchingVoice = voices.find(voice =>
+          voice.name.includes("Google UK English Male") ||
+          voice.lang.includes("en-US")
+        );
 
-      // Wait for voices to load if they are not available yet
-      if (voices.length === 0) {
-        window.speechSynthesis.onvoiceschanged = () => {
-          const updatedVoices = window.speechSynthesis.getVoices();
-          const maleVoice = updatedVoices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
-          this.utterance.voice = maleVoice || updatedVoices[0];
-          window.speechSynthesis.speak(this.utterance);
-        };
-      } else {
+        // Set the preferred voice or fallback to the first available voice
+        this.utterance.voice = matchingVoice || voices[0];
+
+        // Start speaking after setting the voice
+        this.isReading = true;
         window.speechSynthesis.speak(this.utterance);
+      };
+
+      // If voices are not yet loaded, wait for them
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = setVoice;
+      } else {
+        setVoice();
       }
 
-      // Handle word boundaries for highlighting
+      // Real-time word highlighting
       this.utterance.onboundary = (event) => {
         if (event.name === "word") {
-          const words = text.split(/\s+/); // Split text by spaces
-          let currentWord = words.find((_, index) => text.indexOf(words[index]) === event.charIndex);
-
-          if (!currentWord) currentWord = text.slice(event.charIndex).split(/\s+/)[0];
-
+          const currentWord = text.slice(event.charIndex).split(" ")[0];
           this.highlightText(event.charIndex, currentWord);
         }
       };
@@ -909,9 +907,6 @@ export default {
         this.isReading = false;
         this.clearHighlight();
       };
-
-      // Start speaking
-      this.isReading = true;
     },
 
     highlightText(charIndex, currentWord) {
@@ -926,10 +921,10 @@ export default {
     <span>${after}</span>`;
     },
 
-
     clearHighlight() {
       this.renderedText = `<span>${this.information.translation}</span>`;
     },
+
 
     updateRenderedText(newText) {
       this.renderedText = `<span>${newText}</span>`;

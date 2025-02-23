@@ -827,32 +827,32 @@ export default {
       console.log("Speech rewinded.");
     },
     readTextAloud() {
-      const text = this.tafseer; // Ensure `this.tafseer` contains the correct text
+      const text = this.tafseer;
       if (!window.speechSynthesis) {
         console.error("Speech synthesis is not supported in this browser.");
         return;
       }
 
-      // Cancel any ongoing speech synthesis
+      // Cancel any ongoing speech
       window.speechSynthesis.cancel();
-
-      // Create the utterance once
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
 
-      // Function to set the voice
+      // Ensure voices are loaded before setting one
       const setVoice = () => {
         const voices = window.speechSynthesis.getVoices();
-        const maleVoice = voices.find(voice => voice.name.includes("Male") || voice.lang.includes("en-US"));
 
-        if (maleVoice) {
-          this.utterance.voice = maleVoice;
-        } else if (voices.length > 0) {
-          this.utterance.voice = voices[0]; // Fallback to the first available voice
-        }
+        // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
+        const matchingVoice = voices.find(voice =>
+          voice.name.includes("Google UK English Male") ||
+          voice.lang.includes("en-US")
+        );
 
-        // Start speaking after voice is set
+        // Set the preferred voice or fallback to the first available voice
+        this.utterance.voice = matchingVoice || voices[0];
+
+        // Start speaking after setting the voice
         this.isReading = true;
         window.speechSynthesis.speak(this.utterance);
       };
@@ -864,10 +864,10 @@ export default {
         setVoice();
       }
 
-      // Handle word boundaries for highlighting
+      // Real-time word highlighting
       this.utterance.onboundary = (event) => {
         if (event.name === "word") {
-          const currentWord = text.slice(event.charIndex, event.charIndex + event.charLength);
+          const currentWord = text.slice(event.charIndex).split(" ")[0];
           this.highlightText(event.charIndex, currentWord);
         }
       };
@@ -879,9 +879,8 @@ export default {
       };
     },
 
-
     highlightText(charIndex, currentWord) {
-      const text = this.tafseer; // Use `this.tafseer` instead of `this.information.translation`
+      const text = this.tafseer;
       const before = text.slice(0, charIndex);
       const after = text.slice(charIndex + currentWord.length);
       this.renderedText = `
@@ -893,12 +892,14 @@ export default {
     },
 
     clearHighlight() {
-      this.renderedText = `<span>${this.tafseer}</span>`; // Use `this.tafseer` instead of `this.information.translation`
+      this.renderedText = `<span>${this.tafseer}</span>`;
     },
+
 
     updateRenderedText(newText) {
       this.renderedText = `<span>${newText}</span>`;
     },
+
 
     formatText(text) {
       return `<span>${text}</span>`;

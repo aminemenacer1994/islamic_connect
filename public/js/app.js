@@ -33684,33 +33684,31 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   },
   readTextAloud: function readTextAloud() {
     var _this6 = this;
-    var text = this.tafseer; // Ensure `this.tafseer` contains the correct text
+    var text = this.tafseer;
     if (!window.speechSynthesis) {
       console.error("Speech synthesis is not supported in this browser.");
       return;
     }
 
-    // Cancel any ongoing speech synthesis
+    // Cancel any ongoing speech
     window.speechSynthesis.cancel();
-
-    // Create the utterance once
     this.utterance = new SpeechSynthesisUtterance(text);
     this.utterance.rate = 0.9;
     this.utterance.pitch = 1;
 
-    // Function to set the voice
+    // Ensure voices are loaded before setting one
     var setVoice = function setVoice() {
       var voices = window.speechSynthesis.getVoices();
-      var maleVoice = voices.find(function (voice) {
-        return voice.name.includes("Male") || voice.lang.includes("en-US");
-      });
-      if (maleVoice) {
-        _this6.utterance.voice = maleVoice;
-      } else if (voices.length > 0) {
-        _this6.utterance.voice = voices[0]; // Fallback to the first available voice
-      }
 
-      // Start speaking after voice is set
+      // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
+      var matchingVoice = voices.find(function (voice) {
+        return voice.name.includes("Google UK English Male") || voice.lang.includes("en-US");
+      });
+
+      // Set the preferred voice or fallback to the first available voice
+      _this6.utterance.voice = matchingVoice || voices[0];
+
+      // Start speaking after setting the voice
       _this6.isReading = true;
       window.speechSynthesis.speak(_this6.utterance);
     };
@@ -33722,10 +33720,10 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       setVoice();
     }
 
-    // Handle word boundaries for highlighting
+    // Real-time word highlighting
     this.utterance.onboundary = function (event) {
       if (event.name === "word") {
-        var currentWord = text.slice(event.charIndex, event.charIndex + event.charLength);
+        var currentWord = text.slice(event.charIndex).split(" ")[0];
         _this6.highlightText(event.charIndex, currentWord);
       }
     };
@@ -33737,13 +33735,13 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     };
   },
   highlightText: function highlightText(charIndex, currentWord) {
-    var text = this.tafseer; // Use `this.tafseer` instead of `this.information.translation`
+    var text = this.tafseer;
     var before = text.slice(0, charIndex);
     var after = text.slice(charIndex + currentWord.length);
     this.renderedText = "\n    <span>".concat(before, "</span>\n    <span style=\"background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;\">\n      ").concat(currentWord, "\n    </span>\n    <span>").concat(after, "</span>");
   },
   clearHighlight: function clearHighlight() {
-    this.renderedText = "<span>".concat(this.tafseer, "</span>"); // Use `this.tafseer` instead of `this.information.translation`
+    this.renderedText = "<span>".concat(this.tafseer, "</span>");
   },
   updateRenderedText: function updateRenderedText(newText) {
     this.renderedText = "<span>".concat(newText, "</span>");
@@ -34667,47 +34665,40 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
         return;
       }
 
-      // Cancel ongoing speech before starting a new one
+      // Cancel any ongoing speech
       window.speechSynthesis.cancel();
-
-      // Create the utterance object
       this.utterance = new SpeechSynthesisUtterance(text);
       this.utterance.rate = 0.9;
       this.utterance.pitch = 1;
 
-      // Set a male voice if available
-      var voices = window.speechSynthesis.getVoices();
-      var maleVoice = voices.find(function (voice) {
-        return voice.name.includes("Male") || voice.lang.includes("en-US");
-      });
-      if (maleVoice) {
-        this.utterance.voice = maleVoice;
-      } else if (voices.length > 0) {
-        this.utterance.voice = voices[0]; // Fallback to the first available voice
-      }
+      // Ensure voices are loaded before setting one
+      var setVoice = function setVoice() {
+        var voices = window.speechSynthesis.getVoices();
 
-      // Wait for voices to load if they are not available yet
-      if (voices.length === 0) {
-        window.speechSynthesis.onvoiceschanged = function () {
-          var updatedVoices = window.speechSynthesis.getVoices();
-          var maleVoice = updatedVoices.find(function (voice) {
-            return voice.name.includes("Male") || voice.lang.includes("en-US");
-          });
-          _this6.utterance.voice = maleVoice || updatedVoices[0];
-          window.speechSynthesis.speak(_this6.utterance);
-        };
+        // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
+        var matchingVoice = voices.find(function (voice) {
+          return voice.name.includes("Google UK English Male") || voice.lang.includes("en-US");
+        });
+
+        // Set the preferred voice or fallback to the first available voice
+        _this6.utterance.voice = matchingVoice || voices[0];
+
+        // Start speaking after setting the voice
+        _this6.isReading = true;
+        window.speechSynthesis.speak(_this6.utterance);
+      };
+
+      // If voices are not yet loaded, wait for them
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = setVoice;
       } else {
-        window.speechSynthesis.speak(this.utterance);
+        setVoice();
       }
 
-      // Handle word boundaries for highlighting
+      // Real-time word highlighting
       this.utterance.onboundary = function (event) {
         if (event.name === "word") {
-          var words = text.split(/\s+/); // Split text by spaces
-          var currentWord = words.find(function (_, index) {
-            return text.indexOf(words[index]) === event.charIndex;
-          });
-          if (!currentWord) currentWord = text.slice(event.charIndex).split(/\s+/)[0];
+          var currentWord = text.slice(event.charIndex).split(" ")[0];
           _this6.highlightText(event.charIndex, currentWord);
         }
       };
@@ -34717,9 +34708,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
         _this6.isReading = false;
         _this6.clearHighlight();
       };
-
-      // Start speaking
-      this.isReading = true;
     },
     highlightText: function highlightText(charIndex, currentWord) {
       var text = this.information.translation;
