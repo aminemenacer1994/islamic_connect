@@ -6,7 +6,7 @@
             <div style="display: flex" class="container align-items-center"></div>
             <AdvancedSearch v-if="!isVisible" @input-change="handleInputChange" />
             <custom-surah-selection :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
-            
+
 
             <!-- accordion headers -->
             <div class="row container-fluid">
@@ -110,21 +110,24 @@
                                     <div class="container text-center">
                                         <div
                                             class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
+                                            <!-- Advanced Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Advanced</span>
                                             </div>
+
+                                            <!-- Switch -->
                                             <div class="col">
                                                 <div
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
                                                     <input
-                                                        class="form-check-input pr-5 custom-switch shadow-lg text-center"
-                                                        style="
-                                                        border-color: #00bfa6;
-                                                        color: #00bfa6;
-                                                    " type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                                                        v-model="isVisible" @change="saveToggleState" />
+                                                        class="form-check-input h4 pr-5 shadow-lg text-center"
+                                                        style="color: #00bfa6; " type="checkbox"
+                                                        role="switch" id="flexSwitchCheckDefault" v-model="isVisible"
+                                                        @change="saveToggleState" />
                                                 </div>
                                             </div>
+
+                                            <!-- Basic Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Basic</span>
                                             </div>
@@ -242,7 +245,7 @@
                                                             <i class="bi bi-arrows-fullscreen h4" style="
                                                                 cursor: pointer;
                                                             " @click="toggleFullScreen
-                                                                " title="Full screen"></i>
+                                                            " title="Full screen"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -279,10 +282,10 @@
                                                         " :isPlaying="isPlaying" @highlightText="highlightText"
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
-                                                        " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                            " @toggle-audio="toggleAudioPlayback
-                                                                " @update-success-message="updateSuccessMessage
-                                                                    " />
+                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
+                                                        " @toggle-audio="toggleAudioPlayback
+                                                            " @update-success-message="updateSuccessMessage
+                                                                " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -304,7 +307,7 @@
                                                         :targetTranslationRef="'targetTranslationElement'"
                                                         :translation="translation" @open-modal="openModal"
                                                         @submit-form="submitForm" @toggle-audio="toggleAudioPlayback
-                                                            " :isPlaying="isPlaying"></TranslationActions>
+                                                        " :isPlaying="isPlaying"></TranslationActions>
                                                 </div>
                                             </div>
                                         </div>
@@ -339,7 +342,7 @@
                                                             </div>
                                                             <div class="col desktop-icon">
                                                                 <i @click="submitFormTafseer
-                                                                    " style="
+                                                                " style="
                                                                     cursor: pointer;
                                                                 " class="bi bi-bookmark text-right mr-2 h4"
                                                                     aria-expanded="false" data-bs-placement="top"
@@ -367,7 +370,7 @@
                                                                 <i class="bi bi-arrows-fullscreen h4" style="
                                                                     cursor: pointer;
                                                                 " @click="toggleFullScreen
-                                                                    " title="Full screen" aria-expanded="false"
+                                                                " title="Full screen" aria-expanded="false"
                                                                     data-bs-placement="top"></i>
                                                             </div>
                                                         </div>
@@ -408,9 +411,9 @@
                                                     " :isPlaying="isPlaying" @highlightText="highlightText"
                                                 @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                 @toggle-full-screen="toggleFullScreen
-                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
+                                                " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText"
                                                 @toggle-audio="toggleAudioPlayback" @update-success-message="updateSuccessMessage
-                                                    " />
+                                                " />
                                         </div>
 
                                         <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -431,7 +434,7 @@
                                                 <TafseerActions :targetTranslationRef="'targetTranslationElement'"
                                                     :translation="translation" @open-modal="openModal"
                                                     @submit-form="submitFormTafseer" @toggle-audio="toggleAudioPlayback
-                                                        " :isPlaying="isPlaying" />
+                                                    " :isPlaying="isPlaying" />
                                             </div>
                                         </div>
 
@@ -469,7 +472,7 @@
                                                                 </div>
                                                                 <div class="col desktop-icon">
                                                                     <i @click="submitFormTransliteration
-                                                                        " style="
+                                                                    " style="
                                                                         cursor: pointer;
                                                                     " class="bi bi-bookmark text-right mr-2 h4"
                                                                         aria-expanded="false"
@@ -497,7 +500,7 @@
                                                                     <i class="bi bi-arrows-fullscreen h4" style="
                                                                         cursor: pointer;
                                                                     " @click="toggleFullScreen
-                                                                        " title="Full screen"></i>
+                                                                    " title="Full screen"></i>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -512,7 +515,7 @@
                                                 <div class="dropdown mobile-only">
                                                     <div :style="iconStyle" class="icon-container">
                                                         <i @click="submitFormTransliteration
-                                                            " class="bi bi-bookmark mb-2 h4" aria-expanded="false"
+                                                        " class="bi bi-bookmark mb-2 h4" aria-expanded="false"
                                                             data-bs-placement="top" title="Bookmark verse"></i>
                                                         <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                             @click="goToFirstAyah()" title="Last verse"></i>
@@ -538,9 +541,9 @@
                                                         " :isPlaying="isPlaying" @highlightText="highlightText"
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
-                                                        " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                            " @toggle-audio="toggleAudioPlayback
-                                                                " />
+                                                    " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
+                                                        " @toggle-audio="toggleAudioPlayback
+                                                            " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -561,8 +564,8 @@
                                                     <TransliterationActions
                                                         :targetTranslationRef="'targetTranslationElement'"
                                                         :translation="translation" @open-modal="openModal" @submit-form="submitFormTransliteration
-                                                            " @toggle-audio="toggleAudioPlayback
-                                                                " :isPlaying="isPlaying" />
+                                                        " @toggle-audio="toggleAudioPlayback
+                                                            " :isPlaying="isPlaying" />
                                                 </div>
                                             </div>
                                             <!-- end toolbar mobile -->
@@ -1888,25 +1891,26 @@ export default {
 
 <style scoped src="./css/styles.css">
 body {
-  background-color: #ffffff;
-  color: #000000;
-  transition: background-color 0.3s, color 0.3s;
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Dark mode styles */
 .dark-mode {
-  background-color: #121212;
-  color: #ffffff;
+    background-color: #121212;
+    color: #ffffff;
 }
 
 /* Additional styling for the app */
 h1 {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 p {
-  font-size: 1.2em;
+    font-size: 1.2em;
 }
+
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -1944,7 +1948,7 @@ p {
     border: 1px solid #f5c6cb;
 }
 
-.custom-switch {
+.form-switch {
     width: 50px;
     height: 25px;
     background-color: #6c757d;
@@ -1953,7 +1957,7 @@ p {
 }
 
 .custom-switch:checked {
-    background-color: #0d6efd;
+    background-color: #0faa6f;
 }
 
 .custom-switch::before {

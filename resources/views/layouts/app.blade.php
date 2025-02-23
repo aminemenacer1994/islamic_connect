@@ -135,9 +135,9 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                 </li>
-                <li class="nav-item mt-3">
+                <!-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/updates" data-path="/updates"><b>Updates</b></a></h6>
-                </li>
+                </li> -->
                 {{-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3 pr-3" href="/support"><b>Donation</b></a></h6>
                 </li> --}}

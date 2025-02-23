@@ -40089,12 +40089,15 @@ __webpack_require__.r(__webpack_exports__);
       isListening: false,
       isPaused: false,
       recognition: null,
-      isPremium: false,
       form: {
         ayah_notes: "",
-        surah_name: ""
+        surah_name: "",
+        ayah_num: "",
+        ayah_verse_ar: "",
+        ayah_verse_en: "",
+        ayah_info: ""
       },
-      loggedIn: false
+      isAuthenticated: false
     };
   },
   components: {
@@ -40105,46 +40108,31 @@ __webpack_require__.r(__webpack_exports__);
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
-  onMounted: function onMounted() {
-    var _this = this;
-    tinymce.init({
-      target: this.$refs.editor.$el,
-      height: 400,
-      plugins: ['lists', 'link'],
-      toolbar: 'undo redo | bold italic | bullist numlist | link ',
-      // added media and link to toolbar
-      setup: function setup(editor) {
-        editor.on('Change', function () {
-          _this.form.ayah_notes = editor.getContent(); // sync content with form
-        });
-      }
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    tinymce.remove(this.$refs.editor.$el); // cleanup on unmount
-  },
   methods: {
     initRecognition: function initRecognition() {
-      var _this2 = this;
-      this.recognition = new webkitSpeechRecognition();
-      this.recognition.continuous = true;
-      this.recognition.interimResults = true;
-      this.recognition.lang = 'en-US';
-      this.recognition.onresult = function (event) {
-        var transcript = Array.from(event.results).map(function (result) {
-          return result[0].transcript;
-        }).join('');
-        _this2.form.ayah_notes = transcript;
-      };
-      this.recognition.onend = function () {
-        _this2.isListening = false;
-      };
-      this.recognition.onerror = function (event) {
-        console.error('Speech Recognition Error:', event.error);
-        _this2.isListening = false;
-      };
+      var _this = this;
+      if ('webkitSpeechRecognition' in window) {
+        this.recognition = new webkitSpeechRecognition();
+        this.recognition.continuous = true;
+        this.recognition.interimResults = true;
+        this.recognition.lang = 'en-US';
+        this.recognition.onresult = function (event) {
+          var transcript = Array.from(event.results).map(function (result) {
+            return result[0].transcript;
+          }).join('');
+          _this.form.ayah_notes = transcript;
+        };
+        this.recognition.onend = function () {
+          _this.isListening = false;
+        };
+        this.recognition.onerror = function (event) {
+          console.error('Speech Recognition Error:', event.error);
+          _this.isListening = false;
+        };
+      } else {
+        console.error('Speech Recognition not supported in this browser.');
+      }
     },
-    // Start speech recognition
     startRecognition: function startRecognition() {
       if (!this.isListening) {
         this.form.ayah_notes = '';
@@ -40152,7 +40140,6 @@ __webpack_require__.r(__webpack_exports__);
         this.recognition.start();
       }
     },
-    // Stop speech recognition
     stopRecognition: function stopRecognition() {
       if (this.isListening) {
         this.recognition.stop();
@@ -40160,7 +40147,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this3 = this;
+      var _this2 = this;
       var formData = {
         surah_name: this.form.surah_name,
         ayah_num: this.form.ayah_num,
@@ -40168,7 +40155,7 @@ __webpack_require__.r(__webpack_exports__);
         ayah_verse_en: this.form.ayah_verse_en,
         ayah_info: this.form.ayah_info,
         ayah_notes: this.form.ayah_notes,
-        option: this.option // Ensure the option field is sent
+        option: this.option
       };
       sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
         title: "Are you sure?",
@@ -40187,14 +40174,14 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
-              _this3.resetNoteForm();
-              _this3.closeModal();
+              _this2.resetNoteForm();
+              _this2.closeModal();
             });
           })["catch"](function (err) {
             console.error(err);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
-            _this3.resetNoteForm();
-            _this3.closeModal();
+            _this2.resetNoteForm();
+            _this2.closeModal();
           });
         }
       });
@@ -40210,18 +40197,16 @@ __webpack_require__.r(__webpack_exports__);
       modalInstance.show();
     },
     initModalReset: function initModalReset() {
-      var _this4 = this;
+      var _this3 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this4.resetNoteForm();
+        _this3.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
       var modalElement = this.$refs.modal;
       var modalInstance = bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal.getInstance(modalElement) || new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(modalElement);
       modalInstance.hide();
-
-      // Clean up any backdrops
       var modalBackdrops = document.querySelectorAll('.modal-backdrop');
       modalBackdrops.forEach(function (backdrop) {
         backdrop.parentNode.removeChild(backdrop);
@@ -40262,13 +40247,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import tinymce
 
 
 
-
-// import 'tinymce/plugins/media'; // media plugin for handling images, videos, and audio
-// import 'tinymce/plugins/link'; // to handle links
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -40295,28 +40276,10 @@ __webpack_require__.r(__webpack_exports__);
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
-  onMounted: function onMounted() {
-    var _this = this;
-    tinymce_tinymce__WEBPACK_IMPORTED_MODULE_3___default().init({
-      target: this.$refs.editor.$el,
-      height: 400,
-      plugins: ['lists', 'link'],
-      toolbar: 'undo redo | bold italic | bullist numlist | link ',
-      // added media and link to toolbar
-      setup: function setup(editor) {
-        editor.on('Change', function () {
-          _this.form.ayah_notes = editor.getContent(); // sync content with form
-        });
-      }
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    tinymce_tinymce__WEBPACK_IMPORTED_MODULE_3___default().remove(this.$refs.editor.$el); // cleanup on unmount
-  },
   methods: {
     initRecognition: function initRecognition() {
-      var _this2 = this;
-      this.recognition = new webkitSpeechRecognition();
+      var _this = this;
+      this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';
@@ -40324,17 +40287,16 @@ __webpack_require__.r(__webpack_exports__);
         var transcript = Array.from(event.results).map(function (result) {
           return result[0].transcript;
         }).join('');
-        _this2.form.ayah_notes = transcript;
+        _this.form.ayah_notes = transcript;
       };
       this.recognition.onend = function () {
-        _this2.isListening = false;
+        _this.isListening = false;
       };
       this.recognition.onerror = function (event) {
         console.error('Speech Recognition Error:', event.error);
-        _this2.isListening = false;
+        _this.isListening = false;
       };
     },
-    // Start speech recognition
     startRecognition: function startRecognition() {
       if (!this.isListening) {
         this.form.ayah_notes = '';
@@ -40342,7 +40304,6 @@ __webpack_require__.r(__webpack_exports__);
         this.recognition.start();
       }
     },
-    // Stop speech recognition
     stopRecognition: function stopRecognition() {
       if (this.isListening) {
         this.recognition.stop();
@@ -40350,15 +40311,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this3 = this;
+      var _this2 = this;
       var formData = {
         surah_name: this.form.surah_name,
-        ayah_num: this.form.ayah_num,
-        ayah_verse_ar: this.form.ayah_verse_ar,
-        ayah_verse_en: this.form.ayah_verse_en,
-        ayah_info: this.form.ayah_info,
         ayah_notes: this.form.ayah_notes,
-        option: this.option // Ensure the option field is sent
+        option: this.option
       };
       sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
         title: "Are you sure?",
@@ -40377,14 +40334,14 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
-              _this3.resetNoteForm();
-              _this3.closeModal();
+              _this2.resetNoteForm();
+              _this2.closeModal();
             });
           })["catch"](function (err) {
             console.error(err);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
-            _this3.resetNoteForm();
-            _this3.closeModal();
+            _this2.resetNoteForm();
+            _this2.closeModal();
           });
         }
       });
@@ -40400,18 +40357,16 @@ __webpack_require__.r(__webpack_exports__);
       modalInstance.show();
     },
     initModalReset: function initModalReset() {
-      var _this4 = this;
+      var _this3 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this4.resetNoteForm();
+        _this3.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
       var modalElement = this.$refs.modal;
       var modalInstance = bootstrap__WEBPACK_IMPORTED_MODULE_7__.Modal.getInstance(modalElement) || new bootstrap__WEBPACK_IMPORTED_MODULE_7__.Modal(modalElement);
       modalInstance.hide();
-
-      // Clean up any backdrops
       var modalBackdrops = document.querySelectorAll('.modal-backdrop');
       modalBackdrops.forEach(function (backdrop) {
         backdrop.parentNode.removeChild(backdrop);
@@ -40462,40 +40417,21 @@ __webpack_require__.r(__webpack_exports__);
         ayah_notes: "",
         surah_name: ""
       },
-      loggedIn: false
+      isAuthenticated: false
     };
   },
   components: {
     Editor: primevue_editor__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: {},
   mounted: function mounted() {
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
-  onMounted: function onMounted() {
-    var _this = this;
-    tinymce.init({
-      target: this.$refs.editor.$el,
-      height: 400,
-      plugins: ['lists', 'link'],
-      toolbar: 'undo redo | bold italic | bullist numlist | link ',
-      // added media and link to toolbar
-      setup: function setup(editor) {
-        editor.on('Change', function () {
-          _this.form.ayah_notes = editor.getContent(); // sync content with form
-        });
-      }
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    tinymce.remove(this.$refs.editor.$el); // cleanup on unmount
-  },
   methods: {
     initRecognition: function initRecognition() {
-      var _this2 = this;
-      this.recognition = new webkitSpeechRecognition();
+      var _this = this;
+      this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
       this.recognition.lang = 'en-US';
@@ -40503,17 +40439,16 @@ __webpack_require__.r(__webpack_exports__);
         var transcript = Array.from(event.results).map(function (result) {
           return result[0].transcript;
         }).join('');
-        _this2.form.ayah_notes = transcript;
+        _this.form.ayah_notes = transcript;
       };
       this.recognition.onend = function () {
-        _this2.isListening = false;
+        _this.isListening = false;
       };
       this.recognition.onerror = function (event) {
         console.error('Speech Recognition Error:', event.error);
-        _this2.isListening = false;
+        _this.isListening = false;
       };
     },
-    // Start speech recognition
     startRecognition: function startRecognition() {
       if (!this.isListening) {
         this.form.ayah_notes = '';
@@ -40521,7 +40456,6 @@ __webpack_require__.r(__webpack_exports__);
         this.recognition.start();
       }
     },
-    // Stop speech recognition
     stopRecognition: function stopRecognition() {
       if (this.isListening) {
         this.recognition.stop();
@@ -40529,62 +40463,53 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this3 = this;
-      if (!this.isLoggedIn) {
-        var formData = {
-          surah_name: this.form.surah_name,
-          ayah_num: this.form.ayah_num,
-          ayah_verse_ar: this.form.ayah_verse_ar,
-          ayah_verse_en: this.form.ayah_verse_en,
-          ayah_info: this.form.ayah_info,
-          ayah_notes: this.form.ayah_notes,
-          option: this.option // Ensure the option field is sent
-        };
-        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-          title: "Are you sure?",
-          text: "You want to submit this note!",
-          showCancelButton: true,
-          confirmButtonColor: "green",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Submit!"
-        }).then(function (result) {
-          if (result.isConfirmed) {
-            axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("api/submit-note", formData).then(function (res) {
-              sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
-                icon: "success",
-                title: "Success!",
-                text: "Your note has been submitted.",
-                timer: 1500,
-                showConfirmButton: false
-              }).then(function () {
-                _this3.resetNoteForm();
-                _this3.closeModal();
-              });
-            })["catch"](function (err) {
-              console.error(err);
-              sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
-              _this3.resetNoteForm();
-              _this3.closeModal();
-            });
-          }
-        });
+      var _this2 = this;
+      if (!this.isAuthenticated) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
+        return;
       }
+      var formData = {
+        surah_name: this.form.surah_name,
+        ayah_notes: this.form.ayah_notes,
+        option: this.option
+      };
+      sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+        title: "Are you sure?",
+        text: "You want to submit this note!",
+        showCancelButton: true,
+        confirmButtonColor: "green",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Submit!"
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("api/submit-note", formData).then(function (res) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
+              icon: "success",
+              title: "Success!",
+              text: "Your note has been submitted.",
+              timer: 1500,
+              showConfirmButton: false
+            }).then(function () {
+              _this2.resetNoteForm();
+              _this2.closeModal();
+            });
+          })["catch"](function (err) {
+            console.error(err);
+            sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Failed to submit the note.", "error");
+          });
+        }
+      });
     },
     resetNoteForm: function resetNoteForm() {
       this.form.ayah_notes = '';
       this.form.surah_name = '';
       this.inputMode = 'basic';
     },
-    showModal: function showModal() {
-      var modalElement = this.$refs.modal;
-      var modalInstance = bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal.getInstance(modalElement) || new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(modalElement);
-      modalInstance.show();
-    },
     initModalReset: function initModalReset() {
-      var _this4 = this;
+      var _this3 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this4.resetNoteForm();
+        _this3.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
@@ -43479,14 +43404,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "10px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Label "), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
-  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input pr-5 custom-switch shadow-lg text-center",
+  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Switch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input h4 pr-5 shadow-lg text-center",
     style: {
-      "border-color": "#00bfa6",
       "color": "#00bfa6"
     },
     type: "checkbox",
@@ -43498,7 +43422,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[10] || (_cache[10] = function () {
       return $options.saveToggleState && $options.saveToggleState.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Label "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
@@ -46739,73 +46663,51 @@ var _hoisted_20 = {
   "class": "pt-2"
 };
 var _hoisted_21 = {
-  "class": "pt-3 pb-2",
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_22 = {
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_23 = {
-  "class": "form-check form-check-inline",
-  style: {
-    "margin-right": "15px"
-  }
-};
-var _hoisted_24 = {
-  "class": "form-check form-check-inline"
-};
-var _hoisted_25 = {
   "class": "modal fade",
   id: "viewNotes",
   tabindex: "-1",
   "aria-labelledby": "viewNotesLabel",
   "aria-hidden": "true"
 };
-var _hoisted_26 = {
+var _hoisted_22 = {
   "class": "modal-dialog modal-lg"
 };
-var _hoisted_27 = {
+var _hoisted_23 = {
   "class": "modal-content"
 };
-var _hoisted_28 = {
+var _hoisted_24 = {
   "class": "modal-body"
 };
-var _hoisted_29 = {
+var _hoisted_25 = {
   "class": "container"
 };
+var _hoisted_26 = {
+  "class": "mb-3"
+};
+var _hoisted_27 = {
+  "class": "mt-2 text-dark text-left"
+};
+var _hoisted_28 = {
+  "class": "mb-3"
+};
+var _hoisted_29 = ["innerHTML"];
 var _hoisted_30 = {
   "class": "mb-3"
 };
 var _hoisted_31 = {
   "class": "mt-2 text-dark text-left"
 };
-var _hoisted_32 = {
-  "class": "mb-3"
-};
-var _hoisted_33 = ["innerHTML"];
-var _hoisted_34 = {
-  "class": "mb-3"
-};
-var _hoisted_35 = {
-  "class": "mt-2 text-dark text-left"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "pt-4 pb-3 text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Container visible only on mobile screens "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container text-center mt-3 d-md-none\"><div class=\"row pb-2 text-center\"><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#B70D52;background:#ead1dc;\"><a href=\"/bookmarks\" style=\"text-decoration:none;color:#B70D52;background:#ead1dc;\">Bookmarks</a></span></div><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#0263FF;background:#c2d8fb;\"><a href=\"/profile\" style=\"text-decoration:none;color:#0263FF;background:#c2d8fb;\">Profile</a></span></div><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#3D8F67;background:#d1f4d0;\"><a href=\"/home\" style=\"text-decoration:none;color:#3D8F67;background:#d1f4d0;\">Home</a></span></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "You have:", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)()), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.notes.length), 1 /* TEXT */), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)()), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "notes", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.notes, function (note) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Container visible only on mobile screens "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container text-center mt-3 d-md-none\"><div class=\"row pb-2 text-center\"><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#B70D52;background:#ead1dc;\"><a href=\"/bookmarks\" style=\"text-decoration:none;color:#B70D52;background:#ead1dc;\">Bookmarks</a></span></div><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#0263FF;background:#c2d8fb;\"><a href=\"/profile\" style=\"text-decoration:none;color:#0263FF;background:#c2d8fb;\">Profile</a></span></div><div class=\"col\"><span class=\"badge h3\" style=\"width:100%;font-size:18px;border-radius:10px;color:#3D8F67;background:#d1f4d0;\"><a href=\"/home\" style=\"text-decoration:none;color:#3D8F67;background:#d1f4d0;\">Home</a></span></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_2, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "You have:", -1 /* HOISTED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)()), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.notes.length), 1 /* TEXT */), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)()), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "notes", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.notes, function (note) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col-md-4 mb-4 collage-item",
       key: note.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Note Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Note details "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n         <h5><strong>Surah Name:</strong></h5>\n         <p>{{ note.surah_name }}</p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Note:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Note Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Note details "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n         <h5><strong>Surah Name:</strong></h5>\n         <p>{{ note.surah_name }}</p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Note:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mt-2 text-dark text-left",
       textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.stripHtmlTags(note.ayah_notes))
-    }, null, 8 /* PROPS */, _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n         <b>This note is: <b style=\"color:rgba(0, 191, 166);\">{{ parseInt(note.option) === 0 ? 'public' : 'private' }}</b></b>\n        </div> "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div>\n         <b>This note is: <b style=\"color:rgba(0, 191, 166);\">{{ parseInt(note.option) === 0 ? 'public' : 'private' }}</b></b>\n        </div> "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-eye h4",
       style: {
         "color": "rgb(0, 191, 166)",
@@ -46824,7 +46726,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.deleteNote(note.id);
       }
     }, null, 8 /* PROPS */, _hoisted_14)])])])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Edit Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Edit Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title text-dark",
@@ -46835,10 +46737,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.updateNotes && $options.updateNotes.apply($options, arguments);
     }, ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     style: {
       "margin-right": "10px"
     },
@@ -46852,42 +46754,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.sanitizeInput && $options.sanitizeInput.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    style: {
-      "margin-right": "10px"
-    },
-    "class": "pr-2"
-  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.form.option = $event;
-    }),
-    id: "public",
-    value: "0"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.form.option]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "public",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.form.option = $event;
-    }),
-    id: "private",
-    value: "1"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.form.option]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "private",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Private", -1 /* HOISTED */))])])]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"pt-3 pb-2\" style=\"display: flex; align-items: center;\">\n         <b style=\"margin-right: 10px;\" class=\"pr-2\">Make your note either:</b>\n         <div style=\"display: flex; align-items: center;\">\n          <div class=\"form-check form-check-inline\" style=\"margin-right: 15px;\">\n           <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"form.option\" id=\"public\" value=\"0\">\n           <label class=\"form-check-label\" for=\"public\" style=\"margin-left: 5px;\">Public</label>\n          </div>\n          <div class=\"form-check form-check-inline\">\n           <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"form.option\" id=\"private\" value=\"1\">\n           <label class=\"form-check-label\" for=\"private\" style=\"margin-left: 5px;\">Private</label>\n          </div>\n         </div>\n        </div> "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -46896,7 +46763,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Close"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "btn btn-success"
-  }, "Update")], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Update")], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title text-dark",
@@ -46906,19 +46773,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \n        <div class=\"mb-3\">\n         <label for=\"formGroupExampleInput\" class=\"form-label\"><strong>Ayah Verse Arabic:</strong></label>\n         <p class=\"mt-2 text-dark text-left\">\n          {{ form.ayah_verse_ar }}\n         </p>\n        </div>\n        <div class=\"mb-3\">\n         <label for=\"formGroupExampleInput\" class=\"form-label\"><strong>English Info:</strong></label>\n         <p class=\"mt-2 text-dark text-left\">\n          {{ form.ayah_verse_en }}\n         </p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \n        <div class=\"mb-3\">\n         <label for=\"formGroupExampleInput\" class=\"form-label\"><strong>Ayah Verse Arabic:</strong></label>\n         <p class=\"mt-2 text-dark text-left\">\n          {{ form.ayah_verse_ar }}\n         </p>\n        </div>\n        <div class=\"mb-3\">\n         <label for=\"formGroupExampleInput\" class=\"form-label\"><strong>English Info:</strong></label>\n         <p class=\"mt-2 text-dark text-left\">\n          {{ form.ayah_verse_en }}\n         </p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mt-2 text-dark text-left",
     innerHTML: $data.form.ayah_notes
-  }, null, 8 /* PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 8 /* PROPS */, _hoisted_29)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -49897,11 +49764,9 @@ var _hoisted_7 = {
   "class": "col"
 };
 var _hoisted_8 = {
-  key: 0,
   "class": "col"
 };
 var _hoisted_9 = {
-  key: 1,
   "class": "col"
 };
 var _hoisted_10 = {
@@ -49932,31 +49797,9 @@ var _hoisted_19 = {
   "class": "text-success"
 };
 var _hoisted_20 = ["readonly"];
-var _hoisted_21 = {
-  "class": "pt-3 pb-2",
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_22 = {
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_23 = {
-  "class": "form-check form-check-inline",
-  style: {
-    "margin-right": "15px"
-  }
-};
-var _hoisted_24 = {
-  "class": "form-check form-check-inline"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Editor");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
@@ -49967,7 +49810,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.createNote && $options.createNote.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -49979,10 +49822,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, " Basic ", -1 /* HOISTED */))]), !$data.isPremium ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49991,10 +49834,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, " Audio Note Recording ", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isPremium ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -50003,30 +49846,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, " Editor Keyboard ", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Start Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.startRecognition && $options.startRecognition.apply($options, arguments);
     }),
     disabled: $data.isListening
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-play-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\">\n                      <button type=\"button\" class=\"btn btn-warning me-2\" @click=\"pauseRecognition\" :disabled=\"!isListening\">\n                      <i class=\"bi bi-pause-circle\"></i> Pause Recording\n                      </button>\n                    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-danger",
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.stopRecognition && $options.stopRecognition.apply($options, arguments);
     }),
     disabled: !$data.isListening && !$data.isPaused
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "pt-3"
-  }, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
@@ -50051,42 +49892,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control pb-2",
     rows: "5",
     placeholder: "Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."
-  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    style: {
-      "margin-right": "10px"
-    },
-    "class": "pr-2"
-  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "public",
-    value: "0"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "public",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "private",
-    value: "1"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "private",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Private", -1 /* HOISTED */))])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"pt-3 pb-2\" style=\"display: flex; align-items: center;\">\n              <b style=\"margin-right: 10px;\">Make your note either:</b>\n              <div style=\"display: flex; align-items: center;\">\n                <div class=\"form-check form-check-inline\" style=\"margin-right: 15px;\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"public\" value=\"0\">\n                  <label class=\"form-check-label\" for=\"public\" style=\"margin-left: 5px;\">Public</label>\n                </div>\n                <div class=\"form-check form-check-inline\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"private\" value=\"1\">\n                  <label class=\"form-check-label\" for=\"private\" style=\"margin-left: 5px;\">Private</label>\n                </div>\n              </div>\n            </div> "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -50149,47 +49955,54 @@ var _hoisted_10 = {
   key: 0
 };
 var _hoisted_11 = {
-  "class": "container text-center"
+  key: 1
 };
 var _hoisted_12 = {
-  "class": "row"
+  "class": "container text-center mt-3"
 };
 var _hoisted_13 = {
+  "class": "row"
+};
+var _hoisted_14 = {
   "class": "col"
 };
-var _hoisted_14 = ["disabled"];
-var _hoisted_15 = {
+var _hoisted_15 = ["disabled"];
+var _hoisted_16 = {
   "class": "col"
 };
-var _hoisted_16 = ["disabled"];
-var _hoisted_17 = {
+var _hoisted_17 = ["disabled"];
+var _hoisted_18 = {
   "class": "mt-3"
 };
-var _hoisted_18 = {
+var _hoisted_19 = {
   key: 0,
   "class": "text-success"
 };
-var _hoisted_19 = ["readonly"];
-var _hoisted_20 = {
+var _hoisted_20 = ["readonly"];
+var _hoisted_21 = {
+  key: 2,
+  "class": "pt-3"
+};
+var _hoisted_22 = {
   "class": "pt-3 pb-2",
   style: {
     "display": "flex",
     "align-items": "center"
   }
 };
-var _hoisted_21 = {
+var _hoisted_23 = {
   style: {
     "display": "flex",
     "align-items": "center"
   }
 };
-var _hoisted_22 = {
+var _hoisted_24 = {
   "class": "form-check form-check-inline",
   style: {
     "margin-right": "15px"
   }
 };
-var _hoisted_23 = {
+var _hoisted_25 = {
   "class": "form-check form-check-inline"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -50220,7 +50033,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, " Basic ", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -50232,7 +50045,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, " Audio Note Recording ", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -50244,57 +50057,52 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, " Editor Keyboard ", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Start Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.form.ayah_notes = $event;
+    }),
+    "class": "form-control pb-2 mt-3",
+    rows: "5",
+    placeholder: "Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.startRecognition && $options.startRecognition.apply($options, arguments);
     }),
     disabled: $data.isListening
   }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-play-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_14)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-danger",
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.stopRecognition && $options.stopRecognition.apply($options, arguments);
     }),
     disabled: !$data.isListening && !$data.isPaused
   }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_16)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_18, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "pt-3"
-  }, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
-    "class": "form-control pb-2",
+    "class": "form-control pb-2 mt-3",
     rows: "5",
     placeholder: "Your speech will appear here...",
     readonly: $data.isListening
-  }, null, 8 /* PROPS */, _hoisted_19), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rich Text Editor Mode "), $data.inputMode === 'editor' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Editor, {
-    key: 0,
+  }, null, 8 /* PROPS */, _hoisted_20), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rich Text Editor Mode "), $data.inputMode === 'editor' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Editor, {
     modelValue: $data.form.ayah_notes,
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
     name: "ayah_notes",
     placeholder: $data.editorPlaceholder,
-    editorStyle: "height: 400px"
-  }, null, 8 /* PROPS */, ["modelValue", "placeholder"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("textarea", {
-    key: 1,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.form.ayah_notes = $event;
-    }),
-    "class": "form-control pb-2",
-    rows: "5",
-    placeholder: "Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."
-  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+    editorStyle: "height: 300px"
+  }, null, 8 /* PROPS */, ["modelValue", "placeholder"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     style: {
       "margin-right": "10px"
-    },
-    "class": "pr-2"
-  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }
+  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "option",
@@ -50309,7 +50117,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-left": "5px"
     }
-  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "option",
@@ -50411,31 +50219,9 @@ var _hoisted_19 = {
   "class": "text-success"
 };
 var _hoisted_20 = ["readonly"];
-var _hoisted_21 = {
-  "class": "pt-3 pb-2",
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_22 = {
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_23 = {
-  "class": "form-check form-check-inline",
-  style: {
-    "margin-right": "15px"
-  }
-};
-var _hoisted_24 = {
-  "class": "form-check form-check-inline"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Editor");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
@@ -50446,7 +50232,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.createNote && $options.createNote.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -50458,10 +50244,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, " Basic ", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -50470,10 +50256,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, " Audio Note Recording ", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -50482,28 +50268,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, " Editor Keyboard ", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Start Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.startRecognition && $options.startRecognition.apply($options, arguments);
     }),
     disabled: $data.isListening
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-play-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-danger",
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.stopRecognition && $options.stopRecognition.apply($options, arguments);
     }),
     disabled: !$data.isListening && !_ctx.isPaused
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "pt-3"
   }, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
@@ -50530,42 +50316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control pb-2",
     rows: "5",
     placeholder: "Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."
-  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    style: {
-      "margin-right": "10px"
-    },
-    "class": "pr-2"
-  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "public",
-    value: "0"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "public",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "private",
-    value: "1"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "private",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Private", -1 /* HOISTED */))])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.ayah_notes]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"pt-3 pb-2\" style=\"display: flex; align-items: center;\">\n              <b style=\"margin-right: 10px;\" class=\"pr-2\">Make your note either:</b>\n              <div style=\"display: flex; align-items: center;\">\n                <div class=\"form-check form-check-inline\" style=\"margin-right: 15px;\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"public\" value=\"0\">\n                  <label class=\"form-check-label\" for=\"public\" style=\"margin-left: 5px;\">Public</label>\n                </div>\n                <div class=\"form-check form-check-inline\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"private\" value=\"1\">\n                  <label class=\"form-check-label\" for=\"private\" style=\"margin-left: 5px;\">Private</label>\n                </div>\n              </div>\n            </div> "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -81557,7 +81308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbutton[data-v-0768f714] {\n margin: 10px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbutton[data-v-0768f714] {\n  margin: 10px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
