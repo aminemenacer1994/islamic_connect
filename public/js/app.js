@@ -33979,20 +33979,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./translation/Translator.vue */ "./resources/js/components/translation/Translator.vue");
 /* harmony import */ var _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/AlertModal.vue */ "./resources/js/components/modals/AlertModal.vue");
 /* harmony import */ var _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./accesibility/ScreenReader.vue */ "./resources/js/components/accesibility/ScreenReader.vue");
-/* harmony import */ var _translation_features_screen_capture_ScreenTranslationCapture_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./translation/features/screen_capture/ScreenTranslationCapture.vue */ "./resources/js/components/translation/features/screen_capture/ScreenTranslationCapture.vue");
-/* harmony import */ var _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./search/Magnifier.vue */ "./resources/js/components/search/Magnifier.vue");
-/* harmony import */ var _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modals/OffcanvasSetting.vue */ "./resources/js/components/modals/OffcanvasSetting.vue");
-/* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
-/* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
-/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
+/* harmony import */ var _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./search/Magnifier.vue */ "./resources/js/components/search/Magnifier.vue");
+/* harmony import */ var _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modals/OffcanvasSetting.vue */ "./resources/js/components/modals/OffcanvasSetting.vue");
+/* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
+/* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
 var _methods;
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -34016,20 +34015,18 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TranslationSection",
   components: {
-    SpeechSettings: _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
-    OffcanvasSetting: _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    // CustomizationModal,
-    TransliterationSection: _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    SpeechSettings: _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    OffcanvasSetting: _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    TransliterationSection: _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
     AyahInfo: _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     MainAyah: _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Translator: _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     AlertModal: _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Magnifier: _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    Magnifier: _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
     successMessage: {
@@ -34351,7 +34348,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              doc = new docx__WEBPACK_IMPORTED_MODULE_15__.Document({
+              doc = new docx__WEBPACK_IMPORTED_MODULE_14__.Document({
                 sections: [{
                   properties: {
                     page: {
@@ -34366,8 +34363,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                   },
                   children: [
                   // Title Section
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Quran Translation Document",
                       bold: true,
                       size: 48,
@@ -34381,8 +34378,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34392,8 +34389,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // surah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Surah:",
                       bold: true,
                       size: 32,
@@ -34407,8 +34404,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Surah Info
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "".concat((_this5$information = _this5.information) === null || _this5$information === void 0 || (_this5$information = _this5$information.ayah) === null || _this5$information === void 0 || (_this5$information = _this5$information.surah) === null || _this5$information === void 0 ? void 0 : _this5$information.name_en, " (").concat((_this5$information2 = _this5.information) === null || _this5$information2 === void 0 || (_this5$information2 = _this5$information2.ayah) === null || _this5$information2 === void 0 || (_this5$information2 = _this5$information2.surah) === null || _this5$information2 === void 0 ? void 0 : _this5$information2.name_ar, ")"),
                       bold: false,
                       size: 28,
@@ -34422,8 +34419,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34433,8 +34430,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Ayah Number:",
                       bold: true,
                       size: 32,
@@ -34448,8 +34445,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "".concat((_this5$information3 = _this5.information) === null || _this5$information3 === void 0 || (_this5$information3 = _this5$information3.ayah) === null || _this5$information3 === void 0 ? void 0 : _this5$information3.ayah_id),
                       bold: false,
                       size: 28,
@@ -34464,8 +34461,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34475,8 +34472,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Ayah:",
                       bold: true,
                       size: 32,
@@ -34490,8 +34487,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Text
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: (_this5$information4 = _this5.information) === null || _this5$information4 === void 0 || (_this5$information4 = _this5$information4.ayah) === null || _this5$information4 === void 0 ? void 0 : _this5$information4.ayah_text,
                       size: 28,
                       color: "333333",
@@ -34510,8 +34507,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     alignment: "RIGHT" // Right align Arabic text
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34521,8 +34518,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Tafseer Header
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Translation:",
                       bold: true,
                       size: 32,
@@ -34535,8 +34532,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Tafseer Content
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: (_this5$information5 = _this5.information) === null || _this5$information5 === void 0 ? void 0 : _this5$information5.translation,
                       size: 28,
                       color: "000000"
@@ -34552,8 +34549,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34563,8 +34560,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Translator Header
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Translator:",
                       bold: true,
                       size: 32,
@@ -34577,8 +34574,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Translator Content
-                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
                       text: "Ahmed Ali",
                       italics: false,
                       size: 28,
@@ -34594,7 +34591,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
               });
               _context.prev = 1;
               _context.next = 4;
-              return docx__WEBPACK_IMPORTED_MODULE_15__.Packer.toBlob(doc);
+              return docx__WEBPACK_IMPORTED_MODULE_14__.Packer.toBlob(doc);
             case 4:
               blob = _context.sent;
               // Generate a clean, ISO date string
@@ -34603,7 +34600,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
               surahNum = ((_this5$information6 = _this5.information) === null || _this5$information6 === void 0 || (_this5$information6 = _this5$information6.ayah) === null || _this5$information6 === void 0 || (_this5$information6 = _this5$information6.surah) === null || _this5$information6 === void 0 ? void 0 : _this5$information6.id) || "unknown_surah";
               ayahNum = ((_this5$information7 = _this5.information) === null || _this5$information7 === void 0 || (_this5$information7 = _this5$information7.ayah) === null || _this5$information7 === void 0 ? void 0 : _this5$information7.ayah_id) || "unknown_ayah"; // Create a clean filename
               filename = "translation_doc_surah_".concat(surahNum, "_ayah_").concat(ayahNum, "_").concat(date, ".docx"); // Save the file
-              (0,file_saver__WEBPACK_IMPORTED_MODULE_13__.saveAs)(blob, filename);
+              (0,file_saver__WEBPACK_IMPORTED_MODULE_12__.saveAs)(blob, filename);
               _context.next = 16;
               break;
             case 12:
@@ -44632,7 +44629,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     information: $props.information
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-1 pt-2 d-flex align-items-center justify-content-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" \n          <i \n            @click=\"toggleSpeechAyah\" \n            class=\"bi-play-circle-fill h4 custom-icon-play-main\"\n            style=\"cursor: pointer;\" \n            aria-label=\"Play or pause translation audio\"\n          ></i>\n        ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
   }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
@@ -44673,7 +44670,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left count word-count pt-4\">\n              <h6 class=\"text-left mt-3\">\n                <img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" />\n                <strong>Total Word count: </strong>{{ wordCount }}\n              </h6>\n            </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -49565,7 +49562,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading prayer times...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
-  }), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), $data.prayerTimes && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredPrayerTimes, function (time, prayer) {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), $data.prayerTimes && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredPrayerTimes, function (time, prayer) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", {
       "class": "list-group col-md-2 mb-3",
       key: prayer
@@ -49971,31 +49968,9 @@ var _hoisted_21 = {
   key: 2,
   "class": "pt-3"
 };
-var _hoisted_22 = {
-  "class": "pt-3 pb-2",
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_23 = {
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_24 = {
-  "class": "form-check form-check-inline",
-  style: {
-    "margin-right": "15px"
-  }
-};
-var _hoisted_25 = {
-  "class": "form-check form-check-inline"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Editor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Editor");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
@@ -50006,7 +49981,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.createNote && $options.createNote.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -50018,7 +49993,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
   }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -50030,7 +50005,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
   }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -50042,7 +50017,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.inputMode = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
   }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -50059,7 +50034,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.startRecognition && $options.startRecognition.apply($options, arguments);
     }),
     disabled: $data.isListening
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-play-circle"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Recording ")]), 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -50068,9 +50043,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.stopRecognition && $options.stopRecognition.apply($options, arguments);
     }),
     disabled: !$data.isListening && !$data.isPaused
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-circle"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop Recording ")]), 8 /* PROPS */, _hoisted_17)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.isListening ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_19, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Listening...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
@@ -50086,41 +50061,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "ayah_notes",
     placeholder: $data.editorPlaceholder,
     editorStyle: "height: 300px"
-  }, null, 8 /* PROPS */, ["modelValue", "placeholder"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    style: {
-      "margin-right": "10px"
-    }
-  }, "Make your note either:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "public",
-    value: "0"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "public",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Public", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    name: "option",
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return $data.option = $event;
-    }),
-    id: "private",
-    value: "1"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.option]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "private",
-    style: {
-      "margin-left": "5px"
-    }
-  }, "Private", -1 /* HOISTED */))])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["modelValue", "placeholder"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"pt-3 pb-2\" style=\"display: flex; align-items: center;\">\n              <b style=\"margin-right: 10px;\">Make your note either:</b>\n              <div style=\"display: flex; align-items: center;\">\n                <div class=\"form-check form-check-inline\" style=\"margin-right: 15px;\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"public\" value=\"0\">\n                  <label class=\"form-check-label\" for=\"public\" style=\"margin-left: 5px;\">Public</label>\n                </div>\n                <div class=\"form-check form-check-inline\">\n                  <input class=\"form-check-input\" type=\"radio\" name=\"option\" v-model=\"option\" id=\"private\" value=\"1\">\n                  <label class=\"form-check-label\" for=\"private\" style=\"margin-left: 5px;\">Private</label>\n                </div>\n              </div>\n            </div> "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -80192,7 +80133,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.jumbotron-overlay[data-v-2ba25654] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n  color: white;\n}\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.jumbotron-overlay[data-v-2ba25654] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n  color: white;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

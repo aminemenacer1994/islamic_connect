@@ -6,14 +6,6 @@
       <AyahInfo :information="information" />
       <div class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
-          <!-- 
-          <i 
-            @click="toggleSpeechAyah" 
-            class="bi-play-circle-fill h4 custom-icon-play-main"
-            style="cursor: pointer;" 
-            aria-label="Play or pause translation audio"
-          ></i>
-        -->
         </div>
         <div class="col-md-11">
           <MainAyah :information="information" />
@@ -43,12 +35,6 @@
                 </button>
               </div>
             </div>
-            <!-- <div class="text-left count word-count pt-4">
-              <h6 class="text-left mt-3">
-                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-                <strong>Total Word count: </strong>{{ wordCount }}
-              </h6>
-            </div> -->
           </div>
         </div>
         <!-- Icons Column (Stacked Vertically) -->
@@ -96,7 +82,6 @@ import MainAyah from "./translation/MainAyah.vue";
 import Translator from "./translation/Translator.vue";
 import AlertModal from "./modals/AlertModal.vue";
 import ScreenReader from "./accesibility/ScreenReader.vue";
-import ScreenTranslationCapture from "./translation/features/screen_capture/ScreenTranslationCapture.vue";
 import Magnifier from "./search/Magnifier.vue";
 import OffcanvasSetting from "./modals/OffcanvasSetting.vue";
 import TransliterationSection from "./TransliterationSection.vue";
@@ -122,7 +107,6 @@ export default {
   components: {
     SpeechSettings,
     OffcanvasSetting,
-    // CustomizationModal,
     TransliterationSection,
     AyahInfo,
     MainAyah,

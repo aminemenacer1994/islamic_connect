@@ -36,7 +36,6 @@
           </div>
         </transition>
 
-        <hr />
       </div>
       
       <!-- Prayer Times -->

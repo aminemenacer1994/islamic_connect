@@ -61,7 +61,7 @@
               <Editor v-model="form.ayah_notes" name="ayah_notes" :placeholder="editorPlaceholder" editorStyle="height: 300px"></Editor>
             </div>
 
-            <div class="pt-3 pb-2" style="display: flex; align-items: center;">
+            <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
               <b style="margin-right: 10px;">Make your note either:</b>
               <div style="display: flex; align-items: center;">
                 <div class="form-check form-check-inline" style="margin-right: 15px;">
@@ -73,7 +73,7 @@
                   <label class="form-check-label" for="private" style="margin-left: 5px;">Private</label>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

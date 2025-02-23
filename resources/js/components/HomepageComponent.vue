@@ -1,9 +1,7 @@
 <template>
   <div>
     <!-- header -->
-    <div
-      class="jumbotron"
-      style="
+    <div class="jumbotron" style="
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         position: relative;
         height: 100%;
@@ -12,11 +10,9 @@
         background-position: center;
         background-repeat: no-repeat;
         color: white;
-      "
-    >
+      ">
       <!-- Dark Overlay -->
-      <div
-        style="
+      <div style="
           position: absolute;
           top: 0;
           left: 0;
@@ -24,8 +20,7 @@
           height: 100%;
           background-color: rgba(0, 0, 0, 0.6);
           z-index: 1;
-        "
-      ></div>
+        "></div>
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
@@ -35,39 +30,24 @@
               <h2 class="display-5 mt-2 fw-bold text-center container">
                 Empowering Islamic Teachings Through AI
               </h2>
-              <h2
-                class="lead container pt-3 text-center"
-                style="line-height: 1.8em"
-              >
+              <h2 class="lead container pt-3 text-center" style="line-height: 1.8em">
                 <strong>
                   Experience the transformative power of AI in revolutionizing
                   access to Islamic knowledge, fostering spiritual growth, and
                   uniting the global Muslim community. Discover a new era of
                   learning, connection, and service as we leverage cutting-edge
                   technology which bring the teachings of Islam closer to
-                  you.</strong
-                >
+                  you.</strong>
               </h2>
             </div>
           </div>
           <div class="row justify-content-center text-center py-5">
             <div class="col-lg-12">
-              <div
-                class="d-flex justify-content-center gap-4 py-2"
-                style="gap: 4rem"
-              >
-                <a
-                  class="btn btn-lg"
-                  style="background-color: rgb(53, 163, 139); color: white"
-                  href="/quran"
-                  >Get Started</a
-                >
-                <a
-                  class="btn btn-lg"
-                  style="background-color: rgb(53, 163, 139); color: white"
-                  href="/support"
-                  >Donate Now</a
-                >
+              <div class="d-flex justify-content-center gap-4 py-2" style="gap: 4rem">
+                <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/quran">Get
+                  Started</a>
+                <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/support">Donate
+                  Now</a>
               </div>
             </div>
           </div>
@@ -86,10 +66,7 @@
           </div>
         </div>
         <div class="row pt-3 g-4 g-md-5">
-          <h3
-            class="lead container pt-3 text-center"
-            style="line-height: 1.8em"
-          >
+          <h3 class="lead container pt-3 text-center" style="line-height: 1.8em">
             By leveraging advanced AI tools, the platform is designed to cater
             to diverse learning needs and abilities, ensuring an inclusive and
             enriching experience for all. Our mission is to become the leading
@@ -209,10 +186,7 @@
       </div>
     </section>
     <!-- about us -->
-    <section
-      class="py-5"
-      style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-    >
+    <section class="py-5" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <div class="container">
         <div class="row gx-4 pt-3 align-items-center justify-content-between">
           <div class="col-md-6 order-1">
@@ -242,10 +216,7 @@
       </div>
     </section>
     <!-- donation -->
-    <div
-      class="jumbotron"
-      style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-    >
+    <div class="jumbotron" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <div class="container pt-3">
         <div class="row gx-4 align-items-center justify-content-between">
           <div class="col-md-6">
@@ -274,11 +245,8 @@
               </p>
 
               <!-- Donate Button -->
-              <button
-                class="container form-control"
-                style="background: #00bfa6; color: white"
-                onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
-              >
+              <button class="container form-control" style="background: #00bfa6; color: white"
+                onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
                 <b class="mt-3 mb-3">Support Islamic Knowledge</b>
               </button>
             </div>
@@ -305,77 +273,43 @@
               <div class="row justify-content-center">
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input
-                      class="form-control bg-light"
-                      v-model="form.firstname"
-                      name="firstname"
-                      placeholder="First name"
-                      type="text"
-                    />
+                    <input class="form-control bg-light" v-model="form.firstname" name="firstname"
+                      placeholder="First name" type="text" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input
-                      class="form-control bg-light"
-                      v-model="form.lastname"
-                      name="lastname"
-                      placeholder="Last name"
-                      type="text"
-                    />
+                    <input class="form-control bg-light" v-model="form.lastname" name="lastname" placeholder="Last name"
+                      type="text" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input
-                      class="form-control bg-light"
-                      v-model="form.email"
-                      name="email"
-                      placeholder="Email Adress"
-                      type="email"
-                    />
+                    <input class="form-control bg-light" v-model="form.email" name="email" placeholder="Email Adress"
+                      type="email" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input
-                      class="form-control bg-light"
-                      v-model="form.subject"
-                      name="subject"
-                      placeholder="subject"
-                      type="text"
-                    />
+                    <input class="form-control bg-light" v-model="form.subject" name="subject" placeholder="subject"
+                      type="text" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <input
-                      class="form-control bg-light"
-                      v-model="form.mobile"
-                      name="mobile"
-                      placeholder="Phone number"
-                      type="number"
-                    />
+                    <input class="form-control bg-light" v-model="form.mobile" name="mobile" placeholder="Phone number"
+                      type="number" />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <textarea
-                      class="form-control bg-light"
-                      v-model="form.message"
-                      name="message"
-                      placeholder="Your message"
-                      rows="4"
-                    ></textarea>
+                    <textarea class="form-control bg-light" v-model="form.message" name="message"
+                      placeholder="Your message" rows="4"></textarea>
                   </div>
                 </div>
                 <div class="col-md-12">
                   <div class="d-grid">
-                    <button
-                      class="form-control"
-                      style="background: #00bfa6; color: white"
-                      type="submit"
-                    >
+                    <button class="form-control" style="background: #00bfa6; color: white" type="submit">
                       Send message
                     </button>
                   </div>
@@ -387,13 +321,10 @@
       </div>
     </section>
     <!-- mailing list -->
-    <section
-      class="py-5"
-      style="
+    <section class="py-5" style="
         background: #00bfa6;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      "
-    >
+      ">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
@@ -401,43 +332,22 @@
               Subscribe to Mailing List
             </h2>
             <div class="mx-auto mt-3">
-              <h3
-                class="lead container pt-1 text-center text-white"
-                style="line-height: 1.8em"
-              >
+              <h3 class="lead container pt-1 text-center text-white" style="line-height: 1.8em">
                 <b>
                   Sign up for our mailing list to receive the latest updates,
-                  content, and educational resources directly in your inbox.</b
-                >
+                  content, and educational resources directly in your inbox.</b>
               </h3>
-              <form
-                class="container row g-3 pb-3"
-                @reset="reset"
-                @submit.prevent="submitMail()"
-              >
+              <form class="container row g-3 pb-3" @reset="reset" @submit.prevent="submitMail()">
                 <div class="col-md-4">
-                  <input
-                    class="form-control bg-light"
-                    v-model="form.name"
-                    placeholder="Full name"
-                    type="text"
-                  />
+                  <input class="form-control bg-light" v-model="form.name" placeholder="Full name" type="text" />
                 </div>
                 <div class="col-md-4">
-                  <input
-                    class="form-control bg-light"
-                    v-model="form.email"
-                    placeholder="Email address"
-                    type="text"
-                  />
+                  <input class="form-control bg-light" v-model="form.email" placeholder="Email address" type="text" />
                 </div>
                 <div class="col-md-4">
                   <div class="d-grid">
-                    <button
-                      class="form-control"
-                      style="background: #57c7b9; color: white; border: white solid 2px;"
-                      type="submit"
-                    >
+                    <button class="form-control" style="background: #57c7b9; color: white; border: white solid 2px;"
+                      type="submit">
                       Subscribe
                     </button>
                   </div>
@@ -449,10 +359,7 @@
       </div>
     </section>
     <!-- footer -->
-    <section
-      class="py-3"
-      style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-    >
+    <section class="py-3" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <footer>
         <div class="container">
           <div class="d-lg-flex justify-content-between py-lg-2">
@@ -464,43 +371,20 @@
             <!-- Social icons container, aligned to the right -->
             <div class="d-flex justify-content-end ms-3">
               <div class="me-3">
-                <a
-                  class="me-2"
-                  href="https://www.instagram.com/islamicconnect24/"
-                  ><i
-                    class="bi bi-instagram h4"
-                    style="color: rgb(0, 191, 166)"
-                  ></i
-                ></a>
+                <a class="me-2" href="https://www.instagram.com/islamicconnect24/"><i class="bi bi-instagram h4"
+                    style="color: rgb(0, 191, 166)"></i></a>
               </div>
               <div class="me-3">
-                <a class="me-2" href="https://www.tiktok.com/@islamic_connect24"
-                  ><i
-                    class="bi bi-tiktok h4"
-                    style="color: rgb(0, 191, 166)"
-                  ></i
-                ></a>
+                <a class="me-2" href="https://www.tiktok.com/@islamic_connect24"><i class="bi bi-tiktok h4"
+                    style="color: rgb(0, 191, 166)"></i></a>
               </div>
               <div class="me-3">
-                <a
-                  class="me-2"
-                  href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"
-                  ><i
-                    class="bi bi-linkedin h4"
-                    style="color: rgb(0, 191, 166)"
-                  ></i
-                ></a>
+                <a class="me-2" href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"><i
+                    class="bi bi-linkedin h4" style="color: rgb(0, 191, 166)"></i></a>
               </div>
               <div class="me-3">
-                <a
-                  class="me-2"
-                  href="https://x.com/islamiconnect24"
-                  ><i
-                    class="bi bi-twitter-x
-                     h4"
-                    style="color: rgb(0, 191, 166)"
-                  ></i
-                ></a>
+                <a class="me-2" href="https://x.com/islamiconnect24"><i class="bi bi-twitter-x
+                     h4" style="color: rgb(0, 191, 166)"></i></a>
               </div>
             </div>
           </div>
@@ -519,6 +403,7 @@
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
+
 .jumbotron-content {
   position: relative;
   z-index: 2;
@@ -618,7 +503,7 @@ export default {
                 self.close();
               }
             })
-            .catch(function (err) {});
+            .catch(function (err) { });
         }
       });
     },
@@ -651,11 +536,10 @@ export default {
                 self.close();
               }
             })
-            .catch(function (err) {});
+            .catch(function (err) { });
         }
       });
     },
   },
 };
 </script>
-
