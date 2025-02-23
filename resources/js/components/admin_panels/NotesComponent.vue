@@ -122,12 +122,13 @@
       </div>
       <div class="modal-body">
        <div class="container">
-        <!-- <div class="mb-3">
+        <div class="mb-3">
          <label for="formGroupExampleInput" class="form-label"><strong>Surah Name:</strong></label>
          <p class="mt-2 text-dark text-left">
           {{ form.surah_name }}
          </p>
         </div>
+        <!-- 
         <div class="mb-3">
          <label for="formGroupExampleInput" class="form-label"><strong>Ayah Verse Arabic:</strong></label>
          <p class="mt-2 text-dark text-left">

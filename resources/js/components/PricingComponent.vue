@@ -647,13 +647,7 @@ export default {
       // Replace with your Stripe Payment Link for yearly subscription
       window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
     },
-    redirectToMonthlySubscription() {
-      window.location.href = "https://buy.stripe.com/test_cN24jzdgbc67dHyeUU"; // Test mode link
 
-    },
-    redirectToYearlySubscription() {
-      window.location.href = "https://buy.stripe.com/test_3cs2br3FBb2346Y4gh"; // Test mode link
-    },
     redirectToRegister() {
       location.assign("/register");
     },
