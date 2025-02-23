@@ -7,8 +7,8 @@
       reflections.
     </p>
 
-    <!-- Mobile Navigation
-    <div class="container text-center mt-3 d-md-none">
+    <!-- Mobile Navigation -->
+    <!-- <div class="container text-center mt-3 d-md-none">
       <div class="row pb-2">
         <div class="col" v-for="(link, index) in mobileNavLinks" :key="index">
           <span class="badge h3" :style="link.style">
@@ -39,49 +39,48 @@
           <input type="text" v-model="searchTerm" placeholder="Search notes keyword..." class="form-control mb-4"
             style="border: 1px solid #075E54" />
         </div>
-        <!-- <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length
-            }}</b>
-        </div> -->
+        <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length}}</b>
+        </div>
       </div>
 
     </div>
 
     <!-- Notes Container -->
     <div class="container container-notes pt-4">
-      <div v-if="isLoading" class="text-center">
-        <p>Loading notes...</p>
-      </div>
-      <div v-else class="collage">
-        <div class="collage-item" v-for="(note, index) in filteredNotes" :key="note.id">
-          <div class="card">
-            <div class="card-body">
-              <h5><strong>Note:</strong></h5>
-              <p v-html="highlightText(truncatedHtml(note.ayah_notes))"></p>
-              <h5><strong>Date created:</strong></h5>
-              <p v-if="note.created_at">{{ formatDate(note.created_at) }}</p>
-
-              <div class="text-center row">
-                <div class="col">
-                  <i class="bi bi-eye me-3 h3" @click="viewModal(note)" data-bs-toggle="modal"
-                    data-bs-target="#viewNotes"></i>
-                </div>
-                <div class="col">
-                  <i class="bi bi-share me-3 h3" @click="shareOnWhatsApp(note)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Share"></i>
-                </div>
-                <div class="col">
-                  <i class="bi bi-clipboard copy-icon h3" @click="copyAyah(note)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Copy Ayah"></i>
-                </div>
-                <!-- Toast container -->
-                <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-
+    <div v-if="isLoading" class="text-center">
+      <p>Loading notes...</p>
+    </div>
+    <div v-else class="collage">
+      <div class="collage-item" v-for="(note, index) in filteredNotes" :key="note.id">
+        <div class="card">
+          <div class="card-body">
+            <h5><strong>Surah Name:</strong></h5>
+            <p v-html="(note.surah_name)"></p>
+            <h5><strong>Note:</strong></h5>
+            <p v-html="(note.ayah_notes)"></p>
+            <h5><strong>Date created:</strong></h5>
+            <p v-if="note.created_at">{{ formatDate(note.created_at) }}</p>
+            <div class="text-center row">
+              <div class="col">
+                <i class="bi bi-eye me-3 h3" @click="viewModal(note)" data-bs-toggle="modal"
+                  data-bs-target="#viewNotes"></i>
               </div>
+              <div class="col">
+                <i class="bi bi-share me-3 h3" @click="shareOnWhatsApp(note)" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Share"></i>
+              </div>
+              <div class="col">
+                <i class="bi bi-clipboard copy-icon h3" @click="copyAyah(note)" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Copy Ayah"></i>
+              </div>
+              <!-- Toast container -->
+              <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
     <!-- View Note Modal -->
     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true">
@@ -307,7 +306,7 @@ export default {
 .collage {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 8px;
 }
 
 .collage-item {
@@ -398,7 +397,7 @@ i:hover {
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 2px;
 }
 
 .card-body h5 {

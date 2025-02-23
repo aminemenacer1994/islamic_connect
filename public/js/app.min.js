@@ -46289,77 +46289,86 @@ var _hoisted_5 = {
   "class": "col-md-7"
 };
 var _hoisted_6 = {
-  "class": "container container-notes pt-4"
+  "class": "fw-bold display-6"
 };
 var _hoisted_7 = {
+  style: {
+    "color": "#075E54"
+  }
+};
+var _hoisted_8 = {
+  "class": "container container-notes pt-4"
+};
+var _hoisted_9 = {
   key: 0,
   "class": "text-center"
 };
-var _hoisted_8 = {
+var _hoisted_10 = {
   key: 1,
   "class": "collage"
 };
-var _hoisted_9 = {
+var _hoisted_11 = {
   "class": "card"
 };
-var _hoisted_10 = {
+var _hoisted_12 = {
   "class": "card-body"
 };
-var _hoisted_11 = ["innerHTML"];
-var _hoisted_12 = {
+var _hoisted_13 = ["innerHTML"];
+var _hoisted_14 = ["innerHTML"];
+var _hoisted_15 = {
   key: 0
 };
-var _hoisted_13 = {
+var _hoisted_16 = {
   "class": "text-center row"
 };
-var _hoisted_14 = {
+var _hoisted_17 = {
   "class": "col"
 };
-var _hoisted_15 = ["onClick"];
-var _hoisted_16 = {
+var _hoisted_18 = ["onClick"];
+var _hoisted_19 = {
   "class": "col"
 };
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = {
+var _hoisted_20 = ["onClick"];
+var _hoisted_21 = {
   "class": "col"
 };
-var _hoisted_19 = ["onClick"];
-var _hoisted_20 = {
+var _hoisted_22 = ["onClick"];
+var _hoisted_23 = {
   "class": "modal fade",
   id: "viewNotes",
   tabindex: "-1",
   "aria-labelledby": "viewNotesLabel",
   "aria-hidden": "true"
 };
-var _hoisted_21 = {
+var _hoisted_24 = {
   "class": "modal-dialog modal-lg"
 };
-var _hoisted_22 = {
+var _hoisted_25 = {
   "class": "modal-content"
 };
-var _hoisted_23 = {
+var _hoisted_26 = {
   key: 0,
   "class": "modal-body"
 };
-var _hoisted_24 = {
-  "class": "mb-3"
-};
-var _hoisted_25 = ["innerHTML"];
-var _hoisted_26 = {
-  "class": "mb-3"
-};
 var _hoisted_27 = {
+  "class": "mb-3"
+};
+var _hoisted_28 = ["innerHTML"];
+var _hoisted_29 = {
+  "class": "mb-3"
+};
+var _hoisted_30 = {
   key: 0
 };
-var _hoisted_28 = {
+var _hoisted_31 = {
   key: 1
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "pt-4 pb-3 text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes & Reflections Board")], -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes & Reflections Board")], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead container text-center"
-  }, " This page is a space to share your personal Islamic reflections and insights with others. Together, we can inspire, learn, and grow in our faith, helping each other on our spiritual journeys through shared thoughts and reflections. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Navigation\n    <div class=\"container text-center mt-3 d-md-none\">\n      <div class=\"row pb-2\">\n        <div class=\"col\" v-for=\"(link, index) in mobileNavLinks\" :key=\"index\">\n          <span class=\"badge h3\" :style=\"link.style\">\n            <a :href=\"link.href\" style=\"text-decoration:none;\">{{ link.text }}</a>\n          </span>\n        </div>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter and Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filterOptions, function (option) {
+  }, " This page is a space to share your personal Islamic reflections and insights with others. Together, we can inspire, learn, and grow in our faith, helping each other on our spiritual journeys through shared thoughts and reflections. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center mt-3 d-md-none\">\n      <div class=\"row pb-2\">\n        <div class=\"col\" v-for=\"(link, index) in mobileNavLinks\" :key=\"index\">\n          <span class=\"badge h3\" :style=\"link.style\">\n            <a :href=\"link.href\" style=\"text-decoration:none;\">{{ link.text }}</a>\n          </span>\n        </div>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter and Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filterOptions, function (option) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: option.value,
       onClick: function onClick($event) {
@@ -46381,20 +46390,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "1px solid #075E54"
     }
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"fw-bold display-6 \">Total amount of notes: <b style=\"color: #075E54;\"> {{ filteredNotes.length\n            }}</b>\n        </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading notes...", -1 /* HOISTED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredNotes, function (note, index) {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Total amount of notes: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredNotes.length), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading notes...", -1 /* HOISTED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredNotes, function (note, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "collage-item",
       key: note.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Note:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      innerHTML: $options.highlightText($options.truncatedHtml(note.ayah_notes))
-    }, null, 8 /* PROPS */, _hoisted_11), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date created:")], -1 /* HOISTED */)), note.created_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(note.created_at)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      innerHTML: note.surah_name
+    }, null, 8 /* PROPS */, _hoisted_13), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Note:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      innerHTML: note.ayah_notes
+    }, null, 8 /* PROPS */, _hoisted_14), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date created:")], -1 /* HOISTED */)), note.created_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(note.created_at)), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-eye me-3 h3",
       onClick: function onClick($event) {
         return $options.viewModal(note);
       },
       "data-bs-toggle": "modal",
       "data-bs-target": "#viewNotes"
-    }, null, 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_18)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share me-3 h3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(note);
@@ -46402,7 +46413,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Share"
-    }, null, 8 /* PROPS */, _hoisted_17)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_20)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard copy-icon h3",
       onClick: function onClick($event) {
         return $options.copyAyah(note);
@@ -46410,11 +46421,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Copy Ayah"
-    }, null, 8 /* PROPS */, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toast container "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toast container "), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: "toast-container",
       "class": "toast-container position-fixed bottom-0 end-0 p-3"
     }, null, -1 /* HOISTED */))])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Note Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title text-dark"
@@ -46423,14 +46434,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* HOISTED */)), $data.selectedNote ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* HOISTED */)), $data.selectedNote ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Notes:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "mt-2 text-dark",
     innerHTML: $data.selectedNote.ayah_notes
-  }, null, 8 /* PROPS */, _hoisted_25)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 8 /* PROPS */, _hoisted_28)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* HOISTED */)), $data.selectedNote.created_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedNote.created_at)), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_28, "N/A"))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* HOISTED */)), $data.selectedNote.created_at ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate($data.selectedNote.created_at)), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_31, "N/A"))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -80774,7 +80785,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.toast[data-v-4b451216] {\n  min-width: 300px; /* Increase the width of the toast */\n  font-size: 1.25rem; /* Increase the font size */\n}\n.toast-body[data-v-4b451216] {\n  padding: 1rem; /* Add more padding inside the toast */\n}\n.container-notes[data-v-4b451216] {\n  padding-top: 2rem;\n}\n.collage[data-v-4b451216] {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 16px;\n}\n.collage-item[data-v-4b451216] {\n  display: flex;\n  flex-direction: column;\n}\n.card[data-v-4b451216] {\n  background-color: #ffffff;\n  margin-bottom: 1.5em;\n  min-height: 200px;\n  display: flex;\n  flex-direction: column;\n  border-radius: 8px;\n  border: 2px solid rgba(0, 191, 166);\n  box-shadow: 0 4px 8px rgba(0, 191, 166, 0.1);\n  transition: transform 0.3s ease;\n}\n\n/* Card hover effect */\n.card[data-v-4b451216]:hover {\n  transform: translateY(-5px);\n}\ni[data-v-4b451216] {\n  color: #000;\n  transition: color 0.3s ease;\n}\ni[data-v-4b451216]:hover {\n  color: #00bfa6;\n}\n\n/* Media Queries for Responsive Layout */\n@media (max-width: 1200px) {\n.collage[data-v-4b451216] {\n    grid-template-columns: repeat(2, 1fr);\n    /* 2 columns on medium screens */\n}\n}\n@media (max-width: 768px) {\n.collage[data-v-4b451216] {\n    grid-template-columns: 1fr;\n    /* 1 column on smaller screens */\n}\n}\n.highlight[data-v-4b451216] {\n  background-color: yellow;\n}\n.bg-primary-whatsapp[data-v-4b451216] {\n  background-color: #00bfa6;\n}\n.bg-secondary-whatsapp[data-v-4b451216] {\n  background-color: #075E54;\n}\n.text-green[data-v-4b451216] {\n  color: #00bfa6;\n}\n.text-white[data-v-4b451216] {\n  color: #FFFFFF;\n}\n.badge.active[data-v-4b451216] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.close[data-v-4b451216] {\n  float: right;\n  cursor: pointer;\n  font-size: 24px;\n}\n.close[data-v-4b451216]:hover,\n.close[data-v-4b451216]:focus {\n  color: #000;\n  text-decoration: none;\n  cursor: pointer;\n}\n.card-body[data-v-4b451216] {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.card-body h5[data-v-4b451216] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-body p[data-v-4b451216] {\n  font-size: 1rem;\n  color: #555;\n}\n.card-body hr[data-v-4b451216] {\n  border-color: #ddd;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.toast[data-v-4b451216] {\n  min-width: 300px; /* Increase the width of the toast */\n  font-size: 1.25rem; /* Increase the font size */\n}\n.toast-body[data-v-4b451216] {\n  padding: 1rem; /* Add more padding inside the toast */\n}\n.container-notes[data-v-4b451216] {\n  padding-top: 2rem;\n}\n.collage[data-v-4b451216] {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 8px;\n}\n.collage-item[data-v-4b451216] {\n  display: flex;\n  flex-direction: column;\n}\n.card[data-v-4b451216] {\n  background-color: #ffffff;\n  margin-bottom: 1.5em;\n  min-height: 200px;\n  display: flex;\n  flex-direction: column;\n  border-radius: 8px;\n  border: 2px solid rgba(0, 191, 166);\n  box-shadow: 0 4px 8px rgba(0, 191, 166, 0.1);\n  transition: transform 0.3s ease;\n}\n\n/* Card hover effect */\n.card[data-v-4b451216]:hover {\n  transform: translateY(-5px);\n}\ni[data-v-4b451216] {\n  color: #000;\n  transition: color 0.3s ease;\n}\ni[data-v-4b451216]:hover {\n  color: #00bfa6;\n}\n\n/* Media Queries for Responsive Layout */\n@media (max-width: 1200px) {\n.collage[data-v-4b451216] {\n    grid-template-columns: repeat(2, 1fr);\n    /* 2 columns on medium screens */\n}\n}\n@media (max-width: 768px) {\n.collage[data-v-4b451216] {\n    grid-template-columns: 1fr;\n    /* 1 column on smaller screens */\n}\n}\n.highlight[data-v-4b451216] {\n  background-color: yellow;\n}\n.bg-primary-whatsapp[data-v-4b451216] {\n  background-color: #00bfa6;\n}\n.bg-secondary-whatsapp[data-v-4b451216] {\n  background-color: #075E54;\n}\n.text-green[data-v-4b451216] {\n  color: #00bfa6;\n}\n.text-white[data-v-4b451216] {\n  color: #FFFFFF;\n}\n.badge.active[data-v-4b451216] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.close[data-v-4b451216] {\n  float: right;\n  cursor: pointer;\n  font-size: 24px;\n}\n.close[data-v-4b451216]:hover,\n.close[data-v-4b451216]:focus {\n  color: #000;\n  text-decoration: none;\n  cursor: pointer;\n}\n.card-body[data-v-4b451216] {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.card-body h5[data-v-4b451216] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-body p[data-v-4b451216] {\n  font-size: 1rem;\n  color: #555;\n}\n.card-body hr[data-v-4b451216] {\n  border-color: #ddd;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
