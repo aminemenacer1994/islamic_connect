@@ -112,21 +112,25 @@
                                     <div class="container text-center">
                                         <div
                                             class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
+                                            <!-- Advanced Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Advanced</span>
                                             </div>
+
+                                            <!-- Switch -->
                                             <div class="col">
                                                 <div
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
-                                                    <input
-                                                        class="form-check-input pr-5 custom-switch shadow-lg text-center"
-                                                        style="
-                                                        border-color: #00bfa6;
-                                                        color: #00bfa6;
-                                                    " type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                                                        v-model="isVisible" @change="saveToggleState" />
+                                                    <input class="form-check-input h4 pr-5 shadow-lg text-center"
+                                                        style="background-color: green; border-color: grey;"
+                                                        type="checkbox" role="switch"
+                                                        id="flexSwitchCheckDefault"
+                                                        v-model="isVisible"
+                                                        @change="saveToggleState" />
                                                 </div>
                                             </div>
+
+                                            <!-- Basic Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Basic</span>
                                             </div>

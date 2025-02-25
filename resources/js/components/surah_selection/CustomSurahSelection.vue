@@ -28,10 +28,14 @@ export default {
       customSurat: [
         { id: 1, name: 'Al-Fatiha' },
         { id: 2, name: 'Al-Baqarah' },
+        { id: 3, name: 'Al-Imran' },
+        { id: 4, name: 'Al-Nisa' },
+        { id: 5, name: 'Al-Maidah' },
         { id: 18, name: 'Al-Kahf' },
         { id: 67, name: 'Al-Mulk' },
         { id: 108, name: 'Al-Kawthar' },
-        { id: 36, name: 'Ya Seen' },
+        { id: 36, name: 'Ya Seen' },        
+        { id: 19, name: 'Maryam' },
         { id: 109, name: 'Al-Kafiroon' },
         { id: 112, name: 'Al-Ikhlas' },
         { id: 113, name: 'Al-Falaq' },
@@ -93,7 +97,7 @@ export default {
 .badge {
   background-color: rgba(0, 191, 166);
   font-size: 1em;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 8px;
 }
 
@@ -101,7 +105,7 @@ export default {
   background: rgb(9, 94, 68);
   font-size: 1em;
   color: white;
-  border-radius: 8px;
+  border-radius: 6px;
   padding: 8px;
 }
 </style>

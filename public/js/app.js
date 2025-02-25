@@ -39374,6 +39374,15 @@ __webpack_require__.r(__webpack_exports__);
         id: 2,
         name: 'Al-Baqarah'
       }, {
+        id: 3,
+        name: 'Al-Imran'
+      }, {
+        id: 4,
+        name: 'Al-Nisa'
+      }, {
+        id: 5,
+        name: 'Al-Maidah'
+      }, {
         id: 18,
         name: 'Al-Kahf'
       }, {
@@ -39385,6 +39394,9 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         id: 36,
         name: 'Ya Seen'
+      }, {
+        id: 19,
+        name: 'Maryam'
       }, {
         id: 109,
         name: 'Al-Kafiroon'
@@ -43401,15 +43413,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "10px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Label "), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
-  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input pr-5 custom-switch shadow-lg text-center",
+  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Switch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input h4 pr-5 shadow-lg text-center",
     style: {
-      "border-color": "#00bfa6",
-      "color": "#00bfa6"
+      "background-color": "green",
+      "border-color": "grey"
     },
     type: "checkbox",
     role: "switch",
@@ -43420,7 +43432,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[10] || (_cache[10] = function () {
       return $options.saveToggleState && $options.saveToggleState.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Label "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
@@ -81090,7 +81102,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.scrollmenu[data-v-9d967708] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin; /* Firefox */\n  scrollbar-color: transparent transparent; /* Firefox */\n}\n.scrollmenu[data-v-9d967708]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-9d967708]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-9d967708]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-9d967708] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-9d967708] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-9d967708] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  border-radius: 8px;\n  padding: 8px;\n}\n.badge[data-v-9d967708]:hover {\n  background: rgb(9, 94, 68);\n  font-size: 1em;\n  color: white;\n  border-radius: 8px;\n  padding: 8px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.scrollmenu[data-v-9d967708] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin; /* Firefox */\n  scrollbar-color: transparent transparent; /* Firefox */\n}\n.scrollmenu[data-v-9d967708]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-9d967708]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-9d967708]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-9d967708] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-9d967708] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-9d967708] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-9d967708]:hover {\n  background: rgb(9, 94, 68);\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

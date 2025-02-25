@@ -225,6 +225,43 @@
 
 <!-- Custom Styles -->
 <style>
+.responsive-nav {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: center; /* Center the links */
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+  margin: 0;
+}
+
+.responsive-nav .nav-item {
+  margin: 5px; /* Add some spacing between items */
+}
+
+.responsive-nav .nav-link {
+  padding: 10px 15px; /* Adjust padding as needed */
+  text-decoration: none; /* Remove underlines from links */
+  color: #333; /* Set link color */
+  border-radius: 5px; /* Add rounded corners (optional) */
+}
+
+.responsive-nav .nav-link:hover {
+  background-color: #f0f0f0; /* Add hover effect (optional) */
+}
+
+/* Media query for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+  .responsive-nav {
+    flex-direction: column; /* Stack links vertically */
+    align-items: center; /* Center links horizontally */
+  }
+
+  .responsive-nav .nav-item {
+    width: 100%; /* Make each item take full width */
+    text-align: center; /* Center text within items */
+    margin: 5px 0; /* Adjust margin for vertical spacing */
+  }
+}
 .nav-link.active {
     font-weight: bold;
     color: rgb(53, 163, 139); /* Highlight color */
