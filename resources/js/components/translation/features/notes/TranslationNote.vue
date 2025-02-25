@@ -1,5 +1,6 @@
 <template>
-  <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true" ref="modal">
+  <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true"
+    ref="modal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -11,15 +12,18 @@
             <div class="container text-center">
               <div class="row">
                 <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="basicMode" value="basic" v-model="inputMode">
+                  <input class="form-check-input" type="radio" name="inputMode" id="basicMode" value="basic"
+                    v-model="inputMode">
                   <label class="form-check-label" for="basicMode">Basic</label>
                 </div>
-                <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio" v-model="inputMode">
+                <div v-if="!isVisible" class="col">
+                  <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio"
+                    v-model="inputMode">
                   <label class="form-check-label" for="audioMode">Audio Note Recording</label>
                 </div>
-                <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor" v-model="inputMode">
+                <div v-if="!isVisible" class="col">
+                  <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor"
+                    v-model="inputMode">
                   <label class="form-check-label" for="editorMode">Editor Keyboard</label>
                 </div>
               </div>
@@ -36,12 +40,14 @@
               <div class="container text-center mt-3">
                 <div class="row">
                   <div class="col">
-                    <button type="button" class="btn btn-success me-2" @click="startRecognition" :disabled="isListening">
+                    <button type="button" class="btn btn-success me-2" @click="startRecognition"
+                      :disabled="isListening">
                       <i class="bi bi-play-circle"></i> Start Recording
                     </button>
                   </div>
                   <div class="col">
-                    <button type="button" class="btn btn-danger" @click="stopRecognition" :disabled="!isListening && !isPaused">
+                    <button type="button" class="btn btn-danger" @click="stopRecognition"
+                      :disabled="!isListening && !isPaused">
                       <i class="bi bi-stop-circle"></i> Stop Recording
                     </button>
                   </div>
@@ -58,7 +64,8 @@
 
             <!-- Rich Text Editor Mode -->
             <div v-if="inputMode === 'editor'" class="pt-3">
-              <Editor v-model="form.ayah_notes" name="ayah_notes" :placeholder="editorPlaceholder" editorStyle="height: 300px"></Editor>
+              <Editor v-model="form.ayah_notes" name="ayah_notes" :placeholder="editorPlaceholder"
+                editorStyle="height: 300px"></Editor>
             </div>
 
             <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
@@ -96,10 +103,13 @@ import 'tinymce/themes/silver/theme';
 import 'tinymce/icons/default/icons';
 import 'tinymce/plugins/lists';
 import { Modal } from 'bootstrap';
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../../../../utils/subscriptionUtils.js';
+
 
 export default {
   data() {
     return {
+      isVisible: false,
       isAuthenticated: false,
       editorPlaceholder: "Write your personal reflections and notes here. Let your connection to the Quran grow.",
       inputMode: 'basic',
@@ -117,11 +127,27 @@ export default {
     Editor,
   },
   mounted() {
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     initRecognition() {
       this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;

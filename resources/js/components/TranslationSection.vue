@@ -22,7 +22,7 @@
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Translation: </strong>Ahmed Ali
             </div>
-            <div class="row collapse pt-3" id="collapseExample">
+            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                   <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -38,7 +38,7 @@
           </div>
         </div>
         <!-- Icons Column (Stacked Vertically) -->
-        <div class="col-2 d-flex align-items-center justify-content-center flex-column">
+        <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
           <i @click="toggleSpeech" :class="[
             'bi',
@@ -87,6 +87,8 @@ import OffcanvasSetting from "./modals/OffcanvasSetting.vue";
 import TransliterationSection from "./TransliterationSection.vue";
 import SpeechSettings from "./settings/SpeechSettings.vue";
 import { Offcanvas } from 'bootstrap';
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
+
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -258,15 +260,25 @@ export default {
   },
 
   mounted() {
-
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.renderedText = this.information.translation;
     this.clearHighlight();
     this.stopReading();
     this.$emit("ayah-text", this.information.ayah.ayah_text);
-    // this.voices = speechSynthesis.getVoices();
-    // if (this.voices.length > 0) {
-    //   this.selectedVoiceName = this.voices[0].name;
-    // }
+    this.voices = speechSynthesis.getVoices();
+    if (this.voices.length > 0) {
+      this.selectedVoiceName = this.voices[0].name;
+    }
+
     // Load saved settings from local storage
     const savedFontSize = localStorage.getItem('fontSize');
     if (savedFontSize) {
@@ -277,6 +289,12 @@ export default {
   },
 
   methods: {
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     toggleIcon(event) {
       const icon = event.target;
       icon.classList.toggle('bi-arrow-down-circle-fill');
@@ -327,9 +345,7 @@ export default {
       link.click();
       document.body.removeChild(link);
     },
-    toggleVisibility() {
-      this.isVisible = !this.isVisible;
-    },
+
     toggleSpeech() {
       if (this.isReading) {
         if (this.isPaused) {

@@ -1,80 +1,75 @@
 <template>
-<div class="w-100 my-element" :class="{'full-screen': isFullScreen}">
-  <button v-if="isFullScreen" @click="toggleFullScreen" class="close-button mb-3 text-left btn btn-secondary">Close</button>
-  <div ref="targetTransliterationElement">
-    <AyahInfo :information="information" />
-    <div @touchstart="handleStart" @touchend="handleEnd" @mousedown="handleStart" @mouseup="handleEnd" @mouseleave="cancelHold" class="swipeable-div w-100">
-      <div class="row">
-        <div class="col-md-2 pt-2 d-flex align-items-center justify-content-center"></div>
-        <div class="col-md-10">
-          <MainAyah :information="information" />
-        </div>
-      </div>
-      <div class="row text-left mt-2">
-        <div class="col-10">
-          <div>
-            <h4 class="ayah-translation" 
-                :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
-              {{ expanded ? information.transliteration : information.transliteration }}
-            </h4>
-            <hr>
-            <div  class="row collapse pt-3" id="collapseExample">
-              <div class="d-flex flex-wrap gap-2">
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
-                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
-                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
-                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
-                </button>
-              </div>
-            </div>
-            <!-- <div class="text-left count word-count pt-4">
-              <h6 class="text-left mt-3">
-                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-                <strong>Total Word count: </strong>{{ wordCount }}
-              </h6>
-            </div> -->
-            <div  class="text-left word-count mt-3">
-              <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-              <strong>Transliteration: </strong>Saheeh International
-            </div>
+  <div class="w-100 my-element" :class="{ 'full-screen': isFullScreen }">
+    <button v-if="isFullScreen" @click="toggleFullScreen"
+      class="close-button mb-3 text-left btn btn-secondary">Close</button>
+    <div ref="targetTransliterationElement">
+      <AyahInfo :information="information" />
+      <div @touchstart="handleStart" @touchend="handleEnd" @mousedown="handleStart" @mouseup="handleEnd"
+        @mouseleave="cancelHold" class="swipeable-div w-100">
+        <div class="row">
+          <div class="col-md-2 pt-2 d-flex align-items-center justify-content-center"></div>
+          <div class="col-md-10">
+            <MainAyah :information="information" />
           </div>
         </div>
-        <!-- Icons Column (Stacked Vertically) -->
-        <div  class="col-2 d-flex align-items-center justify-content-center flex-column">
-          <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase" aria-placeholder="Increase text size" @click="increaseFontSize"></i>
-          <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease" aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
+        <div class="row text-left mt-2">
+          <div class="col-10">
+            <div>
+              <h4 class="ayah-translation" :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
+                {{ expanded ? information.transliteration : information.transliteration }}
+              </h4>
+              <hr>
+              <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
+                    <i class="bi bi-filetype-csv pr-2"></i>CSV Export
+                  </button>
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
+                    <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
+                  </button>
+                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
+                    <i class="bi bi-filetype-json pr-2"></i>JSON Export
+                  </button>
+                </div>
+              </div>
+              <div class="text-left word-count mt-3">
+                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+                <strong>Transliteration: </strong>Saheeh International
+              </div>
+            </div>
+          </div>
+          <!-- Icons Column (Stacked Vertically) -->
+          <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
+            <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
+              aria-placeholder="Increase text size" @click="increaseFontSize"></i>
+            <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
+              aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
-          <p  class="d-inline-flex gap-1">
-            <i style="cursor: pointer;" 
-              class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease" 
-              data-bs-toggle="collapse" 
-              href="#collapseExample" 
-              role="button" 
-              aria-expanded="false" 
-              aria-controls="collapseExample" 
-              @click="toggleIcon">
-            </i>
-          </p>
+            <p class="d-inline-flex gap-1">
+              <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
+                data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample" @click="toggleIcon">
+              </i>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- <div class="text-left mt-3 word-count">
+      <!-- <div class="text-left mt-3 word-count">
       <h6 class="text-left"><img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>
     </div> -->
-    <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert" :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
-  </div>    
+      <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+        :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
+    </div>
 
-</div>
+  </div>
 </template>
 
 <script>
 import AyahInfo from './translation/AyahInfo.vue';
 import MainAyah from './translation/MainAyah.vue';
 import AlertModal from './modals/AlertModal.vue';
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import {
@@ -121,17 +116,35 @@ export default {
       expanded: false,
       isPaused: false,
       isReading: false,
+      isVisible: false, // Controls visibility of premium features
     }
   },
   computed: {
-    
     wordCount() {
       const text = this.information.transliteration || "";
       return text.trim().split(/\s+/).length;
     }
   },
-  
+  mounted() {
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
+  },
+
   methods: {
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     toggleIcon(event) {
       const icon = event.target;
       icon.classList.toggle('bi-arrow-down-circle-fill');
@@ -151,7 +164,7 @@ export default {
         translationInfo: "Ahmed Ali",
         wordCount: this.wordCount || 0,
         ayahInfo: {
-          id: this.information?.id || "unknown", 
+          id: this.information?.id || "unknown",
           ayah: {
             id: this.information?.ayah?.id || "unknown",
             surah_id: surahNumber,
@@ -188,7 +201,7 @@ export default {
       link.click();
       document.body.removeChild(link);
     },
-    
+
     increaseFontSize() {
       this.fontSize += 0.2; // Increase font size
       this.saveFontSize();
@@ -208,20 +221,20 @@ export default {
 
         // Convert to string and escape quotes
         let formattedValue = String(value)
-            .replace(/"/g, '""')         // Escape quotes
-            .replace(/[\r\n]+/g, ' ')    // Replace newlines with spaces
-            .trim();
+          .replace(/"/g, '""')         // Escape quotes
+          .replace(/[\r\n]+/g, ' ')    // Replace newlines with spaces
+          .trim();
 
         // Add directional markers based on content type
         if (options.isRtl) {
-            // RLE (Right-to-Left Embedding) + RLM (Right-to-Left Mark) + content
-            return `"\u202B\u200F${formattedValue}\u202C"`;
+          // RLE (Right-to-Left Embedding) + RLM (Right-to-Left Mark) + content
+          return `"\u202B\u200F${formattedValue}\u202C"`;
         }
         if (options.isLtr) {
-            // LRE (Left-to-Right Embedding) + content
-            return `"\u202A${formattedValue}\u202C"`;
+          // LRE (Left-to-Right Embedding) + content
+          return `"\u202A${formattedValue}\u202C"`;
         }
-        
+
         return `"${formattedValue}"`;
       };
       try {
@@ -229,38 +242,38 @@ export default {
         const csvRows = [
           ['"Title"', '"Content"'],
           [
-              '"Surah name (Arabic)"', 
-              formatCsvValue(this.information?.ayah?.surah?.name_ar, { isRtl: true })
+            '"Surah name (Arabic)"',
+            formatCsvValue(this.information?.ayah?.surah?.name_ar, { isRtl: true })
           ],
           [
-              '"Surah name (English)"', 
-              formatCsvValue(this.information?.ayah?.surah?.name_en, { isLtr: true })
+            '"Surah name (English)"',
+            formatCsvValue(this.information?.ayah?.surah?.name_en, { isLtr: true })
           ],
           [
-              '"Surah number"', 
-              formatCsvValue(this.information?.ayah?.surah_id, { isLtr: true })
+            '"Surah number"',
+            formatCsvValue(this.information?.ayah?.surah_id, { isLtr: true })
           ],
           [
-              '"Ayah number"', 
-              formatCsvValue(this.information?.ayah?.ayah_id, { isLtr: true })
+            '"Ayah number"',
+            formatCsvValue(this.information?.ayah?.ayah_id, { isLtr: true })
           ],
           [
-              '"Ayah"', 
-              formatCsvValue(this.information?.ayah?.ayah_text, { isRtl: true })
+            '"Ayah"',
+            formatCsvValue(this.information?.ayah?.ayah_text, { isRtl: true })
           ],
           [
-              '"Transliteration"', 
-              formatCsvValue(this.information?.transliteration, { isLtr: true })
+            '"Transliteration"',
+            formatCsvValue(this.information?.transliteration, { isLtr: true })
           ],
           [
-              '"Transliteration"', 
-              formatCsvValue('Saheeh International', { isLtr: true })
+            '"Transliteration"',
+            formatCsvValue('Saheeh International', { isLtr: true })
           ]
         ];
         // Convert rows to CSV string with RTL marker for the whole document
         const csvContent = '\u202B' + csvRows
-            .map(row => row.join(','))
-            .join('\n');
+          .map(row => row.join(','))
+          .join('\n');
 
         // Add BOM for UTF-8
         const bom = '\uFEFF';
@@ -268,7 +281,7 @@ export default {
 
         // Create blob with proper encoding
         const blob = new Blob([fullContent], {
-            type: 'text/csv;charset=utf-8'
+          type: 'text/csv;charset=utf-8'
         });
 
         // Generate filename with surah/ayah info
@@ -295,319 +308,319 @@ export default {
 
           // Cleanup
           setTimeout(() => {
-              document.body.removeChild(link);
-              URL.revokeObjectURL(url);
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
           }, 100);
         }
       } catch (error) {
-          console.error('Failed to download CSV:', error);
-          this.$emit('csv-error', error);
+        console.error('Failed to download CSV:', error);
+        this.$emit('csv-error', error);
       }
     },
 
     async downloadAsWord() {
       const doc = new Document({
         sections: [
-            {
-                properties: {
-                    page: {
-                        margin: {
-                            top: 1440,    // 1 inch
-                            right: 1440,
-                            bottom: 1440,
-                            left: 1440,
-                        },
-                    },
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 1440,    // 1 inch
+                  right: 1440,
+                  bottom: 1440,
+                  left: 1440,
                 },
+              },
+            },
+            children: [
+              // Title Section
+              new Paragraph({
                 children: [
-                  // Title Section
-                  new Paragraph({
-                    children: [
-                        new TextRun({
-                            text: "Quran Transliteration Document",
-                            bold: true,
-                            size: 48,
-                            color: "1F4E79",
-                        }),
-                    ],
-                    alignment: "CENTER",
-                    spacing: {
-                        before: 400,
-                        after: 800,
-                        line: 360,
-                    },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // surah Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Surah:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Surah Info
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: `${this.information?.ayah?.surah?.name_en} (${this.information?.ayah?.surah?.name_ar})`,
-                            bold: false,
-                            size: 28,
-                            italics:false,
-                            color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Number
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: `Ayah Number:`,
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Number
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: `${this.information?.ayah?.ayah_id}`,
-                              bold: false,
-                              size: 28,
-                              italics:false,
-                              color: "000000",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Ayah:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                              underline: false,
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Ayah Text
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: this.information?.ayah?.ayah_text,
-                              size: 28,
-                              color: "333333",
-                              rightToLeft: true,  // Enable RTL for Arabic text
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,
-                      },
-                      indent: {
-                          left: 720,  // 0.5 inch indent
-                          right: 720,
-                      },
-                      alignment: "RIGHT",  // Right align Arabic text
-                  }),
-
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-                  // Tafseer Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Transliteration:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Tafseer Content
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: this.information?.transliteration,
-                              size: 28,
-                              color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,  // 1.5 line spacing
-                      },
-                      indent: {
-                          left: 720,
-                          right: 720,
-                      },
-                  }),
-                  // space
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                            text: ``,
-                          }),
-                      ],
-                      spacing: {
-                          before: 400,
-                          after: 400,
-                          line: 360,
-                      },
-                  }),
-
-                  // Translator Header
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Transliteration:",
-                              bold: true,
-                              size: 32,
-                              color: "2B5797",
-                          }),
-                      ],
-                      spacing: {
-                          before: 600,
-                          after: 300,
-                          line: 360,
-                      },
-                  }),
-
-                  // Translator Content
-                  new Paragraph({
-                      children: [
-                          new TextRun({
-                              text: "Saheeh International",
-                              italics: false,
-                              size: 28,
-                              color: "000000",
-                          }),
-                      ],
-                      spacing: {
-                          before: 300,
-                          after: 600,
-                          line: 360,
-                      },
+                  new TextRun({
+                    text: "Quran Transliteration Document",
+                    bold: true,
+                    size: 48,
+                    color: "1F4E79",
                   }),
                 ],
-            },
+                alignment: "CENTER",
+                spacing: {
+                  before: 400,
+                  after: 800,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // surah Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Surah:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Surah Info
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${this.information?.ayah?.surah?.name_en} (${this.information?.ayah?.surah?.name_ar})`,
+                    bold: false,
+                    size: 28,
+                    italics: false,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Number
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `Ayah Number:`,
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Number
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${this.information?.ayah?.ayah_id}`,
+                    bold: false,
+                    size: 28,
+                    italics: false,
+                    color: "000000",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Ayah:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                    underline: false,
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Ayah Text
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: this.information?.ayah?.ayah_text,
+                    size: 28,
+                    color: "333333",
+                    rightToLeft: true,  // Enable RTL for Arabic text
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,
+                },
+                indent: {
+                  left: 720,  // 0.5 inch indent
+                  right: 720,
+                },
+                alignment: "RIGHT",  // Right align Arabic text
+              }),
+
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+              // Tafseer Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Transliteration:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Tafseer Content
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: this.information?.transliteration,
+                    size: 28,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,  // 1.5 line spacing
+                },
+                indent: {
+                  left: 720,
+                  right: 720,
+                },
+              }),
+              // space
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: ``,
+                  }),
+                ],
+                spacing: {
+                  before: 400,
+                  after: 400,
+                  line: 360,
+                },
+              }),
+
+              // Translator Header
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Transliteration:",
+                    bold: true,
+                    size: 32,
+                    color: "2B5797",
+                  }),
+                ],
+                spacing: {
+                  before: 600,
+                  after: 300,
+                  line: 360,
+                },
+              }),
+
+              // Translator Content
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "Saheeh International",
+                    italics: false,
+                    size: 28,
+                    color: "000000",
+                  }),
+                ],
+                spacing: {
+                  before: 300,
+                  after: 600,
+                  line: 360,
+                },
+              }),
+            ],
+          },
         ],
-    });
-    try {
-      const blob = await Packer.toBlob(doc);
+      });
+      try {
+        const blob = await Packer.toBlob(doc);
 
-      // Generate a clean, ISO date string
-      const date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
+        // Generate a clean, ISO date string
+        const date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
 
-      // Dynamically include Surah and Ayah numbers with fallbacks
-      const surahNum = this.information?.ayah?.surah?.id || "unknown_surah";
-      const ayahNum = this.information?.ayah?.ayah_id || "unknown_ayah";
+        // Dynamically include Surah and Ayah numbers with fallbacks
+        const surahNum = this.information?.ayah?.surah?.id || "unknown_surah";
+        const ayahNum = this.information?.ayah?.ayah_id || "unknown_ayah";
 
-      // Create a clean filename
-      const filename = `transliteration_doc_surah_${surahNum}_ayah_${ayahNum}_${date}.docx`;
+        // Create a clean filename
+        const filename = `transliteration_doc_surah_${surahNum}_ayah_${ayahNum}_${date}.docx`;
 
-      // Save the file
-      saveAs(blob, filename);
+        // Save the file
+        saveAs(blob, filename);
       } catch (error) {
         console.error("Failed to generate Word document:", error);
         this.$emit("word-error", error);
@@ -636,7 +649,6 @@ export default {
 </script>
 
 <style scoped>
-
 .full-screen {
   position: fixed;
   top: 0;

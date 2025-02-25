@@ -1,5 +1,6 @@
 <template>
-  <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true" ref="modal">
+  <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true"
+    ref="modal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -11,15 +12,18 @@
             <div class="container text-center">
               <div class="row">
                 <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="basicMode" value="basic" v-model="inputMode">
+                  <input class="form-check-input" type="radio" name="inputMode" id="basicMode" value="basic"
+                    v-model="inputMode">
                   <label class="form-check-label" for="basicMode">Basic</label>
                 </div>
-                <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio" v-model="inputMode">
+                <div v-if="!isVisible" class="col">
+                  <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio"
+                    v-model="inputMode">
                   <label class="form-check-label" for="audioMode">Audio Note Recording</label>
                 </div>
-                <div class="col">
-                  <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor" v-model="inputMode">
+                <div v-if="!isVisible" class="col">
+                  <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor"
+                    v-model="inputMode">
                   <label class="form-check-label" for="editorMode">Editor Keyboard</label>
                 </div>
               </div>
@@ -30,13 +34,15 @@
               <div v-if="inputMode === 'audio'">
                 <div class="container text-center">
                   <div class="row">
-                    <div class="col">
-                      <button type="button" class="btn btn-success me-2" @click="startRecognition" :disabled="isListening">
+                    <div  class="col">
+                      <button type="button" class="btn btn-success me-2" @click="startRecognition"
+                        :disabled="isListening">
                         <i class="bi bi-play-circle"></i> Start Recording
                       </button>
                     </div>
-                    <div class="col">
-                      <button type="button" class="btn btn-danger" @click="stopRecognition" :disabled="!isListening && !isPaused">
+                    <div  class="col">
+                      <button type="button" class="btn btn-danger" @click="stopRecognition"
+                        :disabled="!isListening && !isPaused">
                         <i class="bi bi-stop-circle"></i> Stop Recording
                       </button>
                     </div>
@@ -48,14 +54,19 @@
                   <h3 v-if="isListening" class="text-success"><b class="pt-3">Listening...</b></h3>
                 </div>
 
-                <textarea v-model="form.ayah_notes" class="form-control pb-2" rows="5" placeholder="Your speech will appear here..." :readonly="isListening"></textarea>
+                <textarea v-model="form.ayah_notes" class="form-control pb-2" rows="5"
+                  placeholder="Your speech will appear here..." :readonly="isListening"></textarea>
               </div>
 
               <!-- Rich Text Editor Mode -->
-              <Editor v-if="inputMode === 'editor'" v-model="form.ayah_notes" editorStyle="height: 400px" name="ayah_notes" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></Editor>
+              <Editor v-if="inputMode === 'editor'" v-model="form.ayah_notes" editorStyle="height: 400px"
+                name="ayah_notes"
+                placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah.">
+              </Editor>
 
               <!-- Basic Mode -->
-              <textarea v-if="inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5" placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></textarea>
+              <textarea v-if="inputMode === 'basic'" v-model="form.ayah_notes" class="form-control pb-2" rows="5"
+                placeholder="Save your notes and personal reflections privately. Oftentimes your reflections can deeply resonate with your connection to the Quran, and your relationship with Allah."></textarea>
             </div>
 
             <!-- <div class="pt-3 pb-2" style="display: flex; align-items: center;">
@@ -88,6 +99,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Editor from 'primevue/editor';
 import { Modal } from 'bootstrap';
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../../../../utils/subscriptionUtils.js';
 
 export default {
   data() {
@@ -107,11 +119,27 @@ export default {
     Editor
   },
   mounted() {
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     initRecognition() {
       this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;

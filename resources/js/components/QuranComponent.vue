@@ -3,8 +3,9 @@
         <div class="pt-3 text-center">
             <Title />
 
-            <div style="display: flex" class="container align-items-center"></div>
-            <AdvancedSearch v-if="!isVisible" @input-change="handleInputChange" />
+            <div v-if="!isVisible">
+                <AdvancedSearch @input-change="handleInputChange" />
+            </div>
             <custom-surah-selection :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
 
 
@@ -14,6 +15,7 @@
                     <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" />
 
                     <div style="display: flex" class="row">
+
                         <AyahOfTheDay />
                         <SurahDropdown class="col-md-12 pt-2" :selectedSurah="selectedSurahId"
                             :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
@@ -110,24 +112,21 @@
                                     <div class="container text-center">
                                         <div
                                             class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
-                                            <!-- Advanced Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Advanced</span>
                                             </div>
-
-                                            <!-- Switch -->
                                             <div class="col">
                                                 <div
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
                                                     <input
-                                                        class="form-check-input h4 pr-5 shadow-lg text-center"
-                                                        style="color: #00bfa6; " type="checkbox"
-                                                        role="switch" id="flexSwitchCheckDefault" v-model="isVisible"
-                                                        @change="saveToggleState" />
+                                                        class="form-check-input pr-5 custom-switch shadow-lg text-center"
+                                                        style="
+                                                        border-color: #00bfa6;
+                                                        color: #00bfa6;
+                                                    " type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                                        v-model="isVisible" @change="saveToggleState" />
                                                 </div>
                                             </div>
-
-                                            <!-- Basic Label -->
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Basic</span>
                                             </div>
@@ -223,7 +222,7 @@
                                                                 aria-expanded="false" title="Bookmark verse"></i>
                                                         </div>
                                                         <!-- <div class="col desktop-icon"><ScreenTranslationCapture style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div> -->
-                                                        <!-- <div class="col" v-if="isVisible"><PdfDownload style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div>                 -->
+                                                        <!-- <div class="col" v-if="!isVisible"><PdfDownload style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div>                 -->
                                                         <!-- <div class="col"><VideoModal  @save-video-data="handleSave" /><i class="bi bi-play-circle h3" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#videoModal"></i></div> -->
                                                         <!-- <div class="col"><i class="bi bi-paint-bucket h2" data-bs-toggle="offcanvas" style="cursor:pointer" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i></div> -->
                                                         <div class="col desktop-icon">
@@ -283,9 +282,9 @@
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
                                                     " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                        " @toggle-audio="toggleAudioPlayback
-                                                            " @update-success-message="updateSuccessMessage
-                                                                " />
+                                                    " @toggle-audio="toggleAudioPlayback
+                                                    " @update-success-message="updateSuccessMessage
+                                                        " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -542,8 +541,8 @@
                                                     @clearHighlight="clearHighlight" @toggle-change="saveToggleState"
                                                     @toggle-full-screen="toggleFullScreen
                                                     " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
-                                                        " @toggle-audio="toggleAudioPlayback
-                                                            " />
+                                                    " @toggle-audio="toggleAudioPlayback
+                                                    " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -565,7 +564,7 @@
                                                         :targetTranslationRef="'targetTranslationElement'"
                                                         :translation="translation" @open-modal="openModal" @submit-form="submitFormTransliteration
                                                         " @toggle-audio="toggleAudioPlayback
-                                                            " :isPlaying="isPlaying" />
+                                                        " :isPlaying="isPlaying" />
                                                 </div>
                                             </div>
                                             <!-- end toolbar mobile -->
@@ -645,6 +644,7 @@ import AyahSelector from "./search/AyahSelector.vue";
 import SearchContent from "./content/searchContent.vue";
 import AyahOfTheDay from './translation/AyahOfTheDay.vue';
 import PrayerTimes from "./translation/PrayerTimes.vue";
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 
 
@@ -701,6 +701,18 @@ export default {
     },
 
     mounted() {
+        setTimeout(() => {
+            const { success, subscriptionType } = checkSubscriptionStatus();
+            if (success) {
+                this.isVisible = true; // Show premium features
+                if (subscriptionType) {
+                    this.showSuccessMessage = true; // Show success message
+                    setTimeout(() => {
+                        this.showSuccessMessage = false;
+                    }, 3000);
+                }
+            }
+        }, 500);
         const savedState = localStorage.getItem("toggleState");
         if (savedState !== null) {
             this.isVisible = JSON.parse(savedState);
@@ -732,7 +744,6 @@ export default {
             selectedTranslation: "", // Default translation
             selectedSurahId: 1,
             isDarkMode: false,
-            isVisible: false,
             showAudio: false,
             userIsLoggedIn: true,
             newThemeName: "",
@@ -753,6 +764,8 @@ export default {
             recognition: null,
             isListening: false,
             transcript: "",
+            isVisible: false, 
+            showSuccessMessage: false, // Controls visibility of success messag
             selectedStyle: null,
             defaultStyles: [
                 {
@@ -1020,6 +1033,12 @@ export default {
         },
     },
     methods: {
+        redirectToMonthlySubscription() {
+            redirectToSubscription('monthly');
+        },
+        redirectToYearlySubscription() {
+            redirectToSubscription('yearly');
+        },
         handleDarkModeChange(isDarkMode) {
             this.isDarkMode = isDarkMode;
         },
@@ -1304,15 +1323,20 @@ export default {
         toggleCollapse() {
             this.isCollapsed = !this.isCollapsed;
         },
-        openModal(modalId) {
-            const modalElement = this.$refs[modalId];
-            if (modalElement) {
-                const modalInstance =
-                    Modal.getInstance(modalElement) || new Modal(modalElement);
-                modalInstance.show();
-            } else {
-                console.error(`Modal reference '${modalId}' not found.`);
+        openModal(modalRef) {
+            // Ensure the ref exists
+            if (!this.$refs[modalRef]) {
+                console.error(`Modal reference '${modalRef}' not found.`);
+                return;
             }
+            const modalComponent = this.$refs[modalRef];
+            // Ensure the component has a `showModal` method
+            if (typeof modalComponent.showModal !== "function") {
+                console.error(`showModal is not a function in '${modalRef}'.`);
+                return;
+            }
+            // Call the `showModal` method
+            modalComponent.showModal();
         },
         showModal() {
             const modal = new bootstrap.Modal(
@@ -1948,7 +1972,7 @@ p {
     border: 1px solid #f5c6cb;
 }
 
-.form-switch {
+.custom-switch {
     width: 50px;
     height: 25px;
     background-color: #6c757d;
@@ -1957,7 +1981,7 @@ p {
 }
 
 .custom-switch:checked {
-    background-color: #0faa6f;
+    background-color: #0d6efd;
 }
 
 .custom-switch::before {

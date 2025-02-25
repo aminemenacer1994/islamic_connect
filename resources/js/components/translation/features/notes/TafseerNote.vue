@@ -14,11 +14,11 @@
                   <input class="form-check-input" type="radio" name="inputMode" id="basicMode" value="basic" v-model="inputMode">
                   <label class="form-check-label" for="basicMode">Basic</label>
                 </div>
-                <div class="col">
+                <div v-if="!isVisible" class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="audioMode" value="audio" v-model="inputMode">
                   <label class="form-check-label" for="audioMode">Audio Note Recording</label>
                 </div>
-                <div class="col">
+                <div v-if="!isVisible" class="col">
                   <input class="form-check-input" type="radio" name="inputMode" id="editorMode" value="editor" v-model="inputMode">
                   <label class="form-check-label" for="editorMode">Editor Keyboard</label>
                 </div>
@@ -90,6 +90,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Editor from 'primevue/editor';
 import { Modal } from 'bootstrap';
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../../../../utils/subscriptionUtils.js';
 
 export default {
   data() {
@@ -108,17 +109,34 @@ export default {
         ayah_info: ""
       },
       isAuthenticated: false,
+      isVisible:false,
     };
   },
   components: {
     Editor,
   },
   mounted() {
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     initRecognition() {
       if ('webkitSpeechRecognition' in window) {
         this.recognition = new webkitSpeechRecognition();

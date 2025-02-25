@@ -1,78 +1,69 @@
-// export const subscriptionService = {
-//   PAYMENT_LINKS: {
-//     monthly: 'https://buy.stripe.com/dR6fZC0BWd7ubvO8wz',
-//     yearly: 'https://buy.stripe.com/00g7t63O8d7uczS6os'
-//   },
+// Helper function to encode data
+function encodeData(data) {
+  return btoa(JSON.stringify(data));
+}
 
-//   getSubscriptionStatus() {
-//     try {
-//       const userId = localStorage.getItem('userId');
-//       if (!userId) return { isPremium: false };
+// Helper function to decode data
+function decodeData(encodedData) {
+  try {
+    return JSON.parse(atob(encodedData));
+  } catch (error) {
+    console.error('Error decoding subscription data:', error);
+    return null;
+  }
+}
 
-//       const subData = sessionStorage.getItem(`subData_${userId}`);
-//       if (!subData) return { isPremium: false };
+// Check subscription status
+export function checkSubscriptionStatus() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const subscriptionType = urlParams.get('subscription'); // Fixed typo
+  const timestamp = urlParams.get('timestamp');
 
-//       const data = JSON.parse(subData);
-//       const now = new Date();
-//       const expiryDate = new Date(data.expiryDate);
+  console.log('Query Params:', { subscriptionType, timestamp }); // Debug
 
-//       if (expiryDate < now) {
-//         sessionStorage.removeItem(`subData_${userId}`);
-//         return { isPremium: false };
-//       }
+  if (subscriptionType && timestamp) {
+    // Store subscription status in localStorage with expiration time
+    const expirationTime = subscriptionType === 'monthly' ? 30 * 24 * 60 * 60 * 1000 : 365 * 24 * 60 * 60 * 1000; // 30 days or 365 days
+    const subscriptionData = {
+      type: subscriptionType,
+      expiresAt: Date.now() + expirationTime,
+    };
 
-//       return {
-//         isPremium: true,
-//         expiryDate: data.expiryDate,
-//         plan: data.plan
-//       };
-//     } catch (error) {
-//       console.error('Error checking subscription:', error);
-//       return { isPremium: false };
-//     }
-//   },
+    console.log('Storing Subscription Data:', subscriptionData); // Debug
 
-//   redirectToPayment(plan) {
-//     // Save the return URL before redirecting
-//     const returnUrl = `${window.location.origin}/quran?status=success&plan=${plan}`;
-//     sessionStorage.setItem('subscriptionReturnUrl', returnUrl);
-    
-//     window.location.href = this.PAYMENT_LINKS[plan];
-//   },
+    // Encode subscription data to prevent tampering
+    localStorage.setItem('subscriptionData', encodeData(subscriptionData));
 
-//   async verifyPayment(sessionId) {
-//     // In a real application, you should verify the payment with Stripe
-//     // For now, we'll just return true
-//     return true;
-//   },
+    // Clear query parameters from URL
+    window.history.replaceState({}, document.title, window.location.pathname);
 
-//   activateSubscription(plan, durationInDays) {
-//     const userId = localStorage.getItem('userId');
-//     if (!userId) throw new Error('User not logged in');
+    // Return success status
+    return { success: true, subscriptionType };
+  } else {
+    // Check localStorage for existing subscription
+    const encodedData = localStorage.getItem('subscriptionData');
+    if (encodedData) {
+      const subscriptionData = decodeData(encodedData);
 
-//     const expiryDate = new Date();
-//     expiryDate.setDate(expiryDate.getDate() + durationInDays);
+      console.log('Retrieved Subscription Data:', subscriptionData); // Debug
 
-//     const subscriptionData = {
-//       status: 'active',
-//       plan: plan,
-//       expiryDate: expiryDate.toISOString(),
-//       userId: userId
-//     };
+      // Check if subscription has expired
+      if (subscriptionData && subscriptionData.expiresAt > Date.now()) {
+        return { success: true, subscriptionType: subscriptionData.type };
+      } else {
+        localStorage.removeItem('subscriptionData'); // Clear expired subscription
+      }
+    }
+  }
 
-//     sessionStorage.setItem(`subData_${userId}`, JSON.stringify(subscriptionData));
-//     return true;
-//   },
+  return { success: false };
+}
 
-//   handlePaymentReturn() {
-//     const params = new URLSearchParams(window.location.search);
-//     const status = params.get('status');
-//     const sessionId = params.get('session_id');
-//     const plan = params.get('plan');
-
-//     if (status === 'success' && sessionId) {
-//       return { success: true, sessionId, plan };
-//     }
-//     return { success: false };
-//   }
-// };
+// Redirect to subscription page
+export function redirectToSubscription(type) {
+  const successUrl = `${window.location.origin}?subscription=${type}&timestamp=${Date.now()}`;
+  const paymentLink = type === 'monthly'
+    ? 'https://buy.stripe.com/dR6fZC0BWd7ubvO8wz'
+    : 'https://buy.stripe.com/00g7t63O8d7uczS6os';
+  window.location.href = `${paymentLink}?success_url=${encodeURIComponent(successUrl)}`;
+}

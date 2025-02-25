@@ -31,7 +31,7 @@
                 <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
-              <div class="row collapse pt-3" id="collapseExample">
+              <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
                   <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                     <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -44,24 +44,11 @@
                   </button>
                 </div>
               </div>
-              <!-- <div class="text-left count word-count pt-4">
-                <h6 class="text-left mt-3">
-                  <img
-                    src="/images/art.png"
-                    class="pr-2"
-                    width="30px"
-                    alt="lamp"
-                    loading="lazy"
-                  />
-                  <strong>Total Word count: </strong>{{ wordCount }}
-                </h6>
-              </div> -->
-
             </div>
           </div>
 
           <!-- Icons Column (Stacked Vertically) -->
-          <div class="col-2 d-flex align-items-center justify-content-center flex-column">
+          <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
             <!-- Play/Pause Button -->
             <i @click="toggleSpeech" :class="[
               'bi',
@@ -108,6 +95,8 @@ import { saveAs } from "file-saver";
 import Papa from "papaparse";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import SpeechSettings from "./settings/SpeechSettings.vue";
+import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
+
 
 export default {
   name: "TafseerSection",
@@ -157,6 +146,7 @@ export default {
   },
   data() {
     return {
+      isVisible: false, // Controls visibility of premium features
       renderedText: "",
       summary: "", // Generated summary
       error: "", // Error message
@@ -214,6 +204,16 @@ export default {
 
   },
   mounted() {
+    const { success, subscriptionType } = checkSubscriptionStatus();
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(() => {
+          this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.fetchTafseer(this.information.ayah.id);
     this.renderedText = this.tafseer;
     this.clearHighlight();
@@ -243,7 +243,12 @@ export default {
     };
   },
   methods: {
-
+    redirectToMonthlySubscription() {
+      redirectToSubscription('monthly');
+    },
+    redirectToYearlySubscription() {
+      redirectToSubscription('yearly');
+    },
     toggleIcon(event) {
       const icon = event.target;
       icon.classList.toggle("bi-arrow-down-circle-fill");

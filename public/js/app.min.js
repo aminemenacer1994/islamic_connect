@@ -29601,82 +29601,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
-      hadiths: [],
-      loading: false,
-      error: null,
-      selectedCollection: 'bukhari',
-      // Default collection
-      selectedLanguage: 'en',
-      // Default language
-      apiKey: '$2y$10$O2e0IlTPAMpfpY7zy0zLvBvipsM7evZegPO7rywNayxsglQHE1u' // Your API Key
-    };
-  },
-  created: function created() {
-    var _this = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return _this.fetchHadiths();
-          case 2:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee);
-    }))();
-  },
-  methods: {
-    fetchHadiths: function fetchHadiths() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _this2.loading = true;
-              _this2.error = null;
-              _context2.prev = 2;
-              _context2.next = 5;
-              return fetch("http://localhost:8000/api/hadiths?collection=".concat(_this2.selectedCollection, "&language=").concat(_this2.selectedLanguage));
-            case 5:
-              response = _context2.sent;
-              if (response.ok) {
-                _context2.next = 8;
-                break;
-              }
-              throw new Error("Failed to fetch Hadith data: ".concat(response.status, " ").concat(response.statusText));
-            case 8:
-              _context2.next = 10;
-              return response.json();
-            case 10:
-              data = _context2.sent;
-              _this2.hadiths = data.hadiths || [];
-              _context2.next = 18;
-              break;
-            case 14:
-              _context2.prev = 14;
-              _context2.t0 = _context2["catch"](2);
-              _this2.error = "An error occurred while fetching Hadith data.";
-              console.error("API Error:", _context2.t0);
-            case 18:
-              _context2.prev = 18;
-              _this2.loading = false;
-              return _context2.finish(18);
-            case 21:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[2, 14, 18, 21]]);
-      }))();
-    }
+    return {};
   }
 });
 
@@ -30780,12 +30708,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   methods: {
     redirectToMonthlySubscription: function redirectToMonthlySubscription() {
-      // Replace with your Stripe Payment Link for monthly subscription
-      window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
+      var successUrl = "".concat(window.location.origin, "?subscription=monthly&timestamp=").concat(Date.now());
+      window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz?success_url=".concat(encodeURIComponent(successUrl));
     },
     redirectToYearlySubscription: function redirectToYearlySubscription() {
-      // Replace with your Stripe Payment Link for yearly subscription
-      window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
+      var successUrl = "".concat(window.location.origin, "?subscription=yearly&timestamp=").concat(Date.now());
+      window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os?success_url=".concat(encodeURIComponent(successUrl));
     },
     redirectToRegister: function redirectToRegister() {
       location.assign("/register");
@@ -30797,7 +30725,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this2.amount <= 0)) {
+              if (!(_this2.amount <= 1)) {
                 _context.next = 3;
                 break;
               }
@@ -30896,6 +30824,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _content_searchContent_vue__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./content/searchContent.vue */ "./resources/js/components/content/searchContent.vue");
 /* harmony import */ var _translation_AyahOfTheDay_vue__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./translation/AyahOfTheDay.vue */ "./resources/js/components/translation/AyahOfTheDay.vue");
 /* harmony import */ var _translation_PrayerTimes_vue__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./translation/PrayerTimes.vue */ "./resources/js/components/translation/PrayerTimes.vue");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
 var _methods;
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -30943,6 +30872,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 // import PdfDownload from './pdf/PdfDownload.vue'
 // import PdfDownloadTafsser from './pdf/PdfDownloadTafsser.vue'
 // import PdfDownloadTransliteration from './pdf/PdfDownloadTransliteration.vue'
+
 
 
 
@@ -31003,6 +30933,21 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_39__["default"]
   },
   mounted: function mounted() {
+    var _this = this;
+    setTimeout(function () {
+      var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_44__.checkSubscriptionStatus)(),
+        success = _checkSubscriptionSta.success,
+        subscriptionType = _checkSubscriptionSta.subscriptionType;
+      if (success) {
+        _this.isVisible = true; // Show premium features
+        if (subscriptionType) {
+          _this.showSuccessMessage = true; // Show success message
+          setTimeout(function () {
+            _this.showSuccessMessage = false;
+          }, 3000);
+        }
+      }
+    }, 500);
     var savedState = localStorage.getItem("toggleState");
     if (savedState !== null) {
       this.isVisible = JSON.parse(savedState);
@@ -31039,7 +30984,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       // Default translation
       selectedSurahId: 1,
       isDarkMode: false,
-      isVisible: false,
       showAudio: false,
       userIsLoggedIn: true,
       newThemeName: "",
@@ -31050,7 +30994,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       searchTerm: "",
       results: [],
       filteredResults: []
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "selectedSurah", null), "selectedAyah", null), "selectedTafseer", null), "userId", null), "bookmarkSubmitted", false), "selectedFolderId", null), "isVisible1", false), "isOpen", false), "recognition", null), "isListening", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "transcript", ""), "selectedStyle", null), "defaultStyles", [{
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "selectedSurah", null), "selectedAyah", null), "selectedTafseer", null), "userId", null), "bookmarkSubmitted", false), "selectedFolderId", null), "isVisible1", false), "isOpen", false), "recognition", null), "isListening", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "transcript", ""), "isVisible", false), "showSuccessMessage", false), "selectedStyle", null), "defaultStyles", [{
       name: "Default",
       backgroundColor: "#ffffff",
       iconColor: "#000000",
@@ -31123,17 +31067,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       textColor: "#000",
       backgroundColor: "#fff",
       iconColor: "#000000"
-    }), "fontFamily", "Arial, sans-serif"), "fontSize", 16), "fontSpacing", 0), "selectedShadow", "none"), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isBold", false), "isItalic", false), "isLight", false), "isUnderline", false), "isStrikethrough", false), "textTransform", "none"), "textAlign", "left"), "showSuccessMessage", false), "isCollapsed", false), "showSuccessMessage", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "showMessage", false), "message", "Theme has been applied successfully!"), "filteredSurah", []), "information", {
+    }), "fontFamily", "Arial, sans-serif"), "fontSize", 16), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "fontSpacing", 0), "selectedShadow", "none"), "isBold", false), "isItalic", false), "isLight", false), "isUnderline", false), "isStrikethrough", false), "textTransform", "none"), "textAlign", "left"), "showSuccessMessage", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isCollapsed", false), "showSuccessMessage", false), "showMessage", false), "message", "Theme has been applied successfully!"), "filteredSurah", []), "information", {
       translation: "",
       transliteration: "" // Example translated text
-    }), "selectedSurahIndex", null), "tafseer", ""), "customSuratList", []), "selectedSurahId", null), "selectedAyahId", 0), "data", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "surat", []), "ayat", []), "tafseers", []), "currentSurah", null), "currentVerse", null), "currentTafseer", ""), "information", null), "tafseer", null), "surah", null), "ayah_id", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "surat", 0), "selectedIndexAyah", 0), "expanded", false), "isFullScreen", false), "touchStartX", 0), "touchStartY", 0), "touchEndX", 0), "touchEndY", 0), "tapThreshold", 10), "swipeThreshold", 100), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isLoggedIn", false), "showClearButton", false), "searchTerm", ""), "filteredSurah", []), "isCardVisible", false), "selectedIndexAyah", -1), "selectedIndexAyah", null), "selectedAyah", null), "dropdownHidden", true), "verseNumber", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "showError", false), "showAlert1", false), "showAlertText", false), "showAlert", false), "showErrorAlert", false), "showAlertTextNote", false), "maxLength", 400), "alertMessage", ""), "alertType", ""), "form", new Form({
+    }), "selectedSurahIndex", null), "tafseer", ""), "customSuratList", []), "selectedSurahId", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "selectedAyahId", 0), "data", []), "surat", []), "ayat", []), "tafseers", []), "currentSurah", null), "currentVerse", null), "currentTafseer", ""), "information", null), "tafseer", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "surah", null), "ayah_id", null), "surat", 0), "selectedIndexAyah", 0), "expanded", false), "isFullScreen", false), "touchStartX", 0), "touchStartY", 0), "touchEndX", 0), "touchEndY", 0), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "tapThreshold", 10), "swipeThreshold", 100), "isLoggedIn", false), "showClearButton", false), "searchTerm", ""), "filteredSurah", []), "isCardVisible", false), "selectedIndexAyah", -1), "selectedIndexAyah", null), "selectedAyah", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "dropdownHidden", true), "verseNumber", null), "showError", false), "showAlert1", false), "showAlertText", false), "showAlert", false), "showErrorAlert", false), "showAlertTextNote", false), "maxLength", 400), "alertMessage", ""), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "alertType", ""), "form", new Form({
       id: "",
       name: "",
       email: "",
       mistake_type: "",
       added_notes: "",
       ayah_num: ""
-    })), _defineProperty(_defineProperty(_ref, "searchFilters", new Form({
+    })), "searchFilters", new Form({
       name_en: "",
       name_ar: ""
     })), "loading", false);
@@ -31187,6 +31131,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   methods: (_methods = {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_44__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_44__.redirectToSubscription)('yearly');
+    },
     handleDarkModeChange: function handleDarkModeChange(isDarkMode) {
       this.isDarkMode = isDarkMode;
     },
@@ -31204,7 +31154,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     // Fetch all Surahs
     fetchSurahs: function fetchSurahs() {
-      var _this = this;
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -31225,7 +31175,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 8:
               data = _context.sent;
-              _this.surahs = data.data;
+              _this2.surahs = data.data;
               _context.next = 15;
               break;
             case 12:
@@ -31240,7 +31190,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }))();
     },
     fetchReciters: function fetchReciters() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -31261,7 +31211,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 8:
               data = _context2.sent;
-              _this2.reciters = data.data.filter(function (reciter) {
+              _this3.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -31284,7 +31234,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     // Fetch all Translations
     fetchTranslations: function fetchTranslations() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -31305,7 +31255,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 8:
               data = _context3.sent;
-              _this3.translations = data.data;
+              _this4.translations = data.data;
               _context3.next = 15;
               break;
             case 12:
@@ -31320,13 +31270,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this4 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var response, data, arabicText, translation;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              if (_this4.selectedSurah) {
+              if (_this5.selectedSurah) {
                 _context4.next = 2;
                 break;
               }
@@ -31334,7 +31284,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             case 2:
               _context4.prev = 2;
               _context4.next = 5;
-              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this4.selectedSurah, "/editions/").concat(_this4.selectedReciter, ",").concat(_this4.selectedTranslation));
+              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this5.selectedSurah, "/editions/").concat(_this5.selectedReciter, ",").concat(_this5.selectedTranslation));
             case 5:
               response = _context4.sent;
               if (response.ok) {
@@ -31349,8 +31299,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               data = _context4.sent;
               arabicText = data.data[0];
               translation = data.data[1];
-              _this4.surahDetails = {
-                surahNumber: _this4.selectedSurah,
+              _this5.surahDetails = {
+                surahNumber: _this5.selectedSurah,
                 englishName: arabicText.englishName,
                 name: arabicText.name,
                 ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -31391,10 +31341,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.$refs.translationSection.highlightText(charIndex, currentWord);
     },
     clearHighlight: function clearHighlight() {
-      var _this5 = this;
+      var _this6 = this;
       this.$nextTick(function () {
-        if (_this5.currentAyah && _this5.currentAyah.translation) {
-          _this5.renderedText = "<span>".concat(_this5.currentAyah.translation, "</span>");
+        if (_this6.currentAyah && _this6.currentAyah.translation) {
+          _this6.renderedText = "<span>".concat(_this6.currentAyah.translation, "</span>");
         }
       });
     },
@@ -31476,7 +31426,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       alert("Selected item: ".concat(selectedItem));
     },
     submitForm: function submitForm() {
-      var _this6 = this;
+      var _this7 = this;
       var formData = {
         surah_name: this.information.ayah.surah.name_en,
         ayah_num: this.information.ayah_id,
@@ -31486,20 +31436,20 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       };
       axios.post("/bookmarks", formData).then(function (response) {
         // Successfully bookmarked
-        _this6.showAlert = true;
-        _this6.alertMessage = "Ayah bookmarked successfully!";
-        _this6.alertType = "success"; // Success alert for logged-in users
-        localStorage.setItem("bookmarkSubmitted_".concat(_this6.information.ayah_id), true);
-        _this6.hideAlertAfterDelay();
+        _this7.showAlert = true;
+        _this7.alertMessage = "Ayah bookmarked successfully!";
+        _this7.alertType = "success"; // Success alert for logged-in users
+        localStorage.setItem("bookmarkSubmitted_".concat(_this7.information.ayah_id), true);
+        _this7.hideAlertAfterDelay();
       })["catch"](function (error) {
         // Error during bookmark submission
         console.error("Error submitting bookmark:", error);
-        _this6.showErrorAlert = true; // Danger alert for request failure
-        _this6.hideAlertAfterDelayError();
+        _this7.showErrorAlert = true; // Danger alert for request failure
+        _this7.hideAlertAfterDelayError();
       });
     },
     submitFormTafseer: function submitFormTafseer() {
-      var _this7 = this;
+      var _this8 = this;
       var formData1 = {
         surah_name: this.information.ayah.surah.name_en,
         ayah_num: this.information.ayah_id,
@@ -31508,29 +31458,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         user_id: this.userId
       };
       axios.post("/bookmarks", formData1).then(function (response) {
-        _this7.showAlert = true;
-        _this7.alertMessage = "Tafseer bookmarked successfully!";
-        _this7.alertType = "success";
-        localStorage.setItem("bookmarkSubmitted_".concat(_this7.information.ayah_id), true);
-        _this7.hideAlertAfterDelay();
-      })["catch"](function (error) {
-        console.error("Error submitting bookmark:", error);
-        _this7.showErrorAlert = true;
-        _this7.hideAlertAfterDelayError();
-      });
-    },
-    submitFormTransliteration: function submitFormTransliteration() {
-      var _this8 = this;
-      var formData2 = {
-        surah_name: this.information.ayah.surah.name_en,
-        ayah_num: this.information.ayah_id,
-        ayah_verse_ar: this.information.ayah.ayah_text,
-        ayah_verse_en: this.information.transliteration,
-        user_id: this.userId
-      };
-      axios.post("/bookmarks", formData2).then(function (response) {
         _this8.showAlert = true;
-        _this8.alertMessage = "Transliteration bookmarked successfully!";
+        _this8.alertMessage = "Tafseer bookmarked successfully!";
         _this8.alertType = "success";
         localStorage.setItem("bookmarkSubmitted_".concat(_this8.information.ayah_id), true);
         _this8.hideAlertAfterDelay();
@@ -31540,23 +31469,44 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         _this8.hideAlertAfterDelayError();
       });
     },
-    hideAlertAfterDelay: function hideAlertAfterDelay() {
+    submitFormTransliteration: function submitFormTransliteration() {
       var _this9 = this;
+      var formData2 = {
+        surah_name: this.information.ayah.surah.name_en,
+        ayah_num: this.information.ayah_id,
+        ayah_verse_ar: this.information.ayah.ayah_text,
+        ayah_verse_en: this.information.transliteration,
+        user_id: this.userId
+      };
+      axios.post("/bookmarks", formData2).then(function (response) {
+        _this9.showAlert = true;
+        _this9.alertMessage = "Transliteration bookmarked successfully!";
+        _this9.alertType = "success";
+        localStorage.setItem("bookmarkSubmitted_".concat(_this9.information.ayah_id), true);
+        _this9.hideAlertAfterDelay();
+      })["catch"](function (error) {
+        console.error("Error submitting bookmark:", error);
+        _this9.showErrorAlert = true;
+        _this9.hideAlertAfterDelayError();
+      });
+    },
+    hideAlertAfterDelay: function hideAlertAfterDelay() {
+      var _this10 = this;
       setTimeout(function () {
-        _this9.showAlert = false;
+        _this10.showAlert = false;
       }, 3000); // Hide the alert after 3 seconds
     },
     hideAlertAfterDelayError: function hideAlertAfterDelayError() {
-      var _this10 = this;
+      var _this11 = this;
       setTimeout(function () {
-        _this10.showErrorAlert = false;
+        _this11.showErrorAlert = false;
       }, 3000); // Hide the alert after 3 seconds
     },
     toggleAdvancedSearch: function toggleAdvancedSearch() {
       this.isAdvancedSearchVisible = !this.isAdvancedSearchVisible; // Toggle the visibility
     }
   }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "fetchSurahs", function fetchSurahs() {
-    var _this11 = this;
+    var _this12 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
       var response;
       return _regeneratorRuntime().wrap(function _callee6$(_context6) {
@@ -31570,7 +31520,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             _context6.next = 6;
             return response.json();
           case 6:
-            _this11.surat = _context6.sent;
+            _this12.surat = _context6.sent;
             _context6.next = 12;
             break;
           case 9:
@@ -31589,14 +31539,20 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.isOpen = !this.isOpen; // Toggle the content's visibility
   }), "toggleCollapse", function toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
-  }), "openModal", function openModal(modalId) {
-    var modalElement = this.$refs[modalId];
-    if (modalElement) {
-      var modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
-      modalInstance.show();
-    } else {
-      console.error("Modal reference '".concat(modalId, "' not found."));
+  }), "openModal", function openModal(modalRef) {
+    // Ensure the ref exists
+    if (!this.$refs[modalRef]) {
+      console.error("Modal reference '".concat(modalRef, "' not found."));
+      return;
     }
+    var modalComponent = this.$refs[modalRef];
+    // Ensure the component has a `showModal` method
+    if (typeof modalComponent.showModal !== "function") {
+      console.error("showModal is not a function in '".concat(modalRef, "'."));
+      return;
+    }
+    // Call the `showModal` method
+    modalComponent.showModal();
   }), "showModal", function showModal() {
     var modal = new bootstrap.Modal(document.getElementById("styleModal"));
     modal.show();
@@ -31619,7 +31575,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.iconColor = savediconColor;
     }
   }), "applyCustomStyles", function applyCustomStyles() {
-    var _this12 = this;
+    var _this13 = this;
     var settings = {
       bgColor: this.bgColor,
       textColor: this.textColor,
@@ -31647,7 +31603,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // Apply icon color to all icons
     var icons = this.$el.querySelectorAll("i");
     icons.forEach(function (icon) {
-      icon.style.color = _this12.iconColor;
+      icon.style.color = _this13.iconColor;
     });
 
     // Save settings to localStorage
@@ -31658,7 +31614,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
     this.showSuccessMessage = true;
     setTimeout(function () {
-      _this12.showSuccessMessage = false;
+      _this13.showSuccessMessage = false;
 
       // Find the modal element
       var modalElement = document.getElementById("styleModal");
@@ -31673,22 +31629,22 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       modalInstance.hide();
     }, 3000);
   }), "applyStylesToCards", function applyStylesToCards() {
-    var _this13 = this;
+    var _this14 = this;
     // Example of applying styles to card elements
     var cards = document.querySelectorAll(".card");
     cards.forEach(function (card) {
-      card.style.backgroundColor = _this13.bgColor;
-      card.style.color = _this13.textColor;
-      card.style.fontFamily = _this13.fontFamily;
-      card.style.fontSize = "".concat(_this13.fontSize, "px");
-      card.style.letterSpacing = "".concat(_this13.fontSpacing, "px");
-      card.style.fontWeight = _this13.isBold ? "bold" : _this13.isLight ? "300" : "normal";
-      card.style.fontStyle = _this13.isItalic ? "italic" : "normal";
-      card.style.textShadow = _this13.selectedShadow;
-      card.style.textDecoration = _this13.isUnderline ? "underline" : _this13.isStrikethrough ? "line-through" : "none";
-      card.style.textTransform = _this13.textTransform;
-      card.style.textAlign = _this13.textAlign;
-      card.style.iconColor = _this13.iconColor;
+      card.style.backgroundColor = _this14.bgColor;
+      card.style.color = _this14.textColor;
+      card.style.fontFamily = _this14.fontFamily;
+      card.style.fontSize = "".concat(_this14.fontSize, "px");
+      card.style.letterSpacing = "".concat(_this14.fontSpacing, "px");
+      card.style.fontWeight = _this14.isBold ? "bold" : _this14.isLight ? "300" : "normal";
+      card.style.fontStyle = _this14.isItalic ? "italic" : "normal";
+      card.style.textShadow = _this14.selectedShadow;
+      card.style.textDecoration = _this14.isUnderline ? "underline" : _this14.isStrikethrough ? "line-through" : "none";
+      card.style.textTransform = _this14.textTransform;
+      card.style.textAlign = _this14.textAlign;
+      card.style.iconColor = _this14.iconColor;
     });
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "loadSavedStyles", function loadSavedStyles() {
     var savedSettings = JSON.parse(localStorage.getItem("textStyles"));
@@ -31757,9 +31713,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.selectedSurah = surah.id;
     this.filteredSurah = []; // Hide the search results list
   }), "handleScrollToAyah", function handleScrollToAyah(verseNumber) {
-    var _this14 = this;
+    var _this15 = this;
     this.$nextTick(function () {
-      var ayahElement = _this14.$refs.ayahContainer.querySelector("#ayah-".concat(verseNumber));
+      var ayahElement = _this15.$refs.ayahContainer.querySelector("#ayah-".concat(verseNumber));
       if (ayahElement) {
         ayahElement.scrollIntoView({
           behavior: "smooth"
@@ -31771,9 +31727,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   }), "toggleExpand", function toggleExpand() {
     this.expanded = !this.expanded;
   }), "getSelectedSurahAyat", function getSelectedSurahAyat() {
-    var _this15 = this;
+    var _this16 = this;
     var surahData = this.surat.find(function (surah) {
-      return surah.id === parseInt(_this15.surah);
+      return surah.id === parseInt(_this16.surah);
     });
     return surahData ? surahData.ayat : [];
     if (this.surat[this.surah]) {
@@ -31873,7 +31829,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     };
     axios.post("/submit_category", formData);
   }), "scrollToAyah", function scrollToAyah() {
-    var _this16 = this;
+    var _this17 = this;
     var verseNum = parseInt(this.verseNumber);
     if (!isNaN(verseNum) && verseNum >= 1 && verseNum <= this.ayat.length) {
       var ayahElement = this.$refs.ayahList.querySelectorAll("li")[verseNum - 1];
@@ -31886,11 +31842,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     } else {
       this.showError = true;
       setTimeout(function () {
-        _this16.showError = false;
+        _this17.showError = false;
       }, 5000);
     }
   }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "getSurat", function getSurat() {
-    var _this17 = this;
+    var _this18 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
       var response;
       return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -31902,7 +31858,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           case 3:
             response = _context7.sent;
             // Ensure this URL is correct
-            _this17.surat = response.data;
+            _this18.surat = response.data;
             _context7.next = 10;
             break;
           case 7:
@@ -31916,13 +31872,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }, _callee7, null, [[0, 7]]);
     }))();
   }), "getAyat", function getAyat() {
-    var _this18 = this;
+    var _this19 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
       var response;
       return _regeneratorRuntime().wrap(function _callee8$(_context8) {
         while (1) switch (_context8.prev = _context8.next) {
           case 0:
-            if (!(_this18.selectedSurahId > 0)) {
+            if (!(_this19.selectedSurahId > 0)) {
               _context8.next = 16;
               break;
             }
@@ -31930,27 +31886,27 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             _context8.next = 4;
             return axios.get("/get_ayat", {
               params: {
-                surah_id: _this18.selectedSurahId
+                surah_id: _this19.selectedSurahId
               }
             });
           case 4:
             response = _context8.sent;
-            _this18.ayat = response.data;
-            _this18.dropdownHidden = false; // Show Ayah dropdown after fetching
+            _this19.ayat = response.data;
+            _this19.dropdownHidden = false; // Show Ayah dropdown after fetching
             _context8.next = 14;
             break;
           case 9:
             _context8.prev = 9;
             _context8.t0 = _context8["catch"](1);
             console.error("Error fetching ayat:", _context8.t0);
-            _this18.ayat = []; // Clear ayat on error
-            _this18.dropdownHidden = true; // Hide Ayah dropdown
+            _this19.ayat = []; // Clear ayat on error
+            _this19.dropdownHidden = true; // Hide Ayah dropdown
           case 14:
             _context8.next = 18;
             break;
           case 16:
-            _this18.ayat = [];
-            _this18.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
+            _this19.ayat = [];
+            _this19.dropdownHidden = true; // Hide Ayah dropdown if no Surah is selected
           case 18:
           case "end":
             return _context8.stop();
@@ -31958,14 +31914,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       }, _callee8, null, [[1, 9]]);
     }))();
   }), "handleAyahChange", function handleAyahChange() {
-    var _this19 = this;
+    var _this20 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
       var selectedAyahIndex, selectedAyah, ayahId, tafseerResponse, infoResponse;
       return _regeneratorRuntime().wrap(function _callee9$(_context9) {
         while (1) switch (_context9.prev = _context9.next) {
           case 0:
-            selectedAyahIndex = parseInt(_this19.selectedAyahId);
-            selectedAyah = _this19.ayat[selectedAyahIndex];
+            selectedAyahIndex = parseInt(_this20.selectedAyahId);
+            selectedAyah = _this20.ayat[selectedAyahIndex];
             if (!selectedAyah) {
               _context9.next = 18;
               break;
@@ -31976,7 +31932,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             return axios.get("/tafseer/".concat(ayahId, "/fetch"));
           case 7:
             tafseerResponse = _context9.sent;
-            _this19.tafseer = tafseerResponse.data;
+            _this20.tafseer = tafseerResponse.data;
             _context9.next = 11;
             return axios.get("/get_informations", {
               params: {
@@ -31985,7 +31941,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             });
           case 11:
             infoResponse = _context9.sent;
-            _this19.information = infoResponse.data;
+            _this20.information = infoResponse.data;
             _context9.next = 18;
             break;
           case 15:
@@ -32012,35 +31968,35 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.scrollToSelectedAyah();
     this.getTafseers(this.ayat[index].id, index);
   }), "scrollToSelectedAyah", function scrollToSelectedAyah() {
-    var _this20 = this;
+    var _this21 = this;
     this.$nextTick(function () {
-      var selectedAyah = _this20.$refs.ayahList.querySelector(".selected");
+      var selectedAyah = _this21.$refs.ayahList.querySelector(".selected");
       if (selectedAyah) {
         selectedAyah.scrollIntoView({
           behavior: "smooth"
         });
       } else {
         // Display error alert if no ayah is selected
-        _this20.showError = true;
+        _this21.showError = true;
         // Automatically dismiss the alert after 5 seconds
         setTimeout(function () {
-          _this20.dismissError();
+          _this21.dismissError();
         }, 1000);
       }
     });
   }), "determineNextAyah", function determineNextAyah() {
-    var _this21 = this;
+    var _this22 = this;
     var currentIndex = this.ayat.findIndex(function (ayah) {
-      return ayah.id === _this21.selectedAyah.id;
+      return ayah.id === _this22.selectedAyah.id;
     });
     if (currentIndex !== -1 && currentIndex < this.ayat.length - 1) {
       return this.ayat[currentIndex + 1];
     }
     return null;
   }), "determinePreviousAyah", function determinePreviousAyah() {
-    var _this22 = this;
+    var _this23 = this;
     var currentIndex = this.ayat.findIndex(function (ayah) {
-      return ayah.id === _this22.selectedAyah.id;
+      return ayah.id === _this23.selectedAyah.id;
     });
     if (currentIndex > 0) {
       return this.ayat[currentIndex - 1];
@@ -32050,14 +32006,14 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.ayat = this.fetchAyatForSurah(this.surah); // Replace with actual logic
     this.selectedAyah = this.ayat.length > 0 ? "0" : "0"; // Select the first ayah
   }), _defineProperty(_defineProperty(_defineProperty(_methods, "selectSurah", function selectSurah(surahId) {
-    var _this23 = this;
+    var _this24 = this;
     this.surah = surahId;
     this.searchTerm = "";
     this.filteredSurah = [];
     this.showClearButton = false;
     this.getAyat();
     this.$nextTick(function () {
-      _this23.autoHighlightFirstAyah();
+      _this24.autoHighlightFirstAyah();
     });
   }), "autoHighlightFirstAyah", function autoHighlightFirstAyah() {
     if (this.ayat.length > 0) {
@@ -33024,6 +32980,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
 /* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -33031,6 +32988,7 @@ function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+
 
 
 
@@ -33085,6 +33043,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   data: function data() {
     var _ref;
     return _ref = {
+      isVisible: false,
+      // Controls visibility of premium features
       renderedText: "",
       summary: "",
       // Generated summary
@@ -33118,6 +33078,18 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   //  },
 }), "mounted", function mounted() {
   var _this = this;
+  var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.checkSubscriptionStatus)(),
+    success = _checkSubscriptionSta.success,
+    subscriptionType = _checkSubscriptionSta.subscriptionType;
+  if (success) {
+    this.isVisible = true; // Show premium features
+    if (subscriptionType) {
+      this.showSuccessMessage = true; // Show success message
+      setTimeout(function () {
+        _this.showSuccessMessage = false;
+      }, 3000);
+    }
+  }
   this.fetchTafseer(this.information.ayah.id);
   this.renderedText = this.tafseer;
   this.clearHighlight();
@@ -33145,6 +33117,12 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     _this.voicesLoaded = true; // Set a flag to confirm voices are loaded
   };
 }), "methods", _defineProperty(_defineProperty({
+  redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+    (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.redirectToSubscription)('monthly');
+  },
+  redirectToYearlySubscription: function redirectToYearlySubscription() {
+    (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.redirectToSubscription)('yearly');
+  },
   toggleIcon: function toggleIcon(event) {
     var icon = event.target;
     icon.classList.toggle("bi-arrow-down-circle-fill");
@@ -33984,14 +33962,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
 /* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
 var _methods;
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
@@ -34000,6 +33979,7 @@ function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+
 
 
 
@@ -34123,14 +34103,28 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "offcanvasInstance", null), "isLoading", false), "selectedVoice", null), "selectedVoiceName", ''), "summary", ""), "error", ""), "loading", false), "API_TOKEN", "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"), "BASE_URL", "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"), "isAuthenticated", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "userId", null), "successMessage", ""), "isSwipeEnabled", true), "swipeDisabled", false), "touchStartX", 0), "touchStartY", 0), "expanded", false), "renderedText", ""), "selectedFormat", "Select a format"), "fontSize", parseFloat(localStorage.getItem('ayahFontSize')) || 1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "holdTimeout", null), "holdDuration", 1000), "tapCount", 0), "lastTap", 0), "lastTapTime", 0), "doubleTapThreshold", 300), "isHolding", false), "tapTimeout", null), "isPaused", false), "isReading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isAudioPlaying", false), "resetDisabled", true), "utterance", null), "successMessage", false), "words", this.information.translation.split(" ")), "text", this.information.translation), "currentWordIndex", -1), "ayahAudio", null), "ayahId", 1), "data", []), _defineProperty(_defineProperty(_defineProperty(_ref, "surat", []), "ayat", []), "tafseers", []);
   },
   mounted: function mounted() {
+    var _this = this;
+    var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.checkSubscriptionStatus)(),
+      success = _checkSubscriptionSta.success,
+      subscriptionType = _checkSubscriptionSta.subscriptionType;
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(function () {
+          _this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.renderedText = this.information.translation;
     this.clearHighlight();
     this.stopReading();
     this.$emit("ayah-text", this.information.ayah.ayah_text);
-    // this.voices = speechSynthesis.getVoices();
-    // if (this.voices.length > 0) {
-    //   this.selectedVoiceName = this.voices[0].name;
-    // }
+    this.voices = speechSynthesis.getVoices();
+    if (this.voices.length > 0) {
+      this.selectedVoiceName = this.voices[0].name;
+    }
+
     // Load saved settings from local storage
     var savedFontSize = localStorage.getItem('fontSize');
     if (savedFontSize) {
@@ -34140,6 +34134,12 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     }
   },
   methods: (_methods = {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.redirectToSubscription)('yearly');
+    },
     toggleIcon: function toggleIcon(event) {
       var icon = event.target;
       icon.classList.toggle('bi-arrow-down-circle-fill');
@@ -34192,9 +34192,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       link.click();
       document.body.removeChild(link);
     },
-    toggleVisibility: function toggleVisibility() {
-      this.isVisible = !this.isVisible;
-    },
     toggleSpeech: function toggleSpeech() {
       if (this.isReading) {
         if (this.isPaused) {
@@ -34214,7 +34211,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     },
     // Save settings to localStorage
     saveSettings: function saveSettings() {
-      var _this = this;
+      var _this2 = this;
       // Save settings to local storage
       localStorage.setItem('selectedVoice', JSON.stringify(this.selectedVoiceName));
       localStorage.setItem('rate', this.rate);
@@ -34223,7 +34220,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       this.successMessage = true;
       // Close the modal after a short delay
       setTimeout(function () {
-        _this.successMessage = false;
+        _this2.successMessage = false;
         var offcanvasElement = document.getElementById('offcanvasRight'); // Change to the correct element ID
         var offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
         if (offcanvasInstance) {
@@ -34232,25 +34229,25 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       }, 1000); // 1 second delay
     },
     clearSuccessMessage: function clearSuccessMessage() {
-      var _this2 = this;
+      var _this3 = this;
       setTimeout(function () {
-        _this2.successMessage = '';
+        _this3.successMessage = '';
       }, 3000); // Clear after 3 seconds
     },
     showSuccess: function showSuccess(message) {
-      var _this3 = this;
+      var _this4 = this;
       this.successMessage = message;
       // Clear message after 5 seconds
       setTimeout(function () {
-        _this3.successMessage = '';
+        _this4.successMessage = '';
       }, 3000);
     },
     clearHighlight: function clearHighlight() {
-      var _this4 = this;
+      var _this5 = this;
       // Force an update by resetting the content
       this.renderedText = ''; // Clear first to ensure reactivity
       this.$nextTick(function () {
-        _this4.renderedText = "<span>".concat(_this4.information.translation, "</span>");
+        _this5.renderedText = "<span>".concat(_this5.information.translation, "</span>");
       });
     },
     downloadAsCsv: function downloadAsCsv() {
@@ -34341,14 +34338,14 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       }
     },
     downloadAsWord: function downloadAsWord() {
-      var _this5 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this5$information, _this5$information2, _this5$information3, _this5$information4, _this5$information5;
-        var doc, _this5$information6, _this5$information7, blob, date, surahNum, ayahNum, filename;
+        var _this6$information, _this6$information2, _this6$information3, _this6$information4, _this6$information5;
+        var doc, _this6$information6, _this6$information7, blob, date, surahNum, ayahNum, filename;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              doc = new docx__WEBPACK_IMPORTED_MODULE_14__.Document({
+              doc = new docx__WEBPACK_IMPORTED_MODULE_15__.Document({
                 sections: [{
                   properties: {
                     page: {
@@ -34363,8 +34360,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                   },
                   children: [
                   // Title Section
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Quran Translation Document",
                       bold: true,
                       size: 48,
@@ -34378,8 +34375,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34389,8 +34386,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // surah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Surah:",
                       bold: true,
                       size: 32,
@@ -34404,9 +34401,9 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Surah Info
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
-                      text: "".concat((_this5$information = _this5.information) === null || _this5$information === void 0 || (_this5$information = _this5$information.ayah) === null || _this5$information === void 0 || (_this5$information = _this5$information.surah) === null || _this5$information === void 0 ? void 0 : _this5$information.name_en, " (").concat((_this5$information2 = _this5.information) === null || _this5$information2 === void 0 || (_this5$information2 = _this5$information2.ayah) === null || _this5$information2 === void 0 || (_this5$information2 = _this5$information2.surah) === null || _this5$information2 === void 0 ? void 0 : _this5$information2.name_ar, ")"),
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                      text: "".concat((_this6$information = _this6.information) === null || _this6$information === void 0 || (_this6$information = _this6$information.ayah) === null || _this6$information === void 0 || (_this6$information = _this6$information.surah) === null || _this6$information === void 0 ? void 0 : _this6$information.name_en, " (").concat((_this6$information2 = _this6.information) === null || _this6$information2 === void 0 || (_this6$information2 = _this6$information2.ayah) === null || _this6$information2 === void 0 || (_this6$information2 = _this6$information2.surah) === null || _this6$information2 === void 0 ? void 0 : _this6$information2.name_ar, ")"),
                       bold: false,
                       size: 28,
                       italics: false,
@@ -34419,8 +34416,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34430,8 +34427,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Ayah Number:",
                       bold: true,
                       size: 32,
@@ -34445,9 +34442,9 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
-                      text: "".concat((_this5$information3 = _this5.information) === null || _this5$information3 === void 0 || (_this5$information3 = _this5$information3.ayah) === null || _this5$information3 === void 0 ? void 0 : _this5$information3.ayah_id),
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                      text: "".concat((_this6$information3 = _this6.information) === null || _this6$information3 === void 0 || (_this6$information3 = _this6$information3.ayah) === null || _this6$information3 === void 0 ? void 0 : _this6$information3.ayah_id),
                       bold: false,
                       size: 28,
                       italics: false,
@@ -34461,8 +34458,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34472,8 +34469,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Ayah:",
                       bold: true,
                       size: 32,
@@ -34487,9 +34484,9 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Ayah Text
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
-                      text: (_this5$information4 = _this5.information) === null || _this5$information4 === void 0 || (_this5$information4 = _this5$information4.ayah) === null || _this5$information4 === void 0 ? void 0 : _this5$information4.ayah_text,
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                      text: (_this6$information4 = _this6.information) === null || _this6$information4 === void 0 || (_this6$information4 = _this6$information4.ayah) === null || _this6$information4 === void 0 ? void 0 : _this6$information4.ayah_text,
                       size: 28,
                       color: "333333",
                       rightToLeft: true // Enable RTL for Arabic text
@@ -34507,8 +34504,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     alignment: "RIGHT" // Right align Arabic text
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34518,8 +34515,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Tafseer Header
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Translation:",
                       bold: true,
                       size: 32,
@@ -34532,9 +34529,9 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Tafseer Content
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
-                      text: (_this5$information5 = _this5.information) === null || _this5$information5 === void 0 ? void 0 : _this5$information5.translation,
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
+                      text: (_this6$information5 = _this6.information) === null || _this6$information5 === void 0 ? void 0 : _this6$information5.translation,
                       size: 28,
                       color: "000000"
                     })],
@@ -34549,8 +34546,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -34560,8 +34557,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Translator Header
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Translator:",
                       bold: true,
                       size: 32,
@@ -34574,8 +34571,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                     }
                   }),
                   // Translator Content
-                  new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
                       text: "Ahmed Ali",
                       italics: false,
                       size: 28,
@@ -34591,23 +34588,23 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
               });
               _context.prev = 1;
               _context.next = 4;
-              return docx__WEBPACK_IMPORTED_MODULE_14__.Packer.toBlob(doc);
+              return docx__WEBPACK_IMPORTED_MODULE_15__.Packer.toBlob(doc);
             case 4:
               blob = _context.sent;
               // Generate a clean, ISO date string
               date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
               // Dynamically include Surah and Ayah numbers with fallbacks
-              surahNum = ((_this5$information6 = _this5.information) === null || _this5$information6 === void 0 || (_this5$information6 = _this5$information6.ayah) === null || _this5$information6 === void 0 || (_this5$information6 = _this5$information6.surah) === null || _this5$information6 === void 0 ? void 0 : _this5$information6.id) || "unknown_surah";
-              ayahNum = ((_this5$information7 = _this5.information) === null || _this5$information7 === void 0 || (_this5$information7 = _this5$information7.ayah) === null || _this5$information7 === void 0 ? void 0 : _this5$information7.ayah_id) || "unknown_ayah"; // Create a clean filename
+              surahNum = ((_this6$information6 = _this6.information) === null || _this6$information6 === void 0 || (_this6$information6 = _this6$information6.ayah) === null || _this6$information6 === void 0 || (_this6$information6 = _this6$information6.surah) === null || _this6$information6 === void 0 ? void 0 : _this6$information6.id) || "unknown_surah";
+              ayahNum = ((_this6$information7 = _this6.information) === null || _this6$information7 === void 0 || (_this6$information7 = _this6$information7.ayah) === null || _this6$information7 === void 0 ? void 0 : _this6$information7.ayah_id) || "unknown_ayah"; // Create a clean filename
               filename = "translation_doc_surah_".concat(surahNum, "_ayah_").concat(ayahNum, "_").concat(date, ".docx"); // Save the file
-              (0,file_saver__WEBPACK_IMPORTED_MODULE_12__.saveAs)(blob, filename);
+              (0,file_saver__WEBPACK_IMPORTED_MODULE_13__.saveAs)(blob, filename);
               _context.next = 16;
               break;
             case 12:
               _context.prev = 12;
               _context.t0 = _context["catch"](1);
               console.error("Failed to generate Word document:", _context.t0);
-              _this5.$emit("word-error", _context.t0);
+              _this6.$emit("word-error", _context.t0);
             case 16:
             case "end":
               return _context.stop();
@@ -34655,7 +34652,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       localStorage.setItem('ayahFontSize', this.fontSize); // Store font size in local storage
     },
     readTextAloud: function readTextAloud() {
-      var _this6 = this;
+      var _this7 = this;
       var text = this.information.translation;
       if (!window.speechSynthesis) {
         console.error("Speech synthesis is not supported in this browser.");
@@ -34678,11 +34675,11 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
         });
 
         // Set the preferred voice or fallback to the first available voice
-        _this6.utterance.voice = matchingVoice || voices[0];
+        _this7.utterance.voice = matchingVoice || voices[0];
 
         // Start speaking after setting the voice
-        _this6.isReading = true;
-        window.speechSynthesis.speak(_this6.utterance);
+        _this7.isReading = true;
+        window.speechSynthesis.speak(_this7.utterance);
       };
 
       // If voices are not yet loaded, wait for them
@@ -34696,14 +34693,14 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       this.utterance.onboundary = function (event) {
         if (event.name === "word") {
           var currentWord = text.slice(event.charIndex).split(" ")[0];
-          _this6.highlightText(event.charIndex, currentWord);
+          _this7.highlightText(event.charIndex, currentWord);
         }
       };
 
       // Handle end of speech
       this.utterance.onend = function () {
-        _this6.isReading = false;
-        _this6.clearHighlight();
+        _this7.isReading = false;
+        _this7.clearHighlight();
       };
     },
     highlightText: function highlightText(charIndex, currentWord) {
@@ -34927,18 +34924,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translation/AyahInfo.vue */ "./resources/js/components/translation/AyahInfo.vue");
 /* harmony import */ var _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translation/MainAyah.vue */ "./resources/js/components/translation/MainAyah.vue");
 /* harmony import */ var _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/AlertModal.vue */ "./resources/js/components/modals/AlertModal.vue");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! docx */ "./node_modules/docx/build/index.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 
 
 
@@ -34983,7 +34982,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       fontSize: parseFloat(localStorage.getItem('ayahFontSize')) || 1,
       expanded: false,
       isPaused: false,
-      isReading: false
+      isReading: false,
+      isVisible: false // Controls visibility of premium features
     };
   },
   computed: {
@@ -34992,7 +34992,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return text.trim().split(/\s+/).length;
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+    var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.checkSubscriptionStatus)(),
+      success = _checkSubscriptionSta.success,
+      subscriptionType = _checkSubscriptionSta.subscriptionType;
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(function () {
+          _this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
+  },
   methods: {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('yearly');
+    },
     toggleIcon: function toggleIcon(event) {
       var icon = event.target;
       icon.classList.toggle('bi-arrow-down-circle-fill');
@@ -35151,14 +35172,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     downloadAsWord: function downloadAsWord() {
-      var _this = this;
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this$information18, _this$information19, _this$information20, _this$information21, _this$information22;
-        var doc, _this$information23, _this$information24, blob, date, surahNum, ayahNum, filename;
+        var _this2$information, _this2$information2, _this2$information3, _this2$information4, _this2$information5;
+        var doc, _this2$information6, _this2$information7, blob, date, surahNum, ayahNum, filename;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              doc = new docx__WEBPACK_IMPORTED_MODULE_7__.Document({
+              doc = new docx__WEBPACK_IMPORTED_MODULE_8__.Document({
                 sections: [{
                   properties: {
                     page: {
@@ -35173,8 +35194,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   },
                   children: [
                   // Title Section
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Quran Transliteration Document",
                       bold: true,
                       size: 48,
@@ -35188,8 +35209,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -35199,8 +35220,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // surah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Surah:",
                       bold: true,
                       size: 32,
@@ -35214,9 +35235,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Surah Info
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
-                      text: "".concat((_this$information18 = _this.information) === null || _this$information18 === void 0 || (_this$information18 = _this$information18.ayah) === null || _this$information18 === void 0 || (_this$information18 = _this$information18.surah) === null || _this$information18 === void 0 ? void 0 : _this$information18.name_en, " (").concat((_this$information19 = _this.information) === null || _this$information19 === void 0 || (_this$information19 = _this$information19.ayah) === null || _this$information19 === void 0 || (_this$information19 = _this$information19.surah) === null || _this$information19 === void 0 ? void 0 : _this$information19.name_ar, ")"),
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
+                      text: "".concat((_this2$information = _this2.information) === null || _this2$information === void 0 || (_this2$information = _this2$information.ayah) === null || _this2$information === void 0 || (_this2$information = _this2$information.surah) === null || _this2$information === void 0 ? void 0 : _this2$information.name_en, " (").concat((_this2$information2 = _this2.information) === null || _this2$information2 === void 0 || (_this2$information2 = _this2$information2.ayah) === null || _this2$information2 === void 0 || (_this2$information2 = _this2$information2.surah) === null || _this2$information2 === void 0 ? void 0 : _this2$information2.name_ar, ")"),
                       bold: false,
                       size: 28,
                       italics: false,
@@ -35229,8 +35250,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -35240,8 +35261,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Ayah Number:",
                       bold: true,
                       size: 32,
@@ -35255,9 +35276,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Ayah Number
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
-                      text: "".concat((_this$information20 = _this.information) === null || _this$information20 === void 0 || (_this$information20 = _this$information20.ayah) === null || _this$information20 === void 0 ? void 0 : _this$information20.ayah_id),
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
+                      text: "".concat((_this2$information3 = _this2.information) === null || _this2$information3 === void 0 || (_this2$information3 = _this2$information3.ayah) === null || _this2$information3 === void 0 ? void 0 : _this2$information3.ayah_id),
                       bold: false,
                       size: 28,
                       italics: false,
@@ -35271,8 +35292,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -35282,8 +35303,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Ayah Header
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Ayah:",
                       bold: true,
                       size: 32,
@@ -35297,9 +35318,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Ayah Text
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
-                      text: (_this$information21 = _this.information) === null || _this$information21 === void 0 || (_this$information21 = _this$information21.ayah) === null || _this$information21 === void 0 ? void 0 : _this$information21.ayah_text,
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
+                      text: (_this2$information4 = _this2.information) === null || _this2$information4 === void 0 || (_this2$information4 = _this2$information4.ayah) === null || _this2$information4 === void 0 ? void 0 : _this2$information4.ayah_text,
                       size: 28,
                       color: "333333",
                       rightToLeft: true // Enable RTL for Arabic text
@@ -35317,8 +35338,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     alignment: "RIGHT" // Right align Arabic text
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -35328,8 +35349,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Tafseer Header
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Transliteration:",
                       bold: true,
                       size: 32,
@@ -35342,9 +35363,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Tafseer Content
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
-                      text: (_this$information22 = _this.information) === null || _this$information22 === void 0 ? void 0 : _this$information22.transliteration,
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
+                      text: (_this2$information5 = _this2.information) === null || _this2$information5 === void 0 ? void 0 : _this2$information5.transliteration,
                       size: 28,
                       color: "000000"
                     })],
@@ -35359,8 +35380,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // space
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: ""
                     })],
                     spacing: {
@@ -35370,8 +35391,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Translator Header
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Transliteration:",
                       bold: true,
                       size: 32,
@@ -35384,8 +35405,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     }
                   }),
                   // Translator Content
-                  new docx__WEBPACK_IMPORTED_MODULE_7__.Paragraph({
-                    children: [new docx__WEBPACK_IMPORTED_MODULE_7__.TextRun({
+                  new docx__WEBPACK_IMPORTED_MODULE_8__.Paragraph({
+                    children: [new docx__WEBPACK_IMPORTED_MODULE_8__.TextRun({
                       text: "Saheeh International",
                       italics: false,
                       size: 28,
@@ -35401,23 +35422,23 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               });
               _context.prev = 1;
               _context.next = 4;
-              return docx__WEBPACK_IMPORTED_MODULE_7__.Packer.toBlob(doc);
+              return docx__WEBPACK_IMPORTED_MODULE_8__.Packer.toBlob(doc);
             case 4:
               blob = _context.sent;
               // Generate a clean, ISO date string
               date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
               // Dynamically include Surah and Ayah numbers with fallbacks
-              surahNum = ((_this$information23 = _this.information) === null || _this$information23 === void 0 || (_this$information23 = _this$information23.ayah) === null || _this$information23 === void 0 || (_this$information23 = _this$information23.surah) === null || _this$information23 === void 0 ? void 0 : _this$information23.id) || "unknown_surah";
-              ayahNum = ((_this$information24 = _this.information) === null || _this$information24 === void 0 || (_this$information24 = _this$information24.ayah) === null || _this$information24 === void 0 ? void 0 : _this$information24.ayah_id) || "unknown_ayah"; // Create a clean filename
+              surahNum = ((_this2$information6 = _this2.information) === null || _this2$information6 === void 0 || (_this2$information6 = _this2$information6.ayah) === null || _this2$information6 === void 0 || (_this2$information6 = _this2$information6.surah) === null || _this2$information6 === void 0 ? void 0 : _this2$information6.id) || "unknown_surah";
+              ayahNum = ((_this2$information7 = _this2.information) === null || _this2$information7 === void 0 || (_this2$information7 = _this2$information7.ayah) === null || _this2$information7 === void 0 ? void 0 : _this2$information7.ayah_id) || "unknown_ayah"; // Create a clean filename
               filename = "transliteration_doc_surah_".concat(surahNum, "_ayah_").concat(ayahNum, "_").concat(date, ".docx"); // Save the file
-              (0,file_saver__WEBPACK_IMPORTED_MODULE_5__.saveAs)(blob, filename);
+              (0,file_saver__WEBPACK_IMPORTED_MODULE_6__.saveAs)(blob, filename);
               _context.next = 16;
               break;
             case 12:
               _context.prev = 12;
               _context.t0 = _context["catch"](1);
               console.error("Failed to generate Word document:", _context.t0);
-              _this.$emit("word-error", _context.t0);
+              _this2.$emit("word-error", _context.t0);
             case 16:
             case "end":
               return _context.stop();
@@ -40062,11 +40083,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var primevue_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/editor */ "./node_modules/primevue/editor/editor.esm.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+
 
 
 
@@ -40087,20 +40110,40 @@ __webpack_require__.r(__webpack_exports__);
         ayah_verse_en: "",
         ayah_info: ""
       },
-      isAuthenticated: false
+      isAuthenticated: false,
+      isVisible: false
     };
   },
   components: {
     Editor: primevue_editor__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
+    var _this = this;
+    var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.checkSubscriptionStatus)(),
+      success = _checkSubscriptionSta.success,
+      subscriptionType = _checkSubscriptionSta.subscriptionType;
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(function () {
+          _this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('yearly');
+    },
     initRecognition: function initRecognition() {
-      var _this = this;
+      var _this2 = this;
       if ('webkitSpeechRecognition' in window) {
         this.recognition = new webkitSpeechRecognition();
         this.recognition.continuous = true;
@@ -40110,14 +40153,14 @@ __webpack_require__.r(__webpack_exports__);
           var transcript = Array.from(event.results).map(function (result) {
             return result[0].transcript;
           }).join('');
-          _this.form.ayah_notes = transcript;
+          _this2.form.ayah_notes = transcript;
         };
         this.recognition.onend = function () {
-          _this.isListening = false;
+          _this2.isListening = false;
         };
         this.recognition.onerror = function (event) {
           console.error('Speech Recognition Error:', event.error);
-          _this.isListening = false;
+          _this2.isListening = false;
         };
       } else {
         console.error('Speech Recognition not supported in this browser.');
@@ -40137,7 +40180,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this2 = this;
+      var _this3 = this;
       var formData = {
         surah_name: this.form.surah_name,
         ayah_num: this.form.ayah_num,
@@ -40156,7 +40199,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Submit!"
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("api/submit-note", formData).then(function (res) {
+          axios__WEBPACK_IMPORTED_MODULE_4__["default"].post("api/submit-note", formData).then(function (res) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
               icon: "success",
               title: "Success!",
@@ -40164,14 +40207,14 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
-              _this2.resetNoteForm();
-              _this2.closeModal();
+              _this3.resetNoteForm();
+              _this3.closeModal();
             });
           })["catch"](function (err) {
             console.error(err);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
-            _this2.resetNoteForm();
-            _this2.closeModal();
+            _this3.resetNoteForm();
+            _this3.closeModal();
           });
         }
       });
@@ -40187,10 +40230,10 @@ __webpack_require__.r(__webpack_exports__);
       modalInstance.show();
     },
     initModalReset: function initModalReset() {
-      var _this3 = this;
+      var _this4 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this3.resetNoteForm();
+        _this4.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
@@ -40219,7 +40262,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var primevue_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/editor */ "./node_modules/primevue/editor/editor.esm.js");
@@ -40233,6 +40276,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tinymce_plugins_lists__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tinymce/plugins/lists */ "./node_modules/tinymce/plugins/lists/index.js");
 /* harmony import */ var tinymce_plugins_lists__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(tinymce_plugins_lists__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+
 
 
 
@@ -40245,6 +40290,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      isVisible: false,
       isAuthenticated: false,
       editorPlaceholder: "Write your personal reflections and notes here. Let your connection to the Quran grow.",
       inputMode: 'basic',
@@ -40262,13 +40308,32 @@ __webpack_require__.r(__webpack_exports__);
     Editor: primevue_editor__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
+    var _this = this;
+    var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_8__.checkSubscriptionStatus)(),
+      success = _checkSubscriptionSta.success,
+      subscriptionType = _checkSubscriptionSta.subscriptionType;
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(function () {
+          _this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_8__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_8__.redirectToSubscription)('yearly');
+    },
     initRecognition: function initRecognition() {
-      var _this = this;
+      var _this2 = this;
       this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
@@ -40277,14 +40342,14 @@ __webpack_require__.r(__webpack_exports__);
         var transcript = Array.from(event.results).map(function (result) {
           return result[0].transcript;
         }).join('');
-        _this.form.ayah_notes = transcript;
+        _this2.form.ayah_notes = transcript;
       };
       this.recognition.onend = function () {
-        _this.isListening = false;
+        _this2.isListening = false;
       };
       this.recognition.onerror = function (event) {
         console.error('Speech Recognition Error:', event.error);
-        _this.isListening = false;
+        _this2.isListening = false;
       };
     },
     startRecognition: function startRecognition() {
@@ -40301,7 +40366,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this2 = this;
+      var _this3 = this;
       var formData = {
         surah_name: this.form.surah_name,
         ayah_notes: this.form.ayah_notes,
@@ -40316,7 +40381,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Submit!"
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios__WEBPACK_IMPORTED_MODULE_8__["default"].post("api/submit-note", formData).then(function (res) {
+          axios__WEBPACK_IMPORTED_MODULE_9__["default"].post("api/submit-note", formData).then(function (res) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
               icon: "success",
               title: "Success!",
@@ -40324,14 +40389,14 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
-              _this2.resetNoteForm();
-              _this2.closeModal();
+              _this3.resetNoteForm();
+              _this3.closeModal();
             });
           })["catch"](function (err) {
             console.error(err);
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
-            _this2.resetNoteForm();
-            _this2.closeModal();
+            _this3.resetNoteForm();
+            _this3.closeModal();
           });
         }
       });
@@ -40347,10 +40412,10 @@ __webpack_require__.r(__webpack_exports__);
       modalInstance.show();
     },
     initModalReset: function initModalReset() {
-      var _this3 = this;
+      var _this4 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this3.resetNoteForm();
+        _this4.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
@@ -40387,11 +40452,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var primevue_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/editor */ "./node_modules/primevue/editor/editor.esm.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+
 
 
 
@@ -40414,13 +40481,32 @@ __webpack_require__.r(__webpack_exports__);
     Editor: primevue_editor__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mounted: function mounted() {
+    var _this = this;
+    var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.checkSubscriptionStatus)(),
+      success = _checkSubscriptionSta.success,
+      subscriptionType = _checkSubscriptionSta.subscriptionType;
+    if (success) {
+      this.isVisible = true; // Show premium features
+      if (subscriptionType) {
+        this.showSuccessMessage = true; // Show success message
+        setTimeout(function () {
+          _this.showSuccessMessage = false;
+        }, 3000);
+      }
+    }
     this.initRecognition();
     this.isAuthenticated = !!localStorage.getItem('authToken');
     this.initModalReset();
   },
   methods: {
+    redirectToMonthlySubscription: function redirectToMonthlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('monthly');
+    },
+    redirectToYearlySubscription: function redirectToYearlySubscription() {
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_3__.redirectToSubscription)('yearly');
+    },
     initRecognition: function initRecognition() {
-      var _this = this;
+      var _this2 = this;
       this.recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       this.recognition.continuous = true;
       this.recognition.interimResults = true;
@@ -40429,14 +40515,14 @@ __webpack_require__.r(__webpack_exports__);
         var transcript = Array.from(event.results).map(function (result) {
           return result[0].transcript;
         }).join('');
-        _this.form.ayah_notes = transcript;
+        _this2.form.ayah_notes = transcript;
       };
       this.recognition.onend = function () {
-        _this.isListening = false;
+        _this2.isListening = false;
       };
       this.recognition.onerror = function (event) {
         console.error('Speech Recognition Error:', event.error);
-        _this.isListening = false;
+        _this2.isListening = false;
       };
     },
     startRecognition: function startRecognition() {
@@ -40453,7 +40539,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     createNote: function createNote() {
-      var _this2 = this;
+      var _this3 = this;
       if (!this.isAuthenticated) {
         sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire("Error", "Login to your account to submit a note.", "error");
         return;
@@ -40472,7 +40558,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: "Submit!"
       }).then(function (result) {
         if (result.isConfirmed) {
-          axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("api/submit-note", formData).then(function (res) {
+          axios__WEBPACK_IMPORTED_MODULE_4__["default"].post("api/submit-note", formData).then(function (res) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({
               icon: "success",
               title: "Success!",
@@ -40480,8 +40566,8 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500,
               showConfirmButton: false
             }).then(function () {
-              _this2.resetNoteForm();
-              _this2.closeModal();
+              _this3.resetNoteForm();
+              _this3.closeModal();
             });
           })["catch"](function (err) {
             console.error(err);
@@ -40496,10 +40582,10 @@ __webpack_require__.r(__webpack_exports__);
       this.inputMode = 'basic';
     },
     initModalReset: function initModalReset() {
-      var _this3 = this;
+      var _this4 = this;
       var modalElement = this.$refs.modal;
       modalElement.addEventListener('hidden.bs.modal', function () {
-        _this3.resetNoteForm();
+        _this4.resetNoteForm();
       });
     },
     closeModal: function closeModal() {
@@ -41344,10 +41430,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -41360,87 +41446,10 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "container mt-5"
 };
-var _hoisted_2 = {
-  "class": "text-center mb-4"
-};
-var _hoisted_3 = {
-  key: 0,
-  "class": "text-center"
-};
-var _hoisted_4 = {
-  key: 1,
-  "class": "alert alert-danger text-center"
-};
-var _hoisted_5 = {
-  key: 2
-};
-var _hoisted_6 = {
-  "class": "row"
-};
-var _hoisted_7 = {
-  "class": "card h-100"
-};
-var _hoisted_8 = {
-  "class": "card-body"
-};
-var _hoisted_9 = {
-  "class": "card-title"
-};
-var _hoisted_10 = {
-  "class": "card-subtitle mb-2 text-muted"
-};
-var _hoisted_11 = {
-  key: 0,
-  "class": "card-text",
-  dir: "rtl"
-};
-var _hoisted_12 = {
-  key: 1,
-  "class": "card-text"
-};
-var _hoisted_13 = {
-  key: 2,
-  "class": "card-text"
-};
-var _hoisted_14 = {
-  "class": "text-muted"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center mb-4"
-  }, "Hadith Collection", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.selectedCollection = $event;
-    }),
-    "class": "form-select w-25 mx-auto",
-    onChange: _cache[1] || (_cache[1] = function () {
-      return $options.fetchHadiths && $options.fetchHadiths.apply($options, arguments);
-    })
-  }, _cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"bukhari\" data-v-300b761a>Sahih Bukhari</option><option value=\"muslim\" data-v-300b761a>Sahih Muslim</option><option value=\"tirmidhi\" data-v-300b761a>Jami&#39; at-Tirmidhi</option><option value=\"abudawud\" data-v-300b761a>Sunan Abi Dawud</option><option value=\"nasai\" data-v-300b761a>Sunan an-Nasa&#39;i</option><option value=\"ibnmajah\" data-v-300b761a>Sunan Ibn Majah</option><option value=\"malik\" data-v-300b761a>Muwatta Malik</option>", 7)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCollection]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.selectedLanguage = $event;
-    }),
-    "class": "form-select w-25 mx-auto mt-3",
-    onChange: _cache[3] || (_cache[3] = function () {
-      return $options.fetchHadiths && $options.fetchHadiths.apply($options, arguments);
-    })
-  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "en"
-  }, "English", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "ar"
-  }, "Arabic", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "ur"
-  }, "Urdu", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)]))) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.hadiths, function (hadith) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "col-md-4 mb-4",
-      key: hadith.hadithNumber
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith.collection), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_10, "Book " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith.bookNumber) + ", Hadith " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith.hadithNumber), 1 /* TEXT */), hadith.arabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith.arabic), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), hadith[$data.selectedLanguage] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith[$data.selectedLanguage]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), hadith.reference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hadith.reference), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])]))]);
+  }, "AI", -1 /* HOISTED */)]));
 }
 
 /***/ }),
@@ -41914,7 +41923,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       src: podcast.audioUrl,
       "class": "w-100 audio",
       style: {
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "border-bottom-right-radius": "20px"
       },
       onPlay: function onPlay($event) {
         return $options.playAudio(index);
@@ -42640,8 +42650,79 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   id: "app"
 };
+var _hoisted_2 = {
+  "class": "py-4 pt-2"
+};
+var _hoisted_3 = {
+  "class": "container"
+};
+var _hoisted_4 = {
+  "class": "row"
+};
+var _hoisted_5 = {
+  "class": "col-12 col-lg-6"
+};
+var _hoisted_6 = {
+  "class": "card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular"
+};
+var _hoisted_7 = {
+  "class": "card-body"
+};
+var _hoisted_8 = {
+  "class": "col-12 col-lg-6"
+};
+var _hoisted_9 = {
+  "class": "card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular",
+  style: {
+    "border": "2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px"
+  }
+};
+var _hoisted_10 = {
+  "class": "card-body"
+};
+var _hoisted_11 = {
+  "class": "row"
+};
+var _hoisted_12 = {
+  "class": "col-md-6"
+};
+var _hoisted_13 = {
+  "class": "col-md-6"
+};
+var _hoisted_14 = {
+  "class": "row container"
+};
+var _hoisted_15 = {
+  "class": "container-fluid text-center pt-2"
+};
+var _hoisted_16 = {
+  key: 0,
+  "class": "row"
+};
+var _hoisted_17 = {
+  "class": "modal fade",
+  id: "exampleModal",
+  tabindex: "-1",
+  "aria-labelledby": "exampleModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_18 = {
+  "class": "modal-dialog modal-lg"
+};
+var _hoisted_19 = {
+  "class": "modal-content"
+};
+var _hoisted_20 = {
+  "class": "row modal-body"
+};
+var _hoisted_21 = {
+  "class": "col-md-6"
+};
+var _hoisted_22 = {
+  "class": "col-md-6"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     "class": "py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container pt-3 pb-3"
@@ -42678,7 +42759,197 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "/images/heart.png",
     width: "80%",
     alt: "Support Islamic Connect"
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n      <div class=\"container pt-3\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-8 col-xl-7\">\n            <h1 class=\"display-5 mb-3 fw-bold\">Why Go Premium ?</h1>\n          </div>\n        </div>\n        \n        <div class=\"row pt-3 g-4 g-md-5\">\n          <p class=\"lead container text-center pt-2\">\n            Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan, you’re not just unlocking advanced features you’re contributing to a platform that empowers learning, accessibility, and a deeper connection to the Quran for all.</br></br>\n            Every premium subscription helps sustain this project, ensuring that more people can benefit from features designed to enhance understanding and engagement with the Quran.\n          </p>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/podcasting.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Speech-to-Text for Islamic Notes and Reflections</h4>\n                <p>Capture your spoken reflections, making it easier to document your thoughts and reflections on\n                  Islamic teachings, while ensuring accessibility for those who prefer audio to written text.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/voice-recognition.png\" width=\"60px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Speak, explore, and connect deeply with Quranic teachings.</h4>\n                <p>Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless,\n                  accessible way to connect with Islam.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/elearning.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Versatile Note Editor with Advanced Customization Features</h4>\n                <p>A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing\n                  capabilities with extensive customization options. This tool emphasizes seamless accessibility.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/attached-file.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Export Quranic Verses in multiple file Formats</h4>\n                <p>Easily export Quranic verses in multiple formats for study, research, and sharing, offering\n                  flexibility and convenience for personal reflection or educational purposes.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/highlighter.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Audio Synchronization with Word-by-Word Quranic Highlighting</h4>\n                <p>Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word\n                  is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the\n                  words.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/chat.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Text-to-Speech for English Translation and Tafsir</h4>\n                <p>High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more\n                  accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran\n                  and enriching connection to the sacred text.</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>  ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-4 pt-2\">        \n      <div class=\"container\">\n        <div class=\"row\">\n          <div class=\"col-12 col-lg-6\">\n            <div class=\"card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular\">\n              <div class=\"card-body\">\n                <div style=\"padding:20px\">\n                  <h1 class=\"h4 mb-2\"><b>Basic</b></h1>\n                  <h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166)\">£ 0.00</h4>\n                  <p class=\"text-secondary mb-2\"><b>Free</b></p>\n                </div>\n                <ul class=\"list-group list-group-flush mb-4\">\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Read translation, tafseer and transliteration</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Switch mode: Basic or Advanced features</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Save basic notes & bookmarks</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#90EE90\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Surah Information</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Voice search for Quranic results</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Audio Sync with Word-by-Word Highlighting</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Advanced and Customizable note Editor</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Text-to-Speech for Translations and Tafsir</span>\n                  </li>\n                  \n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Speech-to-Text for Note Recordings</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Export Quranic verses via CSV, DOC and JSON</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Speech-to-text for enhanced audio experience</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Early access to exclusive features.</span>\n                  </li>\n\n                </ul>\n\n                <button class=\"w-100 btn button\" style=\"background: rgb(0 163 164); color:white\" role=\"button\"\n                  @click=\"redirectToRegister\">\n                  <span style=\"color:white;font-size:19px;\">Get Started</span>\n                </button>\n\n              </div>\n            </div>\n          </div>\n          <div class=\"col-12 col-lg-6\">\n            <div class=\"card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular\"\n              style=\"border:2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px;\">\n              <div class=\"card-body\">\n                <div style=\"padding:20px\">\n                  <h1 class=\"h4 mb-2\"><b>Premium</b></h1>\n                  <div>\n                    <h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);display:flex\">£ 2.99</h4>\n                    <p class=\"text-secondary mb-2\"><b>Monthly</b></p>\n                  </div>\n\n                </div>\n                <ul class=\"list-group list-group-flush mb-4\">\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Read translation, tafseer and transliteration</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Switch mode: Basic or Advanced features</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Save basic notes & bookmarks</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Surah Information</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Voice search for Quranic results</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Audio Sync with Word-by-Word Highlighting</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Advanced and Customizable note Editor</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Text-to-Speech for Translations and Tafsir</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Speech-to-Text for Note Recordings</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Export Quranic verses via CSV, DOC and JSON</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Speech-to-text for enhanced audio experience</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Early access to exclusive features.</span>\n                  </li>\n\n                </ul>\n                <div class=\"row\">\n                  <div class=\"col-md-6\">\n                    <button class=\"w-100 btn button mb-2\" @click=\"redirectToMonthlySubscription\"\n                      style=\"background:rgb(0 163 164);color:white\" role=\"button\">\n                      <span style=\"color:white;font-size:16px;\">\n                        <b>Pay monthly (£ 2.99)</b>\n                      </span>\n                    </button>\n                  </div>\n                  <div class=\"col-md-6\">\n                    <button @click=\"redirectToYearlySubscription\" class=\"w-100 btn button\"\n                      style=\"background:rgb(0 163 164);color:white\" role=\"button\">\n                      <span style=\"color:white;font-size:16px;\">\n                        <b>Pay yearly (£ 29.99) </b>\n                        <span class=\"badge rounded-pill text-bg-light\">Save % 16</span>\n                      </span>\n                    </button>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"row container\">\n\n            <div class=\"container-fluid text-center pt-2\">\n              <div v-if=\"isPremium\" class=\"row\">\n                <div class=\"col-md-2\">\n                </div>\n                <div class=\"col-md-8\">\n                  <button type=\"button\" class=\"btn button-37\" style=\"background:rgb(0 163 164);color:white\"\n                    data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\">\n                    <b>Can't afford Premium ?</b>\n                  </button>\n                </div>\n                <div class=\"col-md-2\">\n                </div>\n              </div>\n            </div>\n\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog modal-lg\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h4 class=\"modal-title\" id=\"exampleModalLabel\"><b>Premium Plan options</b></h4>\n                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n                  </div>\n                  <div class=\"row modal-body\">\n                    <p class=\"mb-2 mt-2 container text-center\">This is a matter between you and your Lord. If you\n                      sincerely need access to the premium version but cannot afford it, Islamic Connect is here to\n                      support you. We will provide you with the premium features at no cost, ensuring nothing stands in\n                      the way of your spiritual journey.</p>\n                    <div class=\"col-md-6\">\n                      <button class=\"w-100 btn button\" style=\"background:rgb(0 163 164);color:white\" role=\"button\"\n                        @click=\"redirectToMonthlySubscription()\"><span style=\"color:white;font-size:16px;\"><b>Monthly\n                            Plan</b></span></button>\n                    </div>\n                    <div class=\"col-md-6\">\n                      <button class=\"w-100 btn button\" style=\"background:rgb(0 163 164);color:white\" role=\"button\"\n                        @click=\"redirectToYearlySubscription()\"><span style=\"color:white;font-size:16px;\"><b>Yearly\n                            Plan</b></span></button>\n                    </div>\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </section>  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n    <section class=\"py-4 pt-2\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-12 col-xl-7\">\n            <h2 class=\"display-5 fw-bold\">Frequently Asked Questions</h2>\n          </div>\n        </div>\n        <div class=\"row justify-content-center py-lg-3\">\n          <div class=\"col-md-12\">\n            <div class=\"row justify-content-center mb-4\">\n              <div class=\"col-lg-12\">\n                <div class=\"accordion\" id=\"Tech-accordion\">\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingOne\"><button aria-controls=\"Tech-collapseOne\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseOne\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Are there any hidden fees or additional charges ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingOne\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseOne\">\n                      <div class=\"accordion-body\">\n                        No, there are no hidden fees. The subscription price you see includes all features, with no\n                        unexpected charges.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingTwo\"><button aria-controls=\"Tech-collapseTwo\"\n                        aria-expanded=\"true\" class=\"accordion-button\" data-bs-target=\"#Tech-collapseTwo\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>What happens if I cancel my subscription ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingTwo\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseTwo\" style=\"\">\n                      <div class=\"accordion-body\">\n                        If you cancel your subscription, you will retain access to the premium features until the end of\n                        your billing cycle, after which your account will revert to the free version.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingThree\"><button aria-controls=\"Tech-collapseThree\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseThree\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Can I get a refund if I'm not satisfied with the premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingThree\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseThree\">\n                      <div class=\"accordion-body\">\n                        We offer a satisfaction guarantee. If you are not satisfied within the first 30 days.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFour\"><button aria-controls=\"Tech-collapseFour\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFour\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer lifetime access to premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFour\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFour\">\n                      <div class=\"accordion-body\">\n                        Currently, we do not offer lifetime subscriptions, but we provide competitive annual plans that\n                        deliver ongoing value.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFive\"><button aria-controls=\"Tech-collapseFive\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFive\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Is my subscription automatically renewed ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFive\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFive\">\n                      <div class=\"accordion-body\">\n                        Yes, subscriptions are automatically renewed to ensure uninterrupted access, but you can cancel\n                        or manage your subscription at any time.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSix\"><button aria-controls=\"Tech-collapseSix\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSix\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer a free trial before subscribing ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSix\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSix\">\n                      <div class=\"accordion-body\">\n                        Yes, we offer a free trial period to help you explore all premium features before committing to\n                        a subscription.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSeven\"><button aria-controls=\"Tech-collapseSeven\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSeven\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>How secure is my payment information ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSeven\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSeven\">\n                      <div class=\"accordion-body\">\n                        Your payment information is securely encrypted and processed through a trusted payment gateway\n                        to ensure maximum security.\n                      </div>\n                    </div>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> ")]);
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    "class": "container"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "container pt-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row justify-content-center text-center mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-lg-8 col-xl-7"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 mb-3 fw-bold"
+  }, "Why Go Premium ?")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row pt-3 g-4 g-md-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead container text-center pt-2"
+  }, " Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan, you’re not just unlocking advanced features you’re contributing to a platform that empowers learning, accessibility, and a deeper connection to the Quran for all. Every premium subscription helps sustain this project, ensuring that more people can benefit from features designed to enhance understanding and engagement with the Quran. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/podcasting.png",
+    width: "50px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Speech-to-Text for Islamic Notes and Reflections"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/voice-recognition.png",
+    width: "60px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Speak, explore, and connect deeply with Quranic teachings."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/elearning.png",
+    width: "50px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Versatile Note Editor with Advanced Customization Features"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/attached-file.png",
+    width: "50px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Export Quranic Verses in multiple file Formats"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/highlighter.png",
+    width: "50px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Audio Synchronization with Word-by-Word Quranic Highlighting"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "d-flex"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-success me-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "images/chat.png",
+    width: "50px"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-2 mb-lg-3 fw-bold"
+  }, "Text-to-Speech for English Translation and Tafsir"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text.")])])])])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div style=\"padding:20px;\" data-v-d4146a7c><h1 class=\"h4 mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Basic</b></h1><h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);\" data-v-d4146a7c>£ 0.00</h4><p class=\"text-secondary mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Free</b></p></div><ul class=\"list-group list-group-flush mb-4\" data-v-d4146a7c><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Read translation, tafseer and transliteration</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Switch mode: Basic or Advanced features</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Save basic notes &amp; bookmarks</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#90EE90\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Surah Information</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Voice search for Quranic results</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Audio Sync with Word-by-Word Highlighting</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Advanced and Customizable note Editor</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Text-to-Speech for Translations and Tafsir</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-Text for Note Recordings</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Export Quranic verses via CSV, DOC and JSON</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-text for enhanced audio experience</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Early access to exclusive features.</span></li></ul>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "w-100 btn button",
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    role: "button",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.redirectToRegister && $options.redirectToRegister.apply($options, arguments);
+    })
+  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "color": "white",
+      "font-size": "19px"
+    }
+  }, "Get Started", -1 /* HOISTED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div style=\"padding:20px;\" data-v-d4146a7c><h1 class=\"h4 mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Premium</b></h1><div data-v-d4146a7c><h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);display:flex;\" data-v-d4146a7c>£ 2.99</h4><p class=\"text-secondary mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Monthly</b></p></div></div><ul class=\"list-group list-group-flush mb-4\" data-v-d4146a7c><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Read translation, tafseer and transliteration</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Switch mode: Basic or Advanced features</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Save basic notes &amp; bookmarks</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Surah Information</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Voice search for Quranic results</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Audio Sync with Word-by-Word Highlighting</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Advanced and Customizable note Editor</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Text-to-Speech for Translations and Tafsir</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-Text for Note Recordings</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Export Quranic verses via CSV, DOC and JSON</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-text for enhanced audio experience</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Early access to exclusive features.</span></li></ul>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "w-100 btn button mb-2",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.redirectToMonthlySubscription && $options.redirectToMonthlySubscription.apply($options, arguments);
+    }),
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    role: "button"
+  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "color": "white",
+      "font-size": "16px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pay monthly (£ 2.99)")], -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.redirectToYearlySubscription && $options.redirectToYearlySubscription.apply($options, arguments);
+    }),
+    "class": "w-100 btn button",
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    role: "button"
+  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "color": "white",
+      "font-size": "16px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pay yearly (£ 29.99) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "badge rounded-pill text-bg-light"
+  }, "Save % 16")], -1 /* HOISTED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_ctx.isPremium ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-8"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn button-37",
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    "data-bs-toggle": "modal",
+    "data-bs-target": "#exampleModal"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Can't afford Premium ?")])], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-2"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "modal-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "modal-title",
+    id: "exampleModalLabel"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Premium Plan options")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mb-2 mt-2 container text-center"
+  }, "This is a matter between you and your Lord. If you sincerely need access to the premium version but cannot afford it, Islamic Connect is here to support you. We will provide you with the premium features at no cost, ensuring nothing stands in the way of your spiritual journey.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "w-100 btn button",
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    role: "button",
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.redirectToMonthlySubscription();
+    })
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "color": "white",
+      "font-size": "16px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Monthly Plan")], -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "w-100 btn button",
+    style: {
+      "background": "rgb(0 163 164)",
+      "color": "white"
+    },
+    role: "button",
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return $options.redirectToYearlySubscription();
+    })
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    style: {
+      "color": "white",
+      "font-size": "16px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Yearly Plan")], -1 /* HOISTED */)]))])]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "modal-footer"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-secondary",
+    "data-bs-dismiss": "modal"
+  }, "Close")], -1 /* HOISTED */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n    <section class=\"py-4 pt-2\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-12 col-xl-7\">\n            <h2 class=\"display-5 fw-bold\">Frequently Asked Questions</h2>\n          </div>\n        </div>\n        <div class=\"row justify-content-center py-lg-3\">\n          <div class=\"col-md-12\">\n            <div class=\"row justify-content-center mb-4\">\n              <div class=\"col-lg-12\">\n                <div class=\"accordion\" id=\"Tech-accordion\">\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingOne\"><button aria-controls=\"Tech-collapseOne\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseOne\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Are there any hidden fees or additional charges ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingOne\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseOne\">\n                      <div class=\"accordion-body\">\n                        No, there are no hidden fees. The subscription price you see includes all features, with no\n                        unexpected charges.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingTwo\"><button aria-controls=\"Tech-collapseTwo\"\n                        aria-expanded=\"true\" class=\"accordion-button\" data-bs-target=\"#Tech-collapseTwo\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>What happens if I cancel my subscription ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingTwo\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseTwo\" style=\"\">\n                      <div class=\"accordion-body\">\n                        If you cancel your subscription, you will retain access to the premium features until the end of\n                        your billing cycle, after which your account will revert to the free version.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingThree\"><button aria-controls=\"Tech-collapseThree\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseThree\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Can I get a refund if I'm not satisfied with the premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingThree\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseThree\">\n                      <div class=\"accordion-body\">\n                        We offer a satisfaction guarantee. If you are not satisfied within the first 30 days.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFour\"><button aria-controls=\"Tech-collapseFour\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFour\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer lifetime access to premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFour\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFour\">\n                      <div class=\"accordion-body\">\n                        Currently, we do not offer lifetime subscriptions, but we provide competitive annual plans that\n                        deliver ongoing value.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFive\"><button aria-controls=\"Tech-collapseFive\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFive\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Is my subscription automatically renewed ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFive\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFive\">\n                      <div class=\"accordion-body\">\n                        Yes, subscriptions are automatically renewed to ensure uninterrupted access, but you can cancel\n                        or manage your subscription at any time.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSix\"><button aria-controls=\"Tech-collapseSix\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSix\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer a free trial before subscribing ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSix\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSix\">\n                      <div class=\"accordion-body\">\n                        Yes, we offer a free trial period to help you explore all premium features before committing to\n                        a subscription.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSeven\"><button aria-controls=\"Tech-collapseSeven\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSeven\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>How secure is my payment information ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSeven\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSeven\">\n                      <div class=\"accordion-body\">\n                        Your payment information is securely encrypted and processed through a trusted payment gateway\n                        to ensure maximum security.\n                      </div>\n                    </div>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> ")]);
 }
 
 /***/ }),
@@ -42703,34 +42974,37 @@ var _hoisted_2 = {
   "class": "pt-3 text-center"
 };
 var _hoisted_3 = {
-  "class": "row container-fluid"
+  key: 0
 };
 var _hoisted_4 = {
-  "class": "col-md-4 container"
+  "class": "row container-fluid"
 };
 var _hoisted_5 = {
+  "class": "col-md-4 container"
+};
+var _hoisted_6 = {
   style: {
     "display": "flex"
   },
   "class": "row"
 };
-var _hoisted_6 = {
+var _hoisted_7 = {
   key: 1,
   "class": "tab-content hide-on-mobile-tablet",
   id: "nav-tabContent"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   key: 0,
   "class": "tab-pane fade show active",
   id: "nav-home",
   role: "tabpanel",
   "aria-labelledby": "nav-home-tab"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "row container-fluid"
 };
-var _hoisted_9 = ["selectedSurahId"];
-var _hoisted_10 = {
+var _hoisted_10 = ["selectedSurahId"];
+var _hoisted_11 = {
   "class": "custom-scrollbar pb-5",
   style: {
     "overflow-y": "auto",
@@ -42740,7 +43014,7 @@ var _hoisted_10 = {
     "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px\n                                            12px -2px,\n                                        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
   }
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "col-md-12 list-group container-fluid root",
   id: "toggle",
   ref: "ayahList",
@@ -42748,107 +43022,104 @@ var _hoisted_11 = {
     "list-style-type": "none"
   }
 };
-var _hoisted_12 = ["onClick"];
-var _hoisted_13 = {
+var _hoisted_13 = ["onClick"];
+var _hoisted_14 = {
   "class": "text-right",
   style: {
     "display": "flex"
   }
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "text-right"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "col-md-8 card-hide"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "card content",
   style: {
     "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,\n                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
   }
 };
-var _hoisted_17 = {
+var _hoisted_18 = {
   "class": "content"
 };
-var _hoisted_18 = {
+var _hoisted_19 = {
   key: 0,
   "class": "container-fluid content"
 };
-var _hoisted_19 = {
+var _hoisted_20 = {
   "class": "row"
 };
-var _hoisted_20 = {
+var _hoisted_21 = {
   "class": "container text-center"
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   "class": "row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light"
 };
-var _hoisted_22 = {
+var _hoisted_23 = {
   "class": "col"
 };
-var _hoisted_23 = {
+var _hoisted_24 = {
   "class": "form-check form-switch d-flex justify-content-center align-items-center"
 };
-var _hoisted_24 = {
+var _hoisted_25 = {
   "class": "modal-dialog modal-lg"
 };
-var _hoisted_25 = {
+var _hoisted_26 = {
   "class": "modal-content"
 };
-var _hoisted_26 = {
+var _hoisted_27 = {
   "class": "modal-header"
 };
-var _hoisted_27 = {
+var _hoisted_28 = {
   "class": "modal-body"
 };
-var _hoisted_28 = {
+var _hoisted_29 = {
   "class": "container text-left"
 };
-var _hoisted_29 = {
+var _hoisted_30 = {
   key: 0,
   "class": "mb-3 container"
 };
-var _hoisted_30 = {
+var _hoisted_31 = {
   "class": "mt-2 text-dark text-left"
 };
-var _hoisted_31 = {
+var _hoisted_32 = {
   key: 1,
   "class": "mb-3 container"
 };
-var _hoisted_32 = {
+var _hoisted_33 = {
   "class": "text-left"
 };
-var _hoisted_33 = {
+var _hoisted_34 = {
   "class": "modal-footer"
 };
-var _hoisted_34 = {
+var _hoisted_35 = {
   "class": "card-body content",
   id: "alertContainer"
 };
-var _hoisted_35 = {
+var _hoisted_36 = {
   "class": "tab-content text-center"
 };
-var _hoisted_36 = {
+var _hoisted_37 = {
   key: 0,
   "class": "tab-pane active content",
   id: "home",
   role: "tabpanel"
 };
-var _hoisted_37 = {
+var _hoisted_38 = {
   "class": "col pb-2"
 };
-var _hoisted_38 = {
+var _hoisted_39 = {
   key: 0,
   "class": "hide-on-mobile"
 };
-var _hoisted_39 = {
+var _hoisted_40 = {
   "class": "text-center"
 };
-var _hoisted_40 = {
-  "class": "row pt-2"
-};
 var _hoisted_41 = {
-  "class": "col desktop-icon"
+  "class": "row pt-2"
 };
 var _hoisted_42 = {
   "class": "col desktop-icon"
@@ -42857,51 +43128,51 @@ var _hoisted_43 = {
   "class": "col desktop-icon"
 };
 var _hoisted_44 = {
-  "class": "dropdown mobile-only pb-2"
+  "class": "col desktop-icon"
 };
 var _hoisted_45 = {
+  "class": "dropdown mobile-only pb-2"
+};
+var _hoisted_46 = {
   "class": "pt-2",
   ref: "targetTranslationElement"
 };
-var _hoisted_46 = {
+var _hoisted_47 = {
   key: 0,
   "class": "container-fluid text-center mobile-only"
 };
-var _hoisted_47 = {
+var _hoisted_48 = {
   "class": "row"
 };
-var _hoisted_48 = {
+var _hoisted_49 = {
   "class": "col"
 };
-var _hoisted_49 = {
+var _hoisted_50 = {
   key: 1,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_50 = {
+var _hoisted_51 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_51 = {
+var _hoisted_52 = {
   key: 1,
   "class": "tab-pane content",
   id: "profile",
   role: "tabpanel"
 };
-var _hoisted_52 = {
+var _hoisted_53 = {
   "class": "col pb-2"
 };
-var _hoisted_53 = {
+var _hoisted_54 = {
   key: 0,
   "class": "icon-container-fluid hide-on-mobile"
 };
-var _hoisted_54 = {
+var _hoisted_55 = {
   "class": "text-center"
 };
-var _hoisted_55 = {
-  "class": "row pt-2"
-};
 var _hoisted_56 = {
-  "class": "col desktop-icon"
+  "class": "row pt-2"
 };
 var _hoisted_57 = {
   "class": "col desktop-icon"
@@ -42910,55 +43181,55 @@ var _hoisted_58 = {
   "class": "col desktop-icon"
 };
 var _hoisted_59 = {
-  "class": "dropdown mobile-only"
+  "class": "col desktop-icon"
 };
 var _hoisted_60 = {
+  "class": "dropdown mobile-only"
+};
+var _hoisted_61 = {
   "class": "pt-2",
   ref: "targetTafseerElement"
 };
-var _hoisted_61 = {
+var _hoisted_62 = {
   key: 0,
   "class": "container-fluid text-center mobile-only"
 };
-var _hoisted_62 = {
+var _hoisted_63 = {
   "class": "row"
 };
-var _hoisted_63 = {
+var _hoisted_64 = {
   "class": "col"
 };
-var _hoisted_64 = {
+var _hoisted_65 = {
   key: 1,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_65 = {
+var _hoisted_66 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
-var _hoisted_66 = {
+var _hoisted_67 = {
   key: 2,
   "class": "tab-pane content",
   id: "messages",
   role: "tabpanel"
 };
-var _hoisted_67 = {
+var _hoisted_68 = {
   "class": "pb-3"
 };
-var _hoisted_68 = {
+var _hoisted_69 = {
   key: 0,
   "class": "col pb-2"
 };
-var _hoisted_69 = {
+var _hoisted_70 = {
   key: 1,
   "class": "hide-on-mobile"
 };
-var _hoisted_70 = {
+var _hoisted_71 = {
   "class": "text-center"
 };
-var _hoisted_71 = {
-  "class": "row pt-2"
-};
 var _hoisted_72 = {
-  "class": "col desktop-icon"
+  "class": "row pt-2"
 };
 var _hoisted_73 = {
   "class": "col desktop-icon"
@@ -42967,26 +43238,29 @@ var _hoisted_74 = {
   "class": "col desktop-icon"
 };
 var _hoisted_75 = {
-  "class": "dropdown mobile-only"
+  "class": "col desktop-icon"
 };
 var _hoisted_76 = {
-  ref: "targetTransliterationElement"
+  "class": "dropdown mobile-only"
 };
 var _hoisted_77 = {
+  ref: "targetTransliterationElement"
+};
+var _hoisted_78 = {
   key: 0,
   "class": "container-fluid text-center mobile-only"
 };
-var _hoisted_78 = {
+var _hoisted_79 = {
   "class": "row"
 };
-var _hoisted_79 = {
+var _hoisted_80 = {
   "class": "col"
 };
-var _hoisted_80 = {
+var _hoisted_81 = {
   key: 1,
   "class": "collapse-content mobile-only"
 };
-var _hoisted_81 = {
+var _hoisted_82 = {
   key: 0,
   "class": "card text-bg-light card-body"
 };
@@ -43013,24 +43287,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_TranslationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationNote");
   var _component_TafseerNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerNote");
   var _component_TransliterationNote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TransliterationNote");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: {
-      "display": "flex"
-    },
-    "class": "container align-items-center"
-  }, null, -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
-    key: 0,
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AdvancedSearch, {
     onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_surah_selection, {
+  }, null, 8 /* PROPS */, ["onInputChange"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_custom_surah_selection, {
     customSurat: $data.customSuratList,
     modelValue: $data.selectedSurah,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedSurah = $event;
     })
-  }, null, 8 /* PROPS */, ["customSurat", "modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FilteredSurahList, {
+  }, null, 8 /* PROPS */, ["customSurat", "modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FilteredSurahList, {
     filteredSurah: $data.filteredSurah,
     onSelectSurah: $options.selectSurahFromResults
-  }, null, 8 /* PROPS */, ["filteredSurah", "onSelectSurah"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahOfTheDay), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
+  }, null, 8 /* PROPS */, ["filteredSurah", "onSelectSurah"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahOfTheDay), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "class": "col-md-12 pt-2",
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
@@ -43044,7 +43312,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateInformation: $options.updateInformation,
     onUpdateTafseer: $options.updateTafseer,
     "class": "ayah-dropdown-hidden-on-desktop d-block d-md-none"
-  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex pb-2",
     role: "search",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
@@ -43067,7 +43335,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, " Search ", -1 /* HOISTED */))], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: _ctx.dismissError
-  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container",
     style: {
       "height": "4px",
@@ -43119,7 +43387,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       onClick: function onClick($event) {
@@ -43132,14 +43400,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "padding": "10px",
         "border-radius": "10px"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Label "), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
-  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Switch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input h4 pr-5 shadow-lg text-center",
+  }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input pr-5 custom-switch shadow-lg text-center",
     style: {
+      "border-color": "#00bfa6",
       "color": "#00bfa6"
     },
     type: "checkbox",
@@ -43151,7 +43420,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[10] || (_cache[10] = function () {
       return $options.saveToggleState && $options.saveToggleState.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Label "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.isVisible]])])]), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fw-semibold text-muted"
@@ -43164,7 +43433,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     }, ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "modal-title fs-5",
     id: "surahInfoModalLabel"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Information")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -43174,30 +43443,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     }),
     "aria-label": "Close"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_28, [$data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_29, [$data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label"
-  }, "Surah Name (English):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.name_en), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Surah Name (English):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.name_en), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label text-left"
-  }, "Surah Information:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.text), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Surah Information:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.text), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     "data-bs-dismiss": "modal",
     onClick: _cache[12] || (_cache[12] = function () {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     })
-  }, " Close ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Welcome, {
+  }, " Close ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Welcome, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
     onClick: _cache[14] || (_cache[14] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text text-right mr-2 h4",
     style: {
       "cursor": "pointer"
@@ -43208,7 +43477,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[15] || (_cache[15] = function ($event) {
       return $options.openModal('translationNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[16] || (_cache[16] = function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }),
@@ -43218,7 +43487,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\"><ScreenTranslationCapture style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\" v-if=\"isVisible\"><PdfDownload style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div>                 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><VideoModal  @save-video-data=\"handleSave\" /><i class=\"bi bi-play-circle h3\" style=\"cursor:pointer\" data-bs-toggle=\"modal\" data-bs-target=\"#videoModal\"></i></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><i class=\"bi bi-paint-bucket h2\" data-bs-toggle=\"offcanvas\" style=\"cursor:pointer\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i></div> "), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\"><ScreenTranslationCapture style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\" v-if=\"!isVisible\"><PdfDownload style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div>                 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><VideoModal  @save-video-data=\"handleSave\" /><i class=\"bi bi-play-circle h3\" style=\"cursor:pointer\" data-bs-toggle=\"modal\" data-bs-target=\"#videoModal\"></i></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><i class=\"bi bi-paint-bucket h2\" data-bs-toggle=\"offcanvas\" style=\"cursor:pointer\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i></div> "), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
@@ -43242,7 +43511,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-chat-left-text desktop-icon text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrows-fullscreen h4",
     style: {
       "cursor": "pointer"
@@ -43255,7 +43524,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle),
     "class": "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -43302,7 +43571,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> ")], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> ")], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43322,27 +43591,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
     onClick: _cache[23] || (_cache[23] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
+  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
     onSubmitForm: $options.submitForm,
     onToggleAudio: $options.toggleAudioPlayback,
     isPlaying: _ctx.isPlaying
-  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
     onClick: _cache[24] || (_cache[24] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -43353,7 +43622,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[25] || (_cache[25] = function ($event) {
       return $options.openModal('tafseerNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[26] || (_cache[26] = function () {
       return $options.submitFormTafseer && $options.submitFormTafseer.apply($options, arguments);
     }),
@@ -43388,7 +43657,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-chat-left-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrows-fullscreen h4",
     style: {
       "cursor": "pointer"
@@ -43403,7 +43672,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid #333"
     }
-  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle),
     "class": "icon-container pb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -43450,7 +43719,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43470,12 +43739,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback,
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
     onClick: _cache[33] || (_cache[33] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
+  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -43484,14 +43753,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     isPlaying: _ctx.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahInfoModal, {
     information: $data.information
-  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
-  }, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
     onClick: _cache[34] || (_cache[34] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -43502,7 +43771,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[35] || (_cache[35] = function ($event) {
       return $options.openModal('transliterationNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[36] || (_cache[36] = function () {
       return $options.submitFormTransliteration && $options.submitFormTransliteration.apply($options, arguments);
     }),
@@ -43536,7 +43805,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-chat-left-text text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrows-fullscreen h4",
     style: {
       "cursor": "pointer"
@@ -43549,7 +43818,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "border": "2px solid\n                                                                #333"
     }
-  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mobile navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle),
     "class": "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -43596,7 +43865,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43615,12 +43884,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onToggleExpand: $options.toggleExpand,
     onCloseAlertText: $options.closeAlertText,
     onToggleAudio: $options.toggleAudioPlayback
-  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
     onClick: _cache[43] || (_cache[43] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
-  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
+  }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
     targetTranslationRef: 'targetTranslationElement',
     translation: _ctx.translation,
     onOpenModal: $options.openModal,
@@ -44112,6 +44381,7 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = ["innerHTML"];
 var _hoisted_8 = {
+  key: 0,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
@@ -44119,6 +44389,7 @@ var _hoisted_9 = {
   "class": "d-flex flex-wrap gap-2"
 };
 var _hoisted_10 = {
+  key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
 var _hoisted_11 = {
@@ -44159,7 +44430,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -44183,7 +44454,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left count word-count pt-4\">\n                <h6 class=\"text-left mt-3\">\n                  <img\n                    src=\"/images/art.png\"\n                    class=\"pr-2\"\n                    width=\"30px\"\n                    alt=\"lamp\"\n                    loading=\"lazy\"\n                  />\n                  <strong>Total Word count: </strong>{{ wordCount }}\n                </h6>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -44232,7 +44503,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
-  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -44343,6 +44614,7 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = ["innerHTML"];
 var _hoisted_7 = {
+  key: 0,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
@@ -44350,6 +44622,7 @@ var _hoisted_8 = {
   "class": "d-flex flex-wrap gap-2"
 };
 var _hoisted_9 = {
+  key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
 var _hoisted_10 = {
@@ -44390,7 +44663,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -44414,7 +44687,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -44463,7 +44736,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left word-count mt-2\">\n        <h6 class=\"text-left mt-3\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left word-count mt-2\">\n        <h6 class=\"text-left mt-3\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -44563,6 +44836,7 @@ var _hoisted_5 = {
   "class": "col-10"
 };
 var _hoisted_6 = {
+  key: 0,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
@@ -44570,6 +44844,7 @@ var _hoisted_7 = {
   "class": "d-flex flex-wrap gap-2"
 };
 var _hoisted_8 = {
+  key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
 var _hoisted_9 = {
@@ -44618,7 +44893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fontSize: $data.fontSize + 'em',
       lineHeight: '1.6em'
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? $props.information.transliteration : $props.information.transliteration), 5 /* TEXT, STYLE */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? $props.information.transliteration : $props.information.transliteration), 5 /* TEXT, STYLE */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -44642,7 +44917,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left count word-count pt-4\">\n              <h6 class=\"text-left mt-3\">\n                <img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" />\n                <strong>Total Word count: </strong>{{ wordCount }}\n              </h6>\n            </div> "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -44650,7 +44925,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44681,7 +44956,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
-  })])])])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left mt-3 word-count\">\n      <h6 class=\"text-left\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left mt-3 word-count\">\n      <h6 class=\"text-left\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -49520,9 +49795,11 @@ var _hoisted_7 = {
   "class": "col"
 };
 var _hoisted_8 = {
+  key: 0,
   "class": "col"
 };
 var _hoisted_9 = {
+  key: 1,
   "class": "col"
 };
 var _hoisted_10 = {
@@ -49581,7 +49858,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49593,7 +49870,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49605,7 +49882,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
     onClick: _cache[3] || (_cache[3] = function () {
@@ -49702,9 +49979,11 @@ var _hoisted_7 = {
   "class": "col"
 };
 var _hoisted_8 = {
+  key: 0,
   "class": "col"
 };
 var _hoisted_9 = {
+  key: 1,
   "class": "col"
 };
 var _hoisted_10 = {
@@ -49767,7 +50046,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49779,7 +50058,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49791,7 +50070,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Basic Mode "), $data.inputMode === 'basic' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.form.ayah_notes = $event;
     }),
@@ -49886,9 +50165,11 @@ var _hoisted_7 = {
   "class": "col"
 };
 var _hoisted_8 = {
+  key: 0,
   "class": "col"
 };
 var _hoisted_9 = {
+  key: 1,
   "class": "col"
 };
 var _hoisted_10 = {
@@ -49947,7 +50228,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "basicMode"
-  }, "Basic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Basic", -1 /* HOISTED */))]), !_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49959,7 +50240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "audioMode"
-  }, "Audio Note Recording", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Audio Note Recording", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input",
     type: "radio",
     name: "inputMode",
@@ -49971,7 +50252,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.inputMode]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label",
     "for": "editorMode"
-  }, "Editor Keyboard", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Editor Keyboard", -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Recording Mode "), $data.inputMode === 'audio' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-success me-2",
     onClick: _cache[3] || (_cache[3] = function () {
@@ -50640,6 +50921,95 @@ window.axios = axios__WEBPACK_IMPORTED_MODULE_2__["default"];
 
 // Set default headers for Axios requests
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/***/ }),
+
+/***/ "./utils/subscriptionUtils.js":
+/*!************************************!*\
+  !*** ./utils/subscriptionUtils.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   checkSubscriptionStatus: () => (/* binding */ checkSubscriptionStatus),
+/* harmony export */   redirectToSubscription: () => (/* binding */ redirectToSubscription)
+/* harmony export */ });
+// Helper function to encode data
+function encodeData(data) {
+  return btoa(JSON.stringify(data));
+}
+
+// Helper function to decode data
+function decodeData(encodedData) {
+  try {
+    return JSON.parse(atob(encodedData));
+  } catch (error) {
+    console.error('Error decoding subscription data:', error);
+    return null;
+  }
+}
+
+// Check subscription status
+function checkSubscriptionStatus() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var subscriptionType = urlParams.get('subscription'); // Fixed typo
+  var timestamp = urlParams.get('timestamp');
+  console.log('Query Params:', {
+    subscriptionType: subscriptionType,
+    timestamp: timestamp
+  }); // Debug
+
+  if (subscriptionType && timestamp) {
+    // Store subscription status in localStorage with expiration time
+    var expirationTime = subscriptionType === 'monthly' ? 30 * 24 * 60 * 60 * 1000 : 365 * 24 * 60 * 60 * 1000; // 30 days or 365 days
+    var subscriptionData = {
+      type: subscriptionType,
+      expiresAt: Date.now() + expirationTime
+    };
+    console.log('Storing Subscription Data:', subscriptionData); // Debug
+
+    // Encode subscription data to prevent tampering
+    localStorage.setItem('subscriptionData', encodeData(subscriptionData));
+
+    // Clear query parameters from URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    // Return success status
+    return {
+      success: true,
+      subscriptionType: subscriptionType
+    };
+  } else {
+    // Check localStorage for existing subscription
+    var encodedData = localStorage.getItem('subscriptionData');
+    if (encodedData) {
+      var _subscriptionData = decodeData(encodedData);
+      console.log('Retrieved Subscription Data:', _subscriptionData); // Debug
+
+      // Check if subscription has expired
+      if (_subscriptionData && _subscriptionData.expiresAt > Date.now()) {
+        return {
+          success: true,
+          subscriptionType: _subscriptionData.type
+        };
+      } else {
+        localStorage.removeItem('subscriptionData'); // Clear expired subscription
+      }
+    }
+  }
+  return {
+    success: false
+  };
+}
+
+// Redirect to subscription page
+function redirectToSubscription(type) {
+  var successUrl = "".concat(window.location.origin, "?subscription=").concat(type, "&timestamp=").concat(Date.now());
+  var paymentLink = type === 'monthly' ? 'https://buy.stripe.com/dR6fZC0BWd7ubvO8wz' : 'https://buy.stripe.com/00g7t63O8d7uczS6os';
+  window.location.href = "".concat(paymentLink, "?success_url=").concat(encodeURIComponent(successUrl));
+}
 
 /***/ }),
 
@@ -79767,30 +80137,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.list-group-item[data-v-23ef7dd5]{\n
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-300b761a] {\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n  transition: transform 0.2s;\n}\n.card[data-v-300b761a]:hover {\n  transform: translateY(-5px);\n}\n.card-title[data-v-300b761a] {\n  font-weight: bold;\n  color: #2c3e50;\n}\n.card-text[dir=\"rtl\"][data-v-300b761a] {\n  font-size: 1.2em;\n  font-family: 'Amiri', serif;\n  /* Use a font that supports Arabic */\n}\n.alert[data-v-300b761a] {\n  max-width: 500px;\n  margin: 0 auto;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CharityComponent.vue?vue&type=style&index=0&id=5c37b230&lang=css":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/CharityComponent.vue?vue&type=style&index=0&id=5c37b230&lang=css ***!
@@ -79832,7 +80178,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.icon-tooltip[data-v-e4489e22] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  transition: color 0.3s ease-in-out;\n}\n.icon-tooltip[data-v-e4489e22]:hover {\n  color: rgb(13, 182, 145);\n}\nimg[data-v-e4489e22] {\n  max-width: 150px;\n  /* Adjust as needed */\n  height: auto;\n}\n.highlighted[data-v-e4489e22] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n  /* Adjust as needed */\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n    /* Increased padding for larger screens */\n}\n}\n@media (max-width: 576px) {\n.pagination[data-v-e4489e22] {\n    /* display: flex; */\n    flex-wrap: nowrap;\n    /* Prevent wrapping */\n    justify-content: center;\n    /* Centre the pagination */\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n    /* Adjust as needed */\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255);\n  padding: 20px;\n  border-radius: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.audio[data-v-e4489e22] {\n  border-radius: 0 !important;\n  border-bottom-left-radius: 0px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 0px;\n  background: rgb(13, 182, 145);\n}\naudio[data-v-e4489e22]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 0px;\n  border-bottom-right-radius: 0px;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.pagination .page-item.disabled .page-link[data-v-e4489e22] {\n  cursor: not-allowed;\n}\n.pagination .page-link[data-v-e4489e22] {\n  cursor: pointer;\n}\n@media (max-width: 767px) {\n.pagination[data-v-e4489e22] {\n    /* display: block; */\n    text-align: center;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.icon-tooltip[data-v-e4489e22] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  transition: color 0.3s ease-in-out;\n}\n.icon-tooltip[data-v-e4489e22]:hover {\n  color: rgb(13, 182, 145);\n}\nimg[data-v-e4489e22] {\n  max-width: 150px;\n  /* Adjust as needed */\n  height: auto;\n}\n.highlighted[data-v-e4489e22] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n  /* Adjust as needed */\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n    /* Increased padding for larger screens */\n}\n}\n@media (max-width: 576px) {\n.pagination[data-v-e4489e22] {\n    /* display: flex; */\n    flex-wrap: nowrap;\n    /* Prevent wrapping */\n    justify-content: center;\n    /* Centre the pagination */\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n    /* Adjust as needed */\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255);\n  padding: 20px;\n  border-radius: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.audio[data-v-e4489e22] {\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgb(13, 182, 145);\n}\naudio[data-v-e4489e22]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 20px;\n  border-bottom-right-radius: 20px;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.pagination .page-item.disabled .page-link[data-v-e4489e22] {\n  cursor: not-allowed;\n}\n.pagination .page-link[data-v-e4489e22] {\n  cursor: pointer;\n}\n@media (max-width: 767px) {\n.pagination[data-v-e4489e22] {\n    /* display: block; */\n    text-align: center;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -124716,36 +125062,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AhadithComponent_vue_vue_type_style_index_0_id_23ef7dd5_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -197485,18 +197801,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AiComponent.vue?vue&type=template&id=300b761a&scoped=true */ "./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true");
+/* harmony import */ var _AiComponent_vue_vue_type_template_id_300b761a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AiComponent.vue?vue&type=template&id=300b761a */ "./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a");
 /* harmony import */ var _AiComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AiComponent.vue?vue&type=script&lang=js */ "./resources/js/components/AiComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css */ "./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AiComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-300b761a"],['__file',"resources/js/components/AiComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_AiComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AiComponent_vue_vue_type_template_id_300b761a__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AiComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -201011,18 +201324,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a ***!
+  \*******************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AiComponent.vue?vue&type=template&id=300b761a&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AiComponent.vue?vue&type=template&id=300b761a */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a");
 
 
 /***/ }),
@@ -202249,19 +202562,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AhadithComponent_vue_vue_type_style_index_0_id_23ef7dd5_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AhadithComponent.vue?vue&type=style&index=0&id=23ef7dd5&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AhadithComponent.vue?vue&type=style&index=0&id=23ef7dd5&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css":
-/*!*********************************************************************************************************!*\
-  !*** ./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css ***!
-  \*********************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=style&index=0&id=300b761a&scoped=true&lang=css");
 
 
 /***/ }),

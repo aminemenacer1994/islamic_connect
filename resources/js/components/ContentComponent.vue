@@ -180,7 +180,7 @@
               </div>
 
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; "
+                class="w-100 audio" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
                 @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @loadedmetadata="updateDuration(podcast, $event)">
                 Your browser does not support the audio element.
@@ -824,17 +824,16 @@ img {
 }
 
 .audio {
-  border-radius: 0 !important;
-  border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 20px;
   background: rgb(13, 182, 145);
 }
 
 audio::-webkit-media-controls-panel {
   background: rgb(13, 182, 145);
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .card {

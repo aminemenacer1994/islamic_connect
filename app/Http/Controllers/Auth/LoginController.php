@@ -18,83 +18,49 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/welcome';
 
-    // facebook
-
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    public function loginWithFacebook()
-    {
-        try {
-            $facebook_user = Socialite::driver('facebook')->user();
-            $user = User::where('facebook_id', $facebook_user->getId())->orWhere('email', $facebook_user->getEmail())->first();
-
-            if ($user) {
-                // Update Facebook ID if the user exists but does not have a Facebook ID
-                if (!$user->facebook_id) {
-                    $user->facebook_id = $facebook_user->getId();
-                    $user->save();
-                }
-            } else {
-                $user = User::create([
-                    'name' => $facebook_user->getName(),
-                    'email' => $facebook_user->getEmail(),
-                    'facebook_id' => $facebook_user->getId(),
-                    // You may want to handle other fields as well
-                ]);
-            }
-
-            Auth::login($user, true);
-            return redirect($this->redirectTo);
-        } catch (\Exception $e) {
-            return redirect('/')->withErrors(['error' => 'Unable to login using Facebook. Please try again.']);
-        }
-    }
-
-    // google
+    /**
+     * Redirect the user to the Google authentication page.
+     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * Handle the Google callback.
+     */
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
+            
+            // Check if the user already exists in your database
+            $user = User::where('email', $googleUser->email)->first();
 
-            // Check if the user already exists
-            $user = User::where('email', $googleUser->getEmail())->first();
-
-            if ($user) {
-                // If user already exists, log them in
-                Auth::login($user);
-            } else {
-                // If user does not exist, create a new user
+            if (!$user) {
+                // Create a new user if they don't exist
                 $user = User::create([
-                    'name' => $googleUser->getName(),
-                    'email' => $googleUser->getEmail(),
-                    'google_id' => $googleUser->getId(),
-                    // Assuming 'user_id' is nullable and not needed here
+                    'name' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'password' => bcrypt(rand(100000, 999999)), // Random password
                 ]);
-
-                Auth::login($user);
             }
 
-            return redirect()->route('home');
-        } catch (\Exception $e) {
+            // Log the user in
+            Auth::login($user);
 
-            return redirect()->route('home')->with('error', 'Unable to login using Google.');
+            // Redirect to the intended page or dashboard
+            return redirect()->intended($this->redirectPath());
+
+        } catch (\Exception $e) {
+            return redirect('/login')->withErrors('Google login failed. Please try again.');
         }
     }
 
-    
     /**
      * Logout the user.
-     
      */
     public function logout(Request $request)
     {
@@ -103,7 +69,7 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
-    
+
     /**
      * Create a new controller instance.
      *

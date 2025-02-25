@@ -45,18 +45,21 @@
         </div>
       </div>
 
-      <!-- <hr class="container" />
+      <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
             <h1 class="display-5 mb-3 fw-bold">Why Go Premium ?</h1>
           </div>
         </div>
-        
+
         <div class="row pt-3 g-4 g-md-5">
           <p class="lead container text-center pt-2">
-            Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan, you’re not just unlocking advanced features you’re contributing to a platform that empowers learning, accessibility, and a deeper connection to the Quran for all.</br></br>
-            Every premium subscription helps sustain this project, ensuring that more people can benefit from features designed to enhance understanding and engagement with the Quran.
+            Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan,
+            you’re not just unlocking advanced features you’re contributing to a platform that empowers learning,
+            accessibility, and a deeper connection to the Quran for all.</br></br>
+            Every premium subscription helps sustain this project, ensuring that more people can benefit from features
+            designed to enhance understanding and engagement with the Quran.
           </p>
           <div class="col-md-6">
             <div class="d-flex">
@@ -133,9 +136,9 @@
             </div>
           </div>
         </div>
-      </div>  -->
+      </div>
     </section>
-     <!-- <section class="py-4 pt-2">        
+    <section class="py-4 pt-2">
       <div class="container">
         <div class="row">
           <div class="col-12 col-lg-6">
@@ -211,7 +214,7 @@
                     </svg>
                     <span>Text-to-Speech for Translations and Tafsir</span>
                   </li>
-                  
+
                   <li class="list-group-item bg-transparent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                       class="bi bi-x text-danger" viewBox="0 0 16 16">
@@ -442,7 +445,7 @@
 
         </div>
       </div>
-    </section>  -->
+    </section>
     <!-- <hr class="container" />
     <section class="py-4 pt-2">
       <div class="container">
@@ -640,19 +643,18 @@ export default {
   },
   methods: {
     redirectToMonthlySubscription() {
-      // Replace with your Stripe Payment Link for monthly subscription
-      window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
+      const successUrl = `${window.location.origin}?subscription=monthly&timestamp=${Date.now()}`;
+      window.location.href = `https://buy.stripe.com/dR6fZC0BWd7ubvO8wz?success_url=${encodeURIComponent(successUrl)}`;
     },
     redirectToYearlySubscription() {
-      // Replace with your Stripe Payment Link for yearly subscription
-      window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
+      const successUrl = `${window.location.origin}?subscription=yearly&timestamp=${Date.now()}`;
+      window.location.href = `https://buy.stripe.com/00g7t63O8d7uczS6os?success_url=${encodeURIComponent(successUrl)}`;
     },
-
     redirectToRegister() {
       location.assign("/register");
     },
     async donate() {
-      if (this.amount <= 0) {
+      if (this.amount <= 1) {
         alert("Please enter a valid donation amount.");
         return;
       }

@@ -8,13 +8,12 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/welcome';
 
     public function __construct()
     {
@@ -26,7 +25,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3', 'confirmed'],
+            'password' => ['required', 'string', 'min:3', 'confirmed'], // Require at least 8 characters
         ]);
     }
 
@@ -36,20 +35,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'user_id' => $this->generateUserId(),
         ]);
-    }
-
-    private function generateUserId()
-    {
-        return User::max('user_id') + 1;
-    }
-
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-        $user = $this->create($request->all());
-        $this->guard()->login($user);
-        return $this->registered($request, $user) ?: redirect($this->redirectPath());
     }
 }
