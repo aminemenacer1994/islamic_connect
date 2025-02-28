@@ -44,8 +44,9 @@
           </div>
         </div>
       </div>
+    </section>
 
-      <hr class="container" />
+      <!-- <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -137,8 +138,8 @@
           </div>
         </div>
       </div>
-    </section>
-    <section class="py-4 pt-2">
+    </section> -->
+    <!-- <section class="py-4 pt-2">
       <div class="container">
         <div class="row">
           <div class="col-12 col-lg-6">
@@ -445,7 +446,7 @@
 
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- <hr class="container" />
     <section class="py-4 pt-2">
       <div class="container">

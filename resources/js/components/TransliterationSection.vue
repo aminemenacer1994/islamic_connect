@@ -54,9 +54,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="text-left mt-3 word-count">
-      <h6 class="text-left"><img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>
-    </div> -->
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
         :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
     </div>

@@ -22,6 +22,24 @@
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Translation: </strong>Ahmed Ali
             </div>
+
+            <!-- Dropdowns for Rate and Pitch -->
+            <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+              <!-- Rate Dropdown -->
+              <b>Rate:</b>
+              <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+                <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+              </select>
+
+              <!-- Pitch Dropdown -->
+              <b>Pitch:</b>
+              <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+                <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+              </select>
+            </div>
+
+
+
             <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
@@ -37,6 +55,7 @@
             </div>
           </div>
         </div>
+
         <!-- Icons Column (Stacked Vertically) -->
         <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
@@ -50,11 +69,16 @@
           <!-- Stop Button -->
           <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
             style="cursor: pointer;" aria-label="Stop reading audio"></i>
+
+          <!-- Font Size Adjustments -->
           <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
             aria-placeholder="Increase text size" @click="increaseFontSize"></i>
           <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
             aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
+
+
+          <!-- Toggle Collapse for More Options -->
           <p class="d-inline-flex gap-1">
             <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
               data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
@@ -62,12 +86,12 @@
             </i>
           </p>
 
+
+
         </div>
 
       </div>
-      <!-- <div class="text-left word-count mt-2">
-        <h6 class="text-left mt-3"><img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>
-      </div> -->
+
 
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
         :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
@@ -256,6 +280,10 @@ export default {
       surat: [],
       ayat: [],
       tafseers: [],
+      speechRate: 1, // Default rate
+      speechPitch: 1, // Default pitch
+      rates: [0.5, 1, 1.5, 2], // List of available speech rates
+      pitches: [0.5, 1, 1.5, 2], // List of available pitch values
     };
   },
 
@@ -866,8 +894,8 @@ export default {
       // Cancel any ongoing speech
       window.speechSynthesis.cancel();
       this.utterance = new SpeechSynthesisUtterance(text);
-      this.utterance.rate = 0.9;
-      this.utterance.pitch = 1;
+      this.utterance.rate = this.speechRate; // Set speech rate
+      this.utterance.pitch = this.speechPitch; // Set speech pitch
 
       // Ensure voices are loaded before setting one
       const setVoice = () => {

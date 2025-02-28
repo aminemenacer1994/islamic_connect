@@ -122,7 +122,7 @@
                                                 <div
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
                                                     <input class="form-check-input h4 pr-5 shadow-lg text-center"
-                                                        style="background-color: green; border-color: grey;"
+                                                        style="background-color: rgba(0, 191, 166); border-color: grey;"
                                                         type="checkbox" role="switch"
                                                         id="flexSwitchCheckDefault"
                                                         v-model="isVisible"
@@ -225,10 +225,6 @@
                                                             " class="bi bi-bookmark text-right mr-2 h4"
                                                                 aria-expanded="false" title="Bookmark verse"></i>
                                                         </div>
-                                                        <!-- <div class="col desktop-icon"><ScreenTranslationCapture style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div> -->
-                                                        <!-- <div class="col" v-if="!isVisible"><PdfDownload style="cursor:pointer" :targetTranslationRef="'targetTranslationElement'" /></div>                 -->
-                                                        <!-- <div class="col"><VideoModal  @save-video-data="handleSave" /><i class="bi bi-play-circle h3" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#videoModal"></i></div> -->
-                                                        <!-- <div class="col"><i class="bi bi-paint-bucket h2" data-bs-toggle="offcanvas" style="cursor:pointer" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i></div> -->
                                                         <div class="col desktop-icon">
                                                             <i style="
                                                                 cursor: pointer;
@@ -270,8 +266,6 @@
                                                     @click="goToNextAyah()" title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
                                                     @click="goToLastAyah()" title="End verse"></i>
-                                                <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
-                                                <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
                                             </div>
                                         </div>
                                         <!-- dropdown mobile content -->
@@ -351,8 +345,6 @@
                                                                     aria-expanded="false" data-bs-placement="top"
                                                                     title="Bookmark verse"></i>
                                                             </div>
-                                                            <!-- <div class="col desktop-icon"><ScreenTafseerCapture style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'" /></div> -->
-                                                            <!-- <div class="col"><PdfDownloadTafsser style="cursor:pointer"  :targetTafseerRef="'targetTafseerElement'"/></div> -->
                                                             <div class="col desktop-icon">
                                                                 <i style="
                                                                     cursor: pointer;
@@ -398,8 +390,6 @@
                                                         @click="goToNextAyah()" title="Next verse"></i>
                                                     <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
                                                         @click="goToLastAyah()" title="End verse"></i>
-                                                    <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
-                                                    <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -528,8 +518,6 @@
                                                             @click="goToNextAyah()" title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
                                                             @click="goToLastAyah()" title="End verse"></i>
-                                                        <!-- <i class="bi bi-paint-bucket h1" style="cursor:pointer" data-bs-toggle="offcanvas" data-bs-target="#styleOffcanvas" aria-controls="styleOffcanvas"></i> -->
-                                                        <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -586,12 +574,7 @@
                             <TafseerNote ref="tafseerNote" :information="modalInformation" />
                             <TransliterationNote ref="transliterationNote" :information="modalInformation" />
                         </div>
-                        <!-- <audio v-if="information != null" 
-                        ref="audioPlayer" 
-                        :src="fullAudioLink"  
-                        class="w-100 custom-audio" 
-                        loop controls 
-                        />  -->
+                        
                     </div>
 
                 </div>

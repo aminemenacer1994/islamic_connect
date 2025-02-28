@@ -32833,9 +32833,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TafseerActions',
-  components: {
-    FolderSelectionModal: _folder_manager_FolderSelectionModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   props: {
     tafseer: {
       type: String,
@@ -32881,77 +32878,7 @@ __webpack_require__.r(__webpack_exports__);
     // Debounced version of captureTafseer to limit repeated calls
     debouncedCaptureTafseer: (0,lodash__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () {
       this.captureTafseer();
-    }, 500),
-    // Adjust debounce time as necessary
-    captureTafseer: function captureTafseer() {
-      var _this2 = this;
-      // Access the target translation element using the ref passed as a prop
-      var targetTafseerElement = this.$parent.$refs[this.targetTafseerRef];
-      if (!targetTafseerElement) {
-        console.error("Invalid element provided as targetTafseerRef");
-        return;
-      }
-
-      // Store the original padding of the target element
-      var originalPadding = targetTafseerElement.style.padding;
-
-      // Set the desired padding
-      targetTafseerElement.style.padding = "10px"; // Adjust this value as needed
-
-      var unwantedElements = ['.icon-container, .settings, .summary, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, ' + '.custom-icon-play, .bi-rewind-circle-fill, .bi-plus-circle-fill, .bi-dash-circle-fill, ' + '.bi-play-circle-fill, .bi-pause-circle-fill, .bi-stop-circle-fill, .custom-icon-decrease, .word-count'];
-
-      // Function to hide elements
-      var hideElements = function hideElements(selectorArray) {
-        selectorArray.forEach(function (selector) {
-          var elements = document.querySelectorAll(selector);
-          elements.forEach(function (el) {
-            el.style.display = 'none';
-          });
-        });
-      };
-
-      // Function to show elements
-      var showElements = function showElements(selectorArray) {
-        selectorArray.forEach(function (selector) {
-          var elements = document.querySelectorAll(selector);
-          elements.forEach(function (el) {
-            el.style.display = '';
-          });
-        });
-      };
-
-      // Hide unwanted elements before capturing
-      hideElements(unwantedElements);
-      setTimeout(function () {
-        html2canvas__WEBPACK_IMPORTED_MODULE_2___default()(targetTafseerElement, {
-          allowTaint: true,
-          useCORS: true
-        }).then(function (canvas) {
-          var dataUrl = canvas.toDataURL("image/png");
-
-          // Automatically trigger download of the image
-          var link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = "screenshot.png";
-          link.click();
-
-          // Show success message after download
-          _this2.showSuccessMessage = true;
-
-          // Hide success message after 5 seconds
-          setTimeout(function () {
-            _this2.showSuccessMessage = false;
-          }, 5000);
-
-          // Restore visibility of unwanted elements
-          showElements(unwantedElements);
-        })["catch"](function (error) {
-          console.error("Failed to capture screenshot:", error);
-          // Ensure to show elements if an error occurs
-          showElements(unwantedElements);
-        });
-      }, 200);
-    }
+    }, 500) // Adjust debounce time as necessary
   }
 });
 
@@ -33066,7 +32993,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       isHolding: false,
       tapTimeout: null,
       holdTimeout: null
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "holdDuration", 1000), "isPaused", false), "isReading", false), "resetDisabled", true), "utterance", null), "selectedVoiceName", ""), "selectedVoice", null), "successMessage", false), "currentWordIndex", 0), "ayahAudio", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "ayahId", 1), "tafseer", ""), "expanded", false), "rate", 1), "pitch", 1), "surahUrl", ""), "voices", []), "ayahId", 1), "data", []), "surat", []), _defineProperty(_defineProperty(_ref, "ayat", []), "tafseers", []);
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "holdDuration", 1000), "isPaused", false), "isReading", false), "resetDisabled", true), "utterance", null), "selectedVoiceName", ""), "selectedVoice", null), "successMessage", false), "currentWordIndex", 0), "ayahAudio", null), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "ayahId", 1), "tafseer", ""), "expanded", false), "rate", 1), "pitch", 1), "surahUrl", ""), "voices", []), "ayahId", 1), "data", []), "surat", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "ayat", []), "tafseers", []), "speechRate", 1), "speechPitch", 1), "rates", [0.5, 1, 1.5, 2]), "pitches", [0.5, 1, 1.5, 2]);
   }
 }, "computed", {
   wordCount: function wordCount() {
@@ -33671,8 +33598,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
     this.utterance = new SpeechSynthesisUtterance(text);
-    this.utterance.rate = 0.9;
-    this.utterance.pitch = 1;
+    this.utterance.rate = this.speechRate; // Set speech rate
+    this.utterance.pitch = this.speechPitch; // Set speech pitch
 
     // Ensure voices are loaded before setting one
     var setVoice = function setVoice() {
@@ -33830,10 +33757,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TranslationActions",
-  components: {
-    FolderSelectionModal: _folder_manager_FolderSelectionModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ScreenTranslationCapture: _translation_features_screen_capture_ScreenTranslationCapture_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
   props: {
     translation: {
       type: String,
@@ -33874,57 +33797,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     handleAction: function handleAction(action, modalId) {
       this.$emit(action, modalId);
-    },
-    // Debounced version of captureTranslation to limit repeated calls
-    debouncedCaptureTranslation: (0,lodash__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () {
-      this.captureTranslation();
-    }, 500),
-    // Adjust debounce time as necessary
-    captureTranslation: function captureTranslation() {
-      var targetTranslationElement = this.$parent.$refs[this.targetTranslationRef];
-      if (!targetTranslationElement) {
-        console.error("Target translation element not found.");
-        return;
-      }
-
-      // Save original styles and prepare for capture
-      var originalPadding = targetTranslationElement.style.padding || "";
-      targetTranslationElement.style.padding = "5px"; // Adjust as needed
-
-      var applyTemporaryStyles = function applyTemporaryStyles() {
-        document.body.classList.add("hide-unwanted-elements");
-      };
-      var removeTemporaryStyles = function removeTemporaryStyles() {
-        document.body.classList.remove("hide-unwanted-elements");
-      };
-      applyTemporaryStyles();
-      setTimeout(function () {
-        html2canvas__WEBPACK_IMPORTED_MODULE_3___default()(targetTranslationElement, {
-          scale: 2,
-          useCORS: true
-        }).then(function (canvas) {
-          var dataUrl = canvas.toDataURL("image/png");
-          var link = document.createElement("a");
-          link.href = dataUrl;
-          link.download = "screenshot.png";
-          link.click();
-          removeTemporaryStyles();
-        })["catch"](function (error) {
-          console.error("Failed to capture screenshot:", error);
-          removeTemporaryStyles();
-        });
-      }, 500); // Adjust timeout for mobile rendering
-
-      // Restore original styles
-      targetTranslationElement.style.padding = originalPadding;
-    },
-    toggleElements: function toggleElements(selectors, displayValue) {
-      selectors.forEach(function (selector) {
-        var elements = document.querySelectorAll(selector);
-        elements.forEach(function (el) {
-          return el.style.display = displayValue;
-        });
-      });
     },
     isFormDataIncomplete: function isFormDataIncomplete(formData) {
       return !formData.surah_name || !formData.ayah_num || !formData.ayah_verse_ar || !formData.ayah_verse_en || !formData.user_id;
@@ -34100,7 +33972,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       inputText: "",
       result: null,
       isOffcanvasOpen: false
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "offcanvasInstance", null), "isLoading", false), "selectedVoice", null), "selectedVoiceName", ''), "summary", ""), "error", ""), "loading", false), "API_TOKEN", "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"), "BASE_URL", "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"), "isAuthenticated", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "userId", null), "successMessage", ""), "isSwipeEnabled", true), "swipeDisabled", false), "touchStartX", 0), "touchStartY", 0), "expanded", false), "renderedText", ""), "selectedFormat", "Select a format"), "fontSize", parseFloat(localStorage.getItem('ayahFontSize')) || 1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "holdTimeout", null), "holdDuration", 1000), "tapCount", 0), "lastTap", 0), "lastTapTime", 0), "doubleTapThreshold", 300), "isHolding", false), "tapTimeout", null), "isPaused", false), "isReading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isAudioPlaying", false), "resetDisabled", true), "utterance", null), "successMessage", false), "words", this.information.translation.split(" ")), "text", this.information.translation), "currentWordIndex", -1), "ayahAudio", null), "ayahId", 1), "data", []), _defineProperty(_defineProperty(_defineProperty(_ref, "surat", []), "ayat", []), "tafseers", []);
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "offcanvasInstance", null), "isLoading", false), "selectedVoice", null), "selectedVoiceName", ''), "summary", ""), "error", ""), "loading", false), "API_TOKEN", "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"), "BASE_URL", "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"), "isAuthenticated", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "userId", null), "successMessage", ""), "isSwipeEnabled", true), "swipeDisabled", false), "touchStartX", 0), "touchStartY", 0), "expanded", false), "renderedText", ""), "selectedFormat", "Select a format"), "fontSize", parseFloat(localStorage.getItem('ayahFontSize')) || 1), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "holdTimeout", null), "holdDuration", 1000), "tapCount", 0), "lastTap", 0), "lastTapTime", 0), "doubleTapThreshold", 300), "isHolding", false), "tapTimeout", null), "isPaused", false), "isReading", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isAudioPlaying", false), "resetDisabled", true), "utterance", null), "successMessage", false), "words", this.information.translation.split(" ")), "text", this.information.translation), "currentWordIndex", -1), "ayahAudio", null), "ayahId", 1), "data", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "surat", []), "ayat", []), "tafseers", []), "speechRate", 1), "speechPitch", 1), "rates", [0.5, 1, 1.5, 2]), "pitches", [0.5, 1, 1.5, 2]);
   },
   mounted: function mounted() {
     var _this = this;
@@ -34662,8 +34534,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       // Cancel any ongoing speech
       window.speechSynthesis.cancel();
       this.utterance = new SpeechSynthesisUtterance(text);
-      this.utterance.rate = 0.9;
-      this.utterance.pitch = 1;
+      this.utterance.rate = this.speechRate; // Set speech rate
+      this.utterance.pitch = this.speechPitch; // Set speech pitch
 
       // Ensure voices are loaded before setting one
       var setVoice = function setVoice() {
@@ -34780,15 +34652,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translation_features_notes_TransliterationNote__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translation/features/notes/TransliterationNote */ "./resources/js/components/translation/features/notes/TransliterationNote.vue");
 /* harmony import */ var _translation_features_whatsapp_WhatsAppShareTransliteration_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./translation/features/whatsapp/WhatsAppShareTransliteration.vue */ "./resources/js/components/translation/features/whatsapp/WhatsAppShareTransliteration.vue");
 /* harmony import */ var _translation_features_twitter_TwitterShareTransliteration_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./translation/features/twitter/TwitterShareTransliteration.vue */ "./resources/js/components/translation/features/twitter/TwitterShareTransliteration.vue");
-/* harmony import */ var _translation_features_screen_capture_ScreenTransliterationCapture_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./translation/features/screen_capture/ScreenTransliterationCapture.vue */ "./resources/js/components/translation/features/screen_capture/ScreenTransliterationCapture.vue");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
 
 
 
@@ -34800,8 +34666,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   components: {
     TransliterationNote: _translation_features_notes_TransliterationNote__WEBPACK_IMPORTED_MODULE_1__["default"],
     WhatsAppShareTransliteration: _translation_features_whatsapp_WhatsAppShareTransliteration_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TwitterShareTransliteration: _translation_features_twitter_TwitterShareTransliteration_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ScreenTransliterationCapture: _translation_features_screen_capture_ScreenTransliterationCapture_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    TwitterShareTransliteration: _translation_features_twitter_TwitterShareTransliteration_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: {
     transliteration: {
@@ -34824,7 +34689,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       showErrorAlert: false
     };
   },
-  methods: _defineProperty(_defineProperty(_defineProperty({
+  methods: {
     toggleFullScreen: function toggleFullScreen() {
       this.isFullScreen = !this.isFullScreen;
     },
@@ -34838,69 +34703,21 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         _this.showErrorAlert = false;
       }, 3000); // Hide alerts after 3 seconds
     },
-    captureTransliteration: function captureTransliteration() {
-      this._captureContent('screenshot.png', (html2canvas__WEBPACK_IMPORTED_MODULE_5___default()));
-    },
     downloadTransliterationPdf: function downloadTransliterationPdf() {
       this._captureContent('download.pdf', function (targetElement) {
-        var canvas = html2canvas__WEBPACK_IMPORTED_MODULE_5___default()(targetElement);
+        var canvas = html2canvas__WEBPACK_IMPORTED_MODULE_4___default()(targetElement);
         return canvas.then(function (canvas) {
           var imgData = canvas.toDataURL('image/png');
-          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_6__["default"]();
+          var pdf = new jspdf__WEBPACK_IMPORTED_MODULE_5__["default"]();
           pdf.addImage(imgData, 'PNG', 10, 10, 190, 0);
           pdf.save('download.pdf');
         });
       });
     },
-    // Debounced version of captureTafseer to limit repeated calls
-    debouncedCaptureTransliteration: (0,lodash__WEBPACK_IMPORTED_MODULE_0__.debounce)(function () {
-      this.captureTransliteration();
-    }, 500)
-  }, "captureTransliteration", function captureTransliteration() {
-    // Log the reference and element
-    console.log("Target Reference:", this.targetTransliterationRef);
-    console.log("Resolved Element:", this.$refs[this.targetTransliterationRef]);
-    var targetTransliterationElement = this.$refs[this.targetTransliterationRef];
-    if (!targetTransliterationElement) {
-      console.error("Target transliteration element not found. Check if the ref exists and is rendered.");
-      return;
+    showSettingsOffcanvas: function showSettingsOffcanvas() {
+      new bootstrap.Offcanvas(document.getElementById('offcanvasRight')).show();
     }
-    // Proceed with screenshot logic if element is found
-    targetTransliterationElement.style.padding = "5px";
-
-    // Hide unwanted elements
-    var hideElements = function hideElements() {
-      document.body.classList.add("hide-unwanted-elements");
-    };
-    var showElements = function showElements() {
-      document.body.classList.remove("hide-unwanted-elements");
-    };
-    hideElements();
-    setTimeout(function () {
-      html2canvas__WEBPACK_IMPORTED_MODULE_5___default()(targetTransliterationElement, {
-        scale: 2
-      }).then(function (canvas) {
-        var dataUrl = canvas.toDataURL("image/png");
-        var link = document.createElement("a");
-        link.href = dataUrl;
-        link.download = "screenshot.png";
-        link.click();
-      })["catch"](function (error) {
-        return console.error("Screenshot error:", error);
-      })["finally"](function () {
-        showElements();
-        targetTransliterationElement.style.padding = "";
-      });
-    }, 300);
-  }), "_toggleElementsVisibility", function _toggleElementsVisibility(selectors, displayStyle) {
-    selectors.forEach(function (selector) {
-      document.querySelectorAll(selector).forEach(function (el) {
-        return el.style.display = displayStyle;
-      });
-    });
-  }), "showSettingsOffcanvas", function showSettingsOffcanvas() {
-    new bootstrap.Offcanvas(document.getElementById('offcanvasRight')).show();
-  }),
+  },
   watch: {
     isVisible: function isVisible() {
       this.$emit('toggle-change');
@@ -42662,79 +42479,8 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   id: "app"
 };
-var _hoisted_2 = {
-  "class": "py-4 pt-2"
-};
-var _hoisted_3 = {
-  "class": "container"
-};
-var _hoisted_4 = {
-  "class": "row"
-};
-var _hoisted_5 = {
-  "class": "col-12 col-lg-6"
-};
-var _hoisted_6 = {
-  "class": "card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular"
-};
-var _hoisted_7 = {
-  "class": "card-body"
-};
-var _hoisted_8 = {
-  "class": "col-12 col-lg-6"
-};
-var _hoisted_9 = {
-  "class": "card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular",
-  style: {
-    "border": "2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px"
-  }
-};
-var _hoisted_10 = {
-  "class": "card-body"
-};
-var _hoisted_11 = {
-  "class": "row"
-};
-var _hoisted_12 = {
-  "class": "col-md-6"
-};
-var _hoisted_13 = {
-  "class": "col-md-6"
-};
-var _hoisted_14 = {
-  "class": "row container"
-};
-var _hoisted_15 = {
-  "class": "container-fluid text-center pt-2"
-};
-var _hoisted_16 = {
-  key: 0,
-  "class": "row"
-};
-var _hoisted_17 = {
-  "class": "modal fade",
-  id: "exampleModal",
-  tabindex: "-1",
-  "aria-labelledby": "exampleModalLabel",
-  "aria-hidden": "true"
-};
-var _hoisted_18 = {
-  "class": "modal-dialog modal-lg"
-};
-var _hoisted_19 = {
-  "class": "modal-content"
-};
-var _hoisted_20 = {
-  "class": "row modal-body"
-};
-var _hoisted_21 = {
-  "class": "col-md-6"
-};
-var _hoisted_22 = {
-  "class": "col-md-6"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     "class": "py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "container pt-3 pb-3"
@@ -42771,197 +42517,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "/images/heart.png",
     width: "80%",
     alt: "Support Islamic Connect"
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
-    "class": "container"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container pt-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row justify-content-center text-center mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-lg-8 col-xl-7"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 mb-3 fw-bold"
-  }, "Why Go Premium ?")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4 g-md-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead container text-center pt-2"
-  }, " Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan, you’re not just unlocking advanced features you’re contributing to a platform that empowers learning, accessibility, and a deeper connection to the Quran for all. Every premium subscription helps sustain this project, ensuring that more people can benefit from features designed to enhance understanding and engagement with the Quran. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/podcasting.png",
-    width: "50px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Speech-to-Text for Islamic Notes and Reflections"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/voice-recognition.png",
-    width: "60px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Speak, explore, and connect deeply with Quranic teachings."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/elearning.png",
-    width: "50px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Versatile Note Editor with Advanced Customization Features"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/attached-file.png",
-    width: "50px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Export Quranic Verses in multiple file Formats"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/highlighter.png",
-    width: "50px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Audio Synchronization with Word-by-Word Quranic Highlighting"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words.")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-success me-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "images/chat.png",
-    width: "50px"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mb-2 mb-lg-3 fw-bold"
-  }, "Text-to-Speech for English Translation and Tafsir"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text.")])])])])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div style=\"padding:20px;\" data-v-d4146a7c><h1 class=\"h4 mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Basic</b></h1><h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);\" data-v-d4146a7c>£ 0.00</h4><p class=\"text-secondary mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Free</b></p></div><ul class=\"list-group list-group-flush mb-4\" data-v-d4146a7c><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Read translation, tafseer and transliteration</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Switch mode: Basic or Advanced features</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Save basic notes &amp; bookmarks</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#90EE90\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Surah Information</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Voice search for Quranic results</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Audio Sync with Word-by-Word Highlighting</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Advanced and Customizable note Editor</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Text-to-Speech for Translations and Tafsir</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-Text for Note Recordings</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Export Quranic verses via CSV, DOC and JSON</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-text for enhanced audio experience</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Early access to exclusive features.</span></li></ul>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "w-100 btn button",
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    role: "button",
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.redirectToRegister && $options.redirectToRegister.apply($options, arguments);
-    })
-  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    style: {
-      "color": "white",
-      "font-size": "19px"
-    }
-  }, "Get Started", -1 /* HOISTED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div style=\"padding:20px;\" data-v-d4146a7c><h1 class=\"h4 mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Premium</b></h1><div data-v-d4146a7c><h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);display:flex;\" data-v-d4146a7c>£ 2.99</h4><p class=\"text-secondary mb-2\" data-v-d4146a7c><b data-v-d4146a7c>Monthly</b></p></div></div><ul class=\"list-group list-group-flush mb-4\" data-v-d4146a7c><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Read translation, tafseer and transliteration</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Switch mode: Basic or Advanced features</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Save basic notes &amp; bookmarks</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Surah Information</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Voice search for Quranic results</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Audio Sync with Word-by-Word Highlighting</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Advanced and Customizable note Editor</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Text-to-Speech for Translations and Tafsir</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-Text for Note Recordings</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Export Quranic verses via CSV, DOC and JSON</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Speech-to-text for enhanced audio experience</span></li><li class=\"list-group-item bg-transparent\" data-v-d4146a7c><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\" viewBox=\"0 0 16 16\" data-v-d4146a7c><path d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" data-v-d4146a7c></path></svg><span data-v-d4146a7c>Early access to exclusive features.</span></li></ul>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "w-100 btn button mb-2",
-    onClick: _cache[1] || (_cache[1] = function () {
-      return $options.redirectToMonthlySubscription && $options.redirectToMonthlySubscription.apply($options, arguments);
-    }),
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    role: "button"
-  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    style: {
-      "color": "white",
-      "font-size": "16px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pay monthly (£ 2.99)")], -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.redirectToYearlySubscription && $options.redirectToYearlySubscription.apply($options, arguments);
-    }),
-    "class": "w-100 btn button",
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    role: "button"
-  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    style: {
-      "color": "white",
-      "font-size": "16px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pay yearly (£ 29.99) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "badge rounded-pill text-bg-light"
-  }, "Save % 16")], -1 /* HOISTED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_ctx.isPremium ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-8"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn button-37",
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    "data-bs-toggle": "modal",
-    "data-bs-target": "#exampleModal"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Can't afford Premium ?")])], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-2"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "modal-title",
-    id: "exampleModalLabel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Premium Plan options")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "mb-2 mt-2 container text-center"
-  }, "This is a matter between you and your Lord. If you sincerely need access to the premium version but cannot afford it, Islamic Connect is here to support you. We will provide you with the premium features at no cost, ensuring nothing stands in the way of your spiritual journey.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "w-100 btn button",
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    role: "button",
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return $options.redirectToMonthlySubscription();
-    })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    style: {
-      "color": "white",
-      "font-size": "16px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Monthly Plan")], -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "w-100 btn button",
-    style: {
-      "background": "rgb(0 163 164)",
-      "color": "white"
-    },
-    role: "button",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return $options.redirectToYearlySubscription();
-    })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    style: {
-      "color": "white",
-      "font-size": "16px"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Yearly Plan")], -1 /* HOISTED */)]))])]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-footer"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Close")], -1 /* HOISTED */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n    <section class=\"py-4 pt-2\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-12 col-xl-7\">\n            <h2 class=\"display-5 fw-bold\">Frequently Asked Questions</h2>\n          </div>\n        </div>\n        <div class=\"row justify-content-center py-lg-3\">\n          <div class=\"col-md-12\">\n            <div class=\"row justify-content-center mb-4\">\n              <div class=\"col-lg-12\">\n                <div class=\"accordion\" id=\"Tech-accordion\">\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingOne\"><button aria-controls=\"Tech-collapseOne\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseOne\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Are there any hidden fees or additional charges ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingOne\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseOne\">\n                      <div class=\"accordion-body\">\n                        No, there are no hidden fees. The subscription price you see includes all features, with no\n                        unexpected charges.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingTwo\"><button aria-controls=\"Tech-collapseTwo\"\n                        aria-expanded=\"true\" class=\"accordion-button\" data-bs-target=\"#Tech-collapseTwo\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>What happens if I cancel my subscription ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingTwo\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseTwo\" style=\"\">\n                      <div class=\"accordion-body\">\n                        If you cancel your subscription, you will retain access to the premium features until the end of\n                        your billing cycle, after which your account will revert to the free version.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingThree\"><button aria-controls=\"Tech-collapseThree\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseThree\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Can I get a refund if I'm not satisfied with the premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingThree\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseThree\">\n                      <div class=\"accordion-body\">\n                        We offer a satisfaction guarantee. If you are not satisfied within the first 30 days.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFour\"><button aria-controls=\"Tech-collapseFour\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFour\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer lifetime access to premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFour\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFour\">\n                      <div class=\"accordion-body\">\n                        Currently, we do not offer lifetime subscriptions, but we provide competitive annual plans that\n                        deliver ongoing value.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFive\"><button aria-controls=\"Tech-collapseFive\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFive\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Is my subscription automatically renewed ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFive\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFive\">\n                      <div class=\"accordion-body\">\n                        Yes, subscriptions are automatically renewed to ensure uninterrupted access, but you can cancel\n                        or manage your subscription at any time.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSix\"><button aria-controls=\"Tech-collapseSix\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSix\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer a free trial before subscribing ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSix\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSix\">\n                      <div class=\"accordion-body\">\n                        Yes, we offer a free trial period to help you explore all premium features before committing to\n                        a subscription.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSeven\"><button aria-controls=\"Tech-collapseSeven\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSeven\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>How secure is my payment information ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSeven\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSeven\">\n                      <div class=\"accordion-body\">\n                        Your payment information is securely encrypted and processed through a trusted payment gateway\n                        to ensure maximum security.\n                      </div>\n                    </div>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> ")]);
+  })])])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n      <div class=\"container pt-3\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-8 col-xl-7\">\n            <h1 class=\"display-5 mb-3 fw-bold\">Why Go Premium ?</h1>\n          </div>\n        </div>\n\n        <div class=\"row pt-3 g-4 g-md-5\">\n          <p class=\"lead container text-center pt-2\">\n            Your support helps us keep Islamic knowledge accessible to everyone. By subscribing to a premium plan,\n            you’re not just unlocking advanced features you’re contributing to a platform that empowers learning,\n            accessibility, and a deeper connection to the Quran for all.</br></br>\n            Every premium subscription helps sustain this project, ensuring that more people can benefit from features\n            designed to enhance understanding and engagement with the Quran.\n          </p>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/podcasting.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Speech-to-Text for Islamic Notes and Reflections</h4>\n                <p>Capture your spoken reflections, making it easier to document your thoughts and reflections on\n                  Islamic teachings, while ensuring accessibility for those who prefer audio to written text.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/voice-recognition.png\" width=\"60px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Speak, explore, and connect deeply with Quranic teachings.</h4>\n                <p>Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless,\n                  accessible way to connect with Islam.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/elearning.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Versatile Note Editor with Advanced Customization Features</h4>\n                <p>A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing\n                  capabilities with extensive customization options. This tool emphasizes seamless accessibility.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/attached-file.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Export Quranic Verses in multiple file Formats</h4>\n                <p>Easily export Quranic verses in multiple formats for study, research, and sharing, offering\n                  flexibility and convenience for personal reflection or educational purposes.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/highlighter.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Audio Synchronization with Word-by-Word Quranic Highlighting</h4>\n                <p>Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word\n                  is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the\n                  words.</p>\n              </div>\n            </div>\n          </div>\n          <div class=\"col-md-6\">\n            <div class=\"d-flex\">\n              <div class=\"text-success me-4\">\n                <img src=\"images/chat.png\" width=\"50px\" />\n              </div>\n              <div>\n                <h4 class=\"mb-2 mb-lg-3 fw-bold\">Text-to-Speech for English Translation and Tafsir</h4>\n                <p>High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more\n                  accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran\n                  and enriching connection to the sacred text.</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-4 pt-2\">\n      <div class=\"container\">\n        <div class=\"row\">\n          <div class=\"col-12 col-lg-6\">\n            <div class=\"card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular\">\n              <div class=\"card-body\">\n                <div style=\"padding:20px\">\n                  <h1 class=\"h4 mb-2\"><b>Basic</b></h1>\n                  <h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166)\">£ 0.00</h4>\n                  <p class=\"text-secondary mb-2\"><b>Free</b></p>\n                </div>\n                <ul class=\"list-group list-group-flush mb-4\">\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Read translation, tafseer and transliteration</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Switch mode: Basic or Advanced features</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Save basic notes & bookmarks</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#90EE90\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Surah Information</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Voice search for Quranic results</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Audio Sync with Word-by-Word Highlighting</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Advanced and Customizable note Editor</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Text-to-Speech for Translations and Tafsir</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Speech-to-Text for Note Recordings</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Export Quranic verses via CSV, DOC and JSON</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Speech-to-text for enhanced audio experience</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\"\n                      class=\"bi bi-x text-danger\" viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z\" />\n                    </svg>\n                    <span>Early access to exclusive features.</span>\n                  </li>\n\n                </ul>\n\n                <button class=\"w-100 btn button\" style=\"background: rgb(0 163 164); color:white\" role=\"button\"\n                  @click=\"redirectToRegister\">\n                  <span style=\"color:white;font-size:19px;\">Get Started</span>\n                </button>\n\n              </div>\n            </div>\n          </div>\n          <div class=\"col-12 col-lg-6\">\n            <div class=\"card border-0 border-bottom shadow-lg pb-md-4 bsb-pricing-popular\"\n              style=\"border:2px solid rgba(151, 65, 252, 0.2) 0 15px 30px -5px;\">\n              <div class=\"card-body\">\n                <div style=\"padding:20px\">\n                  <h1 class=\"h4 mb-2\"><b>Premium</b></h1>\n                  <div>\n                    <h4 class=\"display-3 fw-bold mb-0\" style=\"color:rgba(0, 191, 166);display:flex\">£ 2.99</h4>\n                    <p class=\"text-secondary mb-2\"><b>Monthly</b></p>\n                  </div>\n\n                </div>\n                <ul class=\"list-group list-group-flush mb-4\">\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Read translation, tafseer and transliteration</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Switch mode: Basic or Advanced features</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Save basic notes & bookmarks</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Surah Information</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Voice search for Quranic results</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Audio Sync with Word-by-Word Highlighting</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Advanced and Customizable note Editor</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Text-to-Speech for Translations and Tafsir</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Speech-to-Text for Note Recordings</span>\n                  </li>\n\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Export Quranic verses via CSV, DOC and JSON</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Speech-to-text for enhanced audio experience</span>\n                  </li>\n                  <li class=\"list-group-item bg-transparent\">\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"#66C466\" class=\"bi bi-check\"\n                      viewBox=\"0 0 16 16\">\n                      <path\n                        d=\"M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z\" />\n                    </svg>\n                    <span>Early access to exclusive features.</span>\n                  </li>\n\n                </ul>\n                <div class=\"row\">\n                  <div class=\"col-md-6\">\n                    <button class=\"w-100 btn button mb-2\" @click=\"redirectToMonthlySubscription\"\n                      style=\"background:rgb(0 163 164);color:white\" role=\"button\">\n                      <span style=\"color:white;font-size:16px;\">\n                        <b>Pay monthly (£ 2.99)</b>\n                      </span>\n                    </button>\n                  </div>\n                  <div class=\"col-md-6\">\n                    <button @click=\"redirectToYearlySubscription\" class=\"w-100 btn button\"\n                      style=\"background:rgb(0 163 164);color:white\" role=\"button\">\n                      <span style=\"color:white;font-size:16px;\">\n                        <b>Pay yearly (£ 29.99) </b>\n                        <span class=\"badge rounded-pill text-bg-light\">Save % 16</span>\n                      </span>\n                    </button>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"row container\">\n\n            <div class=\"container-fluid text-center pt-2\">\n              <div v-if=\"isPremium\" class=\"row\">\n                <div class=\"col-md-2\">\n                </div>\n                <div class=\"col-md-8\">\n                  <button type=\"button\" class=\"btn button-37\" style=\"background:rgb(0 163 164);color:white\"\n                    data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\">\n                    <b>Can't afford Premium ?</b>\n                  </button>\n                </div>\n                <div class=\"col-md-2\">\n                </div>\n              </div>\n            </div>\n\n            <div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\"\n              aria-hidden=\"true\">\n              <div class=\"modal-dialog modal-lg\">\n                <div class=\"modal-content\">\n                  <div class=\"modal-header\">\n                    <h4 class=\"modal-title\" id=\"exampleModalLabel\"><b>Premium Plan options</b></h4>\n                    <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n                  </div>\n                  <div class=\"row modal-body\">\n                    <p class=\"mb-2 mt-2 container text-center\">This is a matter between you and your Lord. If you\n                      sincerely need access to the premium version but cannot afford it, Islamic Connect is here to\n                      support you. We will provide you with the premium features at no cost, ensuring nothing stands in\n                      the way of your spiritual journey.</p>\n                    <div class=\"col-md-6\">\n                      <button class=\"w-100 btn button\" style=\"background:rgb(0 163 164);color:white\" role=\"button\"\n                        @click=\"redirectToMonthlySubscription()\"><span style=\"color:white;font-size:16px;\"><b>Monthly\n                            Plan</b></span></button>\n                    </div>\n                    <div class=\"col-md-6\">\n                      <button class=\"w-100 btn button\" style=\"background:rgb(0 163 164);color:white\" role=\"button\"\n                        @click=\"redirectToYearlySubscription()\"><span style=\"color:white;font-size:16px;\"><b>Yearly\n                            Plan</b></span></button>\n                    </div>\n                  </div>\n                  <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" />\n    <section class=\"py-4 pt-2\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-3\">\n          <div class=\"col-lg-12 col-xl-7\">\n            <h2 class=\"display-5 fw-bold\">Frequently Asked Questions</h2>\n          </div>\n        </div>\n        <div class=\"row justify-content-center py-lg-3\">\n          <div class=\"col-md-12\">\n            <div class=\"row justify-content-center mb-4\">\n              <div class=\"col-lg-12\">\n                <div class=\"accordion\" id=\"Tech-accordion\">\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingOne\"><button aria-controls=\"Tech-collapseOne\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseOne\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Are there any hidden fees or additional charges ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingOne\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseOne\">\n                      <div class=\"accordion-body\">\n                        No, there are no hidden fees. The subscription price you see includes all features, with no\n                        unexpected charges.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingTwo\"><button aria-controls=\"Tech-collapseTwo\"\n                        aria-expanded=\"true\" class=\"accordion-button\" data-bs-target=\"#Tech-collapseTwo\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>What happens if I cancel my subscription ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingTwo\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseTwo\" style=\"\">\n                      <div class=\"accordion-body\">\n                        If you cancel your subscription, you will retain access to the premium features until the end of\n                        your billing cycle, after which your account will revert to the free version.\n                      </div>\n                    </div>\n                  </div>\n\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingThree\"><button aria-controls=\"Tech-collapseThree\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseThree\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Can I get a refund if I'm not satisfied with the premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingThree\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseThree\">\n                      <div class=\"accordion-body\">\n                        We offer a satisfaction guarantee. If you are not satisfied within the first 30 days.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFour\"><button aria-controls=\"Tech-collapseFour\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFour\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer lifetime access to premium features ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFour\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFour\">\n                      <div class=\"accordion-body\">\n                        Currently, we do not offer lifetime subscriptions, but we provide competitive annual plans that\n                        deliver ongoing value.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingFive\"><button aria-controls=\"Tech-collapseFive\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseFive\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Is my subscription automatically renewed ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingFive\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseFive\">\n                      <div class=\"accordion-body\">\n                        Yes, subscriptions are automatically renewed to ensure uninterrupted access, but you can cancel\n                        or manage your subscription at any time.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSix\"><button aria-controls=\"Tech-collapseSix\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSix\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>Do you offer a free trial before subscribing ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSix\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSix\">\n                      <div class=\"accordion-body\">\n                        Yes, we offer a free trial period to help you explore all premium features before committing to\n                        a subscription.\n                      </div>\n                    </div>\n                  </div>\n                  <div class=\"accordion-item\">\n                    <h2 class=\"accordion-header\" id=\"Tech-headingSeven\"><button aria-controls=\"Tech-collapseSeven\"\n                        aria-expanded=\"false\" class=\"accordion-button collapsed\" data-bs-target=\"#Tech-collapseSeven\"\n                        data-bs-toggle=\"collapse\" type=\"button\">\n                        <div class=\"text-muted me-3\">\n                          <svg class=\"bi bi-question-circle-fill\" fill=\"currentColor\" height=\"24\" viewbox=\"0 0 16 16\"\n                            width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <path\n                              d=\"M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z\">\n                            </path>\n                          </svg>\n                        </div><b>How secure is my payment information ?</b>\n                      </button></h2>\n                    <div aria-labelledby=\"Tech-headingSeven\" class=\"accordion-collapse collapse\"\n                      data-bs-parent=\"#Tech-accordion\" id=\"Tech-collapseSeven\">\n                      <div class=\"accordion-body\">\n                        Your payment information is securely encrypted and processed through a trusted payment gateway\n                        to ensure maximum security.\n                      </div>\n                    </div>\n                  </div>\n\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> ")]);
 }
 
 /***/ }),
@@ -43420,7 +42976,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Advanced")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Switch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input h4 pr-5 shadow-lg text-center",
     style: {
-      "background-color": "green",
+      "background-color": "rgba(0, 191, 166)",
       "border-color": "grey"
     },
     type: "checkbox",
@@ -43499,7 +43055,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\"><ScreenTranslationCapture style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\" v-if=\"!isVisible\"><PdfDownload style=\"cursor:pointer\" :targetTranslationRef=\"'targetTranslationElement'\" /></div>                 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><VideoModal  @save-video-data=\"handleSave\" /><i class=\"bi bi-play-circle h3\" style=\"cursor:pointer\" data-bs-toggle=\"modal\" data-bs-target=\"#videoModal\"></i></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><i class=\"bi bi-paint-bucket h2\" data-bs-toggle=\"offcanvas\" style=\"cursor:pointer\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i></div> "), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
@@ -43583,7 +43139,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> ")], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
+  })], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown mobile content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43645,7 +43201,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Bookmark verse"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col desktop-icon\"><ScreenTafseerCapture style=\"cursor:pointer\"  :targetTafseerRef=\"'targetTafseerElement'\" /></div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col\"><PdfDownloadTafsser style=\"cursor:pointer\"  :targetTafseerRef=\"'targetTafseerElement'\"/></div> "), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
@@ -43731,7 +43287,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
+  })], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main content  "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43877,7 +43433,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-paint-bucket h1\" style=\"cursor:pointer\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#styleOffcanvas\" aria-controls=\"styleOffcanvas\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-question-circle h4 custom-last-verse\" data-bs-toggle=\"offcanvas\" data-bs-target=\"#offcanvasRight\" aria-controls=\"offcanvasRight\"></i> ")], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
+  })], 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationSection, {
     currentAyah: _ctx.currentAyah,
     isVisible: !$data.isVisible,
     information: $data.information,
@@ -43919,7 +43475,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationNote, {
     ref: "transliterationNote",
     information: _ctx.modalInformation
-  }, null, 8 /* PROPS */, ["information"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <audio v-if=\"information != null\" \n                        ref=\"audioPlayer\" \n                        :src=\"fullAudioLink\"  \n                        class=\"w-100 custom-audio\" \n                        loop controls \n                        />  ")])])])])]);
+  }, null, 8 /* PROPS */, ["information"])])])])])])]);
 }
 
 /***/ }),
@@ -44306,10 +43862,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0 ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -44337,7 +43893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('openModal', 'tafseerNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screenshot Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"icon-container\">\n        <i class=\"bi bi-camera text-right mr-2 h3\" @click=\"debouncedCaptureTafseer\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Screenshot verse\" :style=\"{ cursor: 'pointer' }\"></i>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info "), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info "), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-info-circle h4 mr-2 pl-2",
@@ -44393,18 +43949,23 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = ["innerHTML"];
 var _hoisted_8 = {
+  "class": "container d-flex flex-column flex-sm-row gap-2 mt-3"
+};
+var _hoisted_9 = ["value"];
+var _hoisted_10 = ["value"];
+var _hoisted_11 = {
   key: 0,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
-var _hoisted_9 = {
+var _hoisted_12 = {
   "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_10 = {
+var _hoisted_13 = {
   key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_11 = {
+var _hoisted_14 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -44423,9 +43984,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "close-button mb-3 text-left btn btn-secondary"
   }, " Close ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahInfo, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-2 pt-2 d-flex align-items-center justify-content-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i \n              @click=\"toggleSpeechAyah\" \n              class=\"bi-play-circle-fill h4 custom-icon-play-main\"\n              style=\"cursor: pointer;\" \n              aria-label=\"Play or pause translation audio\"\n            ></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
   }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
@@ -44434,7 +43995,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fontSize: $data.fontSize + 'em',
       lineHeight: '1.6em'
     })
-  }, null, 12 /* STYLE, PROPS */, _hoisted_7), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 12 /* STYLE, PROPS */, _hoisted_7), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -44442,32 +44003,54 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdowns for Rate and Pitch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate Dropdown "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.speechRate = $event;
+    }),
+    "class": "form-select form-select-sm",
+    "aria-label": "Select Speech Rate"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.rates, function (rate) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: rate,
+      value: rate
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pitch Dropdown "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.speechPitch = $event;
+    }),
+    "class": "form-select form-select-sm",
+    "aria-label": "Select Speech Pitch"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pitches, function (pitch) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: pitch,
+      value: pitch
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_10);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]])]), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.downloadAsCsv && $options.downloadAsCsv.apply($options, arguments);
     })
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-csv pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("CSV Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.downloadAsWord && $options.downloadAsWord.apply($options, arguments);
     })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-docx pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("DOCX Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.downloadAsExport && $options.downloadAsExport.apply($options, arguments);
     })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[4] || (_cache[4] = function () {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill' : 'bi-play-circle-fill', 'h3', 'custom-icon-play']),
@@ -44476,7 +44059,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "aria-label": "Play or pause translation audio"
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.stopReading && $options.stopReading.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']),
@@ -44490,7 +44073,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "bi bi-plus-circle-fill h3 custom-icon-increase",
     "aria-placeholder": "Increase text size",
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
     })
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -44499,10 +44082,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "bi bi-dash-circle-fill h3 custom-icon-decrease",
     "aria-placeholder": "Decrease text size",
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
     })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44512,7 +44095,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "button",
     "aria-expanded": "false",
     "aria-controls": "collapseExample",
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
   })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
@@ -44570,7 +44153,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.handleAction('open-modal', 'translationNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screenshot Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"icon-container\">\n      <i class=\"bi bi-camera text-right mr-2 h3\" @click=\"captureTranslation\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Screenshot verse\"></i>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info Icon "), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah Info Icon "), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-info-circle h4 mr-2 pl-2",
@@ -44626,18 +44209,23 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = ["innerHTML"];
 var _hoisted_7 = {
+  "class": "container d-flex flex-column flex-sm-row gap-2 mt-3"
+};
+var _hoisted_8 = ["value"];
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
   key: 0,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
-var _hoisted_8 = {
+var _hoisted_11 = {
   "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_9 = {
+var _hoisted_12 = {
   key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_10 = {
+var _hoisted_13 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -44656,7 +44244,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "close-button mb-3 text-left btn btn-secondary"
   }, "Close")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AyahInfo, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-1 pt-2 d-flex align-items-center justify-content-center"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
@@ -44667,7 +44255,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fontSize: $data.fontSize + 'em',
       lineHeight: '1.6em'
     })
-  }, null, 12 /* STYLE, PROPS */, _hoisted_6), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 12 /* STYLE, PROPS */, _hoisted_6), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -44675,32 +44263,54 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdowns for Rate and Pitch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate Dropdown "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.speechRate = $event;
+    }),
+    "class": "form-select form-select-sm",
+    "aria-label": "Select Speech Rate"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.rates, function (rate) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: rate,
+      value: rate
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pitch Dropdown "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.speechPitch = $event;
+    }),
+    "class": "form-select form-select-sm",
+    "aria-label": "Select Speech Pitch"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pitches, function (pitch) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: pitch,
+      value: pitch
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]])]), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.downloadAsCsv && $options.downloadAsCsv.apply($options, arguments);
     })
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-csv pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("CSV Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.downloadAsWord && $options.downloadAsWord.apply($options, arguments);
     })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-docx pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("DOCX Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.downloadAsExport && $options.downloadAsExport.apply($options, arguments);
     })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[4] || (_cache[4] = function () {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill' : 'bi-play-circle-fill', 'h3', 'custom-icon-play']),
@@ -44709,7 +44319,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "aria-label": "Play or pause translation audio"
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.stopReading && $options.stopReading.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']),
@@ -44717,13 +44327,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "cursor": "pointer"
     },
     "aria-label": "Stop reading audio"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Adjustments "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
     "class": "bi bi-plus-circle-fill h3 custom-icon-increase",
     "aria-placeholder": "Increase text size",
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
     })
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -44732,10 +44342,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "bi bi-dash-circle-fill h3 custom-icon-decrease",
     "aria-placeholder": "Decrease text size",
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
     })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44745,10 +44355,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "button",
     "aria-expanded": "false",
     "aria-controls": "collapseExample",
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
-  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left word-count mt-2\">\n        <h6 class=\"text-left mt-3\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -44782,7 +44392,6 @@ var _hoisted_3 = {
   "class": "icon-container"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_FolderSelectionModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FolderSelectionModal");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Note Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-text h3",
     "aria-expanded": "false",
@@ -44791,7 +44400,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return _ctx.$emit('open-modal', 'transliterationNote');
     })
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screenshot Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"icon-container\">\n        <i class=\"bi bi-camera text-right mr-2 h3\" @click=\"captureTransliteration\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Screenshot verse\" :style=\"{ cursor: 'pointer' }\"></i>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info "), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info "), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-container"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
@@ -44812,9 +44421,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-chat-left-text h4",
     "aria-expanded": "false",
     "data-bs-placement": "top"
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Folder Selection Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FolderSelectionModal, {
-    ref: "folderSelectionModal"
-  }, null, 512 /* NEED_PATCH */)]);
+  })], -1 /* HOISTED */))])]);
 }
 
 /***/ }),
@@ -44968,7 +44575,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
-  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-left mt-3 word-count\">\n      <h6 class=\"text-left\"><img src=\"/images/art.png\" class=\"pr-2\" width=\"30px\" alt=\"lamp\" loading=\"lazy\" /><strong>Reciter's name: </strong>Mishary Rashid Alafasy</h6>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -80383,30 +79990,6 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 50px;\n  height: 50px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n  /* transition: background 0.3s ease-in-out; */\n}\n.fab[data-v-828f3036]:hover {\n  background-color: #0a8a72;\n}\n.ayah-card[data-v-828f3036] {\n  transition: box-shadow 0.3s ease, transform 0.3s ease;\n  will-change: transform, box-shadow;\n  /* Optimize for GPU rendering */\n}\n.highlighted[data-v-828f3036] {\n  transform: scale(1.02);\n}\n.audio-player[data-v-828f3036] {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 25px;\n  border-bottom-right-radius: 25px;\n  will-change: transform;\n  /* Optimize for GPU rendering */\n}\n\n/* Apply color changes on hover for each icon */\n.bi-skip-backward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Change to your desired color */\n}\n.bi-share[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Green color for sharing */\n}\n.bi-clipboard[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for clipboard */\n}\n.bi-dash-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Red color for decreasing font size */\n}\n.bi-plus-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Blue color for increasing font size */\n}\n.bi-download[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for download */\n}\n.bi-skip-forward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Purple color for fast forward */\n}\n.highlighted-word[data-v-828f3036] {\n  background-color: rgb(255, 0, 0);\n  transition: background-color 0.3s ease-in-out;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  background: rgb(13, 182, 145);\n  padding: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  border-radius: 10px;\n}\n.copy-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  margin-left: 10px;\n  color: #000;\n  transition: color 0.3s ease-in-out;\n}\n\n/* Hover Effect */\n.copy-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  transform: scale(1.1);\n}\n.action-container[data-v-828f3036] {\n  width: 100%;\n  background-color: white;\n  padding: 10px 0;\n  border-top: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.action-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  transition: color 0.3s ease-in-out;\n}\n.action-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145)\n    /* Green hover effect */\n}\n\n/* Sticky Dropdown Styling */\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  padding: 7px;\n  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);\n  border-bottom: 2px solid #ddd;\n  border-radius: 5px;\n}\n\n/* Smooth transition when scrolling */\n.sticky-dropdown select[data-v-828f3036] {\n  transition: all 0.3s ease-in-out;\n}\n\n/* Container for the audio player */\n.audio-container[data-v-828f3036] {\n  width: 100%;\n  background-color: rgba(89, 167, 150, 0.798);\n  /* Full background color */\n  display: flex;\n  bottom: 0px;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Customizing the audio player */\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  /* Forces background color */\n  /* Changes button & progress bar color */\n}\n\n/* Hide default styling (Optional) */\n.audio-player[data-v-828f3036]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145) !important;\n}\n.audio-player[data-v-828f3036]::-webkit-media-controls-volume-slider {\n  filter: invert(1);\n}\n\n/* Arabic Text */\n.arabic-text[data-v-828f3036] {\n  font-size: 1.5rem;\n  text-align: right;\n  direction: rtl;\n  font-family: 'Amiri', serif;\n}\n\n/* LTR Text (Translation) */\n.ltr-text[data-v-828f3036] {\n  text-align: left !important;\n  direction: ltr !important;\n  font-family: 'Arial', sans-serif;\n}\n\n/* Card Styling */\n\n/* .card {\n  text-align: right;\n  direction: rtl;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n} */\n\n/* Audio Player Stuck to Bottom */\n.audio-container[data-v-828f3036] {\n  margin-top: auto;\n  /* Pushes audio player to the bottom */\n  width: 100%;\n  background: rgb(13, 182, 145)\n}\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  border-radius: 0;\n  display: block;\n}\n", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-// Imports
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hide-unwanted-elements .icon-container[data-v-6cf00cf0],\n.hide-unwanted-elements .href[data-v-6cf00cf0],\n.hide-unwanted-elements .mobile-only[data-v-6cf00cf0],\n.hide-unwanted-elements .bar[data-v-6cf00cf0] {\n  display: none !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -125374,36 +124957,6 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
-/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_style_index_0_id_6cf00cf0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css");
-
-            
-
-var options = {};
-
-options.insert = "head";
-options.singleton = false;
-
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_style_index_0_id_6cf00cf0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
-
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_style_index_0_id_6cf00cf0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -198264,18 +197817,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _TafseerActions_vue_vue_type_template_id_6cf00cf0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true */ "./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true");
+/* harmony import */ var _TafseerActions_vue_vue_type_template_id_6cf00cf0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TafseerActions.vue?vue&type=template&id=6cf00cf0 */ "./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0");
 /* harmony import */ var _TafseerActions_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TafseerActions.vue?vue&type=script&lang=js */ "./resources/js/components/TafseerActions.vue?vue&type=script&lang=js");
-/* harmony import */ var _TafseerActions_vue_vue_type_style_index_0_id_6cf00cf0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css */ "./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_TafseerActions_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TafseerActions_vue_vue_type_template_id_6cf00cf0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-6cf00cf0"],['__file',"resources/js/components/TafseerActions.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_TafseerActions_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_TafseerActions_vue_vue_type_template_id_6cf00cf0__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/TafseerActions.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -201576,18 +201126,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true ***!
-  \**********************************************************************************************/
+/***/ "./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0 ***!
+  \**********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_template_id_6cf00cf0_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_template_id_6cf00cf0__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_template_id_6cf00cf0_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_template_id_6cf00cf0__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TafseerActions.vue?vue&type=template&id=6cf00cf0 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=template&id=6cf00cf0");
 
 
 /***/ }),
@@ -202704,19 +202254,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css ***!
-  \************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TafseerActions_vue_vue_type_style_index_0_id_6cf00cf0_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/TafseerActions.vue?vue&type=style&index=0&id=6cf00cf0&scoped=true&lang=css");
 
 
 /***/ }),

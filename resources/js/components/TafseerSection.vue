@@ -9,12 +9,6 @@
       <div class="swipeable-div w-100">
         <div class="row">
           <div class="col-md-2 pt-2 d-flex align-items-center justify-content-center">
-            <!-- <i 
-              @click="toggleSpeechAyah" 
-              class="bi-play-circle-fill h4 custom-icon-play-main"
-              style="cursor: pointer;" 
-              aria-label="Play or pause translation audio"
-            ></i> -->
           </div>
           <div class="col-md-10">
             <MainAyah :information="information" />
@@ -31,6 +25,22 @@
                 <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
+
+              <!-- Dropdowns for Rate and Pitch -->
+              <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+                <!-- Rate Dropdown -->
+                <b>Rate:</b>
+                <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+                  <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+                </select>
+
+                <!-- Pitch Dropdown -->
+                <b>Pitch:</b>
+                <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+                  <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+                </select>
+              </div>
+
               <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
                   <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
@@ -189,6 +199,10 @@ export default {
       surat: [],
       ayat: [],
       tafseers: [],
+      speechRate: 1, // Default rate
+      speechPitch: 1, // Default pitch
+      rates: [0.5, 1, 1.5, 2], // List of available speech rates
+      pitches: [0.5, 1, 1.5, 2], // List of available pitch values
     };
   },
 
@@ -841,8 +855,8 @@ export default {
       // Cancel any ongoing speech
       window.speechSynthesis.cancel();
       this.utterance = new SpeechSynthesisUtterance(text);
-      this.utterance.rate = 0.9;
-      this.utterance.pitch = 1;
+      this.utterance.rate = this.speechRate; // Set speech rate
+      this.utterance.pitch = this.speechPitch; // Set speech pitch
 
       // Ensure voices are loaded before setting one
       const setVoice = () => {
