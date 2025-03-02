@@ -115,7 +115,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                 <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
+                    <h6><a class="nav-link ml-3 pl-3" href="/home" data-path="/home"><b>Home</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
@@ -138,12 +138,7 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                 </li>
-                
-                {{-- <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3 pr-3" href="/support"><b>Donation</b></a></h6>
-                </li> --}}
-                <!-- <dark-mode-component></dark-mode-component> -->
-                
+                                
                 @guest
                 @if (Route::has('login'))
                 <li class="nav-item display-6 pl-3 mt-3">

@@ -1,100 +1,117 @@
 <template>
-  <div class="container my-4">
-    <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
-    <p class="radio-description text-center">
-      Explore a wide range of Islamic radio stations that offer continuous Quranic recitations, lectures, and Islamic programs designed to inspire and enhance your spiritual journey. Whether you're looking for soothing recitations to start your day, insightful Islamic discussions, or motivational content, these radio stations provide a variety of programs to suit your needs.
-    </p>
-    <div class="row g-4">
-      <div v-for="station in paginatedStations" :key="station.id" class="col-md-6">
-        <div class="card bg-success-subtle text-success-emphasis border border-success-subtle">
-          <div class="card-body">
-            <h5 class="card-title mb-3"><b>{{ station.name }}</b></h5>
-            <audio :src="station.url" controls class="w-100 mb-2"></audio>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div>
+    <h1>Islamic Live Streams (Makkah & Madinah)</h1>
 
-    <!-- Pagination Controls -->
-    <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center my-3">
-      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-success me-2">
-        Previous
-      </button>
-      <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-outline-success ms-2">
-        Next
-      </button>
-    </div>
   </div>
 </template>
 
 <script>
+// Import Hls.js for HLS stream handling
+import Hls from 'hls.js';
+
 export default {
   data() {
     return {
-      radioStations: [],
-      currentPage: 1,
-      perPage: 10, // Number of stations per page
+      channels: [],  // To hold live stream channels data
+      loading: true,  // Flag to show loading state
+      error: null,    // Error message if something goes wrong
     };
   },
-  mounted() {
-    fetch('https://mp3quran.net/api/v3/radios?language=eng')
-      .then(response => response.json())
-      .then(data => {
-        this.radioStations = data.radios;
-      })
-      .catch(error => console.error('Error fetching radio stations:', error));
+  created() {
+    this.fetchChannels();  // Fetch channels when the component is created
   },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.radioStations.length / this.perPage);
-    },
-    paginatedStations() {
-      const start = (this.currentPage - 1) * this.perPage;
-      const end = start + this.perPage;
-      return this.radioStations.slice(start, end);
-    },
+  mounted() {
+    this.setupStreams();  // Setup HLS streams after the component is mounted
   },
   methods: {
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage -= 1;
+    async fetchChannels() {
+      try {
+        const response = await fetch('https://mp3quran.net/api/v3/live-tv');
+        const data = await response.json();
+
+        console.log('API Response:', data);
+
+        if (data && data.livetv) {
+          this.channels = data.livetv;  // Update channels array with live stream data
+        } else {
+          this.error = 'No channel data available.';
+        }
+      } catch (error) {
+        console.error('Error fetching live streams:', error);
+        this.error = 'Failed to fetch data. Please try again later.';
+      } finally {
+        this.loading = false;  // Hide loading indicator
       }
     },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage += 1;
+    setupStreams() {
+      // Check if HLS.js is supported
+      if (Hls.isSupported()) {
+        this.channels.forEach(channel => {
+          const videoElement = document.getElementById('video_' + channel.id);
+          console.log('videoElement:', videoElement);  // Check if video element is found
+          
+          if (videoElement) {
+            const hls = new Hls();
+            hls.loadSource(channel.url);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+              console.log(`Stream loaded for ${channel.name}`);
+            });
+
+            hls.on(Hls.Events.ERROR, (event, data) => {
+              console.error(`HLS Error on ${channel.name}:`, data);
+              this.error = `Error loading stream for ${channel.name}.`;
+            });
+
+            // Attach the media (video element)
+            hls.attachMedia(videoElement);
+
+            // Event listeners for state change (debugging)
+            hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+              console.log(`Level switched to ${data.level} for ${channel.name}`);
+            });
+
+            hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
+              console.log(`Fragment loaded for ${channel.name}:`, data);
+            });
+          } else {
+            console.error('No video element found for', channel.name);
+            this.error = `Video element not found for ${channel.name}`;
+          }
+        });
+      } else {
+        console.error("HLS.js is not supported by your browser.");
+        this.error = "HLS.js is not supported by your browser. Please try in a different browser.";
       }
     },
   },
 };
 </script>
 
-<style>
-.radio-description {
-  font-size: 1.2rem;
-  color: #555;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  line-height: 1.6;
+<style scoped>
+.channel {
+  margin: 20px 0;
 }
 
-.pagination {
+.channel h3 {
+  font-size: 1.5em;
+}
+
+.channel a {
+  color: #2b6cb0;
+  text-decoration: none;
+}
+
+.channel a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.video-container {
   margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.pagination button {
-  padding: 5px 10px;
-  margin: 0 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.pagination button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
 }
 </style>

@@ -1,11 +1,10 @@
 <template>
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Dua Collection</h1>
-    <p class="text-center container mb-4">
+    <p class="text-center container mb-4 dua-description">
       The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like
       forgiveness, protection, and healing. Each dua includes the Arabic text, transliteration, translation, and
-      reference, making it accessible for all. This collection serves as a valuable resource for Muslims seeking
-      guidance and comfort through prayer, providing duas for various life situations.
+      reference, making it accessible for all.
     </p>
 
     <div class="container">
@@ -66,11 +65,12 @@
               <div class="col-md-2 text-center">
                 <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i>
-              </div>
+              </div> 
+              <!-- Reference -->
+              <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">{{ dua.reference }}</p>
             </div>
 
-            <!-- Reference -->
-            <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3">- {{ dua.reference }}</p>
+           
             <hr />
 
 
@@ -251,6 +251,13 @@ export default {
 </script>
 
 <style scoped>
+.dua-description {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
 .container {
   margin: auto;
 }

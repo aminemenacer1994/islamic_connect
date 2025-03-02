@@ -2,7 +2,7 @@
   <div class="container my-4">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
     <p class="radio-description text-center">
-      Explore a wide range of Islamic radio stations that offer continuous Quranic recitations, lectures, and Islamic programs designed to inspire and enhance your spiritual journey. Whether you're looking for soothing recitations to start your day, insightful Islamic discussions, or motivational content, these radio stations provide a variety of programs to suit your needs.
+      Explore a wide range of Islamic radio stations that offer continuous Quranic recitations, lectures, and Islamic programs designed to inspire and enhance your spiritual journey.
     </p>
     <div class="row g-4">
       <div v-for="station in paginatedStations" :key="station.id" class="col-md-6">
