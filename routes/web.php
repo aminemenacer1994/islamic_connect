@@ -36,6 +36,8 @@ use App\Http\Controllers\AccessController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\DuaController;
+use App\Http\Controllers\RadioController;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -291,4 +293,6 @@ Route::get('/content', [ContentController::class, 'index'])->name('content');
 // surat
 Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 // dua
-// Route::get('/dua', [DuaController::class, 'index'])->name('dua');
+Route::get('/dua', [DuaController::class, 'index'])->name('dua');
+// radio
+Route::get('/radio', [RadioController::class, 'index'])->name('radio');

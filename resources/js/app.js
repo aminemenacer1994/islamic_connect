@@ -60,6 +60,7 @@ import AccessComponent from "./components/AccessComponent.vue";
 import ContentComponent from "./components/ContentComponent.vue";
 import SuratComponent from "./components/SuratComponent.vue";
 import DuaComponent from "./components/DuaComponent.vue";
+import RadioComponent from "./components/RadioComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -165,6 +166,7 @@ app.component('TinymceEditor', TinymceEditor);
 app.component('faq-component', FaqComponent);
 app.component('support-component', SupportComponent);
 app.component('dua-component', DuaComponent);
+app.component('radio-component', RadioComponent);
 
 
 app.mount("#app");

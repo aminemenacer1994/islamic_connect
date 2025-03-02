@@ -70,7 +70,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .radio-description {
   font-size: 1.2rem;
   color: #555;
