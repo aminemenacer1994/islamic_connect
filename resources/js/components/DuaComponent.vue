@@ -37,33 +37,72 @@
     </div>
 
     <div class="container text-center">
-      <div v-for="category in filteredCategories" :key="category.id" class="row mb-4">
-        <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6 ">
+      <div v-for="category in filteredDuas" :key="category.id" class="row mb-4">
+        <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6">
           <div class="card text-dark rounded-3 p-3">
-            <h5 ><strong>{{ dua.title }}</strong></h5><br />
-            <h3 class="text-right">{{ dua.arabic }}<br /></h3>
-            <h5 class="text-left mb-3">{{ dua.translation }}<br /></h5>
-            <h6 class="text-left">- {{ dua.reference }}</h6>
-            <hr />
-            <div class="container text-center d-flex justify-content-between">
-              <i class="bi bi-skip-backward-circle icon-tooltip h4" 
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
-              <!-- WhatsApp Share Button -->
-              <a :href="generateWhatsAppLink(dua)" target="_blank">
-                <i class="bi bi-share icon-tooltip h4" data-bs-toggle="tooltip" data-bs-placement="top" title="Share"></i>
-              </a>
-              <!-- Copy Button -->
-              <i class="bi bi-clipboard icon-tooltip h4" 
-                @click="copyContent(dua)"
-                data-bs-toggle="tooltip" data-bs-placement="top" 
-                title="Copy Content"></i>
-              
+            <!-- Highlighted Title -->
+            <h5><strong :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></h5>
+
+            <!-- Arabic Section with TTS Icon -->
+            <div class="row align-items-center mt-3">
+              <div class="col-md-2 text-center">
+                <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i>
+              </div>
+              <div class="col-md-10">
+                <!-- Highlighted Arabic Text -->
+                <h3 :style="{ fontSize: fontSize + 'px' }" class="text-right mb-0" v-html="highlightText(dua.arabic)">
+                </h3>
+              </div>
             </div>
+
+            <!-- Translation Section with TTS Icon -->
+            <div class="row align-items-center mt-3">
+              <div class="col-md-10">
+                <!-- Highlighted Translation Text -->
+                <h5 :style="{ fontSize: fontSize + 'px' }" class="text-left mb-0"
+                  v-html="highlightText(dua.translation)"></h5>
+              </div>
+              <div class="col-md-2 text-center">
+                <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i>
+              </div>
+            </div>
+
+            <!-- Reference -->
+            <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3">- {{ dua.reference }}</p>
+            <hr />
+
+
+            <!-- Action Icons: Share & Copy -->
+            <div class="container text-center d-flex justify-content-between">
+              <!-- Font Size Control -->
+              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 icon-hover"
+                @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
+
+              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
+                @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
+
+              <!-- Share Icon with Tooltip -->
+              <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 icon-hover" data-bs-toggle="tooltip"
+                style="cursor:pointer" data-bs-placement="top" title="Share" aria-label="Share content"
+                role="button"></i>
+
+              <!-- Copy Icon with Tooltip -->
+              <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 icon-hover" @click="copyContent(dua)"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
+                role="button"></i>
+
+            </div>
+
           </div>
-          
         </div>
       </div>
     </div>
+
+
 
   </div>
 </template>
@@ -73,11 +112,12 @@ export default {
   data() {
     return {
       duaCollection: [],
-      searchQuery: "",
+      searchQuery: '',
       selectedCategory: "", // Track selected category
       currentPage: {},
       duasPerPage: 20, // Number of duas per page
-      showCopyMessage: false
+      showCopyMessage: false,
+      fontSize: 20,
     };
   },
   computed: {
@@ -96,9 +136,61 @@ export default {
           dua.translation.toLowerCase().includes(searchQueryLower)
         );
       });
+    },
+    filteredDuas() {
+      if (!this.searchQuery.trim()) {
+        return this.filteredCategories; // Return all cards if searchQuery is empty
+      }
+      return this.filteredCategories.map(category => {
+        // Filter each dua in the category by checking if the searchQuery is present in title, arabic, or translation
+        const filteredDuas = category.duas.filter(dua => {
+          const regex = new RegExp(this.searchQuery, 'gi');
+          return regex.test(dua.title) || regex.test(dua.arabic) || regex.test(dua.translation);
+        });
+
+        // Return the category with only the filtered duas
+        return { ...category, duas: filteredDuas };
+      }).filter(category => category.duas.length > 0); // Remove empty categories
     }
+
   },
   methods: {
+    highlightText(text) {
+      if (!this.searchQuery.trim()) return text;  // Return original text if search is empty
+      const regex = new RegExp(`(${this.searchQuery})`, 'gi');
+      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>');  // Custom highlight with color
+    },
+    changeFontSize(action) {
+      if (action === 'increase' && this.fontSize < 30) {
+        this.fontSize += 2;  // Increase font size
+      } else if (action === 'decrease' && this.fontSize > 10) {
+        this.fontSize -= 2;  // Decrease font size
+      }
+    },
+    // TTS Function for Arabic and English
+    speak(text, lang) {
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech to prevent overlap
+        if (speechSynthesis.speaking) {
+          speechSynthesis.cancel();
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-GB';
+        utterance.pitch = 0.8;  // Default pitch (range: 0 - 2)
+        utterance.rate = 0.8;   // Default rate (range: 0.1 - 10)
+
+        // Handle start, error, and end events
+        utterance.onstart = () => console.log("TTS started.");
+        utterance.onerror = (e) => console.error("TTS error:", e);
+        utterance.onend = () => console.log("TTS ended.");
+
+        speechSynthesis.speak(utterance);
+      } else {
+        console.error("TTS is not supported in this browser.");
+      }
+    },
+
     copyContent(dua) {
       const text = `Dua title: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\n- ${dua.reference}`;
       navigator.clipboard.writeText(text).then(() => {
@@ -110,10 +202,13 @@ export default {
         console.error("Failed to copy content: ", err);
       });
     },
-    generateWhatsAppLink(dua) {
+    shareOnWhatsApp(dua) {
       const text = `Dua title: ${dua.title}\n\n${dua.arabic}\n\nTranslation: ${dua.translation}\n\nReference: ${dua.reference}`;
       const encodedText = encodeURIComponent(text);
-      return `https://wa.me/?text=${encodedText}`;
+      const url = `https://wa.me/?text=${encodedText}`;
+
+      // Open the WhatsApp URL in a new tab
+      window.open(url, '_blank');
     },
     // Pagination logic
     getPaginatedDuas(duas) {
@@ -160,13 +255,25 @@ export default {
   margin: auto;
 }
 
+mark {
+  background-color: rgb(13, 182, 145);
+  /* Your desired highlight color */
+  color: white;
+  /* Optional: Change text color inside the highlight */
+}
+
+.icon-hover:hover {
+  color: rgb(13, 182, 145) !important;
+  /* Change color on hover */
+}
+
 .card {
   padding: 10px;
   border-radius: 20%;
   border: 2px solid gray;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   color: white;
-  background-color: rgba(240, 238, 238, 0.15);
+  background-color: rgba(240, 238, 238, 0.231);
 }
 
 .dua-card {
