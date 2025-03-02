@@ -150,23 +150,26 @@ export default {
       Explore a wide range of Islamic radio stations that offer continuous Quranic recitations, lectures, and Islamic programs designed to inspire and enhance your spiritual journey. Whether you're looking for soothing recitations to start your day, insightful Islamic discussions, or motivational content, these radio stations provide a variety of programs to suit your needs. Tune in and connect with the rich teachings of Islam anytime, anywhere.
     </p>
     <div class="row g-4">
-      <div v-for="station in radioStations" :key="station.id" class="col-md-6">
+      <div v-for="station in paginatedStations" :key="station.id" class="col-md-6">
         <div class="card bg-success-subtle text-success-emphasis border border-success-subtle">
           <div class="card-body">
-            <h5 class="card-title"><b>{{ station.name }}</b></h5>
-            <audio :src="station.url" controls class="w-100 mb-2" style="bottom: 0px;"></audio>
+            <h5 class="card-title mb-3"><b>{{ station.name }}</b></h5>
+            <audio :src="station.url" controls class="w-100 mb-2"></audio>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Pagination Controls -->
-    <div v-if="totalPages > 1" class="pagination">
-      <button @click="previousPage" :disabled="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+    <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center my-3">
+      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-success me-2">
+        Previous
+      </button>
+      <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-outline-success ms-2">
+        Next
+      </button>
     </div>
-
   </div>
 </template>
 
@@ -174,7 +177,6 @@ export default {
 export default {
   data() {
     return {
-      radioStations: [],
       radioStations: [],
       currentPage: 1,
       perPage: 8, // Number of stations per page
@@ -212,6 +214,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .radio-description {
   font-size: 1.2rem;
