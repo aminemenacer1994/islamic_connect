@@ -30676,14 +30676,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
  // Adjust the path if needed
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       selectedCategory: "",
       searchText: "",
       // To track search input
-      guide: _guides_json__WEBPACK_IMPORTED_MODULE_0__ // Assign imported JSON data to guide
+      guide: _guides_json__WEBPACK_IMPORTED_MODULE_0__,
+      // Assign imported JSON data to guide
+      fontSize: 18 // Starting font size
     };
   },
   methods: {
@@ -30692,7 +30696,79 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.searchText) return text;
       var regex = new RegExp("(".concat(this.searchText, ")"), 'gi');
       return text.replace(regex, '<mark>$1</mark>'); // Highlight matches with <mark>
+    },
+    changeFontSize: function changeFontSize(action) {
+      if (action === 'increase' && this.fontSize < 30) {
+        this.fontSize += 2; // Increase font size
+      } else if (action === 'decrease' && this.fontSize > 10) {
+        this.fontSize -= 2; // Decrease font size
+      }
+    },
+    // Share Content (basic example)
+    shareOnWhatsApp: function shareOnWhatsApp() {
+      var selectedSection = this.guide.sections[this.selectedCategory];
+      var title = selectedSection.title;
+      var content = Array.isArray(selectedSection.content) ? selectedSection.content.join('\n\n') : selectedSection.content;
+
+      // Construct the message
+      var text = "Title: ".concat(title, "\n\nContent: ").concat(content);
+
+      // Encode the message for URL
+      var encodedText = encodeURIComponent(text);
+
+      // WhatsApp URL to open with the pre-filled message
+      var url = "https://wa.me/?text=".concat(encodedText);
+
+      // Open WhatsApp Web in a new tab
+      window.open(url, '_blank');
+    },
+    copyContent: function copyContent() {
+      var _this = this;
+      var contentToCopy = document.querySelector('.selected-content');
+      if (contentToCopy) {
+        var textToCopy = contentToCopy.innerText || contentToCopy.textContent;
+        navigator.clipboard.writeText(textToCopy).then(function () {
+          console.log('Content copied to clipboard!');
+          _this.showCopyAlert('Content copied to clipboard!');
+        })["catch"](function (err) {
+          console.error('Failed to copy content: ', err);
+          _this.showCopyAlert('Failed to copy content', true);
+        });
+      } else {
+        console.log('No content found to copy.');
+        this.showCopyAlert('No content to copy', true);
+      }
+    },
+    showCopyAlert: function showCopyAlert(message) {
+      var isError = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var alertElement = document.getElementById('copyAlert');
+      var alertMessage = document.getElementById('alertMessage');
+      alertMessage.textContent = message;
+
+      // Change the alert background color in case of an error
+      if (isError) {
+        alertElement.classList.add('alert-danger');
+        alertElement.classList.remove('alert-success');
+      } else {
+        alertElement.classList.add('alert-success');
+        alertElement.classList.remove('alert-danger');
+      }
+
+      // Show the alert
+      alertElement.style.display = 'block';
+
+      // Hide the alert after 3 seconds
+      setTimeout(function () {
+        alertElement.style.display = 'none';
+      }, 3000);
     }
+  },
+  onMounted: function onMounted() {
+    // Initialize Bootstrap tooltips after the component is mounted
+    var tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipElements.forEach(function (element) {
+      new bootstrap.Tooltip(element);
+    });
   }
 });
 
@@ -42526,31 +42602,28 @@ var _hoisted_11 = {
   "class": "display-6 fw-bold text-center mb-3"
 };
 var _hoisted_12 = {
-  key: 0
+  "class": "list-unstyled selected-content"
 };
 var _hoisted_13 = {
-  "class": "list-unstyled"
-};
-var _hoisted_14 = {
   "class": "fw-medium fs-5 text-left text-dark"
 };
+var _hoisted_14 = ["innerHTML"];
 var _hoisted_15 = ["innerHTML"];
 var _hoisted_16 = {
-  key: 1,
-  "class": "text-dark fs-5"
+  key: 0,
+  "class": "container text-center d-flex justify-content-around"
 };
-var _hoisted_17 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Islamic Guides", -1 /* HOISTED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 dua-description"
+  }, "Islamic Guides", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 guide-description"
   }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedCategory = $event;
     }),
     "class": "form-select"
-  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Select a Category", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections, function (section, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
@@ -42564,16 +42637,90 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "form-control",
     placeholder: "Search text..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your content here "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.guide.sections[$data.selectedCategory].title), 1 /* TEXT */), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your content here "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.guide.sections[$data.selectedCategory].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "copyAlert",
+    "class": "alert",
+    role: "alert",
+    style: {
+      "display": "none"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    id: "alertMessage"
+  }, "Content copied to clipboard!")], -1 /* HOISTED */)), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      fontSize: $data.fontSize + 'px'
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       "class": "mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: $options.highlightText(item)
-    }, null, 8 /* PROPS */, _hoisted_15)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_14)])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+    key: 1,
+    "class": "text-dark fs-5 selected-content",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      fontSize: $data.fontSize + 'px'
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     innerHTML: $options.highlightText($data.guide.sections[$data.selectedCategory].content)
-  }, null, 8 /* PROPS */, _hoisted_17)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }, null, 8 /* PROPS */, _hoisted_15)], 4 /* STYLE */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Control "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    style: {
+      "cursor": "pointer",
+      "font-size": "1.5rem"
+    },
+    "class": "bi bi-dash-circle mx-2 icon-hover",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.changeFontSize('decrease');
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Decrease Font Size",
+    "aria-label": "Decrease Font Size",
+    role: "button"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    style: {
+      "cursor": "pointer",
+      "font-size": "1.5rem"
+    },
+    "class": "bi bi-plus-circle mx-2 icon-hover",
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return $options.changeFontSize('increase');
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Increase Font Size",
+    "aria-label": "Increase Font Size",
+    role: "button"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share icon-tooltip h4 icon-hover",
+    "data-bs-toggle": "tooltip",
+    style: {
+      "cursor": "pointer"
+    },
+    "data-bs-placement": "top",
+    title: "Share",
+    "aria-label": "Share content",
+    role: "button",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
+    })
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.copyContent && $options.copyContent.apply($options, arguments);
+    }),
+    style: {
+      "cursor": "pointer"
+    },
+    "class": "bi bi-clipboard icon-tooltip h4 icon-hover",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Copy Content",
+    "aria-label": "Copy content",
+    role: "button"
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -80492,7 +80639,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Custom styles can go here */\n[data-v-6b54700c] mark {\n  background-color: rgb(13, 182, 145); /* Customize the highlight color */\n  color: white; /* Customize text color for highlight */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Custom styles can go here */\n[data-v-6b54700c] mark {\n  background-color: rgb(13, 182, 145);\n  /* Customize the highlight color */\n  color: white;\n  /* Customize text color for highlight */\n}\n/* Custom styles for the icons (optional) */\n.icon-hover[data-v-6b54700c]:hover {\n  color: rgb(13, 182, 145);\n  /* Change icon color on hover */\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
