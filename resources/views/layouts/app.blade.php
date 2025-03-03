@@ -126,7 +126,7 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
                 </li> 
-                <li class="nav-item mt-3">
+                <!-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b>Dua Collection</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
@@ -134,7 +134,7 @@
                 </li>
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
-                </li>
+                </li> -->
                 <!-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
                 </li> -->

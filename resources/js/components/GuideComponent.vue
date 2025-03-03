@@ -29,11 +29,21 @@
 
     <!-- Add your content here -->
     <div class="container text-left">
+
+
       <div class="row justify-content-center mb-4" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
         <div class="col-md-12">
           <h2 class="display-6 fw-bold text-center mb-3">
-            {{ guide.sections[selectedCategory].title }}
+            {{ isArabic ? guide.sections[selectedCategory].title_ar || guide.sections[selectedCategory].title :
+              guide.sections[selectedCategory].title }}
           </h2>
+          
+          <!-- Translate Button -->
+          <div class="text-right mb-3" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
+            <button class="btn btn-success" @click="toggleLanguage">
+              {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
+            </button>
+          </div>
 
           <!-- Bootstrap Alert for Content Copy Feedback -->
           <div id="copyAlert" class="alert" role="alert" style="display: none;">
@@ -44,38 +54,43 @@
             <ul class="list-unstyled selected-content">
               <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-2">
                 <span class="fw-medium fs-5 text-left text-dark">
-                  <span v-html="highlightText(item)"></span>
+                  <span
+                    v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar?.[index] || item) : highlightText(item)"></span>
                 </span>
               </li>
             </ul>
           </div>
+
           <p v-else class="text-dark fs-5 selected-content" :style="{ fontSize: fontSize + 'px' }">
-            <span v-html="highlightText(guide.sections[selectedCategory].content)"></span>
+            <span
+              v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar || guide.sections[selectedCategory].content) : highlightText(guide.sections[selectedCategory].content)"></span>
           </p>
         </div>
       </div>
     </div>
 
+
+
+
     <!-- Action Icons: Share & Copy -->
-    <div class="container text-center d-flex justify-content-around" v-if="selectedCategory !== ''">
+    <div class="container text-center d-flex pb-3 justify-content-around" v-if="selectedCategory !== ''">
       <!-- Font Size Control -->
-      <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 icon-hover"
+      <i class="bi bi-dash-circle mx-2 icon-hover" style="cursor: pointer; font-size: 1.5rem;"
         @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"
         aria-label="Decrease Font Size" role="button"></i>
 
-      <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
+      <i class="bi bi-plus-circle mx-2 icon-hover" style="cursor: pointer; font-size: 1.5rem;"
         @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"
         aria-label="Increase Font Size" role="button"></i>
 
       <!-- Share Icon with Tooltip -->
-      <i class="bi bi-share icon-tooltip h4 icon-hover" data-bs-toggle="tooltip" style="cursor:pointer"
-        data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp">
-      </i>
+      <i class="bi bi-share icon-tooltip h4 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
+        data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
 
       <!-- Copy Icon with Tooltip -->
-      <i @click="copyContent" style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 icon-hover"
-        data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content" role="button">
-      </i>
+      <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip h4 icon-hover"
+        data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
+        role="button"></i>
     </div>
 
   </div>
@@ -83,7 +98,7 @@
 
 <script>
 import guide from "../guides.json"; // Adjust the path if needed
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 export default {
   data() {
@@ -91,7 +106,9 @@ export default {
       selectedCategory: "",
       searchText: "", // To track search input
       guide: guide, // Assign imported JSON data to guide
-      fontSize: 18, // Starting font size
+      fontSize: 18, // Starting font size as a regular data property
+      isArabic: false,  // Track language state
+      translatedContent: [],  // Store translated content
     };
   },
   methods: {
@@ -107,6 +124,54 @@ export default {
       } else if (action === 'decrease' && this.fontSize > 10) {
         this.fontSize -= 2;  // Decrease font size
       }
+    },
+    toggleLanguage() {
+      if (this.isArabic) {
+        this.isArabic = false;  // Switch back to English
+      } else {
+        if (this.guide.sections[this.selectedCategory]?.content_ar) {
+          // Switch to Arabic if translation exists
+          this.isArabic = true;
+        } else {
+          // Fetch translation if not available
+          this.fetchTranslation();
+        }
+      }
+    },
+    fetchTranslation() {
+      const selectedContent = this.guide.sections[this.selectedCategory].content;
+      const contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
+
+      const translateChunk = (text) => {
+        return fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ar`)
+          .then(response => response.json())
+          .then(data => data.responseData.translatedText)
+          .catch(error => console.log("Translation Error:", error));
+      };
+
+      // Split content into chunks if it exceeds 500 characters
+      const translateContent = async () => {
+        let translatedArray = [];
+
+        for (let item of contentArray) {
+          if (item.length > 500) {
+            const chunks = item.match(/(.|[\r\n]){1,500}/g);  // Split into 500-char chunks
+            for (let chunk of chunks) {
+              const translatedChunk = await translateChunk(chunk);
+              translatedArray.push(translatedChunk);
+            }
+          } else {
+            const translatedItem = await translateChunk(item);
+            translatedArray.push(translatedItem);
+          }
+        }
+
+        // Combine translated results
+        this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
+        this.isArabic = true;
+      };
+
+      translateContent();
     },
     // Share Content (basic example)
     shareOnWhatsApp() {
