@@ -30664,6 +30664,40 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
+ // Adjust the path if needed
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      selectedCategory: "",
+      searchText: "",
+      // To track search input
+      guide: _guides_json__WEBPACK_IMPORTED_MODULE_0__ // Assign imported JSON data to guide
+    };
+  },
+  methods: {
+    // Method to highlight text
+    highlightText: function highlightText(text) {
+      if (!this.searchText) return text;
+      var regex = new RegExp("(".concat(this.searchText, ")"), 'gi');
+      return text.replace(regex, '<mark>$1</mark>'); // Highlight matches with <mark>
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HomepageComponent.vue?vue&type=script&defer=true&lang=js":
 /*!**********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HomepageComponent.vue?vue&type=script&defer=true&lang=js ***!
@@ -42445,6 +42479,105 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container"
+};
+var _hoisted_2 = {
+  "class": "row mb-4"
+};
+var _hoisted_3 = {
+  "class": "col-md-6"
+};
+var _hoisted_4 = {
+  "class": "mb-3"
+};
+var _hoisted_5 = ["value"];
+var _hoisted_6 = {
+  key: 0,
+  "class": "col-md-6"
+};
+var _hoisted_7 = {
+  "class": "mb-3"
+};
+var _hoisted_8 = {
+  "class": "container text-left"
+};
+var _hoisted_9 = {
+  key: 0,
+  "class": "row justify-content-center mb-4"
+};
+var _hoisted_10 = {
+  "class": "col-md-12"
+};
+var _hoisted_11 = {
+  "class": "display-6 fw-bold text-center mb-3"
+};
+var _hoisted_12 = {
+  key: 0
+};
+var _hoisted_13 = {
+  "class": "list-unstyled"
+};
+var _hoisted_14 = {
+  "class": "fw-medium fs-5 text-left text-dark"
+};
+var _hoisted_15 = ["innerHTML"];
+var _hoisted_16 = {
+  key: 1,
+  "class": "text-dark fs-5"
+};
+var _hoisted_17 = ["innerHTML"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold text-center mb-4 mt-4"
+  }, "Islamic Guides", -1 /* HOISTED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 dua-description"
+  }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.selectedCategory = $event;
+    }),
+    "class": "form-select"
+  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: ""
+  }, "Select a Category", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections, function (section, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: index,
+      value: index
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 9 /* TEXT, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar Input (only show after selection) "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.searchText = $event;
+    }),
+    "class": "form-control",
+    placeholder: "Search text..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchText]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your content here "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.guide.sections[$data.selectedCategory].title), 1 /* TEXT */), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: index,
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: $options.highlightText(item)
+    }, null, 8 /* PROPS */, _hoisted_15)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    innerHTML: $options.highlightText($data.guide.sections[$data.selectedCategory].content)
+  }, null, 8 /* PROPS */, _hoisted_17)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true ***!
@@ -50811,17 +50944,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./components/SuratComponent.vue */ "./resources/js/components/SuratComponent.vue");
 /* harmony import */ var _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./components/DuaComponent.vue */ "./resources/js/components/DuaComponent.vue");
 /* harmony import */ var _components_RadioComponent_vue__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./components/RadioComponent.vue */ "./resources/js/components/RadioComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_GuideComponent_vue__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./components/GuideComponent.vue */ "./resources/js/components/GuideComponent.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -50931,7 +51066,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -50958,15 +51093,16 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_56__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_57__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_57__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_58__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_58__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
 app.component('radio-component', _components_RadioComponent_vue__WEBPACK_IMPORTED_MODULE_55__["default"]);
+app.component('guide-component', _components_GuideComponent_vue__WEBPACK_IMPORTED_MODULE_56__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -80333,6 +80469,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.dua-description[data-v-7926cb50] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  /* Your desired highlight color */\n  color: white;\n  /* Optional: Change text color inside the highlight */\n}\n.icon-hover[data-v-7926cb50]:hover {\n  color: rgb(13, 182, 145) !important;\n  /* Change color on hover */\n}\n.card[data-v-7926cb50] {\n  padding: 10px;\n  border-radius: 20%;\n  border: 2px solid gray;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: white;\n  background-color: rgba(240, 238, 238, 0.231);\n}\n.dua-card[data-v-7926cb50] {\n  text-align: center;\n  color: black;\n}\n.pagination button[data-v-7926cb50] {\n  margin: 5px;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Custom styles can go here */\n[data-v-6b54700c] mark {\n  background-color: rgb(13, 182, 145); /* Customize the highlight color */\n  color: white; /* Customize text color for highlight */\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -125318,6 +125478,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_style_index_0_id_7926cb50_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_style_index_0_id_6b54700c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_style_index_0_id_6b54700c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_style_index_0_id_6b54700c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -198137,6 +198327,37 @@ if (false) {}
 
 /***/ }),
 
+/***/ "./resources/js/components/GuideComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/GuideComponent.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _GuideComponent_vue_vue_type_template_id_6b54700c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true */ "./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true");
+/* harmony import */ var _GuideComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GuideComponent.vue?vue&type=script&lang=js */ "./resources/js/components/GuideComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _GuideComponent_vue_vue_type_style_index_0_id_6b54700c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css */ "./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_GuideComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_GuideComponent_vue_vue_type_template_id_6b54700c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-6b54700c"],['__file',"resources/js/components/GuideComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
 /***/ "./resources/js/components/HomepageComponent.vue":
 /*!*******************************************************!*\
   !*** ./resources/js/components/HomepageComponent.vue ***!
@@ -200371,6 +200592,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/GuideComponent.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/GuideComponent.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./GuideComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/components/HomepageComponent.vue?vue&type=script&defer=true&lang=js":
 /*!******************************************************************************************!*\
   !*** ./resources/js/components/HomepageComponent.vue?vue&type=script&defer=true&lang=js ***!
@@ -201619,6 +201856,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_template_id_6b54700c_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_template_id_6b54700c_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=template&id=6b54700c&scoped=true");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true":
 /*!*************************************************************************************************!*\
   !*** ./resources/js/components/HomepageComponent.vue?vue&type=template&id=2ba25654&scoped=true ***!
@@ -202826,6 +203079,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_style_index_0_id_7926cb50_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DuaComponent.vue?vue&type=style&index=0&id=7926cb50&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=style&index=0&id=7926cb50&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_GuideComponent_vue_vue_type_style_index_0_id_6b54700c_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/GuideComponent.vue?vue&type=style&index=0&id=6b54700c&scoped=true&lang=css");
 
 
 /***/ }),
@@ -278519,6 +278785,17 @@ Hls.defaultConfig = void 0;
 
 //# sourceMappingURL=hls.mjs.map
 
+
+/***/ }),
+
+/***/ "./resources/js/guides.json":
+/*!**********************************!*\
+  !*** ./resources/js/guides.json ***!
+  \**********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"sections":[{"title":"Islamic Perspective on Wealth and Charity","content":"Islam views wealth as a trust from Allah and emphasizes moderation in its use. Zakat (obligatory charity) and Sadaqah (voluntary charity) are means to purify wealth and assist the needy. The Quran encourages generosity and condemns hoarding and exploitation. These acts of charity purify one\'s wealth and serve as a way to build a just and compassionate society. Islamic teachings promote economic justice by addressing inequality and ensuring the redistribution of wealth.\\n\\nIn Islamic finance, earning through interest (Riba) is prohibited, and instead, risk-sharing financial models are encouraged. Investments must be ethical and in line with Islamic values, ensuring that wealth circulates fairly in society. This approach fosters a more equitable system where all members of society have the opportunity to thrive."},{"title":"Islamic Education and Knowledge","content":"Seeking knowledge is a duty upon every Muslim, as emphasized by the Quran and Hadith. Islamic education encompasses both religious and worldly sciences, aiming to build a balanced character and a society rooted in faith and ethics. The pursuit of knowledge is not limited to religious matters but extends to fields like medicine, astronomy, and law, all of which contribute to societal well-being.\\n\\nHistorically, institutions like Al-Azhar and the Bayt al-Hikma (House of Wisdom) played pivotal roles in advancing knowledge across various disciplines. These institutions were the centers of learning where scholars from all over the world contributed to the intellectual and scientific progress of the time, promoting a harmonious blend of faith and reason."},{"title":"Prophets in Islam: Roles and Missions","content":"Prophets in Islam were chosen to guide humanity and deliver Allah\'s message. Muslims believe in all the prophets from Adam to Muhammad (PBUH), who is considered the final prophet. Their core message was Tawhid — the belief in and worship of Allah alone. The stories of the prophets in the Quran are not merely historical accounts but lessons for the believers, meant to guide them in their moral and spiritual journey.\\n\\nThe Quran recounts their struggles, lessons, and miracles, which serve as a means to inspire faith, morality, and perseverance among believers. Each prophet faced unique challenges, yet all were chosen to lead their communities toward righteousness, emphasizing compassion, justice, and the worship of Allah."},{"title":"Halal and Haram in Islam","content":"Halal (permissible) and Haram (forbidden) form the foundation of Islamic dietary and ethical guidelines. Foods like pork and alcohol are Haram, while Halal foods, such as meat, must be slaughtered according to Islamic rites. These dietary laws are part of a larger ethical framework that guides all aspects of a Muslim\'s life.\\n\\nThe principles of Halal and Haram extend beyond food to business practices, prohibiting interest (Riba), deceit, and dishonesty in trade. These rules aim to maintain spiritual purity and societal well-being, ensuring that Muslims live in harmony with the values of justice, fairness, and accountability."},{"title":"Islamic Family Law: Rights and Responsibilities","content":"Islamic family law emphasizes justice, compassion, and mutual rights. Marriage in Islam is seen as a sacred contract (Nikah) requiring mutual consent and the establishment of a fair and respectful relationship. Both spouses have rights and responsibilities, and their roles within the marriage are designed to ensure harmony and cooperation.\\n\\nThe Quran provides clear guidance on issues such as inheritance, ensuring that wealth is distributed equitably among family members. While divorce is discouraged, it is permitted under certain circumstances with guidelines to ensure fairness and dignity for both parties. The legal framework surrounding family life in Islam is designed to promote strong, loving relationships based on mutual respect and responsibility."},{"title":"Angels in Islam: Beliefs and Functions","content":"In Islam, angels are created from light and serve Allah\'s commands without free will. They perform a variety of tasks, including delivering revelations to the prophets, maintaining the natural order, and recording the deeds of human beings. Among the most well-known angels are Jibril (Gabriel), who delivered the revelations to the prophets, and Mikail (Michael), who is responsible for providing sustenance to the creatures of the world.\\n\\nThe belief in angels reinforces the concept of accountability in Islam. Angels are assigned to record the actions of every individual, and these records will be used on the Day of Judgment. Their roles remind Muslims to remain mindful of their actions and to strive toward righteousness in their daily lives."},{"title":"Islamic Calendar and Festivals","content":"The Islamic (Hijri) calendar is lunar, beginning from the migration (Hijra) of Prophet Muhammad (PBUH) to Medina. This calendar marks the passage of time in a way that connects the Muslim community to the key events in Islamic history. Significant months in the Islamic calendar include Ramadan, the month of fasting, and Dhul-Hijjah, during which the annual pilgrimage (Hajj) takes place.\\n\\nThe Islamic festivals of Eid al-Fitr, which celebrates the end of Ramadan, and Eid al-Adha, which commemorates the willingness of Prophet Ibrahim (AS) to sacrifice his son, are key moments of joy, reflection, and community for Muslims. These festivals not only strengthen spiritual bonds but also foster unity among Muslims around the world."},{"title":"Islamic Philosophy and Theology","content":"Islamic philosophy blends reason and revelation, with scholars such as Al-Farabi, Ibn Sina, and Al-Ghazali exploring complex issues related to metaphysics, ethics, and epistemology. Their work represents an intellectual tradition that seeks to reconcile rational inquiry with faith, emphasizing the importance of knowledge in understanding both the natural and spiritual worlds.\\n\\nKalam (Islamic theology) addresses profound theological questions such as divine attributes, the nature of free will, and the concept of predestination. Different theological schools, including the Ash\'ari and Maturidi schools, offer varying perspectives on these matters, contributing to the rich diversity of thought within Islamic intellectual history."},{"title":"Social Justice in Islam","content":"Social justice is a cornerstone of Islamic teachings, promoting fairness, dignity, and respect for all individuals. The Quran calls for the protection of orphans, the poor, and marginalized groups, urging society to support those in need. This emphasis on social justice is reflected in various aspects of Islamic law and ethics, including the prohibition of economic exploitation, such as interest-based transactions (Riba) and deceitful business practices.\\n\\nThe goal of these teachings is to ensure a just and equitable society where everyone has the opportunity to thrive. Islam teaches that wealth is a trust from Allah and should be used for the welfare of others, creating a society based on mutual support and shared responsibility."},{"title":"Islam and Environmental Stewardship","content":"Islam encourages environmental stewardship through the concepts of Khalifah (stewardship) and Amanah (trust). These concepts emphasize the role of humans as caretakers of the Earth, entrusted by Allah with the responsibility to protect and preserve the natural world. The Quran advocates for sustainable resource use and condemns wastefulness (Israf), urging believers to live in harmony with nature.\\n\\nIslamic teachings also promote specific environmental actions, such as planting trees, conserving water, and treating animals with kindness and respect. These acts are viewed as forms of worship, and Muslims are reminded of their accountability in preserving the planet for future generations. The concept of Mizan (balance) underscores the need for fairness and justice in humanity\'s relationship with nature, ensuring its preservation for the benefit of all."},{"title":"The Concept of Justice in Islam","content":"Justice is a fundamental principle in Islam, which stresses the importance of fairness, equality, and impartiality. The Quran frequently calls for the establishment of justice in all aspects of life, whether in personal relationships, community affairs, or dealings with others. In Islam, justice is not limited to human relations but extends to the environment, animals, and all creation, underlining the sanctity of the world as a whole.\\n\\nIslamic law, or Sharia, places great emphasis on justice by ensuring that each person receives their due rights and responsibilities. This includes not only the protection of individual rights but also the fair distribution of resources and the obligation to assist those who are oppressed. The Prophet Muhammad (PBUH) is reported to have said, \'The best of people are those who are most beneficial to others,\' demonstrating the core Islamic values of justice and equity."},{"title":"The Role of Women in Islam","content":"Islam holds women in high regard, recognizing their essential roles as mothers, daughters, wives, and active members of society. The Quran and Hadith provide clear guidance on the rights and responsibilities of women, ensuring their dignity and protecting their autonomy. Women in Islam have the right to own property, seek education, and participate in public life, including work and political activities.\\n\\nHistorically, Islam empowered women long before many modern societies did. The first wife of Prophet Muhammad (PBUH), Khadijah, was a successful businesswoman, and women were active participants in religious, social, and political life in early Islamic history. While the roles of women have evolved over time, the teachings of Islam continue to emphasize respect, equality, and the importance of education and personal development for women."},{"title":"The Five Pillars of Islam: A Guide to Religious Practices","content":"The Five Pillars of Islam form the foundation of a Muslim\'s faith and practice. They represent the core duties and practices that every Muslim must observe in their lifetime. These pillars are Shahada (faith), Salah (prayer), Zakat (charity), Sawm (fasting), and Hajj (pilgrimage).\\n\\nShahada is the declaration of faith, proclaiming that there is no god but Allah and that Muhammad (PBUH) is His messenger. Salah involves performing prayers five times a day, and Zakat requires Muslims to give a portion of their wealth to those in need. Sawm refers to fasting during the month of Ramadan, abstaining from food, drink, and other physical needs from dawn to sunset. Finally, Hajj is a pilgrimage to Mecca that every Muslim must undertake once in their lifetime, if financially and physically able. These pillars serve as a spiritual framework for Muslims to maintain their connection to Allah and the Muslim community."},{"title":"The Concept of Mercy in Islam","content":"Mercy is one of the most central concepts in Islam, reflecting Allah\'s nature and His approach toward creation. The Quran emphasizes that Allah is \'The Most Merciful\' (Ar-Rahman), and this attribute is repeated throughout the Quran and in the daily prayers of Muslims. Mercy is seen as a divine quality that Muslims are encouraged to emulate in their dealings with others.\\n\\nThe Prophet Muhammad (PBUH) was described as a mercy to the world, and his example serves as a guide for Muslims in showing compassion, forgiveness, and kindness to others. Islam teaches that mercy extends to all creatures, including animals and the environment. The practice of showing mercy is not limited to moments of ease but is especially important during times of difficulty, conflict, and hardship."},{"title":"The Islamic Concept of Afterlife and Resurrection","content":"In Islam, the belief in the afterlife is central to a Muslim\'s faith. Muslims believe that life on earth is temporary, and the ultimate goal is to attain a place in Paradise (Jannah) by pleasing Allah through righteous deeds. The Quran describes the Day of Judgment as a time when every soul will be resurrected and held accountable for their actions during their lifetime.\\n\\nOn the Day of Judgment, each individual\'s deeds will be weighed, and they will be judged by Allah. Those who have followed the guidance of Islam will be rewarded with eternal life in Paradise, while those who have rejected faith will face punishment in Hell (Jahannam). This belief in the afterlife serves as a moral compass for Muslims, reminding them of the consequences of their actions and the importance of living a righteous life in accordance with Allah\'s will."},{"title":"Islamic Teachings on Tolerance and Coexistence","content":"Islam is a religion that promotes tolerance, understanding, and peaceful coexistence with others. The Quran teaches that Allah created diversity in humanity, including differences in race, ethnicity, and beliefs, and this diversity should be respected. Muslims are encouraged to live peacefully with others, regardless of their faith or background, and to engage in dialogue with respect and kindness.\\n\\nThe Prophet Muhammad (PBUH) is an exemplary model of tolerance, as he engaged with people of various faiths and cultures, fostering peaceful relations and mutual respect. Islam prohibits violence and oppression against others, emphasizing that all people are equal in the sight of Allah, with righteousness being the true measure of one\'s worth."},{"title":"Islamic Views on Health and Well-Being","content":"Islam places great emphasis on the physical and mental well-being of its followers. The Quran and Hadith highlight the importance of maintaining good health, both as a form of gratitude to Allah and as a means to fulfill one\'s religious duties. The Prophet Muhammad (PBUH) is reported to have said, \'Your body has a right over you,\' reminding Muslims of the importance of caring for their physical health.\\n\\nIslam encourages a balanced diet, regular exercise, and maintaining cleanliness, which are seen as acts of worship. The practice of regular prayer (Salah) also promotes physical activity and mental focus. Additionally, Islam advocates for mental health awareness, emphasizing the importance of emotional well-being and seeking help when needed. The concept of balance (Mizan) is essential in Islam, encouraging believers to maintain a healthy balance between their spiritual, physical, and emotional needs."},{"title":"Islam and the Concept of Community (Ummah)","content":"The concept of Ummah in Islam refers to the global Muslim community, united by faith, shared values, and collective responsibility. Islam teaches that Muslims are not only individuals but part of a larger community that should support and care for each other. The Quran describes the Ummah as a \'just community\' that should promote good and forbid evil, working together to achieve social justice and mutual well-being.\\n\\nThe concept of Ummah also emphasizes the importance of cooperation and unity among Muslims, regardless of their cultural or geographical differences. The Prophet Muhammad (PBUH) encouraged his followers to view each other as brothers and sisters in faith, providing help and support to one another in times of need. This sense of community is reflected in practices such as Zakat, where Muslims are encouraged to give to those less fortunate, and in the daily prayers, where Muslims gather as a community in congregation."},{"title":"The Importance of Dua (Supplication) in Islam","content":"Dua, or supplication, is a vital aspect of a Muslim\'s relationship with Allah. It is a way for Muslims to communicate directly with their Creator, expressing their hopes, fears, gratitude, and requests. The Quran and Hadith emphasize that Allah is always near and ready to answer the prayers of His believers, as long as they approach Him with sincerity and devotion.\\n\\nDua can be made in any language, and it is not limited to formal prayers or ritual supplications. Muslims are encouraged to make dua for themselves, their loved ones, and the entire Muslim Ummah. The Prophet Muhammad (PBUH) taught that dua is a powerful tool for seeking Allah\'s guidance, mercy, and help in times of difficulty. It is a reminder for Muslims that they are dependent on Allah and that He is the ultimate source of all blessings and support."},{"title":"The Concept of Tawhid (Monotheism) in Islam","content":"Tawhid, or the oneness of Allah, is the fundamental concept in Islam. It asserts that Allah is the only true God, with no partners, associates, or children. The concept of Tawhid shapes the Islamic worldview, making it a key principle in Islamic theology and practice. Tawhid emphasizes that all acts of worship, prayers, and devotion must be directed solely to Allah, and any form of polytheism (Shirk) is considered a grave sin in Islam.\\n\\nThe Quran frequently affirms the oneness of Allah, stating that He is the Creator of everything in existence. Belief in Tawhid unites Muslims worldwide, regardless of cultural or ethnic differences, in their shared devotion to the one true God."},{"title":"Islamic Views on Marriage and Family","content":"In Islam, marriage is seen as a sacred contract between a man and a woman, where both partners commit to supporting each other in love, respect, and faith. Marriage is not just a personal choice but a social and spiritual responsibility. The Quran and Hadith offer clear guidelines on how to maintain a healthy, balanced, and respectful relationship between husband and wife.\\n\\nThe family unit is considered the cornerstone of Islamic society, and the responsibility of raising children is viewed as a moral duty. Islam promotes mutual respect, kindness, and understanding in the family, with an emphasis on the rights and duties of each family member. The Prophet Muhammad (PBUH) encouraged treating spouses with compassion and emphasized the importance of maintaining strong family ties."},{"title":"The Importance of Knowledge in Islam","content":"In Islam, seeking knowledge is considered one of the highest forms of worship. The Quran calls upon Muslims to seek knowledge from the cradle to the grave, and the Prophet Muhammad (PBUH) said, \'Seeking knowledge is an obligation upon every Muslim.\' Knowledge is not limited to religious knowledge but includes all fields of study, including science, medicine, history, and literature, as long as they are pursued with a pure intention to benefit humanity.\\n\\nIslam encourages critical thinking, the pursuit of education, and the application of knowledge to improve society. Scholars throughout Islamic history have contributed significantly to various fields, and this tradition continues today. Knowledge is seen as a means to gain a deeper understanding of the world, to draw closer to Allah, and to contribute positively to society."},{"title":"Islamic Ethics and Morality","content":"Islamic ethics and morality are rooted in the teachings of the Quran and the Sunnah (the practices of the Prophet Muhammad, PBUH). These ethical principles govern all aspects of a Muslim\'s life, from personal conduct to social relationships. Muslims are encouraged to uphold values such as honesty, integrity, compassion, and humility.\\n\\nThe concept of \'adab,\' which refers to good manners and etiquette, is an integral part of Islamic ethics. The Quran and Hadith emphasize the importance of treating others with respect, avoiding harmful actions, and striving for justice. The ethical teachings of Islam promote a balance between personal well-being and the well-being of others, encouraging Muslims to act with kindness and fairness in all their dealings."},{"title":"The Role of Islamic Charity (Sadaqah and Zakat)","content":"Charity is a key principle in Islam, where giving to others is seen as an act of worship and a means to purify one\'s wealth. Sadaqah (voluntary charity) and Zakat (obligatory charity) are two forms of giving in Islam. Zakat is one of the Five Pillars of Islam, requiring Muslims to give a portion of their wealth to those in need, typically 2.5% of their savings annually.\\n\\nSadaqah, on the other hand, can be given at any time and in any amount, whether financial, material, or through acts of kindness and service. The Quran emphasizes the importance of charity in purifying the soul and helping to alleviate the suffering of the poor and oppressed. Islamic charity is not limited to financial contributions but extends to actions that benefit others, such as volunteering or offering guidance."},{"title":"The Concept of Righteousness in Islam","content":"Righteousness, or \'Taqwa,\' is a central concept in Islam, referring to living a life in accordance with the teachings of Allah and His Messenger. A righteous person is one who strives to follow the path of piety, sincerity, and integrity, always seeking to please Allah through their actions and intentions.\\n\\nThe Quran describes the righteous as those who believe in Allah, perform good deeds, and avoid sinful behavior. Righteousness is not limited to outward actions but encompasses one\'s internal state, including intentions, thoughts, and feelings. The Prophet Muhammad (PBUH) said, \'The best among you are those who have the best manners and character,\' highlighting the significance of internal righteousness alongside external acts of worship."},{"title":"The Importance of Fasting in Islam","content":"Fasting, or \'Sawm,\' is one of the Five Pillars of Islam and holds great spiritual significance. During the month of Ramadan, Muslims around the world fast from dawn to sunset, refraining from food, drink, and other physical needs as a form of worship and self-discipline. The primary goal of fasting is to attain \'Taqwa\' (God-consciousness) by purifying the soul and gaining empathy for the less fortunate.\\n\\nFasting in Islam is not just about abstaining from food and drink but also from negative thoughts, harmful speech, and sinful actions. The Quran describes fasting as a means of spiritual growth, fostering self-restraint, and increasing awareness of Allah. Beyond Ramadan, Muslims are also encouraged to fast on other days, such as Mondays and Thursdays, as a means of maintaining spiritual discipline throughout the year."},{"title":"The Concept of Forgiveness in Islam","content":"Forgiveness is a key theme in Islam, and it is seen as a divine quality that Muslims should strive to emulate. Allah is described as \'The Most Forgiving\' (Al-Ghafur) in the Quran, and Muslims are encouraged to seek His forgiveness through sincere repentance for their sins.\\n\\nThe Prophet Muhammad (PBUH) emphasized the importance of forgiving others, saying, \'Whoever does not forgive others, Allah will not forgive them.\' Islam teaches that forgiveness is not a sign of weakness but a strength that promotes peace and reconciliation. Muslims are encouraged to forgive those who wrong them, as this leads to spiritual growth and closeness to Allah. The concept of forgiveness extends to both personal and societal levels, fostering harmony and preventing cycles of anger and revenge."},{"title":"Islamic Views on Peace and Conflict Resolution","content":"Islam places great emphasis on peace, both at the individual and societal levels. The Quran repeatedly calls for peace, reconciliation, and the peaceful resolution of conflicts. Muslims are encouraged to seek peaceful solutions to disputes and to avoid aggression or harm to others.\\n\\nThe Prophet Muhammad (PBUH) was a model of peace, and his actions in times of conflict serve as a guide for Muslims today. He promoted peaceful negotiations and treaties and worked to foster peaceful relations between different tribes and communities. Islam teaches that war is only permissible as a last resort and should always be conducted in accordance with ethical principles, including the protection of non-combatants and the prohibition of unnecessary harm."},{"title":"The Significance of Hajj (The Pilgrimage) in Islam","content":"Hajj, the annual pilgrimage to Mecca, is one of the Five Pillars of Islam and is an obligation for Muslims who are physically and financially able to perform it. Hajj represents the ultimate act of submission to Allah and serves as a symbol of unity among Muslims worldwide, as millions gather in Mecca each year to perform the rites together.\\n\\nThe rituals of Hajj, such as Tawaf (circling the Kaaba), standing at Arafat, and throwing pebbles at the symbolic pillars, represent a Muslim\'s devotion to Allah and their commitment to the principles of humility, equality, and worship. Hajj is also a time for reflection, repentance, and seeking Allah\'s forgiveness. It is a transformative experience that strengthens faith and fosters a deep sense of spiritual renewal."},{"title":"The Concept of Prophethood in Islam","content":"In Islam, Prophethood is the divine institution through which Allah sends messengers to guide humanity. The final Prophet, Muhammad (PBUH), is considered the Seal of the Prophets, and his teachings, recorded in the Quran and Hadith, form the foundation of Islamic belief and practice. Muslims believe that Allah sent many prophets before Muhammad (PBUH), including Adam, Noah, Abraham, Moses, and Jesus (PBUH), each bringing a message suited to the time and place of their people.\\n\\nThe role of a prophet is to deliver the message of Allah and to be an example of righteous living. Prophets are considered infallible in delivering the divine message, though they remain human in other aspects of their lives. The concept of prophethood emphasizes the continuity of divine guidance and the importance of following the teachings of the final Prophet to attain success in this life and the Hereafter."},{"title":"Islamic Views on Financial Transactions and Ethics","content":"Islam has detailed guidelines for financial transactions, emphasizing fairness, honesty, and transparency. One of the key principles in Islamic finance is the prohibition of \'riba\' (usury), which is seen as exploitative and unjust. Instead, Islam promotes trade, profit-sharing, and ethical business practices that benefit both parties involved.\\n\\nThe concept of \'Halal\' (permissible) and \'Haram\' (forbidden) also applies to financial dealings, with Muslims encouraged to avoid investments or businesses that involve unethical practices, such as gambling or alcohol. Zakat, the obligatory charity, serves as a means of redistributing wealth to the less fortunate, ensuring that economic prosperity is shared within the community. Islamic finance focuses on fairness, accountability, and social responsibility."},{"title":"The Role of the Quran in Islam","content":"The Quran is the holy book of Islam, considered by Muslims to be the literal word of Allah, revealed to Prophet Muhammad (PBUH) over a period of 23 years. The Quran serves as a comprehensive guide for all aspects of life, offering guidance on worship, ethics, law, and social relations.\\n\\nMuslims believe that the Quran is the final revelation from Allah, confirming and superseding previous scriptures. The Quran emphasizes monotheism, justice, compassion, and righteousness. It is regarded as a timeless and universal message, applicable to all people, regardless of time or place. Muslims recite verses from the Quran during prayers, and its teachings are central to Islamic life and spirituality."},{"title":"The Importance of Gratitude (Shukr) in Islam","content":"Gratitude, or \'Shukr,\' is a central theme in Islam and is considered an essential quality for Muslims. The Quran and Hadith emphasize the importance of thanking Allah for His countless blessings and being grateful for everything in life, both big and small. The Prophet Muhammad (PBUH) taught that gratitude leads to contentment and spiritual fulfillment, as it helps Muslims recognize Allah\'s mercy and generosity.\\n\\nShukr is not only about verbal expressions of thanks but also about using the blessings that Allah has given in a way that pleases Him. Islam encourages Muslims to be grateful by showing kindness to others, being patient in times of hardship, and giving charity to help those in need."},{"title":"The Importance of Tawheed (Monotheism) in Islam","content":"Tawheed, the belief in the oneness of Allah, is the core principle of Islamic theology. It asserts that Allah is the only Creator, Sustainer, and Ruler of the universe. Tawheed is not only a theological concept but also a way of life that permeates every aspect of a Muslim\'s existence. The Quran repeatedly emphasizes the oneness of Allah, stating, \'Say, He is Allah, [Who is] One.\' (Quran 112:1).\\n\\nTawheed ensures that Muslims dedicate their worship solely to Allah, avoiding any form of polytheism or idolatry. This belief fosters humility, unity, and a strong connection with the Creator. It also calls Muslims to reflect on Allah’s attributes, such as His mercy, knowledge, and power, and to live their lives in accordance with His will."},{"title":"The Role of Prophets and Messengers in Islam","content":"In Islam, Prophets (Anbiya) and Messengers (Rasool) are individuals chosen by Allah to guide humanity. They are the bearers of divine revelation, leading their people toward monotheism, righteousness, and justice. The Quran mentions that \'We have sent you [O Muhammad] only as a mercy to the worlds.\' (Quran 21:107).\\n\\nProphet Muhammad (PBUH) is considered the final Messenger, but Muslims believe in all the Prophets who came before him, such as Adam, Noah, Abraham, Moses, and Jesus (peace be upon them). These Prophets taught the same fundamental message: the oneness of Allah and the importance of leading a life based on moral and ethical conduct. Muslims believe that the guidance of the Prophets is a mercy for humanity, and following their example is essential for achieving peace and success in both this world and the Hereafter."},{"title":"The Islamic Concept of Justice (Adl)","content":"Justice (Adl) is a fundamental value in Islam, which is deeply embedded in its teachings. The Quran commands believers to uphold justice, stating, \'Indeed, Allah commands you to uphold justice.\' (Quran 16:90). Justice in Islam encompasses all aspects of life, from interpersonal relations to social, political, and legal systems.\\n\\nMuslims are taught to be just in their actions, dealings, and judgments, regardless of a person\'s race, ethnicity, or status. The Prophet Muhammad (PBUH) emphasized that justice should be the basis of leadership, legal matters, and community relations. Islamic justice seeks to ensure fairness, prevent oppression, and protect the rights of every individual. It also encourages reconciliation and forgiveness, offering a balanced approach to both accountability and mercy."},{"title":"The Concept of Gratitude (Shukr) in Islam","content":"Gratitude (Shukr) is an essential virtue in Islam, emphasizing the acknowledgment of Allah’s blessings and being thankful for His provisions. The Quran states, \'If you are grateful, I will certainly give you more.\' (Quran 14:7). Gratitude in Islam is not just about expressing thanks with words, but also about demonstrating thankfulness through actions, such as fulfilling religious obligations and helping others.\\n\\nShukr involves recognizing that all blessings, whether material or spiritual, come from Allah. It encourages Muslims to maintain a positive attitude, express thankfulness regularly, and share their blessings with others. Gratitude strengthens a Muslim’s relationship with Allah and leads to contentment and peace of mind."},{"title":"The Islamic Concept of the Afterlife (Akhirah)","content":"The concept of the Afterlife (Akhirah) is central to Islamic belief. Muslims believe in life after death and the eventual Day of Judgment, when every soul will be held accountable for their deeds. The Quran states, \'Every soul shall taste death, and you will be fully recompensed on the Day of Resurrection.\' (Quran 3:185).\\n\\nThe Afterlife is a continuation of the soul’s journey, where those who lived righteous lives will be rewarded with eternal paradise (Jannah), and those who disobeyed Allah will face punishment in Hell (Jahannam). The belief in Akhirah encourages Muslims to live a life of piety, justice, and righteousness, with the understanding that their actions in this world will determine their eternal fate."},{"title":"The Significance of the Night of Ascension (Isra and Miraj)","content":"The Night of Ascension (Isra and Miraj) is one of the most significant events in Islamic history. It is the night when Prophet Muhammad (PBUH) was taken from the Kaaba in Mecca to the Al-Aqsa Mosque in Jerusalem, and then ascended to the heavens to stand in the presence of Allah. During this miraculous journey, the Prophet received instructions regarding the number of daily prayers (Salah) that Muslims are to perform.\\n\\nIsra and Miraj symbolize the deep connection between the Prophet and Allah, and it highlights the importance of prayer in the life of a Muslim. The event serves as a reminder of the spiritual elevation that comes with devotion, faith, and submission to Allah."},{"title":"The Importance of the Quran in Daily Life","content":"The Quran is not just a sacred text to be read during special occasions but is meant to be a guide for every aspect of a Muslim\'s daily life. The Quran provides guidance on personal conduct, family relations, social justice, and spirituality. It teaches Muslims to act with kindness, honesty, humility, and justice, reflecting the divine will in their actions.\\n\\nThe Quran encourages reflection, understanding, and action upon its verses. It is recited during prayers and serves as a source of comfort, solace, and guidance. Muslims are encouraged to incorporate its teachings into their daily routines, making the Quran a living guide that shapes their thoughts, behaviors, and interactions with others."},{"title":"The Importance of Good Character in Islam","content":"Good character is a key aspect of a Muslim\'s faith and is highly valued in Islam. The Prophet Muhammad (PBUH) said, \'The best of you are those who have the best manners and character.\' Islam teaches Muslims to act with kindness, patience, humility, and sincerity, and to treat others with respect and fairness.\\n\\nGood character extends beyond the immediate family and community, encompassing dealings with neighbors, colleagues, and even strangers. The Quran and Hadith emphasize that a person’s actions should reflect the teachings of Islam, demonstrating compassion and integrity. A Muslim is encouraged to uphold high standards of character in all aspects of life, as it not only improves personal relationships but also contributes to the overall well-being of society."},{"title":"The Importance of Seeking Knowledge in Islam","content":"Seeking knowledge is a highly regarded activity in Islam, and it is considered a form of worship. The Quran states, \'Say, \'Are those who know equal to those who do not know?\' (Quran 39:9), underscoring the importance of knowledge in Islam.\\n\\nKnowledge is not confined to religious studies but includes all beneficial knowledge that serves to better the individual and society. Islam encourages its followers to acquire both religious and worldly knowledge. The Prophet Muhammad (PBUH) said, \'Seeking knowledge is an obligation upon every Muslim.\' Through knowledge, Muslims can understand their faith, contribute positively to society, and act in ways that align with divine wisdom."},{"title":"The Importance of Dhikr (Remembrance of Allah)","content":"Dhikr, or the remembrance of Allah, is an essential practice in Islam that helps strengthen the bond between the believer and Allah. The Quran reminds Muslims, \'Indeed, in the remembrance of Allah do hearts find rest.\' (Quran 13:28).\\n\\nDhikr can be performed through various forms, such as reciting specific phrases like \'SubhanAllah\' (Glory be to Allah), \'Alhamdulillah\' (All praise is due to Allah), and \'Allahu Akbar\' (Allah is the Greatest). These acts of remembrance are not only an expression of gratitude but also serve as a means of purifying the heart and seeking Allah’s mercy and blessings. Regular Dhikr helps Muslims stay mindful of Allah throughout their daily lives and encourages patience, gratitude, and humility."}]}');
 
 /***/ })
 

@@ -37,6 +37,7 @@ use App\Http\Controllers\ContentController;
 use App\Http\Controllers\SuratController;
 use App\Http\Controllers\DuaController;
 use App\Http\Controllers\RadioController;
+use App\Http\Controllers\GuideController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -296,3 +297,5 @@ Route::get('/surat', [SuratController::class, 'index'])->name('surat');
 Route::get('/dua', [DuaController::class, 'index'])->name('dua');
 // radio
 Route::get('/radio', [RadioController::class, 'index'])->name('radio');
+// guide
+Route::get('/guide', [GuideController::class, 'index'])->name('guide');

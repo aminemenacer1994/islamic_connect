@@ -133,6 +133,12 @@
                     <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b>Radio Stations</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
+                    <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
+                </li>
+                <!-- <li class="nav-item mt-3">
+                    <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
+                </li> -->
+                <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">

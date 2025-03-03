@@ -1,0 +1,1962 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Supplication for Forgiveness",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Forgiveness",
+          "arabic": "اللهم اغفر لي",
+          "transliteration": "Allahumma aghfir li",
+          "translation": "O Allah, forgive me",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Seeking Forgiveness in the Last Part of the Night",
+          "arabic": "اللهم أنت ربي لا إله إلا أنت",
+          "transliteration": "Allahumma anta rabbi la ilaha illa anta",
+          "translation": "O Allah, You are my Lord, there is no god but You",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Forgiveness and Mercy",
+          "arabic": "اللهم اغفر لنا وارحمنا",
+          "transliteration": "Allahumma aghfir lana warhamna",
+          "translation": "O Allah, forgive us and have mercy upon us",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Forgiveness of Parents",
+          "arabic": "اللهم اغفر لوالدَيّ",
+          "transliteration": "Allahumma aghfir liwalidayya",
+          "translation": "O Allah, forgive my parents",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Forgiveness After Sin",
+          "arabic": "اللهم اغفر لي ذنبي",
+          "transliteration": "Allahumma aghfir li dhanbi",
+          "translation": "O Allah, forgive my sin",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Forgiveness and Protection from Hellfire",
+          "arabic": "اللهم اجعلنا من أهل الجنة",
+          "transliteration": "Allahumma ajilna min ahlil jannah",
+          "translation": "O Allah, make us among the people of Paradise",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Forgiveness in the Morning",
+          "arabic": "اللهم إني أصبحت أشهدك",
+          "transliteration": "Allahumma inni asbahtu ashhiduka",
+          "translation": "O Allah, I have entered the morning bearing witness",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Forgiveness During the Day",
+          "arabic": "اللهم إني أسألك مغفرة",
+          "transliteration": "Allahumma inni as'alu ka maghfirah",
+          "translation": "O Allah, I ask You for forgiveness",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Forgiveness at the Time of Death",
+          "arabic": "اللهم اغفر لي عند موتي",
+          "transliteration": "Allahumma aghfir li anda mauti",
+          "translation": "O Allah, forgive me at the time of my death",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Forgiveness in the Grave",
+          "arabic": "اللهم اغفر له وارحمه",
+          "transliteration": "Allahumma aghfir lahu warhamhu",
+          "translation": "O Allah, forgive him and have mercy on him",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 11,
+          "title": "Dua for Forgiveness and Repentance",
+          "arabic": "اللهم إني تبت إليك",
+          "transliteration": "Allahumma inni tubtu ilayk",
+          "translation": "O Allah, I repent to You",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 12,
+          "title": "Dua for Forgiveness Before Fajr Prayer",
+          "arabic": "اللهم اجعلني من الذين يتوبون إليك",
+          "transliteration": "Allahumma ajilni min al-ladhina yatubuna ilayk",
+          "translation": "O Allah, make me among those who repent to You",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 13,
+          "title": "Dua for Forgiveness for the Believers",
+          "arabic": "اللهم اغفر للمؤمنين والمؤمنات",
+          "transliteration": "Allahumma aghfir lil-mu'minina wal-mu'minat",
+          "translation": "O Allah, forgive the believing men and women",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 14,
+          "title": "Dua for Forgiveness for Those Who Are Oppressed",
+          "arabic": "اللهم اغفر للمستضعفين",
+          "transliteration": "Allahumma aghfir lil-mustad'afeen",
+          "translation": "O Allah, forgive the oppressed",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 15,
+          "title": "Dua for Forgiveness After a Mistake",
+          "arabic": "اللهم اغفر لي خطيئتي",
+          "transliteration": "Allahumma aghfir li khati'ati",
+          "translation": "O Allah, forgive my mistake",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 16,
+          "title": "Dua for Forgiveness in the Last Third of the Night",
+          "arabic": "اللهم اغفر لي في آخر الليل",
+          "transliteration": "Allahumma aghfir li fi akhir al-layl",
+          "translation": "O Allah, forgive me in the last part of the night",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 17,
+          "title": "Dua for Forgiveness and Acceptance of Good Deeds",
+          "arabic": "اللهم تقبل عملي",
+          "transliteration": "Allahumma taqabbal 'amali",
+          "translation": "O Allah, accept my good deeds",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 18,
+          "title": "Dua for Forgiveness and Relief from Suffering",
+          "arabic": "اللهم إني أسالك فرجاً قريباً",
+          "transliteration": "Allahumma inni as'alu ka farajan qareeban",
+          "translation": "O Allah, I ask You for relief from suffering",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 19,
+          "title": "Dua for Forgiveness and Protection from Hellfire",
+          "arabic": "اللهم اجعلنا من أهل الجنة",
+          "transliteration": "Allahumma ajilna min ahlil jannah",
+          "translation": "O Allah, make us among the people of Paradise",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 20,
+          "title": "Dua for Forgiveness and the Protection of Family",
+          "arabic": "اللهم اغفر لي ولأهلي",
+          "transliteration": "Allahumma aghfir li wa li ahli",
+          "translation": "O Allah, forgive me and my family",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Dua for Protection",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Protection from the Evil Eye",
+          "arabic": "أعوذ بكلمات الله التامات من شر ما خلق",
+          "transliteration": "A'udhu bikalimatillahi tammati min sharri ma khalaq",
+          "translation": "I seek refuge in the perfect words of Allah from the evil of what He has created",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Protection from Shaitan",
+          "arabic": "أعوذ بالله من الشيطان الرجيم",
+          "transliteration": "A'udhu billahi min ash-shaytan ir-rajim",
+          "translation": "I seek refuge with Allah from the accursed devil",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Protection from Harmful People",
+          "arabic": "اللهم إني أعوذ بك من شر الناس",
+          "transliteration": "Allahumma inni a'udhu bika min sharri an-nas",
+          "translation": "O Allah, I seek refuge with You from the evil of the people",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Protection from Poverty",
+          "arabic": "اللهم إني أعوذ بك من الفقر",
+          "transliteration": "Allahumma inni a'udhu bika min al-faqr",
+          "translation": "O Allah, I seek refuge with You from poverty",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Protection from Harm",
+          "arabic": "اللهم إني أعوذ بك من الضر",
+          "transliteration": "Allahumma inni a'udhu bika min ad-durr",
+          "translation": "O Allah, I seek refuge with You from harm",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Protection from Enemies",
+          "arabic": "اللهم إني أعوذ بك من عدو",
+          "transliteration": "Allahumma inni a'udhu bika min 'aduww",
+          "translation": "O Allah, I seek refuge with You from the enemy",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Protection from Sickness",
+          "arabic": "اللهم إني أعوذ بك من المرض",
+          "transliteration": "Allahumma inni a'udhu bika min al-marad",
+          "translation": "O Allah, I seek refuge with You from sickness",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Protection from Magic",
+          "arabic": "اللهم إني أعوذ بك من السحر",
+          "transliteration": "Allahumma inni a'udhu bika min as-sihri",
+          "translation": "O Allah, I seek refuge with You from magic",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Protection from the Fire of Hell",
+          "arabic": "اللهم إني أعوذ بك من عذاب النار",
+          "transliteration": "Allahumma inni a'udhu bika min 'adhab an-nar",
+          "translation": "O Allah, I seek refuge with You from the punishment of the Fire",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Protection from Anxiety",
+          "arabic": "اللهم إني أعوذ بك من الهم",
+          "transliteration": "Allahumma inni a'udhu bika min al-ham",
+          "translation": "O Allah, I seek refuge with You from anxiety",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 11,
+          "title": "Dua for Protection from Difficulties",
+          "arabic": "اللهم إني أعوذ بك من الشدائد",
+          "transliteration": "Allahumma inni a'udhu bika min ash-shada'id",
+          "translation": "O Allah, I seek refuge with You from difficulties",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 12,
+          "title": "Dua for Protection from Unnecessary Fears",
+          "arabic": "اللهم إني أعوذ بك من خوف لا مكان له",
+          "transliteration": "Allahumma inni a'udhu bika min khawfin la makan lahu",
+          "translation": "O Allah, I seek refuge with You from fear that has no cause",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 13,
+          "title": "Dua for Protection from Suffering",
+          "arabic": "اللهم إني أعوذ بك من العذاب",
+          "transliteration": "Allahumma inni a'udhu bika min al-'adhab",
+          "translation": "O Allah, I seek refuge with You from suffering",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 14,
+          "title": "Dua for Protection for Family",
+          "arabic": "اللهم إني أعوذ بك من كل مكروه",
+          "transliteration": "Allahumma inni a'udhu bika min kulli makrooh",
+          "translation": "O Allah, I seek refuge with You from all harm for my family",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 15,
+          "title": "Dua for Protection from Distress",
+          "arabic": "اللهم إني أعوذ بك من الضيق",
+          "transliteration": "Allahumma inni a'udhu bika min ad-da'iq",
+          "translation": "O Allah, I seek refuge with You from distress",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 16,
+          "title": "Dua for Protection from Weakness",
+          "arabic": "اللهم إني أعوذ بك من الضعف",
+          "transliteration": "Allahumma inni a'udhu bika min ad-da'af",
+          "translation": "O Allah, I seek refuge with You from weakness",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 17,
+          "title": "Dua for Protection from Bad Dreams",
+          "arabic": "اللهم إني أعوذ بك من الأحلام السيئة",
+          "transliteration": "Allahumma inni a'udhu bika min al-ahlam as-sayyi'a",
+          "translation": "O Allah, I seek refuge with You from bad dreams",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 18,
+          "title": "Dua for Protection from Calamities",
+          "arabic": "اللهم إني أعوذ بك من البلاء",
+          "transliteration": "Allahumma inni a'udhu bika min al-bala",
+          "translation": "O Allah, I seek refuge with You from calamity",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 19,
+          "title": "Dua for Protection from Difficult Trials",
+          "arabic": "اللهم إني أعوذ بك من المحن",
+          "transliteration": "Allahumma inni a'udhu bika min al-mihan",
+          "translation": "O Allah, I seek refuge with You from trials",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 20,
+          "title": "Dua for Protection from Evil Acts",
+          "arabic": "اللهم إني أعوذ بك من سوء العمل",
+          "transliteration": "Allahumma inni a'udhu bika min su'il 'amal",
+          "translation": "O Allah, I seek refuge with You from bad actions",
+          "reference": "Sahih Bukhari"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Dua for Ease",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Ease in Affairs",
+          "arabic": "اللهم يسر لي أمري",
+          "transliteration": "Allahumma yassir li amri",
+          "translation": "O Allah, ease my affair",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Ease in Marriage",
+          "arabic": "اللهم يسر لي الزواج",
+          "transliteration": "Allahumma yassir li az-zawaj",
+          "translation": "O Allah, ease my marriage",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Ease in Work",
+          "arabic": "اللهم يسر لي رزقي",
+          "transliteration": "Allahumma yassir li rizqi",
+          "translation": "O Allah, ease my livelihood",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Ease in Health",
+          "arabic": "اللهم يسر لي شفائي",
+          "transliteration": "Allahumma yassir li shifa'i",
+          "translation": "O Allah, ease my healing",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Ease in Difficult Times",
+          "arabic": "اللهم يسر لي في الشدائد",
+          "transliteration": "Allahumma yassir li fi ash-shada'id",
+          "translation": "O Allah, ease me during difficulties",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Ease in Travel",
+          "arabic": "اللهم يسر لي سفري",
+          "transliteration": "Allahumma yassir li safari",
+          "translation": "O Allah, ease my travel",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Ease in Seeking Knowledge",
+          "arabic": "اللهم يسر لي علمي",
+          "transliteration": "Allahumma yassir li 'ilmi",
+          "translation": "O Allah, ease my knowledge",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Ease in Affairs of the Day",
+          "arabic": "اللهم يسر لي يومي",
+          "transliteration": "Allahumma yassir li yawmi",
+          "translation": "O Allah, ease my day",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Ease in Family Matters",
+          "arabic": "اللهم يسر لي عائلتي",
+          "transliteration": "Allahumma yassir li 'aailati",
+          "translation": "O Allah, ease my family matters",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Ease in Financial Matters",
+          "arabic": "اللهم يسر لي مالي",
+          "transliteration": "Allahumma yassir li mali",
+          "translation": "O Allah, ease my finances",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 11,
+          "title": "Dua for Ease in Prayer",
+          "arabic": "اللهم يسر لي صلاتي",
+          "transliteration": "Allahumma yassir li salati",
+          "translation": "O Allah, ease my prayer",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 12,
+          "title": "Dua for Ease in Work Performance",
+          "arabic": "اللهم يسر لي أعمالي",
+          "transliteration": "Allahumma yassir li a'mali",
+          "translation": "O Allah, ease my work",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 13,
+          "title": "Dua for Ease in Reaching Goals",
+          "arabic": "اللهم يسر لي الوصول لأهدافي",
+          "transliteration": "Allahumma yassir li al-wusul li ahdafi",
+          "translation": "O Allah, ease my reaching of goals",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 14,
+          "title": "Dua for Ease in Family Growth",
+          "arabic": "اللهم يسر لي زيادة أولادي",
+          "transliteration": "Allahumma yassir li zyadaat awladi",
+          "translation": "O Allah, ease the growth of my children",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 15,
+          "title": "Dua for Ease in All Matters",
+          "arabic": "اللهم يسر لي كل الأمور",
+          "transliteration": "Allahumma yassir li kulli al-umur",
+          "translation": "O Allah, ease all my matters",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 16,
+          "title": "Dua for Ease in Speaking",
+          "arabic": "اللهم يسر لي الكلام",
+          "transliteration": "Allahumma yassir li al-kalam",
+          "translation": "O Allah, ease my speech",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 17,
+          "title": "Dua for Ease in Communication",
+          "arabic": "اللهم يسر لي التواصل",
+          "transliteration": "Allahumma yassir li at-tawassul",
+          "translation": "O Allah, ease my communication",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 18,
+          "title": "Dua for Ease in Understanding",
+          "arabic": "اللهم يسر لي الفهم",
+          "transliteration": "Allahumma yassir li al-fahm",
+          "translation": "O Allah, ease my understanding",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 19,
+          "title": "Dua for Ease in Wisdom",
+          "arabic": "اللهم يسر لي الحكمة",
+          "transliteration": "Allahumma yassir li al-hikmah",
+          "translation": "O Allah, ease me with wisdom",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 20,
+          "title": "Dua for Ease in Affection",
+          "arabic": "اللهم يسر لي المحبة",
+          "transliteration": "Allahumma yassir li al-mahabbah",
+          "translation": "O Allah, ease me with affection",
+          "reference": "Sunan At-Tirmidhi"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Morning Duas",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Protection in the Morning",
+          "arabic": "اللهم بك أصبحنا وبك أمسينا",
+          "transliteration": "Allahumma bika asbahna wa bika amsina",
+          "translation": "O Allah, by You we have entered the morning, and by You we enter the evening",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Blessings in the Morning",
+          "arabic": "اللهم اجعلنا من أهل الصباح",
+          "transliteration": "Allahumma ajilna min ahl as-sabah",
+          "translation": "O Allah, make us among the people of the morning",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Strength in the Morning",
+          "arabic": "اللهم اجعلنا من أهل القوة",
+          "transliteration": "Allahumma ajilna min ahl al-quwwa",
+          "translation": "O Allah, make us among the people of strength",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Forgiveness in the Morning",
+          "arabic": "اللهم اغفر لي في صباح هذا اليوم",
+          "transliteration": "Allahumma aghfir li fi sabah hadha al-yawm",
+          "translation": "O Allah, forgive me in this morning of this day",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Guidance in the Morning",
+          "arabic": "اللهم إني أسألك الهداية",
+          "transliteration": "Allahumma inni as'aluka al-hidaya",
+          "translation": "O Allah, I ask You for guidance",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Peace in the Morning",
+          "arabic": "اللهم اجعل صباحنا سلاماً",
+          "transliteration": "Allahumma ajil sabahna salaaman",
+          "translation": "O Allah, make our morning peaceful",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Sustenance in the Morning",
+          "arabic": "اللهم ارزقني في هذا الصباح",
+          "transliteration": "Allahumma ruzuqni fi hadha as-sabah",
+          "translation": "O Allah, provide for me in this morning",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Protection from Evil in the Morning",
+          "arabic": "اللهم إني أعوذ بك من شرور هذا اليوم",
+          "transliteration": "Allahumma inni a'udhu bika min shururi hadha al-yawm",
+          "translation": "O Allah, I seek refuge with You from the evils of this day",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Gratitude in the Morning",
+          "arabic": "اللهم اجعلني من الشاكرين",
+          "transliteration": "Allahumma ajilni min ash-shakirin",
+          "translation": "O Allah, make me among the grateful",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Health in the Morning",
+          "arabic": "اللهم أسألك صحة في هذا اليوم",
+          "transliteration": "Allahumma as'aluka sihhatin fi hadha al-yawm",
+          "translation": "O Allah, I ask You for health in this day",
+          "reference": "Sunan Ibn Majah"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Evening Duas",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Protection in the Evening",
+          "arabic": "اللهم بك أمسينا وبك أصبحنا",
+          "transliteration": "Allahumma bika amsina wa bika asbahna",
+          "translation": "O Allah, by You we enter the evening, and by You we enter the morning",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Peace in the Evening",
+          "arabic": "اللهم اجعل مساءنا سلاماً",
+          "transliteration": "Allahumma ajil masa'na salaaman",
+          "translation": "O Allah, make our evening peaceful",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Protection from Harm in the Evening",
+          "arabic": "اللهم إني أعوذ بك من كل شر في المساء",
+          "transliteration": "Allahumma inni a'udhu bika min kulli sharr fi al-masa",
+          "translation": "O Allah, I seek refuge with You from all harm in the evening",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Forgiveness in the Evening",
+          "arabic": "اللهم اغفر لي في مساء هذا اليوم",
+          "transliteration": "Allahumma aghfir li fi masa' hadha al-yawm",
+          "translation": "O Allah, forgive me in this evening of this day",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Sustenance in the Evening",
+          "arabic": "اللهم ارزقني في هذا المساء",
+          "transliteration": "Allahumma ruzuqni fi hadha al-masa",
+          "translation": "O Allah, provide for me in this evening",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Protection from Evil in the Evening",
+          "arabic": "اللهم إني أعوذ بك من شرور هذا المساء",
+          "transliteration": "Allahumma inni a'udhu bika min shururi hadha al-masa",
+          "translation": "O Allah, I seek refuge with You from the evils of this evening",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Gratitude in the Evening",
+          "arabic": "اللهم اجعلني من الشاكرين في المساء",
+          "transliteration": "Allahumma ajilni min ash-shakirin fi al-masa",
+          "translation": "O Allah, make me among the grateful in the evening",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Peaceful Sleep",
+          "arabic": "اللهم اجعل نومنا راحة",
+          "transliteration": "Allahumma ajil nawmana rahatan",
+          "translation": "O Allah, make our sleep peaceful",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Strength and Patience",
+          "arabic": "اللهم اجعلني من أهل الصبر",
+          "transliteration": "Allahumma ajilni min ahl as-sabr",
+          "translation": "O Allah, make me among the people of patience",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Health and Healing",
+          "arabic": "اللهم اشفنا من جميع الأمراض",
+          "transliteration": "Allahumma ishfina min jami'i al-amradh",
+          "translation": "O Allah, cure us from all ailments",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Night Duas",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Protection at Night",
+          "arabic": "اللهم إني أعوذ بك من شر ما خلقت",
+          "transliteration": "Allahumma inni a'udhu bika min sharr ma khalaqt",
+          "translation": "O Allah, I seek refuge with You from the evil of what You have created",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Forgiveness at Night",
+          "arabic": "اللهم اغفر لي في هذه الليلة",
+          "transliteration": "Allahumma aghfir li fi hadhih al-layla",
+          "translation": "O Allah, forgive me in this night",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Peaceful Sleep",
+          "arabic": "اللهم اجعل نومنا طيبًا",
+          "transliteration": "Allahumma ajil nawmana tayyiban",
+          "translation": "O Allah, make our sleep good",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Healing at Night",
+          "arabic": "اللهم اشفني من كل مرض",
+          "transliteration": "Allahumma ishfini min kulli maradh",
+          "translation": "O Allah, heal me from every illness",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Protection from the Devil at Night",
+          "arabic": "اللهم إني أعوذ بك من الشيطان الرجيم",
+          "transliteration": "Allahumma inni a'udhu bika min ash-shaytan ar-rajim",
+          "translation": "O Allah, I seek refuge with You from the accursed devil",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Guidance at Night",
+          "arabic": "اللهم اجعلني من أهل الهداية",
+          "transliteration": "Allahumma ajilni min ahl al-hidaya",
+          "translation": "O Allah, make me among the people of guidance",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Protection from Nightmares",
+          "arabic": "اللهم إني أعوذ بك من أحلام الليل",
+          "transliteration": "Allahumma inni a'udhu bika min ahlam al-layl",
+          "translation": "O Allah, I seek refuge with You from the dreams of the night",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Safety at Night",
+          "arabic": "اللهم احفظني في هذه الليلة",
+          "transliteration": "Allahumma ahfazni fi hadhih al-layla",
+          "translation": "O Allah, protect me in this night",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Peace of Mind at Night",
+          "arabic": "اللهم اجعلني من أهل الراحة في الليل",
+          "transliteration": "Allahumma ajilni min ahl ar-raha fi al-layl",
+          "translation": "O Allah, make me among the people of peace at night",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Light at Night",
+          "arabic": "اللهم اجعل لي نوراً في هذه الليلة",
+          "transliteration": "Allahumma ajil li nooran fi hadhih al-layla",
+          "translation": "O Allah, grant me light in this night",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Prayer Times",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Fajr Prayer",
+          "arabic": "اللهم اجعلني من أهل الفجر",
+          "transliteration": "Allahumma ajilni min ahlil-fajr",
+          "translation": "O Allah, make me among the people of Fajr",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Dhuhr Prayer",
+          "arabic": "اللهم اجعلني من أهل الظهر",
+          "transliteration": "Allahumma ajilni min ahlil-zuhur",
+          "translation": "O Allah, make me among the people of Dhuhr",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Asr Prayer",
+          "arabic": "اللهم اجعلني من أهل العصر",
+          "transliteration": "Allahumma ajilni min ahlil-asr",
+          "translation": "O Allah, make me among the people of Asr",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Maghrib Prayer",
+          "arabic": "اللهم اجعلني من أهل المغرب",
+          "transliteration": "Allahumma ajilni min ahlil-maghrib",
+          "translation": "O Allah, make me among the people of Maghrib",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Isha Prayer",
+          "arabic": "اللهم اجعلني من أهل العشاء",
+          "transliteration": "Allahumma ajilni min ahlil-isha",
+          "translation": "O Allah, make me among the people of Isha",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Before Fajr Prayer",
+          "arabic": "اللهم اهدني لخير ما في هذا اليوم",
+          "transliteration": "Allahumma ihdini li khayri ma fi hadha al-yawm",
+          "translation": "O Allah, guide me to the best of what this day has to offer",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Before Dhuhr Prayer",
+          "arabic": "اللهم اجعلني من الذين يسجدون لك",
+          "transliteration": "Allahumma ajilni min al-ladhina yasjuduna laka",
+          "translation": "O Allah, make me among those who prostrate to You",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Before Asr Prayer",
+          "arabic": "اللهم اجعلني من أهل الذكر",
+          "transliteration": "Allahumma ajilni min ahlil dhikr",
+          "translation": "O Allah, make me among the people of remembrance",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Before Maghrib Prayer",
+          "arabic": "اللهم تقبل منا صلاتنا",
+          "transliteration": "Allahumma taqabbal minna salatana",
+          "translation": "O Allah, accept our prayer",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Before Isha Prayer",
+          "arabic": "اللهم اجعلني من أهل الصلاة",
+          "transliteration": "Allahumma ajilni min ahlil-salah",
+          "translation": "O Allah, make me among the people of prayer",
+          "reference": "Sahih Muslim"
+        }
+      ]
+    },{
+      "id": 8,
+      "name": "Praising Allah",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Praising Allah",
+          "arabic": "اللهم أنت السلام ومنك السلام",
+          "transliteration": "Allahumma Antas-Salam wa minkas-Salam",
+          "translation": "O Allah, You are the source of peace and from You comes peace",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Gratitude to Allah",
+          "arabic": "اللهم لك الحمد",
+          "transliteration": "Allahumma laka al-hamdu",
+          "translation": "O Allah, all praise is for You",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Seeking Forgiveness from Allah",
+          "arabic": "اللهم اغفر لي",
+          "transliteration": "Allahumma ighfir li",
+          "translation": "O Allah, forgive me",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Blessings from Allah",
+          "arabic": "اللهم بارك لنا",
+          "transliteration": "Allahumma barik lana",
+          "translation": "O Allah, bless us",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Praising Allah after Eating",
+          "arabic": "اللهم إني أعوذ بك من شر الطعام",
+          "transliteration": "Allahumma inni a'udhu bika min sharri al-ta'am",
+          "translation": "O Allah, I seek refuge with You from the harm of the food",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Praising Allah after Drinking",
+          "arabic": "اللهم بارك لنا فيما رزقتنا",
+          "transliteration": "Allahumma barik lana fima razaqtana",
+          "translation": "O Allah, bless us in what You have provided us",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Praising Allah in Hardship",
+          "arabic": "اللهم إني أعوذ بك من الهم والحزن",
+          "transliteration": "Allahumma inni a'udhu bika min al-hammi wal-hazan",
+          "translation": "O Allah, I seek refuge with You from grief and sorrow",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Praising Allah in Difficulty",
+          "arabic": "اللهم إني عبدك ابن عبدك",
+          "transliteration": "Allahumma inni abduk ibn abduk",
+          "translation": "O Allah, I am Your servant, the son of Your servant",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Praising Allah before Sleeping",
+          "arabic": "اللهم باسمك أموت وأحيا",
+          "transliteration": "Allahumma bismika amutu wa ahya",
+          "translation": "O Allah, in Your name I die and I live",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Praising Allah in the Morning",
+          "arabic": "الحمد لله الذي أحيانا بعد ما أماتنا وإليه النشور",
+          "transliteration": "Alhamdulillah alladhi ahyana ba'da ma amatana wa ilayhin-nushur",
+          "translation": "Praise be to Allah Who has given us life after He has caused us to die, and to Him is the return",
+          "reference": "Sahih Muslim"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Travel",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Safe Travel",
+          "arabic": "اللهم إني أعوذ بك من وعثاء السفر وكآبة المنقلب",
+          "transliteration": "Allahumma inni a'udhu bika min 'awtha'i as-safar wa ka'abati al-munqalib",
+          "translation": "O Allah, I seek refuge with You from the hardship of travel and the sorrow of returning",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Ease During Travel",
+          "arabic": "اللهم يسر لنا السفر وسهل لنا الطريق",
+          "transliteration": "Allahumma yassir lana as-safar wa sahhil lana at-tariq",
+          "translation": "O Allah, make our travel easy and smooth for us",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Protection During Travel",
+          "arabic": "اللهم إني أعوذ بك من شر الطريق",
+          "transliteration": "Allahumma inni a'udhu bika min sharr at-tariq",
+          "translation": "O Allah, I seek refuge with You from the evil of the road",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Safety During Travel",
+          "arabic": "اللهم اجعل سفرنا هذا سفرًا مباركًا",
+          "transliteration": "Allahumma ajil safaruna hadha safaran mubarakaan",
+          "translation": "O Allah, make this journey of ours a blessed one",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Comfort During Travel",
+          "arabic": "اللهم اجعلنا في سفرنا هذا من أهل اليسر",
+          "transliteration": "Allahumma ajilna fi safaruna hadha min ahlil yusr",
+          "translation": "O Allah, make us from the people of ease during this journey",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Safe Return",
+          "arabic": "اللهم ردنا إلى أهلنا سالمين غانمين",
+          "transliteration": "Allahumma ruddana ila ahlina salimeen ghanimeen",
+          "translation": "O Allah, return us to our family safe and victorious",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Safe Travel and Return",
+          "arabic": "اللهم احفظنا في سفرنا هذا من كل سوء",
+          "transliteration": "Allahumma ihfazna fi safarina hadha min kulli su'a",
+          "translation": "O Allah, protect us in this journey from every harm",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Ease in Long Journeys",
+          "arabic": "اللهم اجعل سفرنا هذا سفرًا سهلاً ميسرًا",
+          "transliteration": "Allahumma ajil safaruna hadha safaran sahlan muyassaran",
+          "translation": "O Allah, make this journey of ours easy and smooth",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Successful Travel",
+          "arabic": "اللهم اجعل سفرنا هذا موفقًا",
+          "transliteration": "Allahumma ajil safaruna hadha mawafiqan",
+          "translation": "O Allah, make this journey of ours successful",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Comfort and Peace During Travel",
+          "arabic": "اللهم اجعل سفرنا هذا مريحًا",
+          "transliteration": "Allahumma ajil safaruna hadha mureehan",
+          "translation": "O Allah, make this journey of ours comfortable and peaceful",
+          "reference": "Sunan At-Tirmidhi"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Hajj & Umrah",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Starting Hajj or Umrah",
+          "arabic": "لبيك اللهم لبيك",
+          "transliteration": "Labbaik Allahumma labbaik",
+          "translation": "Here I am, O Allah, here I am",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Tawaf",
+          "arabic": "اللهم اجعل طوافنا هذا طوافًا مقبولًا",
+          "transliteration": "Allahumma ajil tawafana hadha tawafan maqboolan",
+          "translation": "O Allah, make this Tawaf of ours an accepted Tawaf",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Safa and Marwah",
+          "arabic": "اللهم اجعل سعيي بين الصفا والمروة مقبولًا",
+          "transliteration": "Allahumma ajil sa'yi baina as-safa wal-marwah maqboolan",
+          "translation": "O Allah, make my Sa'i between Safa and Marwah accepted",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Arafat",
+          "arabic": "اللهم اجعل حجنا هذا حجًا مبرورًا",
+          "transliteration": "Allahumma ajil hajjina hadha hajjjan mabrooran",
+          "translation": "O Allah, make this Hajj of ours a blessed Hajj",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Mina",
+          "arabic": "اللهم اجعل منا هذه الأيام أيامَ خيرٍ وبركة",
+          "transliteration": "Allahumma ajil mina hadhihi al-ayyam ayaman khayran wa barakah",
+          "translation": "O Allah, make these days of ours days of goodness and blessings",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for the Day of Eid",
+          "arabic": "اللهم تقبل منا صالح الأعمال",
+          "transliteration": "Allahumma taqabbal minna salih al-a'mal",
+          "translation": "O Allah, accept from us our good deeds",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Forgiveness During Hajj",
+          "arabic": "اللهم اغفر لي ولأهلي ولمن أتى هذا البيت",
+          "transliteration": "Allahumma ghfir li wa li ahli wa liman ata hadha al-bayt",
+          "translation": "O Allah, forgive me, my family, and those who come to this house",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 8,
+          "title": "Dua for the Tawaf of the Kaaba",
+          "arabic": "اللهم اجعل طوافنا هذا طوافًا آمنًا",
+          "transliteration": "Allahumma ajil tawafana hadha tawafan amanan",
+          "translation": "O Allah, make our Tawaf this Tawaf of peace and safety",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 9,
+          "title": "Dua for the Dua at Maqam Ibrahim",
+          "arabic": "اللهم اجعل مقامنا هذا مقامًا مرفوعًا",
+          "transliteration": "Allahumma ajil maqamuna hadha maqaman marfoo'an",
+          "translation": "O Allah, make our standing at this station one that is elevated",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Returning Home After Hajj",
+          "arabic": "اللهم تقبل حجنا واغفر لنا",
+          "transliteration": "Allahumma taqabbal hajjana waghfir lana",
+          "translation": "O Allah, accept our Hajj and forgive us",
+          "reference": "Sunan Ibn Majah"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Dua for Joy & Distress",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Relief from Distress",
+          "arabic": "اللهم فرج همي",
+          "transliteration": "Allahumma farraj hammi",
+          "translation": "O Allah, relieve my distress",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Joy after Distress",
+          "arabic": "اللهم أبدل همي فرحًا",
+          "transliteration": "Allahumma abdal hammi fara'han",
+          "translation": "O Allah, replace my sorrow with joy",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Patience During Trials",
+          "arabic": "اللهم اجعلني من الصابرين",
+          "transliteration": "Allahumma ajilni min as-sabirin",
+          "translation": "O Allah, make me among the patient ones",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Relief from Heavy Heart",
+          "arabic": "اللهم خفف عني",
+          "transliteration": "Allahumma khafif 'anni",
+          "translation": "O Allah, lighten my burden",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Overcoming Distress",
+          "arabic": "اللهم اكشف عني هذه الغمة",
+          "transliteration": "Allahumma ikshif 'anni hathihi al-ghummah",
+          "translation": "O Allah, remove this distress from me",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Happiness",
+          "arabic": "اللهم أفرحني في الدنيا والآخرة",
+          "transliteration": "Allahumma afrikhni fi ad-dunya wal-akhirah",
+          "translation": "O Allah, make me happy in this world and the Hereafter",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Happiness of the Heart",
+          "arabic": "اللهم أسعد قلبي",
+          "transliteration": "Allahumma as'id qalbi",
+          "translation": "O Allah, make my heart happy",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Contentment",
+          "arabic": "اللهم قنعني بما رزقتني",
+          "transliteration": "Allahumma qanni'ni bima razaqtani",
+          "translation": "O Allah, make me content with what You have provided me",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Gratitude",
+          "arabic": "اللهم اجعلني من الشاكرين",
+          "transliteration": "Allahumma ajilni min ash-shakirin",
+          "translation": "O Allah, make me among the grateful ones",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Relief from Grief",
+          "arabic": "اللهم أزل عني الحزن",
+          "transliteration": "Allahumma azal 'anni al-huzn",
+          "translation": "O Allah, remove my grief",
+          "reference": "Sahih Muslim"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Dua for Nature",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Rain",
+          "arabic": "اللهم اسقنا غيثًا مغيثًا",
+          "transliteration": "Allahumma usqina ghaythan mughithan",
+          "translation": "O Allah, grant us rain that is a mercy",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Thunder and Lightning",
+          "arabic": "اللهم لا تقتلنا بغضبك",
+          "transliteration": "Allahumma la taqtulna bighadabik",
+          "translation": "O Allah, do not destroy us with Your anger",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 3,
+          "title": "Dua for a Good Harvest",
+          "arabic": "اللهم بارك لنا في الزرع",
+          "transliteration": "Allahumma barik lana fi az-zira'a",
+          "translation": "O Allah, bless us in our crops",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Protection from Harmful Winds",
+          "arabic": "اللهم إنا نعوذ بك من شر الرياح",
+          "transliteration": "Allahumma inna na'udhu bika min sharr ar-riyah",
+          "translation": "O Allah, we seek refuge in You from the harm of the winds",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Blessings in Nature",
+          "arabic": "اللهم اجعل لنا في الطبيعة بركة",
+          "transliteration": "Allahumma ajil lana fi at-tabi'ah barakah",
+          "translation": "O Allah, make blessings for us in nature",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Safety from Natural Disasters",
+          "arabic": "اللهم نجنا من الفتن ما ظهر منها وما بطن",
+          "transliteration": "Allahumma najina min al-fitani ma zahara minha wa ma batana",
+          "translation": "O Allah, save us from calamities, both apparent and hidden",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Protection from Earthquakes",
+          "arabic": "اللهم اجعل الأرض صالحة",
+          "transliteration": "Allahumma ajil al-ard salihah",
+          "translation": "O Allah, make the earth stable for us",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for the Blessing of the Sun",
+          "arabic": "اللهم اجعل لنا في الشمس نورًا",
+          "transliteration": "Allahumma ajil lana fi ash-shamsi nuran",
+          "translation": "O Allah, make light for us in the sun",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Protection from the Cold",
+          "arabic": "اللهم إنا نعوذ بك من برد الشديد",
+          "transliteration": "Allahumma inna na'udhu bika min burd ash-shadid",
+          "translation": "O Allah, we seek refuge in You from severe cold",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Peaceful Environment",
+          "arabic": "اللهم اجعل هذا المكان مباركًا",
+          "transliteration": "Allahumma ajil hadha al-makan mubarak",
+          "translation": "O Allah, make this place blessed",
+          "reference": "Sunan Ibn Majah"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Dua for Sickness",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Healing",
+          "arabic": "اللهم اشفني شفاءً لا يغادر سقماً",
+          "transliteration": "Allahumma shfini shifa'an la yughadiru saqaman",
+          "translation": "O Allah, heal me with a healing that leaves no sickness behind",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Relief from Pain",
+          "arabic": "اللهم أذهب البأس، رب الناس، اشفِ أنت الشافي",
+          "transliteration": "Allahumma adhhib al-ba’sa, rabb an-nas, ishfi anta ash-shafi",
+          "translation": "O Allah, remove the pain, O Lord of the people, cure, for You are the Healer",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Fever",
+          "arabic": "اللهم إني أعوذ بك من البرص والجنون والجذام وسيئ الأسقام",
+          "transliteration": "Allahumma inni a'udhu bika min al-baras wal-junun wal-judhami wa sayyi'il asqam",
+          "translation": "O Allah, I seek refuge in You from leprosy, madness, skin disease, and evil sicknesses",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Recovery",
+          "arabic": "اللهم عافني في بدني، اللهم عافني في سمعي، اللهم عافني في بصري",
+          "transliteration": "Allahumma 'afini fi badani, Allahumma 'afini fi sam'i, Allahumma 'afini fi basari",
+          "translation": "O Allah, grant me health in my body, grant me health in my hearing, grant me health in my sight",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Protection from Harmful Diseases",
+          "arabic": "اللهم إني أعوذ بك من الجذام والبرص والمجنون",
+          "transliteration": "Allahumma inni a'udhu bika min al-judhami wal-barasi wal-majnuni",
+          "translation": "O Allah, I seek refuge in You from leprosy, scabies, and madness",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Health and Well-being",
+          "arabic": "اللهم اجعلني من أهل الصحة والعافية",
+          "transliteration": "Allahumma ajilni min ahl as-sihha wal-‘afiya",
+          "translation": "O Allah, make me one of the people of health and well-being",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Cure from Pain",
+          "arabic": "اللهم اشفني شفاءً لا يغادر سقماً",
+          "transliteration": "Allahumma shfini shifa'an la yughadiru saqaman",
+          "translation": "O Allah, heal me with a healing that leaves no sickness behind",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Relief from Fever",
+          "arabic": "اللهم أذهب البأس، رب الناس، اشفِ أنت الشافي",
+          "transliteration": "Allahumma adhhib al-ba’sa, rabb an-nas, ishfi anta ash-shafi",
+          "translation": "O Allah, remove the pain, O Lord of the people, cure, for You are the Healer",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Protection from Diseases",
+          "arabic": "اللهم إني أعوذ بك من العمى والفالج والجنون",
+          "transliteration": "Allahumma inni a'udhu bika min al-‘ama wal-falaji wal-jununi",
+          "translation": "O Allah, I seek refuge in You from blindness, paralysis, and madness",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Relief from Illness",
+          "arabic": "اللهم إني أسالك العافية في الدنيا والآخرة",
+          "transliteration": "Allahumma inni as'alu-ka al-‘afiya fi ad-dunya wal-akhira",
+          "translation": "O Allah, I ask You for health in this world and the Hereafter",
+          "reference": "Sunan At-Tirmidhi"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Food & Drink",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua Before Eating",
+          "arabic": "بِسْمِ اللَّهِ وَعَلَىٰ بَرَكَةِ اللَّهِ",
+          "transliteration": "Bismillah wa 'ala barakatillah",
+          "translation": "In the name of Allah and upon the blessings of Allah",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 2,
+          "title": "Dua After Eating",
+          "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مِنَ الْمُسْلِمِينَ",
+          "transliteration": "Alhamdu lillahi alladhi at'amana wa saqana wa ja'alana mina al-muslimeen",
+          "translation": "Praise be to Allah who fed us and gave us drink and made us Muslims",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Barakah in Food",
+          "arabic": "اللَّهُمَّ بَارِكْ لَنَا فِيهِ وَسَقِنَا خَيْرًا",
+          "transliteration": "Allahumma barik lana fihi wa saqina khayran",
+          "translation": "O Allah, bless us in it and give us the best of it",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 4,
+          "title": "Dua Before Drinking Water",
+          "arabic": "اللَّهُمَّ اجْعَلْهُ بَرَكَةً",
+          "transliteration": "Allahumma ajilhu barakah",
+          "translation": "O Allah, make it a source of blessing",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Sweetness in Food",
+          "arabic": "اللَّهُمَّ حَبِّبْ إِلَيَّ الرَّحْمَةَ",
+          "transliteration": "Allahumma habbib ilayya ar-rahmah",
+          "translation": "O Allah, make mercy dear to me",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Thirst",
+          "arabic": "اللَّهُمَّ أَسْقِنَا غَيْرَ ضَارٍّ وَلَا مُضِرٍّ",
+          "transliteration": "Allahumma asqina ghayra darin wa la mudirrin",
+          "translation": "O Allah, give us to drink without harm or injury",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Satisfying Hunger",
+          "arabic": "اللَّهُمَّ اجْعَلْ لِي فِي الطَّعَامِ بَرَكَةً",
+          "transliteration": "Allahumma ajil li fi at-ta'ami barakah",
+          "translation": "O Allah, make blessings for me in food",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Cleanliness After Eating",
+          "arabic": "اللَّهُمَّ طَهِّرْنَا بِالْبَرَكَةِ",
+          "transliteration": "Allahumma tahhirna bil barakah",
+          "translation": "O Allah, purify us with the blessings",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Gratitude After Eating",
+          "arabic": "اللَّهُمَّ لَكَ الشُّكْرُ",
+          "transliteration": "Allahumma laka ash-shukru",
+          "translation": "O Allah, all praise is for You",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Refreshing Drink",
+          "arabic": "اللَّهُمَّ أَذْهِبْ عَنَّا الْجُوعَ وَالْعَطَشَ",
+          "transliteration": "Allahumma adh-hib 'anna al-jua wa al-'atasha",
+          "translation": "O Allah, remove hunger and thirst from us",
+          "reference": "Sunan At-Tirmidhi"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Good Etiquette",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Good Manners",
+          "arabic": "اللَّهُمَّ جَمِّلْنِي بِالْآدَابِ",
+          "transliteration": "Allahumma jammilni bil adabi",
+          "translation": "O Allah, beautify me with good manners",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Respect for Parents",
+          "arabic": "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+          "transliteration": "Rabbirhamhuma kama rabbayani saghiran",
+          "translation": "My Lord, have mercy on them as they brought me up when I was small",
+          "reference": "Al-Isra 17:24"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Humility",
+          "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ الْمُتَوَاضِعِينَ",
+          "transliteration": "Allahumma ajilni min al-mutawadi'een",
+          "translation": "O Allah, make me among the humble",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Politeness",
+          "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ اللُّطَفَاءِ",
+          "transliteration": "Allahumma ajilni min al-lutafa",
+          "translation": "O Allah, make me among the kind",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Gratitude in Speech",
+          "arabic": "اللَّهُمَّ أَحْسِنْ قَوْلِي",
+          "transliteration": "Allahumma ahsin qawli",
+          "translation": "O Allah, improve my speech",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Kindness",
+          "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ الصَّابِرِينَ",
+          "transliteration": "Allahumma ajilni min as-sabireen",
+          "translation": "O Allah, make me among those who are patient",
+          "reference": "Al-Baqarah 2:153"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Self-Control",
+          "arabic": "اللَّهُمَّ تَقَبَّلْنِي فِي الصَّابِرِينَ",
+          "transliteration": "Allahumma taqabbalni fi as-sabireen",
+          "translation": "O Allah, accept me among the patient",
+          "reference": "Al-Baqarah 2:153"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Respect for Others",
+          "arabic": "اللَّهُمَّ اجْعَلْنِي مِمَّنْ يَحْتَرِمُ النَّاسَ",
+          "transliteration": "Allahumma ajilni mimman yahtirimu an-nasa",
+          "translation": "O Allah, make me among those who respect people",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Generosity",
+          "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ السَّخَاءِ",
+          "transliteration": "Allahumma ajilni min as-sakhā’a",
+          "translation": "O Allah, make me among the generous",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Purity in Intentions",
+          "arabic": "اللَّهُمَّ اجْعَلْ نِي خَالِصًا لَك",
+          "transliteration": "Allahumma ajilni khalisan laka",
+          "translation": "O Allah, make my intentions purely for You",
+          "reference": "Sahih Bukhari"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Dua for Patience",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Patience in Difficulty",
+          "arabic": "رَبِّ إِنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ",
+          "transliteration": "Rabb inni massaniyad-du'ru wa anta arhamur rahimeen",
+          "translation": "My Lord, indeed adversity has touched me, and You are the most merciful of the merciful.",
+          "reference": "Surah Al-Anbiya, 21:83"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Patience in Trials",
+          "arabic": "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+          "transliteration": "Inna ma'al usri yusra",
+          "translation": "Indeed, with hardship comes ease.",
+          "reference": "Surah Ash-Sharh, 94:6"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Patience in the Face of Hardship",
+          "arabic": "اللهم اجعل لي من كل هم فرجًا ومن كل ضيق مخرجًا",
+          "transliteration": "Allahumma ajil li min kulli hammin farajan wa min kulli dayqin makhrajaa",
+          "translation": "O Allah, make for me from every distress a way out and from every hardship relief.",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Patience in Adversity",
+          "arabic": "وَإِذَا صَابَتْهُمْ مُصِيبَةٌ قَالُوا إِنَّا لِلّهِ وَإِنَّـا إِلَيْهِ رَاجِعونَ",
+          "transliteration": "Wa idha saabat-hum museebatun qalu inna lillahi wa inna ilayhi raaji'oon",
+          "translation": "And when a disaster strikes them, they say, 'Indeed, we belong to Allah, and indeed to Him is our return.'",
+          "reference": "Surah Al-Baqarah, 2:156"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Patience in Loss",
+          "arabic": "اللهم أجرني في مصيبتي واخلف لي خيرًا منها",
+          "transliteration": "Allahumma ajirni fee museebati wakhlef li khayran minha",
+          "translation": "O Allah, reward me for my affliction and replace it for me with something better.",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Endurance During Hardships",
+          "arabic": "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ",
+          "transliteration": "Rabb la tadharni fardan wa anta khayrul waritheen",
+          "translation": "My Lord, do not leave me alone [without an heir], and You are the best of inheritors.",
+          "reference": "Surah Al-Anbiya, 21:89"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Patience in Sickness",
+          "arabic": "اللهم اشفني شفاءً لا يغادر سقما",
+          "transliteration": "Allahumma ishfini shifaa'an la yughadiru saqaman",
+          "translation": "O Allah, heal me with a healing that leaves no illness behind.",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Patience in Difficult Moments",
+          "arabic": "وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ",
+          "transliteration": "Wa fawqa kulli dhi 'ilmin aleem",
+          "translation": "And above every knowledgeable person is one more knowledgeable.",
+          "reference": "Surah Yusuf, 12:76"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Patience and Strength",
+          "arabic": "اللهم إني أسالك الصبر عند البلاء والرضا بالقضاء",
+          "transliteration": "Allahumma inni as'alu ka as-sabr 'inda al-bala' wal-ridaa bil-qada'",
+          "translation": "O Allah, I ask You for patience during trials and contentment with Your decree.",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Patience in Waiting",
+          "arabic": "وَصَبِّرْهُمْ إِنَّكَ أَنتَ الْوَحِيدُ",
+          "transliteration": "Wa sabirhum inna ka anta al-wahid",
+          "translation": "And give them patience, for indeed You are the One, the Eternal.",
+          "reference": "Surah Al-Furqan, 25:63"
+        }
+      ]
+    }, 
+    {
+      "id": 17,
+      "name": "Dua for Guidance",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Guidance and Righteousness",
+          "arabic": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+          "transliteration": "Ihdinas-siratal-mustaqim",
+          "translation": "Guide us to the straight path.",
+          "reference": "Surah Al-Fatiha, 1:6"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Guidance to Goodness",
+          "arabic": "اللهم اهدني وسددني",
+          "transliteration": "Allahumma hdini wa saddidni",
+          "translation": "O Allah, guide me and make me steadfast.",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Guidance in Decision Making",
+          "arabic": "اللهم إني استخيرك بعلمك واستقدرك بقدرتك",
+          "transliteration": "Allahumma inni asta'khiruka bi'ilmik wa astaqdairuka biqudratik",
+          "translation": "O Allah, I seek Your guidance through Your knowledge and seek Your ability through Your power.",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Guidance to the Right Path",
+          "arabic": "اللهم اجعلني من أهل الجنة",
+          "transliteration": "Allahumma ajilni min ahli al-jannah",
+          "translation": "O Allah, make me among the people of Jannah.",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Guidance to Truth",
+          "arabic": "اللهم أرنا الحق حقًا وارزقنا اتباعه",
+          "transliteration": "Allahumma arina al-haqqa haqqa wa rizuqna ittiba'ahu",
+          "translation": "O Allah, show us the truth as truth and grant us the ability to follow it.",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Guidance in Religion",
+          "arabic": "اللهم ثبتني على دينك",
+          "transliteration": "Allahumma thabbitni 'ala deenik",
+          "translation": "O Allah, keep me firm on Your religion.",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Guidance in Knowledge",
+          "arabic": "اللهم علمنا ما ينفعنا وانفعنا بما علمتنا",
+          "transliteration": "Allahumma 'allimna ma yanfa'una wa anfa'na bima 'allamtana",
+          "translation": "O Allah, teach us what benefits us and benefit us with what You have taught us.",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Guidance to Good Actions",
+          "arabic": "اللهم اجعلني من الذين يسمعون القول فيتبعون أحسنه",
+          "transliteration": "Allahumma ajilni min al-ladhina yasma'oon al-qawla fayattabi'oon ahsanah",
+          "translation": "O Allah, make me among those who listen to the word and follow the best of it.",
+          "reference": "Surah Az-Zumar, 39:18"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Guidance and Forgiveness",
+          "arabic": "اللهم اغفر لي وهدي لي",
+          "transliteration": "Allahumma ghfir li wa hdini li",
+          "translation": "O Allah, forgive me and guide me.",
+          "reference": "Sunan An-Nasa'i"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Guidance and Blessing",
+          "arabic": "اللهم اهدنا إلى أحسن الأخلاق لا يهدي لأحسنها إلا أنت",
+          "transliteration": "Allahumma hdina ila ahsani al-akhlaqi la yahdi li ahsaniha illa anta",
+          "translation": "O Allah, guide us to the best of manners, for none can guide to the best of them except You.",
+          "reference": "Sahih Muslim"
+        }
+      ]
+    },{
+      "id": 18,
+      "name": "Strength",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Strength in Difficult Times",
+          "arabic": "اللهم إني أسالك القوة في الشدائد",
+          "transliteration": "Allahumma inni as'alu ka al-quwwah fi ash-shada'id",
+          "translation": "O Allah, I ask You for strength in difficult times",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Inner Strength",
+          "arabic": "اللهم قوي إيماني",
+          "transliteration": "Allahumma qawi imani",
+          "translation": "O Allah, strengthen my faith",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Strength in Facing Challenges",
+          "arabic": "اللهم اجعلني من الصابرين",
+          "transliteration": "Allahumma ajilni min as-sabirin",
+          "translation": "O Allah, make me among the patient",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Strength in Adversity",
+          "arabic": "اللهم اجعلني من أهل القوة",
+          "transliteration": "Allahumma ajilni min ahlil-quwwah",
+          "translation": "O Allah, make me among the people of strength",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Mental Strength",
+          "arabic": "اللهم ثبت عقلي",
+          "transliteration": "Allahumma thabbit aqli",
+          "translation": "O Allah, strengthen my mind",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Strength Against Weakness",
+          "arabic": "اللهم إني أعوذ بك من الضعف",
+          "transliteration": "Allahumma inni a'udhu bika min ad-da'af",
+          "translation": "O Allah, I seek refuge with You from weakness",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Strength to Overcome Fear",
+          "arabic": "اللهم اجعلني من الذين لا يخافون",
+          "transliteration": "Allahumma ajilni min al-ladhina la yakhafun",
+          "translation": "O Allah, make me among those who fear not",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Physical Strength",
+          "arabic": "اللهم منحني القوة البدنية",
+          "transliteration": "Allahumma manihni al-quwwah al-badaniyyah",
+          "translation": "O Allah, grant me physical strength",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Strength in Faith and Practice",
+          "arabic": "اللهم اجعلني ثابتاً في إيماني",
+          "transliteration": "Allahumma ajilni thabitan fi imani",
+          "translation": "O Allah, make me firm in my faith",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Strength to Endure Trials",
+          "arabic": "اللهم إني أسالك قوة الصبر",
+          "transliteration": "Allahumma inni as'alu ka quwwat as-sabr",
+          "translation": "O Allah, I ask You for the strength of patience",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    },{
+      "id": 19,
+      "name": "Parents",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for Parents’ Well-Being",
+          "arabic": "اللهم احفظ والدَيّ وبارك فيهما",
+          "transliteration": "Allahumma ihfaz walidayya wa barik fihima",
+          "translation": "O Allah, protect my parents and bless them",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 2,
+          "title": "Dua for Parents’ Forgiveness",
+          "arabic": "اللهم اغفر لوالديّ واغسل خطاياهم",
+          "transliteration": "Allahumma aghfir li walidayya wagh-sil khatayahuma",
+          "translation": "O Allah, forgive my parents and wash away their sins",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 3,
+          "title": "Dua for Parents’ Peace",
+          "arabic": "اللهم اجعل حياة والدَيّ مليئة بالسلام",
+          "transliteration": "Allahumma ajil hayata walidayya mal'iya bil-salam",
+          "translation": "O Allah, make the lives of my parents filled with peace",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Parents’ Health",
+          "arabic": "اللهم اشفِ والديّ من كل مرض",
+          "transliteration": "Allahumma ishfi walidayya min kulli marad",
+          "translation": "O Allah, cure my parents from every illness",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Parents’ Happiness",
+          "arabic": "اللهم أسعد والدَيّ في الدنيا والآخرة",
+          "transliteration": "Allahumma as'id walidayya fi al-dunya wal-akhirah",
+          "translation": "O Allah, make my parents happy in this world and the Hereafter",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Parents’ Success",
+          "arabic": "اللهم اجعل والديّ من أهل الجنة",
+          "transliteration": "Allahumma ajil walidayya min ahlil-jannah",
+          "translation": "O Allah, make my parents among the people of Jannah",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Parents’ Long Life",
+          "arabic": "اللهم أطِل عمر والديّ في طاعتك",
+          "transliteration": "Allahumma atil 'umur walidayya fi ta'atik",
+          "translation": "O Allah, prolong the life of my parents in Your obedience",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Parents’ Ease",
+          "arabic": "اللهم يسر أمر والدَيّ",
+          "transliteration": "Allahumma yassir amr walidayya",
+          "translation": "O Allah, make the affairs of my parents easy",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Parents’ Protection",
+          "arabic": "اللهم احفظ والدَيّ من كل سوء",
+          "transliteration": "Allahumma ihfaz walidayya min kulli su'",
+          "translation": "O Allah, protect my parents from all harm",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Parents’ Guidance",
+          "arabic": "اللهم اجعل والدَيّ من أهل الهدى",
+          "transliteration": "Allahumma ajil walidayya min ahlil-huda",
+          "translation": "O Allah, make my parents among the people of guidance",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Dua for Marriage",
+      "duas": [
+        {
+          "id": 1,
+          "title": "Dua for a Good Spouse",
+          "arabic": "اللهم ارزقني زوجاً صالحاً",
+          "transliteration": "Allahumma ruzuqni zawjan salihan",
+          "translation": "O Allah, grant me a righteous spouse",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 2,
+          "title": "Dua for a Compatible Partner",
+          "arabic": "اللهم اجعل بيننا مودة ورحمة",
+          "transliteration": "Allahumma ajil baynana mawaddatan wa rahmatan",
+          "translation": "O Allah, make between us love and mercy",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 3,
+          "title": "Dua for a Blessed Marriage",
+          "arabic": "اللهم بارك لنا في زواجنا",
+          "transliteration": "Allahumma barik lana fi zawajina",
+          "translation": "O Allah, bless our marriage",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 4,
+          "title": "Dua for Ease in Marriage",
+          "arabic": "اللهم يسر لي أمر زواجي",
+          "transliteration": "Allahumma yassir li amr zawaji",
+          "translation": "O Allah, ease the affair of my marriage",
+          "reference": "Sahih Muslim"
+        },
+        {
+          "id": 5,
+          "title": "Dua for Protection from Divorce",
+          "arabic": "اللهم اجعل بيننا الفة ورحمة",
+          "transliteration": "Allahumma ajil baynana ulfatan wa rahmatan",
+          "translation": "O Allah, place affection and mercy between us",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 6,
+          "title": "Dua for Mutual Understanding",
+          "arabic": "اللهم علمنا كيف نتفاهم",
+          "transliteration": "Allahumma 'allimna kayfa natafahamu",
+          "translation": "O Allah, teach us how to understand each other",
+          "reference": "Sunan Abu Dawood"
+        },
+        {
+          "id": 7,
+          "title": "Dua for Happiness in Marriage",
+          "arabic": "اللهم اجعل زواجي مباركاً",
+          "transliteration": "Allahumma ajil zawaji mubaarakan",
+          "translation": "O Allah, make my marriage blessed",
+          "reference": "Sunan At-Tirmidhi"
+        },
+        {
+          "id": 8,
+          "title": "Dua for Guidance in Marriage",
+          "arabic": "اللهم اجعلنا من أهل الجنة",
+          "transliteration": "Allahumma ajilna min ahlil jannah",
+          "translation": "O Allah, make us among the people of Paradise",
+          "reference": "Sahih Bukhari"
+        },
+        {
+          "id": 9,
+          "title": "Dua for Love and Affection",
+          "arabic": "اللهم حببني في زوجي",
+          "transliteration": "Allahumma habibni fi zawji",
+          "translation": "O Allah, make me beloved to my spouse",
+          "reference": "Sunan Ibn Majah"
+        },
+        {
+          "id": 10,
+          "title": "Dua for Peace in Marriage",
+          "arabic": "اللهم اجعل بيننا سكينة وطمأنينة",
+          "transliteration": "Allahumma ajil baynana sakinah wa tumaneenah",
+          "translation": "O Allah, place tranquility and peace between us",
+          "reference": "Sunan Abu Dawood"
+        }
+      ]
+    }
+  ]
+}    
+  
