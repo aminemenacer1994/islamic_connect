@@ -115,7 +115,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                 <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/home" data-path="/home"><b>Home</b></a></h6>
+                    <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
@@ -126,7 +126,7 @@
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
                 </li> 
-                <!-- <li class="nav-item mt-3">
+                <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b>Dua Collection</b></a></h6>
                 </li>
                 <li class="nav-item mt-3">
@@ -134,13 +134,13 @@
                 </li>
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
-                </li> -->
+                </li>
                 <!-- <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
                 </li> -->
-                <li class="nav-item mt-3">
+                <!-- <li class="nav-item mt-3">
                     <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
-                </li>
+                </li> -->
                 <li class="nav-item mt-3">
                     <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                 </li>

@@ -365,7 +365,7 @@
           <div class="d-lg-flex justify-content-between py-lg-2">
             <div class="md mb-2 mb-lg-0">
               <p class="mb-0 me-5">
-                <b>© 2025 islamiconnect All rights reserved.</b>
+                <b>© 2025 islamic connect All rights reserved.</b>
               </p>
             </div>
             <!-- Social icons container, aligned to the right -->

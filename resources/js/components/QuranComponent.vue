@@ -49,18 +49,24 @@
                                 <hr class="container" style="height: 4px; background: lightgrey" />
 
                                 <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                    @update-information="updateInformation" :style="iconStyle"
-                                    class="icon-container pb-2">
-                                    <i class="bi bi-chevron-bar-left h4 custom-first-verse desktop-icon"
+                                    @update-information="updateInformation" :style="{
+                                        backgroundColor: 'rgb(53, 163, 139)',
+                                        color: 'white',
+                                        borderRadius: '12px',
+                                        border: '2px solid rgba(0, 0, 0, 0.1)',
+                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                    }" class="icon-container mb-3">
+                                    <i class="bi bi-chevron-bar-left h4 pt-2 custom-prev-ayah"
                                         style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
-                                    <i class="bi bi-arrow-left-circle h4 custom-prev-ayah desktop-icon"
+                                    <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
-                                    <i class="bi bi-arrow-right-circle h4 custom-next-ayah desktop-icon"
+                                    <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
-                                    <i class="bi bi-chevron-bar-right h4 custom-last-verse desktop-icon"
+                                    <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
-                                    <!-- <i class="bi bi-question-circle h4 custom-last-verse" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"></i> -->
                                 </div>
+
+
 
                                 <div class="custom-scrollbar pb-5" style="
                                     overflow-y: auto;
@@ -123,10 +129,8 @@
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
                                                     <input class="form-check-input h4 pr-5 shadow-lg text-center"
                                                         style="background-color: rgba(0, 191, 166); border-color: grey;"
-                                                        type="checkbox" role="switch"
-                                                        id="flexSwitchCheckDefault"
-                                                        v-model="isVisible"
-                                                        @change="saveToggleState" />
+                                                        type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                                        v-model="isVisible" @change="saveToggleState" />
                                                 </div>
                                             </div>
 
@@ -282,7 +286,7 @@
                                                     " @toggle-expand="toggleExpand" @close-alert-text="closeAlertText
                                                     " @toggle-audio="toggleAudioPlayback
                                                     " @update-success-message="updateSuccessMessage
-                                                        " />
+                                                    " />
                                             </div>
 
                                             <div v-if="!isVisible" class="container-fluid text-center mobile-only">
@@ -574,7 +578,7 @@
                             <TafseerNote ref="tafseerNote" :information="modalInformation" />
                             <TransliterationNote ref="transliterationNote" :information="modalInformation" />
                         </div>
-                        
+
                     </div>
 
                 </div>
@@ -751,7 +755,7 @@ export default {
             recognition: null,
             isListening: false,
             transcript: "",
-            isVisible: false, 
+            isVisible: false,
             showSuccessMessage: false, // Controls visibility of success messag
             selectedStyle: null,
             defaultStyles: [

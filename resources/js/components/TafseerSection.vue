@@ -20,12 +20,6 @@
             <div>
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
-              <hr />
-              <div class="text-left word-count mt-2">
-                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-                <strong>Tafseer: </strong>Ibn Katheer
-              </div>
-
               <!-- Dropdowns for Rate and Pitch -->
               <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
                 <!-- Rate Dropdown -->
@@ -40,6 +34,13 @@
                   <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
                 </select>
               </div>
+              <hr />
+              <div class="text-left word-count mt-2">
+                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+                <strong>Tafseer: </strong>Ibn Katheer
+              </div>
+
+
 
               <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
