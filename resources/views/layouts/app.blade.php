@@ -95,101 +95,103 @@
     <div id="app">
         <!-- Navbar -->
     <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm py-1">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
-        <img 
-            src="/images/logo_main.png" 
-            width="300"
-            height="200"
-            alt="Islamic Connect Logo"
-            loading="lazy"
-            height="auto" 
-            class="img-fluid"
-        >
-    </a>
+        <div class="container-fluid">
+        <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
+            <img 
+                src="/images/logo_main.png" 
+                width="300"
+                height="200"
+                alt="Islamic Connect Logo"
+                loading="lazy"
+                height="auto" 
+                class="img-fluid"
+            >
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>   
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/surat" data-path="/surat"><b>Quran Explorer</b></a></h6>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
-                </li> 
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b>Dua Collection</b></a></h6>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b>Radio Stations</b></a></h6>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
-                </li>
-                <!-- <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
-                </li> -->
-                <!-- <li class="nav-item mt-3">
-                    <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
-                </li> -->
-                <li class="nav-item mt-3">
-                    <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
-                </li>
-                                
-                @guest
-                @if (Route::has('login'))
-                <li class="nav-item display-6 pl-3 mt-3">
-                    <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b>{{ __('Login') }}</b></a></h6>
-                </li>
-                @endif
-                @if (Route::has('register'))
-                <li class="nav-item display-6 pl-3 mt-3">
-                    <h6><a class="nav-link " href="{{ route('register') }}" data-path="/register"><b>{{ __('Register') }}</b></a></h6>
-                </li>
-                @endif
-                @else
-                <li class="nav-item dropdown pl-3">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
-                        {{ Auth::user()->name }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/bookmarks">Bookmarks</a>
-                        <a class="dropdown-item" href="/notes">Notes & Reflections</a>
-                        <a class="dropdown-item" href="/profile">Profile</a>
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link ml-3 pl-3" href="/surat" data-path="/surat"><b>Quran Explorer</b></a></h6>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
+                    </li> 
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b>Dua Collection</b></a></h6>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b>Radio Stations</b></a></h6>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
+                    </li>
+                    <!-- <li class="nav-item mt-3">
+                        <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
+                    </li> -->
+                    <!-- <li class="nav-item mt-3">
+                        <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
+                    </li> -->
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
+                    </li>
+                                    
+                    @guest
+                    @if (Route::has('login'))
+                    <li class="nav-item display-6 pl-3 mt-3">
+                        <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b>{{ __('Login') }}</b></a></h6>
+                    </li>
+                    @endif
+                    @if (Route::has('register'))
+                    <li class="nav-item display-6 pl-3 mt-3">
+                        <h6><a class="nav-link " href="{{ route('register') }}" data-path="/register"><b>{{ __('Register') }}</b></a></h6>
+                    </li>
+                    @endif
+                    @else
+                    <li class="nav-item dropdown pl-3">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <i class="bi bi-person-circle pr-2" style="font-size: 1.8rem"></i>
+                            {{ Auth::user()->name }}
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-                @endguest
-                <!-- <li class="pl-4 pb-2 pt-3"> 
-                    <button class="button-36" role="button">
-                        <span>
-                            <strong>
-                                <a href="/pricing" style="color: white; text-decoration: none; cursor:pointer">Try Premium</a>
-                            </strong>
-                        </span>
-                    </button>
-                </li> -->
-            </ul>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/bookmarks">Bookmarks</a>
+                            <a class="dropdown-item" href="/notes">Notes & Reflections</a>
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                    @endguest
+                    <!-- <li class="pl-4 pb-2 pt-3"> 
+                        <button class="button-36" role="button">
+                            <span>
+                                <strong>
+                                    <a href="/pricing" style="color: white; text-decoration: none; cursor:pointer">Try Premium</a>
+                                </strong>
+                            </span>
+                        </button>
+                    </li> -->
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+    
+    
 
 
         <!-- Main Content -->

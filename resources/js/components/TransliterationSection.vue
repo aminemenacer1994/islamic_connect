@@ -18,7 +18,6 @@
               <h4 class="ayah-translation" :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
                 {{ expanded ? information.transliteration : information.transliteration }}
               </h4>
-              <hr>
               <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
                   <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
@@ -33,7 +32,7 @@
                 </div>
               </div>
               <div class="text-left word-count mt-3">
-                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+                <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
                 <strong>Transliteration: </strong>Saheeh International
               </div>
             </div>

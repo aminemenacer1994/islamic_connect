@@ -68,7 +68,7 @@
       </div>
     </div>
 
-
+    <hr v-if="selectedCategory !== ''"/>
 
 
     <!-- Action Icons: Share & Copy -->

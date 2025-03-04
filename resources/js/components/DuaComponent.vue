@@ -38,15 +38,15 @@
     <div class="container text-center">
       <div v-for="category in filteredDuas" :key="category.id" class="row mb-4">
         <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6">
-          <div class="card text-dark rounded-3 p-3">
+          <div class="card dua-card text-dark rounded-3 p-3">
             <!-- Highlighted Title -->
             <h5><strong :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></h5>
 
             <!-- Arabic Section with TTS Icon -->
             <div class="row align-items-center mt-3">
               <div class="col-md-2 text-center">
-                <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')"
-                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i>
+                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i> -->
               </div>
               <div class="col-md-10">
                 <!-- Highlighted Arabic Text -->
@@ -63,11 +63,11 @@
                   v-html="highlightText(dua.translation)"></h5>
               </div>
               <div class="col-md-2 text-center">
-                <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
-                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i>
+                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i> -->
               </div> 
               <!-- Reference -->
-              <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">{{ dua.reference }}</p>
+              <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">- {{ dua.reference }}</p>
             </div>
 
            
@@ -251,6 +251,17 @@ export default {
 </script>
 
 <style scoped>
+.dua-card{
+  border: 2px solid rgb(13, 182, 145);
+  /* Highlight border */
+  background-color: rgba(13, 182, 145, 0.1);
+  /* Light highlight effect */
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+  border-bottom-left-radius: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-bottom-right-radius: 20px;
+  background: rgb(13, 182, 145);
+}
 .dua-description {
   font-size: 1.2rem;
   color: #555;
@@ -275,12 +286,19 @@ mark {
 }
 
 .card {
+  border: 2px solid rgb(13, 182, 145);
+  /* Highlight border */
+  background-color: rgba(13, 182, 145, 0.1);
+  /* Light highlight effect */
+  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
+  border-bottom-left-radius: 20px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-bottom-right-radius: 20px;
+  background: rgba(13, 182, 145, 0.179);
   padding: 10px;
   border-radius: 20%;
-  border: 2px solid gray;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 4px solid rgb(13, 182, 145);
   color: white;
-  background-color: rgba(240, 238, 238, 0.231);
 }
 
 .dua-card {

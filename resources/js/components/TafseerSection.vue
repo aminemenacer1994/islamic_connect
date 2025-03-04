@@ -20,27 +20,6 @@
             <div>
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
-              <!-- Dropdowns for Rate and Pitch -->
-              <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-                <!-- Rate Dropdown -->
-                <b>Rate:</b>
-                <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
-                  <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
-                </select>
-
-                <!-- Pitch Dropdown -->
-                <b>Pitch:</b>
-                <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
-                  <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
-                </select>
-              </div>
-              <hr />
-              <div class="text-left word-count mt-2">
-                <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-                <strong>Tafseer: </strong>Ibn Katheer
-              </div>
-
-
 
               <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
                 <div class="d-flex flex-wrap gap-2">
@@ -55,6 +34,25 @@
                   </button>
                 </div>
               </div>
+              <!-- Dropdowns for Rate and Pitch -->
+              <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+                <!-- Rate Dropdown -->
+                <b>Rate:</b>
+                <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+                  <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+                </select>
+
+                <!-- Pitch Dropdown -->
+                <b>Pitch:</b>
+                <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+                  <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+                </select>
+              </div>
+              <div class="text-left word-count mt-2">
+                <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
+                <strong>Tafseer: </strong>Ibn Katheer
+              </div>
+
             </div>
           </div>
 

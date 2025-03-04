@@ -16,7 +16,7 @@
 
                     <div style="display: flex" class="row">
 
-                        <AyahOfTheDay />
+                        <!-- <AyahOfTheDay /> -->
                         <SurahDropdown class="col-md-12 pt-2" :selectedSurah="selectedSurahId"
                             :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
                             @fetchAyat="getAyat" />
@@ -34,13 +34,13 @@
                         v-if="ayah == null && !dropdownHidden">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                             aria-labelledby="nav-home-tab" v-if="ayah == null">
-                            <form class="d-flex pb-2" role="search" @submit.prevent="scrollToAyah">
+                            <!-- <form class="d-flex pb-2" role="search" @submit.prevent="scrollToAyah">
                                 <input class="form-control me-2" type="number" placeholder="Enter Verse Number"
                                     v-model="verseNumber" required />
                                 <button class="btn btn-success mb-1 ml-2" style="background: #00bfa6" type="submit">
                                     Search
                                 </button>
-                            </form>
+                            </form> -->
 
                             <!-- Error alert -->
                             <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
@@ -48,7 +48,7 @@
                             <div class="row container-fluid">
                                 <hr class="container" style="height: 4px; background: lightgrey" />
 
-                                <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                     @update-information="updateInformation" :style="{
                                         backgroundColor: 'rgb(53, 163, 139)',
                                         color: 'white',
@@ -64,7 +64,7 @@
                                         style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
                                     <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
-                                </div>
+                                </div> -->
 
 
 
@@ -115,15 +115,15 @@
                                 <div class="row">
                                     <NavTabs />
                                     <!-- toogle between basic/advanced -->
-                                    <div class="container text-center">
+                                    <!-- <div class="container text-center">
                                         <div
                                             class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
-                                            <!-- Advanced Label -->
+                                            -- Advanced Label --
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Advanced</span>
                                             </div>
 
-                                            <!-- Switch -->
+                                            -- Switch --
                                             <div class="col">
                                                 <div
                                                     class="form-check form-switch d-flex justify-content-center align-items-center">
@@ -134,12 +134,12 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Basic Label -->
+                                            -- Basic Label --
                                             <div class="col">
                                                 <span class="fw-semibold text-muted">Basic</span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <!-- Surah info Modal -->
                                 <div class="modal fade" id="translationInfo" tabindex="-1"

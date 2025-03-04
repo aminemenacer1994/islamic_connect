@@ -17,6 +17,19 @@
           <div>
             <h4 class="ayah-translation" v-html="renderedText"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
+            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+              <div class="d-flex flex-wrap gap-2">
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
+                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
+                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
+                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
+                </button>
+              </div>
+            </div>
             <!-- Dropdowns for Rate and Pitch -->
             <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
               <!-- Rate Dropdown -->
@@ -31,29 +44,11 @@
                 <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
               </select>
             </div>
-            <hr>
             <div class="text-left word-count mt-3">
-              <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+              <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
               <strong>Translation: </strong>Ahmed Ali
             </div>
 
-
-
-
-
-            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
-              <div class="d-flex flex-wrap gap-2">
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
-                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
-                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
-                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
