@@ -46,7 +46,7 @@
                             <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
 
                             <div class="row container-fluid">
-                                <hr class="container" style="height: 4px; background: lightgrey" />
+                                <!-- <hr class="container" style="height: 4px; background: lightgrey" /> -->
 
                                 <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                     @update-information="updateInformation" :style="{

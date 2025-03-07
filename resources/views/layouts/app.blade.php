@@ -117,7 +117,7 @@
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
                     </li>
-                    <li class="nav-item mt-3">
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
@@ -134,13 +134,13 @@
                     </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
-                    </li>
+                    </li> -->
                     <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
                     </li> -->
-                    <!-- <li class="nav-item mt-3">
+                    <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
-                    </li> -->
+                    </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                     </li>
@@ -190,9 +190,35 @@
             </div>
         </div>
     </nav>
-    
-    
-
+    <ul class="nav custom-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li>
+    </ul>
 
         <!-- Main Content -->
         <main>
@@ -228,7 +254,46 @@
 </html>
 
 <!-- Custom Styles -->
-<style>
+<style >
+.custom-nav {
+    display: flex;
+    direction: rtl; /* Right-to-left scrolling direction */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    max-width: 100%; /* Adjust to the container's width */
+    white-space: nowrap; /* Prevent items from wrapping to next line */
+    background-color:rgba(248, 249, 250, 0.21); /* Light background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Medium shadow */
+    padding: 10px; /* Adjust padding for spacing */
+    gap: 15px; /* Space between items */
+    margin: 0;
+    border-radius: 8px; /* Rounded corners for aesthetic */
+    height: 60px; /* Adjust height for proper alignment */
+    scrollbar-width: thin; /* Thin scrollbar for Firefox */
+    -ms-overflow-style: none; /* Remove scrollbar for IE and Edge */
+}
+
+/* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+.custom-nav::-webkit-scrollbar {
+    height: 8px; /* Horizontal scrollbar height */
+}
+
+.custom-nav::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px;
+}
+
+.nav-item {
+    display: inline-block; /* Ensure items are displayed in a row */
+    font-size: 15px;
+}
+
+.nav-link {
+    display: inline-block;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 15px;
+}
 .responsive-nav {
   display: flex;
   flex-wrap: wrap; /* Allow wrapping on smaller screens */

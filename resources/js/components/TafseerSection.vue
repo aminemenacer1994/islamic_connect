@@ -8,9 +8,8 @@
       <AyahInfo :information="information" />
       <div class="swipeable-div w-100">
         <div class="row">
-          <div class="col-md-2 pt-2 d-flex align-items-center justify-content-center">
-          </div>
-          <div class="col-md-10">
+          
+          <div class="col-md-12">
             <MainAyah :information="information" />
           </div>
         </div>

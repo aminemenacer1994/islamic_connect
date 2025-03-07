@@ -66,6 +66,7 @@
                 <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i> -->
               </div> 
+              
               <!-- Reference -->
               <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">- {{ dua.reference }}</p>
             </div>
@@ -294,10 +295,10 @@ mark {
   border-bottom-left-radius: 20px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-bottom-right-radius: 20px;
-  background: rgba(13, 182, 145, 0.179);
+  background: rgba(148, 208, 195, 0.179);
   padding: 10px;
   border-radius: 20%;
-  border: 4px solid rgb(13, 182, 145);
+  border: 4px solid rgb(164, 197, 190);
   color: white;
 }
 

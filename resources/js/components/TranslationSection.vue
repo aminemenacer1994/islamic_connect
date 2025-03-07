@@ -7,48 +7,56 @@
       <div class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
         </div>
-        <div class="col-md-11">
+        <div class="col-md-12">
           <MainAyah :information="information" />
         </div>
       </div>
 
       <div class="row text-left mt-2">
         <div class="col-10">
-          <div>
-            <h4 class="ayah-translation" v-html="renderedText"
-              :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
-            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
-              <div class="d-flex flex-wrap gap-2">
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
-                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
-                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
-                </button>
-                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
-                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
-                </button>
-              </div>
+          <h4 class="ayah-translation" v-html="renderedText"
+            :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
+          <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+            <div class="d-flex flex-wrap gap-2">
+              <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
+                <i class="bi bi-filetype-csv pr-2"></i>CSV Export
+              </button>
+              <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
+                <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
+              </button>
+              <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
+                <i class="bi bi-filetype-json pr-2"></i>JSON Export
+              </button>
             </div>
-            <!-- Dropdowns for Rate and Pitch -->
-            <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-              <!-- Rate Dropdown -->
-              <b>Rate:</b>
-              <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
-                <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
-              </select>
+          </div>
+          <!-- Dropdowns for Rate and Pitch -->
+          <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+            <!-- Rate Dropdown -->
+            <b>Rate:</b>
+            <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+              <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+            </select>
 
-              <!-- Pitch Dropdown -->
-              <b>Pitch:</b>
-              <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
-                <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
-              </select>
-            </div>
-            <div class="text-left word-count mt-3">
-              <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
-              <strong>Translation: </strong>Ahmed Ali
-            </div>
+            <!-- Pitch Dropdown -->
+            <b>Pitch:</b>
+            <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+              <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+            </select>
 
+            <!-- Voice Dropdown -->
+            <b>Voice:</b>
+            <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
+              <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
+                :value="voice.name">
+                {{ voice.name }}
+              </option>
+            </select>
+
+
+          </div>
+          <div class="text-left word-count mt-3">
+            <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
+            <strong>Translation: </strong>Ahmed Ali
           </div>
         </div>
 
@@ -220,6 +228,8 @@ export default {
   },
   data() {
     return {
+      voices: [],
+      selectedVoice: '', // User's selected voice
       isVisible: false,
       rate: 1,
       pitch: 1,
@@ -281,6 +291,10 @@ export default {
   },
 
   mounted() {
+    this.loadVoices(); // Attempt to load voices initially
+    window.speechSynthesis.onvoiceschanged = () => {
+      this.loadVoices(); // Reload voices if they change
+    };
     const { success, subscriptionType } = checkSubscriptionStatus();
     if (success) {
       this.isVisible = true; // Show premium features
@@ -391,6 +405,7 @@ export default {
       localStorage.setItem('selectedVoice', JSON.stringify(this.selectedVoiceName));
       localStorage.setItem('rate', this.rate);
       localStorage.setItem('pitch', this.pitch);
+      localStorage.setItem('voice', this.voice.name);
       // Show success message
       this.successMessage = true;
       // Close the modal after a short delay
@@ -877,6 +892,19 @@ export default {
       localStorage.setItem('ayahFontSize', this.fontSize); // Store font size in local storage
     },
 
+    loadVoices() {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        this.voices = voices;
+        if (!this.selectedVoice) {
+          this.selectedVoice = voices[0].name; // Set default voice
+        }
+      } else {
+        // Retry loading voices if not available immediately
+        setTimeout(this.loadVoices, 100);
+      }
+    },
+
     readTextAloud() {
       const text = this.information.translation;
       if (!window.speechSynthesis) {
@@ -890,23 +918,23 @@ export default {
       this.utterance.rate = this.speechRate; // Set speech rate
       this.utterance.pitch = this.speechPitch; // Set speech pitch
 
-      // Ensure voices are loaded before setting one
       const setVoice = () => {
         const voices = window.speechSynthesis.getVoices();
 
-        // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
-        const matchingVoice = voices.find(voice =>
-          voice.name.includes("Google UK English Male") ||
-          voice.lang.includes("en-US")
-        );
+        // Exclude Google-enhanced voices for highlighting to work
+        const nativeVoices = voices.filter(voice => !voice.name.includes("Google") && voice.lang.includes("en"));
 
-        // Set the preferred voice or fallback to the first available voice
-        this.utterance.voice = matchingVoice || voices[0];
+        // Find the selected native voice by name
+        const matchingVoice = nativeVoices.find(voice => voice.name === this.selectedVoice);
+
+        // Set the selected native voice or fallback to the first native voice
+        this.utterance.voice = matchingVoice || nativeVoices[0];
 
         // Start speaking after setting the voice
         this.isReading = true;
         window.speechSynthesis.speak(this.utterance);
       };
+
 
       // If voices are not yet loaded, wait for them
       if (window.speechSynthesis.getVoices().length === 0) {
@@ -930,22 +958,22 @@ export default {
       };
     },
 
+
     highlightText(charIndex, currentWord) {
       const text = this.information.translation;
       const before = text.slice(0, charIndex);
       const after = text.slice(charIndex + currentWord.length);
       this.renderedText = `
-    <span>${before}</span>
-    <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
-      ${currentWord}
-    </span>
-    <span>${after}</span>`;
+        <span>${before}</span>
+        <span style="background-color: rgba(0, 191, 166, 0.6); padding: 2px; border-radius: 3px;">
+          ${currentWord}
+        </span>
+        <span>${after}</span>`;
     },
 
     clearHighlight() {
       this.renderedText = `<span>${this.information.translation}</span>`;
     },
-
 
     updateRenderedText(newText) {
       this.renderedText = `<span>${newText}</span>`;

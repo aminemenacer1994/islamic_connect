@@ -38,6 +38,7 @@ use App\Http\Controllers\SuratController;
 use App\Http\Controllers\DuaController;
 use App\Http\Controllers\RadioController;
 use App\Http\Controllers\GuideController;
+use App\Http\Controllers\StreamingController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -299,3 +300,5 @@ Route::get('/dua', [DuaController::class, 'index'])->name('dua');
 Route::get('/radio', [RadioController::class, 'index'])->name('radio');
 // guide
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
+// streaming
+Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
