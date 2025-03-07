@@ -8,7 +8,7 @@
       <AyahInfo :information="information" />
       <div class="swipeable-div w-100">
         <div class="row">
-          
+
           <div class="col-md-12">
             <MainAyah :information="information" />
           </div>
@@ -46,6 +46,16 @@
                 <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
                   <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
                 </select>
+
+                <!-- Voice Dropdown -->
+                <b>Voice:</b>
+                <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
+                  <option v-for="voice in voices" :key="voice.name" :value="voice.name">
+                    {{ voice.name }}
+                  </option>
+                </select>
+
+
               </div>
               <div class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
@@ -154,6 +164,8 @@ export default {
   },
   data() {
     return {
+      voices: [],
+      selectedVoice: '', // User's selected voice
       isVisible: false, // Controls visibility of premium features
       renderedText: "",
       summary: "", // Generated summary
@@ -216,6 +228,8 @@ export default {
 
   },
   mounted() {
+    window.speechSynthesis.addEventListener('voiceschanged', this.loadVoices);
+    this.loadVoices(); // Attempt to load voices initially
     const { success, subscriptionType } = checkSubscriptionStatus();
     if (success) {
       this.isVisible = true; // Show premium features
@@ -237,6 +251,7 @@ export default {
     const savedPitch = localStorage.getItem("pitch");
     const savedFontSize = localStorage.getItem("fontSize");
 
+
     if (savedVoiceName) this.selectedVoiceName = JSON.parse(savedVoiceName); // Use selectedVoiceName instead of selectedVoice
     if (savedRate) this.rate = parseFloat(savedRate);
     if (savedPitch) this.pitch = parseFloat(savedPitch);
@@ -245,14 +260,6 @@ export default {
     } else {
       this.currentFontSize = 14; // Default font size
     }
-
-    // Load voices initially
-    this.loadVoices();
-    // Ensure voices are fully loaded before attempting to play
-    window.speechSynthesis.onvoiceschanged = () => {
-      this.loadVoices();
-      this.voicesLoaded = true; // Set a flag to confirm voices are loaded
-    };
   },
   methods: {
     redirectToMonthlySubscription() {
@@ -742,6 +749,7 @@ export default {
       );
       localStorage.setItem("rate", this.rate);
       localStorage.setItem("pitch", this.pitch);
+      localStorage.setItem("selectedVoice", this.selectedVoice);
       // Show success message
       this.successMessage = true;
       // Close the modal after a short delay
@@ -766,13 +774,13 @@ export default {
       }
     },
     loadVoices() {
-      this.voices = window.speechSynthesis.getVoices();
-      // Set the selected voice if it exists in the voices array
-      const voice = this.voices.find((v) => v.name === this.selectedVoiceName);
-      if (voice) {
-        this.selectedVoiceName = voice.name; // Set selectedVoiceName to a valid voice
-      } else if (this.voices.length > 0) {
-        this.selectedVoiceName = this.voices[0].name; // Fallback to the first available voice
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        // Filter out Google-enhanced voices
+        this.voices = voices.filter(voice => !voice.name.includes("Google"));
+        if (!this.selectedVoice && this.voices.length > 0) {
+          this.selectedVoice = this.voices[0].name; // Set default voice if not set
+        }
       }
     },
     increaseFontSize() {
@@ -788,28 +796,7 @@ export default {
     saveFontSize() {
       localStorage.setItem("ayahFontSize", this.fontSize); // Store font size in local storage
     },
-    selectBestVoice() {
-      const preferredVoices = [
-        "Google UK English Female",
-        "Microsoft Zira Desktop - English (United States)",
-        "Samantha",
-        "Google US English",
-        "Microsoft David Desktop - English (United States)",
-      ];
 
-      for (const preferredVoice of preferredVoices) {
-        const voice = this.voices.find((v) => v.name === preferredVoice);
-        if (voice) {
-          this.selectedVoice = voice;
-          return;
-        }
-      }
-      if (this.voices.length > 0) {
-        this.selectedVoiceName = this.voices[0].name;
-      }
-      // If no preferred voice is found, choose the first available voice
-      this.selectedVoice = this.voices[0];
-    },
     changeVoice(voiceName) {
       this.selectedVoiceName = voiceName;
       localStorage.setItem("selectedVoice", JSON.stringify(voiceName));
@@ -843,6 +830,7 @@ export default {
       this.readTextAloud(); // Restart the speech from the beginning
       console.log("Speech rewinded.");
     },
+
     readTextAloud() {
       const text = this.tafseer;
       if (!window.speechSynthesis) {
@@ -856,23 +844,21 @@ export default {
       this.utterance.rate = this.speechRate; // Set speech rate
       this.utterance.pitch = this.speechPitch; // Set speech pitch
 
-      // Ensure voices are loaded before setting one
       const setVoice = () => {
-        const voices = window.speechSynthesis.getVoices();
+        const voices = this.voices; // Use already loaded and filtered voices
 
-        // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
-        const matchingVoice = voices.find(voice =>
-          voice.name.includes("Google UK English Male") ||
-          voice.lang.includes("en-US")
-        );
+        // Find the selected voice by name
+        const matchingVoice = voices.find(voice => voice.name === this.selectedVoice);
 
-        // Set the preferred voice or fallback to the first available voice
+        // Set the selected voice or fallback to the first available voice
         this.utterance.voice = matchingVoice || voices[0];
 
         // Start speaking after setting the voice
         this.isReading = true;
         window.speechSynthesis.speak(this.utterance);
       };
+
+
 
       // If voices are not yet loaded, wait for them
       if (window.speechSynthesis.getVoices().length === 0) {
@@ -901,11 +887,11 @@ export default {
       const before = text.slice(0, charIndex);
       const after = text.slice(charIndex + currentWord.length);
       this.renderedText = `
-    <span>${before}</span>
-    <span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">
-      ${currentWord}
-    </span>
-    <span>${after}</span>`;
+        <span>${before}</span>
+        <span style="background-color: rgba(0, 191, 166, 0.6); padding: 2px; border-radius: 3px;">
+          ${currentWord}
+        </span>
+        <span>${after}</span>`;
     },
 
     clearHighlight() {

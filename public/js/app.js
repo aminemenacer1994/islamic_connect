@@ -33705,6 +33705,9 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   data: function data() {
     var _ref;
     return _ref = {
+      voices: [],
+      selectedVoice: '',
+      // User's selected voice
       isVisible: false,
       // Controls visibility of premium features
       renderedText: "",
@@ -33740,6 +33743,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   //  },
 }), "mounted", function mounted() {
   var _this = this;
+  window.speechSynthesis.addEventListener('voiceschanged', this.loadVoices);
+  this.loadVoices(); // Attempt to load voices initially
   var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.checkSubscriptionStatus)(),
     success = _checkSubscriptionSta.success,
     subscriptionType = _checkSubscriptionSta.subscriptionType;
@@ -33770,14 +33775,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   } else {
     this.currentFontSize = 14; // Default font size
   }
-
-  // Load voices initially
-  this.loadVoices();
-  // Ensure voices are fully loaded before attempting to play
-  window.speechSynthesis.onvoiceschanged = function () {
-    _this.loadVoices();
-    _this.voicesLoaded = true; // Set a flag to confirm voices are loaded
-  };
 }), "methods", _defineProperty(_defineProperty({
   redirectToMonthlySubscription: function redirectToMonthlySubscription() {
     (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.redirectToSubscription)('monthly');
@@ -34216,6 +34213,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     localStorage.setItem("selectedVoice", JSON.stringify(this.selectedVoiceName));
     localStorage.setItem("rate", this.rate);
     localStorage.setItem("pitch", this.pitch);
+    localStorage.setItem("selectedVoice", this.selectedVoice);
     // Show success message
     this.successMessage = true;
     // Close the modal after a short delay
@@ -34238,16 +34236,15 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     }
   },
   loadVoices: function loadVoices() {
-    var _this4 = this;
-    this.voices = window.speechSynthesis.getVoices();
-    // Set the selected voice if it exists in the voices array
-    var voice = this.voices.find(function (v) {
-      return v.name === _this4.selectedVoiceName;
-    });
-    if (voice) {
-      this.selectedVoiceName = voice.name; // Set selectedVoiceName to a valid voice
-    } else if (this.voices.length > 0) {
-      this.selectedVoiceName = this.voices[0].name; // Fallback to the first available voice
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      // Filter out Google-enhanced voices
+      this.voices = voices.filter(function (voice) {
+        return !voice.name.includes("Google");
+      });
+      if (!this.selectedVoice && this.voices.length > 0) {
+        this.selectedVoice = this.voices[0].name; // Set default voice if not set
+      }
     }
   },
   increaseFontSize: function increaseFontSize() {
@@ -34262,32 +34259,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   },
   saveFontSize: function saveFontSize() {
     localStorage.setItem("ayahFontSize", this.fontSize); // Store font size in local storage
-  },
-  selectBestVoice: function selectBestVoice() {
-    var _this5 = this;
-    var preferredVoices = ["Google UK English Female", "Microsoft Zira Desktop - English (United States)", "Samantha", "Google US English", "Microsoft David Desktop - English (United States)"];
-    var _loop = function _loop() {
-        var preferredVoice = _preferredVoices[_i];
-        var voice = _this5.voices.find(function (v) {
-          return v.name === preferredVoice;
-        });
-        if (voice) {
-          _this5.selectedVoice = voice;
-          return {
-            v: void 0
-          };
-        }
-      },
-      _ret;
-    for (var _i = 0, _preferredVoices = preferredVoices; _i < _preferredVoices.length; _i++) {
-      _ret = _loop();
-      if (_ret) return _ret.v;
-    }
-    if (this.voices.length > 0) {
-      this.selectedVoiceName = this.voices[0].name;
-    }
-    // If no preferred voice is found, choose the first available voice
-    this.selectedVoice = this.voices[0];
   },
   changeVoice: function changeVoice(voiceName) {
     this.selectedVoiceName = voiceName;
@@ -34323,7 +34294,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     console.log("Speech rewinded.");
   },
   readTextAloud: function readTextAloud() {
-    var _this6 = this;
+    var _this4 = this;
     var text = this.tafseer;
     if (!window.speechSynthesis) {
       console.error("Speech synthesis is not supported in this browser.");
@@ -34336,21 +34307,20 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     this.utterance.rate = this.speechRate; // Set speech rate
     this.utterance.pitch = this.speechPitch; // Set speech pitch
 
-    // Ensure voices are loaded before setting one
     var setVoice = function setVoice() {
-      var voices = window.speechSynthesis.getVoices();
+      var voices = _this4.voices; // Use already loaded and filtered voices
 
-      // Find a preferred male voice (replace "Google UK English Male" with the exact name you find)
+      // Find the selected voice by name
       var matchingVoice = voices.find(function (voice) {
-        return voice.name.includes("Google UK English Male") || voice.lang.includes("en-US");
+        return voice.name === _this4.selectedVoice;
       });
 
-      // Set the preferred voice or fallback to the first available voice
-      _this6.utterance.voice = matchingVoice || voices[0];
+      // Set the selected voice or fallback to the first available voice
+      _this4.utterance.voice = matchingVoice || voices[0];
 
       // Start speaking after setting the voice
-      _this6.isReading = true;
-      window.speechSynthesis.speak(_this6.utterance);
+      _this4.isReading = true;
+      window.speechSynthesis.speak(_this4.utterance);
     };
 
     // If voices are not yet loaded, wait for them
@@ -34364,21 +34334,21 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     this.utterance.onboundary = function (event) {
       if (event.name === "word") {
         var currentWord = text.slice(event.charIndex).split(" ")[0];
-        _this6.highlightText(event.charIndex, currentWord);
+        _this4.highlightText(event.charIndex, currentWord);
       }
     };
 
     // Handle end of speech
     this.utterance.onend = function () {
-      _this6.isReading = false;
-      _this6.clearHighlight();
+      _this4.isReading = false;
+      _this4.clearHighlight();
     };
   },
   highlightText: function highlightText(charIndex, currentWord) {
     var text = this.tafseer;
     var before = text.slice(0, charIndex);
     var after = text.slice(charIndex + currentWord.length);
-    this.renderedText = "\n    <span>".concat(before, "</span>\n    <span style=\"background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;\">\n      ").concat(currentWord, "\n    </span>\n    <span>").concat(after, "</span>");
+    this.renderedText = "\n        <span>".concat(before, "</span>\n        <span style=\"background-color: rgba(0, 191, 166, 0.6); padding: 2px; border-radius: 3px;\">\n          ").concat(currentWord, "\n        </span>\n        <span>").concat(after, "</span>");
   },
   clearHighlight: function clearHighlight() {
     this.renderedText = "<span>".concat(this.tafseer, "</span>");
@@ -34403,7 +34373,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     return beforeText.split(" ").length - 1;
   },
   fetchTafseer: function fetchTafseer(ayahId) {
-    var _this7 = this;
+    var _this5 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
       var tafseerResponse;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -34414,7 +34384,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
             return axios.get("/tafseer/".concat(ayahId, "/fetch"));
           case 3:
             tafseerResponse = _context2.sent;
-            _this7.tafseer = tafseerResponse.data; // Assign the fetched data to the local state
+            _this5.tafseer = tafseerResponse.data; // Assign the fetched data to the local state
             _context2.next = 10;
             break;
           case 7:
@@ -34705,10 +34675,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   },
   mounted: function mounted() {
     var _this = this;
-    this.loadVoices(); // Attempt to load voices initially
-    window.speechSynthesis.onvoiceschanged = function () {
-      _this.loadVoices(); // Reload voices if they change
-    };
+    window.speechSynthesis.addEventListener('voiceschanged', this.loadVoices);
+    this.loadVoices();
     var _checkSubscriptionSta = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.checkSubscriptionStatus)(),
       success = _checkSubscriptionSta.success,
       subscriptionType = _checkSubscriptionSta.subscriptionType;
@@ -34731,7 +34699,13 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     }
 
     // Load saved settings from local storage
-    var savedFontSize = localStorage.getItem('fontSize');
+    var savedVoiceName = localStorage.getItem("selectedVoice");
+    var savedRate = localStorage.getItem("rate");
+    var savedPitch = localStorage.getItem("pitch");
+    var savedFontSize = localStorage.getItem("fontSize");
+    if (savedVoiceName) this.selectedVoiceName = JSON.parse(savedVoiceName); // Use selectedVoiceName instead of selectedVoice
+    if (savedRate) this.rate = parseFloat(savedRate);
+    if (savedPitch) this.pitch = parseFloat(savedPitch);
     if (savedFontSize) {
       this.currentFontSize = parseInt(savedFontSize, 10);
     } else {
@@ -35260,13 +35234,13 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     loadVoices: function loadVoices() {
       var voices = window.speechSynthesis.getVoices();
       if (voices.length > 0) {
-        this.voices = voices;
-        if (!this.selectedVoice) {
-          this.selectedVoice = voices[0].name; // Set default voice
+        // Filter out Google-enhanced voices
+        this.voices = voices.filter(function (voice) {
+          return !voice.name.includes("Google");
+        });
+        if (!this.selectedVoice && this.voices.length > 0) {
+          this.selectedVoice = this.voices[0].name; // Set default voice if not set
         }
-      } else {
-        // Retry loading voices if not available immediately
-        setTimeout(this.loadVoices, 100);
       }
     },
     readTextAloud: function readTextAloud() {
@@ -35284,20 +35258,15 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       this.utterance.pitch = this.speechPitch; // Set speech pitch
 
       var setVoice = function setVoice() {
-        var voices = window.speechSynthesis.getVoices();
+        var voices = _this7.voices; // Use already loaded and filtered voices
 
-        // Exclude Google-enhanced voices for highlighting to work
-        var nativeVoices = voices.filter(function (voice) {
-          return !voice.name.includes("Google") && voice.lang.includes("en");
-        });
-
-        // Find the selected native voice by name
-        var matchingVoice = nativeVoices.find(function (voice) {
+        // Find the selected voice by name
+        var matchingVoice = voices.find(function (voice) {
           return voice.name === _this7.selectedVoice;
         });
 
-        // Set the selected native voice or fallback to the first native voice
-        _this7.utterance.voice = matchingVoice || nativeVoices[0];
+        // Set the selected voice or fallback to the first available voice
+        _this7.utterance.voice = matchingVoice || voices[0];
 
         // Start speaking after setting the voice
         _this7.isReading = true;
@@ -45057,11 +45026,12 @@ var _hoisted_10 = {
 };
 var _hoisted_11 = ["value"];
 var _hoisted_12 = ["value"];
-var _hoisted_13 = {
+var _hoisted_13 = ["value"];
+var _hoisted_14 = {
   key: 0,
   "class": "col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -45095,7 +45065,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.downloadAsCsv && $options.downloadAsCsv.apply($options, arguments);
     })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-csv pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("CSV Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -45103,7 +45073,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.downloadAsWord && $options.downloadAsWord.apply($options, arguments);
     })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-docx pr-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("DOCX Export ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -45111,9 +45081,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.downloadAsExport && $options.downloadAsExport.apply($options, arguments);
     })
-  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdowns for Rate and Pitch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate Dropdown "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdowns for Rate and Pitch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate Dropdown "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.speechRate = $event;
     }),
@@ -45124,7 +45094,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: rate,
       value: rate
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pitch Dropdown "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pitch Dropdown "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.speechPitch = $event;
     }),
@@ -45135,7 +45105,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: pitch,
       value: pitch
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]])]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice Dropdown "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Voice:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.selectedVoice = $event;
+    }),
+    "class": "form-select form-select-sm",
+    "aria-label": "Select Voice"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.voices, function (voice) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: voice.name,
+      value: voice.name
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -45143,8 +45124,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[6] || (_cache[6] = function () {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $data.isReading ? $data.isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill' : 'bi-play-circle-fill', 'h3', 'custom-icon-play']),
@@ -45153,7 +45134,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "aria-label": "Play or pause translation audio"
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.stopReading && $options.stopReading.apply($options, arguments);
     }),
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']),
@@ -45167,7 +45148,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "bi bi-plus-circle-fill h3 custom-icon-increase",
     "aria-placeholder": "Increase text size",
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
     })
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -45176,10 +45157,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "bi bi-dash-circle-fill h3 custom-icon-decrease",
     "aria-placeholder": "Decrease text size",
-    onClick: _cache[9] || (_cache[9] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
     })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -45189,7 +45170,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "button",
     "aria-expanded": "false",
     "aria-controls": "collapseExample",
-    onClick: _cache[10] || (_cache[10] = function () {
+    onClick: _cache[11] || (_cache[11] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
     })
   })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {

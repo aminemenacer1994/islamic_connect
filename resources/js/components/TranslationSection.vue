@@ -291,10 +291,8 @@ export default {
   },
 
   mounted() {
-    this.loadVoices(); // Attempt to load voices initially
-    window.speechSynthesis.onvoiceschanged = () => {
-      this.loadVoices(); // Reload voices if they change
-    };
+    window.speechSynthesis.addEventListener('voiceschanged', this.loadVoices);
+    this.loadVoices();
     const { success, subscriptionType } = checkSubscriptionStatus();
     if (success) {
       this.isVisible = true; // Show premium features
@@ -315,7 +313,13 @@ export default {
     }
 
     // Load saved settings from local storage
-    const savedFontSize = localStorage.getItem('fontSize');
+    const savedVoiceName = localStorage.getItem("selectedVoice");
+    const savedRate = localStorage.getItem("rate");
+    const savedPitch = localStorage.getItem("pitch");
+    const savedFontSize = localStorage.getItem("fontSize");
+    if (savedVoiceName) this.selectedVoiceName = JSON.parse(savedVoiceName); // Use selectedVoiceName instead of selectedVoice
+    if (savedRate) this.rate = parseFloat(savedRate);
+    if (savedPitch) this.pitch = parseFloat(savedPitch);
     if (savedFontSize) {
       this.currentFontSize = parseInt(savedFontSize, 10);
     } else {
@@ -895,13 +899,11 @@ export default {
     loadVoices() {
       const voices = window.speechSynthesis.getVoices();
       if (voices.length > 0) {
-        this.voices = voices;
-        if (!this.selectedVoice) {
-          this.selectedVoice = voices[0].name; // Set default voice
+        // Filter out Google-enhanced voices
+        this.voices = voices.filter(voice => !voice.name.includes("Google"));
+        if (!this.selectedVoice && this.voices.length > 0) {
+          this.selectedVoice = this.voices[0].name; // Set default voice if not set
         }
-      } else {
-        // Retry loading voices if not available immediately
-        setTimeout(this.loadVoices, 100);
       }
     },
 
@@ -919,16 +921,13 @@ export default {
       this.utterance.pitch = this.speechPitch; // Set speech pitch
 
       const setVoice = () => {
-        const voices = window.speechSynthesis.getVoices();
+        const voices = this.voices; // Use already loaded and filtered voices
 
-        // Exclude Google-enhanced voices for highlighting to work
-        const nativeVoices = voices.filter(voice => !voice.name.includes("Google") && voice.lang.includes("en"));
+        // Find the selected voice by name
+        const matchingVoice = voices.find(voice => voice.name === this.selectedVoice);
 
-        // Find the selected native voice by name
-        const matchingVoice = nativeVoices.find(voice => voice.name === this.selectedVoice);
-
-        // Set the selected native voice or fallback to the first native voice
-        this.utterance.voice = matchingVoice || nativeVoices[0];
+        // Set the selected voice or fallback to the first available voice
+        this.utterance.voice = matchingVoice || voices[0];
 
         // Start speaking after setting the voice
         this.isReading = true;
