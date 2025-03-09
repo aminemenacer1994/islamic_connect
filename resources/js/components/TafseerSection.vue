@@ -15,7 +15,7 @@
         </div>
 
         <div class="row text-left mt-2">
-          <div class="col-10">
+          <div class="col-11">
             <div>
               <h4 class="ayah-translation" v-html="renderedText"
                 :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
@@ -66,7 +66,7 @@
           </div>
 
           <!-- Icons Column (Stacked Vertically) -->
-          <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
+          <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
             <!-- Play/Pause Button -->
             <i @click="toggleSpeech" :class="[
               'bi',

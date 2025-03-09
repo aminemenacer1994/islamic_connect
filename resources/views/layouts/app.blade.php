@@ -117,7 +117,7 @@
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
                     </li>
-                    <!-- <li class="nav-item mt-3">
+                    <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
@@ -134,13 +134,13 @@
                     </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
-                    </li> -->
+                    </li>
                     <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
                     </li> -->
-                    <li class="nav-item mt-3">
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
-                    </li>
+                    </li> -->
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
                     </li>
@@ -151,11 +151,11 @@
                         <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b>{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
-                    @if (Route::has('register'))
+                    <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
                         <h6><a class="nav-link " href="{{ route('register') }}" data-path="/register"><b>{{ __('Register') }}</b></a></h6>
                     </li>
-                    @endif
+                    @endif -->
                     @else
                     <li class="nav-item dropdown pl-3">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
@@ -190,7 +190,7 @@
             </div>
         </div>
     </nav>
-    <ul class="nav custom-nav">
+    <!-- <ul class="nav custom-nav">
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Active</a>
         </li>
@@ -218,7 +218,7 @@
         <li class="nav-item">
             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
-    </ul>
+    </ul> -->
 
         <!-- Main Content -->
         <main>

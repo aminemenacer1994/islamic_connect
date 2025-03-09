@@ -13,55 +13,95 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
     protected $redirectTo = '/welcome';
 
-    /**
-     * Redirect the user to the Google authentication page.
-     */
+    // Redirect to Google
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    /**
-     * Handle the Google callback.
-     */
+    // Handle Google callback
     public function handleGoogleCallback()
     {
         try {
             $googleUser = Socialite::driver('google')->user();
-            
-            // Check if the user already exists in your database
-            $user = User::where('email', $googleUser->email)->first();
+            $user = User::firstOrCreate(
+                ['email' => $googleUser->email],
+                ['name' => $googleUser->name, 'password' => bcrypt(rand(100000, 999999))]
+            );
 
-            if (!$user) {
-                // Create a new user if they don't exist
-                $user = User::create([
-                    'name' => $googleUser->name,
-                    'email' => $googleUser->email,
-                    'password' => bcrypt(rand(100000, 999999)), // Random password
-                ]);
-            }
-
-            // Log the user in
             Auth::login($user);
-
-            // Redirect to the intended page or dashboard
             return redirect()->intended($this->redirectPath());
-
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors('Google login failed. Please try again.');
+            return redirect('/welcome')->withErrors('Google login failed. Please try again.');
         }
     }
 
-    /**
-     * Logout the user.
-     */
+    // Redirect to Facebook
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    // Handle Facebook callback
+    public function handleFacebookCallback()
+    {
+        try {
+            $facebookUser = Socialite::driver('facebook')->stateless()->user();
+
+            $user = User::updateOrCreate(
+                [
+                    'email' => $facebookUser->getEmail(),
+                ],
+                [
+                    'name' => $facebookUser->getName(),
+                    'facebook_id' => $facebookUser->getId(),
+                    'avatar' => $facebookUser->getAvatar(),
+                ]
+            );
+
+            Auth::login($user);
+            return redirect('/dashboard');
+        } catch (\Exception $e) {
+            return redirect('/welcome')->withErrors('Facebook login failed. Please try again.');
+        }
+    }
+
+    public function redirectToLinkedIn()
+    {
+        return Socialite::driver('linkedin')
+            ->scopes(['r_liteprofile', 'r_emailaddress']) // Request the necessary permissions
+            ->stateless()
+            ->redirect();
+    }
+
+
+    public function handleLinkedInCallback()
+    {
+        try {
+            $linkedinUser = Socialite::driver('linkedin')->user();
+
+            // Check if the user has provided email and name
+            if (!$linkedinUser->getEmail() || !$linkedinUser->getName()) {
+                return redirect()->route('login')->withErrors('Missing required permissions.');
+            }
+
+            $user = User::firstOrCreate([
+                'email' => $linkedinUser->getEmail(),
+            ], [
+                'name' => $linkedinUser->getName(),
+                'linkedin_id' => $linkedinUser->getId(),
+            ]);
+
+            auth()->login($user);
+
+            return redirect()->intended('/'); // Or a specific page
+        } catch (\Exception $e) {
+            return redirect()->route('login')->withErrors('Something went wrong. Please try again.');
+        }
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -70,11 +110,6 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

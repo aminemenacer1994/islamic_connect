@@ -86,7 +86,6 @@
                   <p class="mt-3 text-center"><b>Already have an account ? Click <a href="/login">here</a> to login.</b></p>
                 </div>
 
-                  <hr> 
                   <!-- google sign in -->
                   <div class="container-fluid text-center" style="display:flex">
                     <div class="container-fluid text-center">

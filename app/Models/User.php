@@ -20,6 +20,7 @@ class User extends Authenticatable
         'subscribe',
         'role',
         'google_id',
+        'github_id',
         'fb_id',
         'linked_id',
         'user_id'

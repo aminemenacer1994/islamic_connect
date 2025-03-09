@@ -13,7 +13,7 @@
       </div>
 
       <div class="row text-left mt-2">
-        <div class="col-10">
+        <div class="col-11">
           <h4 class="ayah-translation" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
           <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
@@ -30,7 +30,13 @@
             </div>
           </div>
           <!-- Dropdowns for Rate and Pitch -->
-          <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+          <!-- Toggle Button -->
+          <button class="btn btn-sm btn-primary mb-2" @click="showOptions = !showOptions">
+            {{ showOptions ? 'Hide Options' : 'Show Options' }}
+          </button>
+
+          <!-- Rate, Pitch, and Voice Dropdowns -->
+          <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
             <!-- Rate Dropdown -->
             <b>Rate:</b>
             <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
@@ -51,9 +57,8 @@
                 {{ voice.name }}
               </option>
             </select>
-
-
           </div>
+
           <div class="text-left word-count mt-3">
             <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
             <strong>Translation: </strong>Ahmed Ali
@@ -61,7 +66,7 @@
         </div>
 
         <!-- Icons Column (Stacked Vertically) -->
-        <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
+        <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
           <i @click="toggleSpeech" :class="[
             'bi',
@@ -228,6 +233,7 @@ export default {
   },
   data() {
     return {
+      showOptions: false,
       voices: [],
       selectedVoice: '', // User's selected voice
       isVisible: false,

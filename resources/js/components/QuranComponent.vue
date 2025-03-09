@@ -4,13 +4,13 @@
             <Title />
 
             <div v-if="!isVisible">
-                <AdvancedSearch @input-change="handleInputChange" />
+                <AdvancedSearch @input-change="handleInputChange" v-if="information != null"/>
             </div>
-            <custom-surah-selection :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
+            <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
 
             <!-- accordion headers -->
-            <div class="row container-fluid">
+            <div class="row pt-2 container-fluid">
                 <div class="col-md-4 container">
                     <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" />
 
@@ -65,9 +65,6 @@
                                     <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
                                 </div> -->
-
-
-
                                 <div class="custom-scrollbar pb-5" style="
                                     overflow-y: auto;
                                     max-height: 600px;
@@ -76,9 +73,6 @@
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
                                             12px -2px,
                                         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
-
-
-
 
                                     <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
@@ -106,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 card-hide">
+                <div class="col-md-8 card-hide text-left" v-if="information != null">
                     <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
                             rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">

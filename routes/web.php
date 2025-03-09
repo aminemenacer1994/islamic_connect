@@ -171,14 +171,17 @@ Route::get('/translations', [VerseController::class, 'getTranslations']);
 //updates
 Route::get('/updates', [UpdatesController::class, 'index']);
 
-//facebook sign-in
-Route::get('/auth/facebook', [LoginController::class, 'redirectToFacebook'])->name('fb-auth');
-Route::get('/auth/facebook/callback', [LoginController::class, 'loginWithFacebook']);
+// Facebook sign-in
+Route::get('auth/facebook', [LoginController::class, 'redirectToFacebook'])->name('facebook-auth');
+Route::get('auth/facebook/callback', [LoginController::class, 'handleFacebookCallback']);
 
 // google sign-in
 Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name('google-auth');
 Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
+// linked sign-in
+Route::get('login/linkedin', [LoginController::class, 'redirectToLinkedIn'])->name('linkedin-auth');
+Route::get('login/linkedin/callback', [LoginController::class, 'handleLinkedInCallback']);
 
 // users
 Route::get('/users', [UserController::class, 'index']);
