@@ -43618,17 +43618,17 @@ var _hoisted_9 = {
   "class": "row container-fluid"
 };
 var _hoisted_10 = {
-  "class": "custom-scrollbar pb-5",
+  "class": "custom-scrollbar pb-3 w-100",
   style: {
     "overflow-y": "auto",
+    "border": "3px solid #31464338",
+    "border-radius": "15px",
     "max-height": "600px",
-    "background": "white",
-    "border-radius": "10px",
     "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px\n                                            12px -2px,\n                                        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
   }
 };
 var _hoisted_11 = {
-  "class": "col-md-12 list-group container-fluid root",
+  "class": "col-md-12 list-group root",
   id: "toggle",
   ref: "ayahList",
   style: {
@@ -43647,13 +43647,13 @@ var _hoisted_14 = {
 };
 var _hoisted_15 = {
   key: 0,
-  "class": "col-md-8 card-hide text-left"
+  "class": "col-md-8 pt-1 card-hide text-left"
 };
 var _hoisted_16 = {
   "class": "card content",
   style: {
     "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,\n                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-    "border-radius": "10px",
+    "border-radius": "15px",
     "border": "3px solid #31464338"
   }
 };
@@ -43890,7 +43890,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0,
     onInputChange: _ctx.handleInputChange
   }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
-    "class": "col-md-12 pt-2",
+    "class": "col-md-12 pt-1",
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
     surat: $data.surat,
@@ -43903,7 +43903,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateInformation: $options.updateInformation,
     onUpdateTafseer: $options.updateTafseer,
     "class": "ayah-dropdown-hidden-on-desktop d-block d-md-none"
-  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2\" role=\"search\" @submit.prevent=\"scrollToAyah\">\n                                <input class=\"form-control me-2\" type=\"number\" placeholder=\"Enter Verse Number\"\n                                    v-model=\"verseNumber\" required />\n                                <button class=\"btn btn-success mb-1 ml-2\" style=\"background: #00bfa6\" type=\"submit\">\n                                    Search\n                                </button>\n                            </form> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
+  }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2\" role=\"search\" @submit.prevent=\"scrollToAyah\">\n                                <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \" type=\"number\" placeholder=\"Enter Verse Number\"\n                                    v-model=\"verseNumber\" required />\n                                <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #00bfa6;border-radius: 10px;\" type=\"submit\">\n                                    Search\n                                </button>\n                            </form> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: _ctx.dismissError
   }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" style=\"height: 4px; background: lightgrey\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div :selectedSurahId=\"selectedSurah\" @update-tafseer=\"updateTafseer\"\n                                    @update-information=\"updateInformation\" :style=\"{\n                                        backgroundColor: 'rgb(53, 163, 139)',\n                                        color: 'white',\n                                        borderRadius: '12px',\n                                        border: '2px solid rgba(0, 0, 0, 0.1)',\n                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'\n                                    }\" class=\"icon-container mb-3\">\n                                    <i class=\"bi bi-chevron-bar-left h4 pt-2 custom-prev-ayah\"\n                                        style=\"cursor: pointer\" @click=\"goToFirstAyah\" title=\"First verse\"></i>\n                                    <i class=\"bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToPreviousAyah\" title=\"Previous verse\"></i>\n                                    <i class=\"bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToNextAyah\" title=\"Next verse\"></i>\n                                    <i class=\"bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToLastAyah\" title=\"Last verse\"></i>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
@@ -43916,8 +43916,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         selected: $data.selectedIndexAyah === index || $data.verseNumber && parseInt($data.verseNumber) === ayah.ayah_id
       }),
       style: {
-        "padding": "10px",
-        "border-radius": "10px"
+        "padding": "8px",
+        "border-radius": "15px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -48809,9 +48809,7 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "display-5 fw-bold mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion")], -1 /* HOISTED */)), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead container"
-  }, "Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time audio highlighting, and daily reflections to deepen your connection with the Quran. ", -1 /* HOISTED */))], 64 /* STABLE_FRAGMENT */);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"lead container\">Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time\n    audio highlighting, and daily reflections to deepen your connection with the Quran.\n  </p> ")], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
 }
 
 /***/ }),
@@ -49382,6 +49380,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'desktop-hidden': true,
       'mobile-visible': true
     }]),
+    style: {
+      "border": "3px solid #31464338",
+      "border-radius": "15px"
+    },
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedAyahId = $event;
     }),
@@ -49669,11 +49671,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container-fluid px-4"
+  "class": "container-fluid"
 };
 var _hoisted_2 = {
   key: 0,
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3"
+  "class": "row g-3"
 };
 var _hoisted_3 = ["onClick"];
 var _hoisted_4 = {
@@ -49694,7 +49696,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cards Section "), !$data.dropdownVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedSurahs, function (surah, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
-      "class": "col"
+      "class": "col-md-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "card text-center h-100 custom-card",
       onClick: function onClick($event) {
@@ -49707,6 +49709,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control custom-dropdown card",
     "aria-label": "Select a Surah",
     value: $data.selectedSurahLocal,
+    style: {
+      "border": "3px solid #31464338",
+      "border-radius": "15px"
+    },
     onChange: _cache[0] || (_cache[0] = function () {
       return $options.handleChange && $options.handleChange.apply($options, arguments);
     })
@@ -81794,7 +81800,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card[data-v-7416ffac] {\n    border: 3px solid #00bfa6;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n.custom-card[data-v-7416ffac]:hover {\n    transform: scale(1.05);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);\n}\n.card-title[data-v-7416ffac] {\n    font-size: 1.2rem;\n    margin-bottom: 0.5rem;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1rem;\n    color: #555;\n}\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n    border: 3px solid #31464338;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card[data-v-7416ffac] {\n    border: 3px solid #31464338;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n.custom-card[data-v-7416ffac]:hover {\n    transform: scale(1.05);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);\n}\n.card-title[data-v-7416ffac] {\n    font-size: 1.2rem;\n    margin-bottom: 0.5rem;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1rem;\n    color: #555;\n}\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n    border: 3px solid #00bfa6;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

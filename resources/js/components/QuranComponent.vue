@@ -17,7 +17,7 @@
                     <div style="display: flex" class="row">
 
                         <!-- <AyahOfTheDay /> -->
-                        <SurahDropdown class="col-md-12 pt-2" :selectedSurah="selectedSurahId"
+                        <SurahDropdown class="col-md-12 pt-1" :selectedSurah="selectedSurahId"
                             :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
                             @fetchAyat="getAyat" />
 
@@ -30,14 +30,14 @@
 
 
                     <!-- List of Ayat for Surah (desktop) -->
-                    <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
+                    <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent" 
                         v-if="ayah == null && !dropdownHidden">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                            aria-labelledby="nav-home-tab" v-if="ayah == null">
+                            aria-labelledby="nav-home-tab" v-if="ayah == null" >
                             <!-- <form class="d-flex pb-2" role="search" @submit.prevent="scrollToAyah">
-                                <input class="form-control me-2" type="number" placeholder="Enter Verse Number"
+                                <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; " type="number" placeholder="Enter Verse Number"
                                     v-model="verseNumber" required />
-                                <button class="btn btn-success mb-1 ml-2" style="background: #00bfa6" type="submit">
+                                <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;" type="submit">
                                     Search
                                 </button>
                             </form> -->
@@ -65,16 +65,15 @@
                                     <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
                                 </div> -->
-                                <div class="custom-scrollbar pb-5" style="
-                                    overflow-y: auto;
+                                <div class="custom-scrollbar pb-3 w-100" style="
+                                    overflow-y: auto;                                
+                                    border: 3px solid #31464338; border-radius: 15px;
                                     max-height: 600px;
-                                    background: white;
-                                    border-radius: 10px;
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
                                             12px -2px,
                                         rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
 
-                                    <ul class="col-md-12 list-group container-fluid root" id="toggle" ref="ayahList"
+                                    <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
                                         <li v-for="(ayah, index) in ayat" :key="index" @click="selectAyah(index)"
                                             :class="{
@@ -84,8 +83,8 @@
                                                         parseInt(verseNumber) ===
                                                         ayah.ayah_id),
                                             }" style="
-                                            padding: 10px;
-                                            border-radius: 10px;">
+                                            padding: 8px;
+                                            border-radius: 15px;">
                                             <h5 class="text-right" style="display: flex">
                                                 Verse: {{ ayah.ayah_id }}
                                             </h5>
@@ -100,10 +99,10 @@
                     </div>
                 </div>
 
-                <div class="col-md-8 card-hide text-left" v-if="information != null">
+                <div class="col-md-8 pt-1 card-hide text-left" v-if="information != null">
                     <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; border-radius: 10px;  border: 3px solid #31464338"     
+                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; border-radius: 15px;  border: 3px solid #31464338"     
 >
                         <div class="content">
                             <div class="container-fluid content" v-if="information != null">

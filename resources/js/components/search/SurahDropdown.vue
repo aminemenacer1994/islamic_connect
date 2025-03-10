@@ -1,11 +1,11 @@
 <template>
-    <div class="container-fluid px-4">
+    <div class="container-fluid">
         <!-- Cards Section -->
-        <div v-if="!dropdownVisible" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        <div v-if="!dropdownVisible" class="row g-3">
             <div
                 v-for="(surah, index) in displayedSurahs"
                 :key="index"
-                class="col"
+                class="col-md-3 "
             >
                 <div
                     class="card text-center h-100 custom-card"
@@ -24,11 +24,12 @@
         </div>
 
         <!-- Dropdown Section -->
-        <div v-else class="surah-dropdown">
+        <div v-else class="surah-dropdown" >
             <select
                 class="form-control custom-dropdown card"
                 aria-label="Select a Surah"
                 :value="selectedSurahLocal"
+                style="border: 3px solid #31464338; border-radius: 15px;"
                 @change="handleChange"
             >
                 <option value="0" disabled>Select a Surah:</option>
@@ -100,7 +101,7 @@ export default {
 
 <style scoped>
 .custom-card {
-    border: 3px solid #00bfa6;
+    border: 3px solid #31464338;
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -123,7 +124,6 @@ export default {
 
 .surah-dropdown {
     width: 100%;
-    
 }
 
 .form-control {
@@ -133,7 +133,7 @@ export default {
     line-height: 1.5;
     background-color: #fff;
     border-radius: 5px;
-    border: 3px solid #31464338;
+    border: 3px solid #00bfa6;
     transition: border-color 0.15s ease-in-out;
 }
 
