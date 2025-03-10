@@ -2,42 +2,29 @@
     <div class="container-fluid">
         <!-- Cards Section -->
         <div v-if="!dropdownVisible" class="row g-3">
-            <div
-                v-for="(surah, index) in displayedSurahs"
-                :key="index"
-                class="col-md-3 "
-            >
-                <div
-                    class="card text-center h-100 custom-card"
-                    @click="handleCardClick(surah.id)"
-                >
-                    <div class="card-body">
-                        <h5 class="card-title text-success">
-                            {{ surah.name_en }}
-                        </h5>
-                        <p class="card-text text-muted">
-                            {{ surah.name_ar }}
-                        </p>
-                    </div>
+            <div v-for="(surah, index) in displayedSurahs" :key="index" >
+
+                <div class="row">
+                    <ul class="list-group col-md-4 w-100 mb-3" >
+                        <li class="list-group-item list-group-item-success active"
+                            style="border: 2px solid rgb(0, 191, 166); cursor: pointer; border-radius: 5px" aria-current="true"
+                            @click="handleCardClick(surah.id)">
+                            <div class="text-center" style="cursor: pointer; padding: 10px;">
+                                <img src="/images/art.png" style="width: 23px;" class="mb-1 mr-2" loading="lazy" />
+                                {{ surah.name_en }} {{ surah.name_ar }}
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- Dropdown Section -->
-        <div v-else class="surah-dropdown" >
-            <select
-                class="form-control custom-dropdown card"
-                aria-label="Select a Surah"
-                :value="selectedSurahLocal"
-                style="border: 3px solid #31464338; border-radius: 15px;"
-                @change="handleChange"
-            >
+        <div v-else class="surah-dropdown">
+            <select class="form-control custom-dropdown card" aria-label="Select a Surah" :value="selectedSurahLocal"
+                style="border: 3px solid #31464338; border-radius: 15px;" @change="handleChange">
                 <option value="0" disabled>Select a Surah:</option>
-                <option
-                    v-for="(surah, index) in displayedSurahs"
-                    :key="index"
-                    :value="surah.id"
-                >
+                <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">
                     {{ formatSurahOption(surah) }}
                 </option>
             </select>
@@ -100,6 +87,18 @@ export default {
 </script>
 
 <style scoped>
+.border-warning {
+  border-width: 3px !important;
+}
+
+.card-title {
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1.2rem;
+}
+
 .custom-card {
     border: 3px solid #31464338;
     border-radius: 8px;
@@ -131,7 +130,7 @@ export default {
     padding: 8px 12px;
     font-size: 1rem;
     line-height: 1.5;
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 5px;
     border: 3px solid #00bfa6;
     transition: border-color 0.15s ease-in-out;

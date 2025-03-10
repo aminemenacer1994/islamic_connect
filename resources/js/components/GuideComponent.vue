@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Guides</h1>
-    <p class="text-center container mb-4 guide-description">
+    <p class="text-center container mb-4 guide-description lead">
       Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims
       and non-Muslims understand the faith more deeply.
     </p>
@@ -45,10 +45,10 @@
 
           <!-- Loading Spinner -->
           <div v-if="isLoading" class="text-center my-3">
-            <div class="spinner-border text-success" role="status">
+            <div class="spinner-border text-dark" role="status">
               <span class="visually-hidden">Translating...</span>
             </div>
-            <p class="text-success mt-2">Translating...</p>
+            <p class="text-dark mt-2">Translating...</p>
           </div>
 
           <!-- Bootstrap Alert for Content Copy Feedback -->
@@ -58,17 +58,17 @@
 
           <!-- Content -->
           <div v-if="!isLoading">
+            <!-- Content with Real-Time Highlighting -->
             <div v-if="Array.isArray(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize + 'px' }">
               <ul class="list-unstyled selected-content">
                 <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-2">
                   <span class="fw-medium fs-5 text-left text-dark">
-                    <span
-                      v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar?.[index] || item) : getHighlightedText(item)">
-                    </span>
+                    <span v-html="getHighlightedText(item)"></span>
                   </span>
                 </li>
               </ul>
             </div>
+
 
             <p v-else class="text-dark fs-5 selected-content" :style="{ fontSize: fontSize + 'px' }">
               <span
@@ -90,20 +90,20 @@
       <i class="bi bi-share icon-tooltip h3 pt-1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
         data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
 
-      <!-- Share Icon with Tooltip -->
+      <!-- play Icon with Tooltip -->
       <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-        data-bs-placement="top" title="Share" aria-label="Play text" role="button" @click="playText"></i>
+        data-bs-placement="top" title="Play" aria-label="Play text" role="button" @click="playText"
+        :class="{ 'text-muted': isPlaying }" :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
 
-      <!-- Copy Icon with Tooltip -->
-      <i @click="pauseText" :disabled="!isPlaying || isPaused" style="cursor: pointer"
-        class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top"
-        title="pause text" role="button"></i>
+      <!-- pause Icon with Tooltip -->
+      <i class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause"
+        role="button" @click="pauseText" :class="{ 'text-muted': !isPlaying || isPaused }"
+        :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
 
-      <!-- Share Icon with Tooltip -->
+      <!-- stop Icon with Tooltip -->
       <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-        data-bs-placement="top" title="Share" role="button" @click="stopText" :disabled="!isPlaying"></i>
-
-
+        data-bs-placement="top" title="Stop" role="button" @click="stopText" :class="{ 'text-muted': !isPlaying }"
+        :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
 
       <!-- Copy Icon with Tooltip -->
       <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip pt-1 h3 icon-hover"
@@ -123,8 +123,8 @@ export default {
     return {
       isArabic: false,
       isLoading: false,
-      isPlaying: false,  // Track if TTS is playing
-      isPaused: false,    // Track if TTS is paused
+      isPlaying: false,
+      isPaused: false,
       ttsUtterance: null, // Store the SpeechSynthesisUtterance instance
       selectedCategory: "",
       searchText: "", // To track search input
@@ -152,9 +152,17 @@ export default {
         this.isLoading = false;
       }, 1500); // Simulate translation delay
     },
+
     toggleLanguage() {
-      this.isArabic = !this.isArabic;
+      if (this.isArabic) {
+        this.isArabic = false; // Switch back to English
+      } else if (this.guide.sections[this.selectedCategory]?.content_ar) {
+        this.isArabic = true; // Switch to Arabic if translation exists
+      } else {
+        this.fetchTranslation(); // Fetch translation if not available
+      }
     },
+
     // Handle Play Button
     playText() {
       if (this.isPlaying && this.isPaused) {
@@ -162,57 +170,51 @@ export default {
         this.isPaused = false;
       } else {
         const selectedSection = this.guide.sections[this.selectedCategory];
-        if (!selectedSection) {
-          console.log("No content available to read.");
-          return;
-        }
+        if (!selectedSection) return;
 
         let contentArray = this.isArabic
           ? selectedSection.content_ar
           : selectedSection.content;
 
         if (!Array.isArray(contentArray)) {
-          if (typeof contentArray === 'string') {
-            contentArray = [contentArray];
-          } else {
-            console.log("No content available to read.");
-            return;
-          }
+          contentArray = typeof contentArray === 'string' ? [contentArray] : [];
         }
+
+        if (contentArray.length === 0) return;
 
         const fullText = contentArray.join('. ');
         this.highlightedText = fullText.split(' ');
         this.currentIndex = -1;
 
-        this.ttsUtterance = new SpeechSynthesisUtterance(fullText);
-        this.ttsUtterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
+        const utterance = new SpeechSynthesisUtterance(fullText);
+        utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
 
-        // Use preloaded voices instead of fetching again
         const preferredVoice = this.voices.find(voice =>
           this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US')
-        );
-        if (preferredVoice) this.ttsUtterance.voice = preferredVoice;
+        ) || this.voices[0];
 
-        this.ttsUtterance.pitch = 1.1;
-        this.ttsUtterance.rate = 1;
+        if (preferredVoice) utterance.voice = preferredVoice;
 
-        this.ttsUtterance.onboundary = (event) => {
+        utterance.pitch = 1.1;
+        utterance.rate = 1;
+
+        utterance.onboundary = (event) => {
           if (event.name === 'word') {
             const textUpToBoundary = fullText.slice(0, event.charIndex);
-            const wordsUpToBoundary = textUpToBoundary.split(' ').length - 1;
+            const wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
             this.currentIndex = wordsUpToBoundary;
             this.$forceUpdate();
           }
         };
 
-        this.ttsUtterance.onend = () => {
+        utterance.onend = () => {
           this.isPlaying = false;
           this.isPaused = false;
           this.currentIndex = -1;
         };
 
         window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(this.ttsUtterance);
+        window.speechSynthesis.speak(utterance);
 
         this.isPlaying = true;
         this.isPaused = false;
@@ -234,101 +236,36 @@ export default {
         this.isPlaying = false;
         this.isPaused = false;
         this.ttsUtterance = null;
-        this.currentIndex = -1;  // Reset highlighting
+        this.currentIndex = -1;
+        this.$forceUpdate();
       }
     },
 
-    // Highlight current word per item
     getHighlightedText(item) {
       if (this.currentIndex === -1) return item;
-
-      const words = item.split(' ');
-      return words
+      return item.split(' ')
         .map((word, index) =>
-          this.highlightedText[this.currentIndex] === word
+          index === this.currentIndex
             ? `<span class="highlight-word">${word}</span>`
             : word
         )
         .join(' ');
     },
 
-
-    speakText() {
-      const selectedSection = this.guide.sections[this.selectedCategory];
-
-      // Ensure selectedSection and its content exist
-      if (!selectedSection) {
-        console.log("No content available to read.");
-        return;
-      }
-
-      // Choose the right content based on language
-      let contentArray = this.isArabic
-        ? selectedSection.content_ar
-        : selectedSection.content;
-
-      // Ensure contentArray is an array or convert it to one
-      if (!Array.isArray(contentArray)) {
-        if (typeof contentArray === 'string') {
-          contentArray = [contentArray];  // Convert string to array
-        } else {
-          console.log("No content available to read.");
-          return;
-        }
-      }
-
-      // Combine all items into one string
-      const fullText = contentArray.join('. ');
-
-      // Create a new SpeechSynthesisUtterance instance
-      const utterance = new SpeechSynthesisUtterance(fullText);
-
-      // Set language and voice dynamically
-      utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
-
-      // Use a natural-sounding voice if available
-      const voices = window.speechSynthesis.getVoices();
-      const preferredVoice = voices.find(voice =>
-        this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en')
-      );
-      if (preferredVoice) utterance.voice = preferredVoice;
-
-      // Adjust pitch and rate for natural sound
-      utterance.pitch = 1.1;
-      utterance.rate = 0.95;
-
-      // Stop any ongoing speech before starting a new one
-      window.speechSynthesis.cancel();
-
-      // Speak the text
-      window.speechSynthesis.speak(utterance);
-    },
-    // Method to highlight text
     highlightText(text) {
       if (!this.searchText) return text;
       const regex = new RegExp(`(${this.searchText})`, 'gi');
-      return text.replace(regex, '<mark>$1</mark>'); // Highlight matches with <mark>
+      return text.replace(regex, '<mark>$1</mark>');
     },
+
     changeFontSize(action) {
       if (action === 'increase' && this.fontSize < 30) {
-        this.fontSize += 2;  // Increase font size
+        this.fontSize += 2;
       } else if (action === 'decrease' && this.fontSize > 10) {
-        this.fontSize -= 2;  // Decrease font size
+        this.fontSize -= 2;
       }
     },
-    toggleLanguage() {
-      if (this.isArabic) {
-        this.isArabic = false;  // Switch back to English
-      } else {
-        if (this.guide.sections[this.selectedCategory]?.content_ar) {
-          // Switch to Arabic if translation exists
-          this.isArabic = true;
-        } else {
-          // Fetch translation if not available
-          this.fetchTranslation();
-        }
-      }
-    },
+
     fetchTranslation() {
       const selectedContent = this.guide.sections[this.selectedCategory].content;
       const contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
@@ -340,101 +277,69 @@ export default {
           .catch(error => console.log("Translation Error:", error));
       };
 
-      // Split content into chunks if it exceeds 500 characters
-      const translateContent = async () => {
-        let translatedArray = [];
-
-        for (let item of contentArray) {
-          if (item.length > 500) {
-            const chunks = item.match(/(.|[\r\n]){1,500}/g);  // Split into 500-char chunks
-            for (let chunk of chunks) {
-              const translatedChunk = await translateChunk(chunk);
+      let translatedArray = [];
+      contentArray.forEach((item) => {
+        if (item.length > 500) {
+          const chunks = item.match(/(.|[\r\n]){1,500}/g);
+          chunks.forEach((chunk) => {
+            translateChunk(chunk).then((translatedChunk) => {
               translatedArray.push(translatedChunk);
-            }
-          } else {
-            const translatedItem = await translateChunk(item);
+              this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
+              this.isArabic = true;
+            });
+          });
+        } else {
+          translateChunk(item).then((translatedItem) => {
             translatedArray.push(translatedItem);
-          }
+            this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
+            this.isArabic = true;
+          });
         }
-
-        // Combine translated results
-        this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
-        this.isArabic = true;
-      };
-
-      translateContent();
+      });
     },
-    // Share Content (basic example)
+
     shareOnWhatsApp() {
       const selectedSection = this.guide.sections[this.selectedCategory];
+      if (!selectedSection) return;
 
       const title = selectedSection.title;
       const content = Array.isArray(selectedSection.content)
         ? selectedSection.content.join('\n\n')
         : selectedSection.content;
 
-      // Construct the message
       const text = `Title: ${title}\n\nContent: ${content}`;
-
-      // Encode the message for URL
       const encodedText = encodeURIComponent(text);
-
-      // WhatsApp URL to open with the pre-filled message
       const url = `https://wa.me/?text=${encodedText}`;
 
-      // Open WhatsApp Web in a new tab
       window.open(url, '_blank');
     },
+
     copyContent() {
       const contentToCopy = document.querySelector('.selected-content');
       if (contentToCopy) {
         const textToCopy = contentToCopy.innerText || contentToCopy.textContent;
         navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            console.log('Content copied to clipboard!');
-            this.showCopyAlert('Content copied to clipboard!');
-          })
-          .catch((err) => {
-            console.error('Failed to copy content: ', err);
-            this.showCopyAlert('Failed to copy content', true);
-          });
+          .then(() => this.showCopyAlert('Content copied to clipboard!'))
+          .catch(() => this.showCopyAlert('Failed to copy content', true));
       } else {
-        console.log('No content found to copy.');
         this.showCopyAlert('No content to copy', true);
       }
     },
+
     showCopyAlert(message, isError = false) {
       const alertElement = document.getElementById('copyAlert');
       const alertMessage = document.getElementById('alertMessage');
 
       alertMessage.textContent = message;
-
-      // Change the alert background color in case of an error
-      if (isError) {
-        alertElement.classList.add('alert-danger');
-        alertElement.classList.remove('alert-success');
-      } else {
-        alertElement.classList.add('alert-success');
-        alertElement.classList.remove('alert-danger');
-      }
-
-      // Show the alert
+      alertElement.className = isError ? 'alert alert-danger' : 'alert alert-success';
       alertElement.style.display = 'block';
 
-      // Hide the alert after 3 seconds
       setTimeout(() => {
         alertElement.style.display = 'none';
-      }, 3000);
+      }, 2000);
     }
-  },
-  onMounted() {
-    // Initialize Bootstrap tooltips after the component is mounted
-    const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    tooltipElements.forEach((element) => {
-      new bootstrap.Tooltip(element);
-    });
   }
-};
+}
 </script>
 
 <style scoped>

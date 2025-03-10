@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Dua Collection</h1>
-    <p class="text-center container mb-4 dua-description">
+    <!-- <p class="text-center container mb-4 dua-description">
       The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like
       forgiveness, protection, and healing. Each dua includes the Arabic text, transliteration, translation, and
       reference, making it accessible for all.
-    </p>
+    </p> -->
 
     <div class="container">
       <div class="row mb-4">
@@ -40,7 +40,7 @@
         <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6">
           <div class="card dua-card text-dark rounded-3 p-3">
             <!-- Highlighted Title -->
-            <h5><strong :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></h5>
+            <div><strong :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></div>
 
             <!-- Arabic Section with TTS Icon -->
             <div class="row align-items-center mt-3">
@@ -57,21 +57,21 @@
 
             <!-- Translation Section with TTS Icon -->
             <div class="row align-items-center mt-3">
-              <div class="col-md-10">
+              <div class="col-md-10 dua-description">
                 <!-- Highlighted Translation Text -->
-                <h5 :style="{ fontSize: fontSize + 'px' }" class="text-left mb-0"
-                  v-html="highlightText(dua.translation)"></h5>
+                <p :style="{ fontSize: fontSize + 'px' }" class="text-left mb-0"
+                  v-html="highlightText(dua.translation)"></p>
               </div>
               <div class="col-md-2 text-center">
                 <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i> -->
-              </div> 
-              
+              </div>
+
               <!-- Reference -->
               <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">- {{ dua.reference }}</p>
             </div>
 
-           
+
             <hr />
 
 
@@ -252,7 +252,7 @@ export default {
 </script>
 
 <style scoped>
-.dua-card{
+.dua-card {
   border: 2px solid rgb(13, 182, 145);
   /* Highlight border */
   background-color: rgba(13, 182, 145, 0.1);
@@ -263,13 +263,15 @@ export default {
   border-bottom-right-radius: 20px;
   background: rgb(13, 182, 145);
 }
+
 .dua-description {
   font-size: 1.2rem;
-  color: #555;
+  color: #000000;
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   line-height: 1.6;
 }
+
 .container {
   margin: auto;
 }

@@ -14,7 +14,7 @@
 
       <div class="row text-left mt-2">
         <div class="col-md-11 col-10">
-          <h4 class="ayah-translation" v-html="renderedText"
+          <h4 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
           <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
             <div class="d-flex flex-wrap gap-2">
@@ -57,7 +57,7 @@
           </div>
 
           <div class="text-left word-count mt-3">
-            <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
+            <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
             <strong>Translation: </strong>Ahmed Ali
           </div>
         </div>
