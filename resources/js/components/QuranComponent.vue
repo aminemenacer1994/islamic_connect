@@ -50,13 +50,13 @@
 
                                 <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                     @update-information="updateInformation" :style="{
-                                        backgroundColor: 'rgb(53, 163, 139)',
-                                        color: 'white',
-                                        borderRadius: '12px',
+                                        
+                                        color: 'black',
+                                        borderRadius: '15px',
                                         border: '2px solid rgba(0, 0, 0, 0.1)',
                                         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
                                     }" class="icon-container mb-3">
-                                    <i class="bi bi-chevron-bar-left h4 pt-2 custom-prev-ayah"
+                                    <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
                                         style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
                                     <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
                                         style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>

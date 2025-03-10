@@ -30684,11 +30684,16 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
  // Adjust the path if needed
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+      isArabic: false,
+      isLoading: false,
       isPlaying: false,
       // Track if TTS is playing
       isPaused: false,
@@ -30700,18 +30705,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // To track search input
       guide: _guides_json__WEBPACK_IMPORTED_MODULE_0__,
       // Assign imported JSON data to guide
-      fontSize: 18,
-      // Starting font size as a regular data property
-      isArabic: false,
-      // Track language state
-      translatedContent: [],
-      // Store translated content
-      currentIndex: -1,
-      // Track the current word index for highlighting
-      highlightedText: [],
-      // Store the highlighted text array
-      voices: []
-    };
+      fontSize: 18
+    }, "isArabic", false), "translatedContent", []), "currentIndex", -1), "highlightedText", []), "voices", []);
   },
   mounted: function mounted() {
     var _this = this;
@@ -30721,10 +30716,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       };
     }
   },
-  methods: {
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    translateContent: function translateContent() {
+      var _this2 = this;
+      this.isLoading = true;
+      setTimeout(function () {
+        _this2.toggleLanguage();
+        _this2.isLoading = false;
+      }, 1500); // Simulate translation delay
+    },
+    toggleLanguage: function toggleLanguage() {
+      this.isArabic = !this.isArabic;
+    },
     // Handle Play Button
     playText: function playText() {
-      var _this2 = this;
+      var _this3 = this;
       if (this.isPlaying && this.isPaused) {
         window.speechSynthesis.resume();
         this.isPaused = false;
@@ -30751,7 +30757,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
         // Use preloaded voices instead of fetching again
         var preferredVoice = this.voices.find(function (voice) {
-          return _this2.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US');
+          return _this3.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US');
         });
         if (preferredVoice) this.ttsUtterance.voice = preferredVoice;
         this.ttsUtterance.pitch = 1.1;
@@ -30760,14 +30766,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           if (event.name === 'word') {
             var textUpToBoundary = fullText.slice(0, event.charIndex);
             var wordsUpToBoundary = textUpToBoundary.split(' ').length - 1;
-            _this2.currentIndex = wordsUpToBoundary;
-            _this2.$forceUpdate();
+            _this3.currentIndex = wordsUpToBoundary;
+            _this3.$forceUpdate();
           }
         };
         this.ttsUtterance.onend = function () {
-          _this2.isPlaying = false;
-          _this2.isPaused = false;
-          _this2.currentIndex = -1;
+          _this3.isPlaying = false;
+          _this3.isPaused = false;
+          _this3.currentIndex = -1;
         };
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(this.ttsUtterance);
@@ -30794,15 +30800,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     // Highlight current word per item
     getHighlightedText: function getHighlightedText(item) {
-      var _this3 = this;
+      var _this4 = this;
       if (this.currentIndex === -1) return item;
       var words = item.split(' ');
       return words.map(function (word, index) {
-        return _this3.highlightedText[_this3.currentIndex] === word ? "<span class=\"highlight-word\">".concat(word, "</span>") : word;
+        return _this4.highlightedText[_this4.currentIndex] === word ? "<span class=\"highlight-word\">".concat(word, "</span>") : word;
       }).join(' ');
     },
     speakText: function speakText() {
-      var _this4 = this;
+      var _this5 = this;
       var selectedSection = this.guide.sections[this.selectedCategory];
 
       // Ensure selectedSection and its content exist
@@ -30836,7 +30842,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // Use a natural-sounding voice if available
       var voices = window.speechSynthesis.getVoices();
       var preferredVoice = voices.find(function (voice) {
-        return _this4.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en');
+        return _this5.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en');
       });
       if (preferredVoice) utterance.voice = preferredVoice;
 
@@ -30862,183 +30868,177 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       } else if (action === 'decrease' && this.fontSize > 10) {
         this.fontSize -= 2; // Decrease font size
       }
-    },
-    toggleLanguage: function toggleLanguage() {
-      if (this.isArabic) {
-        this.isArabic = false; // Switch back to English
-      } else {
-        var _this$guide$sections$;
-        if ((_this$guide$sections$ = this.guide.sections[this.selectedCategory]) !== null && _this$guide$sections$ !== void 0 && _this$guide$sections$.content_ar) {
-          // Switch to Arabic if translation exists
-          this.isArabic = true;
-        } else {
-          // Fetch translation if not available
-          this.fetchTranslation();
-        }
-      }
-    },
-    fetchTranslation: function fetchTranslation() {
-      var _this5 = this;
-      var selectedContent = this.guide.sections[this.selectedCategory].content;
-      var contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
-      var translateChunk = function translateChunk(text) {
-        return fetch("https://api.mymemory.translated.net/get?q=".concat(encodeURIComponent(text), "&langpair=en|ar")).then(function (response) {
-          return response.json();
-        }).then(function (data) {
-          return data.responseData.translatedText;
-        })["catch"](function (error) {
-          return console.log("Translation Error:", error);
-        });
-      };
-
-      // Split content into chunks if it exceeds 500 characters
-      var translateContent = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-          var translatedArray, _iterator, _step, item, chunks, _iterator2, _step2, chunk, translatedChunk, translatedItem;
-          return _regeneratorRuntime().wrap(function _callee$(_context) {
-            while (1) switch (_context.prev = _context.next) {
-              case 0:
-                translatedArray = [];
-                _iterator = _createForOfIteratorHelper(contentArray);
-                _context.prev = 2;
-                _iterator.s();
-              case 4:
-                if ((_step = _iterator.n()).done) {
-                  _context.next = 35;
-                  break;
-                }
-                item = _step.value;
-                if (!(item.length > 500)) {
-                  _context.next = 29;
-                  break;
-                }
-                chunks = item.match(/(.|[\r\n]){1,500}/g); // Split into 500-char chunks
-                _iterator2 = _createForOfIteratorHelper(chunks);
-                _context.prev = 9;
-                _iterator2.s();
-              case 11:
-                if ((_step2 = _iterator2.n()).done) {
-                  _context.next = 19;
-                  break;
-                }
-                chunk = _step2.value;
-                _context.next = 15;
-                return translateChunk(chunk);
-              case 15:
-                translatedChunk = _context.sent;
-                translatedArray.push(translatedChunk);
-              case 17:
-                _context.next = 11;
-                break;
-              case 19:
-                _context.next = 24;
-                break;
-              case 21:
-                _context.prev = 21;
-                _context.t0 = _context["catch"](9);
-                _iterator2.e(_context.t0);
-              case 24:
-                _context.prev = 24;
-                _iterator2.f();
-                return _context.finish(24);
-              case 27:
-                _context.next = 33;
-                break;
-              case 29:
-                _context.next = 31;
-                return translateChunk(item);
-              case 31:
-                translatedItem = _context.sent;
-                translatedArray.push(translatedItem);
-              case 33:
-                _context.next = 4;
-                break;
-              case 35:
-                _context.next = 40;
-                break;
-              case 37:
-                _context.prev = 37;
-                _context.t1 = _context["catch"](2);
-                _iterator.e(_context.t1);
-              case 40:
-                _context.prev = 40;
-                _iterator.f();
-                return _context.finish(40);
-              case 43:
-                // Combine translated results
-                _this5.guide.sections[_this5.selectedCategory].content_ar = translatedArray.join(' ');
-                _this5.isArabic = true;
-              case 45:
-              case "end":
-                return _context.stop();
-            }
-          }, _callee, null, [[2, 37, 40, 43], [9, 21, 24, 27]]);
-        }));
-        return function translateContent() {
-          return _ref.apply(this, arguments);
-        };
-      }();
-      translateContent();
-    },
-    // Share Content (basic example)
-    shareOnWhatsApp: function shareOnWhatsApp() {
-      var selectedSection = this.guide.sections[this.selectedCategory];
-      var title = selectedSection.title;
-      var content = Array.isArray(selectedSection.content) ? selectedSection.content.join('\n\n') : selectedSection.content;
-
-      // Construct the message
-      var text = "Title: ".concat(title, "\n\nContent: ").concat(content);
-
-      // Encode the message for URL
-      var encodedText = encodeURIComponent(text);
-
-      // WhatsApp URL to open with the pre-filled message
-      var url = "https://wa.me/?text=".concat(encodedText);
-
-      // Open WhatsApp Web in a new tab
-      window.open(url, '_blank');
-    },
-    copyContent: function copyContent() {
-      var _this6 = this;
-      var contentToCopy = document.querySelector('.selected-content');
-      if (contentToCopy) {
-        var textToCopy = contentToCopy.innerText || contentToCopy.textContent;
-        navigator.clipboard.writeText(textToCopy).then(function () {
-          console.log('Content copied to clipboard!');
-          _this6.showCopyAlert('Content copied to clipboard!');
-        })["catch"](function (err) {
-          console.error('Failed to copy content: ', err);
-          _this6.showCopyAlert('Failed to copy content', true);
-        });
-      } else {
-        console.log('No content found to copy.');
-        this.showCopyAlert('No content to copy', true);
-      }
-    },
-    showCopyAlert: function showCopyAlert(message) {
-      var isError = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var alertElement = document.getElementById('copyAlert');
-      var alertMessage = document.getElementById('alertMessage');
-      alertMessage.textContent = message;
-
-      // Change the alert background color in case of an error
-      if (isError) {
-        alertElement.classList.add('alert-danger');
-        alertElement.classList.remove('alert-success');
-      } else {
-        alertElement.classList.add('alert-success');
-        alertElement.classList.remove('alert-danger');
-      }
-
-      // Show the alert
-      alertElement.style.display = 'block';
-
-      // Hide the alert after 3 seconds
-      setTimeout(function () {
-        alertElement.style.display = 'none';
-      }, 3000);
     }
-  },
+  }, "toggleLanguage", function toggleLanguage() {
+    if (this.isArabic) {
+      this.isArabic = false; // Switch back to English
+    } else {
+      var _this$guide$sections$;
+      if ((_this$guide$sections$ = this.guide.sections[this.selectedCategory]) !== null && _this$guide$sections$ !== void 0 && _this$guide$sections$.content_ar) {
+        // Switch to Arabic if translation exists
+        this.isArabic = true;
+      } else {
+        // Fetch translation if not available
+        this.fetchTranslation();
+      }
+    }
+  }), "fetchTranslation", function fetchTranslation() {
+    var _this6 = this;
+    var selectedContent = this.guide.sections[this.selectedCategory].content;
+    var contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
+    var translateChunk = function translateChunk(text) {
+      return fetch("https://api.mymemory.translated.net/get?q=".concat(encodeURIComponent(text), "&langpair=en|ar")).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        return data.responseData.translatedText;
+      })["catch"](function (error) {
+        return console.log("Translation Error:", error);
+      });
+    };
+
+    // Split content into chunks if it exceeds 500 characters
+    var translateContent = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var translatedArray, _iterator, _step, item, chunks, _iterator2, _step2, chunk, translatedChunk, translatedItem;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              translatedArray = [];
+              _iterator = _createForOfIteratorHelper(contentArray);
+              _context.prev = 2;
+              _iterator.s();
+            case 4:
+              if ((_step = _iterator.n()).done) {
+                _context.next = 35;
+                break;
+              }
+              item = _step.value;
+              if (!(item.length > 500)) {
+                _context.next = 29;
+                break;
+              }
+              chunks = item.match(/(.|[\r\n]){1,500}/g); // Split into 500-char chunks
+              _iterator2 = _createForOfIteratorHelper(chunks);
+              _context.prev = 9;
+              _iterator2.s();
+            case 11:
+              if ((_step2 = _iterator2.n()).done) {
+                _context.next = 19;
+                break;
+              }
+              chunk = _step2.value;
+              _context.next = 15;
+              return translateChunk(chunk);
+            case 15:
+              translatedChunk = _context.sent;
+              translatedArray.push(translatedChunk);
+            case 17:
+              _context.next = 11;
+              break;
+            case 19:
+              _context.next = 24;
+              break;
+            case 21:
+              _context.prev = 21;
+              _context.t0 = _context["catch"](9);
+              _iterator2.e(_context.t0);
+            case 24:
+              _context.prev = 24;
+              _iterator2.f();
+              return _context.finish(24);
+            case 27:
+              _context.next = 33;
+              break;
+            case 29:
+              _context.next = 31;
+              return translateChunk(item);
+            case 31:
+              translatedItem = _context.sent;
+              translatedArray.push(translatedItem);
+            case 33:
+              _context.next = 4;
+              break;
+            case 35:
+              _context.next = 40;
+              break;
+            case 37:
+              _context.prev = 37;
+              _context.t1 = _context["catch"](2);
+              _iterator.e(_context.t1);
+            case 40:
+              _context.prev = 40;
+              _iterator.f();
+              return _context.finish(40);
+            case 43:
+              // Combine translated results
+              _this6.guide.sections[_this6.selectedCategory].content_ar = translatedArray.join(' ');
+              _this6.isArabic = true;
+            case 45:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[2, 37, 40, 43], [9, 21, 24, 27]]);
+      }));
+      return function translateContent() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+    translateContent();
+  }), "shareOnWhatsApp", function shareOnWhatsApp() {
+    var selectedSection = this.guide.sections[this.selectedCategory];
+    var title = selectedSection.title;
+    var content = Array.isArray(selectedSection.content) ? selectedSection.content.join('\n\n') : selectedSection.content;
+
+    // Construct the message
+    var text = "Title: ".concat(title, "\n\nContent: ").concat(content);
+
+    // Encode the message for URL
+    var encodedText = encodeURIComponent(text);
+
+    // WhatsApp URL to open with the pre-filled message
+    var url = "https://wa.me/?text=".concat(encodedText);
+
+    // Open WhatsApp Web in a new tab
+    window.open(url, '_blank');
+  }), "copyContent", function copyContent() {
+    var _this7 = this;
+    var contentToCopy = document.querySelector('.selected-content');
+    if (contentToCopy) {
+      var textToCopy = contentToCopy.innerText || contentToCopy.textContent;
+      navigator.clipboard.writeText(textToCopy).then(function () {
+        console.log('Content copied to clipboard!');
+        _this7.showCopyAlert('Content copied to clipboard!');
+      })["catch"](function (err) {
+        console.error('Failed to copy content: ', err);
+        _this7.showCopyAlert('Failed to copy content', true);
+      });
+    } else {
+      console.log('No content found to copy.');
+      this.showCopyAlert('No content to copy', true);
+    }
+  }), "showCopyAlert", function showCopyAlert(message) {
+    var isError = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    var alertElement = document.getElementById('copyAlert');
+    var alertMessage = document.getElementById('alertMessage');
+    alertMessage.textContent = message;
+
+    // Change the alert background color in case of an error
+    if (isError) {
+      alertElement.classList.add('alert-danger');
+      alertElement.classList.remove('alert-success');
+    } else {
+      alertElement.classList.add('alert-success');
+      alertElement.classList.remove('alert-danger');
+    }
+
+    // Show the alert
+    alertElement.style.display = 'block';
+
+    // Hide the alert after 3 seconds
+    setTimeout(function () {
+      alertElement.style.display = 'none';
+    }, 3000);
+  }),
   onMounted: function onMounted() {
     // Initialize Bootstrap tooltips after the component is mounted
     var tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -42950,27 +42950,35 @@ var _hoisted_11 = {
   key: 0,
   "class": "text-right mb-3"
 };
-var _hoisted_12 = {
+var _hoisted_12 = ["disabled"];
+var _hoisted_13 = {
+  key: 1,
+  "class": "text-center my-3"
+};
+var _hoisted_14 = {
+  key: 2
+};
+var _hoisted_15 = {
   "class": "list-unstyled selected-content"
 };
-var _hoisted_13 = {
+var _hoisted_16 = {
   "class": "fw-medium fs-5 text-left text-dark"
 };
-var _hoisted_14 = ["innerHTML"];
-var _hoisted_15 = ["innerHTML"];
-var _hoisted_16 = {
+var _hoisted_17 = ["innerHTML"];
+var _hoisted_18 = ["innerHTML"];
+var _hoisted_19 = {
   key: 0
 };
-var _hoisted_17 = {
+var _hoisted_20 = {
   key: 1,
   "class": "container text-center d-flex pb-3 justify-content-around"
 };
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = ["disabled"];
+var _hoisted_21 = ["disabled"];
+var _hoisted_22 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Islamic Guides", -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Guides", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 guide-description"
   }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -42998,9 +43006,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? $data.guide.sections[$data.selectedCategory].title_ar || $data.guide.sections[$data.selectedCategory].title : $data.guide.sections[$data.selectedCategory].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translate Button "), $data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success",
     onClick: _cache[2] || (_cache[2] = function () {
-      return $options.toggleLanguage && $options.toggleLanguage.apply($options, arguments);
-    })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? 'Translate to English' : 'Translate to Arabic'), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      return $options.translateContent && $options.translateContent.apply($options, arguments);
+    }),
+    disabled: $data.isLoading
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? 'Translate to English' : 'Translate to Arabic'), 9 /* TEXT, PROPS */, _hoisted_12)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-success",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Translating...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-success mt-2"
+  }, "Translating...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "copyAlert",
     "class": "alert",
     role: "alert",
@@ -43009,28 +43025,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     id: "alertMessage"
-  }, "Content copied to clipboard!")], -1 /* HOISTED */)), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 1,
+  }, "Content copied to clipboard!")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: $data.fontSize + 'px'
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
     var _$data$guide$sections;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       "class": "mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: $data.isArabic ? $options.highlightText(((_$data$guide$sections = $data.guide.sections[$data.selectedCategory].content_ar) === null || _$data$guide$sections === void 0 ? void 0 : _$data$guide$sections[index]) || item) : $options.getHighlightedText(item)
-    }, null, 8 /* PROPS */, _hoisted_14)])]);
+    }, null, 8 /* PROPS */, _hoisted_17)])]);
   }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
-    key: 2,
+    key: 1,
     "class": "text-dark fs-5 selected-content",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: $data.fontSize + 'px'
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     innerHTML: $data.isArabic ? $options.highlightText($data.guide.sections[$data.selectedCategory].content_ar || $data.guide.sections[$data.selectedCategory].content) : $options.highlightText($data.guide.sections[$data.selectedCategory].content)
-  }, null, 8 /* PROPS */, _hoisted_15)], 4 /* STYLE */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("hr", _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_18)], 4 /* STYLE */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("hr", _hoisted_19)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-share icon-tooltip h3 pt-1 icon-hover",
     "data-bs-toggle": "tooltip",
     style: {
@@ -43069,7 +43085,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "pause text",
     role: "button"
-  }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop icon-tooltip h1 icon-hover",
     "data-bs-toggle": "tooltip",
     style: {
@@ -43082,7 +43098,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.stopText && $options.stopText.apply($options, arguments);
     }),
     disabled: !$data.isPlaying
-  }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.copyContent && $options.copyContent.apply($options, arguments);
     }),
@@ -43906,7 +43922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <form class=\"d-flex pb-2\" role=\"search\" @submit.prevent=\"scrollToAyah\">\n                                <input class=\"form-control me-2\" style=\"border: 3px solid #31464338; border-radius: 10px; \" type=\"number\" placeholder=\"Enter Verse Number\"\n                                    v-model=\"verseNumber\" required />\n                                <button class=\"btn btn-success mb-1 ml-1\" style=\"background: #00bfa6;border-radius: 10px;\" type=\"submit\">\n                                    Search\n                                </button>\n                            </form> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: _ctx.dismissError
-  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" style=\"height: 4px; background: lightgrey\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div :selectedSurahId=\"selectedSurah\" @update-tafseer=\"updateTafseer\"\n                                    @update-information=\"updateInformation\" :style=\"{\n                                        backgroundColor: 'rgb(53, 163, 139)',\n                                        color: 'white',\n                                        borderRadius: '12px',\n                                        border: '2px solid rgba(0, 0, 0, 0.1)',\n                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'\n                                    }\" class=\"icon-container mb-3\">\n                                    <i class=\"bi bi-chevron-bar-left h4 pt-2 custom-prev-ayah\"\n                                        style=\"cursor: pointer\" @click=\"goToFirstAyah\" title=\"First verse\"></i>\n                                    <i class=\"bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToPreviousAyah\" title=\"Previous verse\"></i>\n                                    <i class=\"bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToNextAyah\" title=\"Next verse\"></i>\n                                    <i class=\"bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToLastAyah\" title=\"Last verse\"></i>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
+  }, null, 8 /* PROPS */, ["showError", "onDismissError"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" style=\"height: 4px; background: lightgrey\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div :selectedSurahId=\"selectedSurah\" @update-tafseer=\"updateTafseer\"\n                                    @update-information=\"updateInformation\" :style=\"{\n                                        \n                                        color: 'black',\n                                        borderRadius: '15px',\n                                        border: '2px solid rgba(0, 0, 0, 0.1)',\n                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'\n                                    }\" class=\"icon-container mb-3\">\n                                    <i class=\"bi bi-chevron-bar-left h4 pt- custom-prev-ayah\"\n                                        style=\"cursor: pointer\" @click=\"goToFirstAyah\" title=\"First verse\"></i>\n                                    <i class=\"bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToPreviousAyah\" title=\"Previous verse\"></i>\n                                    <i class=\"bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToNextAyah\" title=\"Next verse\"></i>\n                                    <i class=\"bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon\"\n                                        style=\"cursor: pointer\" @click=\"goToLastAyah\" title=\"Last verse\"></i>\n                                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.ayat, function (ayah, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       onClick: function onClick($event) {
@@ -45544,7 +45560,7 @@ var _hoisted_4 = {
   "class": "row text-left mt-2"
 };
 var _hoisted_5 = {
-  "class": "col-10"
+  "class": "col-md 11"
 };
 var _hoisted_6 = {
   key: 0,
@@ -45556,7 +45572,7 @@ var _hoisted_7 = {
 };
 var _hoisted_8 = {
   key: 0,
-  "class": "col-2 d-flex align-items-center justify-content-center flex-column"
+  "class": "col-1 d-flex align-items-center justify-content-center flex-column"
 };
 var _hoisted_9 = {
   "class": "d-inline-flex gap-1"
@@ -45598,7 +45614,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-2 pt-2 d-flex align-items-center justify-content-center"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: $data.fontSize + 'em',
@@ -45636,7 +45652,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -49375,7 +49391,7 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = ["disabled"];
 var _hoisted_2 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control right-side-form card", {
       'desktop-hidden': true,
       'mobile-visible': true
@@ -49398,7 +49414,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: ayah.id,
       value: ayah.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAyahOption(ayah)), 9 /* TEXT, PROPS */, _hoisted_2);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_1), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedAyahId]])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_1)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedAyahId]]);
 }
 
 /***/ }),

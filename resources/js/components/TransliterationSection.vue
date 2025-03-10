@@ -13,32 +13,30 @@
           </div>
         </div>
         <div class="row text-left mt-2">
-          <div class="col-10">
-            <div>
-              <h4 class="ayah-translation" :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
-                {{ expanded ? information.transliteration : information.transliteration }}
-              </h4>
-              <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
-                <div class="d-flex flex-wrap gap-2">
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
-                    <i class="bi bi-filetype-csv pr-2"></i>CSV Export
-                  </button>
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
-                    <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
-                  </button>
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
-                    <i class="bi bi-filetype-json pr-2"></i>JSON Export
-                  </button>
-                </div>
+          <div class="col-md 11">
+            <h4 class="ayah-translation" :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
+              {{ expanded ? information.transliteration : information.transliteration }}
+            </h4>
+            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+              <div class="d-flex flex-wrap gap-2">
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
+                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
+                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
+                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
+                </button>
               </div>
-              <div class="text-left word-count mt-3">
-                <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
-                <strong>Transliteration: </strong>Saheeh International
-              </div>
+            </div>
+            <div class="text-left word-count mt-3">
+              <img src="/images/art.png" class="pr-2 pt-2" width="30px" alt="lamp" loading="lazy" />
+              <strong>Transliteration: </strong>Saheeh International
             </div>
           </div>
           <!-- Icons Column (Stacked Vertically) -->
-          <div v-if="!isVisible" class="col-2 d-flex align-items-center justify-content-center flex-column">
+          <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
             <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
               aria-placeholder="Increase text size" @click="increaseFontSize"></i>
             <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"

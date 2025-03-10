@@ -1,5 +1,4 @@
 <template>
-  <!-- Ayah Dropdown -->
   <select
     class="form-control right-side-form card"
     style="border: 3px solid #31464338; border-radius: 15px;"

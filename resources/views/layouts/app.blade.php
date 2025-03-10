@@ -115,25 +115,25 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b>Home</b></a></h6>
+                        <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b style="color:black">Home</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b>Quran Companion</b></a></h6>
+                        <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b style="color:black">Quran Companion</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/surat" data-path="/surat"><b>Quran Explorer</b></a></h6>
+                        <h6><a class="nav-link ml-3 pl-3" href="/surat" data-path="/surat"><b style="color:black">Quran Explorer</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b>Audio Podcasts</b></a></h6>
+                        <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b style="color:black">Audio Podcasts</b></a></h6>
                     </li> 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b>Dua Collection</b></a></h6>
+                        <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b>Radio Stations</b></a></h6>
+                        <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b style="color:black">Radio Stations</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b>Islamic Guides</b></a></h6>
+                        <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b style="color:black">Islamic Guides</b></a></h6>
                     </li>
                     <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
@@ -142,13 +142,13 @@
                         <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
                     </li> -->
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b>Donations</b></a></h6>
+                        <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     
                     @guest
                     @if (Route::has('login'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b>{{ __('Login') }}</b></a></h6>
+                        <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
@@ -262,7 +262,7 @@
     overflow-y: hidden; /* Prevent vertical scrolling */
     max-width: 100%; /* Adjust to the container's width */
     white-space: nowrap; /* Prevent items from wrapping to next line */
-    background-color:rgba(248, 249, 250, 0.21); /* Light background color */
+    background-color:rgba(0, 0, 0, 0.21); /* Light background color */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Medium shadow */
     padding: 10px; /* Adjust padding for spacing */
     gap: 15px; /* Space between items */

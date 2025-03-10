@@ -38,9 +38,17 @@
 
           <!-- Translate Button -->
           <div class="text-right mb-3" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
-            <button class="btn btn-success" @click="toggleLanguage">
+            <button class="btn btn-success" @click="translateContent" :disabled="isLoading">
               {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
             </button>
+          </div>
+
+          <!-- Loading Spinner -->
+          <div v-if="isLoading" class="text-center my-3">
+            <div class="spinner-border text-success" role="status">
+              <span class="visually-hidden">Translating...</span>
+            </div>
+            <p class="text-success mt-2">Translating...</p>
           </div>
 
           <!-- Bootstrap Alert for Content Copy Feedback -->
@@ -48,33 +56,37 @@
             <span id="alertMessage">Content copied to clipboard!</span>
           </div>
 
-          <div v-if="Array.isArray(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize + 'px' }">
-            <ul class="list-unstyled selected-content">
-              <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-2">
-                <span class="fw-medium fs-5 text-left text-dark">
-                  <span
-                    v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar?.[index] || item) : getHighlightedText(item)">
+          <!-- Content -->
+          <div v-if="!isLoading">
+            <div v-if="Array.isArray(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize + 'px' }">
+              <ul class="list-unstyled selected-content">
+                <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-2">
+                  <span class="fw-medium fs-5 text-left text-dark">
+                    <span
+                      v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar?.[index] || item) : getHighlightedText(item)">
+                    </span>
                   </span>
-                </span>
-              </li>
-            </ul>
-          </div>
+                </li>
+              </ul>
+            </div>
 
-          <p v-else class="text-dark fs-5 selected-content" :style="{ fontSize: fontSize + 'px' }">
-            <span
-              v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar || guide.sections[selectedCategory].content) : highlightText(guide.sections[selectedCategory].content)"></span>
-          </p>
+            <p v-else class="text-dark fs-5 selected-content" :style="{ fontSize: fontSize + 'px' }">
+              <span
+                v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar || guide.sections[selectedCategory].content) : highlightText(guide.sections[selectedCategory].content)"></span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
 
-    <hr v-if="selectedCategory !== ''"/>
+
+    <hr v-if="selectedCategory !== ''" />
 
 
     <!-- Action Icons: Share & Copy -->
     <div class="container text-center d-flex pb-3 justify-content-around" v-if="selectedCategory !== ''">
 
-       <!-- Share Icon with Tooltip -->
+      <!-- Share Icon with Tooltip -->
       <i class="bi bi-share icon-tooltip h3 pt-1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
         data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
 
@@ -91,7 +103,7 @@
       <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
         data-bs-placement="top" title="Share" role="button" @click="stopText" :disabled="!isPlaying"></i>
 
-     
+
 
       <!-- Copy Icon with Tooltip -->
       <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip pt-1 h3 icon-hover"
@@ -109,6 +121,8 @@ import { ref, onMounted } from 'vue';
 export default {
   data() {
     return {
+      isArabic: false,
+      isLoading: false,
       isPlaying: false,  // Track if TTS is playing
       isPaused: false,    // Track if TTS is paused
       ttsUtterance: null, // Store the SpeechSynthesisUtterance instance
@@ -131,6 +145,16 @@ export default {
     }
   },
   methods: {
+    translateContent() {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.toggleLanguage();
+        this.isLoading = false;
+      }, 1500); // Simulate translation delay
+    },
+    toggleLanguage() {
+      this.isArabic = !this.isArabic;
+    },
     // Handle Play Button
     playText() {
       if (this.isPlaying && this.isPaused) {
