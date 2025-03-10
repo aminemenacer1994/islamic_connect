@@ -39714,7 +39714,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "SurahDropdown",
+  name: "SurahCardGrid",
   props: {
     selectedSurah: {
       type: Number,
@@ -39735,7 +39735,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      selectedSurahLocal: this.selectedSurah || 0
+      selectedSurahLocal: this.selectedSurah || 0,
+      dropdownVisible: false
     };
   },
   computed: {
@@ -39744,11 +39745,15 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    handleCardClick: function handleCardClick(surahId) {
+      this.selectedSurahLocal = surahId;
+      this.dropdownVisible = true; // Show dropdown
+      this.$emit("update:selectedSurah", surahId);
+      this.$emit("fetchAyat", surahId);
+    },
     handleChange: function handleChange(event) {
       var newValue = Number(event.target.value);
       this.selectedSurahLocal = newValue;
-
-      // Emit both events at once
       this.$emit("update:selectedSurah", newValue);
       this.$emit("fetchAyat", newValue);
     },
@@ -43586,10 +43591,10 @@ var _hoisted_3 = {
   key: 0
 };
 var _hoisted_4 = {
-  "class": "row pt-2 container-fluid"
+  "class": "row container-fluid"
 };
 var _hoisted_5 = {
-  "class": "col-md-4 container"
+  "class": "col-md-4 container-fluid"
 };
 var _hoisted_6 = {
   style: {
@@ -43647,7 +43652,9 @@ var _hoisted_15 = {
 var _hoisted_16 = {
   "class": "card content",
   style: {
-    "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,\n                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
+    "box-shadow": "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,\n                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
+    "border-radius": "10px",
+    "border": "3px solid #31464338"
   }
 };
 var _hoisted_17 = {
@@ -43693,8 +43700,7 @@ var _hoisted_29 = {
   "class": "modal-footer"
 };
 var _hoisted_30 = {
-  "class": "card-body content",
-  id: "alertContainer"
+  "class": "card-body content"
 };
 var _hoisted_31 = {
   "class": "tab-content text-center"
@@ -43864,9 +43870,7 @@ var _hoisted_77 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Title");
   var _component_AdvancedSearch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AdvancedSearch");
-  var _component_FilteredSurahList = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("FilteredSurahList");
   var _component_SurahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SurahDropdown");
-  var _component_AddBookmark = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AddBookmark");
   var _component_AyahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahDropdown");
   var _component_ErrorAlert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorAlert");
   var _component_NavTabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavTabs");
@@ -43885,17 +43889,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 0,
     onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_FilteredSurahList, {
-    filteredSurah: $data.filteredSurah,
-    onSelectSurah: $options.selectSurahFromResults
-  }, null, 8 /* PROPS */, ["filteredSurah", "onSelectSurah"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
+  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "class": "col-md-12 pt-2",
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
     surat: $data.surat,
     "onUpdate:selectedSurah": $options.updateSelectedSurah,
     onFetchAyat: $options.getAyat
-  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AddBookmark)]), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
+  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> ")]), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
     key: 0,
     selectedSurahId: $data.selectedSurahId,
     dropdownHidden: $data.dropdownHidden,
@@ -45276,7 +45277,7 @@ var _hoisted_4 = {
   "class": "row text-left mt-2"
 };
 var _hoisted_5 = {
-  "class": "col-11"
+  "class": "col-md-11 col-10"
 };
 var _hoisted_6 = ["innerHTML"];
 var _hoisted_7 = {
@@ -45296,7 +45297,7 @@ var _hoisted_11 = ["value"];
 var _hoisted_12 = ["value"];
 var _hoisted_13 = {
   key: 0,
-  "class": "col-1 d-flex align-items-center justify-content-center flex-column"
+  "class": "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
 };
 var _hoisted_14 = {
   "class": "d-inline-flex gap-1"
@@ -45352,12 +45353,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-filetype-json pr-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdowns for Rate and Pitch "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JSON Export ")]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-sm btn-primary mb-2",
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.showOptions = !$data.showOptions;
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Options' : 'Show Options'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate Dropdown "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Options' : 'Show Options'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.speechRate = $event;
     }),
@@ -45368,7 +45369,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: rate,
       value: rate
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pitch Dropdown "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.speechPitch = $event;
     }),
@@ -45379,7 +45380,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: pitch,
       value: pitch
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice Dropdown "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Voice:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Voice:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedVoice = $event;
     }),
@@ -45400,7 +45401,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -48808,7 +48809,9 @@ __webpack_require__.r(__webpack_exports__);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "display-5 fw-bold mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"lead container\">Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time\n    audio highlighting, and daily reflections to deepen your connection with the Quran.\n  </p> ")], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Quran Companion")], -1 /* HOISTED */)), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead container"
+  }, "Your personal AI-powered Quranic study assistant. Explore advanced tools like voice search, real-time audio highlighting, and daily reflections to deepen your connection with the Quran. ", -1 /* HOISTED */))], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -49574,53 +49577,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  key: 0
-};
-var _hoisted_2 = {
-  "class": "col-md-12 mt-1 scrollable-list",
-  style: {
-    "list-style-type": "none",
-    "overflow-y": "auto",
-    "max-height": "400px",
-    "box-shadow": "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
-  }
-};
-var _hoisted_3 = ["onClick"];
-var _hoisted_4 = {
-  style: {
-    "display": "flex",
-    "align-items": "center"
-  }
-};
-var _hoisted_5 = {
-  style: {
-    "font-size": "18px"
-  },
-  "class": "mt-2"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.filteredSurah.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.filteredSurah, function (surah) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: surah.id,
-      onClick: function onClick($event) {
-        return $options.selectSurah(surah);
-      },
-      style: {
-        "cursor": "pointer",
-        "padding": "5px",
-        "border-radius": "5px"
-      },
-      "class": "highlight-on-hover"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: "/images/art.png",
-      style: {
-        "width": "23px"
-      },
-      "class": "mb-1 mr-2",
-      loading: "lazy"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name_en) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name_ar), 1 /* TEXT */)])], 8 /* PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredSurah.length\">\n    <ul class=\"col-md-12 mt-1 scrollable-list\" style=\"list-style-type: none; overflow-y: auto; max-height: 400px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;\">\n      <li v-for=\"surah in filteredSurah\" :key=\"surah.id\" @click=\"selectSurah(surah)\" style=\"cursor: pointer; padding:5px;  border-radius:5px;\" class=\"highlight-on-hover\">\n        <div style=\"display: flex; align-items: center;\">\n          <img src=\"/images/art.png\" style=\"width: 23px\" class=\"mb-1 mr-2\" loading=\"lazy\"/>\n          <p style=\"font-size: 18px;\" class=\"mt-2\">{{ surah.name_en }} - {{ surah.name_ar }}</p>\n        </div>\n      </li>\n    </ul>\n  </div> ");
 }
 
 /***/ }),
@@ -49711,12 +49669,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  "class": "container-fluid px-4"
+};
+var _hoisted_2 = {
+  key: 0,
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3"
+};
+var _hoisted_3 = ["onClick"];
+var _hoisted_4 = {
+  "class": "card-body"
+};
+var _hoisted_5 = {
+  "class": "card-title text-success"
+};
+var _hoisted_6 = {
+  "class": "card-text text-muted"
+};
+var _hoisted_7 = {
   "class": "surah-dropdown"
 };
-var _hoisted_2 = ["value"];
-var _hoisted_3 = ["value"];
+var _hoisted_8 = ["value"];
+var _hoisted_9 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cards Section "), !$data.dropdownVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.displayedSurahs, function (surah, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "col"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card text-center h-100 custom-card",
+      onClick: function onClick($event) {
+        return $options.handleCardClick(surah.id);
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name_en), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name_ar), 1 /* TEXT */)])], 8 /* PROPS */, _hoisted_3)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control custom-dropdown card",
     "aria-label": "Select a Surah",
     value: $data.selectedSurahLocal,
@@ -49730,8 +49717,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: index,
       value: surah.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSurahOption(surah)), 9 /* TEXT, PROPS */, _hoisted_3);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_2)]);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSurahOption(surah)), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_8)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]);
 }
 
 /***/ }),
@@ -81663,7 +81650,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.form-control[data-v-5832b188] {\n  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;\n}\n.desktop-hidden[data-v-5832b188] {\n  display: none;\n}\n@media (max-width: 767px) {\n.mobile-visible[data-v-5832b188] {\n    display: block;\n}\n}\n.highlighted-ayah[data-v-5832b188] {\n  background-color: #26c789;\n  padding: 10px;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-top: 20px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.form-control[data-v-5832b188] {\n  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;\n}\n.desktop-hidden[data-v-5832b188] {\n  display: none;\n}\n@media (max-width: 767px) {\n.mobile-visible[data-v-5832b188] {\n    display: block;\n}\n}\n.highlighted-ayah[data-v-5832b188] {\n  border: 3px solid #31464338;\n  padding: 10px;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-top: 20px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -81807,7 +81794,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n    border: 3px solid #00bfa6;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac] {\n    display: flex;\n    border: 3px solid #00bfa6;\n    border-radius: 8px;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card[data-v-7416ffac] {\n    border: 3px solid #00bfa6;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n.custom-card[data-v-7416ffac]:hover {\n    transform: scale(1.05);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);\n}\n.card-title[data-v-7416ffac] {\n    font-size: 1.2rem;\n    margin-bottom: 0.5rem;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1rem;\n    color: #555;\n}\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n    border: 3px solid #31464338;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

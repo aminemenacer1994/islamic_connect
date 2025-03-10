@@ -10,9 +10,9 @@
 
 
             <!-- accordion headers -->
-            <div class="row pt-2 container-fluid">
-                <div class="col-md-4 container">
-                    <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" />
+            <div class="row container-fluid">
+                <div class="col-md-4 container-fluid">
+                    <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
 
                     <div style="display: flex" class="row">
 
@@ -21,7 +21,7 @@
                             :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
                             @fetchAyat="getAyat" />
 
-                        <AddBookmark />
+                        <!-- <AddBookmark /> -->
                     </div>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
@@ -103,7 +103,8 @@
                 <div class="col-md-8 card-hide text-left" v-if="information != null">
                     <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; border-radius: 10px;  border: 3px solid #31464338"     
+>
                         <div class="content">
                             <div class="container-fluid content" v-if="information != null">
                                 <div class="row">
@@ -189,7 +190,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body content" id="alertContainer">
+                            <div class="card-body content" >
                                 <div class="tab-content text-center">
                                     <Welcome :information="information" />
 
@@ -1983,7 +1984,7 @@ p {
 .highlighted {
     background-color: rgba(0, 191, 166, 0.2);
     color: rgb(5, 32, 29);
-    border: 1px solid rgba(0, 191, 166);
+    border: 3px solid #31464338;
 }
 
 .selected {
@@ -2038,7 +2039,7 @@ p {
     background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
 }
 
-.pricing-cards {
+/* .pricing-cards {
     display: flex;
     gap: 2rem;
     justify-content: center;
@@ -2061,7 +2062,7 @@ p {
 .price-card.featured {
     border-color: var(--accent-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .price {
     font-size: 1.5rem;

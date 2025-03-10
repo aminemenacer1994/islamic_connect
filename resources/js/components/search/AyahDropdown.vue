@@ -154,7 +154,7 @@ export default {
 }
 
 .highlighted-ayah {
-  background-color: #26c789;
+  border: 3px solid #31464338;
   padding: 10px;
   border-radius: 5px;
   font-weight: bold;

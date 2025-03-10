@@ -13,7 +13,7 @@
       </div>
 
       <div class="row text-left mt-2">
-        <div class="col-11">
+        <div class="col-md-11 col-10">
           <h4 class="ayah-translation" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
           <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
@@ -29,7 +29,7 @@
               </button>
             </div>
           </div>
-          <!-- Dropdowns for Rate and Pitch -->
+
           <!-- Toggle Button -->
           <button class="btn btn-sm btn-primary mb-2" @click="showOptions = !showOptions">
             {{ showOptions ? 'Hide Options' : 'Show Options' }}
@@ -37,19 +37,16 @@
 
           <!-- Rate, Pitch, and Voice Dropdowns -->
           <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-            <!-- Rate Dropdown -->
             <b>Rate:</b>
             <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
               <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
             </select>
 
-            <!-- Pitch Dropdown -->
             <b>Pitch:</b>
             <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
               <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
             </select>
 
-            <!-- Voice Dropdown -->
             <b>Voice:</b>
             <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
               <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
@@ -65,8 +62,8 @@
           </div>
         </div>
 
-        <!-- Icons Column (Stacked Vertically) -->
-        <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
+        <!-- Icons Column -->
+        <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column">
           <!-- Play/Pause Button -->
           <i @click="toggleSpeech" :class="[
             'bi',
@@ -85,8 +82,6 @@
           <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
             aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
 
-
-
           <!-- Toggle Collapse for More Options -->
           <p class="d-inline-flex gap-1">
             <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
@@ -94,9 +89,9 @@
               aria-controls="collapseExample" @click="toggleIcon">
             </i>
           </p>
-
         </div>
       </div>
+
 
 
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"

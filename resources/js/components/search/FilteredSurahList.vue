@@ -1,5 +1,5 @@
 <template>
-  <div v-if="filteredSurah.length">
+  <!-- <div v-if="filteredSurah.length">
     <ul class="col-md-12 mt-1 scrollable-list" style="list-style-type: none; overflow-y: auto; max-height: 400px; box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
       <li v-for="surah in filteredSurah" :key="surah.id" @click="selectSurah(surah)" style="cursor: pointer; padding:5px;  border-radius:5px;" class="highlight-on-hover">
         <div style="display: flex; align-items: center;">
@@ -8,7 +8,7 @@
         </div>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <script>

@@ -1,26 +1,52 @@
 <template>
-    <div class="surah-dropdown">
-        <select
-            class="form-control custom-dropdown card"
-            aria-label="Select a Surah"
-            :value="selectedSurahLocal"
-            @change="handleChange"
-        >
-            <option value="0" disabled>Select a Surah:</option>
-            <option
+    <div class="container-fluid px-4">
+        <!-- Cards Section -->
+        <div v-if="!dropdownVisible" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+            <div
                 v-for="(surah, index) in displayedSurahs"
                 :key="index"
-                :value="surah.id"
+                class="col"
             >
-                {{ formatSurahOption(surah) }}
-            </option>
-        </select>
+                <div
+                    class="card text-center h-100 custom-card"
+                    @click="handleCardClick(surah.id)"
+                >
+                    <div class="card-body">
+                        <h5 class="card-title text-success">
+                            {{ surah.name_en }}
+                        </h5>
+                        <p class="card-text text-muted">
+                            {{ surah.name_ar }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dropdown Section -->
+        <div v-else class="surah-dropdown">
+            <select
+                class="form-control custom-dropdown card"
+                aria-label="Select a Surah"
+                :value="selectedSurahLocal"
+                @change="handleChange"
+            >
+                <option value="0" disabled>Select a Surah:</option>
+                <option
+                    v-for="(surah, index) in displayedSurahs"
+                    :key="index"
+                    :value="surah.id"
+                >
+                    {{ formatSurahOption(surah) }}
+                </option>
+            </select>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "SurahDropdown",
+    name: "SurahCardGrid",
 
     props: {
         selectedSurah: {
@@ -40,25 +66,31 @@ export default {
     data() {
         return {
             selectedSurahLocal: this.selectedSurah || 0,
+            dropdownVisible: false,
         };
     },
 
     computed: {
         displayedSurahs() {
-            return this.filteredSurah.length ? this.filteredSurah : this.surat;
+            return this.filteredSurah.length
+                ? this.filteredSurah
+                : this.surat;
         },
     },
 
     methods: {
+        handleCardClick(surahId) {
+            this.selectedSurahLocal = surahId;
+            this.dropdownVisible = true; // Show dropdown
+            this.$emit("update:selectedSurah", surahId);
+            this.$emit("fetchAyat", surahId);
+        },
         handleChange(event) {
             const newValue = Number(event.target.value);
             this.selectedSurahLocal = newValue;
-
-            // Emit both events at once
             this.$emit("update:selectedSurah", newValue);
             this.$emit("fetchAyat", newValue);
         },
-
         formatSurahOption(surah) {
             return `${surah.id} : ${surah.name_en} - ${surah.name_ar}`;
         },
@@ -67,8 +99,31 @@ export default {
 </script>
 
 <style scoped>
+.custom-card {
+    border: 3px solid #00bfa6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+}
+
 .surah-dropdown {
     width: 100%;
+    
 }
 
 .form-control {
@@ -78,19 +133,13 @@ export default {
     line-height: 1.5;
     background-color: #fff;
     border-radius: 5px;
-    border: 3px solid #00bfa6;
+    border: 3px solid #31464338;
     transition: border-color 0.15s ease-in-out;
 }
 
 .custom-dropdown {
     appearance: auto;
     outline: none;
-}
-
-.card {
-    display: flex;
-    border: 3px solid #00bfa6;
-    border-radius: 8px;
 }
 
 .card:focus {
