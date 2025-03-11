@@ -3,7 +3,7 @@
     <!-- Search Input Group -->
     <div >
 
-      <div class="container input-group pb-2" style="position: relative; width: 100%;">
+      <div class="container input-group pb-2" style="position: relative; ">
         <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Explore the words of the Quran"
           class="form-control pb-2 mobile-only"
           style="flex: 1;box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;" />
@@ -53,9 +53,9 @@
 
 
         <!-- Voice input button -->
-        <button type="button" class="btn button-36"
+        <button type="button" class="btn button-36 bi bi-mic-fill"
           @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()">
-          <span style="color:white"><b>Voice Search</b></span>
+          <!-- <span style="color:white"><b>Voice Search</b></span> -->
         </button>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
@@ -643,8 +643,7 @@ export default {
   color: #FFFFFF;
   cursor: pointer;
   font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  font-size: 15px;
-  height: 2.4rem;
+  height: 2.4rem; 
   padding: 0 1.3rem;
   text-align: center;
   text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;

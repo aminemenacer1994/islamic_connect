@@ -54,8 +54,6 @@
                     {{ voice.name }}
                   </option>
                 </select>
-
-
               </div>
               <div class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />

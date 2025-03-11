@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="">
         <!-- Cards Section -->
         <div v-if="!dropdownVisible" class="row g-3">
             <div v-for="(surah, index) in displayedSurahs" :key="index" >

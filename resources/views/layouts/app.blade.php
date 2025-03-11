@@ -36,32 +36,7 @@
 </head>
 <style>
 
-/* CSS */
-.button-36 {
-    background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
-    border-radius: 8px;
-    border: none;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    display: inline-block;
-    font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    font-size: 17px;
-    height: 2.4rem;
-    min-width: 130px; /* Avoid layout shifts */
-    padding: 0 1.6rem;
-    text-align: center;
-    text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
-    transition: all 0.5s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
 
-.button-36:hover {
-    background-image: linear-gradient(92.88deg, #5643CC 9.16%, #455EB5 43.89%, #673FD7 64.72%);
-    transform: scale(1.05);
-}
 
 .nav-link:hover{
   color: rgb(53, 163, 139);

@@ -1,12 +1,12 @@
 <template>
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
-    <p class="text-center container mb-4 lead">
+    <!-- <p class="text-center container mb-4 lead">
       Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
       thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
       deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing
       the Muslim community.
-    </p>
+    </p> -->
 
     <!-- Bookmarks Section -->
     <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4">

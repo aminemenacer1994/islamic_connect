@@ -1,9 +1,9 @@
 <template>
   <div class="container my-4">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
-    <p class="radio-description text-center">
+    <!-- <p class="radio-description text-center">
       Explore a wide range of Islamic radio stations that offer continuous Quranic recitations designed to inspire and enhance your spiritual journey.
-    </p>
+    </p> -->
     <div class="row g-4">
       <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
         <div class="card bg-success-subtle text-success-emphasis border border-success-subtle">
