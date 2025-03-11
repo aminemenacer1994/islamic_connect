@@ -1,15 +1,18 @@
 <template>
   <div class="container my-4">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
-    <!-- <p class="radio-description text-center">
-      Explore a wide range of Islamic radio stations that offer continuous Quranic recitations designed to inspire and enhance your spiritual journey.
-    </p> -->
     <div class="row g-4">
       <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
         <div class="card bg-success-subtle text-success-emphasis border border-success-subtle">
           <div class="card-body">
             <h5 class="card-title mb-3"><b>{{ station.name }}</b></h5>
-            <audio :src="station.url" controls class="w-100 mb-2"></audio>
+            <audio 
+              ref="audioPlayer" 
+              :src="station.url" 
+              controls 
+              class="w-100 mb-2"
+              @play="handlePlay(station.id, $event)"
+            ></audio>
           </div>
         </div>
       </div>
@@ -35,6 +38,7 @@ export default {
       radioStations: [],
       currentPage: 1,
       perPage: 15, // Number of stations per page
+      currentAudio: null, // To keep track of the current playing audio
     };
   },
   mounted() {
@@ -65,6 +69,15 @@ export default {
       if (this.currentPage < this.totalPages) {
         this.currentPage += 1;
       }
+    },
+    handlePlay(stationId, event) {
+      // Stop the current audio if there's any playing
+      if (this.currentAudio && this.currentAudio !== event.target) {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0; // Reset playback time
+      }
+      // Set the current playing audio
+      this.currentAudio = event.target;
     },
   },
 };

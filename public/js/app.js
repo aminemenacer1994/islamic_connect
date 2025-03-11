@@ -32501,7 +32501,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       radioStations: [],
       currentPage: 1,
-      perPage: 15 // Number of stations per page
+      perPage: 15,
+      // Number of stations per page
+      currentAudio: null // To keep track of the current playing audio
     };
   },
   mounted: function mounted() {
@@ -32534,6 +32536,15 @@ __webpack_require__.r(__webpack_exports__);
       if (this.currentPage < this.totalPages) {
         this.currentPage += 1;
       }
+    },
+    handlePlay: function handlePlay(stationId, event) {
+      // Stop the current audio if there's any playing
+      if (this.currentAudio && this.currentAudio !== event.target) {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0; // Reset playback time
+      }
+      // Set the current playing audio
+      this.currentAudio = event.target;
     }
   }
 });
@@ -44215,7 +44226,7 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "card-title mb-3"
 };
-var _hoisted_6 = ["src"];
+var _hoisted_6 = ["src", "onPlay"];
 var _hoisted_7 = {
   key: 0,
   "class": "d-flex justify-content-center align-items-center my-3"
@@ -44228,15 +44239,20 @@ var _hoisted_10 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Islamic Radio Stations", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"radio-description text-center\">\n      Explore a wide range of Islamic radio stations that offer continuous Quranic recitations designed to inspire and enhance your spiritual journey.\n    </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
+  }, "Islamic Radio Stations", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col-md-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+      ref_for: true,
+      ref: "audioPlayer",
       src: station.url,
       controls: "",
-      "class": "w-100 mb-2"
-    }, null, 8 /* PROPS */, _hoisted_6)])])]);
+      "class": "w-100 mb-2",
+      onPlay: function onPlay($event) {
+        return $options.handlePlay(station.id, $event);
+      }
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_6)])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
