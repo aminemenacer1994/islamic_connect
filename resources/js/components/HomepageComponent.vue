@@ -32,12 +32,9 @@
               </h2>
               <h2 class="lead container pt-3 text-center" style="line-height: 1.8em">
                 <strong>
-                  Experience the transformative power of AI in revolutionizing
-                  access to Islamic knowledge, fostering spiritual growth, and
-                  uniting the global Muslim community. Discover a new era of
-                  learning, connection, and service as we leverage cutting-edge
-                  technology which bring the teachings of Islam closer to
-                  you.</strong>
+                  Experience the transformative power of AI as it helps us break down barriers and make Islamic
+                  knowledge more accessible than ever before. At the heart of our mission is a deep commitment to
+                  fostering spiritual growth and strengthening the bond within the global Muslim community.</strong>
               </h2>
             </div>
           </div>
@@ -67,12 +64,12 @@
         </div>
         <div class="row pt-3 g-4 g-md-5">
           <h3 class="lead container pt-3 text-center" style="line-height: 1.8em">
-            By leveraging advanced AI tools, the platform is designed to cater
-            to diverse learning needs and abilities, ensuring an inclusive and
-            enriching experience for all. Our mission is to become the leading
-            Islamic digital platform worldwide, driven by innovation,
-            accessibility, and knowledge-sharing. Here’s a detailed explanation
-            of the AI tools being used and developed on Islamic Connect, and how
+            At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to
+            everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we
+            are creating a platform that’s not just about providing information, but about empowering individuals
+            through an inclusive and personalized learning experience. We believe that technology should bridge gaps,
+            not create them, and that every person deserves the chance to connect with their faith in a way that
+            resonates with them. and how
             they benefit users:
           </h3>
           <div class="col-md-6">
@@ -226,22 +223,17 @@
             <div class="mt-3 mt-md-0">
               <h2 class="display-5 fw-bold pb-3">Support Us</h2>
               <p class="lead">
-                At Islamic Connect, we are committed to breaking down barriers
-                and making Islamic knowledge freely accessible to Muslims
-                everywhere. Your donation helps us expand our platform, improve
-                our resources, and ensure that every Muslim can engage with the
-                Quran and Islamic teachings, no matter their circumstances.
+                Islamic Connect was created with a deep belief in the transformative power of knowledge. We understand
+                that knowledge is not just about facts—it's about understanding, and understanding is the foundation of
+                true acceptance. Our platform was built to be a space where everyone, regardless of background, can come
+                together to learn, share, and grow in their understanding of Islam.
               </p>
               <p class="lead">
-                Your Impact: Provide free, accessible tools for Muslims
-                worldwide, Expand our platform to reach more individuals and
-                Develop innovative features that enhance the learning
-                experience.
-              </p>
-              <p class="lead">
-                Together, we can create a future where Islamic knowledge is
-                available to everyone. Every contribution brings us closer to
-                this goal.
+                Our mission is personal and simple: we want to empower each individual to explore Islam with confidence,
+                free from fear or confusion. Whether you’re taking your first step or deepening your knowledge, Islamic
+                Connect is here to provide the support, clarity, and guidance you need on your journey. This is not just
+                about learning—it's about creating a space where you feel welcomed, understood, and inspired to connect
+                with the faith in a meaningful way.
               </p>
 
               <!-- Donate Button -->
