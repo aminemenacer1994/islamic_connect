@@ -1,6 +1,18 @@
 <template>
   <div class="container my-4">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
+
+    <!-- Search Bar -->
+    <div class="mb-4 text-center">
+      <input 
+        type="text" 
+        v-model="searchQuery" 
+        @input="handleSearch" 
+        placeholder="Search for radio station..." 
+        class="form-control w-50 mx-auto"
+      />
+    </div>
+
     <div class="row g-4">
       <div 
         v-for="station in paginatedStations" 
@@ -15,7 +27,9 @@
           }"
         >
           <div class="card-body">
-            <h5 class="card-title mb-3"><b>{{ station.name }}</b></h5>
+            <h5 class="card-title mb-3">
+              <b v-html="highlightSearch(station.name)"></b>
+            </h5>
             <audio 
               ref="audioPlayer" 
               :src="station.url" 
@@ -42,6 +56,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   data() {
@@ -50,24 +65,43 @@ export default {
       currentPage: 1,
       perPage: 15, // Number of stations per page
       currentAudio: null, // To keep track of the current playing audio
+      searchQuery: "", // The search query input
     };
   },
   mounted() {
     fetch('https://mp3quran.net/api/v3/radios?language=eng')
       .then(response => response.json())
       .then(data => {
-        this.radioStations = data.radios;
+        // Debug: Check data structure
+        console.log('Fetched Data:', data);
+
+        // Assuming the Imam name is in the station's name or it's available in the API response
+        this.radioStations = data.radios.map(station => ({
+          ...station,
+          imamName: station.name.split(" - ")[0] // Adjust this if Imam name is available differently
+        }));
+
+        // Debug: Check transformed data
+        console.log('Processed Stations:', this.radioStations);
       })
       .catch(error => console.error('Error fetching radio stations:', error));
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.radioStations.length / this.perPage);
+      return Math.ceil(this.filteredStations.length / this.perPage);
     },
     paginatedStations() {
       const start = (this.currentPage - 1) * this.perPage;
       const end = start + this.perPage;
-      return this.radioStations.slice(start, end);
+      return this.filteredStations.slice(start, end);
+    },
+    filteredStations() {
+      if (!this.searchQuery) {
+        return this.radioStations;
+      }
+      return this.radioStations.filter(station => 
+        station.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
   methods: {
@@ -90,9 +124,20 @@ export default {
       // Set the current playing audio
       this.currentAudio = event.target;
     },
+    highlightSearch(text) {
+      if (!this.searchQuery) return text; // No highlighting if search is empty
+
+      const regex = new RegExp(`(${this.searchQuery})`, 'gi');
+      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>');
+    },
+    handleSearch() {
+      // Reset to first page when a search is performed
+      this.currentPage = 1;
+    },
   },
 };
 </script>
+
 
 <style scoped>
 .audio {
@@ -129,5 +174,10 @@ audio::-webkit-media-controls-panel {
 .pagination button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.text-danger {
+  color: rgb(13, 182, 145);
+  font-weight: bold;
 }
 </style>

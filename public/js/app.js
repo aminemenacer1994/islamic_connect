@@ -32496,6 +32496,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -32503,7 +32509,9 @@ __webpack_require__.r(__webpack_exports__);
       currentPage: 1,
       perPage: 15,
       // Number of stations per page
-      currentAudio: null // To keep track of the current playing audio
+      currentAudio: null,
+      // To keep track of the current playing audio
+      searchQuery: "" // The search query input
     };
   },
   mounted: function mounted() {
@@ -32511,19 +32519,39 @@ __webpack_require__.r(__webpack_exports__);
     fetch('https://mp3quran.net/api/v3/radios?language=eng').then(function (response) {
       return response.json();
     }).then(function (data) {
-      _this.radioStations = data.radios;
+      // Debug: Check data structure
+      console.log('Fetched Data:', data);
+
+      // Assuming the Imam name is in the station's name or it's available in the API response
+      _this.radioStations = data.radios.map(function (station) {
+        return _objectSpread(_objectSpread({}, station), {}, {
+          imamName: station.name.split(" - ")[0] // Adjust this if Imam name is available differently
+        });
+      });
+
+      // Debug: Check transformed data
+      console.log('Processed Stations:', _this.radioStations);
     })["catch"](function (error) {
       return console.error('Error fetching radio stations:', error);
     });
   },
   computed: {
     totalPages: function totalPages() {
-      return Math.ceil(this.radioStations.length / this.perPage);
+      return Math.ceil(this.filteredStations.length / this.perPage);
     },
     paginatedStations: function paginatedStations() {
       var start = (this.currentPage - 1) * this.perPage;
       var end = start + this.perPage;
-      return this.radioStations.slice(start, end);
+      return this.filteredStations.slice(start, end);
+    },
+    filteredStations: function filteredStations() {
+      var _this2 = this;
+      if (!this.searchQuery) {
+        return this.radioStations;
+      }
+      return this.radioStations.filter(function (station) {
+        return station.name.toLowerCase().includes(_this2.searchQuery.toLowerCase());
+      });
     }
   },
   methods: {
@@ -32545,6 +32573,16 @@ __webpack_require__.r(__webpack_exports__);
       }
       // Set the current playing audio
       this.currentAudio = event.target;
+    },
+    highlightSearch: function highlightSearch(text) {
+      if (!this.searchQuery) return text; // No highlighting if search is empty
+
+      var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
+      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>');
+    },
+    handleSearch: function handleSearch() {
+      // Reset to first page when a search is performed
+      this.currentPage = 1;
     }
   }
 });
@@ -44215,28 +44253,42 @@ var _hoisted_1 = {
   "class": "container my-4"
 };
 var _hoisted_2 = {
-  "class": "row g-4"
+  "class": "mb-4 text-center"
 };
 var _hoisted_3 = {
-  "class": "card-body"
+  "class": "row g-4"
 };
 var _hoisted_4 = {
+  "class": "card-body"
+};
+var _hoisted_5 = {
   "class": "card-title mb-3"
 };
-var _hoisted_5 = ["src", "onPlay"];
-var _hoisted_6 = {
+var _hoisted_6 = ["innerHTML"];
+var _hoisted_7 = ["src", "onPlay"];
+var _hoisted_8 = {
   key: 0,
   "class": "d-flex justify-content-center align-items-center my-3"
 };
-var _hoisted_7 = ["disabled"];
-var _hoisted_8 = {
+var _hoisted_9 = ["disabled"];
+var _hoisted_10 = {
   "class": "mx-2"
 };
-var _hoisted_9 = ["disabled"];
+var _hoisted_11 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Islamic Radio Stations", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
+  }, "Islamic Radio Stations", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.handleSearch && $options.handleSearch.apply($options, arguments);
+    }),
+    placeholder: "Search for radio station...",
+    "class": "form-control w-50 mx-auto"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col-md-4"
@@ -44245,7 +44297,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'bg-success-subtle text-success-emphasis border-success': $data.currentAudio && $data.currentAudio.src === station.url,
         'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !($data.currentAudio && $data.currentAudio.src === station.url)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+      innerHTML: $options.highlightSearch(station.name)
+    }, null, 8 /* PROPS */, _hoisted_6)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: "audioPlayer",
       src: station.url,
@@ -44258,20 +44312,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onPlay: function onPlay($event) {
         return $options.handlePlay(station.id, $event);
       }
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_5)])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === 1,
     "class": "btn btn-outline-secondary me-2"
-  }, " Previous ", 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = function () {
+  }, " Previous ", 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.nextPage && $options.nextPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === $options.totalPages,
     "class": "btn btn-outline-secondary ms-2"
-  }, " Next ", 8 /* PROPS */, _hoisted_9)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, " Next ", 8 /* PROPS */, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -80923,7 +80977,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  background: rgba(13, 182, 145, 0.09);\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  background: rgba(13, 182, 145, 0.09);\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
