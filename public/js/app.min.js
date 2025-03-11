@@ -44886,7 +44886,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    "aria-label": "Play or pause translation audio"
+    "aria-label": "Play or pause translation audio",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Play or pause translation audio"
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.stopReading && $options.stopReading.apply($options, arguments);
@@ -44895,8 +44898,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    "aria-label": "Stop reading audio"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-label": "Stop reading audio",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Stop reading audio"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Increase Font Size "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44904,8 +44910,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Increase text size",
     onClick: _cache[9] || (_cache[9] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-    })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Increase text size"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Decrease Font Size "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44913,8 +44922,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Decrease text size",
     onClick: _cache[10] || (_cache[10] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
-    })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Decrease text size"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Collapse Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -44926,7 +44938,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "collapseExample",
     onClick: _cache[11] || (_cache[11] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
-    })
+    }),
+    "data-bs-placement": "top",
+    title: "Toggle collapse"
   })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
@@ -45168,7 +45182,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    "aria-label": "Play or pause translation audio"
+    "aria-label": "Play or pause translation audio",
+    title: "Play/Pause Translation Audio"
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[9] || (_cache[9] = function () {
       return $options.stopReading && $options.stopReading.apply($options, arguments);
@@ -45177,7 +45192,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    "aria-label": "Stop reading audio"
+    "aria-label": "Stop reading audio",
+    title: "Stop Translation Audio"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Adjustments "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
@@ -45186,7 +45202,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Increase text size",
     onClick: _cache[10] || (_cache[10] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-    })
+    }),
+    title: "Increase Text Size"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
@@ -45195,7 +45212,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Decrease text size",
     onClick: _cache[11] || (_cache[11] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
-    })
+    }),
+    title: "Decrease Text Size"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
@@ -45208,7 +45226,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "collapseExample",
     onClick: _cache[12] || (_cache[12] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
-    })
+    }),
+    title: "More Options"
   })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
@@ -45405,7 +45424,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Increase text size",
     onClick: _cache[4] || (_cache[4] = function () {
       return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-    })
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Increase text size"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
@@ -45414,7 +45436,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-placeholder": "Decrease text size",
     onClick: _cache[5] || (_cache[5] = function () {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
-    })
+    }),
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top",
+    title: "Decrease text size"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
@@ -45427,7 +45452,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "collapseExample",
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.toggleIcon && $options.toggleIcon.apply($options, arguments);
-    })
+    }),
+    "data-bs-placement": "top",
+    title: "Toggle collapse"
   })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,

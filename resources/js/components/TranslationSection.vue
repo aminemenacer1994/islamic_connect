@@ -70,26 +70,26 @@
             isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
             'h3',
             'custom-icon-play'
-          ]" style="cursor: pointer;" aria-label="Play or pause translation audio"></i>
+          ]" style="cursor: pointer;" aria-label="Play or pause translation audio" title="Play/Pause Translation Audio"></i>
 
           <!-- Stop Button -->
           <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
-            style="cursor: pointer;" aria-label="Stop reading audio"></i>
+            style="cursor: pointer;" aria-label="Stop reading audio" title="Stop Translation Audio"></i>
 
           <!-- Font Size Adjustments -->
           <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
-            aria-placeholder="Increase text size" @click="increaseFontSize"></i>
+            aria-placeholder="Increase text size" @click="increaseFontSize" title="Increase Text Size"></i>
           <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
-            aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
+            aria-placeholder="Decrease text size" @click="decreaseFontSize" title="Decrease Text Size"></i>
 
           <!-- Toggle Collapse for More Options -->
           <p class="d-inline-flex gap-1">
             <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
               data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-              aria-controls="collapseExample" @click="toggleIcon">
-            </i>
+              aria-controls="collapseExample" @click="toggleIcon" title="More Options"></i>
           </p>
         </div>
+
       </div>
 
 

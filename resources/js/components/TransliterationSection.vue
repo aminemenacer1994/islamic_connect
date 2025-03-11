@@ -14,7 +14,8 @@
         </div>
         <div class="row text-left mt-2">
           <div class="col-md 11">
-            <h4 class="ayah-translation" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
+            <h4 class="ayah-translation" style="color:dimgrey;"
+              :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
               {{ expanded ? information.transliteration : information.transliteration }}
             </h4>
             <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
@@ -38,22 +39,28 @@
           <!-- Icons Column (Stacked Vertically) -->
           <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
             <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
-              aria-placeholder="Increase text size" @click="increaseFontSize"></i>
+              aria-placeholder="Increase text size" @click="increaseFontSize" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Increase text size">
+            </i>
+
             <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
-              aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
+              aria-placeholder="Decrease text size" @click="decreaseFontSize" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Decrease text size">
+            </i>
 
             <p class="d-inline-flex gap-1">
               <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
                 data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                aria-controls="collapseExample" @click="toggleIcon">
+                aria-controls="collapseExample" @click="toggleIcon" data-bs-placement="top" title="Toggle collapse">
               </i>
             </p>
-          </div>
         </div>
+
       </div>
-      <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
-        :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
     </div>
+    <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+      :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
+  </div>
 
   </div>
 </template>

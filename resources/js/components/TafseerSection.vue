@@ -75,23 +75,37 @@
                 : 'bi-play-circle-fill',
               'h3',
               'custom-icon-play',
-            ]" style="cursor: pointer" aria-label="Play or pause translation audio"></i>
+            ]" style="cursor: pointer" aria-label="Play or pause translation audio" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Play or pause translation audio">
+            </i>
 
             <!-- Stop Button -->
             <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
-              style="cursor: pointer" aria-label="Stop reading audio"></i>
-            <i style="cursor: pointer" class="bi bi-plus-circle-fill h3 custom-icon-increase"
-              aria-placeholder="Increase text size" @click="increaseFontSize"></i>
-            <i style="cursor: pointer" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
-              aria-placeholder="Decrease text size" @click="decreaseFontSize"></i>
+              style="cursor: pointer" aria-label="Stop reading audio" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Stop reading audio">
+            </i>
 
+            <!-- Increase Font Size -->
+            <i style="cursor: pointer" class="bi bi-plus-circle-fill h3 custom-icon-increase"
+              aria-placeholder="Increase text size" @click="increaseFontSize" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Increase text size">
+            </i>
+
+            <!-- Decrease Font Size -->
+            <i style="cursor: pointer" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
+              aria-placeholder="Decrease text size" @click="decreaseFontSize" data-bs-toggle="tooltip"
+              data-bs-placement="top" title="Decrease text size">
+            </i>
+
+            <!-- Collapse Toggle -->
             <p class="d-inline-flex gap-1">
               <i style="cursor: pointer" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
                 data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                aria-controls="collapseExample" @click="toggleIcon">
+                aria-controls="collapseExample" @click="toggleIcon" data-bs-placement="top" title="Toggle collapse">
               </i>
             </p>
           </div>
+
         </div>
       </div>
       <!-- Alert Modal -->
