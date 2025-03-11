@@ -2,8 +2,18 @@
   <div class="container my-4">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
     <div class="row g-4">
-      <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
-        <div class="card bg-success-subtle text-success-emphasis border border-success-subtle">
+      <div 
+        v-for="station in paginatedStations" 
+        :key="station.id" 
+        class="col-md-4"
+      >
+        <div 
+          class="card" 
+          :class="{
+            'bg-success-subtle text-success-emphasis border-success': currentAudio && currentAudio.src === station.url,
+            'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !(currentAudio && currentAudio.src === station.url)
+          }"
+        >
           <div class="card-body">
             <h5 class="card-title mb-3"><b>{{ station.name }}</b></h5>
             <audio 
@@ -11,6 +21,7 @@
               :src="station.url" 
               controls 
               class="w-100 mb-2"
+              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
               @play="handlePlay(station.id, $event)"
             ></audio>
           </div>
@@ -20,11 +31,11 @@
 
     <!-- Pagination Controls -->
     <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center my-3">
-      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-success me-2">
+      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-secondary me-2">
         Previous
       </button>
-      <span class="mx-2">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-outline-success ms-2">
+      <span class="mx-2"><b>Page {{ currentPage }} of {{ totalPages }}</b></span>
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-outline-secondary ms-2">
         Next
       </button>
     </div>
@@ -84,6 +95,15 @@ export default {
 </script>
 
 <style scoped>
+.audio {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background: rgba(13, 182, 145, 0.09);
+}
+
+audio::-webkit-media-controls-panel {
+  background: rgba(13, 182, 145, 0);
+}
+
 .radio-description {
   font-size: 1.2rem;
   color: #555;

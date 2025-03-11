@@ -44218,24 +44218,21 @@ var _hoisted_2 = {
   "class": "row g-4"
 };
 var _hoisted_3 = {
-  "class": "card bg-success-subtle text-success-emphasis border border-success-subtle"
-};
-var _hoisted_4 = {
   "class": "card-body"
 };
-var _hoisted_5 = {
+var _hoisted_4 = {
   "class": "card-title mb-3"
 };
-var _hoisted_6 = ["src", "onPlay"];
-var _hoisted_7 = {
+var _hoisted_5 = ["src", "onPlay"];
+var _hoisted_6 = {
   key: 0,
   "class": "d-flex justify-content-center align-items-center my-3"
 };
-var _hoisted_8 = ["disabled"];
-var _hoisted_9 = {
+var _hoisted_7 = ["disabled"];
+var _hoisted_8 = {
   "class": "mx-2"
 };
-var _hoisted_10 = ["disabled"];
+var _hoisted_9 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
@@ -44243,29 +44240,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card", {
+        'bg-success-subtle text-success-emphasis border-success': $data.currentAudio && $data.currentAudio.src === station.url,
+        'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !($data.currentAudio && $data.currentAudio.src === station.url)
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(station.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: "audioPlayer",
       src: station.url,
       controls: "",
       "class": "w-100 mb-2",
+      style: {
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "border-radius": "20px"
+      },
       onPlay: function onPlay($event) {
         return $options.handlePlay(station.id, $event);
       }
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_6)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_5)])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === 1,
-    "class": "btn btn-outline-success me-2"
-  }, " Previous ", 8 /* PROPS */, _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary me-2"
+  }, " Previous ", 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.nextPage && $options.nextPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === $options.totalPages,
-    "class": "btn btn-outline-success ms-2"
-  }, " Next ", 8 /* PROPS */, _hoisted_10)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    "class": "btn btn-outline-secondary ms-2"
+  }, " Next ", 8 /* PROPS */, _hoisted_9)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -80917,7 +80923,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  background: rgba(13, 182, 145, 0.09);\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
