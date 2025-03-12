@@ -348,8 +348,8 @@ h2, .h2 {
 h3, .h3 {
   font-size: 1.75rem; }
 
-h4, .h4 {
-  font-size: 1.5rem; }
+/* h4, .h4 {
+  font-size: 1.5rem; } */
 
 h5, .h5 {
   font-size: 1.25rem; }
@@ -2714,7 +2714,7 @@ input[type="button"].btn-block {
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 0.25rem 1.5rem;
+  /* padding: 0.25rem 1.5rem; */
   clear: both;
   font-weight: 400;
   color: #212529;
@@ -2740,7 +2740,7 @@ input[type="button"].btn-block {
 
 .dropdown-header {
   display: block;
-  padding: 0.5rem 1.5rem;
+  /* padding: 0.5rem 1.5rem; */
   margin-bottom: 0;
   font-size: 0.875rem;
   color: #6c757d;
@@ -2748,7 +2748,7 @@ input[type="button"].btn-block {
 
 .dropdown-item-text {
   display: block;
-  padding: 0.25rem 1.5rem;
+  /* padding: 0.25rem 1.5rem; */
   color: #212529; }
 
 .btn-group,
@@ -3023,7 +3023,8 @@ input[type="button"].btn-block {
   position: relative;
   display: block;
   min-height: 1.5rem;
-  padding-left: 1.5rem; }
+  padding-left: 1.5rem; 
+}
 
 .custom-control-inline {
   display: -webkit-inline-box;
@@ -3819,7 +3820,8 @@ input[type="button"].btn-block {
     border-top-right-radius: 0.25rem; }
   .card > .list-group:last-child .list-group-item:last-child {
     border-bottom-right-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem; }
+    border-bottom-left-radius: 0.25rem; 
+  }
 
 /* .card-body {
   -webkit-box-flex: 1;
@@ -6782,16 +6784,16 @@ button.bg-dark:focus {
 .px-4 {
   padding-left: 1.5rem !important; } */
 
-.p-5 {
-  padding: 3rem !important; }
+/* .p-5 {
+  padding: 3rem !important; } */
 
 .pt-5,
 .py-5 {
   padding-top: 3rem !important; }
 
-.pr-5,
+/* .pr-5,
 .px-5 {
-  padding-right: 3rem !important; }
+  padding-right: 3rem !important; } */
 
 .pb-5,
 .py-5 {
@@ -7070,8 +7072,8 @@ button.bg-dark:focus {
   /* .pl-sm-4,
   .px-sm-4 {
     padding-left: 1.5rem !important; } */
-  .p-sm-5 {
-    padding: 3rem !important; }
+  /* .p-sm-5 {
+    padding: 3rem !important; } */
   .pt-sm-5,
   .py-sm-5 {
     padding-top: 3rem !important; }
@@ -7569,17 +7571,17 @@ button.bg-dark:focus {
   .pt-lg-4,
   .py-lg-4 {
     padding-top: 1.5rem !important; }
-  .pr-lg-4,
+  /* .pr-lg-4,
   .px-lg-4 {
-    padding-right: 1.5rem !important; }
+    padding-right: 1.5rem !important; } */
   .pb-lg-4,
   .py-lg-4 {
     padding-bottom: 1.5rem !important; }
-  .pl-lg-4,
+  /* .pl-lg-4,
   .px-lg-4 {
-    padding-left: 1.5rem !important; }
-  .p-lg-5 {
-    padding: 3rem !important; }
+    padding-left: 1.5rem !important; } */
+  /* .p-lg-5 {
+    padding: 3rem !important; } */
   .pt-lg-5,
   .py-lg-5 {
     padding-top: 3rem !important; }
@@ -7823,17 +7825,17 @@ button.bg-dark:focus {
   .pt-xl-4,
   .py-xl-4 {
     padding-top: 1.5rem !important; }
-  .pr-xl-4,
+  /* .pr-xl-4,
   .px-xl-4 {
-    padding-right: 1.5rem !important; }
+    padding-right: 1.5rem !important; } */
   .pb-xl-4,
   .py-xl-4 {
     padding-bottom: 1.5rem !important; }
   .pl-xl-4,
   .px-xl-4 {
     padding-left: 1.5rem !important; }
-  .p-xl-5 {
-    padding: 3rem !important; }
+  /* .p-xl-5 {
+    padding: 3rem !important; } */
   .pt-xl-5,
   .py-xl-5 {
     padding-top: 3rem !important; }

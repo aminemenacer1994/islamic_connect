@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div class="pt-3 text-center">
+        <div class="pt-3 text-center ">
             <Title />
 
             <div v-if="!isVisible">
@@ -10,23 +10,22 @@
 
 
             <!-- accordion headers -->
-            <div class="row container-fluid">
-                <div class="col-md-4 container-fluid">
+            <div class="row ">
+                <div class="col-md-4 ">
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
 
                     <!-- <div style="display: flex" class="row"> -->
 
-                        <!-- <AyahOfTheDay /> -->
-                        <SurahDropdown class="pt-1" :selectedSurah="selectedSurahId"
-                            :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
-                            @fetchAyat="getAyat" />
+                    <!-- <AyahOfTheDay /> -->
+                    <SurahDropdown class="pt-1" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
+                        :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
-                        <!-- <AddBookmark /> -->
+                    <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
-                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
+                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container-fluid" />
 
 
                     <!-- List of Ayat for Surah (desktop) -->
@@ -209,36 +208,34 @@
                                                     <div class="row pt-2 text-center">
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                 aria-expanded="false"
-                                                                data-bs-placement="top" title="Write a note"
+                                                                aria-expanded="false" data-bs-placement="top"
+                                                                title="Write a note"
                                                                 @click="openModal('translationNote')"></i>
                                                             <div class="icon-text pt-2">Write a Note</div>
                                                         </div>
                                                         <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i @click="submitForm" 
+                                                            <i @click="submitForm"
                                                                 class="bi bi-bookmark text-right mr-2 h4"
                                                                 aria-expanded="false" title="Bookmark verse"></i>
                                                             <div class="icon-text pt-2">Bookmark</div>
                                                         </div>
                                                         <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i 
-                                                                class="bi bi-info-circle h4 mr-2 pl-2"
+                                                            <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                 data-bs-toggle="modal" data-bs-target="#translationInfo"
                                                                 aria-expanded="false" data-bs-placement="top"
                                                                 title="Surah info"></i>
                                                             <div class="icon-text pt-2">Surah Info</div>
                                                         </div>
                                                         <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i title="Give feedback" 
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                            <i title="Give feedback" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
                                                                 class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
                                                                 aria-expanded="false" data-bs-placement="top"></i>
                                                             <div class="icon-text pt-2">Feedback</div>
                                                         </div>
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-arrows-fullscreen h4"
-                                                                 @click="toggleFullScreen"
-                                                                title="Full screen"></i>
+                                                                @click="toggleFullScreen" title="Full screen"></i>
                                                             <div class="icon-text pt-2 mb-2">Full Screen</div>
                                                         </div>
                                                     </div>
@@ -323,51 +320,52 @@
                                                     <div class="text-center">
                                                         <div class="row pt-2">
                                                             <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i  class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                <i class="bi bi-file-earmark-text text-right mr-2 h4"
                                                                     aria-expanded="false" data-bs-placement="top"
                                                                     title="Write a note" @click="
                                                                         openModal(
                                                                             'tafseerNote'
                                                                         )
                                                                         "></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Write a Note</div>
-                                                                    </div>
+                                                                <div class="col desktop-icon">
+                                                                    <div class="icon-text pt-2 mb-2">Write a Note</div>
+                                                                </div>
                                                             </div>
                                                             <div class="col desktop-icon" style="cursor: pointer;">
                                                                 <i @click="submitFormTafseer
-                                                                "  class="bi bi-bookmark text-right mr-2 h4"
+                                                                " class="bi bi-bookmark text-right mr-2 h4"
                                                                     aria-expanded="false" data-bs-placement="top"
                                                                     title="Bookmark verse"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Bookmark</div>
-                                                                    </div>
+                                                                <div class="col desktop-icon">
+                                                                    <div class="icon-text pt-2 mb-2">Bookmark</div>
+                                                                </div>
                                                             </div>
                                                             <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i  class="bi bi-info-circle h4 mr-2 pl-2"
+                                                                <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#translationInfo"
                                                                     aria-expanded="false" data-bs-placement="top"
                                                                     title="Surah info"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Surah Info</div>
-                                                                    </div>
+                                                                <div class="col desktop-icon">
+                                                                    <div class="icon-text pt-2 mb-2">Surah Info</div>
+                                                                </div>
                                                             </div>
                                                             <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i title="Give feedback"  data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                                <i title="Give feedback" data-bs-toggle="modal"
+                                                                    data-bs-target="#exampleModal"
                                                                     class="bi bi-chat-left-text text-right mr-2 h4"
                                                                     aria-expanded="false" data-bs-placement="top"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Feedback</div>
-                                                                    </div>
+                                                                <div class="col desktop-icon">
+                                                                    <div class="icon-text pt-2 mb-2">Feedback</div>
+                                                                </div>
                                                             </div>
                                                             <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i class="bi bi-arrows-fullscreen h4"  @click="toggleFullScreen
+                                                                <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
                                                                 " title="Full screen" aria-expanded="false"
                                                                     data-bs-placement="top"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Full Screen</div>
-                                                                    </div>
+                                                                <div class="col desktop-icon">
+                                                                    <div class="icon-text pt-2 mb-2">Full Screen</div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -454,7 +452,7 @@
                                                         <div class="text-center">
                                                             <div class="row pt-2">
                                                                 <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i  class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                    <i class="bi bi-file-earmark-text text-right mr-2 h4"
                                                                         aria-expanded="false" data-bs-placement="top"
                                                                         title="Write a note" @click="
                                                                             openModal(
@@ -462,14 +460,15 @@
                                                                             )
                                                                             "></i>
                                                                     <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Write a Note</div>
+                                                                        <div class="icon-text pt-2 mb-2">Write a Note
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col desktop-icon" style="
                                                                         cursor: pointer;
                                                                     ">
                                                                     <i @click="submitFormTransliteration
-                                                                    "  class="bi bi-bookmark text-right mr-2 h4"
+                                                                    " class="bi bi-bookmark text-right mr-2 h4"
                                                                         aria-expanded="false"
                                                                         title="Bookmark verse"></i>
                                                                     <div class="col desktop-icon">
@@ -477,18 +476,18 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i  class="bi bi-info-circle h4 mr-2 pl-2"
+                                                                    <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#translationInfo"
                                                                         aria-expanded="false" data-bs-placement="top"
                                                                         title="Surah info"></i>
                                                                     <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Surah Info</div>
+                                                                        <div class="icon-text pt-2 mb-2">Surah Info
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i title="Give feedback" 
-                                                                        data-bs-toggle="modal"
+                                                                    <i title="Give feedback" data-bs-toggle="modal"
                                                                         data-bs-target="#exampleModal"
                                                                         class="bi bi-chat-left-text text-right mr-2 h4"
                                                                         aria-expanded="false"
@@ -498,10 +497,11 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i class="bi bi-arrows-fullscreen h4"  @click="toggleFullScreen
+                                                                    <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
                                                                     " title="Full screen"></i>
                                                                     <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Full Screen</div>
+                                                                        <div class="icon-text pt-2 mb-2">Full Screen
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1910,12 +1910,12 @@ export default {
 </script>
 
 <style scoped src="./css/styles.css">
-
 .icon-text {
     font-size: 12px;
     margin-top: 4px;
     color: #555;
 }
+
 body {
     background-color: #ffffff;
     color: #000000;

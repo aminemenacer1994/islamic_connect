@@ -1,6 +1,6 @@
 <template>
   <select
-    class="form-control right-side-form card"
+    class="form-control right-side-form card container-fluid"
     style="border: 3px solid #31464338; border-radius: 15px;"
     v-model="selectedAyahId"
     @change="handleAyahChange"
