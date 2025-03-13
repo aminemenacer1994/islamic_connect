@@ -30686,6 +30686,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+      utterance: null,
       isArabic: false,
       isLoading: false,
       isPlaying: false,
@@ -30730,52 +30731,61 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // Handle Play Button
     playText: function playText() {
       var _this3 = this;
-      if (this.isPlaying && this.isPaused) {
+      // If it's paused, resume the speech
+      if (this.isPaused) {
         window.speechSynthesis.resume();
         this.isPaused = false;
-      } else {
-        var selectedSection = this.guide.sections[this.selectedCategory];
-        if (!selectedSection) return;
-        var contentArray = this.isArabic ? selectedSection.content_ar : selectedSection.content;
-        if (!Array.isArray(contentArray)) {
-          contentArray = typeof contentArray === 'string' ? [contentArray] : [];
-        }
-        if (contentArray.length === 0) return;
-        var fullText = contentArray.join('. ');
-        this.highlightedText = fullText.split(' ');
-        this.currentIndex = -1;
-        var utterance = new SpeechSynthesisUtterance(fullText);
-        utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
-        var preferredVoice = this.voices.find(function (voice) {
-          return _this3.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US');
-        }) || this.voices[0];
-        if (preferredVoice) utterance.voice = preferredVoice;
-        utterance.pitch = 1.1;
-        utterance.rate = 1;
-        utterance.onboundary = function (event) {
-          if (event.name === 'word') {
-            var textUpToBoundary = fullText.slice(0, event.charIndex);
-            var wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
-            _this3.currentIndex = wordsUpToBoundary;
-            _this3.$forceUpdate();
-          }
-        };
-        utterance.onend = function () {
-          _this3.isPlaying = false;
-          _this3.isPaused = false;
-          _this3.currentIndex = -1;
-        };
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
         this.isPlaying = true;
-        this.isPaused = false;
+        return;
       }
+
+      // Select the content to read
+      var selectedSection = this.guide.sections[this.selectedCategory];
+      if (!selectedSection) return;
+      var contentArray = this.isArabic ? selectedSection.content_ar : selectedSection.content;
+      if (!Array.isArray(contentArray)) {
+        contentArray = typeof contentArray === 'string' ? [contentArray] : [];
+      }
+      if (contentArray.length === 0) return;
+      this.fullText = contentArray.join('. '); // Store the full text for future use
+      this.highlightedText = this.fullText.split(' ');
+      this.currentIndex = -1;
+
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      this.utterance = new SpeechSynthesisUtterance(this.fullText);
+      this.utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
+
+      // Set the preferred voice
+      var preferredVoice = this.voices.find(function (voice) {
+        return _this3.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US');
+      }) || this.voices[0];
+      if (preferredVoice) this.utterance.voice = preferredVoice;
+      this.utterance.pitch = 1.1;
+      this.utterance.rate = 1;
+      this.utterance.onboundary = function (event) {
+        if (event.name === 'word') {
+          var textUpToBoundary = _this3.fullText.slice(0, event.charIndex);
+          var wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
+          _this3.currentIndex = wordsUpToBoundary;
+          _this3.$forceUpdate(); // Re-render to highlight the correct word
+        }
+      };
+      this.utterance.onend = function () {
+        _this3.isPlaying = false;
+        _this3.isPaused = false;
+        _this3.currentIndex = -1;
+      };
+      window.speechSynthesis.speak(this.utterance);
+      this.isPlaying = true;
+      this.isPaused = false;
     },
-    // Handle Pause Button
+    // Pause Button Handler
     pauseText: function pauseText() {
       if (this.isPlaying && !this.isPaused) {
         window.speechSynthesis.pause();
         this.isPaused = true;
+        this.isPlaying = false;
       }
     },
     // Handle Stop Button
@@ -43475,7 +43485,7 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = {
   key: 0,
-  "class": "fw-bold hide-on-mobile-tablet"
+  "class": "fw-bold hide-on-mobile-tablet pt-1"
 };
 var _hoisted_7 = {
   key: 1,
@@ -43795,14 +43805,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 0,
     onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"display: flex\" class=\"row\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Surah below:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
-    "class": "pt-1",
+  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"display: flex\" class=\"row\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Select a Surah:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
     surat: $data.surat,
     "onUpdate:selectedSurah": $options.updateSelectedSurah,
     onFetchAyat: $options.getAyat
-  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_7, "Select a Verse below:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
+  }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_7, "Select a Verse:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AyahDropdown, {
     key: 2,
     selectedSurahId: $data.selectedSurahId,
     dropdownHidden: $data.dropdownHidden,

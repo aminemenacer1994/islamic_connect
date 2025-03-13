@@ -17,13 +17,13 @@
                     <!-- <div style="display: flex" class="row"> -->
 
                     <!-- <AyahOfTheDay /> -->
-                     <h5 class="fw-bold hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Select a Surah below:</h5>
-                    <SurahDropdown class="pt-1" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
+                     <h5 class="fw-bold hide-on-mobile-tablet pt-1" v-if="ayah == null && !dropdownHidden">Select a Surah:</h5>
+                    <SurahDropdown :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Select a Verse below:</h5>
+                    <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Select a Verse:</h5>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"

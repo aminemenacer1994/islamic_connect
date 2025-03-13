@@ -121,6 +121,7 @@ import { ref, onMounted } from 'vue';
 export default {
   data() {
     return {
+      utterance: null,
       isArabic: false,
       isLoading: false,
       isPlaying: false,
@@ -165,67 +166,75 @@ export default {
 
     // Handle Play Button
     playText() {
-      if (this.isPlaying && this.isPaused) {
+      // If it's paused, resume the speech
+      if (this.isPaused) {
         window.speechSynthesis.resume();
         this.isPaused = false;
-      } else {
-        const selectedSection = this.guide.sections[this.selectedCategory];
-        if (!selectedSection) return;
-
-        let contentArray = this.isArabic
-          ? selectedSection.content_ar
-          : selectedSection.content;
-
-        if (!Array.isArray(contentArray)) {
-          contentArray = typeof contentArray === 'string' ? [contentArray] : [];
-        }
-
-        if (contentArray.length === 0) return;
-
-        const fullText = contentArray.join('. ');
-        this.highlightedText = fullText.split(' ');
-        this.currentIndex = -1;
-
-        const utterance = new SpeechSynthesisUtterance(fullText);
-        utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
-
-        const preferredVoice = this.voices.find(voice =>
-          this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US')
-        ) || this.voices[0];
-
-        if (preferredVoice) utterance.voice = preferredVoice;
-
-        utterance.pitch = 1.1;
-        utterance.rate = 1;
-
-        utterance.onboundary = (event) => {
-          if (event.name === 'word') {
-            const textUpToBoundary = fullText.slice(0, event.charIndex);
-            const wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
-            this.currentIndex = wordsUpToBoundary;
-            this.$forceUpdate();
-          }
-        };
-
-        utterance.onend = () => {
-          this.isPlaying = false;
-          this.isPaused = false;
-          this.currentIndex = -1;
-        };
-
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utterance);
-
         this.isPlaying = true;
-        this.isPaused = false;
+        return;
       }
+
+      // Select the content to read
+      const selectedSection = this.guide.sections[this.selectedCategory];
+      if (!selectedSection) return;
+
+      let contentArray = this.isArabic
+        ? selectedSection.content_ar
+        : selectedSection.content;
+
+      if (!Array.isArray(contentArray)) {
+        contentArray = typeof contentArray === 'string' ? [contentArray] : [];
+      }
+
+      if (contentArray.length === 0) return;
+
+      this.fullText = contentArray.join('. ');  // Store the full text for future use
+      this.highlightedText = this.fullText.split(' ');
+      this.currentIndex = -1;
+
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+
+      this.utterance = new SpeechSynthesisUtterance(this.fullText);
+      this.utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
+
+      // Set the preferred voice
+      const preferredVoice = this.voices.find(voice =>
+        this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US')
+      ) || this.voices[0];
+
+      if (preferredVoice) this.utterance.voice = preferredVoice;
+
+      this.utterance.pitch = 1.1;
+      this.utterance.rate = 1;
+
+      this.utterance.onboundary = (event) => {
+        if (event.name === 'word') {
+          const textUpToBoundary = this.fullText.slice(0, event.charIndex);
+          const wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
+          this.currentIndex = wordsUpToBoundary;
+          this.$forceUpdate();  // Re-render to highlight the correct word
+        }
+      };
+
+      this.utterance.onend = () => {
+        this.isPlaying = false;
+        this.isPaused = false;
+        this.currentIndex = -1;
+      };
+
+      window.speechSynthesis.speak(this.utterance);
+
+      this.isPlaying = true;
+      this.isPaused = false;
     },
 
-    // Handle Pause Button
+    // Pause Button Handler
     pauseText() {
       if (this.isPlaying && !this.isPaused) {
         window.speechSynthesis.pause();
         this.isPaused = true;
+        this.isPlaying = false;
       }
     },
 
