@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="row text-left mt-2">
-          <div class="col-md 11">
+          <div class="col-md-11 col-10">
             <h4 class="ayah-translation" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
               {{ expanded ? information.transliteration : information.transliteration }}
@@ -37,7 +37,7 @@
             </div>
           </div>
           <!-- Icons Column (Stacked Vertically) -->
-          <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
+          <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column">
             <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
               aria-placeholder="Increase text size" @click="increaseFontSize" data-bs-toggle="tooltip"
               data-bs-placement="top" title="Increase text size">

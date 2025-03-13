@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <!-- Cards Section -->
-        <div v-if="!dropdownVisible" class="row g-3">
+        <!-- <div v-if="!dropdownVisible" class="row g-3">
             <div v-for="(surah, index) in displayedSurahs" :key="index" >
 
                 <div class="row">
@@ -17,11 +17,11 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Dropdown Section -->
-        <div v-else class="surah-dropdown container-fluid">
-            <select class="form-control custom-dropdown card" aria-label="Select a Surah" :value="selectedSurahLocal"
+        <div class="surah-dropdown ">
+            <select class="form-control custom-dropdown container card" aria-label="Select a Surah" :value="selectedSurahLocal"
                 style="border: 3px solid #31464338; border-radius: 15px;" @change="handleChange">
                 <option value="0" disabled>Select a Surah:</option>
                 <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">

@@ -15,56 +15,59 @@
         </div>
 
         <div class="row text-left mt-2">
-          <div class="col-11">
-            <div>
-              <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
-                :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
+          <div class="col-md-11 col-10">
+            <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
+              :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
 
-              <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
-                <div class="d-flex flex-wrap gap-2">
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
-                    <i class="bi bi-filetype-csv pr-2"></i>CSV Export
-                  </button>
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
-                    <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
-                  </button>
-                  <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
-                    <i class="bi bi-filetype-json pr-2"></i>JSON Export
-                  </button>
-                </div>
-              </div>
-              <!-- Dropdowns for Rate and Pitch -->
-              <div class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-                <!-- Rate Dropdown -->
-                <b>Rate:</b>
-                <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
-                  <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
-                </select>
-
-                <!-- Pitch Dropdown -->
-                <b>Pitch:</b>
-                <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
-                  <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
-                </select>
-
-                <!-- Voice Dropdown -->
-                <b>Voice:</b>
-                <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
-                  <option v-for="voice in voices" :key="voice.name" :value="voice.name">
-                    {{ voice.name }}
-                  </option>
-                </select>
-              </div>
               <div class="text-left word-count mt-2">
                 <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
                 <strong>Tafseer: </strong>Ibn Katheer
               </div>
 
+              <hr />
+
+            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+              <div class="d-flex flex-wrap gap-2">
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
+                  <i class="bi bi-filetype-csv pr-2"></i>CSV Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsWord">
+                  <i class="bi bi-filetype-docx pr-2"></i>DOCX Export
+                </button>
+                <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsExport">
+                  <i class="bi bi-filetype-json pr-2"></i>JSON Export
+                </button>
+              </div>
             </div>
+
+            <!-- Toggle Button -->
+            <button type="button" class="btn btn-secondary" @click="showOptions = !showOptions">{{ showOptions ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
+            <!-- Rate, Pitch, and Voice Dropdowns -->
+            <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+              <b>Rate:</b>
+              <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+                <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+              </select>
+
+              <b>Pitch:</b>
+              <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+                <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+              </select>
+
+              <b>Voice:</b>
+              <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
+                <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
+                  :value="voice.name">
+                  {{ voice.name }}
+                </option>
+              </select>
+            </div>
+
+            
           </div>
 
           <!-- Icons Column (Stacked Vertically) -->
-          <div v-if="!isVisible" class="col-1 d-flex align-items-center justify-content-center flex-column">
+          <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column">
             <!-- Play/Pause Button -->
             <i @click="toggleSpeech" :class="[
               'bi',
@@ -176,6 +179,7 @@ export default {
   },
   data() {
     return {
+      showOptions: false,
       voices: [],
       selectedVoice: '', // User's selected voice
       isVisible: false, // Controls visibility of premium features

@@ -1,24 +1,26 @@
 <template>
-  <select
-    class="form-control right-side-form card container-fluid"
-    style="border: 3px solid #31464338; border-radius: 15px;"
-    v-model="selectedAyahId"
-    @change="handleAyahChange"
-    :disabled="isLoading"
-    :class="{ 
-      'desktop-hidden': true,
-      'mobile-visible': true
-    }"
-  >
-    <option value="">Select Ayah</option>
-    <option
-      v-for="ayah in ayat"
-      :key="ayah.id"
-      :value="ayah.id"
+  <div class="container-fluid">
+    <select
+      class="form-control right-side-form card container"
+      style="border: 3px solid #31464338; border-radius: 15px;"
+      v-model="selectedAyahId"
+      @change="handleAyahChange"
+      :disabled="isLoading"
+      :class="{ 
+        'desktop-hidden': true,
+        'mobile-visible': true
+      }"
     >
-      {{ formatAyahOption(ayah) }}
-    </option>
-  </select>
+      <option value="">Select Ayah</option>
+      <option
+        v-for="ayah in ayat"
+        :key="ayah.id"
+        :value="ayah.id"
+      >
+        {{ formatAyahOption(ayah) }}
+      </option>
+    </select>
+  </div>
 </template>
 
 <script>

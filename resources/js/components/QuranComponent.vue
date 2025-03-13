@@ -11,21 +11,38 @@
 
             <!-- accordion headers -->
             <div class="row ">
+                <SurahDropdown 
+                    v-if="!selectedSurahId" 
+                    class="pt-1 container" 
+                    :selectedSurah="selectedSurahId" 
+                    :filteredSurah="filteredSurah" 
+                    :surat="surat" 
+                    @update:selectedSurah="updateSelectedSurah" 
+                    @fetchAyat="getAyat" 
+                />
                 <div class="col-md-4 ">
+                    <SurahDropdown 
+                        v-if="selectedSurahId" 
+                        class="pt-1 container" 
+                        :selectedSurah="selectedSurahId" 
+                        :filteredSurah="filteredSurah" 
+                        :surat="surat" 
+                        @update:selectedSurah="updateSelectedSurah" 
+                        @fetchAyat="getAyat" 
+                    />
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
 
                     <!-- <div style="display: flex" class="row"> -->
 
                     <!-- <AyahOfTheDay /> -->
-                    <SurahDropdown class="pt-1" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
-                        :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                    
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
-                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container-fluid" />
+                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container" />
 
 
                     <!-- List of Ayat for Surah (desktop) -->
@@ -248,13 +265,14 @@
                                         <!-- mobile navigation  -->
                                         <div class="dropdown mobile-only pb-2">
                                             <div :style="iconStyle" class="icon-container">
-                                                <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
-                                                    aria-expanded="false" data-bs-placement="top"
-                                                    title="Bookmark verse"></i>
+
                                                 <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                     @click="goToFirstAyah()" title="Last verse"></i>
                                                 <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                     @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
+                                                    aria-expanded="false" data-bs-placement="top"
+                                                    title="Bookmark verse"></i>
                                                 <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                     @click="goToNextAyah()" title="Next verse"></i>
                                                 <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
@@ -378,13 +396,14 @@
                                             <!-- mobile navigation  -->
                                             <div class="dropdown mobile-only">
                                                 <div :style="iconStyle" class="icon-container pb-2">
-                                                    <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
-                                                        aria-expanded="false" data-bs-placement="top"
-                                                        title="Bookmark verse"></i>
+                                                    
                                                     <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                         @click="goToFirstAyah()" title="Last verse"></i>
                                                     <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                         @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                    <i @click="submitFormTafseer" class="bi bi-bookmark mb-2 h4"
+                                                        aria-expanded="false" data-bs-placement="top"
+                                                        title="Bookmark verse"></i>
                                                     <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                         @click="goToNextAyah()" title="Next verse"></i>
                                                     <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"
@@ -516,13 +535,13 @@
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">
                                                     <div :style="iconStyle" class="icon-container">
-                                                        <i @click="submitFormTransliteration
-                                                        " class="bi bi-bookmark mb-2 h4" aria-expanded="false"
-                                                            data-bs-placement="top" title="Bookmark verse"></i>
+                                                        
                                                         <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                             @click="goToFirstAyah()" title="Last verse"></i>
                                                         <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                             @click="goToPreviousAyah()" title="Previous verse"></i>
+                                                        <i @click="submitFormTransliteration" class="bi bi-bookmark mb-2 h4" 
+                                                            aria-expanded="false" data-bs-placement="top" title="Bookmark verse"></i>
                                                         <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                             @click="goToNextAyah()" title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"

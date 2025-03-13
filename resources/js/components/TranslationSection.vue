@@ -16,7 +16,15 @@
         <div class="col-md-11 col-10">
           <h4 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
-          <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+
+            <div class="text-left word-count mt-3">
+              <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
+              <strong>Translation: </strong>Ahmed Ali
+            </div>
+
+            <hr />
+          
+            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
             <div class="d-flex flex-wrap gap-2">
               <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                 <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -31,10 +39,7 @@
           </div>
 
           <!-- Toggle Button -->
-          <button class="btn btn-sm btn-primary mb-2" @click="showOptions = !showOptions">
-            {{ showOptions ? 'Hide Options' : 'Show Options' }}
-          </button>
-
+          <button type="button" class="btn btn-secondary" @click="showOptions = !showOptions">{{ showOptions ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
           <!-- Rate, Pitch, and Voice Dropdowns -->
           <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
             <b>Rate:</b>
@@ -54,11 +59,6 @@
                 {{ voice.name }}
               </option>
             </select>
-          </div>
-
-          <div class="text-left word-count mt-3">
-            <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
-            <strong>Translation: </strong>Ahmed Ali
           </div>
         </div>
 
@@ -1079,14 +1079,14 @@ export default {
   margin-bottom: 20px;
 }
 
-.btn {
+/* .btn {
   font-size: 16px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-}
+} */
 
 .btn-primary {
   background-color: #1f4e79;
