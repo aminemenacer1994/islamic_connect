@@ -20,9 +20,9 @@
         </div> -->
 
         <!-- Dropdown Section -->
-        <div class="surah-dropdown ">
-            <select class="form-control custom-dropdown container card" aria-label="Select a Surah" :value="selectedSurahLocal"
-                style="border: 3px solid #31464338; border-radius: 15px;" @change="handleChange">
+        <div class="surah-dropdown container">
+            <select class="form-control custom-dropdown card" aria-label="Select a Surah" :value="selectedSurahLocal"
+                style="border: 3px solid #31464338; border-radius: 8px;" @change="handleChange">
                 <option value="0" disabled>Select a Surah:</option>
                 <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">
                     {{ formatSurahOption(surah) }}
