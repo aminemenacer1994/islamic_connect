@@ -44847,27 +44847,31 @@ var _hoisted_5 = {
 var _hoisted_6 = {
   "class": "col-md-11 col-10"
 };
-var _hoisted_7 = ["innerHTML"];
-var _hoisted_8 = {
+var _hoisted_7 = {
   key: 0,
+  "class": "fw-bold pt-2 hide-on-mobile-tablet"
+};
+var _hoisted_8 = ["innerHTML"];
+var _hoisted_9 = {
+  key: 1,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_10 = {
-  key: 1,
+var _hoisted_11 = {
+  key: 2,
   "class": "container d-flex flex-column flex-sm-row gap-2 mt-3"
 };
-var _hoisted_11 = ["value"];
 var _hoisted_12 = ["value"];
 var _hoisted_13 = ["value"];
-var _hoisted_14 = {
+var _hoisted_14 = ["value"];
+var _hoisted_15 = {
   key: 0,
   "class": "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -44888,7 +44892,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     information: $props.information
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_ctx.ayah == null && !_ctx.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_7, "Tafseer:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
     innerHTML: $data.renderedText,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
@@ -44897,7 +44901,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fontSize: $data.fontSize + 'em',
       lineHeight: '1.6em'
     }])
-  }, null, 12 /* STYLE, PROPS */, _hoisted_7), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 12 /* STYLE, PROPS */, _hoisted_8), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -44905,7 +44909,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Tafseer: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ibn Katheer ")], -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -44935,7 +44939,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.showOptions = !$data.showOptions;
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Voice settings' : 'Show Voice settings'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Voice settings' : 'Show Voice settings'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.speechRate = $event;
     }),
@@ -44945,7 +44949,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: rate,
       value: rate
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_11);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.speechPitch = $event;
@@ -44956,7 +44960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: pitch,
       value: pitch
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_12);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_13);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Voice:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedVoice = $event;
@@ -44969,8 +44973,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: voice.name,
       value: voice.name
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_14);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$options.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -45018,7 +45022,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-toggle": "tooltip",
     "data-bs-placement": "top",
     title: "Decrease text size"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Collapse Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Collapse Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -45142,27 +45146,31 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "col-md-11 col-10"
 };
-var _hoisted_6 = ["innerHTML"];
-var _hoisted_7 = {
+var _hoisted_6 = {
   key: 0,
+  "class": "fw-bold pt-2 hide-on-mobile-tablet"
+};
+var _hoisted_7 = ["innerHTML"];
+var _hoisted_8 = {
+  key: 1,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_9 = {
-  key: 1,
+var _hoisted_10 = {
+  key: 2,
   "class": "container d-flex flex-column flex-sm-row gap-2 mt-3"
 };
-var _hoisted_10 = ["value"];
 var _hoisted_11 = ["value"];
 var _hoisted_12 = ["value"];
-var _hoisted_13 = {
+var _hoisted_13 = ["value"];
+var _hoisted_14 = {
   key: 0,
   "class": "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -45185,7 +45193,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-1 pt-2 d-flex align-items-center justify-content-center"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_ctx.ayah == null && !_ctx.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Translation:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
       "color": "dimgrey"
@@ -45194,7 +45202,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       lineHeight: '1.6em'
     }]),
     innerHTML: $data.renderedText
-  }, null, 12 /* STYLE, PROPS */, _hoisted_6), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 12 /* STYLE, PROPS */, _hoisted_7), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-left word-count mt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/art.png",
@@ -45202,7 +45210,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Translation: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ahmed Ali ")], -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -45232,7 +45240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.showOptions = !$data.showOptions;
     })
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Voice settings' : 'Show Voice settings'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showOptions ? 'Hide Voice settings' : 'Show Voice settings'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rate, Pitch, and Voice Dropdowns "), $data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Rate:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.speechRate = $event;
     }),
@@ -45242,7 +45250,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: rate,
       value: rate
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_10);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate), 9 /* TEXT, PROPS */, _hoisted_11);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Pitch:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.speechPitch = $event;
@@ -45253,7 +45261,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: pitch,
       value: pitch
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_11);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch), 9 /* TEXT, PROPS */, _hoisted_12);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Voice:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedVoice = $event;
@@ -45266,8 +45274,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: voice.name,
       value: voice.name
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_13);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[8] || (_cache[8] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
@@ -45307,7 +45315,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
     }),
     title: "Decrease Text Size"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -45419,17 +45427,21 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = {
   key: 0,
+  "class": "fw-bold pt-2 hide-on-mobile-tablet"
+};
+var _hoisted_7 = {
+  key: 1,
   "class": "row collapse pt-3",
   id: "collapseExample"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
   key: 0,
   "class": "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column"
 };
-var _hoisted_9 = {
+var _hoisted_10 = {
   "class": "d-inline-flex gap-1"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -45469,7 +45481,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-2 pt-2 d-flex align-items-center justify-content-center"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_MainAyah, {
     information: $props.information
-  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, 8 /* PROPS */, ["information"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_ctx.ayah == null && !_ctx.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h5", _hoisted_6, "Transliteration:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "ayah-translation",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
       "color": "dimgrey"
@@ -45477,7 +45489,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       fontSize: $data.fontSize + 'em',
       lineHeight: '1.6em'
     }])
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? $props.information.transliteration : $props.information.transliteration), 5 /* TEXT, STYLE */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.expanded ? $props.information.transliteration : $props.information.transliteration), 5 /* TEXT, STYLE */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-dark btn-sm px-3 py-2",
     onClick: _cache[1] || (_cache[1] = function () {
@@ -45509,7 +45521,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Transliteration: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Saheeh International ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icons Column (Stacked Vertically) "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },
@@ -45533,7 +45545,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-toggle": "tooltip",
     "data-bs-placement": "top",
     title: "Decrease text size"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     style: {
       "cursor": "pointer"
     },

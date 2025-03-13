@@ -16,6 +16,8 @@
 
         <div class="row text-left mt-2">
           <div class="col-md-11 col-10">
+            <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Tafseer:</h5>
+
             <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
 
