@@ -21,20 +21,33 @@
 
         <!-- Dropdown Section -->
         <p v-if="!selectedSurah" class="lead container-fluid">
-            Your AI-powered Quran study assistant. Unlock tools like voice search, audio highlighting and more to deepen your connection with the Quran.
+            Your AI-powered Quran study assistant. Unlock tools like voice search, audio highlighting and more to deepen
+            your connection with the Quran.
         </p>
 
-
-        <div class="surah-dropdown container-fluid d-flex justify-content-center">
-            <select class="form-control custom-dropdown card" aria-label="Select a Surah"
-                :value="selectedSurahLocal" style="border: 3px solid #31464338; border-radius: 8px;"
-                @change="handleChange">
-                <option value="0" disabled>Select a Surah:</option>
-                <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">
-                    {{ formatSurahOption(surah) }}
-                </option>
-            </select>
+        <div class="container-fluid text-center">
+            <div class="row">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-10">
+                    <div class="surah-dropdown container-fluid d-flex justify-content-center">
+                        <select class="form-control custom-dropdown card" aria-label="Select a Surah"
+                            :value="selectedSurahLocal" style="border: 3px solid #31464338; border-radius: 8px;"
+                            @change="handleChange">
+                            <option value="0" disabled>Select a Surah:</option>
+                            <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">
+                                {{ formatSurahOption(surah) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                </div>
+            </div>
         </div>
+
+
+
 
     </div>
 </template>
@@ -134,7 +147,7 @@ export default {
 
 .form-control {
     width: 100%;
-    padding: 8px 12px;
+    /* padding: 8px 12px; */
     font-size: 1rem;
     line-height: 1.5;
     /* background-color: #fff; */

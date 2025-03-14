@@ -13,7 +13,7 @@
             <div class="row ">
                 <SurahDropdown 
                     v-if="!selectedSurahId" 
-                    class="pt-1 container" 
+                    class="pt-1 container-fluid" 
                     :selectedSurah="selectedSurahId" 
                     :filteredSurah="filteredSurah" 
                     :surat="surat" 
@@ -23,7 +23,7 @@
                 <div class="col-md-4 ">
                     <SurahDropdown 
                         v-if="selectedSurahId" 
-                        class="pt-1 container" 
+                        class="pt-1 container-fluid" 
                         :selectedSurah="selectedSurahId" 
                         :filteredSurah="filteredSurah" 
                         :surat="surat" 

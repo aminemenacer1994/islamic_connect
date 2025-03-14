@@ -43799,7 +43799,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInputChange: _ctx.handleInputChange
   }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [!$data.selectedSurahId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_SurahDropdown, {
     key: 0,
-    "class": "pt-1 container",
+    "class": "pt-1 container-fluid",
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
     surat: $data.surat,
@@ -43807,7 +43807,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onFetchAyat: $options.getAyat
   }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [$data.selectedSurahId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_SurahDropdown, {
     key: 0,
-    "class": "pt-1 container",
+    "class": "pt-1 container-fluid",
     selectedSurah: $data.selectedSurahId,
     filteredSurah: $data.filteredSurah,
     surat: $data.surat,
@@ -49599,12 +49599,23 @@ var _hoisted_2 = {
   "class": "lead container-fluid"
 };
 var _hoisted_3 = {
+  "class": "container-fluid text-center"
+};
+var _hoisted_4 = {
+  "class": "row"
+};
+var _hoisted_5 = {
+  "class": "col-md-10"
+};
+var _hoisted_6 = {
   "class": "surah-dropdown container-fluid d-flex justify-content-center"
 };
-var _hoisted_4 = ["value"];
-var _hoisted_5 = ["value"];
+var _hoisted_7 = ["value"];
+var _hoisted_8 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cards Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!dropdownVisible\" class=\"row g-3\">\n            <div v-for=\"(surah, index) in displayedSurahs\" :key=\"index\" >\n\n                <div class=\"row\">\n                    <ul class=\"list-group col-md-4 w-100 mb-3\" >\n                        <li class=\"list-group-item list-group-item-success active\"\n                            style=\"border: 2px solid rgb(0, 191, 166); cursor: pointer; border-radius: 5px\" aria-current=\"true\"\n                            @click=\"handleCardClick(surah.id)\">\n                            <div class=\"text-center\" style=\"cursor: pointer; padding: 10px;\">\n                                <img src=\"/images/art.png\" style=\"width: 23px;\" class=\"mb-1 mr-2\" loading=\"lazy\" />\n                                {{ surah.name_en }} {{ surah.name_ar }}\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown Section "), !$props.selectedSurah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_2, " Your AI-powered Quran study assistant. Unlock tools like voice search, audio highlighting and more to deepen your connection with the Quran. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cards Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"!dropdownVisible\" class=\"row g-3\">\n            <div v-for=\"(surah, index) in displayedSurahs\" :key=\"index\" >\n\n                <div class=\"row\">\n                    <ul class=\"list-group col-md-4 w-100 mb-3\" >\n                        <li class=\"list-group-item list-group-item-success active\"\n                            style=\"border: 2px solid rgb(0, 191, 166); cursor: pointer; border-radius: 5px\" aria-current=\"true\"\n                            @click=\"handleCardClick(surah.id)\">\n                            <div class=\"text-center\" style=\"cursor: pointer; padding: 10px;\">\n                                <img src=\"/images/art.png\" style=\"width: 23px;\" class=\"mb-1 mr-2\" loading=\"lazy\" />\n                                {{ surah.name_en }} {{ surah.name_ar }}\n                            </div>\n                        </li>\n                    </ul>\n                </div>\n            </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown Section "), !$props.selectedSurah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_2, " Your AI-powered Quran study assistant. Unlock tools like voice search, audio highlighting and more to deepen your connection with the Quran. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control custom-dropdown card",
     "aria-label": "Select a Surah",
     value: $data.selectedSurahLocal,
@@ -49622,8 +49633,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: index,
       value: surah.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSurahOption(surah)), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_4)])]);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatSurahOption(surah)), 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)])]), _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-1"
+  }, null, -1 /* HOISTED */))])])]);
 }
 
 /***/ }),
@@ -81702,7 +81715,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.border-warning[data-v-7416ffac] {\n    border-width: 3px !important;\n}\n.card-title[data-v-7416ffac] {\n    font-weight: bold;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1.2rem;\n}\n.custom-card[data-v-7416ffac] {\n    border: 3px solid #31464338;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n.custom-card[data-v-7416ffac]:hover {\n    transform: scale(1.05);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);\n}\n.card-title[data-v-7416ffac] {\n    font-size: 1.2rem;\n    margin-bottom: 0.5rem;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1rem;\n    color: #555;\n}\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    /* background-color: #fff; */\n    border-radius: 5px;\n    border: 3px solid #00bfa6;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.border-warning[data-v-7416ffac] {\n    border-width: 3px !important;\n}\n.card-title[data-v-7416ffac] {\n    font-weight: bold;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1.2rem;\n}\n.custom-card[data-v-7416ffac] {\n    border: 3px solid #31464338;\n    border-radius: 8px;\n    cursor: pointer;\n    transition: transform 0.2s, box-shadow 0.2s;\n}\n.custom-card[data-v-7416ffac]:hover {\n    transform: scale(1.05);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.5);\n}\n.card-title[data-v-7416ffac] {\n    font-size: 1.2rem;\n    margin-bottom: 0.5rem;\n}\n.card-text[data-v-7416ffac] {\n    font-size: 1rem;\n    color: #555;\n}\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    /* padding: 8px 12px; */\n    font-size: 1rem;\n    line-height: 1.5;\n    /* background-color: #fff; */\n    border-radius: 5px;\n    border: 3px solid #00bfa6;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
