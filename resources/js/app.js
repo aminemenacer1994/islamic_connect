@@ -63,6 +63,7 @@ import DuaComponent from "./components/DuaComponent.vue";
 import RadioComponent from "./components/RadioComponent.vue";
 import GuideComponent from "./components/GuideComponent.vue";
 import StreamingComponent from "./components/StreamingComponent.vue";
+import ToolkitComponent from "./components/ToolkitComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -171,6 +172,7 @@ app.component('dua-component', DuaComponent);
 app.component('radio-component', RadioComponent);
 app.component('guide-component', GuideComponent);
 app.component('streaming-component', StreamingComponent);
+app.component('toolkit-component', ToolkitComponent);
 
 
 app.mount("#app");

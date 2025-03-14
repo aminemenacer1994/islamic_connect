@@ -39,6 +39,7 @@ use App\Http\Controllers\DuaController;
 use App\Http\Controllers\RadioController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\StreamingController;
+use App\Http\Controllers\ToolkitController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -305,3 +306,5 @@ Route::get('/radio', [RadioController::class, 'index'])->name('radio');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 // streaming
 Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
+// streaming
+Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');

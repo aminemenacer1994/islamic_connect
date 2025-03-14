@@ -4,26 +4,41 @@
             <Title />
 
             <div v-if="!isVisible">
-                <AdvancedSearch  @input-change="handleInputChange" v-if="information != null" />
+                <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
 
             <!-- accordion headers -->
-            <div class="row pt-2">
+            <div class="row ">
+                <SurahDropdown 
+                    v-if="!selectedSurahId" 
+                    class="pt-1 container" 
+                    :selectedSurah="selectedSurahId" 
+                    :filteredSurah="filteredSurah" 
+                    :surat="surat" 
+                    @update:selectedSurah="updateSelectedSurah" 
+                    @fetchAyat="getAyat" 
+                />
                 <div class="col-md-4 ">
+                    <SurahDropdown 
+                        v-if="selectedSurahId" 
+                        class="pt-1 container" 
+                        :selectedSurah="selectedSurahId" 
+                        :filteredSurah="filteredSurah" 
+                        :surat="surat" 
+                        @update:selectedSurah="updateSelectedSurah" 
+                        @fetchAyat="getAyat" 
+                    />
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
 
                     <!-- <div style="display: flex" class="row"> -->
 
                     <!-- <AyahOfTheDay /> -->
-                     <h5 class="fw-bold hide-on-mobile-tablet pt-1" v-if="ayah == null && !dropdownHidden">Select a Surah:</h5>
-                    <SurahDropdown :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
-                        :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                    
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Select a Verse:</h5>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"

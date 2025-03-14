@@ -26,7 +26,7 @@
             <hr />
           
             <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
-            <div class="d-flex flex-wrap gap-2">
+            <div class="d-flex flex-wrap gap-2 pb-2">
               <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                 <i class="bi bi-filetype-csv pr-2"></i>CSV Export
               </button>

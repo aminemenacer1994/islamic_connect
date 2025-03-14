@@ -20,15 +20,22 @@
         </div> -->
 
         <!-- Dropdown Section -->
-        <div class="surah-dropdown container">
-            <select class="form-control custom-dropdown card" aria-label="Select a Surah" :value="selectedSurahLocal"
-                style="border: 3px solid #31464338; border-radius: 8px;" @change="handleChange">
+        <p v-if="!selectedSurah" class="lead container-fluid">
+            Your AI-powered Quran study assistant. Unlock tools like voice search, audio highlighting and more to deepen your connection with the Quran.
+        </p>
+
+
+        <div class="surah-dropdown container-fluid d-flex justify-content-center">
+            <select class="form-control custom-dropdown card" aria-label="Select a Surah"
+                :value="selectedSurahLocal" style="border: 3px solid #31464338; border-radius: 8px;"
+                @change="handleChange">
                 <option value="0" disabled>Select a Surah:</option>
                 <option v-for="(surah, index) in displayedSurahs" :key="index" :value="surah.id">
                     {{ formatSurahOption(surah) }}
                 </option>
             </select>
         </div>
+
     </div>
 </template>
 
@@ -88,15 +95,15 @@ export default {
 
 <style scoped>
 .border-warning {
-  border-width: 3px !important;
+    border-width: 3px !important;
 }
 
 .card-title {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .card-text {
-  font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .custom-card {
