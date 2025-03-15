@@ -5,6 +5,8 @@
 
             <div v-if="!isVisible">
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
+                <HelpGuideModal />
+
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
@@ -43,7 +45,6 @@
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
                         class="ayah-dropdown-hidden-on-desktop d-block d-md-none container" />
-
 
                     <!-- List of Ayat for Surah (desktop) -->
                     <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
@@ -659,6 +660,8 @@ import AyahSelector from "./search/AyahSelector.vue";
 import SearchContent from "./content/searchContent.vue";
 import AyahOfTheDay from './translation/AyahOfTheDay.vue';
 import PrayerTimes from "./translation/PrayerTimes.vue";
+import HelpGuideModal from "./translation/HelpGuideModal.vue";
+
 import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 
@@ -667,6 +670,7 @@ export default {
     name: "QuranComponent",
     props: {},
     components: {
+        HelpGuideModal,
         DarkModeToggle,
         PrayerTimes,
         AyahOfTheDay,
