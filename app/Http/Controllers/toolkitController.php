@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
-class toolkitController extends Controller
+class ToolkitController extends Controller
 {
     public function index()
     {

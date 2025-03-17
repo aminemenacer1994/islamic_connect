@@ -69,11 +69,11 @@
     <!-- show a message when recording starts -->
     <div v-if="isListening" class="listening-container d-flex align-items-center justify-content-center">
       <!-- Spinner -->
-      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+      <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
         <span class="visually-hidden">Loading...</span>
       </div>
       <!-- Listening Text -->
-      <span class="listening-text ms-3" style="color: black;">
+      <span class="listening-text ml-3 mt-3" style="color: black;">
         <p>Listening</p>
       </span>
     </div>

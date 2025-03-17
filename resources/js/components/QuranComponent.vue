@@ -5,7 +5,6 @@
 
             <div v-if="!isVisible">
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
-                <HelpGuideModal />
 
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
@@ -13,34 +12,33 @@
 
             <!-- accordion headers -->
             <div class="row ">
-                <SurahDropdown 
-                    v-if="!selectedSurahId" 
-                    class="pt-1 container-fluid" 
-                    :selectedSurah="selectedSurahId" 
-                    :filteredSurah="filteredSurah" 
-                    :surat="surat" 
-                    @update:selectedSurah="updateSelectedSurah" 
-                    @fetchAyat="getAyat" 
-                />
-                <div class="col-md-4 ">
-                    <SurahDropdown 
-                        v-if="selectedSurahId" 
-                        class="pt-1 container-fluid" 
-                        :selectedSurah="selectedSurahId" 
-                        :filteredSurah="filteredSurah" 
-                        :surat="surat" 
-                        @update:selectedSurah="updateSelectedSurah" 
-                        @fetchAyat="getAyat" 
-                    />
+                <!-- <div class="row">
+                    <div class="col-12 col-md-6">
+                        <SurahDropdown v-if="!selectedSurahId" class="pt-1" :selectedSurah="selectedSurahId"
+                            :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
+                            @fetchAyat="getAyat" />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <HelpGuideModal />
+                    </div>
+                </div> -->
+
+
+                <div class="col-md-4 ">                
+                    <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
+                    <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId"
+                        :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
+                        @fetchAyat="getAyat" />
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
 
                     <!-- <div style="display: flex" class="row"> -->
 
                     <!-- <AyahOfTheDay /> -->
-                    
+
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
+                    <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
@@ -397,7 +395,7 @@
                                             <!-- mobile navigation  -->
                                             <div class="dropdown mobile-only">
                                                 <div :style="iconStyle" class="icon-container pb-2">
-                                                    
+
                                                     <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                         @click="goToFirstAyah()" title="Last verse"></i>
                                                     <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
@@ -536,13 +534,14 @@
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">
                                                     <div :style="iconStyle" class="icon-container">
-                                                        
+
                                                         <i class="bi bi-chevron-bar-left h4" style="cursor: pointer"
                                                             @click="goToFirstAyah()" title="Last verse"></i>
                                                         <i class="bi bi-arrow-left-circle h4" style="cursor: pointer"
                                                             @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                        <i @click="submitFormTransliteration" class="bi bi-bookmark mb-2 h4" 
-                                                            aria-expanded="false" data-bs-placement="top" title="Bookmark verse"></i>
+                                                        <i @click="submitFormTransliteration"
+                                                            class="bi bi-bookmark mb-2 h4" aria-expanded="false"
+                                                            data-bs-placement="top" title="Bookmark verse"></i>
                                                         <i class="bi bi-arrow-right-circle h4" style="cursor: pointer"
                                                             @click="goToNextAyah()" title="Next verse"></i>
                                                         <i class="bi bi-chevron-bar-right h4" style="cursor: pointer"

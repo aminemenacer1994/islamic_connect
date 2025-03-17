@@ -8,41 +8,32 @@
     <!-- Chatbox that opens when FAB is clicked -->
     <div v-if="showChat" class="chatbox">
       <div class="chat-header">
-        <h3 class="fw-bold ">Islamic Q&A</h3>
+        <span>Islamic Q&A</span>
         <button class="close-btn" @click="toggleChat">X</button>
       </div>
 
-      <!-- Chat History: Display questions and answers -->
-      <div class="messages">
-        <div v-for="(message, index) in chatHistory" :key="index" class="message">
-          <div v-if="message.type === 'user'" class="user-message">
-            <strong>You:</strong> {{ message.text }}
-          </div>
-          <div v-if="message.type === 'bot'" class="bot-message">
-            <strong>Bot:</strong> {{ message.text }}
-          </div>
-        </div>
-      </div>
+      <input 
+        v-model="question" 
+        placeholder="Ask an Islamic question..." 
+        class="input-box" 
+        :disabled="loading"
+      />
 
-      <!-- Input and Button for asking new questions (placed next to each other using flex) -->
-      <div class="input-container">
-        <input 
-          v-model="question" 
-          placeholder="Ask an Islamic question..." 
-          class="input-box" 
-          :disabled="loading"
-        />
-        <button @click="getAnswer" :disabled="loading || !question.trim()" class="button">
-          {{ loading ? "Fetching..." : "Send" }}
-        </button>
-      </div>
+      <button @click="getAnswer" :disabled="loading || !question.trim()" class="button">
+        {{ loading ? "Fetching..." : "Get Answer" }}
+      </button>
 
-      <!-- Clear Button -->
-      <button @click="clearChat" v-if="chatHistory.length" class="clear-button">
-        Clear Conversation
+      <button @click="clearAnswer" v-if="answer || error" class="clear-button">
+        Clear Answer
       </button>
 
       <div v-if="loading" class="loading">Fetching response...</div>
+
+      <p v-if="answer" class="answer">
+        <strong>Answer:</strong> {{ answer }}
+      </p>
+
+      <p v-if="error" class="error">{{ error }}</p>
     </div>
   </div>
 </template>
@@ -52,8 +43,9 @@ export default {
   data() {
     return {
       question: "",
+      answer: "",
       loading: false,
-      chatHistory: [], // Store the entire conversation history
+      error: "",
       showChat: false, // Flag to toggle chat visibility
       apiToken: process.env.HF_API_KEY || "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", // API token
     };
@@ -63,23 +55,15 @@ export default {
     toggleChat() {
       this.showChat = !this.showChat;
     },
-
-    // Adds a message to the chat history
-    addMessage(type, text) {
-      this.chatHistory.push({ type, text });
-    },
-
     async getAnswer() {
       if (!this.question.trim()) {
-        return; // Don't fetch if the question is empty
+        this.error = "Please enter a question.";
+        return;
       }
 
-      // Add user question to chat history
-      this.addMessage('user', this.question);
-      
       this.loading = true;
-      const userQuestion = this.question;
-      this.question = ""; // Clear input field
+      this.answer = "";
+      this.error = "";
 
       try {
         const response = await fetch(
@@ -91,7 +75,7 @@ export default {
               Authorization: `Bearer ${this.apiToken}`,
             },
             body: JSON.stringify({
-              inputs: userQuestion,
+              inputs: this.question,
               parameters: { max_new_tokens: 600 },
             }),
           }
@@ -107,28 +91,26 @@ export default {
           let answerText = data[0].generated_text.trim();
 
           // Remove the question from the answer if included
-          if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
-            answerText = answerText.slice(userQuestion.length).trim();
+          if (answerText.toLowerCase().startsWith(this.question.toLowerCase())) {
+            answerText = answerText.slice(this.question.length).trim();
           }
 
-          // Add bot's response to chat history
-          this.addMessage('bot', answerText);
+          this.answer = answerText;
         } else {
-          // If no answer is found
-          this.addMessage('bot', "Sorry, I couldn't find an answer. Try rephrasing your question.");
+          this.answer = "No detailed answer found. Try rephrasing your question.";
         }
       } catch (err) {
-        this.addMessage('bot', "Failed to fetch the answer. Please try again.");
+        this.error = err.message || "Failed to fetch the answer. Try again.";
         console.error(err);
       } finally {
         this.loading = false;
       }
     },
-
-    // Clears the entire chat history
-    clearChat() {
-      this.chatHistory = [];
-    },
+    clearAnswer() {
+      this.answer = "";
+      this.error = "";
+      this.question = "";
+    }
   },
 };
 </script>
@@ -159,14 +141,12 @@ export default {
   position: fixed;
   bottom: 100px;
   right: 20px;
-  width: 500px; /* Increased width */
-  height: 500px; /* Increased height */
+  width: 300px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   padding: 20px;
   z-index: 999;
-  overflow-y: auto;
 }
 
 .chat-header {
@@ -185,57 +165,22 @@ export default {
   color: #333;
 }
 
-.messages {
-  margin-bottom: 20px;
-  max-height: 350px; /* Increased height for message area */
-  overflow-y: auto;
-}
-
-.message {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-}
-
-.user-message, .bot-message {
-  padding: 10px 15px; /* Increased padding for more space */
-  border-radius: 5px;
-  max-width: 80%;
-  word-wrap: break-word;
-}
-
-.user-message {
-  background-color: #f1f1f1;
-  align-self: flex-end; /* Align user messages to the right */
-  text-align: right;
-}
-
-.bot-message {
-  background-color: #007bff;
-  color: white;
-  align-self: flex-start; /* Keep bot messages on the left */
-}
-
-.input-container {
-  display: flex;
-  gap: 10px; /* Adds spacing between input and button */
-  margin-bottom: 10px;
-}
-
 .input-box {
   width: 100%;
-  padding: 12px; /* Increased padding */
+  padding: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 .button {
-  padding: 12px 25px; /* Larger padding */
+  padding: 10px 20px;
   border: none;
   background-color: #007bff;
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  margin-right: 10px;
 }
 
 .button:disabled {
@@ -244,14 +189,12 @@ export default {
 }
 
 .clear-button {
-  padding: 12px 25px;
+  padding: 10px 20px;
   border: none;
   background-color: #ff4d4d;
   color: white;
   cursor: pointer;
   border-radius: 5px;
-  width: 100%;
-  margin-top: 10px;
 }
 
 .loading {
