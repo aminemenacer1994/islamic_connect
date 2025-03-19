@@ -2,10 +2,11 @@
     <div id="app">
         <div class="pt-3 text-center ">
             <Title />
+            <ChatBot />
 
             <div v-if="!isVisible">
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
-
+                
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
@@ -613,6 +614,8 @@
 
 <script defer>
 import html2canvas from "html2canvas";
+import ChatBot from './translation/ChatBot.vue';
+
 import DarkModeToggle from './DarkModeToggle.vue';
 import CustomSurahSelection from "./surah_selection/CustomSurahSelection.vue";
 import SearchForm from "./search/SearchForm.vue";
@@ -670,6 +673,7 @@ export default {
     props: {},
     components: {
         HelpGuideModal,
+        ChatBot,
         DarkModeToggle,
         PrayerTimes,
         AyahOfTheDay,

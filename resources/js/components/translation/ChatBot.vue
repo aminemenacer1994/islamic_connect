@@ -1,216 +1,248 @@
 <template>
-  <div class="container">
-    <!-- Floating Action Button -->
+  <div>
+    <!-- Floating Action Button (FAB) -->
     <button class="fab" @click="toggleChat">
-      💬
+      <i class="bi bi-chat-left-dots"></i>
     </button>
 
-    <!-- Chatbox that opens when FAB is clicked -->
+    <!-- Chatbox -->
     <div v-if="showChat" class="chatbox">
       <div class="chat-header">
-        <span>Islamic Q&A</span>
-        <button class="close-btn" @click="toggleChat">X</button>
+        <span class="title">Islamic Q&A</span>
+        <i class="bi bi-x-circle close-btn" @click="toggleChat"></i>
       </div>
 
-      <input 
-        v-model="question" 
-        placeholder="Ask an Islamic question..." 
-        class="input-box" 
-        :disabled="loading"
-      />
+      <!-- Chat Messages -->
+      <div class="messages" ref="messagesContainer">
+        <div v-for="(message, index) in chatHistory" :key="index" class="message">
+          <div v-if="message.type === 'user'" class="user-message">
+            <strong>You:</strong> {{ message.text }}
+          </div>
+          <div v-if="message.type === 'bot'" class="bot-message">
+            <strong>Answer:</strong> {{ message.text }}
+          </div>
+        </div>
+      </div>
 
-      <button @click="getAnswer" :disabled="loading || !question.trim()" class="button">
-        {{ loading ? "Fetching..." : "Get Answer" }}
-      </button>
+      <!-- Input & Send Button -->
+      <div class="input-container">
+        <input v-model="question" placeholder="Ask an Islamic question..." class="input-box" :disabled="loading"/>
+        <button @click="getAnswer" :disabled="loading || !question.trim()" class="button"> 
+          {{ loading ? "Fetching..." : "Send" }} 
+        </button>
+      </div>
 
-      <button @click="clearAnswer" v-if="answer || error" class="clear-button">
-        Clear Answer
-      </button>
-
-      <div v-if="loading" class="loading">Fetching response...</div>
-
-      <p v-if="answer" class="answer">
-        <strong>Answer:</strong> {{ answer }}
-      </p>
-
-      <p v-if="error" class="error">{{ error }}</p>
+      <!-- Chat Actions -->
+      <div class="chat-actions">
+        <button @click="saveChat" v-if="chatHistory.length" class="action-button">Save Chat</button>
+        <button @click="retrieveChat" class="action-button">Retrieve Chat</button>
+        <button @click="clearChat" v-if="chatHistory.length" class="clear-button">Clear Conversation</button>
+      </div>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
       question: "",
-      answer: "",
       loading: false,
-      error: "",
-      showChat: false, // Flag to toggle chat visibility
-      apiToken: process.env.HF_API_KEY || "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", // API token
+      chatHistory: [],
+      showChat: false,
     };
   },
+  created() {
+    this.retrieveChat(); // Load chat history when the page loads
+  },
   methods: {
-    // Toggles the visibility of the chatbox
     toggleChat() {
       this.showChat = !this.showChat;
     },
+    addMessage(type, text) {
+      this.chatHistory.push({ type, text });
+      this.saveChat(); // Auto-save after every message
+      this.scrollToBottom();
+    },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const messagesContainer = this.$refs.messagesContainer;
+        if (messagesContainer) {
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+      });
+    },
     async getAnswer() {
-      if (!this.question.trim()) {
-        this.error = "Please enter a question.";
-        return;
-      }
-
+      if (!this.question.trim()) return;
+      this.addMessage("user", this.question);
       this.loading = true;
-      this.answer = "";
-      this.error = "";
+      const userQuestion = this.question;
+      this.question = "";
 
       try {
-        const response = await fetch(
-          "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", 
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${this.apiToken}`,
-            },
-            body: JSON.stringify({
-              inputs: this.question,
-              parameters: { max_new_tokens: 600 },
-            }),
-          }
-        );
+        const response = await fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${this.apiToken}` },
+          body: JSON.stringify({ inputs: userQuestion, parameters: { max_new_tokens: 600 } }),
+        });
 
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status} - ${response.statusText}`);
-        }
-
+        if (!response.ok) throw new Error(`API Error: ${response.status} - ${response.statusText}`);
         const data = await response.json();
+        let answerText = data[0]?.generated_text?.trim() || "Sorry, I couldn't find an answer.";
 
-        if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
-          let answerText = data[0].generated_text.trim();
-
-          // Remove the question from the answer if included
-          if (answerText.toLowerCase().startsWith(this.question.toLowerCase())) {
-            answerText = answerText.slice(this.question.length).trim();
-          }
-
-          this.answer = answerText;
-        } else {
-          this.answer = "No detailed answer found. Try rephrasing your question.";
+        if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
+          answerText = answerText.slice(userQuestion.length).trim();
         }
+
+        this.addMessage("bot", answerText);
       } catch (err) {
-        this.error = err.message || "Failed to fetch the answer. Try again.";
+        this.addMessage("bot", "Failed to fetch the answer. Please try again.");
         console.error(err);
       } finally {
         this.loading = false;
+        this.scrollToBottom();
       }
     },
-    clearAnswer() {
-      this.answer = "";
-      this.error = "";
-      this.question = "";
-    }
+    saveChat() {
+      localStorage.setItem("chatHistory", JSON.stringify(this.chatHistory));
+    },
+    retrieveChat() {
+      const savedChat = localStorage.getItem("chatHistory");
+      if (savedChat) {
+        this.chatHistory = JSON.parse(savedChat);
+      }
+    },
+    clearChat() {
+      this.chatHistory = [];
+      localStorage.removeItem("chatHistory");
+    },
   },
 };
 </script>
 
-<style scoped>
-.container {
-  position: relative;
-  padding: 20px;
-}
 
+<style scoped>
+/* Floating Action Button (FAB) */
 .fab {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
-  font-size: 30px;
   border: none;
+  padding: 15px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
+  transition: background 0.3s ease;
 }
 
+.fab:hover {
+  background-color: #218838;
+}
+
+/* Chatbox Styles */
 .chatbox {
   position: fixed;
-  bottom: 100px;
+  bottom: 80px;
   right: 20px;
   width: 300px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  z-index: 999;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
 }
 
 .chat-header {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.2em;
-  margin-bottom: 15px;
 }
 
 .close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5em;
   cursor: pointer;
-  color: #333;
+}
+
+/* Messages Container */
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  max-height: 300px;
+}
+
+/* User and Bot Messages */
+.user-message {
+  background: #d4edda;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.bot-message {
+  background: #f8d7da;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+/* Input and Send Button */
+.input-container {
+  display: flex;
+  padding: 10px;
+  background: #fff;
 }
 
 .input-box {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  flex: 1;
+  padding: 8px;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #007bff;
+  background-color: #28a745;
   color: white;
+  padding: 8px 12px;
+  border: none;
   cursor: pointer;
+  margin-left: 5px;
   border-radius: 5px;
-  margin-right: 10px;
 }
 
 .button:disabled {
-  background-color: #d6d6d6;
-  cursor: not-allowed;
+  background-color: #ccc;
 }
 
-.clear-button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #ff4d4d;
+/* Chat Actions */
+.chat-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background: #fff;
+}
+
+.action-button {
+  background: #007bff;
   color: white;
+  padding: 5px 10px;
+  border: none;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.loading {
-  margin-top: 10px;
-  font-size: 1.1em;
-  color: #555;
-}
-
-.answer {
-  margin-top: 20px;
-  font-size: 1.2em;
-}
-
-.error {
-  margin-top: 20px;
-  color: red;
-  font-size: 1.1em;
+.clear-button {
+  background: #dc3545;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
 }
 </style>

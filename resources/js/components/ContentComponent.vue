@@ -87,6 +87,7 @@
     </div> -->
 
     <div class="container text-center">
+      <ChatBot />
       <div class="row">
         <div class="col-md-2">
           <h5 class="pt-1" style="display: flex;"><b>Select a podcast:</b></h5>
@@ -225,7 +226,12 @@
   </div>
 </template>
 <script>
+import ChatBot from './translation/ChatBot.vue';
+
 export default {
+  components:{
+    ChatBot
+  },
   data() {
     return {
       repeatStates: {},
@@ -300,7 +306,7 @@ export default {
       durationFilter: 'longest',
     };
   },
-
+  
   computed: {
     totalPages() {
       return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
