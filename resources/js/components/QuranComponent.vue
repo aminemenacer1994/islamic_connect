@@ -2,9 +2,10 @@
     <div id="app">
         <div class="pt-3 text-center ">
             <Title />
-            <ChatBot />
+            <!-- <ChatBot /> -->
 
             <div v-if="!isVisible">
+                <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the Quran...</h4>
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
                 
             </div>
@@ -25,7 +26,7 @@
                 </div> -->
 
 
-                <div class="col-md-4 ">                
+                <div class="col-md-4 pt-2">                
                     <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
                     <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId"
                         :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
@@ -115,8 +116,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-8 pt-1 card-hide text-left pr-4" v-if="information != null">
+                <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">                
+                    <h4 class="fw-bold text-left container-fluid " v-if="information != null">Verse Breakdown...</h4>
                     <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
                             rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; border-radius: 15px;  border: 3px solid #31464338">
@@ -212,12 +213,29 @@
                                     <!-- Translation Section -->
                                     <div class="tab-pane active content" id="home" role="tabpanel"
                                         v-if="information != null">
+                                        <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                        @update-information="updateInformation" :style="{
+                                            
+                                            color: 'black',
+                                            borderRadius: '15px',
+                                            border: '2px solid rgba(0, 0, 0, 0.1)',
+                                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                        }" class="icon-container mb-3">
+                                        <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
+                                            style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
+                                        <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
+                                            style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
+                                        <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
+                                            style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
+                                        <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
+                                            style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
+                                    </div>
                                         <!-- desktop top features -->
                                         <div v-if="!isVisible" :style="iconStyle">
                                             <div class="col pb-2">
                                                 <i :class="isOpen
                                                     ? 'bi bi-x-circle-fill'
-                                                    : 'bi bi-plus-circle-fill'
+                                                    : 'bi bi-plus-circle-fill' 
                                                     " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
                                             </div>
                                             <div v-if="isOpen" class="hide-on-mobile">

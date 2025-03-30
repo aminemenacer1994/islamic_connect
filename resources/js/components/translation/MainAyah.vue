@@ -24,7 +24,7 @@ export default {
   computed: {
     styleObject() {
       return {
-        lineHeight: '1.6em',
+        lineHeight: '1.4em',
         fontSize: this.fontSize + 'rem' // Use the fontSize prop
       };
     }
@@ -40,7 +40,8 @@ export default {
   text-align: right;
 }
 .ayah-translation {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.6px;
   color: #333;
 }
 

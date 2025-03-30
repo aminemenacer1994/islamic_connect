@@ -14,7 +14,7 @@
         <div class="col-md-6">
           <div class="mb-3">
             <select v-model="selectedCategory" class="form-select">
-              <option value="">Select a Category</option>
+              <option value="">Select a Dua Category</option>
               <option v-for="category in duaCollection" :key="category.id" :value="category.id">
                 {{ category.name }} ({{ category.duas.length }} Duas)
               </option>
@@ -24,7 +24,7 @@
         <!-- Search Input -->
         <div class="col-md-6">
           <div class="mb-3">
-            <input v-model="searchQuery" type="text" placeholder="Search for a Dua..." class="form-control" />
+            <input v-model="searchQuery" type="text" placeholder="Search for a Dua word..." class="form-control" />
           </div>
         </div>
       </div>
@@ -82,20 +82,19 @@
                 @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
                 title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
 
-              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
-                @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
-
               <!-- Share Icon with Tooltip -->
-              <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 icon-hover" data-bs-toggle="tooltip"
+              <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-1 icon-hover" data-bs-toggle="tooltip"
                 style="cursor:pointer" data-bs-placement="top" title="Share" aria-label="Share content"
                 role="button"></i>
 
               <!-- Copy Icon with Tooltip -->
-              <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 icon-hover" @click="copyContent(dua)"
+              <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-1 icon-hover" @click="copyContent(dua)"
                 data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
                 role="button"></i>
 
+              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
+                @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
             </div>
 
           </div>

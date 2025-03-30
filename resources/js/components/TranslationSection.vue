@@ -7,25 +7,30 @@
       <div class="row">
         <div class="col-md-1 pt-2 d-flex align-items-center justify-content-center">
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">
           <MainAyah :information="information" />
         </div>
+
       </div>
 
       <div class="row text-left mt-2">
         <div class="col-md-11 col-10">
-          <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h5>
-          <h4 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
-            :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
+          <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h4>
+          <h3 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
+            :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }"></h3>
 
-            <div class="text-left word-count mt-3">
-              <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
-              <strong>Translation: </strong>Ahmed Ali
-            </div>
+          <div class="d-flex align-items-center mt-3">
+            <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+            <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Translation:</h4>
 
-            <hr />
-          
-            <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
+            <h4 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }"> Ahmed
+              Ali</h4>
+          </div>
+
+
+          <hr />
+
+          <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
             <div class="d-flex flex-wrap gap-2 pb-2">
               <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
                 <i class="bi bi-filetype-csv pr-2"></i>CSV Export
@@ -40,7 +45,9 @@
           </div>
 
           <!-- Toggle Button -->
-          <button type="button" class="btn btn-secondary" @click="showOptions = !showOptions">{{ showOptions ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
+
+          <button type="button" class="btn btn-secondary text-center" @click="showOptions = !showOptions">{{ showOptions
+            ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
           <!-- Rate, Pitch, and Voice Dropdowns -->
           <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
             <b>Rate:</b>
@@ -73,8 +80,8 @@
             'custom-icon-play'
           ]" style="cursor: pointer;" aria-label="Play or pause translation audio" title="Play/Pause Translation Audio"></i>
 
-          <!-- Stop Button -->
-          <i @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
+          <!-- Stop Button, visible only after Play button is clicked -->
+          <i v-if="isReading && !isPaused" @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
             style="cursor: pointer;" aria-label="Stop reading audio" title="Stop Translation Audio"></i>
 
           <!-- Font Size Adjustments -->
@@ -233,9 +240,6 @@ export default {
       voices: [],
       selectedVoice: '', // User's selected voice
       isVisible: false,
-      rate: 1,
-      pitch: 1,
-      selectedVoice: '',
       voices: [], // Your list of available voices
       successMessage: false,
       offcanvasInstance: null, // Offcanvas instance
@@ -270,6 +274,7 @@ export default {
       doubleTapThreshold: 300,
       isHolding: false,
       tapTimeout: null,
+      isPlaying: false,
       isPaused: false,
       isReading: false,
       isAudioPlaying: false,
@@ -388,16 +393,19 @@ export default {
     },
 
     toggleSpeech() {
+      // If audio is currently playing
       if (this.isReading) {
         if (this.isPaused) {
-          window.speechSynthesis.resume(); // Resume if paused
+          window.speechSynthesis.resume();  // Resume reading if paused
+          this.isPaused = false;  // Set paused to false when resumed
         } else {
-          window.speechSynthesis.pause(); // Pause if currently reading
+          window.speechSynthesis.pause();  // Pause reading
+          this.isPaused = true;  // Set paused to true
         }
-        this.isPaused = !this.isPaused; // Toggle pause state
       } else {
-        this.readTextAloud(); // Start reading if not reading
+        this.readTextAloud();  // Start reading if not already reading
       }
+      this.isReading = true;  // Set reading state to true
     },
 
     // Open the off-canvas modal
@@ -985,10 +993,14 @@ export default {
     },
 
     stopReading() {
-      speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // Stop reading
       this.isReading = false;
+      this.isPlaying = false; // Hide the stop icon
+      this.isPaused = false; // Reset pause state
       this.clearHighlight();
     },
+
+
     // Pause reading
     pauseReading() {
       if (this.isReading && !this.isPaused) {

@@ -59,7 +59,7 @@
       <div class="container">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
-            <h1 class="display-5 mb-3 fw-bold">AI Tools and Their Impact</h1>
+            <h1 class="display-4 mb-3 fw-bold">AI Tools and Their Impact</h1>
           </div>
         </div>
         <div class="row pt-3 g-4 g-md-5">

@@ -1,28 +1,36 @@
 <template>
-<div class="row">
-  <!-- Success Message Alert -->
-  <div v-if="showAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Success!</strong> {{ successMessage }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="showAlert = false"></button>
+  <div class="row">
+    <!-- Success Message Alert -->
+    <div v-if="showAlert" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Success!</strong> {{ successMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+        @click="showAlert = false"></button>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center text-center">
+      <!-- Note Icon -->
+      <div class="icon-container d-flex flex-column align-items-center">
+        <i class="bi bi-file-earmark-text h3" aria-expanded="false" data-bs-placement="top" title="Write a note"
+          @click="handleAction('open-modal', 'translationNote')"></i>
+        <span class="mt-1">Write a note</span>
+      </div>
+
+      <!-- Surah Info Icon -->
+      <div class="icon-container d-flex flex-column align-items-center">
+        <i class="bi bi-info-circle h4 mr-2 pl-2" data-bs-toggle="modal" data-bs-target="#translationInfo"
+          aria-expanded="false" data-bs-placement="top" title="Surah info" style="cursor: pointer;"></i>
+        <span class="mt-1">Surah info</span>
+      </div>
+
+      <!-- Bug Report Icon -->
+      <div class="icon-container d-flex flex-column align-items-center">
+        <i title="Report a bug" data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-chat-left-text h4"
+          aria-expanded="false" data-bs-placement="top"></i>
+        <span class="mt-1">Report a bug</span>
+      </div>
+    </div>
+
   </div>
-
-  <div class="d-flex flex-wrap justify-content-between align-items-center">
-    <!-- Note Icon -->
-    <div class="icon-container">
-      <i class="bi bi-file-earmark-text h3" aria-expanded="false" data-bs-placement="top" title="Write a note" @click="handleAction('open-modal', 'translationNote')"></i>
-    </div>
-
-    <!-- Surah Info Icon -->
-    <div class="icon-container">
-      <i class="bi bi-info-circle h4 mr-2 pl-2" data-bs-toggle="modal" data-bs-target="#translationInfo" aria-expanded="false" data-bs-placement="top" title="Surah info" style="cursor: pointer;"></i>
-    </div>
-
-    <!-- Bug Report Icon -->
-    <div class="icon-container">
-      <i title="Report a bug" data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-chat-left-text h4" aria-expanded="false" data-bs-placement="top"></i>
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
@@ -36,7 +44,7 @@ import jsPDF from 'jspdf';
 
 export default {
   name: "TranslationActions",
-  
+
   props: {
     translation: {
       type: String,
@@ -77,7 +85,7 @@ export default {
     handleAction(action, modalId) {
       this.$emit(action, modalId);
     },
-    
+
     isFormDataIncomplete(formData) {
       return !formData.surah_name || !formData.ayah_num || !formData.ayah_verse_ar || !formData.ayah_verse_en || !formData.user_id;
     },
@@ -87,7 +95,7 @@ export default {
         this.showErrorAlert = false;
       }, 3000); // Hide alerts after 3 seconds
     },
-    
+
   },
 };
 </script>

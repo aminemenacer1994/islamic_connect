@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
+    <!-- <ChatBot /> -->
     <!-- <p class="text-center container mb-4 lead">
       Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
       thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
@@ -87,7 +88,6 @@
     </div> -->
 
     <div class="container text-center">
-      <ChatBot />
       <div class="row">
         <div class="col-md-2">
           <h5 class="pt-1" style="display: flex;"><b>Select a podcast:</b></h5>
@@ -105,25 +105,32 @@
       </div>
     </div>
 
-
-    <div class="pb-3 pt-3" v-if="selectedPodcast">
+    <div class="pb- pt-3" v-if="selectedPodcast">
       <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
+
       <div class="d-flex justify-content-between align-items-start">
         <p class="col-md-10 display-7">{{ selectedPodcast.desc }}</p>
         <img class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
       </div>
+      <h4 class="fw-bold ml-2 pb-3">
+        Amount of Episodes:
+        {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }}
+      </h4>
     </div>
 
 
     <div class="row g-2 g-md-3">
       <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
-        <select class="form-select" v-model="sortBy" @change="sortPodcasts">
+        <h4 for="sortPodcasts" class="form-label fw-bold">Views:</h4>
+        <select id="sortPodcasts" class="form-select" v-model="sortBy" @change="sortPodcasts">
           <option value="most-viewed">Most Viewed</option>
           <option value="least-viewed">Least Viewed</option>
         </select>
       </div>
+
       <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
-        <select class="form-select" v-model="durationFilter" @change="filterPodcasts">
+        <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
+        <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterPodcasts">
           <option value="">All Durations</option>
           <option value="longest">Longest</option>
           <option value="shortest">Shortest</option>
@@ -133,11 +140,14 @@
           <option value="more-than-60">More than 1 hour</option>
         </select>
       </div>
+
       <div class="col-md-6 px-2 px-md-3 mb-3" v-if="selectedPodcast">
-        <input type="search" class="form-control" placeholder="Search podcasts..." v-model="searchQuery"
-          @input="onSearch" />
+        <h4 for="searchPodcasts" class="form-label fw-bold">Search Episode:</h4>
+        <input id="searchPodcasts" type="search" class="form-control" placeholder="Search podcast keyword..."
+          v-model="searchQuery" @input="onSearch" />
       </div>
     </div>
+
 
 
 
@@ -155,35 +165,68 @@
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
             <div :class="['card h-100', { 'highlighted': playingIndex === index }]"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; bottom: 0px; border-radius: 20px;">
-              <div class="card-body pb-2">
-                <h4 class="card-title display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
-                Views: {{ podcast.views }}<br />
-                Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}<br />
-                Published on: {{ formatDate(podcast.pubDate) }}
+              <div class="card-body ">
+                <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
+                <h6>Views: {{ podcast.views }}</h6>
+                <h6>Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}</h6>
+                <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
                 <hr>
-                <div class="container text-center d-flex justify-content-between">
-                  <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                <div class="container-fluid text-center d-flex justify-content-between align-items-center">
+                  <!-- Rewind -->
+                  <div class="icon-container">
+                    <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                    <span class="icon-text">Rewind</span>
+                  </div>
 
-                  <i class="bi bi-share icon-tooltip" @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Share"></i>
+                  <!-- Share -->
+                  <div class="icon-container">
+                    <i class="bi bi-share icon-tooltip" @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
+                      data-bs-placement="top" title="Share"></i>
+                    <span class="icon-text">Share</span>
+                  </div>
 
-                  <i class="bi bi-download icon-tooltip" @click="downloadAudio(podcast)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Download"></i>
+                  <!-- Download -->
+                  <div class="icon-container">
+                    <i class="bi bi-download icon-tooltip" @click="downloadAudio(podcast)" data-bs-toggle="tooltip"
+                      data-bs-placement="top" title="Download"></i>
+                    <span class="icon-text">Download</span>
+                  </div>
 
-                  <i class="bi bi-repeat icon-tooltip" @click="replayAudio(index)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Replay"></i>
+                  <!-- Replay -->
+                  <!-- <div class="icon-container">
+                    <i class="bi bi-repeat icon-tooltip" @click="replayAudio(index)" data-bs-toggle="tooltip"
+                      data-bs-placement="top" title="Replay"></i>
+                    <span class="icon-text">Replay</span>
+                  </div> -->
 
-                  <i class="bi bi-skip-forward-circle icon-tooltip" @click="fastForwardAudio(index)"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
+                  <!-- Fast Forward -->
+                  <div class="icon-container">
+                    <i class="bi bi-skip-forward-circle icon-tooltip" @click="fastForwardAudio(index)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
+                    <span class="icon-text">Forward</span>
+                  </div>
                 </div>
-
               </div>
 
+              <!-- Progress Bar and Percentage Display -->
+              <div v-if="showProgress[index]" class="container progress mt-2"
+                style="height: 8px; border-radius: 10px; background-color: lightgrey;">
+                <div class="progress-bar bg-success" role="progressbar" :style="{ width: progress[index] + '%' }"
+                  style="height: 100%; transition: width 0.1s;"></div>
+              </div>
+
+              <!-- Percentage Display -->
+              <p v-if="showProgress[index]" class="mt-2 text-center fw-bold">
+                Played: {{ playedPercentage[index] || 0 }}% | Remaining: {{ remainingPercentage[index] || 100 }}%
+              </p>
+
+
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
+                class="w-100 audio"
+                style="height: 60px; font-size: 18px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
                 @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
-                @loadedmetadata="updateDuration(podcast, $event)">
+                @timeupdate="updateProgress(index)" @loadedmetadata="updateDuration(index)">
                 Your browser does not support the audio element.
               </audio>
 
@@ -224,17 +267,23 @@
 
     <div v-else-if="!loading" class="text-center">No podcasts found</div>
   </div>
+
 </template>
 <script>
 import ChatBot from './translation/ChatBot.vue';
 
 export default {
-  components:{
+  components: {
     ChatBot
   },
   data() {
     return {
       repeatStates: {},
+      showProgress: {}, // Tracks which progress bars should be shown
+      progress: {}, // To track the progress of each audio
+      playedPercentage: {}, // To track the played percentage for each audio
+      remainingPercentage: {}, // To track the remaining percentage for each audio
+
       highlightedIndex: null, // Track the highlighted card index
       loading: false,
       currentlyPlaying: null,
@@ -258,9 +307,7 @@ export default {
           name: "The Mad Mamluks",
           rssUrl: "https://themadmamluks.libsyn.com/rss",
           desc: `The Mad Mamluks is a podcast that delves into contemporary issues, politics, theology, and culture from a Muslim perspective. Hosted by a group of Muslim men, the show features in-depth discussions with scholars, activists, and community leaders.  
-            The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.  
-
-            With a mix of humor, critical thinking, and candid conversations, The Mad Mamluks offers a platform for diverse voices within the Muslim community, addressing issues that are often overlooked in mainstream media.`,
+                The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.`,
           image: "./images/mad_mamluk.jpg",
         },
 
@@ -268,25 +315,44 @@ export default {
           name: "The Deen Show",
           rssUrl: "https://thedeenshow.com/feed/podcast/",
           desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
-            With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.  
-
-            The show aims to provide clear, authentic knowledge about Islam, tackling topics such as spirituality, faith, science, relationships, and contemporary issues affecting the Muslim community worldwide.`,
+                With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
           image: "./images/deen_show.png",
         },
-
         {
           name: "SeekersGuidance",
           rssUrl: "https://seekersguidance.org/feed/podcast/",
           desc: `SeekersGuidance is a global Islamic educational platform dedicated to providing high-quality, accessible, and free Islamic knowledge to students worldwide.  
-            Founded by Shaykh Faraz Rabbani, it offers structured online courses, scholarly guidance, and spiritual mentorship.  
-
-            The podcast covers various aspects of Islam, including theology, Quranic exegesis, hadith studies, Islamic law, spirituality, and contemporary challenges.  
-
-            With a strong emphasis on authentic traditional scholarship, SeekersGuidance aims to empower individuals with the knowledge they need to lead a life rooted in faith, ethics, and service to humanity.`,
+                Founded by Shaykh Faraz Rabbani, it offers structured online courses, scholarly guidance, and spiritual mentorship.`,
           image: "./images/seekers_guidance.png",
         },
 
+        {
+          name: "Qalam Podcast",
+          rssUrl: "https://www.qalaminstitute.org/feed/podcast/",
+          desc: `The Qalam Podcast, hosted by scholars like Mufti Hussain Kamani and Shaykh Abdul Nasir Jangda, provides authentic Islamic knowledge in a way that is relevant to modern life.  
+                Covering tafsir (Quranic explanation), hadith, spirituality, and daily Muslim struggles, this podcast offers practical guidance for Muslims seeking to grow in their faith. `,
+          image: "./images/qalam_pc.jpg",
+        },
+
+        {
+          name: "Islamic History Podcast",
+          rssUrl: "https://islamichistorypodcast.podbean.com/feed.xml​",
+          desc: `The Islamic History Podcast, hosted by Muttahir Sabree, explores key historical events from the Islamic world.  
+                Covering everything from the life of the Prophet Muhammad (peace be upon him) to the Ottoman Empire and modern Islamic movements, this podcast is perfect for history lovers.  
+                It provides well-researched, engaging storytelling that brings Islamic history to life.`,
+          image: "./images/islamic_history_pc.jpeg",
+        },
+
+        {
+          name: "Yaqeen Podcast",
+          rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
+          desc: `The Yaqeen Podcast, produced by Yaqeen Institute, features discussions led by scholars such as Dr. Omar Suleiman and others.  
+                Topics range from Islamic theology, spirituality, and social justice to modern challenges facing the Muslim community.  
+                This podcast aims to provide deep insights into faith and identity while addressing contemporary issues.`,
+          image: "./images/yaqueen_pc.jpg",
+        }
       ],
+
       playingIndex: null,
       selectedPodcast: "", // Stores the selected podcast object
       isDownloading: false,
@@ -306,7 +372,7 @@ export default {
       durationFilter: 'longest',
     };
   },
-  
+
   computed: {
     totalPages() {
       return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
@@ -339,17 +405,23 @@ export default {
 
   methods: {
     replayAudio(index) {
-      console.log("Attempting to replay audio for index:", index);
-      console.log("Audio refs:", this.$refs.audio);
+      this.$nextTick(() => {
+        const audioRefs = this.$refs.audio;
 
-      const audioElements = this.$refs.audio;
-      if (audioElements && audioElements[index]) {
-        console.log("Found audio element:", audioElements[index]);
-        audioElements[index].currentTime = 0;
-        audioElements[index].play();
-      } else {
-        console.error("Audio element not found for index:", index);
-      }
+        console.log("Attempting to replay audio for index:", index);
+        console.log("Audio refs:", audioRefs);
+
+        // If only one audio element exists, make it an array
+        const audioElements = Array.isArray(audioRefs) ? audioRefs : [audioRefs];
+
+        if (audioElements.length > index && audioElements[index]) {
+          console.log("Found audio element:", audioElements[index]);
+          audioElements[index].currentTime = 0;
+          audioElements[index].play();
+        } else {
+          console.error(`Audio element not found for index: ${index}`);
+        }
+      });
     },
     toggleRepeat(index) {
       if (this.repeatStates[index] === undefined) {
@@ -402,10 +474,19 @@ export default {
     },
 
     downloadAudio(podcast) {
-      const link = document.createElement('a');
-      link.href = podcast.audioUrl;
-      link.download = podcast.title + '.mp3';
-      link.click();
+      fetch(podcast.audioUrl)
+        .then(response => response.blob()) // Convert response to a Blob
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = podcast.title.replace(/[^a-zA-Z0-9]/g, "_") + ".mp3"; // Ensure a valid filename
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url); // Cleanup
+        })
+        .catch(error => console.error("Download failed:", error));
     },
     // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
@@ -518,13 +599,10 @@ export default {
         const xmlDoc = parser.parseFromString(data, 'text/xml');
         const items = xmlDoc.getElementsByTagName('item');
 
-        // Simulate API call delay
-        setTimeout(async () => {
-          this.paginatedPodcasts = await getPodcastsFromAPI();
-          this.loading = false;
-        }, 2000); // Simulated delay for better UX
+        // Store the number of episodes
+        this.selectedPodcast.episodeCount = items.length;
 
-        // Map and filter podcasts
+        // Process and sort podcasts
         this.podcasts = Array.from(items)
           .map(item => ({
             title: item.getElementsByTagName('title')[0]?.textContent || 'No title',
@@ -538,6 +616,9 @@ export default {
           .filter(podcast => podcast.audioUrl) // Remove items without audio
           .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); // Sort by pubDate (newest to oldest)
 
+        // Assign sorted podcasts to paginatedPodcasts
+        this.paginatedPodcasts = [...this.podcasts];
+
         this.applyFilters(); // Apply filters after fetching
       } catch (error) {
         console.error("Error fetching podcasts:", error);
@@ -546,38 +627,64 @@ export default {
       }
     },
 
-
     playAudio(index) {
-      const audioPlayer = this.$refs.audioPlayer[index];  // Ref should now match the template
+      const audioPlayer = this.$refs.audioPlayer[index];
+      if (!audioPlayer) return;
+
       this.playingIndex = index;
 
-      // Pause the currently playing audio (if any)
+      // Pause any currently playing audio
       if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayer) {
         this.currentlyPlaying.pause();
         this.currentlyPlaying = null;
-        this.highlightedIndex = null; // Reset highlight
+        this.highlightedIndex = null;
+        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar
       }
 
-      // Toggle play/pause for the clicked audio
+      // Toggle play/pause
       if (this.currentlyPlaying === audioPlayer) {
         audioPlayer.pause();
         this.currentlyPlaying = null;
-        this.highlightedIndex = null; // Reset highlight
+        this.highlightedIndex = null;
+        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar
       } else {
         audioPlayer.play();
         this.currentlyPlaying = audioPlayer;
-        this.highlightedIndex = index; // Highlight the new audio
+        this.highlightedIndex = index;
+        this.showProgress = { ...this.showProgress, [index]: true }; // Show progress bar
+
+        // Attach timeupdate event to update progress while playing
+        audioPlayer.addEventListener('timeupdate', () => {
+          this.updateProgress(index, audioPlayer);
+        });
       }
     },
 
-    // Handle audio end event
+    // Handle when audio ends
     handleAudioEnd(index) {
       if (this.currentlyPlaying === this.$refs.audioPlayer[index]) {
         this.currentlyPlaying = null;
-        this.highlightedIndex = null; // Reset highlight when audio ends
+        this.highlightedIndex = null;
+        this.progress[index] = 0;
+        this.playedPercentage[index] = 0;
+        this.remainingPercentage[index] = 100;
+        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar when audio ends
       }
       if (this.playingIndex === index) {
-        this.playingIndex = null; // Reset when playback ends
+        this.playingIndex = null;
+      }
+    },
+
+    // Update progress during playback
+    updateProgress(index, audioPlayer) {
+      if (audioPlayer && audioPlayer.duration) {
+        const played = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        const remaining = 100 - played;
+
+        // Update the progress for the current audio
+        this.progress = { ...this.progress, [index]: played };
+        this.playedPercentage = { ...this.playedPercentage, [index]: played.toFixed(1) };
+        this.remainingPercentage = { ...this.remainingPercentage, [index]: remaining.toFixed(1) };
       }
     },
 
@@ -756,9 +863,25 @@ export default {
 </script>
 
 <style scoped>
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-tooltip {
+  font-size: 1.3rem;
+}
+
+.icon-text {
+  font-size: 0.875rem;
+  color: #333;
+}
+
 .icon-tooltip {
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   transition: color 0.3s ease-in-out;
 }
 

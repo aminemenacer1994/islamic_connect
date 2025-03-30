@@ -1,25 +1,29 @@
 <template>
   <div class="row">
 
-    <div class="d-flex flex-wrap justify-content-between align-items-center">
-      <!-- Note Icon -->
-      <div class="icon-container">
-        <i class="bi bi-file-earmark-text h3" aria-expanded="false" data-bs-placement="top" title="Write a note"
-          @click="$emit('openModal', 'tafseerNote')"></i>
-      </div>
-      <!-- Surah Info -->
-      <div class="icon-container">
-        <i class="bi bi-info-circle h4 mr-2 pl-2" data-bs-toggle="modal" data-bs-target="#translationInfo"
-          aria-expanded="false" data-bs-placement="top" title="Surah info"></i>
-      </div>
+    <div class="d-flex flex-wrap justify-content-between align-items-center text-center">
+  <!-- Note Icon -->
+  <div class="icon-container d-flex flex-column align-items-center">
+    <i class="bi bi-file-earmark-text h3" aria-expanded="false" data-bs-placement="top" title="Write a note"
+      @click="$emit('openModal', 'tafseerNote')"></i>
+    <span class="small mt-1">Write a note</span>
+  </div>
 
-      <!-- Bug Report Icon -->
-      <div class="icon-container">
-        <i title="Report a bug" data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-chat-left-text h4"
-          aria-expanded="false" data-bs-placement="top"></i>
-      </div>
+  <!-- Surah Info -->
+  <div class="icon-container d-flex flex-column align-items-center">
+    <i class="bi bi-info-circle h4 mr-2 pl-2" data-bs-toggle="modal" data-bs-target="#translationInfo"
+      aria-expanded="false" data-bs-placement="top" title="Surah info"></i>
+    <span class="small mt-1">Surah info</span>
+  </div>
 
-    </div>
+  <!-- Bug Report Icon -->
+  <div class="icon-container d-flex flex-column align-items-center">
+    <i title="Report a bug" data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-chat-left-text h4"
+      aria-expanded="false" data-bs-placement="top"></i>
+    <span class="small mt-1">Report a bug</span>
+  </div>
+</div>
+
   </div>
 </template>
 

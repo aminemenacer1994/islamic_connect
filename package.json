@@ -12,7 +12,7 @@
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",
-        "axios": "^1.7.7",
+        "axios": "^1.8.4",
         "bootstrap": "^5.3.3",
         "css-loader": "^7.1.2",
         "laravel-mix": "^6.0.49",
@@ -31,6 +31,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
+        "@extractus/feed-extractor": "^7.1.4",
         "@liripeng/vue-audio-player": "^2.0.4",
         "@popperjs/core": "^2.11.8",
         "@stripe/stripe-js": "^2.4.0",
@@ -57,7 +58,6 @@
         "primeicons": "^7.0.0",
         "primevue": "^3.53.0",
         "quill": "^2.0.2",
-        "rss-parser": "^3.13.0",
         "rss-parser-browser": "^2.2.2",
         "shetabit-laravel-vue-pagination": "^2.3.7",
         "stream-browserify": "^3.0.0",

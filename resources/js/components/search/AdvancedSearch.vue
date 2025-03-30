@@ -4,7 +4,7 @@
     <div>
 
       <div class="container input-group pb-2" style="position: relative; ">
-        <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Search for a word in the Quran"
+        <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Search for a keyword..."
           class="form-control pb-2 mobile-only"
           style="flex: 1;box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;" />
 

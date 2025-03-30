@@ -93,7 +93,8 @@
           </p>
 
           <!-- Translation (LTR) -->
-          <p class="mb-3 fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+          <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
+          <p class=" fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
             :style="{ fontSize: translationFontSize + 'px' }"></p>
 
           <!-- Stick to bottom container -->
@@ -102,41 +103,72 @@
             <div class="container pb-3 text-center">
               <hr>
               <div class="row">
-                <div class="col">
-                  <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.3rem;"
+                      @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                    <span class="mt-1">Rewind</span>
+                  </div>
                 </div>
-                <!-- <div class="col">
-                  <i class="bi bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;" @click="replayAudio(index)"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Replay"></i>
+
+                <!-- <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-repeat" style="cursor: pointer; font-size: 1.5rem;" @click="replayAudio(index)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Replay"></i>
+                    <span class="mt-1">Replay</span>
+                  </div>
                 </div> -->
-                <div class="col">
-                  <i class="bi bi-share" style="cursor: pointer; font-size: 1.5rem;" @click="shareOnWhatsApp(ayah)"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-share" style="cursor: pointer; font-size: 1.3rem;" @click="shareOnWhatsApp(ayah)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
+                    <span class="mt-1">Share</span>
+                  </div>
                 </div>
-                <div class="col">
-                  <i class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
-                    data-bs-placement="top" title="Copy Ayah"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i style="font-size: 1.3rem;" class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
+                      data-bs-placement="top" title="Copy Ayah"></i>
+                    <span class="mt-1">Copy text</span>
+                  </div>
                 </div>
-                <div class="col">
-                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2"
-                    @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Decrease Font Size"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-dash-circle mx-2"
+                      @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="Decrease Font Size"></i>
+                    <span class="mt-1">Decrease Font</span>
+                  </div>
                 </div>
-                <div class="col">
-                  <i style="cursor: pointer; font-size: 1.5rem;" @click="increaseFontSize"
-                    class="bi bi-plus-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Increase Font Size"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i style="cursor: pointer; font-size: 1.3rem;" @click="increaseFontSize"
+                      class="bi bi-plus-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="Increase Font Size"></i>
+                    <span class="mt-1">Increase Font</span>
+                  </div>
                 </div>
-                <div class="col">
-                  <i class="bi bi-download" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)"
-                    data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-file-arrow-down" style="cursor: pointer; font-size: 1.3rem;"
+                      @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i>
+                    <span class="mt-1">Download</span>
+                  </div>
                 </div>
-                <div class="col">
-                  <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.5rem;"
-                    @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Fast Forward"></i>
+
+                <div class="col text-center">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.3rem;"
+                      @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="Fast Forward"></i>
+                    <span class="mt-1"> Forward</span>
+                  </div>
                 </div>
               </div>
             </div>

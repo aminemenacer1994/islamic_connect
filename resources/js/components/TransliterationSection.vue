@@ -14,7 +14,7 @@
         </div>
         <div class="row text-left mt-2">
           <div class="col-md-11 col-10">
-            <h5 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Transliteration:</h5>
+            <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Transliteration:</h4>
             <h4 class="ayah-translation" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
               {{ expanded ? information.transliteration : information.transliteration }}
@@ -32,9 +32,11 @@
                 </button>
               </div>
             </div>
-            <div class="text-left word-count mt-3">
-              <img src="/images/art.png" class="pr-2 pt-1" width="30px" alt="lamp" loading="lazy" />
-              <strong>Transliteration: </strong>Saheeh International
+            <div class="d-flex align-items-center mt-3">
+              <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+              <h5 class="fw-bold mb-0 ms-2" :style="{ fontSize: fontSize + 'em', lineHeight: '1.4em' }">
+                Transliteration: Saheeh International
+              </h5>
             </div>
           </div>
           <!-- Icons Column (Stacked Vertically) -->
@@ -55,13 +57,13 @@
                 aria-controls="collapseExample" @click="toggleIcon" data-bs-placement="top" title="Toggle collapse">
               </i>
             </p>
-        </div>
+          </div>
 
+        </div>
       </div>
+      <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
+        :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
     </div>
-    <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
-      :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
-  </div>
 
   </div>
 </template>

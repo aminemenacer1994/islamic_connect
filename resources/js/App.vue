@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <ThemeToggle />
     <!-- Play/Pause Button -->
     <button @click="toggleAudio" class="play-button">
       {{ isPlaying ? "Pause" : "Play" }} Audio

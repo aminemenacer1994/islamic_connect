@@ -2,23 +2,27 @@
   <div class="row">
     <div class="d-flex flex-wrap justify-content-between align-items-center">
       <!-- Note Icon -->
-      <div class="icon-container">
+      <div class="icon-container text-center">
         <i class="bi bi-file-earmark-text h3" aria-expanded="false" data-bs-placement="top" title="Write a note"
           @click="$emit('open-modal', 'transliterationNote')"></i>
+        <p>Write a Note</p>
       </div>
 
-      <!-- Surah info -->
-      <div class="icon-container">
+      <!-- Surah Info Icon -->
+      <div class="icon-container text-center">
         <i style="cursor:pointer" class="bi bi-info-circle h4 mr-2 pl-2" data-bs-toggle="modal"
           data-bs-target="#translationInfo" aria-expanded="false" data-bs-placement="top" title="Surah info"></i>
+        <p>Surah Info</p>
       </div>
 
       <!-- Bug Report Icon -->
-      <div class="icon-container">
+      <div class="icon-container text-center">
         <i title="Report a bug" data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi bi-chat-left-text h4"
           aria-expanded="false" data-bs-placement="top"></i>
+        <p>Report a Bug</p>
       </div>
     </div>
+
 
   </div>
 </template>

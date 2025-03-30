@@ -1,17 +1,18 @@
 <template>
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Guides</h1>
-    <!-- <p class="text-center container mb-4 guide-description lead">
+    <p class="text-center container mb-4 guide-description lead">
       Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims
       and non-Muslims understand the faith more deeply.
-    </p> -->
+    </p>
 
     <div class="row mb-4">
       <!-- Category Dropdown -->
       <div class="col-md-6">
+
         <div class="mb-3">
           <select v-model="selectedCategory" class="form-select">
-            <option value="">Select a Category</option>
+            <option value="">Select a Guide</option>
             <option v-for="(section, index) in guide.sections" :key="index" :value="index">
               {{ section.title }}
             </option>
