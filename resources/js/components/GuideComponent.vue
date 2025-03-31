@@ -8,21 +8,19 @@
 
     <div class="row mb-4">
       <!-- Category Dropdown -->
-      <div class="col-md-6">
-
-        <div class="mb-3">
-          <select v-model="selectedCategory" class="form-select">
-            <option value="">Select a Guide</option>
-            <option v-for="(section, index) in guide.sections" :key="index" :value="index">
-              {{ section.title }}
-            </option>
-          </select>
-        </div>
+      <h2 class="fw-bold text-left pt-2 pb-2 container">Select an Islamic Guide:</h2>
+      <div class="mb-3 d-flex align-items-center gap-2 col-md-6">
+        <select v-model="selectedCategory" class="form-select">
+          <option value="">Select a Guide</option>
+          <option v-for="(section, index) in guide.sections" :key="index" :value="index">
+            {{ section.title }}
+          </option>
+        </select>
       </div>
 
-      <!-- Search Bar Input (only show after selection) -->
+      <h2 class="fw-bold text-left pt-2 pb-2 container" v-if="selectedCategory !== ''">Search for a Keyword:</h2>
       <div class="col-md-6" v-if="selectedCategory !== ''">
-        <div class="mb-3">
+        <div class="mb-3 d-flex align-items-center gap-2">
           <input type="text" v-model="searchText" class="form-control" placeholder="Search text..." />
         </div>
       </div>
@@ -32,16 +30,19 @@
     <div class="container text-left" :class="{ 'rtl-text': isArabic }">
       <div class="row justify-content-center mb-4" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
         <div class="col-md-12">
-          <h2 class="display-6 fw-bold text-center mb-3">
-            {{ isArabic ? guide.sections[selectedCategory].title_ar || guide.sections[selectedCategory].title :
-              guide.sections[selectedCategory].title }}
-          </h2>
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+            <!-- Title -->
+            <h2 class="display-6 fw-bold flex-grow-1 mb-0">
+              <span v-html="isArabic ? highlightText(guide.sections[selectedCategory].title_ar || guide.sections[selectedCategory].title) :
+                highlightText(guide.sections[selectedCategory].title)"></span>
+            </h2>
 
-          <!-- Translate Button -->
-          <div class="text-right mb-3" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
-            <button class="btn btn-success" @click="translateContent" :disabled="isLoading">
-              {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
-            </button>
+            <!-- Translate Button -->
+            <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto">
+              <button class="btn btn-success pt-2" @click="translateContent" :disabled="isLoading">
+                {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
+              </button>
+            </div>
           </div>
 
           <!-- Loading Spinner -->
@@ -85,31 +86,41 @@
 
 
     <!-- Action Icons: Share & Copy -->
-    <div class="container text-center d-flex pb-3 justify-content-around" v-if="selectedCategory !== ''">
+    <div class="container text-center d-flex pb-3 justify-content-around align-items-center"
+      v-if="selectedCategory !== ''">
+      <!-- <div class="text-center">
+        <i class="bi bi-share icon-tooltip h3 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
+          data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
+        <div class="h5">Share</div>
+      </div> -->
 
-      <!-- Share Icon with Tooltip -->
-      <i class="bi bi-share icon-tooltip h3 pt-1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-        data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
+      <div class="text-center">
+        <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
+          data-bs-placement="top" title="Play" aria-label="Play text" role="button" @click="playText"
+          :class="{ 'text-muted': isPlaying }" :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
+        <div class="h5">Play</div>
+      </div>
 
-      <!-- play Icon with Tooltip -->
-      <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-        data-bs-placement="top" title="Play" aria-label="Play text" role="button" @click="playText"
-        :class="{ 'text-muted': isPlaying }" :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
+      <div class="text-center">
+        <i class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause"
+          role="button" @click="pauseText" :class="{ 'text-muted': !isPlaying || isPaused }"
+          :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
+        <div class="h5">Pause</div>
+      </div>
 
-      <!-- pause Icon with Tooltip -->
-      <i class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause"
-        role="button" @click="pauseText" :class="{ 'text-muted': !isPlaying || isPaused }"
-        :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
+      <div class="text-center">
+        <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
+          data-bs-placement="top" title="Stop" role="button" @click="stopText" :class="{ 'text-muted': !isPlaying }"
+          :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
+        <div class="h5">Stop</div>
+      </div>
 
-      <!-- stop Icon with Tooltip -->
-      <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-        data-bs-placement="top" title="Stop" role="button" @click="stopText" :class="{ 'text-muted': !isPlaying }"
-        :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
-
-      <!-- Copy Icon with Tooltip -->
-      <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip pt-1 h3 icon-hover"
-        data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
-        role="button"></i>
+      <!-- <div class="text-center">
+        <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip h3 icon-hover"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
+          role="button"></i>
+        <div class="h5">Copy</div>
+      </div> -->
     </div>
 
   </div>

@@ -29993,7 +29993,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     //   );
     // },
     filteredPodcasts: function filteredPodcasts() {
-      return this.applyDurationFilter(this.podcasts);
+      return this.applyDurationFilter(this.islamicPodcasts);
     },
     sortedPodcasts: function sortedPodcasts() {
       return this.applySorting(_toConsumableArray(this.filteredPodcasts));
@@ -43567,18 +43567,19 @@ var _hoisted_2 = {
   "class": "row mb-4"
 };
 var _hoisted_3 = {
-  "class": "col-md-6"
+  "class": "mb-3 d-flex align-items-center gap-2 col-md-6"
 };
-var _hoisted_4 = {
-  "class": "mb-3"
-};
-var _hoisted_5 = ["value"];
-var _hoisted_6 = {
+var _hoisted_4 = ["value"];
+var _hoisted_5 = {
   key: 0,
+  "class": "fw-bold text-left pt-2 pb-2 container"
+};
+var _hoisted_6 = {
+  key: 1,
   "class": "col-md-6"
 };
 var _hoisted_7 = {
-  "class": "mb-3"
+  "class": "mb-3 d-flex align-items-center gap-2"
 };
 var _hoisted_8 = {
   key: 0,
@@ -43588,53 +43589,68 @@ var _hoisted_9 = {
   "class": "col-md-12"
 };
 var _hoisted_10 = {
-  "class": "display-6 fw-bold text-center mb-3"
+  "class": "d-flex align-items-center justify-content-between mb-3 flex-wrap"
 };
 var _hoisted_11 = {
-  key: 0,
-  "class": "text-right mb-3"
+  "class": "display-6 fw-bold flex-grow-1 mb-0"
 };
-var _hoisted_12 = ["disabled"];
+var _hoisted_12 = ["innerHTML"];
 var _hoisted_13 = {
-  key: 1,
+  key: 0,
+  "class": "ms-auto"
+};
+var _hoisted_14 = ["disabled"];
+var _hoisted_15 = {
+  key: 0,
   "class": "text-center my-3"
 };
-var _hoisted_14 = {
-  key: 2
+var _hoisted_16 = {
+  key: 1
 };
-var _hoisted_15 = {
+var _hoisted_17 = {
   "class": "list-unstyled selected-content"
 };
-var _hoisted_16 = {
+var _hoisted_18 = {
   "class": "fw-medium fs-5 text-left text-dark"
 };
-var _hoisted_17 = ["innerHTML"];
-var _hoisted_18 = ["innerHTML"];
-var _hoisted_19 = {
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = {
   key: 0
 };
-var _hoisted_20 = {
+var _hoisted_22 = {
   key: 1,
-  "class": "container text-center d-flex pb-3 justify-content-around"
+  "class": "container text-center d-flex pb-3 justify-content-around align-items-center"
+};
+var _hoisted_23 = {
+  "class": "text-center"
+};
+var _hoisted_24 = {
+  "class": "text-center"
+};
+var _hoisted_25 = {
+  "class": "text-center"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Islamic Guides", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Guides", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 guide-description lead"
-  }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "fw-bold text-left pt-2 pb-2 container"
+  }, "Select an Islamic Guide:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedCategory = $event;
     }),
     "class": "form-select"
-  }, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Select a Guide", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections, function (section, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: index,
       value: index
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar Input (only show after selection) "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 9 /* TEXT, PROPS */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h2", _hoisted_5, "Search for a Keyword:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.searchText = $event;
@@ -43645,20 +43661,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container text-left", {
       'rtl-text': $data.isArabic
     }])
-  }, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? $data.guide.sections[$data.selectedCategory].title_ar || $data.guide.sections[$data.selectedCategory].title : $data.guide.sections[$data.selectedCategory].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translate Button "), $data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-success",
+  }, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    innerHTML: $data.isArabic ? $options.highlightText($data.guide.sections[$data.selectedCategory].title_ar || $data.guide.sections[$data.selectedCategory].title) : $options.highlightText($data.guide.sections[$data.selectedCategory].title)
+  }, null, 8 /* PROPS */, _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translate Button "), $data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success pt-2",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.translateContent && $options.translateContent.apply($options, arguments);
     }),
     disabled: $data.isLoading
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? 'Translate to English' : 'Translate to Arabic'), 9 /* TEXT, PROPS */, _hoisted_12)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isArabic ? 'Translate to English' : 'Translate to Arabic'), 9 /* TEXT, PROPS */, _hoisted_14)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-dark",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Translating...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-dark mt-2"
-  }, "Translating...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Translating...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "copyAlert",
     "class": "alert",
     role: "alert",
@@ -43667,18 +43685,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     id: "alertMessage"
-  }, "Content copied to clipboard!")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content with Real-Time Highlighting "), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  }, "Content copied to clipboard!")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content with Real-Time Highlighting "), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: $data.fontSize + 'px'
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       "class": "mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: $options.getHighlightedText(item)
-    }, null, 8 /* PROPS */, _hoisted_17)])]);
+    }, null, 8 /* PROPS */, _hoisted_19)])]);
   }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
     key: 1,
     "class": "text-dark fs-5 selected-content",
@@ -43687,20 +43705,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     innerHTML: $data.isArabic ? $options.highlightText($data.guide.sections[$data.selectedCategory].content_ar || $data.guide.sections[$data.selectedCategory].content) : $options.highlightText($data.guide.sections[$data.selectedCategory].content)
-  }, null, 8 /* PROPS */, _hoisted_18)], 4 /* STYLE */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("hr", _hoisted_19)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-share icon-tooltip h3 pt-1 icon-hover",
-    "data-bs-toggle": "tooltip",
-    style: {
-      "cursor": "pointer"
-    },
-    "data-bs-placement": "top",
-    title: "Share",
-    "aria-label": "Share content",
-    role: "button",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
-    })
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" play Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_20)], 4 /* STYLE */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("hr", _hoisted_21)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-center\">\n        <i class=\"bi bi-share icon-tooltip h3 icon-hover\" data-bs-toggle=\"tooltip\" style=\"cursor: pointer\"\n          data-bs-placement=\"top\" title=\"Share\" aria-label=\"Share content\" role=\"button\" @click=\"shareOnWhatsApp\"></i>\n        <div class=\"h5\">Share</div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-play icon-tooltip h1 icon-hover", {
       'text-muted': $data.isPlaying
     }]),
@@ -43714,10 +43719,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Play",
     "aria-label": "Play text",
     role: "button",
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.playText && $options.playText.apply($options, arguments);
     })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" pause Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 6 /* CLASS, STYLE */), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "h5"
+  }, "Play", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-pause icon-tooltip h1 icon-hover", {
       'text-muted': !$data.isPlaying || $data.isPaused
     }]),
@@ -43725,13 +43732,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Pause",
     role: "button",
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.pauseText && $options.pauseText.apply($options, arguments);
     }),
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       pointerEvents: !$data.isPlaying || $data.isPaused ? 'none' : 'auto'
     })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" stop Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 6 /* CLASS, STYLE */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "h5"
+  }, "Pause", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-stop icon-tooltip h1 icon-hover", {
       'text-muted': !$data.isPlaying
     }]),
@@ -43744,23 +43753,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Stop",
     role: "button",
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.stopText && $options.stopText.apply($options, arguments);
     })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon with Tooltip "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[7] || (_cache[7] = function () {
-      return $options.copyContent && $options.copyContent.apply($options, arguments);
-    }),
-    style: {
-      "cursor": "pointer"
-    },
-    "class": "bi bi-clipboard icon-tooltip pt-1 h3 icon-hover",
-    "data-bs-toggle": "tooltip",
-    "data-bs-placement": "top",
-    title: "Copy Content",
-    "aria-label": "Copy content",
-    role: "button"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, 6 /* CLASS, STYLE */), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "h5"
+  }, "Stop", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-center\">\n        <i @click=\"copyContent\" style=\"cursor: pointer\" class=\"bi bi-clipboard icon-tooltip h3 icon-hover\"\n          data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Copy Content\" aria-label=\"Copy content\"\n          role=\"button\"></i>\n        <div class=\"h5\">Copy</div>\n      </div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),

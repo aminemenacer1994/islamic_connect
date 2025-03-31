@@ -406,7 +406,7 @@ export default {
     //   );
     // },
     filteredPodcasts() {
-      return this.applyDurationFilter(this.podcasts);
+      return this.applyDurationFilter(this.islamicPodcasts);
     },
     sortedPodcasts() {
       return this.applySorting([...this.filteredPodcasts]);
