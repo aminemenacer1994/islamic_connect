@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h1 class="display-5 fw-bold text-center mb-4">Islamic Podcasts</h1>
+    <h1 class="display-5 fw-bold text-center mb-5">Islamic Podcasts</h1>
     <!-- <ChatBot /> -->
     <!-- <p class="text-center container mb-4 lead">
       Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
@@ -87,7 +87,23 @@
       </div>
     </div> -->
 
-    <div class="container text-center">
+    <div class="container mt-5">
+      <h2 class="fw-bold text-left pt-2 pb-2 container">Select a Podcast:</h2>
+      <div class="d-flex overflow-auto text-center px-3" style="white-space: nowrap; gap: 40px; padding-bottom: 15px;">
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="text-center flex-shrink-0"
+          style="width: 160px; cursor: pointer;" @click="selectPodcast(podcast)">
+          <img :src="podcast.image" alt="Podcast Logo"
+            style="width: 200px; height: 180px; object-fit: cover; border-radius: 18px;">
+          <h5 class="text-center mt-3" style="font-size: 1.3rem; font-weight: 600;">
+            {{ podcast.name }}
+          </h5>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- <div class="container text-center">
       <div class="row">
         <div class="col-md-2">
           <h5 class="pt-1" style="display: flex;"><b>Select a podcast:</b></h5>
@@ -103,9 +119,10 @@
         <div class="col-md-3">
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="pb- pt-3" v-if="selectedPodcast">
+      <hr class="container" />
       <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
 
       <div class="d-flex justify-content-between align-items-start">
@@ -187,18 +204,18 @@
                   </div>
 
                   <!-- Download -->
-                  <div class="icon-container">
+                  <!-- <div class="icon-container">
                     <i class="bi bi-download icon-tooltip" @click="downloadAudio(podcast)" data-bs-toggle="tooltip"
                       data-bs-placement="top" title="Download"></i>
                     <span class="icon-text">Download</span>
-                  </div>
+                  </div> -->
 
                   <!-- Replay -->
-                  <!-- <div class="icon-container">
+                  <div class="icon-container">
                     <i class="bi bi-repeat icon-tooltip" @click="replayAudio(index)" data-bs-toggle="tooltip"
                       data-bs-placement="top" title="Replay"></i>
                     <span class="icon-text">Replay</span>
-                  </div> -->
+                  </div>
 
                   <!-- Fast Forward -->
                   <div class="icon-container">
@@ -220,7 +237,6 @@
               <p v-if="showProgress[index]" class="mt-2 text-center fw-bold">
                 Played: {{ playedPercentage[index] || 0 }}% | Remaining: {{ remainingPercentage[index] || 100 }}%
               </p>
-
 
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio"
@@ -283,7 +299,6 @@ export default {
       progress: {}, // To track the progress of each audio
       playedPercentage: {}, // To track the played percentage for each audio
       remainingPercentage: {}, // To track the remaining percentage for each audio
-
       highlightedIndex: null, // Track the highlighted card index
       loading: false,
       currentlyPlaying: null,
@@ -327,7 +342,7 @@ export default {
         },
 
         {
-          name: "Qalam Podcast",
+          name: "Qalam",
           rssUrl: "https://www.qalaminstitute.org/feed/podcast/",
           desc: `The Qalam Podcast, hosted by scholars like Mufti Hussain Kamani and Shaykh Abdul Nasir Jangda, provides authentic Islamic knowledge in a way that is relevant to modern life.  
                 Covering tafsir (Quranic explanation), hadith, spirituality, and daily Muslim struggles, this podcast offers practical guidance for Muslims seeking to grow in their faith. `,
@@ -335,7 +350,7 @@ export default {
         },
 
         {
-          name: "Islamic History Podcast",
+          name: "Islamic History",
           rssUrl: "https://islamichistorypodcast.podbean.com/feed.xml​",
           desc: `The Islamic History Podcast, hosted by Muttahir Sabree, explores key historical events from the Islamic world.  
                 Covering everything from the life of the Prophet Muhammad (peace be upon him) to the Ottoman Empire and modern Islamic movements, this podcast is perfect for history lovers.  
@@ -344,13 +359,13 @@ export default {
         },
 
         {
-          name: "Yaqeen Podcast",
+          name: "Yaqeen",
           rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
           desc: `The Yaqeen Podcast, produced by Yaqeen Institute, features discussions led by scholars such as Dr. Omar Suleiman and others.  
                 Topics range from Islamic theology, spirituality, and social justice to modern challenges facing the Muslim community.  
                 This podcast aims to provide deep insights into faith and identity while addressing contemporary issues.`,
           image: "./images/yaqueen_pc.jpg",
-        }
+        },
       ],
 
       playingIndex: null,
@@ -384,11 +399,14 @@ export default {
       const start = (this.currentPage - 1) * this.podcastsPerPage;
       return this.filteredPodcasts.slice(start, start + this.podcastsPerPage);
     },
+    // filteredPodcasts() {
+    //   // Filter out podcasts with the specific phrase in the description
+    //   return this.islamicPodcasts.filter(podcast =>
+    //     !podcast.description.includes("No audio available for this podcast.")
+    //   );
+    // },
     filteredPodcasts() {
-      // Filter out podcasts with the specific phrase in the description
-      return this.islamicPodcasts.filter(podcast =>
-        !podcast.description.includes("No audio available for this podcast.")
-      );
+      return this.applyDurationFilter(this.podcasts);
     },
     sortedPodcasts() {
       return this.applySorting([...this.filteredPodcasts]);
@@ -405,23 +423,11 @@ export default {
 
   methods: {
     replayAudio(index) {
-      this.$nextTick(() => {
-        const audioRefs = this.$refs.audio;
-
-        console.log("Attempting to replay audio for index:", index);
-        console.log("Audio refs:", audioRefs);
-
-        // If only one audio element exists, make it an array
-        const audioElements = Array.isArray(audioRefs) ? audioRefs : [audioRefs];
-
-        if (audioElements.length > index && audioElements[index]) {
-          console.log("Found audio element:", audioElements[index]);
-          audioElements[index].currentTime = 0;
-          audioElements[index].play();
-        } else {
-          console.error(`Audio element not found for index: ${index}`);
-        }
-      });
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = 0; // Set time to start
+        audio.play(); // Play from the beginning
+      }
     },
     toggleRepeat(index) {
       if (this.repeatStates[index] === undefined) {
@@ -454,11 +460,15 @@ export default {
       }
     },
 
-    // Update podcast duration
-    updateDuration(podcast, event) {
-      if (event && event.target && event.target.duration) {
-        podcast.duration = Math.floor(event.target.duration / 60); // Convert seconds to minutes
-        this.applyFilters(); // Re-apply filters after durations are set
+    updateDuration(index) {
+      const audioPlayer = this.$refs.audioPlayer[index];
+      if (audioPlayer) {
+        const newDuration = Math.round(audioPlayer.duration); // Convert to whole minutes
+
+        // Replace the entire object in the array to trigger reactivity
+        this.podcasts = this.podcasts.map((podcast, i) =>
+          i === index ? { ...podcast, duration: newDuration } : podcast
+        );
       }
     },
 
@@ -890,7 +900,7 @@ export default {
 }
 
 img {
-  max-width: 150px;
+  max-width: 180px;
   /* Adjust as needed */
   height: auto;
 }
