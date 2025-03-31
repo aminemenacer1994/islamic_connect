@@ -3,41 +3,32 @@
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
 
     <!-- Search Bar -->
-    <div class="mb-4 text-center">
-      <input 
-        type="text" 
-        v-model="searchQuery" 
-        @input="handleSearch" 
-        placeholder="Search for radio station..." 
-        class="form-control w-50 mx-auto"
-      />
+    <div class="row container align-items-center mt-4">
+      <div class="col-md-4">
+        <h4 class="fw-bold mb-0 text-right">Search for Reciter's station:</h4>
+      </div>
+      <div class="col-md-6 pt-2">
+        <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search keyword..."
+          class="form-control" />
+      </div>
     </div>
+    <hr class="container"/>
 
-    <div class="row g-4">
-      <div 
-        v-for="station in paginatedStations" 
-        :key="station.id" 
-        class="col-md-4"
-      >
-        <div 
-          class="card" 
-          :class="{
-            'bg-success-subtle text-success-emphasis border-success': currentAudio && currentAudio.src === station.url,
-            'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !(currentAudio && currentAudio.src === station.url)
-          }"
-        >
+
+    <div class="row g-4 pt-5">
+      <h4 class="display-6 fw-bold text-left mt-2">Reciter's Radio Stations:</h4>
+      <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
+        <div class="card" :class="{
+          'bg-success-subtle text-success-emphasis border-success': currentAudio && currentAudio.src === station.url,
+          'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !(currentAudio && currentAudio.src === station.url)
+        }">
           <div class="card-body">
             <h5 class="card-title mb-3">
               <b v-html="highlightSearch(station.name)"></b>
             </h5>
-            <audio 
-              ref="audioPlayer" 
-              :src="station.url" 
-              controls 
-              class="w-100 mb-2"
+            <audio ref="audioPlayer" :src="station.url" controls class="w-100 mb-2"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
-              @play="handlePlay(station.id, $event)"
-            ></audio>
+              @play="handlePlay(station.id, $event)"></audio>
           </div>
         </div>
       </div>
@@ -99,7 +90,7 @@ export default {
       if (!this.searchQuery) {
         return this.radioStations;
       }
-      return this.radioStations.filter(station => 
+      return this.radioStations.filter(station =>
         station.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
@@ -140,6 +131,11 @@ export default {
 
 
 <style scoped>
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  display: none;
+}
+
 .audio {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   background: rgba(13, 182, 145, 0.09);
