@@ -5,18 +5,30 @@
     <!-- Search Bar -->
     <div class="row container align-items-center mt-4">
       <div class="col-md-4">
-        <h4 class="fw-bold mb-0 text-right">Search for Reciter's station:</h4>
+        <h4 class="fw-bold mb-0 text-center">Search for Reciter's station:</h4>
       </div>
       <div class="col-md-6 pt-2">
         <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search keyword..."
           class="form-control" />
       </div>
     </div>
-    <hr class="container"/>
+    <hr class="container" />
 
 
     <div class="row g-4 pt-5">
-      <h4 class="display-6 fw-bold text-left mt-2">Reciter's Radio Stations:</h4>
+      <h4 class="display-6 fw-bold text-left ">Reciter's Radio Stations:</h4>
+      <div v-if="currentlyPlaying && isPlaying"
+        class="card bg-primary-subtle text-success-emphasis border-success text-white mb-3 position-sticky top-0 z-3 shadow-lg rounded-3 p-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <b class="text-dark"> Currently Playing:</b>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-dark">
+            <div class="fw-bold text-center animate-text">{{ currentlyPlaying }}</div>
+          </h5>
+        </div>
+      </div>
+
       <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
         <div class="card" :class="{
           'bg-success-subtle text-success-emphasis border-success': currentAudio && currentAudio.src === station.url,
@@ -28,7 +40,8 @@
             </h5>
             <audio ref="audioPlayer" :src="station.url" controls class="w-100 mb-2"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
-              @play="handlePlay(station.id, $event)"></audio>
+              @play="handlePlay(station.id, $event)" @pause="handlePause"></audio>
+
           </div>
         </div>
       </div>
@@ -52,6 +65,7 @@
 export default {
   data() {
     return {
+      currentlyPlaying: null,
       radioStations: [],
       currentPage: 1,
       perPage: 15, // Number of stations per page
@@ -107,13 +121,25 @@ export default {
       }
     },
     handlePlay(stationId, event) {
-      // Stop the current audio if there's any playing
+      // Stop the current audio if another is playing
       if (this.currentAudio && this.currentAudio !== event.target) {
         this.currentAudio.pause();
         this.currentAudio.currentTime = 0; // Reset playback time
       }
+
       // Set the current playing audio
       this.currentAudio = event.target;
+      this.isPlaying = true; // Mark audio as playing
+
+      // Find and set the currently playing station
+      const station = this.radioStations.find(st => st.id === stationId);
+      if (station) {
+        this.currentlyPlaying = station.name;
+      }
+    },
+    handlePause() {
+      this.isPlaying = false; // Mark as not playing
+      this.currentlyPlaying = null; // Clear currently playing station
     },
     highlightSearch(text) {
       if (!this.searchQuery) return text; // No highlighting if search is empty
@@ -134,6 +160,27 @@ export default {
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
   display: none;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+.animate-text {
+  animation: fadeInOut 2s infinite;
 }
 
 .audio {
