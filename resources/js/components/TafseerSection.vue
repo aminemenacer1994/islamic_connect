@@ -3,7 +3,6 @@
     <button v-if="isFullScreen" @click="toggleFullScreen" class="close-button mb-3 text-left btn btn-secondary">
       Close
     </button>
-
     <div ref="targetTafseerElement">
       <AyahInfo :information="information" />
       <div class="swipeable-div w-100">

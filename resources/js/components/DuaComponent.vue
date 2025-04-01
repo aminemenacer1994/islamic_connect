@@ -1,11 +1,10 @@
 <template>
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Dua Collection</h1>
-    <!-- <p class="text-center container mb-4 dua-description">
+    <p class="text-center container mb-4 dua-description">
       The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like
-      forgiveness, protection, and healing. Each dua includes the Arabic text, transliteration, translation, and
-      reference, making it accessible for all.
-    </p> -->
+      forgiveness, protection, healing and more.
+    </p>
 
     <div class="container">
       <div class="row mb-4">
@@ -13,6 +12,8 @@
         <!-- Category Dropdown -->
         <div class="col-md-6">
           <div class="mb-3">
+            <h4 class="fw-bold text-left pt-2 pb-2 container">Select a Category:</h4>
+
             <select v-model="selectedCategory" class="form-select">
               <option value="">Select a Dua Category</option>
               <option v-for="category in duaCollection" :key="category.id" :value="category.id">
@@ -21,12 +22,15 @@
             </select>
           </div>
         </div>
+
         <!-- Search Input -->
         <div class="col-md-6">
           <div class="mb-3">
-            <input v-model="searchQuery" type="text" placeholder="Search for a Dua word..." class="form-control" />
+            <h4 class="fw-bold text-left pt-2 pb-2 container">Search for a Dua word:</h4>
+            <input v-model="searchQuery" type="text" placeholder="Search for a keyword..." class="form-control" />
           </div>
         </div>
+
       </div>
     </div>
 
@@ -77,25 +81,39 @@
 
             <!-- Action Icons: Share & Copy -->
             <div class="container text-center d-flex justify-content-between">
-              <!-- Font Size Control -->
-              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 icon-hover"
-                @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
+              <!-- Font Size Decrease -->
+              <div class="text-center">
+                <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 pb-2 icon-hover"
+                  @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
+                  title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
+                <div class="small">Decrease</div>
+              </div>
 
-              <!-- Share Icon with Tooltip -->
-              <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-1 icon-hover" data-bs-toggle="tooltip"
-                style="cursor:pointer" data-bs-placement="top" title="Share" aria-label="Share content"
-                role="button"></i>
+              <!-- Share Icon -->
+              <div class="text-center">
+                <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-2 icon-hover"
+                  data-bs-toggle="tooltip" style="cursor:pointer" data-bs-placement="top" title="Share"
+                  aria-label="Share content" role="button"></i>
+                <div class="small pt-2">Share</div>
+              </div>
 
-              <!-- Copy Icon with Tooltip -->
-              <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-1 icon-hover" @click="copyContent(dua)"
-                data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
-                role="button"></i>
+              <!-- Copy Icon -->
+              <div class="text-center">
+                <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-2 icon-hover"
+                  @click="copyContent(dua)" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content"
+                  aria-label="Copy content" role="button"></i>
+                <div class="small pt-2">Copy</div>
+              </div>
 
-              <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
-                @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
+              <!-- Font Size Increase -->
+              <div class="text-center">
+                <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
+                  @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
+                  title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
+                <div class="small">Increase</div>
+              </div>
             </div>
+
 
           </div>
         </div>

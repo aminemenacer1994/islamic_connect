@@ -5,9 +5,10 @@
             <!-- <ChatBot /> -->
 
             <div v-if="!isVisible">
-                <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the Quran...</h4>
+                <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the
+                    Quran...</h4>
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
-                
+
             </div>
             <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
 
@@ -26,21 +27,27 @@
                 </div> -->
 
 
-                <div class="col-md-4 pt-2">                
+                <div class="col-md-4 pt-2">
                     <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
-                    <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId"
-                        :filteredSurah="filteredSurah" :surat="surat" @update:selectedSurah="updateSelectedSurah"
-                        @fetchAyat="getAyat" />
+                    <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
+                        :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
+                    
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
-
                     <!-- <div style="display: flex" class="row"> -->
-
                     <!-- <AyahOfTheDay /> -->
 
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
+                    <form class="d-flex pb-2 container" v-if="information != null" role="search" @submit.prevent="scrollToAyah">
+                        <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
+                            type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
+                        <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;"
+                            type="submit">
+                            Search
+                        </button>
+                    </form>
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
@@ -51,13 +58,6 @@
                         v-if="ayah == null && !dropdownHidden">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                             aria-labelledby="nav-home-tab" v-if="ayah == null">
-                            <!-- <form class="d-flex pb-2" role="search" @submit.prevent="scrollToAyah">
-                                <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; " type="number" placeholder="Enter Verse Number"
-                                    v-model="verseNumber" required />
-                                <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;" type="submit">
-                                    Search
-                                </button>
-                            </form> -->
 
                             <!-- Error alert -->
                             <ErrorAlert :showError="showError" @dismiss-error="dismissError" />
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">                
+                <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">
                     <h4 class="fw-bold text-left container-fluid " v-if="information != null">Verse Breakdown...</h4>
                     <div class="card content" style="
                         box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
@@ -235,7 +235,7 @@
                                             <div class="col pb-2">
                                                 <i :class="isOpen
                                                     ? 'bi bi-x-circle-fill'
-                                                    : 'bi bi-plus-circle-fill' 
+                                                    : 'bi bi-plus-circle-fill'
                                                     " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
                                             </div>
                                             <div v-if="isOpen" class="hide-on-mobile">

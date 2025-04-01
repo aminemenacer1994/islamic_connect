@@ -139,7 +139,7 @@
 
 
     <div class="row g-2 g-md-3">
-      <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
+      <div class="col-md-6 px-2 px-md-3" v-if="selectedPodcast">
         <h4 for="sortPodcasts" class="form-label fw-bold">Views:</h4>
         <select id="sortPodcasts" class="form-select" v-model="sortBy" @change="sortPodcasts">
           <option value="most-viewed">Most Viewed</option>
@@ -147,7 +147,7 @@
         </select>
       </div>
 
-      <div class="col-md-3 px-2 px-md-3 pb-2" v-if="selectedPodcast">
+      <div class="col-md-6 px-2 px-md-3 pb-2" v-if="selectedPodcast">
         <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
         <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterPodcasts">
           <option value="">All Durations</option>
@@ -184,10 +184,10 @@
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
             <div :class="['card h-100', { 'highlighted': playingIndex === index }]"
               style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; bottom: 0px; border-radius: 20px;">
+
               <div class="card-body ">
                 <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
                 <h6>Views: {{ podcast.views }}</h6>
-                <!-- <h6>Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}</h6> -->
                 <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
                 <hr>
                 <div class="container-fluid text-center d-flex justify-content-between align-items-center">
@@ -204,13 +204,6 @@
                       data-bs-placement="top" title="Share"></i>
                     <span class="icon-text">Share</span>
                   </div>
-
-                  <!-- Download -->
-                  <!-- <div class="icon-container">
-                    <i class="bi bi-download icon-tooltip" @click="downloadAudio(podcast)" data-bs-toggle="tooltip"
-                      data-bs-placement="top" title="Download"></i>
-                    <span class="icon-text">Download</span>
-                  </div> -->
 
                   <!-- Replay -->
                   <div class="icon-container">
@@ -240,15 +233,17 @@
                 Played: {{ playedPercentage[index] || 0 }}% | Remaining: {{ remainingPercentage[index] || 100 }}%
               </p>
 
+              <!-- Audio Player -->
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio" :key="index"
-                style="height: 60px; font-size: 18px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
+                style="height: 60px; font-size: 20px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
                 @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @timeupdate="updateProgress(index)" @loadedmetadata="updateDuration(index)">
                 Your browser does not support the audio element.
               </audio>
 
             </div>
+
           </div>
         </div>
 
@@ -386,7 +381,7 @@ export default {
           desc: `This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.`,
           image: "./images/ilm.jpg",
         },
-      
+
       ],
 
       playingIndex: null,
@@ -443,6 +438,7 @@ export default {
   },
 
   methods: {
+
     replayAudio(index) {
       const audio = this.$refs.audioPlayer[index];
       if (audio) {
@@ -656,20 +652,29 @@ export default {
     },
 
     playAudio(index) {
+      // Check if there's another audio playing
       if (this.currentlyPlaying !== null && this.currentlyPlaying !== index) {
-        this.$refs.audioPlayer[this.currentlyPlaying].pause();
+        const currentAudio = this.$refs.audioPlayer[this.currentlyPlaying];
+        if (currentAudio) {
+          currentAudio.pause(); // Pause the currently playing audio
+          currentAudio.currentTime = 0; // Reset the time
+        }
       }
 
+      // Play the new audio
       const audio = this.$refs.audioPlayer[index];
       if (audio) {
         audio.currentTime = 0; // Reset playback
         audio.play().catch((err) => console.error("Audio play error:", err));
+
+        // Set the currently playing audio index and highlight the card
         this.currentlyPlaying = index;
+        this.playingIndex = index;
       }
     },
 
-    // Handle when audio ends
     handleAudioEnd(index) {
+      // Repeat audio if the repeat state is true
       if (this.repeatStates[index]) {
         const audioElement = this.$refs.audioPlayer[index];
         if (audioElement) {
@@ -677,6 +682,31 @@ export default {
           audioElement.play();
         }
       }
+
+      // Reset the highlighted card when the audio ends
+      if (this.currentlyPlaying === index) {
+        this.playingIndex = null; // Reset the playing index
+      }
+    },
+
+    // Handle when pagination occurs
+    handlePageChange() {
+      // Pause the audio before changing the page
+      if (this.currentlyPlaying !== null) {
+        const audioElement = this.$refs.audioPlayer[this.currentlyPlaying];
+        if (audioElement) {
+          audioElement.pause(); // Pause the audio
+        }
+      }
+
+      // Reset the playing index on page change
+      this.playingIndex = null;
+    },
+
+    handlePagination() {
+      // Pause the audio before changing page
+      this.handlePageChange();
+      // Your pagination logic here (e.g., fetch new data or change page)
     },
 
     // Update progress during playback
@@ -850,6 +880,11 @@ export default {
   },
 
   watch: {
+    currentlyPlaying(newValue) {
+      if (newValue !== null) {
+        this.playingIndex = newValue; // Keep the highlighted card when page changes
+      }
+    },
     searchQuery: "onSearch",
     selectedYear: 'applyFilters',
     selectedMonth: 'applyFilters',
@@ -863,6 +898,13 @@ export default {
 </script>
 
 <style scoped>
+.highlighted {
+  background-color: #f0f8ff;
+  /* Light blue background to highlight */
+  box-shadow: rgba(0, 123, 255, 0.5) 0px 7px 29px 0px;
+  /* Example of highlight effect */
+}
+
 .icon-container {
   display: flex;
   flex-direction: column;

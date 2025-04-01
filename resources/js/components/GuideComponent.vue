@@ -100,7 +100,7 @@
           role="button" @click="pauseText"
           :class="{ 'text-muted': !isPlaying || isPaused, 'highlight-button': isPlaying }"
           :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
-        <div class="h5">Pause</div>
+        <div class="h4">Pause</div>
       </div>
 
       <div class="text-center">
@@ -109,7 +109,7 @@
           aria-label="Play text" role="button" @click="playText"
           :class="{ 'text-muted': isPlaying, 'highlight-button': !isPlaying }"
           :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
-        <div class="h5">Play</div>
+        <div class="h4">Play</div>
       </div>
 
       <div class="text-center">
@@ -117,7 +117,7 @@
         <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Stop"
           role="button" @click="stopText" :class="{ 'text-muted': !isPlaying, 'highlight-button': isPlaying }"
           :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
-        <div class="h5">Stop</div>
+        <div class="h4">Stop</div>
       </div>
 
 
