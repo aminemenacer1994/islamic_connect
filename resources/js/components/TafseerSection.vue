@@ -5,7 +5,7 @@
     </button>
 
     <div ref="targetTafseerElement">
-      <!-- <AyahInfo :information="information" /> -->
+      <AyahInfo :information="information" />
       <div class="swipeable-div w-100">
         <div class="row">
 

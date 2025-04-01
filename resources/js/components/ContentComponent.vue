@@ -89,13 +89,15 @@
 
     <div class="container mt-5">
       <h2 class="fw-bold text-left pt-2 pb-2 container">Select a Podcast:</h2>
-      <div class="d-flex overflow-auto text-center px-3" style="white-space: nowrap; gap: 40px; padding-bottom: 15px;">
+
+      <div class="d-flex overflow-auto text-center px-3 shadow-md"
+        style="white-space: nowrap; gap: 40px; border-radius: 15px; padding-bottom: 15px;">
         <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="text-center flex-shrink-0"
           style="width: 160px; cursor: pointer;" @click="selectPodcast(podcast)">
           <img :src="podcast.image" alt="Podcast Logo"
-            style="width: 200px; height: 180px; object-fit: cover; border-radius: 18px;">
+            style="width: 200px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; height: 180px; object-fit: cover; border-radius: 18px;">
           <h5 class="text-center mt-3" style="font-size: 1.3rem; font-weight: 600;">
-            {{ podcast.name }}
+            <span class="text-center">{{ podcast.name }}</span>
           </h5>
         </div>
       </div>
@@ -123,12 +125,12 @@
 
     <div class="pb- pt-3" v-if="selectedPodcast">
       <hr class="container" />
-      <p class="fw-bold display-5">{{ selectedPodcast.name }}</p>
+      <p class="fw-bold display-5 ">{{ selectedPodcast.name }}</p>
+      <img style=" border-radius: 15px;" class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
 
       <div class="d-flex justify-content-between align-items-start">
-        <p class="col-md-10 display-7">{{ selectedPodcast.desc }}</p>
-        <img class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
       </div>
+      <h5 class="col-md-10 mt-3 pb-3" style="line-height: 1.6em;">{{ selectedPodcast.desc }}</h5>
       <h4 class="fw-bold ml-2 pb-3">
         Amount of Episodes:
         {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }}
@@ -145,7 +147,7 @@
         </select>
       </div>
 
-      <div class="col-md-3 px-2 px-md-3" v-if="selectedPodcast">
+      <div class="col-md-3 px-2 px-md-3 pb-2" v-if="selectedPodcast">
         <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
         <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterPodcasts">
           <option value="">All Durations</option>
@@ -158,11 +160,11 @@
         </select>
       </div>
 
-      <div class="col-md-6 px-2 px-md-3 mb-3" v-if="selectedPodcast">
+      <!-- <div class="col-md-6 px-2 px-md-3 mb-3" v-if="selectedPodcast">
         <h4 for="searchPodcasts" class="form-label fw-bold">Search Episode:</h4>
         <input id="searchPodcasts" type="search" class="form-control" placeholder="Search podcast keyword..."
           v-model="searchQuery" @input="onSearch" />
-      </div>
+      </div> -->
     </div>
 
 
@@ -185,7 +187,7 @@
               <div class="card-body ">
                 <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
                 <h6>Views: {{ podcast.views }}</h6>
-                <h6>Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}</h6>
+                <!-- <h6>Duration: {{ podcast.duration ? podcast.duration + ' min' : 'Loading...' }}</h6> -->
                 <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
                 <hr>
                 <div class="container-fluid text-center d-flex justify-content-between align-items-center">
@@ -239,7 +241,7 @@
               </p>
 
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio"
+                class="w-100 audio" :key="index"
                 style="height: 60px; font-size: 18px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
                 @play="playAudio(index)" @pause="handleAudioEnd(index)" @ended="handleAudioEnd(index)"
                 @timeupdate="updateProgress(index)" @loadedmetadata="updateDuration(index)">
@@ -334,6 +336,14 @@ export default {
           image: "./images/deen_show.png",
         },
         {
+          name: "Yaqeen",
+          rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
+          desc: `The Yaqeen Podcast, produced by Yaqeen Institute, features discussions led by scholars such as Dr. Omar Suleiman and others.  
+                Topics range from Islamic theology, spirituality, and social justice to modern challenges facing the Muslim community.  
+                This podcast aims to provide deep insights into faith and identity while addressing contemporary issues.`,
+          image: "./images/yaqueen_pc.jpg",
+        },
+        {
           name: "SeekersGuidance",
           rssUrl: "https://seekersguidance.org/feed/podcast/",
           desc: `SeekersGuidance is a global Islamic educational platform dedicated to providing high-quality, accessible, and free Islamic knowledge to students worldwide.  
@@ -357,15 +367,26 @@ export default {
                 It provides well-researched, engaging storytelling that brings Islamic history to life.`,
           image: "./images/islamic_history_pc.jpeg",
         },
-
         {
-          name: "Yaqeen",
-          rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
-          desc: `The Yaqeen Podcast, produced by Yaqeen Institute, features discussions led by scholars such as Dr. Omar Suleiman and others.  
-                Topics range from Islamic theology, spirituality, and social justice to modern challenges facing the Muslim community.  
-                This podcast aims to provide deep insights into faith and identity while addressing contemporary issues.`,
-          image: "./images/yaqueen_pc.jpg",
+          name: "Hijabi Diaries",
+          rssUrl: "https://anchor.fm/s/89366ff8/podcast/rss",
+          desc: `Assalamualaikum everyone in this podcast I talk about the path to spiritual growth, give out advice, Islam, stories, and much more! Come with me on this islamic journey as we strengthen our relationship with Allah :)
+                The Prophet ﷺ said, "Convey (my teachings) to the people even if it were a single sentence.”`,
+          image: "./images/hijabis.jpeg",
         },
+        {
+          name: "What is Islam",
+          rssUrl: "https://feeds.buzzsprout.com/2076265.rss",
+          desc: `A podcast that explores various topics related to Islam and the Muslim experience, featuring interviews with scholars, activists, and artists.`,
+          image: "./images/islamic_pc.png",
+        },
+        {
+          name: "The Greed for Ilm",
+          rssUrl: "https://greedforilm.libsyn.com/rss",
+          desc: `This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.`,
+          image: "./images/ilm.jpg",
+        },
+      
       ],
 
       playingIndex: null,
@@ -430,10 +451,7 @@ export default {
       }
     },
     toggleRepeat(index) {
-      if (this.repeatStates[index] === undefined) {
-        this.$set(this.repeatStates, index, false); // Ensure key exists
-      }
-      this.repeatStates[index] = !this.repeatStates[index];
+      this.repeatStates = { ...this.repeatStates, [index]: !this.repeatStates[index] };
     },
     handleAudioEnd(index) {
       if (this.repeatStates[index]) { // Check if repeat is enabled
@@ -485,16 +503,16 @@ export default {
 
     downloadAudio(podcast) {
       fetch(podcast.audioUrl)
-        .then(response => response.blob()) // Convert response to a Blob
+        .then(response => response.blob())
         .then(blob => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = podcast.title.replace(/[^a-zA-Z0-9]/g, "_") + ".mp3"; // Ensure a valid filename
+          a.download = podcast.title.replace(/\s+/g, "_") + ".mp3";
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          window.URL.revokeObjectURL(url); // Cleanup
+          window.URL.revokeObjectURL(url);
         })
         .catch(error => console.error("Download failed:", error));
     },
@@ -638,50 +656,26 @@ export default {
     },
 
     playAudio(index) {
-      const audioPlayer = this.$refs.audioPlayer[index];
-      if (!audioPlayer) return;
-
-      this.playingIndex = index;
-
-      // Pause any currently playing audio
-      if (this.currentlyPlaying && this.currentlyPlaying !== audioPlayer) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying = null;
-        this.highlightedIndex = null;
-        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar
+      if (this.currentlyPlaying !== null && this.currentlyPlaying !== index) {
+        this.$refs.audioPlayer[this.currentlyPlaying].pause();
       }
 
-      // Toggle play/pause
-      if (this.currentlyPlaying === audioPlayer) {
-        audioPlayer.pause();
-        this.currentlyPlaying = null;
-        this.highlightedIndex = null;
-        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar
-      } else {
-        audioPlayer.play();
-        this.currentlyPlaying = audioPlayer;
-        this.highlightedIndex = index;
-        this.showProgress = { ...this.showProgress, [index]: true }; // Show progress bar
-
-        // Attach timeupdate event to update progress while playing
-        audioPlayer.addEventListener('timeupdate', () => {
-          this.updateProgress(index, audioPlayer);
-        });
+      const audio = this.$refs.audioPlayer[index];
+      if (audio) {
+        audio.currentTime = 0; // Reset playback
+        audio.play().catch((err) => console.error("Audio play error:", err));
+        this.currentlyPlaying = index;
       }
     },
 
     // Handle when audio ends
     handleAudioEnd(index) {
-      if (this.currentlyPlaying === this.$refs.audioPlayer[index]) {
-        this.currentlyPlaying = null;
-        this.highlightedIndex = null;
-        this.progress[index] = 0;
-        this.playedPercentage[index] = 0;
-        this.remainingPercentage[index] = 100;
-        this.showProgress = { ...this.showProgress, [index]: false }; // Hide progress bar when audio ends
-      }
-      if (this.playingIndex === index) {
-        this.playingIndex = null;
+      if (this.repeatStates[index]) {
+        const audioElement = this.$refs.audioPlayer[index];
+        if (audioElement) {
+          audioElement.currentTime = 0;
+          audioElement.play();
+        }
       }
     },
 
@@ -741,20 +735,16 @@ export default {
     },
 
     applyDateFilter(filtered) {
-      const currentDate = new Date();
-
-      if (this.selectedDateFilter === 'yearly' && this.selectedYear) {
-        return filtered.filter(podcast => new Date(podcast.pubDate).getFullYear() === this.selectedYear);
-      } else if (this.selectedDateFilter === 'monthly' && this.selectedMonth) {
-        const monthIndex = this.months.indexOf(this.selectedMonth);
-        return filtered.filter(podcast => new Date(podcast.pubDate).getMonth() === monthIndex);
-      } else if (this.selectedDateFilter === 'weekly' && this.selectedWeek) {
-        // Handle weekly logic here if applicable
-        return filtered; // Update with weekly logic
-      } else if (this.selectedDateFilter === 'daily' && this.selectedDay) {
-        return filtered.filter(podcast => new Date(podcast.pubDate).getDate() === parseInt(this.selectedDay));
-      }
-      return filtered; // Return unmodified if no valid filter
+      const now = new Date();
+      return filtered.filter(podcast => {
+        const pubDate = new Date(podcast.pubDate);
+        if (this.selectedDateFilter === "weekly") {
+          return (now - pubDate) / (1000 * 60 * 60 * 24) <= 7;
+        } else if (this.selectedDateFilter === "monthly") {
+          return (now - pubDate) / (1000 * 60 * 60 * 24) <= 30;
+        }
+        return true;
+      });
     },
 
     applyDurationFilter(podcasts) {

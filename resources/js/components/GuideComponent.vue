@@ -32,14 +32,14 @@
         <div class="col-md-12">
           <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
             <!-- Title -->
-            <h2 class="display-6 fw-bold flex-grow-1 mb-0">
+            <h2 class="display-6 fw-bold flex-grow-1 pb-2 mb-0">
               <span v-html="isArabic ? highlightText(guide.sections[selectedCategory].title_ar || guide.sections[selectedCategory].title) :
                 highlightText(guide.sections[selectedCategory].title)"></span>
             </h2>
 
             <!-- Translate Button -->
-            <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto">
-              <button class="btn btn-success pt-2" @click="translateContent" :disabled="isLoading">
+            <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto pt-2">
+              <button class="btn btn-success" @click="translateContent" :disabled="isLoading">
                 {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
               </button>
             </div>
@@ -95,25 +95,31 @@
       </div> -->
 
       <div class="text-center">
-        <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-          data-bs-placement="top" title="Play" aria-label="Play text" role="button" @click="playText"
-          :class="{ 'text-muted': isPlaying }" :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
-        <div class="h5">Play</div>
-      </div>
-
-      <div class="text-center">
+        <!-- Pause Button -->
         <i class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause"
-          role="button" @click="pauseText" :class="{ 'text-muted': !isPlaying || isPaused }"
+          role="button" @click="pauseText"
+          :class="{ 'text-muted': !isPlaying || isPaused, 'highlight-button': isPlaying }"
           :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
         <div class="h5">Pause</div>
       </div>
 
       <div class="text-center">
-        <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-          data-bs-placement="top" title="Stop" role="button" @click="stopText" :class="{ 'text-muted': !isPlaying }"
+        <!-- Play Button -->
+        <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Play"
+          aria-label="Play text" role="button" @click="playText"
+          :class="{ 'text-muted': isPlaying, 'highlight-button': !isPlaying }"
+          :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
+        <div class="h5">Play</div>
+      </div>
+
+      <div class="text-center">
+        <!-- Stop Button -->
+        <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Stop"
+          role="button" @click="stopText" :class="{ 'text-muted': !isPlaying, 'highlight-button': isPlaying }"
           :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
         <div class="h5">Stop</div>
       </div>
+
 
       <!-- <div class="text-center">
         <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip h3 icon-hover"
@@ -176,17 +182,15 @@ export default {
       }
     },
 
-    // Handle Play Button
     playText() {
-      // If it's paused, resume the speech
       if (this.isPaused) {
         window.speechSynthesis.resume();
         this.isPaused = false;
         this.isPlaying = true;
+        this.updateAudioControlState();  // Update the control state
         return;
       }
 
-      // Select the content to read
       const selectedSection = this.guide.sections[this.selectedCategory];
       if (!selectedSection) return;
 
@@ -204,13 +208,11 @@ export default {
       this.highlightedText = this.fullText.split(' ');
       this.currentIndex = -1;
 
-      // Cancel any ongoing speech
       window.speechSynthesis.cancel();
 
       this.utterance = new SpeechSynthesisUtterance(this.fullText);
       this.utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
 
-      // Set the preferred voice
       const preferredVoice = this.voices.find(voice =>
         this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US')
       ) || this.voices[0];
@@ -225,7 +227,7 @@ export default {
           const textUpToBoundary = this.fullText.slice(0, event.charIndex);
           const wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
           this.currentIndex = wordsUpToBoundary;
-          this.$forceUpdate();  // Re-render to highlight the correct word
+          this.$forceUpdate();
         }
       };
 
@@ -233,12 +235,23 @@ export default {
         this.isPlaying = false;
         this.isPaused = false;
         this.currentIndex = -1;
+        this.updateAudioControlState();  // Reset the control state after speech ends
       };
 
       window.speechSynthesis.speak(this.utterance);
 
       this.isPlaying = true;
       this.isPaused = false;
+      this.updateAudioControlState();  // Update the control state
+    },
+
+    // Update audio control state to highlight play and disable controls
+    updateAudioControlState() {
+      if (this.isPlaying) {
+        document.body.classList.add('playing');
+      } else {
+        document.body.classList.remove('playing');
+      }
     },
 
     // Pause Button Handler
@@ -247,6 +260,7 @@ export default {
         window.speechSynthesis.pause();
         this.isPaused = true;
         this.isPlaying = false;
+        this.updateAudioControlState();  // Update the control state
       }
     },
 
@@ -258,7 +272,7 @@ export default {
         this.isPaused = false;
         this.ttsUtterance = null;
         this.currentIndex = -1;
-        this.$forceUpdate();
+        this.updateAudioControlState();  // Update the control state
       }
     },
 
@@ -364,6 +378,20 @@ export default {
 </script>
 
 <style scoped>
+/* Highlight active button */
+.highlight-button {
+  color: rgb(13, 182, 145);
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+/* Gray out inactive buttons */
+.text-muted {
+  color: #a9a9a9 !important;
+  pointer-events: none;
+  /* Prevent interaction */
+}
+
 .highlight-word {
   background-color: rgb(13, 182, 145);
   /* Customize the highlight color */

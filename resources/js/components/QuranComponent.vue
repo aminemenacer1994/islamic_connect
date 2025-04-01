@@ -213,23 +213,23 @@
                                     <!-- Translation Section -->
                                     <div class="tab-pane active content" id="home" role="tabpanel"
                                         v-if="information != null">
-                                        <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                        @update-information="updateInformation" :style="{
-                                            
-                                            color: 'black',
-                                            borderRadius: '15px',
-                                            border: '2px solid rgba(0, 0, 0, 0.1)',
-                                            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
-                                        }" class="icon-container mb-3">
-                                        <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
-                                            style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
-                                        <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                            style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
-                                        <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                            style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
-                                        <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
-                                            style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
-                                    </div>
+                                        <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                            @update-information="updateInformation" :style="{
+                                                
+                                                color: 'black',
+                                                borderRadius: '15px',
+                                                border: '2px solid rgba(0, 0, 0, 0.1)',
+                                                boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                            }" class="icon-container mb-3">
+                                            <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
+                                                style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
+                                            <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
+                                                style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
+                                            <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
+                                                style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
+                                            <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
+                                                style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
+                                        </div> -->
                                         <!-- desktop top features -->
                                         <div v-if="!isVisible" :style="iconStyle">
                                             <div class="col pb-2">

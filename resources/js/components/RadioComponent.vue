@@ -17,7 +17,7 @@
 
     <div class="row g-4 pt-5">
       <h4 class="display-6 fw-bold text-left ">Reciter's Radio Stations:</h4>
-      <div v-if="currentlyPlaying && isPlaying"
+      <!-- <div v-if="currentlyPlaying && isPlaying"
         class="card bg-primary-subtle text-success-emphasis border-success text-white mb-3 position-sticky top-0 z-3 shadow-lg rounded-3 p-2">
         <div class="card-header d-flex justify-content-between align-items-center">
           <b class="text-dark"> Currently Playing:</b>
@@ -27,7 +27,10 @@
             <div class="fw-bold text-center animate-text">{{ currentlyPlaying }}</div>
           </h5>
         </div>
-      </div>
+      </div> -->
+
+
+
 
       <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
         <div class="card" :class="{
@@ -74,6 +77,7 @@ export default {
     };
   },
   mounted() {
+    this.loadPlayingStation();
     fetch('https://mp3quran.net/api/v3/radios?language=eng')
       .then(response => response.json())
       .then(data => {
@@ -110,6 +114,40 @@ export default {
     },
   },
   methods: {
+    playStation(stationName, audioUrl) {
+      const audio = this.$refs.audioPlayer;
+
+      if (!audio) return;
+
+      // If switching stations, pause previous audio
+      if (this.currentlyPlaying && this.currentlyPlaying !== stationName) {
+        audio.pause();
+        audio.currentTime = 0; // Reset playback
+      }
+
+      // Set new source and play
+      audio.src = audioUrl;
+      audio.load(); // Ensure fresh loading of audio
+      audio.play()
+        .then(() => {
+          this.currentlyPlaying = stationName;
+          this.isPlaying = true;
+
+          // Persist data across pages
+          localStorage.setItem("currentlyPlaying", stationName);
+          localStorage.setItem("isPlaying", "true");
+        })
+        .catch(error => console.error("Audio play error:", error));
+    },
+
+    // Load last played station on page load
+    loadPlayingStation() {
+      const savedStation = localStorage.getItem("currentlyPlaying");
+      if (savedStation) {
+        this.currentlyPlaying = savedStation;
+        this.isPlaying = localStorage.getItem("isPlaying") === "true";
+      }
+    },
     previousPage() {
       if (this.currentPage > 1) {
         this.currentPage -= 1;
