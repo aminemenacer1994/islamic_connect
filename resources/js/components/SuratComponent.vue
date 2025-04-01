@@ -129,8 +129,8 @@
 
                 <div class="col text-center">
                   <div class="d-flex flex-column align-items-center">
-                    <i style="font-size: 1.3rem;" class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)" data-bs-toggle="tooltip"
-                      data-bs-placement="top" title="Copy Ayah"></i>
+                    <i style="font-size: 1.3rem;" class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Ayah"></i>
                     <span class="mt-1">Copy text</span>
                   </div>
                 </div>
@@ -175,14 +175,17 @@
 
             <!-- Audio Player Stuck to Bottom -->
             <div class="pt-2">
-              <audio ref="audioPlayer" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+              <audio ref="audioPlayer" style="
+                box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
                 border-bottom-left-radius: 20px; 
                 border-bottom-right-radius: 20px;
                 display: flex;
+                font-size: 1.9rem; /* Increase font size */
                 " controls class="audio-player w-100" @play="playAudio(index)">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
+
           </div>
         </div>
       </div>
@@ -191,6 +194,10 @@
     <!-- Scroll to Top FAB -->
     <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
       <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <button class="fab_audio" @click="scrollToCurrentAudio">
+      <i class="bi bi-music-note-beamed"></i>
     </button>
 
 
@@ -283,6 +290,15 @@ export default {
     }
   },
   methods: {
+    scrollToCurrentAudio() {
+      const playingAudio = this.$refs.audioPlayer.find(audio => !audio.paused);
+      if (!playingAudio) return; // If no audio is playing, do nothing
+
+      const parentCard = playingAudio.closest(".col-md-12"); // Find the nearest parent card
+      if (parentCard) {
+        parentCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    },
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
     },
@@ -644,6 +660,31 @@ export default {
 </script>
 
 <style scoped>
+.fab_audio {
+  position: fixed;
+  bottom: 20px;
+  left: 20px; /* Changed from right to left */
+  background-color: #007bff; /* Adjust color to match your theme */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  z-index: 1000; /* Ensure it stays on top */
+}
+
+.fab_audio:hover {
+  background-color: #0056b3;
+}
+
+
 .fab {
   position: fixed;
   bottom: 20px;
