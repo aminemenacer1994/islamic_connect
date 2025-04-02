@@ -40,7 +40,7 @@
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
-                    <form class="d-flex pb-2 container" v-if="information != null" role="search" @submit.prevent="scrollToAyah">
+                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search" @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
                         <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;"

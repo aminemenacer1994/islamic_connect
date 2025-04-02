@@ -60,7 +60,7 @@
     </div>
 
     <!-- Bootstrap Alert -->
-    <div v-if="toastVisible" class="alert container text-center alert-success alert-dismissible fade show mx-3"
+    <div v-if="toastVisible" class="alert container pr-2 text-center alert-success alert-dismissible fade show mx-3"
       role="alert">
       {{ toastMessage }}
       <button type="button" class="btn-close" @click="toastVisible = false" aria-label="Close"></button>
@@ -85,7 +85,52 @@
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
             <h4><img src="images/art.png" width="35px" /> {{ surahDetails?.surahNumber }} : {{ index + 1 }}</h4>
+
+            <!-- dropdown for features -->
+            <div class="dropdown">
+              <div type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <i class="bi bi-three-dots-vertical h2 mt-3"></i>
+            </div>
+              
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">
+                    <div class="col text-center" @click="shareOnWhatsApp(ayah)">
+                      <div class="d-flex flex-column align-items-center">
+                        <!-- <i class="bi bi-share" style="cursor: pointer; font-size: 1.3rem;"
+                          @click="shareOnWhatsApp(ayah)" data-bs-toggle="tooltip" data-bs-placement="top"
+                          title="Share on WhatsApp"></i> -->
+                        <span class="mt-1 ml-2 text-left " style="font-size:1.2rem">Share</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <div class="col text-center" @click="copyAyah(ayah)">
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="mt-1 ml-2 text-left" style="font-size:1.2rem">Copy Text</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#">
+                    <div class="col text-center">
+                      <div class="d-flex flex-column align-items-center">
+                        <!-- <i class="bi bi-file-arrow-down" style="cursor: pointer; font-size: 1.3rem;"
+                          data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i> -->
+                        <!-- <span class="mt-1 text-left pl-2"
+                          @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">Download</span> -->
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
+
+
 
           <!-- Arabic Text (RTL) -->
           <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
@@ -107,7 +152,7 @@
                   <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.3rem;"
                       @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
-                    <span class="mt-1">Rewind</span>
+                    <span class="mt-1">Rewind 10 Secs</span>
                   </div>
                 </div>
 
@@ -118,22 +163,6 @@
                     <span class="mt-1">Replay</span>
                   </div>
                 </div> -->
-
-                <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
-                    <i class="bi bi-share" style="cursor: pointer; font-size: 1.3rem;" @click="shareOnWhatsApp(ayah)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Share on WhatsApp"></i>
-                    <span class="mt-1">Share</span>
-                  </div>
-                </div>
-
-                <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
-                    <i style="font-size: 1.3rem;" class="bi bi-clipboard copy-icon" @click="copyAyah(ayah)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Ayah"></i>
-                    <span class="mt-1">Copy text</span>
-                  </div>
-                </div>
 
                 <div class="col text-center">
                   <div class="d-flex flex-column align-items-center">
@@ -153,21 +182,13 @@
                   </div>
                 </div>
 
-                <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
-                    <i class="bi bi-file-arrow-down" style="cursor: pointer; font-size: 1.3rem;"
-                      @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i>
-                    <span class="mt-1">Download</span>
-                  </div>
-                </div>
 
                 <div class="col text-center">
                   <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.3rem;"
                       @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
                       title="Fast Forward"></i>
-                    <span class="mt-1"> Forward</span>
+                    <span class="mt-1">Forward 10 Secs</span>
                   </div>
                 </div>
               </div>
