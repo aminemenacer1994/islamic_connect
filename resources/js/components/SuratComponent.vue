@@ -152,7 +152,7 @@
                   <div class="d-flex flex-column align-items-center">
                     <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.3rem;"
                       @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
-                    <span class="mt-1">Rewind 10 Secs</span>
+                    <span class="mt-1">Rewind 5 Secs</span>
                   </div>
                 </div>
 
@@ -188,7 +188,7 @@
                     <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.3rem;"
                       @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
                       title="Fast Forward"></i>
-                    <span class="mt-1">Forward 10 Secs</span>
+                    <span class="mt-1">Forward 5 Secs</span>
                   </div>
                 </div>
               </div>
@@ -356,7 +356,7 @@ export default {
     fastForwardAudio(index) {
       const audio = this.$refs.audioPlayer[index];
       if (audio) {
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15); // Ensure it doesn't exceed duration
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 20); // Ensure it doesn't exceed duration
       }
     },
     prepareAyahText() {

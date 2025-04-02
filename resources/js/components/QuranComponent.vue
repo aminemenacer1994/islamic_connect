@@ -31,7 +31,7 @@
                     <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
                     <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
-                    
+
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
                     <!-- <div style="display: flex" class="row"> -->
                     <!-- <AyahOfTheDay /> -->
@@ -40,7 +40,8 @@
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
-                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search" @submit.prevent="scrollToAyah">
+                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
+                        @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
                         <button class="btn btn-success mb-1 ml-1" style="background: #00bfa6;border-radius: 10px;"
@@ -211,25 +212,41 @@
                                     <Welcome :information="information" />
 
                                     <!-- Translation Section -->
-                                    <div class="tab-pane active content" id="home" role="tabpanel"
+                                    <div class="tab-pane active content " id="home" role="tabpanel"
                                         v-if="information != null">
-                                        <!-- <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                        <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                             @update-information="updateInformation" :style="{
-                                                
+
                                                 color: 'black',
                                                 borderRadius: '15px',
                                                 border: '2px solid rgba(0, 0, 0, 0.1)',
                                                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
-                                            }" class="icon-container mb-3">
-                                            <i class="bi bi-chevron-bar-left h4 pt- custom-prev-ayah"
-                                                style="cursor: pointer" @click="goToFirstAyah" title="First verse"></i>
-                                            <i class="bi bi-arrow-left-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                                style="cursor: pointer" @click="goToPreviousAyah" title="Previous verse"></i>
-                                            <i class="bi bi-arrow-right-circle pt-2 h4 custom-prev-ayah desktop-icon"
-                                                style="cursor: pointer" @click="goToNextAyah" title="Next verse"></i>
-                                            <i class="bi bi-chevron-bar-right pt-2 h4 custom-prev-ayah desktop-icon"
-                                                style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
-                                        </div> -->
+                                            }" class="icon-container hide-on-mobile mb-3">
+                                            <div class="text-center icon-text">
+                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
+                                                    style="cursor: pointer" @click="goToFirstAyah"
+                                                    title="First verse"></i>
+                                                <div class="large">First verse</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    style="cursor: pointer" @click="goToPreviousAyah"
+                                                    title="Previous verse"></i>
+                                                <div class="large">Previous verse</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                    style="cursor: pointer" @click="goToNextAyah"
+                                                    title="Next verse"></i>
+                                                <div class="large">Next verse</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                    style="cursor: pointer" @click="goToLastAyah"
+                                                    title="Last verse"></i>
+                                                <div class="large">Last verse</div>
+                                            </div>
+                                        </div>
                                         <!-- desktop top features -->
                                         <div v-if="!isVisible" :style="iconStyle">
                                             <div class="col pb-2">
@@ -343,6 +360,39 @@
                                     <div class="tab-pane content" id="profile" role="tabpanel"
                                         v-if="information != null">
                                         <div>
+                                            <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                                @update-information="updateInformation" :style="{
+
+                                                    color: 'black',
+                                                    borderRadius: '15px',
+                                                    border: '2px solid rgba(0, 0, 0, 0.1)',
+                                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                                }" class="icon-container hide-on-mobile mb-3">
+                                                <div class="text-center">
+                                                    <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
+                                                        style="cursor: pointer" @click="goToFirstAyah"
+                                                        title="First verse"></i>
+                                                    <div class="large">First verse</div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        style="cursor: pointer" @click="goToPreviousAyah"
+                                                        title="Previous verse"></i>
+                                                    <div class="large">Previous verse</div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon"
+                                                        style="cursor: pointer" @click="goToNextAyah"
+                                                        title="Next verse"></i>
+                                                    <div class="large">Next verse</div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon"
+                                                        style="cursor: pointer" @click="goToLastAyah"
+                                                        title="Last verse"></i>
+                                                    <div class="large">Last verse</div>
+                                                </div>
+                                            </div>
                                             <!-- desktop top features -->
                                             <div v-if="!isVisible" :style="iconStyle">
                                                 <div class="col pb-2">
@@ -476,6 +526,39 @@
                                         <div>
                                             <!-- Ayah Controls -->
                                             <div class="pb-3">
+                                                <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
+                                                    @update-information="updateInformation" :style="{
+
+                                                        color: 'black',
+                                                        borderRadius: '15px',
+                                                        border: '2px solid rgba(0, 0, 0, 0.1)',
+                                                        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                                    }" class="icon-container hide-on-mobile mb-3">
+                                                    <div class="text-center">
+                                                        <i class="bi bi-skip-start-fill icon-container h2 pt-2 custom-prev-ayah"
+                                                            style="cursor: pointer" @click="goToFirstAyah"
+                                                            title="First verse"></i>
+                                                        <div class="large">First verse</div>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon"
+                                                            style="cursor: pointer" @click="goToPreviousAyah"
+                                                            title="Previous verse"></i>
+                                                        <div class="large">Previous verse</div>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon"
+                                                            style="cursor: pointer" @click="goToNextAyah"
+                                                            title="Next verse"></i>
+                                                        <div class="large">Next verse</div>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon"
+                                                            style="cursor: pointer" @click="goToLastAyah"
+                                                            title="Last verse"></i>
+                                                        <div class="large">Last verse</div>
+                                                    </div>
+                                                </div>
                                                 <!-- desktop top features -->
                                                 <div :style="iconStyle">
                                                     <div v-if="!isVisible" class="col pb-2">
