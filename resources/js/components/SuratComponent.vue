@@ -181,7 +181,7 @@
                 border-bottom-right-radius: 20px;
                 display: flex;
                 font-size: 1.9rem; /* Increase font size */
-                " controls class="audio-player w-100" @play="playAudio(index)">
+                " controls class="audio-player w-100" @play="playAudio(index)" @pause="checkIfAnyAudioPlaying">
                 <source v-if="ayah && ayah.audio" :src="ayah.audio" type="audio/mpeg" />
               </audio>
             </div>
@@ -193,12 +193,13 @@
 
     <!-- Scroll to Top FAB -->
     <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
-      <i class="bi bi-arrow-up"></i>
+      <i class="bi bi-chevron-double-up pt-1 h2"></i>
     </button>
 
-    <button class="fab_audio" @click="scrollToCurrentAudio">
-      <i class="bi bi-music-note-beamed"></i>
+    <button v-if="isAudioPlaying" class="fab_audio" @click="scrollToCurrentAudio">
+      <i class="bi bi-reply h2"></i>
     </button>
+
 
 
   </div>
@@ -209,6 +210,7 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      isAudioPlaying: false,
       currentlyPlaying: null,
       currentlyPlayingIndex: null,
       scrollTimeout: null,
@@ -290,13 +292,19 @@ export default {
     }
   },
   methods: {
+    checkIfAnyAudioPlaying() {
+      this.isAudioPlaying = this.$refs.audioPlayer.some(audio => !audio.paused);
+    },
     scrollToCurrentAudio() {
       const playingAudio = this.$refs.audioPlayer.find(audio => !audio.paused);
-      if (!playingAudio) return; // If no audio is playing, do nothing
+      if (!playingAudio) return;
 
-      const parentCard = playingAudio.closest(".col-md-12"); // Find the nearest parent card
+      const parentCard = playingAudio.closest(".col-md-12");
       if (parentCard) {
-        parentCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        window.scrollTo({
+          top: parentCard.offsetTop - 200, // ✅ Adds 100px padding at the top
+          behavior: "smooth",
+        });
       }
     },
     handleScroll() {
@@ -498,6 +506,7 @@ export default {
     },
 
     async playAudio(index) {
+      this.isAudioPlaying = true;
       const audioPlayers = this.$refs.audioPlayer;
       const audioCards = this.$refs.audioCard;
 
@@ -663,8 +672,10 @@ export default {
 .fab_audio {
   position: fixed;
   bottom: 20px;
-  left: 20px; /* Changed from right to left */
-  background-color: #007bff; /* Adjust color to match your theme */
+  left: 20px;
+  /* Changed from right to left */
+  background-color: #007bff;
+  /* Adjust color to match your theme */
   color: white;
   border: none;
   border-radius: 50%;
@@ -677,7 +688,7 @@ export default {
   font-size: 1.5rem;
   cursor: pointer;
   transition: background 0.3s ease;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 1000;
 }
 
 .fab_audio:hover {
@@ -689,8 +700,8 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   background-color: #0db691;
   color: white;
   border: none;

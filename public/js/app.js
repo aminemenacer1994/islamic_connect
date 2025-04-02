@@ -32928,6 +32928,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   props: ["ayah", "arabicFontSize"],
   data: function data() {
     return {
+      isAudioPlaying: false,
       currentlyPlaying: null,
       currentlyPlayingIndex: null,
       scrollTimeout: null,
@@ -33018,17 +33019,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    checkIfAnyAudioPlaying: function checkIfAnyAudioPlaying() {
+      this.isAudioPlaying = this.$refs.audioPlayer.some(function (audio) {
+        return !audio.paused;
+      });
+    },
     scrollToCurrentAudio: function scrollToCurrentAudio() {
       var playingAudio = this.$refs.audioPlayer.find(function (audio) {
         return !audio.paused;
       });
-      if (!playingAudio) return; // If no audio is playing, do nothing
-
-      var parentCard = playingAudio.closest(".col-md-12"); // Find the nearest parent card
+      if (!playingAudio) return;
+      var parentCard = playingAudio.closest(".col-md-12");
       if (parentCard) {
-        parentCard.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest"
+        window.scrollTo({
+          top: parentCard.offsetTop - 200,
+          // ✅ Adds 100px padding at the top
+          behavior: "smooth"
         });
       }
     },
@@ -33379,14 +33385,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
+              _this9.isAudioPlaying = true;
               audioPlayers = _this9.$refs.audioPlayer;
               audioCards = _this9.$refs.audioCard;
               if (!(!audioPlayers || !audioPlayers[index])) {
-                _context8.next = 4;
+                _context8.next = 5;
                 break;
               }
               return _context8.abrupt("return");
-            case 4:
+            case 5:
               // Stop any previously playing audio
               if (_this9.currentlyPlaying && _this9.currentlyPlaying !== audioPlayers[index]) {
                 console.log("Pausing previous audio");
@@ -33423,7 +33430,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
               // Scroll to active Ayah
               _this9.scrollToCard(index);
-            case 13:
+            case 14:
             case "end":
               return _context8.stop();
           }
@@ -45490,7 +45497,7 @@ var _hoisted_39 = {
 var _hoisted_40 = ["onPlay"];
 var _hoisted_41 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -45506,9 +45513,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" X icon to hide "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" X icon to hide "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-plus-lg h5"
-  }, null, -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" + icon to show ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" The entire content of the dropdowns "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Surah "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" + icon to show ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" The entire content of the dropdowns "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Surah "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -45520,7 +45527,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: "",
     selected: ""
@@ -45529,7 +45536,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Reciter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Reciter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -45541,7 +45548,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[4] || (_cache[4] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: "",
     selected: ""
@@ -45550,7 +45557,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Translation Language "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown to select Translation Language "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -45562,7 +45569,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[6] || (_cache[6] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: "",
     selected: ""
@@ -45585,7 +45592,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref: "audioCard",
       key: ayah.number,
       "class": "col-md-12 mb-2 mt-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "images/art.png",
       width: "35px"
     }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text (RTL) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
@@ -45594,7 +45601,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation (LTR) "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation (LTR) "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -45602,7 +45609,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stick to bottom container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stick to bottom container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle",
       style: {
         "cursor": "pointer",
@@ -45614,7 +45621,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Rewind"
-    }, null, 8 /* PROPS */, _hoisted_22), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_22), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Rewind", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col text-center\">\n                  <div class=\"d-flex flex-column align-items-center\">\n                    <i class=\"bi bi-repeat\" style=\"cursor: pointer; font-size: 1.5rem;\" @click=\"replayAudio(index)\"\n                      data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Replay\"></i>\n                    <span class=\"mt-1\">Replay</span>\n                  </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share",
@@ -45628,7 +45635,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Share on WhatsApp"
-    }, null, 8 /* PROPS */, _hoisted_25), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_25), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Share", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
@@ -45641,7 +45648,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Copy Ayah"
-    }, null, 8 /* PROPS */, _hoisted_28), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_28), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Copy text", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
@@ -45655,7 +45662,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Decrease Font Size"
-    }), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Decrease Font", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
@@ -45669,7 +45676,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Increase Font Size"
-    }), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Increase Font", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-file-arrow-down",
@@ -45683,7 +45690,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Download Audio"
-    }, null, 8 /* PROPS */, _hoisted_35), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_35), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, "Download", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle",
@@ -45697,7 +45704,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Fast Forward"
-    }, null, 8 /* PROPS */, _hoisted_38), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_38), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1"
     }, " Forward", -1 /* HOISTED */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player Stuck to Bottom "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
@@ -45713,28 +45720,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "audio-player w-100",
       onPlay: function onPlay($event) {
         return $options.playAudio(index);
-      }
+      },
+      onPause: _cache[10] || (_cache[10] = function () {
+        return $options.checkIfAnyAudioPlaying && $options.checkIfAnyAudioPlaying.apply($options, arguments);
+      })
     }, [ayah && ayah.audio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("source", {
       key: 0,
       src: ayah.audio,
       type: "audio/mpeg"
     }, null, 8 /* PROPS */, _hoisted_41)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_40)])])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[10] || (_cache[10] = function () {
+    onClick: _cache[11] || (_cache[11] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
     "class": "fab",
     title: "Scroll to top"
-  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-arrow-up"
-  }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showScrollButton]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-double-up pt-1 h2"
+  }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showScrollButton]]), $data.isAudioPlaying ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
     "class": "fab_audio",
-    onClick: _cache[11] || (_cache[11] = function () {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.scrollToCurrentAudio && $options.scrollToCurrentAudio.apply($options, arguments);
     })
-  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-music-note-beamed"
-  }, null, -1 /* HOISTED */)]))]);
+  }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-reply h2"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -82524,7 +82535,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 20px;\n  left: 20px; /* Changed from right to left */\n  background-color: #007bff; /* Adjust color to match your theme */\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 60px;\n  height: 60px;\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: background 0.3s ease;\n  z-index: 1000; /* Ensure it stays on top */\n}\n.fab_audio[data-v-828f3036]:hover {\n  background-color: #0056b3;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 50px;\n  height: 50px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n  /* transition: background 0.3s ease-in-out; */\n}\n.fab[data-v-828f3036]:hover {\n  background-color: #0a8a72;\n}\n.ayah-card[data-v-828f3036] {\n  transition: box-shadow 0.3s ease, transform 0.3s ease;\n  will-change: transform, box-shadow;\n  /* Optimize for GPU rendering */\n}\n.highlighted[data-v-828f3036] {\n  transform: scale(1.02);\n}\n.audio-player[data-v-828f3036] {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 25px;\n  border-bottom-right-radius: 25px;\n  will-change: transform;\n  /* Optimize for GPU rendering */\n}\n\n/* Apply color changes on hover for each icon */\n.bi-skip-backward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Change to your desired color */\n}\n.bi-share[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Green color for sharing */\n}\n.bi-clipboard[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for clipboard */\n}\n.bi-dash-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Red color for decreasing font size */\n}\n.bi-plus-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Blue color for increasing font size */\n}\n.bi-download[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for download */\n}\n.bi-skip-forward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Purple color for fast forward */\n}\n.highlighted-word[data-v-828f3036] {\n  background-color: rgb(255, 0, 0);\n  transition: background-color 0.3s ease-in-out;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  background: rgb(13, 182, 145);\n  padding: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  border-radius: 10px;\n}\n.copy-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  margin-left: 10px;\n  color: #000;\n  transition: color 0.3s ease-in-out;\n}\n\n/* Hover Effect */\n.copy-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  transform: scale(1.1);\n}\n.action-container[data-v-828f3036] {\n  width: 100%;\n  background-color: white;\n  padding: 10px 0;\n  border-top: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.action-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  transition: color 0.3s ease-in-out;\n}\n.action-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145)\n    /* Green hover effect */\n}\n\n/* Sticky Dropdown Styling */\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  padding: 7px;\n  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);\n  border-bottom: 2px solid #ddd;\n  border-radius: 5px;\n}\n\n/* Smooth transition when scrolling */\n.sticky-dropdown select[data-v-828f3036] {\n  transition: all 0.3s ease-in-out;\n}\n\n/* Container for the audio player */\n.audio-container[data-v-828f3036] {\n  width: 100%;\n  background-color: rgba(89, 167, 150, 0.798);\n  /* Full background color */\n  display: flex;\n  bottom: 0px;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Customizing the audio player */\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  /* Forces background color */\n  /* Changes button & progress bar color */\n}\n\n/* Hide default styling (Optional) */\n.audio-player[data-v-828f3036]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145) !important;\n}\n.audio-player[data-v-828f3036]::-webkit-media-controls-volume-slider {\n  filter: invert(1);\n}\n\n/* Arabic Text */\n.arabic-text[data-v-828f3036] {\n  font-size: 1.5rem;\n  text-align: right;\n  direction: rtl;\n  font-family: 'Amiri', serif;\n}\n\n/* LTR Text (Translation) */\n.ltr-text[data-v-828f3036] {\n  text-align: left !important;\n  direction: ltr !important;\n  font-family: 'Arial', sans-serif;\n}\n\n/* Card Styling */\n\n/* .card {\n  text-align: right;\n  direction: rtl;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n} */\n\n/* Audio Player Stuck to Bottom */\n.audio-container[data-v-828f3036] {\n  margin-top: auto;\n  /* Pushes audio player to the bottom */\n  width: 100%;\n  background: rgb(13, 182, 145)\n}\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  border-radius: 0;\n  display: block;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 20px;\n  left: 20px;\n  /* Changed from right to left */\n  background-color: #007bff;\n  /* Adjust color to match your theme */\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 60px;\n  height: 60px;\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  cursor: pointer;\n  transition: background 0.3s ease;\n  z-index: 1000;\n}\n.fab_audio[data-v-828f3036]:hover {\n  background-color: #0056b3;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.5rem;\n  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n  /* transition: background 0.3s ease-in-out; */\n}\n.fab[data-v-828f3036]:hover {\n  background-color: #0a8a72;\n}\n.ayah-card[data-v-828f3036] {\n  transition: box-shadow 0.3s ease, transform 0.3s ease;\n  will-change: transform, box-shadow;\n  /* Optimize for GPU rendering */\n}\n.highlighted[data-v-828f3036] {\n  transform: scale(1.02);\n}\n.audio-player[data-v-828f3036] {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 25px;\n  border-bottom-right-radius: 25px;\n  will-change: transform;\n  /* Optimize for GPU rendering */\n}\n\n/* Apply color changes on hover for each icon */\n.bi-skip-backward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Change to your desired color */\n}\n.bi-share[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Green color for sharing */\n}\n.bi-clipboard[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for clipboard */\n}\n.bi-dash-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Red color for decreasing font size */\n}\n.bi-plus-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Blue color for increasing font size */\n}\n.bi-download[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Yellow color for download */\n}\n.bi-skip-forward-circle[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  /* Purple color for fast forward */\n}\n.highlighted-word[data-v-828f3036] {\n  background-color: rgb(255, 0, 0);\n  transition: background-color 0.3s ease-in-out;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  background: rgb(13, 182, 145);\n  padding: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  border-radius: 10px;\n}\n.copy-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  margin-left: 10px;\n  color: #000;\n  transition: color 0.3s ease-in-out;\n}\n\n/* Hover Effect */\n.copy-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145);\n  transform: scale(1.1);\n}\n.action-container[data-v-828f3036] {\n  width: 100%;\n  background-color: white;\n  padding: 10px 0;\n  border-top: 1px solid #ddd;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.action-icon[data-v-828f3036] {\n  cursor: pointer;\n  font-size: 1.5rem;\n  transition: color 0.3s ease-in-out;\n}\n.action-icon[data-v-828f3036]:hover {\n  color: rgb(13, 182, 145)\n    /* Green hover effect */\n}\n\n/* Sticky Dropdown Styling */\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 0;\n  z-index: 1000;\n  padding: 7px;\n  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);\n  border-bottom: 2px solid #ddd;\n  border-radius: 5px;\n}\n\n/* Smooth transition when scrolling */\n.sticky-dropdown select[data-v-828f3036] {\n  transition: all 0.3s ease-in-out;\n}\n\n/* Container for the audio player */\n.audio-container[data-v-828f3036] {\n  width: 100%;\n  background-color: rgba(89, 167, 150, 0.798);\n  /* Full background color */\n  display: flex;\n  bottom: 0px;\n  justify-content: center;\n  align-items: center;\n}\n\n/* Customizing the audio player */\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  /* Forces background color */\n  /* Changes button & progress bar color */\n}\n\n/* Hide default styling (Optional) */\n.audio-player[data-v-828f3036]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145) !important;\n}\n.audio-player[data-v-828f3036]::-webkit-media-controls-volume-slider {\n  filter: invert(1);\n}\n\n/* Arabic Text */\n.arabic-text[data-v-828f3036] {\n  font-size: 1.5rem;\n  text-align: right;\n  direction: rtl;\n  font-family: 'Amiri', serif;\n}\n\n/* LTR Text (Translation) */\n.ltr-text[data-v-828f3036] {\n  text-align: left !important;\n  direction: ltr !important;\n  font-family: 'Arial', sans-serif;\n}\n\n/* Card Styling */\n\n/* .card {\n  text-align: right;\n  direction: rtl;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n} */\n\n/* Audio Player Stuck to Bottom */\n.audio-container[data-v-828f3036] {\n  margin-top: auto;\n  /* Pushes audio player to the bottom */\n  width: 100%;\n  background: rgb(13, 182, 145)\n}\n.audio-player[data-v-828f3036] {\n  width: 100%;\n  background: rgb(13, 182, 145);\n  border-radius: 0;\n  display: block;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
