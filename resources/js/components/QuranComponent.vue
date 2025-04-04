@@ -535,7 +535,7 @@
                                                         boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
                                                     }" class="icon-container hide-on-mobile mb-3">
                                                     <div class="text-center">
-                                                        <i class="bi bi-skip-start-fill icon-container h2 pt-2 custom-prev-ayah"
+                                                        <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah"
                                                             style="cursor: pointer" @click="goToFirstAyah"
                                                             title="First verse"></i>
                                                         <div class="large">First verse</div>

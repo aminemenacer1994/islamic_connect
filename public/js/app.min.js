@@ -34487,6 +34487,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      isDesktop: window.innerWidth >= 768,
       question: "",
       loading: false,
       chatHistory: [],
@@ -34507,6 +34508,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     };
   },
   methods: {
+    handleResize: function handleResize() {
+      this.isDesktop = window.innerWidth >= 768;
+    },
     // Save chat history to localStorage
     saveChat: function saveChat() {
       var chatName = prompt('Enter a name for this conversation:');
@@ -34691,20 +34695,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               // If editing, remove the old bot response and update the question
               if (_this2.editingIndex !== null) {
-                // Remove the bot's response that follows the edited question
-                if (((_this2$chatHistory = _this2.chatHistory[_this2.editingIndex + 1]) === null || _this2$chatHistory === void 0 ? void 0 : _this2$chatHistory.type) === 'bot') {
-                  _this2.chatHistory.splice(_this2.editingIndex + 1, 1); // Remove the bot's response
+                if (((_this2$chatHistory = _this2.chatHistory[_this2.editingIndex + 1]) === null || _this2$chatHistory === void 0 ? void 0 : _this2$chatHistory.type) === "bot") {
+                  _this2.chatHistory.splice(_this2.editingIndex + 1, 1);
                 }
-                // Update the user's question
                 _this2.chatHistory[_this2.editingIndex].text = _this2.question;
-                _this2.editingIndex = null; // Reset editing state
+                _this2.editingIndex = null;
               } else {
-                // Add user question to chat history
-                _this2.addMessage('user', _this2.question);
+                _this2.addMessage("user", _this2.question);
               }
               _this2.loading = true;
               userQuestion = _this2.question;
-              _this2.question = ""; // Clear input field
+              _this2.question = "";
               _context.prev = 6;
               _context.next = 9;
               return fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
@@ -34716,7 +34717,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 body: JSON.stringify({
                   inputs: userQuestion,
                   parameters: {
-                    max_new_tokens: 600
+                    max_new_tokens: 1800 // Enough for ~1000+ words
                   }
                 })
               });
@@ -34733,28 +34734,39 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 14:
               data = _context.sent;
               if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
-                answerText = data[0].generated_text.trim(); // Remove the question from the answer if included
+                answerText = data[0].generated_text.trim(); // Remove the original question from the beginning of the answer
                 if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
                   answerText = answerText.slice(userQuestion.length).trim();
                 }
 
-                // Add bot's response to chat history
-                _this2.addMessage('bot', answerText);
+                // Clean up response
+                answerText = answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
+                .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
+                .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+                .trim();
+
+                // Remove trailing question mark if it ends with one
+                if (answerText.endsWith("?")) {
+                  answerText = answerText.slice(0, -1).trim();
+                }
+
+                // Add line breaks for better readability
+                answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
+                _this2.addMessage("bot", answerText);
               } else {
-                // If no answer is found
-                _this2.addMessage('bot', "Sorry, I couldn't find an answer. Try rephrasing your question.");
+                _this2.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
               }
               _context.next = 22;
               break;
             case 18:
               _context.prev = 18;
               _context.t0 = _context["catch"](6);
-              _this2.addMessage('bot', "Failed to fetch the answer. Please try again.");
-              console.error(_context.t0);
+              _this2.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
+              console.error("Fetch Error:", _context.t0);
             case 22:
               _context.prev = 22;
               _this2.loading = false;
-              _this2.scrollToBottom(); // Scroll to the latest answer
+              _this2.scrollToBottom();
               return _context.finish(22);
             case 26:
             case "end":
@@ -43021,29 +43033,16 @@ var _hoisted_29 = {
   "class": "icon-container"
 };
 var _hoisted_30 = ["onClick"];
-var _hoisted_31 = {
-  key: 0,
-  "class": "container progress mt-2",
-  style: {
-    "height": "8px",
-    "border-radius": "10px",
-    "background-color": "lightgrey"
-  }
-};
+var _hoisted_31 = ["src", "onPlay", "onPause", "onEnded", "onTimeupdate", "onLoadedmetadata"];
 var _hoisted_32 = {
-  key: 1,
-  "class": "mt-2 text-center fw-bold"
-};
-var _hoisted_33 = ["src", "onPlay", "onPause", "onEnded", "onTimeupdate", "onLoadedmetadata"];
-var _hoisted_34 = {
   "aria-label": "Podcast pagination",
   "class": "mt-4"
 };
-var _hoisted_35 = {
+var _hoisted_33 = {
   "class": "pagination justify-content-center"
 };
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = {
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = {
   key: 2,
   "class": "text-center"
 };
@@ -43176,16 +43175,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Fast Forward"
     }, null, 8 /* PROPS */, _hoisted_30), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "icon-text"
-    }, "Forward", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Bar and Percentage Display "), $data.showProgress[index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "progress-bar bg-success",
-      role: "progressbar",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-        width: $data.progress[index] + '%'
-      }, {
-        "height": "100%",
-        "transition": "width 0.1s"
-      }])
-    }, null, 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Percentage Display "), $data.showProgress[index] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_32, " Played: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playedPercentage[index] || 0) + "% | Remaining: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.remainingPercentage[index] || 100) + "% ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), podcast.audioUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+    }, "Forward", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), podcast.audioUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       ref_for: true,
       ref: "audioPlayer",
       controls: true,
@@ -43214,12 +43204,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onLoadedmetadata: function onLoadedmetadata($event) {
         return $options.updateDuration(index);
       }
-    }, " Your browser does not support the audio element. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)]);
+    }, " Your browser does not support the audio element. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_31)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)]);
   }), 128 /* KEYED_FRAGMENT */))])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Podcasts Found Message "), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center"
-  }, "No podcasts found", -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "No podcasts found", -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       'disabled': $data.currentPage === 1
     }])
@@ -43247,7 +43237,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.changePage(page);
       }, ["prevent"]),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === page ? 'background-color: white; color: rgb(13, 182, 145); border-color: rgb(13, 182, 145);' : 'background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 13 /* TEXT, STYLE, PROPS */, _hoisted_36)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 13 /* TEXT, STYLE, PROPS */, _hoisted_34)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       'disabled': $data.currentPage === $options.totalPages
@@ -43263,7 +43253,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white",
       "border-color": "rgb(13, 182, 145)"
     }
-  }, " Next ")], 2 /* CLASS */)])])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, "No podcasts found")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, " Next ")], 2 /* CLASS */)])])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, "No podcasts found")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -44267,11 +44257,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  "class": "islamic-podcast"
-};
 function render(_ctx, _cache) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Podcast Episodes", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"loading\" class=\"loading\">Loading episodes...</div>\n    <div v-if=\"error\" class=\"error\">Error: {{ error }}</div>\n\n    <div v-if=\"!loading && !error\">\n      <ul class=\"episode-list\">\n        <li v-for=\"episode in episodes\" :key=\"episode.guid\" class=\"episode-item\">\n          <h3>{{ episode.title }}</h3>\n          <p v-html=\"episode.content\"></p>\n          <audio controls v-if=\"episode.enclosure\">\n            <source :src=\"episode.enclosure.url\" :type=\"episode.enclosure.type\">\n            Your browser does not support audio.\n          </audio>\n          <a :href=\"episode.link\" target=\"_blank\" class=\"listen-link\">Listen on SoundCloud</a>\n        </li>\n      </ul>\n    </div> ")]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Video Podcasts", -1 /* HOISTED */)]));
 }
 
 /***/ }),
@@ -45202,7 +45189,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "icon-container hide-on-mobile mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-skip-start-fill icon-container h2 pt-2 custom-prev-ayah",
+    "class": "bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah",
     style: {
       "cursor": "pointer"
     },
@@ -46367,16 +46354,15 @@ var _hoisted_25 = {
   "class": "loading"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button (FAB) with icon "), !$data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button (FAB) with icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "fab",
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     })
   }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chat-left-text-fill"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 1,
+  }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.showChat || $data.isDesktop]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["chatbox", {
       expanded: $data.isExpanded
     }]),
@@ -46475,7 +46461,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "min-width": "120px"
     }
-  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, "Fetching response...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    style: {
+      "color": "black"
+    },
+    "class": "text-center"
+  }, "Islamic connect AI can make mistakes. Check important info.", -1 /* HOISTED */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, "Fetching response...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -82796,7 +82787,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-9200016c]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-9200016c]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 8px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  height: 70vh;\n  /* Default height */\n  background-color: #fff;\n  border-radius: 12px;\n  /* Add border-radius */\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 20px;\n  /* Add padding */\n  z-index: 999;\n  overflow: hidden;\n  /* Prevent overflow */\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 15px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 98%;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    flex-direction: column;\n    gap: 5px;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-9200016c]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-9200016c]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 8px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  height: 70vh;\n  /* Default height */\n  background-color: #fff;\n  border-radius: 12px;\n  /* Add border-radius */\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 20px;\n  /* Add padding */\n  z-index: 999;\n  overflow: hidden;\n  /* Prevent overflow */\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 15px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 98%;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    flex-direction: column;\n    gap: 5px;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

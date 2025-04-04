@@ -221,18 +221,6 @@
                 </div>
               </div>
 
-              <!-- Progress Bar and Percentage Display -->
-              <div v-if="showProgress[index]" class="container progress mt-2"
-                style="height: 8px; border-radius: 10px; background-color: lightgrey;">
-                <div class="progress-bar bg-success" role="progressbar" :style="{ width: progress[index] + '%' }"
-                  style="height: 100%; transition: width 0.1s;"></div>
-              </div>
-
-              <!-- Percentage Display -->
-              <p v-if="showProgress[index]" class="mt-2 text-center fw-bold">
-                Played: {{ playedPercentage[index] || 0 }}% | Remaining: {{ remainingPercentage[index] || 100 }}%
-              </p>
-
               <!-- Audio Player -->
               <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio" :key="index"
@@ -438,7 +426,6 @@ export default {
   },
 
   methods: {
-
     replayAudio(index) {
       const audio = this.$refs.audioPlayer[index];
       if (audio) {

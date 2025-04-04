@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- Floating Action Button (FAB) with icon -->
-    <button v-if="!showChat" class="fab" @click="toggleChat">
+    <button class="fab" @click="toggleChat" v-show="!showChat || isDesktop">
       <i class="bi bi-chat-left-text-fill"></i>
     </button>
 
@@ -92,6 +92,7 @@
           Clear Conversation
         </button>
       </div>
+      <p style="color:black;" class="text-center">Islamic connect AI can make mistakes. Check important info.</p>
 
       <div v-if="loading" class="loading">Fetching response...</div>
     </div>
@@ -102,6 +103,7 @@
 export default {
   data() {
     return {
+      isDesktop: window.innerWidth >= 768,
       question: "",
       loading: false,
       chatHistory: [], // Store the entire conversation history
@@ -125,6 +127,9 @@ export default {
     };
   },
   methods: {
+    handleResize() {
+      this.isDesktop = window.innerWidth >= 768;
+    },
     // Save chat history to localStorage
     saveChat() {
       const chatName = prompt('Enter a name for this conversation:');
@@ -307,21 +312,18 @@ export default {
 
       // If editing, remove the old bot response and update the question
       if (this.editingIndex !== null) {
-        // Remove the bot's response that follows the edited question
-        if (this.chatHistory[this.editingIndex + 1]?.type === 'bot') {
-          this.chatHistory.splice(this.editingIndex + 1, 1); // Remove the bot's response
+        if (this.chatHistory[this.editingIndex + 1]?.type === "bot") {
+          this.chatHistory.splice(this.editingIndex + 1, 1);
         }
-        // Update the user's question
         this.chatHistory[this.editingIndex].text = this.question;
-        this.editingIndex = null; // Reset editing state
+        this.editingIndex = null;
       } else {
-        // Add user question to chat history
-        this.addMessage('user', this.question);
+        this.addMessage("user", this.question);
       }
 
       this.loading = true;
       const userQuestion = this.question;
-      this.question = ""; // Clear input field
+      this.question = "";
 
       try {
         const response = await fetch(
@@ -334,7 +336,9 @@ export default {
             },
             body: JSON.stringify({
               inputs: userQuestion,
-              parameters: { max_new_tokens: 600 },
+              parameters: {
+                max_new_tokens: 1800, // Enough for ~1000+ words
+              },
             }),
           }
         );
@@ -348,23 +352,36 @@ export default {
         if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
           let answerText = data[0].generated_text.trim();
 
-          // Remove the question from the answer if included
+          // Remove the original question from the beginning of the answer
           if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
             answerText = answerText.slice(userQuestion.length).trim();
           }
 
-          // Add bot's response to chat history
-          this.addMessage('bot', answerText);
+          // Clean up response
+          answerText = answerText
+            .replace(/[^\w\s.,!?()'"-]/g, "")       // Remove unwanted characters
+            .replace(/\n\s*\n/g, "\n")              // Remove excessive line breaks
+            .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+            .trim();
+
+          // Remove trailing question mark if it ends with one
+          if (answerText.endsWith("?")) {
+            answerText = answerText.slice(0, -1).trim();
+          }
+
+          // Add line breaks for better readability
+          answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
+
+          this.addMessage("bot", answerText);
         } else {
-          // If no answer is found
-          this.addMessage('bot', "Sorry, I couldn't find an answer. Try rephrasing your question.");
+          this.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
         }
       } catch (err) {
-        this.addMessage('bot', "Failed to fetch the answer. Please try again.");
-        console.error(err);
+        this.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
+        console.error("Fetch Error:", err);
       } finally {
         this.loading = false;
-        this.scrollToBottom(); // Scroll to the latest answer
+        this.scrollToBottom();
       }
     },
 
@@ -737,6 +754,12 @@ export default {
 
 .edit-button:hover {
   background-color: #0a8a72;
+}
+
+@media (min-width: 768px) {
+  .hidden-on-mobile-when-chat-open {
+    display: inline-block !important;
+  }
 }
 
 @media (max-width: 600px) {
