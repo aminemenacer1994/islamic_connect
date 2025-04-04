@@ -55,15 +55,28 @@
             <div v-if="message.type === 'bot'" class="bot-message">
               <p>{{ message.text }}</p>
               <span class="timestamp">{{ message.timestamp }}</span>
-              <div class="d-flex justify-content-between align-items-center container">
-                <button @click="shareOnWhatsApp(index)" class="btn btn-light btn-md">
-                  <i class="bi bi-whatsapp"></i> Share
+              <div class="d-flex flex-wrap justify-content-center gap-3 my-3">
+                <!-- Share Button -->
+                <button @click="shareOnWhatsApp(index)" class="btn btn-light btn-md d-flex align-items-center">
+                  <i class="bi bi-whatsapp me-2"></i> Share
                 </button>
-                <button @click="copyQuestionAndAnswer(index)" class="btn btn-light btn-md">
-                  <i class="bi bi-clipboard"></i> Copy
+
+                <!-- Copy Button -->
+                <button @click="copyQuestionAndAnswer(index)" class="btn btn-light btn-md d-flex align-items-center">
+                  <i class="bi bi-clipboard me-2"></i> Copy
                 </button>
-                <button @click="speakText(message.text)" class="btn btn-light btn-md">
-                  <i class="bi bi-volume-up"></i> Listen
+
+                <!-- Play/Pause Button -->
+                <button @click="speakText(message.text)" class="btn btn-light btn-md d-flex align-items-center">
+                  <i
+                    :class="isPaused ? 'bi bi-play-fill me-2' : isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2'"></i>
+                  {{ isPaused ? 'Resume' : isSpeaking ? 'Pause' : 'Listen' }}
+                </button>
+
+                <!-- Stop Button -->
+                <button v-if="isSpeaking || isPaused" @click="stopSpeaking"
+                  class="btn btn-danger btn-md d-flex align-items-center">
+                  <i class="bi bi-stop-fill me-2"></i> Stop
                 </button>
               </div>
             </div>
@@ -103,6 +116,9 @@
 export default {
   data() {
     return {
+      isSpeaking: false,
+      isPaused: false,
+      currentUtterance: null,
       isDesktop: window.innerWidth >= 768,
       question: "",
       loading: false,
@@ -252,16 +268,53 @@ export default {
         alert('Speech recognition is not supported in this browser.');
       }
     },
-    // Text-to-Speech for bot answers
     speakText(text) {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US'; // Set language (optional)
-        utterance.rate = 1; // Speed of speech (optional)
-        utterance.pitch = 1; // Pitch of speech (optional)
-        window.speechSynthesis.speak(utterance); // Speak the text
-      } else {
+      if (!('speechSynthesis' in window)) {
         console.warn('Text-to-Speech is not supported in this browser.');
+        return;
+      }
+
+      // If paused, resume
+      if (this.isPaused) {
+        window.speechSynthesis.resume();
+        this.isPaused = false;
+        this.isSpeaking = true;
+        return;
+      }
+
+      // If already speaking, pause
+      if (this.isSpeaking) {
+        window.speechSynthesis.pause();
+        this.isPaused = true;
+        this.isSpeaking = false;
+        return;
+      }
+
+      // If not speaking or paused, start a new utterance
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 1;
+      utterance.pitch = 1;
+
+      // Handle speech end
+      utterance.onend = () => {
+        this.isSpeaking = false;
+        this.isPaused = false;
+        this.currentUtterance = null;
+      };
+
+      this.currentUtterance = utterance;
+      window.speechSynthesis.speak(utterance);
+      this.isSpeaking = true;
+      this.isPaused = false;
+    },
+
+    stopSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        this.isSpeaking = false;
+        this.isPaused = false;
+        this.currentUtterance = null;
       }
     },
 

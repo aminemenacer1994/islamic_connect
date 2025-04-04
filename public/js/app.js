@@ -34487,6 +34487,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      isSpeaking: false,
+      isPaused: false,
+      currentUtterance: null,
       isDesktop: window.innerWidth >= 768,
       question: "",
       loading: false,
@@ -34630,16 +34633,52 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         alert('Speech recognition is not supported in this browser.');
       }
     },
-    // Text-to-Speech for bot answers
     speakText: function speakText(text) {
-      if ('speechSynthesis' in window) {
-        var utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US'; // Set language (optional)
-        utterance.rate = 1; // Speed of speech (optional)
-        utterance.pitch = 1; // Pitch of speech (optional)
-        window.speechSynthesis.speak(utterance); // Speak the text
-      } else {
+      var _this2 = this;
+      if (!('speechSynthesis' in window)) {
         console.warn('Text-to-Speech is not supported in this browser.');
+        return;
+      }
+
+      // If paused, resume
+      if (this.isPaused) {
+        window.speechSynthesis.resume();
+        this.isPaused = false;
+        this.isSpeaking = true;
+        return;
+      }
+
+      // If already speaking, pause
+      if (this.isSpeaking) {
+        window.speechSynthesis.pause();
+        this.isPaused = true;
+        this.isSpeaking = false;
+        return;
+      }
+
+      // If not speaking or paused, start a new utterance
+      var utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 1;
+      utterance.pitch = 1;
+
+      // Handle speech end
+      utterance.onend = function () {
+        _this2.isSpeaking = false;
+        _this2.isPaused = false;
+        _this2.currentUtterance = null;
+      };
+      this.currentUtterance = utterance;
+      window.speechSynthesis.speak(utterance);
+      this.isSpeaking = true;
+      this.isPaused = false;
+    },
+    stopSpeaking: function stopSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        this.isSpeaking = false;
+        this.isPaused = false;
+        this.currentUtterance = null;
       }
     },
     // Toggles the visibility of the chatbox
@@ -34681,38 +34720,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.editingIndex = index; // Track which message is being edited
     },
     getAnswer: function getAnswer() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this2$chatHistory, userQuestion, response, data, answerText;
+        var _this3$chatHistory, userQuestion, response, data, answerText;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (_this2.question.trim()) {
+              if (_this3.question.trim()) {
                 _context.next = 2;
                 break;
               }
               return _context.abrupt("return");
             case 2:
               // If editing, remove the old bot response and update the question
-              if (_this2.editingIndex !== null) {
-                if (((_this2$chatHistory = _this2.chatHistory[_this2.editingIndex + 1]) === null || _this2$chatHistory === void 0 ? void 0 : _this2$chatHistory.type) === "bot") {
-                  _this2.chatHistory.splice(_this2.editingIndex + 1, 1);
+              if (_this3.editingIndex !== null) {
+                if (((_this3$chatHistory = _this3.chatHistory[_this3.editingIndex + 1]) === null || _this3$chatHistory === void 0 ? void 0 : _this3$chatHistory.type) === "bot") {
+                  _this3.chatHistory.splice(_this3.editingIndex + 1, 1);
                 }
-                _this2.chatHistory[_this2.editingIndex].text = _this2.question;
-                _this2.editingIndex = null;
+                _this3.chatHistory[_this3.editingIndex].text = _this3.question;
+                _this3.editingIndex = null;
               } else {
-                _this2.addMessage("user", _this2.question);
+                _this3.addMessage("user", _this3.question);
               }
-              _this2.loading = true;
-              userQuestion = _this2.question;
-              _this2.question = "";
+              _this3.loading = true;
+              userQuestion = _this3.question;
+              _this3.question = "";
               _context.prev = 6;
               _context.next = 9;
               return fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: "Bearer ".concat(_this2.apiToken)
+                  Authorization: "Bearer ".concat(_this3.apiToken)
                 },
                 body: JSON.stringify({
                   inputs: userQuestion,
@@ -34752,21 +34791,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
                 // Add line breaks for better readability
                 answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
-                _this2.addMessage("bot", answerText);
+                _this3.addMessage("bot", answerText);
               } else {
-                _this2.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
+                _this3.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
               }
               _context.next = 22;
               break;
             case 18:
               _context.prev = 18;
               _context.t0 = _context["catch"](6);
-              _this2.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
+              _this3.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
               console.error("Fetch Error:", _context.t0);
             case 22:
               _context.prev = 22;
-              _this2.loading = false;
-              _this2.scrollToBottom();
+              _this3.loading = false;
+              _this3.scrollToBottom();
               return _context.finish(22);
             case 26:
             case "end":
@@ -46327,7 +46366,7 @@ var _hoisted_16 = {
   "class": "timestamp"
 };
 var _hoisted_17 = {
-  "class": "d-flex justify-content-between align-items-center container"
+  "class": "d-flex flex-wrap justify-content-center gap-3 my-3"
 };
 var _hoisted_18 = ["onClick"];
 var _hoisted_19 = ["onClick"];
@@ -46359,7 +46398,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     })
-  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chat-left-text-fill"
   }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.showChat || $data.isDesktop]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -46369,7 +46408,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "title"
   }, "Islamic Connect AI Assistant", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[1] || (_cache[1] = function () {
@@ -46401,39 +46440,47 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "message"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       "class": "text-left"
     }, "You:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editQuestion(index);
       },
       "class": "btn btn-secondary btn-sm"
-    }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-pencil"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_14)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_14)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(index);
       },
-      "class": "btn btn-light btn-md"
-    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-whatsapp"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-whatsapp me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.copyQuestionAndAnswer(index);
       },
-      "class": "btn btn-light btn-md"
-    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-clipboard"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clipboard me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.speakText(message.text);
       },
-      "class": "btn btn-light btn-md"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-volume-up"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")])), 8 /* PROPS */, _hoisted_20)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isPaused ? 'bi bi-play-fill me-2' : $data.isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2')
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isPaused ? 'Resume' : $data.isSpeaking ? 'Pause' : 'Listen'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), $data.isSpeaking || $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      onClick: _cache[4] || (_cache[4] = function () {
+        return $options.stopSpeaking && $options.stopSpeaking.apply($options, arguments);
+      }),
+      "class": "btn btn-danger btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-stop-fill me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input and Button for asking new questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.question = $event;
     }),
     placeholder: "What do you want to know about Islam?",
@@ -46444,7 +46491,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "padding": "8px"
     }
   }, null, 8 /* PROPS */, _hoisted_22), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button @click=\"startSpeechRecognition\" class=\"mic-btn\" :disabled=\"loading\">\n          <i class=\"bi bi-mic\"></i>\n        </button> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.getAnswer && $options.getAnswer.apply($options, arguments);
     }),
     disabled: $data.loading || !$data.question.trim(),
@@ -46454,14 +46501,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? "Fetching..." : "Send"), 9 /* TEXT, PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear Button "), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.clearChat && $options.clearChat.apply($options, arguments);
     }),
     "class": "btn btn-danger flex-grow-1",
     style: {
       "min-width": "120px"
     }
-  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     style: {
       "color": "black"
     },
