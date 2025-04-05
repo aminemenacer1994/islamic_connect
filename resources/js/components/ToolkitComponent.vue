@@ -45,41 +45,28 @@
               <p>{{ message.text }}</p>
               <span class="timestamp">{{ message.timestamp }}</span>
 
-              <!-- Controls Section, rendered only once -->
-              <div v-if="!controlsRendered" class="d-flex flex-wrap justify-content-center gap-3 my-3">
+              <div v-if="!controlsRendered" class="d-flex flex-wrap gap-3 my-3">
+
                 <!-- Share Button -->
-                <button @click="shareOnWhatsApp(index)" class="btn btn-light btn-md d-flex align-items-center">
+                <div @click="shareOnWhatsApp(index)"
+                  class="d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer">
                   <i class="bi bi-whatsapp me-2"></i> Share
-                </button>
+                </div>
 
                 <!-- Copy Button -->
-                <button @click="copyQuestionAndAnswer(index)" class="btn btn-light btn-md d-flex align-items-center">
+                <div @click="copyQuestionAndAnswer(index)"
+                  class="d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer">
                   <i class="bi bi-clipboard me-2"></i> Copy
-                </button>
+                </div>
 
-                <!-- Play Button -->
-                <button v-if="!isSpeaking && !isPaused" @click="speakText(message.text)"
-                  class="btn btn-light btn-md d-flex align-items-center">
-                  <i class="bi bi-volume-up me-2"></i> Listen
-                </button>
+                <!-- Play/Stop Button (combined) -->
+                <div @click="togglePlayStop(message)"
+                  class="d-flex align-items-center p-2 rounded-3 shadow-sm bg-white text-dark cursor-pointer">
+                  <!-- Conditionally change the icon based on speaking state -->
+                  <i :class="isSpeaking ? 'bi bi-stop me-2' : 'bi bi-play me-2'"></i>
+                  {{ isSpeaking ? 'Stop' : 'Listen' }}
+                </div>
 
-                <!-- Pause Button -->
-                <button v-if="isSpeaking && !isPaused" @click="stopSpeaking"
-                  class="btn btn-light btn-md d-flex align-items-center">
-                  <i class="bi bi-pause-fill me-2"></i> Pause
-                </button>
-
-                <!-- Resume Button -->
-                <button v-if="isPaused" @click="speakText(message.text)"
-                  class="btn btn-light btn-md d-flex align-items-center">
-                  <i class="bi bi-play-fill me-2"></i> Resume
-                </button>
-
-                <!-- Stop Button -->
-                <button v-if="isSpeaking || isPaused" @click="stopSpeaking"
-                  class="btn btn-danger btn-md d-flex align-items-center">
-                  <i class="bi bi-stop-fill me-2"></i> Stop
-                </button>
               </div>
 
               <!-- Set controlsRendered flag to true after rendering the buttons -->
@@ -109,14 +96,12 @@
 
       <!-- Input and Button for asking new questions -->
 
-      <div class="input-container"
-        style="display: flex; gap: 10px; align-items: center; padding: 10px; flex-wrap: nowrap;">
+      <div class="input-container" style="display: flex; gap: 10px; align-items: center;  flex-wrap: nowrap;">
         <input v-model="question" type="text" placeholder="What do you want to know about Islam?" class="form-control"
           :disabled="loading" />
-        <button class="btn btn-outline-secondary" type="button" @click="question = ''" :disabled="loading || !question"
-          title="Clear">
+        <div type="button" @click="question = ''" :disabled="loading || !question" title="Clear">
           <i class="bi bi-x-lg"></i>
-        </button>
+        </div>
 
         <!-- Mic Button with Enhanced UI/UX -->
         <i @click="startSpeechRecognition" class="mic-btn" :class="{ 'mic-active': micActive }"
@@ -124,10 +109,10 @@
           style="border: none; background: transparent; padding: 10px; cursor: pointer; outline: none;">
 
           <i class="bi bi-mic" :class="{ 'mic-glow': micActive }" style="font-size: 1.5em;"></i>
-      </i>
+        </i>
 
       </div>
-      <div class="d-flex gap-2 flex-wrap" style="padding: 0 10px 10px;">
+      <div class="d-flex gap-2 flex-wrap">
         <button @click="getAnswer" :disabled="loading || !question.trim()" class="btn btn-success flex-grow-1"
           style="min-width: 120px;">
           {{ loading ? "Fetching..." : "Send" }}
@@ -152,6 +137,8 @@
 export default {
   data() {
     return {
+      voices: [],
+      selectedVoice: null,
       micActive: false,
       isSpeaking: false,
       isPaused: false,
@@ -179,7 +166,34 @@ export default {
       ],
     };
   },
+  mounted() {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = () => {
+        this.voices = speechSynthesis.getVoices();
+        this.setDefaultVoice(); // Set once when voices load
+      };
+
+      // If voices already loaded
+      const voicesNow = speechSynthesis.getVoices();
+      if (voicesNow.length) {
+        this.voices = voicesNow;
+        this.setDefaultVoice();
+      }
+    }
+  },
   methods: {
+    setDefaultVoice() {
+      // Pick your preferred voice by name or language
+      const preferredVoice = this.voices.find(v =>
+        v.name.includes('Google US English') || v.lang === 'en-US'
+      );
+      this.selectedVoice = preferredVoice || this.voices[0];
+    },
+    getVoices() {
+      this.voices = speechSynthesis.getVoices();
+      console.log("Available voices:", this.voices);
+    },
+
     startSpeechRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -190,7 +204,7 @@ export default {
       const recognition = new SpeechRecognition();
       recognition.continuous = false; // true makes it infinite, but more error-prone on mobile
       recognition.interimResults = false;
-      recognition.lang = "en-US";
+      recognition.lang = "en-UK";
 
       recognition.onstart = () => {
         console.log("Voice recognition started.");
@@ -308,94 +322,52 @@ export default {
         console.warn("Invalid message index for sharing.");
       }
     },
-    // Initialize Speech Recognition
-    startSpeechRecognition() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Speech recognition is not supported in this browser.");
-        return;
-      }
-
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = "en-US";
-
-      this.micActive = true;
-
-      recognition.onstart = () => {
-        console.log("Voice recognition started.");
-      };
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript.trim();
-        this.question = transcript;
-      };
-
-      recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-        this.micActive = false;
-      };
-
-      recognition.onend = () => {
-        console.log("Voice recognition ended.");
-        this.micActive = false;
-      };
-
-      recognition.start();
-
-      setTimeout(() => {
-        recognition.stop(); // just in case the browser doesn't auto-stop
-        this.micActive = false;
-      }, 15000);
-    },
-    speakText(text) {
-      if (!('speechSynthesis' in window)) {
-        console.warn('Text-to-Speech is not supported in this browser.');
-        return;
-      }
-
-      // If paused, resume
-      if (this.isPaused) {
-        window.speechSynthesis.resume();
-        this.isPaused = false;
-        this.isSpeaking = true;
-        return;
-      }
-
-      // If already speaking, pause
+    togglePlayStop(message) {
       if (this.isSpeaking) {
-        window.speechSynthesis.pause();
-        this.isPaused = true;
-        this.isSpeaking = false;
+        this.stopSpeaking();  // Stop the speaking if it's already playing
+      } else {
+        this.speakText(message.text);  // Start speaking with the provided message
+      }
+    },
+
+    // This method starts or resumes speaking
+    speakText(text) {
+      if (!('speechSynthesis' in window) || !this.selectedVoice) {
+        console.warn('Speech synthesis not ready or voice not set.');
         return;
       }
 
-      // If not speaking or paused, start a new utterance
+      // Cancel existing speech
+      if (speechSynthesis.speaking || speechSynthesis.pending) {
+        speechSynthesis.cancel();
+      }
+
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
+      utterance.voice = this.selectedVoice;
       utterance.rate = 1;
       utterance.pitch = 1;
 
-      // Handle speech end
+      utterance.onstart = () => {
+        this.isSpeaking = true;
+        this.isPaused = false;
+      };
       utterance.onend = () => {
         this.isSpeaking = false;
         this.isPaused = false;
-        this.currentUtterance = null;
+      };
+      utterance.onerror = (e) => {
+        console.error('Speech Synthesis Error:', e.error);
       };
 
-      this.currentUtterance = utterance;
-      window.speechSynthesis.speak(utterance);
-      this.isSpeaking = true;
-      this.isPaused = false;
+      speechSynthesis.speak(utterance);
     },
 
+    // This method stops speaking
     stopSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        this.isSpeaking = false;
-        this.isPaused = false;
-        this.currentUtterance = null;
+      if (this.isSpeaking) {
+        speechSynthesis.cancel();  // Cancel ongoing speech
+        this.isSpeaking = false;  // Update the UI state
+        this.isPaused = false;    // Reset pause state
       }
     },
 
@@ -594,11 +566,16 @@ export default {
     transform: scale(1);
     opacity: 0.8;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 1;
   }
-  
+
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
 }
 
 .header-buttons {
@@ -667,18 +644,23 @@ export default {
 }
 
 .mic-btn:hover {
-  transform: scale(1.1); /* Slightly enlarge on hover */
+  transform: scale(1.1);
+  /* Slightly enlarge on hover */
 }
 
 /* Glowing effect when mic is active */
 .mic-glow {
-  color: #0db691; /* Green glow when active */
-  animation: pulse 1.5s infinite; /* Pulsing effect */
+  color: #0db691;
+  /* Green glow when active */
+  animation: pulse 1.5s infinite;
+  /* Pulsing effect */
 }
 
 .mic-active {
-  background-color: #0db691; /* Light green background when active */
-  box-shadow: 0px 0px 15px #0db691; /* Stronger glow effect */
+  background-color: #0db691;
+  /* Light green background when active */
+  box-shadow: 0px 0px 15px #0db691;
+  /* Stronger glow effect */
 }
 
 .tts-btn {
@@ -719,7 +701,7 @@ export default {
 }
 
 .timestamp {
-  font-size: 0.8em;
+  font-size: 1em;
   color: #ffffff;
 }
 
@@ -778,7 +760,7 @@ export default {
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 15px;
+  padding: 10px;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -889,11 +871,8 @@ export default {
   position: sticky;
   bottom: 0;
   background-color: #fff;
-  padding-top: 10px;
   border-top: 1px solid #eee;
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
   justify-content: space-between;
 }
 
@@ -1034,11 +1013,8 @@ export default {
     position: sticky;
     bottom: 0;
     background-color: #fff;
-    padding-top: 7px;
     border-top: 1px solid #eee;
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
     justify-content: space-between;
     align-items: center;
   }
