@@ -34481,12 +34481,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+var _methods;
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      micActive: false,
       isSpeaking: false,
       isPaused: false,
       currentUtterance: null,
@@ -34510,7 +34515,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       commonQuestions: ["What are the Five Pillars of Islam?", "What is the significance of Ramadan?", "Who is Prophet Muhammad (PBUH)?", "What is the Quran?", "What is the importance of Salah (prayer)?", "What is Zakat and who is it for?", "What is Hajj and why is it important?", "What is the meaning of Tawheed?", "What are the major sins in Islam?", "What is the Day of Judgment in Islam?"]
     };
   },
-  methods: {
+  methods: (_methods = {
+    startSpeechRecognition: function startSpeechRecognition() {
+      var _this = this;
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech recognition is not supported in this browser.");
+        return;
+      }
+      var recognition = new SpeechRecognition();
+      recognition.continuous = false; // true makes it infinite, but more error-prone on mobile
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+      recognition.onstart = function () {
+        console.log("Voice recognition started.");
+      };
+      recognition.onresult = function (event) {
+        var transcript = event.results[0][0].transcript.trim();
+        _this.question = transcript;
+      };
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error:", event.error);
+      };
+      recognition.onend = function () {
+        console.log("Voice recognition ended.");
+      };
+      recognition.start();
+
+      // Optional: Stop after 15 seconds even if silent
+      setTimeout(function () {
+        recognition.stop();
+      }, 15000); // 15s
+    },
     handleResize: function handleResize() {
       this.isDesktop = window.innerWidth >= 768;
     },
@@ -34599,226 +34635,208 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       } else {
         console.warn("Invalid message index for sharing.");
       }
-    },
-    // Initialize Speech Recognition
-    startSpeechRecognition: function startSpeechRecognition() {
-      var _this = this;
-      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        var recognition = new SpeechRecognition();
-        recognition.lang = 'en-US'; // Set language
-        recognition.interimResults = false; // Only final results
-        recognition.maxAlternatives = 1; // Only one result
-
-        // Start recognition
-        recognition.start();
-
-        // Handle result event
-        recognition.onresult = function (event) {
-          var transcript = event.results[0][0].transcript;
-          _this.question = transcript; // Set the recognized text to the input field
-        };
-
-        // Handle error event
-        recognition.onerror = function (event) {
-          console.error('Speech recognition error:', event.error);
-          alert('Speech recognition failed. Please try again.');
-        };
-
-        // Handle end event
-        recognition.onend = function () {
-          console.log('Speech recognition ended.');
-        };
-      } else {
-        alert('Speech recognition is not supported in this browser.');
-      }
-    },
-    speakText: function speakText(text) {
-      var _this2 = this;
-      if (!('speechSynthesis' in window)) {
-        console.warn('Text-to-Speech is not supported in this browser.');
-        return;
-      }
-
-      // If paused, resume
-      if (this.isPaused) {
-        window.speechSynthesis.resume();
-        this.isPaused = false;
-        this.isSpeaking = true;
-        return;
-      }
-
-      // If already speaking, pause
-      if (this.isSpeaking) {
-        window.speechSynthesis.pause();
-        this.isPaused = true;
-        this.isSpeaking = false;
-        return;
-      }
-
-      // If not speaking or paused, start a new utterance
-      var utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 1;
-      utterance.pitch = 1;
-
-      // Handle speech end
-      utterance.onend = function () {
-        _this2.isSpeaking = false;
-        _this2.isPaused = false;
-        _this2.currentUtterance = null;
-      };
-      this.currentUtterance = utterance;
-      window.speechSynthesis.speak(utterance);
-      this.isSpeaking = true;
-      this.isPaused = false;
-    },
-    stopSpeaking: function stopSpeaking() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        this.isSpeaking = false;
-        this.isPaused = false;
-        this.currentUtterance = null;
-      }
-    },
-    // Toggles the visibility of the chatbox
-    toggleChat: function toggleChat() {
-      this.showChat = !this.showChat;
-      this.isExpanded = false; // Reset expanded state when toggling chat
-
-      // Add a default message when opening the chat for the first time
-      if (this.showChat && this.chatHistory.length === 0) {
-        this.addMessage("bot", "Assalamu Alaikum! How can I assist you with Islamic knowledge today?");
-      }
-    },
-    // Toggles the expanded state of the chatbox
-    toggleExpand: function toggleExpand() {
-      this.isExpanded = !this.isExpanded;
-    },
-    // Auto-send a common question
-    autoSendQuestion: function autoSendQuestion(question) {
-      this.question = question;
-      this.getAnswer();
-    },
-    // Adds a message to the chat history
-    addMessage: function addMessage(type, text) {
-      var timestamp = new Date().toLocaleString(); // Get current date and time
-      this.chatHistory.push({
-        type: type,
-        text: text,
-        timestamp: timestamp
-      }); // Add timestamp to the message
-    },
-    // Scroll to the latest message and always keep it at the bottom
-    scrollToBottom: function scrollToBottom() {
-      var messagesContainer = this.$refs.messagesContainer;
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    },
-    // Edit a question
-    editQuestion: function editQuestion(index) {
-      this.question = this.chatHistory[index].text; // Load the question into the input field
-      this.editingIndex = index; // Track which message is being edited
-    },
-    getAnswer: function getAnswer() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this3$chatHistory, userQuestion, response, data, answerText;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              if (_this3.question.trim()) {
-                _context.next = 2;
-                break;
-              }
-              return _context.abrupt("return");
-            case 2:
-              // If editing, remove the old bot response and update the question
-              if (_this3.editingIndex !== null) {
-                if (((_this3$chatHistory = _this3.chatHistory[_this3.editingIndex + 1]) === null || _this3$chatHistory === void 0 ? void 0 : _this3$chatHistory.type) === "bot") {
-                  _this3.chatHistory.splice(_this3.editingIndex + 1, 1);
-                }
-                _this3.chatHistory[_this3.editingIndex].text = _this3.question;
-                _this3.editingIndex = null;
-              } else {
-                _this3.addMessage("user", _this3.question);
-              }
-              _this3.loading = true;
-              userQuestion = _this3.question;
-              _this3.question = "";
-              _context.prev = 6;
-              _context.next = 9;
-              return fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer ".concat(_this3.apiToken)
-                },
-                body: JSON.stringify({
-                  inputs: userQuestion,
-                  parameters: {
-                    max_new_tokens: 1800 // Enough for ~1000+ words
-                  }
-                })
-              });
-            case 9:
-              response = _context.sent;
-              if (response.ok) {
-                _context.next = 12;
-                break;
-              }
-              throw new Error("API Error: ".concat(response.status, " - ").concat(response.statusText));
-            case 12:
-              _context.next = 14;
-              return response.json();
-            case 14:
-              data = _context.sent;
-              if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
-                answerText = data[0].generated_text.trim(); // Remove the original question from the beginning of the answer
-                if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
-                  answerText = answerText.slice(userQuestion.length).trim();
-                }
-
-                // Clean up response
-                answerText = answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
-                .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
-                .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
-                .trim();
-
-                // Remove trailing question mark if it ends with one
-                if (answerText.endsWith("?")) {
-                  answerText = answerText.slice(0, -1).trim();
-                }
-
-                // Add line breaks for better readability
-                answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
-                _this3.addMessage("bot", answerText);
-              } else {
-                _this3.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
-              }
-              _context.next = 22;
-              break;
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](6);
-              _this3.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
-              console.error("Fetch Error:", _context.t0);
-            case 22:
-              _context.prev = 22;
-              _this3.loading = false;
-              _this3.scrollToBottom();
-              return _context.finish(22);
-            case 26:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, null, [[6, 18, 22, 26]]);
-      }))();
-    },
-    // Clears the entire chat history
-    clearChat: function clearChat() {
-      this.chatHistory = [];
     }
-  },
+  }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "startSpeechRecognition", function startSpeechRecognition() {
+    var _this2 = this;
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+    var recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+    this.micActive = true;
+    recognition.onstart = function () {
+      console.log("Voice recognition started.");
+    };
+    recognition.onresult = function (event) {
+      var transcript = event.results[0][0].transcript.trim();
+      _this2.question = transcript;
+    };
+    recognition.onerror = function (event) {
+      console.error("Speech recognition error:", event.error);
+      _this2.micActive = false;
+    };
+    recognition.onend = function () {
+      console.log("Voice recognition ended.");
+      _this2.micActive = false;
+    };
+    recognition.start();
+    setTimeout(function () {
+      recognition.stop(); // just in case the browser doesn't auto-stop
+      _this2.micActive = false;
+    }, 15000);
+  }), "speakText", function speakText(text) {
+    var _this3 = this;
+    if (!('speechSynthesis' in window)) {
+      console.warn('Text-to-Speech is not supported in this browser.');
+      return;
+    }
+
+    // If paused, resume
+    if (this.isPaused) {
+      window.speechSynthesis.resume();
+      this.isPaused = false;
+      this.isSpeaking = true;
+      return;
+    }
+
+    // If already speaking, pause
+    if (this.isSpeaking) {
+      window.speechSynthesis.pause();
+      this.isPaused = true;
+      this.isSpeaking = false;
+      return;
+    }
+
+    // If not speaking or paused, start a new utterance
+    var utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 1;
+    utterance.pitch = 1;
+
+    // Handle speech end
+    utterance.onend = function () {
+      _this3.isSpeaking = false;
+      _this3.isPaused = false;
+      _this3.currentUtterance = null;
+    };
+    this.currentUtterance = utterance;
+    window.speechSynthesis.speak(utterance);
+    this.isSpeaking = true;
+    this.isPaused = false;
+  }), "stopSpeaking", function stopSpeaking() {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.isPaused = false;
+      this.currentUtterance = null;
+    }
+  }), "toggleChat", function toggleChat() {
+    this.showChat = !this.showChat;
+    this.isExpanded = false; // Reset expanded state when toggling chat
+
+    // Add a default message when opening the chat for the first time
+    if (this.showChat && this.chatHistory.length === 0) {
+      this.addMessage("bot", "Assalamu Alaikum! How can I assist you with Islamic knowledge today?");
+    }
+  }), "toggleExpand", function toggleExpand() {
+    this.isExpanded = !this.isExpanded;
+  }), "autoSendQuestion", function autoSendQuestion(question) {
+    this.question = question;
+    this.getAnswer();
+  }), "addMessage", function addMessage(type, text) {
+    var timestamp = new Date().toLocaleString(); // Get current date and time
+    this.chatHistory.push({
+      type: type,
+      text: text,
+      timestamp: timestamp
+    }); // Add timestamp to the message
+  }), "scrollToBottom", function scrollToBottom() {
+    var messagesContainer = this.$refs.messagesContainer;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }), "editQuestion", function editQuestion(index) {
+    this.question = this.chatHistory[index].text; // Load the question into the input field
+    this.editingIndex = index; // Track which message is being edited
+  }), "getAnswer", function getAnswer() {
+    var _this4 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var _this4$chatHistory, userQuestion, response, data, answerText;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            if (_this4.question.trim()) {
+              _context.next = 2;
+              break;
+            }
+            return _context.abrupt("return");
+          case 2:
+            // If editing, remove the old bot response and update the question
+            if (_this4.editingIndex !== null) {
+              if (((_this4$chatHistory = _this4.chatHistory[_this4.editingIndex + 1]) === null || _this4$chatHistory === void 0 ? void 0 : _this4$chatHistory.type) === "bot") {
+                _this4.chatHistory.splice(_this4.editingIndex + 1, 1);
+              }
+              _this4.chatHistory[_this4.editingIndex].text = _this4.question;
+              _this4.editingIndex = null;
+            } else {
+              _this4.addMessage("user", _this4.question);
+            }
+            _this4.loading = true;
+            userQuestion = _this4.question;
+            _this4.question = "";
+            _context.prev = 6;
+            _context.next = 9;
+            return fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer ".concat(_this4.apiToken)
+              },
+              body: JSON.stringify({
+                inputs: userQuestion,
+                parameters: {
+                  max_new_tokens: 1800 // Enough for ~1000+ words
+                }
+              })
+            });
+          case 9:
+            response = _context.sent;
+            if (response.ok) {
+              _context.next = 12;
+              break;
+            }
+            throw new Error("API Error: ".concat(response.status, " - ").concat(response.statusText));
+          case 12:
+            _context.next = 14;
+            return response.json();
+          case 14:
+            data = _context.sent;
+            if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
+              answerText = data[0].generated_text.trim(); // Remove the original question from the beginning of the answer
+              if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
+                answerText = answerText.slice(userQuestion.length).trim();
+              }
+
+              // Clean up response
+              answerText = answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
+              .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
+              .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+              .trim();
+
+              // Remove trailing question mark if it ends with one
+              if (answerText.endsWith("?")) {
+                answerText = answerText.slice(0, -1).trim();
+              }
+
+              // Add line breaks for better readability
+              answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
+              _this4.addMessage("bot", answerText);
+            } else {
+              _this4.addMessage("bot", "Sorry, I couldn't find an answer. Try rephrasing your question.");
+            }
+            _context.next = 22;
+            break;
+          case 18:
+            _context.prev = 18;
+            _context.t0 = _context["catch"](6);
+            _this4.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
+            console.error("Fetch Error:", _context.t0);
+          case 22:
+            _context.prev = 22;
+            _this4.loading = false;
+            _this4.scrollToBottom();
+            return _context.finish(22);
+          case 26:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[6, 18, 22, 26]]);
+    }))();
+  }), _defineProperty(_methods, "clearChat", function clearChat() {
+    this.chatHistory = [];
+  })),
   watch: {
     // Automatically scroll to bottom when a new message is added
     chatHistory: function chatHistory() {
@@ -46323,16 +46341,6 @@ var _hoisted_4 = {
   }
 };
 var _hoisted_5 = {
-  "class": "common-questions-container"
-};
-var _hoisted_6 = {
-  "class": "common-questions"
-};
-var _hoisted_7 = {
-  "class": "question-row"
-};
-var _hoisted_8 = ["onClick"];
-var _hoisted_9 = {
   "class": "messages",
   ref: "messagesContainer",
   style: {
@@ -46341,35 +46349,45 @@ var _hoisted_9 = {
     "margin-bottom": "10px"
   }
 };
-var _hoisted_10 = {
+var _hoisted_6 = {
   key: 0,
   "class": "user-message"
 };
-var _hoisted_11 = {
+var _hoisted_7 = {
   "class": "d-flex align-items-center gap-2"
 };
-var _hoisted_12 = {
+var _hoisted_8 = {
   "class": "d-flex align-items-center gap-2 mt-2"
 };
-var _hoisted_13 = {
+var _hoisted_9 = {
   "class": "timestamp",
   style: {
     "color": "black"
   }
 };
-var _hoisted_14 = ["onClick"];
-var _hoisted_15 = {
+var _hoisted_10 = ["onClick"];
+var _hoisted_11 = {
   key: 1,
   "class": "bot-message"
 };
-var _hoisted_16 = {
+var _hoisted_12 = {
   "class": "timestamp"
 };
-var _hoisted_17 = {
+var _hoisted_13 = {
   "class": "d-flex flex-wrap justify-content-center gap-3 my-3"
 };
-var _hoisted_18 = ["onClick"];
-var _hoisted_19 = ["onClick"];
+var _hoisted_14 = ["onClick"];
+var _hoisted_15 = ["onClick"];
+var _hoisted_16 = ["onClick"];
+var _hoisted_17 = {
+  "class": "common-questions-container"
+};
+var _hoisted_18 = {
+  "class": "common-questions"
+};
+var _hoisted_19 = {
+  "class": "question-row"
+};
 var _hoisted_20 = ["onClick"];
 var _hoisted_21 = {
   "class": "input-container",
@@ -46377,7 +46395,8 @@ var _hoisted_21 = {
     "display": "flex",
     "gap": "10px",
     "align-items": "center",
-    "padding": "10px"
+    "padding": "10px",
+    "flex-wrap": "nowrap"
   }
 };
 var _hoisted_22 = ["disabled"];
@@ -46398,7 +46417,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     })
-  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chat-left-text-fill"
   }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.showChat || $data.isDesktop]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -46408,7 +46427,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "title"
   }, "Islamic Connect AI Assistant", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[1] || (_cache[1] = function () {
@@ -46426,7 +46445,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     }),
     "class": "close-btn bi bi-x-circle-fill"
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Islamic Questions (Fixed at the Top) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.commonQuestions, function (question, index) {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chat History: Display questions and answers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, function (message, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "message"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      "class": "text-left"
+    }, "You:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.editQuestion(index);
+      },
+      "class": "btn btn-secondary btn-sm"
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-pencil"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.shareOnWhatsApp(index);
+      },
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-whatsapp me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.copyQuestionAndAnswer(index);
+      },
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clipboard me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.speakText(message.text);
+      },
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isPaused ? 'bi bi-play-fill me-2' : $data.isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2')
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isPaused ? 'Resume' : $data.isSpeaking ? 'Pause' : 'Listen'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), $data.isSpeaking || $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      onClick: _cache[4] || (_cache[4] = function () {
+        return $options.stopSpeaking && $options.stopSpeaking.apply($options, arguments);
+      }),
+      "class": "btn btn-danger btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-stop-fill me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Islamic Questions (Fixed at the Top) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.commonQuestions, function (question, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "question-wrapper"
@@ -46435,51 +46497,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.autoSendQuestion(question);
       },
       "class": "question-btn"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 9 /* TEXT, PROPS */, _hoisted_8)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chat History: Display questions and answers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, function (message, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
-      "class": "message"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
-      "class": "text-left"
-    }, "You:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: function onClick($event) {
-        return $options.editQuestion(index);
-      },
-      "class": "btn btn-secondary btn-sm"
-    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-pencil"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_14)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: function onClick($event) {
-        return $options.shareOnWhatsApp(index);
-      },
-      "class": "btn btn-light btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-whatsapp me-2"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: function onClick($event) {
-        return $options.copyQuestionAndAnswer(index);
-      },
-      "class": "btn btn-light btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-clipboard me-2"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      onClick: function onClick($event) {
-        return $options.speakText(message.text);
-      },
-      "class": "btn btn-light btn-md d-flex align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isPaused ? 'bi bi-play-fill me-2' : $data.isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2')
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isPaused ? 'Resume' : $data.isSpeaking ? 'Pause' : 'Listen'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), $data.isSpeaking || $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
-      onClick: _cache[4] || (_cache[4] = function () {
-        return $options.stopSpeaking && $options.stopSpeaking.apply($options, arguments);
-      }),
-      "class": "btn btn-danger btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-stop-fill me-2"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input and Button for asking new questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 9 /* TEXT, PROPS */, _hoisted_20)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input and Button for asking new questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.question = $event;
     }),
@@ -46488,10 +46507,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.loading,
     style: {
       "flex": "1",
-      "padding": "8px"
+      "padding": "8px",
+      "min-width": "0"
     }
-  }, null, 8 /* PROPS */, _hoisted_22), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button @click=\"startSpeechRecognition\" class=\"mic-btn\" :disabled=\"loading\">\n          <i class=\"bi bi-mic\"></i>\n        </button> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_22), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-mic", {
+      'mic-glow': $data.micActive
+    }]),
     onClick: _cache[6] || (_cache[6] = function () {
+      return $options.startSpeechRecognition && $options.startSpeechRecognition.apply($options, arguments);
+    }),
+    style: {
+      "font-size": "1.6em",
+      "cursor": "pointer"
+    }
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.getAnswer && $options.getAnswer.apply($options, arguments);
     }),
     disabled: $data.loading || !$data.question.trim(),
@@ -46501,18 +46532,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? "Fetching..." : "Send"), 9 /* TEXT, PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear Button "), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.clearChat && $options.clearChat.apply($options, arguments);
     }),
     "class": "btn btn-danger flex-grow-1",
     style: {
       "min-width": "120px"
     }
-  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "color": "black"
     },
-    "class": "text-center"
+    "class": "text-center display-8"
   }, "Islamic connect AI can make mistakes. Check important info.", -1 /* HOISTED */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, "Fetching response...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
@@ -82834,7 +82865,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-9200016c]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-9200016c]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 8px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  height: 70vh;\n  /* Default height */\n  background-color: #fff;\n  border-radius: 12px;\n  /* Add border-radius */\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 20px;\n  /* Add padding */\n  z-index: 999;\n  overflow: hidden;\n  /* Prevent overflow */\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  padding-bottom: 10px;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 15px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 98%;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    flex-direction: column;\n    gap: 5px;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes pulse-9200016c {\n0% {\n    text-shadow: 0 0 0px red;\n}\n50% {\n    text-shadow: 0 0 12px red;\n}\n100% {\n    text-shadow: 0 0 0px red;\n}\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-9200016c]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-9200016c]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 15px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    padding-top: 7px;\n    border-top: 1px solid #eee;\n    display: flex;\n    gap: 10px;\n    margin-bottom: 10px;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

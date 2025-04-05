@@ -20,18 +20,7 @@
 
       <!-- Main Content Area -->
       <div class="chat-content" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
-        <!-- Common Islamic Questions (Fixed at the Top) -->
-        <div class="common-questions-container">
-          <div class="common-questions">
-            <div class="question-row">
-              <div v-for="(question, index) in commonQuestions" :key="index" class="question-wrapper">
-                <button @click="autoSendQuestion(question)" class="question-btn">
-                  {{ question }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+
 
         <!-- Chat History: Display questions and answers -->
         <div class="messages" ref="messagesContainer" style="flex: 1; overflow-y: auto; margin-bottom: 10px;">
@@ -83,15 +72,28 @@
           </div>
         </div>
       </div>
+      <!-- Common Islamic Questions (Fixed at the Top) -->
+      <div class="common-questions-container">
+        <div class="common-questions">
+          <div class="question-row">
+            <div v-for="(question, index) in commonQuestions" :key="index" class="question-wrapper">
+              <button @click="autoSendQuestion(question)" class="question-btn">
+                {{ question }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Input and Button for asking new questions -->
 
-      <div class="input-container" style="display: flex; gap: 10px; align-items: center; padding: 10px;">
+      <div class="input-container"
+        style="display: flex; gap: 10px; align-items: center; padding: 10px; flex-wrap: nowrap;">
         <input v-model="question" placeholder="What do you want to know about Islam?" class="input-box"
-          :disabled="loading" style="flex: 1; padding: 8px;" />
-        <!-- <button @click="startSpeechRecognition" class="mic-btn" :disabled="loading">
-          <i class="bi bi-mic"></i>
-        </button> -->
+          :disabled="loading" style="flex: 1; padding: 8px; min-width: 0;" />
+
+        <i class="bi bi-mic" :class="{ 'mic-glow': micActive }" @click="startSpeechRecognition"
+          style="font-size: 1.6em; cursor: pointer;"></i>
       </div>
       <div class="d-flex gap-2 flex-wrap" style="padding: 0 10px 10px;">
         <button @click="getAnswer" :disabled="loading || !question.trim()" class="btn btn-success flex-grow-1"
@@ -105,7 +107,8 @@
           Clear Conversation
         </button>
       </div>
-      <p style="color:black;" class="text-center">Islamic connect AI can make mistakes. Check important info.</p>
+      <div style="color:black;" class="text-center display-8">Islamic connect AI can make mistakes. Check important
+        info.</div>
 
       <div v-if="loading" class="loading">Fetching response...</div>
     </div>
@@ -116,6 +119,7 @@
 export default {
   data() {
     return {
+      micActive: false,
       isSpeaking: false,
       isPaused: false,
       currentUtterance: null,
@@ -143,6 +147,42 @@ export default {
     };
   },
   methods: {
+    startSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech recognition is not supported in this browser.");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false; // true makes it infinite, but more error-prone on mobile
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+
+      recognition.onstart = () => {
+        console.log("Voice recognition started.");
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        this.question = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+
+      recognition.onend = () => {
+        console.log("Voice recognition ended.");
+      };
+
+      recognition.start();
+
+      // Optional: Stop after 15 seconds even if silent
+      setTimeout(() => {
+        recognition.stop();
+      }, 15000); // 15s
+    },
     handleResize() {
       this.isDesktop = window.innerWidth >= 768;
     },
@@ -237,36 +277,44 @@ export default {
     },
     // Initialize Speech Recognition
     startSpeechRecognition() {
-      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-
-        recognition.lang = 'en-US'; // Set language
-        recognition.interimResults = false; // Only final results
-        recognition.maxAlternatives = 1; // Only one result
-
-        // Start recognition
-        recognition.start();
-
-        // Handle result event
-        recognition.onresult = (event) => {
-          const transcript = event.results[0][0].transcript;
-          this.question = transcript; // Set the recognized text to the input field
-        };
-
-        // Handle error event
-        recognition.onerror = (event) => {
-          console.error('Speech recognition error:', event.error);
-          alert('Speech recognition failed. Please try again.');
-        };
-
-        // Handle end event
-        recognition.onend = () => {
-          console.log('Speech recognition ended.');
-        };
-      } else {
-        alert('Speech recognition is not supported in this browser.');
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech recognition is not supported in this browser.");
+        return;
       }
+
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+
+      this.micActive = true;
+
+      recognition.onstart = () => {
+        console.log("Voice recognition started.");
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript.trim();
+        this.question = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        this.micActive = false;
+      };
+
+      recognition.onend = () => {
+        console.log("Voice recognition ended.");
+        this.micActive = false;
+      };
+
+      recognition.start();
+
+      setTimeout(() => {
+        recognition.stop(); // just in case the browser doesn't auto-stop
+        this.micActive = false;
+      }, 15000);
     },
     speakText(text) {
       if (!('speechSynthesis' in window)) {
@@ -454,6 +502,20 @@ export default {
 </script>
 
 <style scoped>
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 0px red;
+  }
+
+  50% {
+    text-shadow: 0 0 12px red;
+  }
+
+  100% {
+    text-shadow: 0 0 0px red;
+  }
+}
+
 .header-buttons {
   display: flex;
   align-items: center;
@@ -481,7 +543,7 @@ export default {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   cursor: pointer;
   font-size: 0.8em;
   margin-top: 5px;
@@ -497,7 +559,7 @@ export default {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   cursor: pointer;
   font-size: 0.8em;
   margin-top: 5px;
@@ -553,7 +615,7 @@ export default {
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   cursor: pointer;
   font-size: 0.8em;
   margin-top: 5px;
@@ -592,7 +654,7 @@ export default {
 
 .container {
   position: relative;
-  padding: 8px;
+  padding: 4px;
 }
 
 .fab {
@@ -625,20 +687,17 @@ export default {
   right: 20px;
   width: 90%;
   max-width: 500px;
+  /* Max width for larger screens */
   height: 70vh;
-  /* Default height */
   background-color: #fff;
   border-radius: 12px;
-  /* Add border-radius */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  /* Add padding */
+  padding: 15px;
   z-index: 999;
-  overflow: hidden;
-  /* Prevent overflow */
   display: flex;
   flex-direction: column;
 }
+
 
 .chatbox.expanded {
   max-width: 75%;
@@ -676,7 +735,6 @@ export default {
   top: 0;
   background-color: #fff;
   z-index: 1;
-  padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
@@ -723,7 +781,7 @@ export default {
 
 .user-message,
 .bot-message {
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-radius: 5px;
   max-width: 80%;
   word-wrap: break-word;
@@ -757,8 +815,9 @@ export default {
   padding: 8px 12px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  width: 98%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  /* Ensure input box takes full width */
+  font-size: 0.9rem;
 }
 
 .button {
@@ -807,6 +866,33 @@ export default {
 
 .edit-button:hover {
   background-color: #0a8a72;
+}
+
+.bi-mic {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .chatbox {
+    width: 100%;
+    max-width: 100%;
+    bottom: 10px;
+    /* Adjust bottom positioning */
+    height: 60vh;
+    /* Reduce height for mobile */
+    padding: 5px;
+    /* Reduce padding for mobile */
+  }
+
+  .input-box {
+    font-size: 1rem;
+  }
+
+  .bi-mic {
+    font-size: 1.4rem;
+    /* Adjust mic icon size for mobile */
+  }
 }
 
 @media (min-width: 768px) {
@@ -859,8 +945,16 @@ export default {
   }
 
   .input-container {
-    flex-direction: column;
-    gap: 5px;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff;
+    padding-top: 7px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .user-message,
