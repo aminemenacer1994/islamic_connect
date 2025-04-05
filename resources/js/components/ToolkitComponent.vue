@@ -44,7 +44,9 @@
             <div v-if="message.type === 'bot'" class="bot-message">
               <p>{{ message.text }}</p>
               <span class="timestamp">{{ message.timestamp }}</span>
-              <div class="d-flex flex-wrap justify-content-center gap-3 my-3">
+
+              <!-- Controls Section, rendered only once -->
+              <div v-if="!controlsRendered" class="d-flex flex-wrap justify-content-center gap-3 my-3">
                 <!-- Share Button -->
                 <button @click="shareOnWhatsApp(index)" class="btn btn-light btn-md d-flex align-items-center">
                   <i class="bi bi-whatsapp me-2"></i> Share
@@ -55,11 +57,22 @@
                   <i class="bi bi-clipboard me-2"></i> Copy
                 </button>
 
-                <!-- Play/Pause Button -->
-                <button @click="speakText(message.text)" class="btn btn-light btn-md d-flex align-items-center">
-                  <i
-                    :class="isPaused ? 'bi bi-play-fill me-2' : isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2'"></i>
-                  {{ isPaused ? 'Resume' : isSpeaking ? 'Pause' : 'Listen' }}
+                <!-- Play Button -->
+                <button v-if="!isSpeaking && !isPaused" @click="speakText(message.text)"
+                  class="btn btn-light btn-md d-flex align-items-center">
+                  <i class="bi bi-volume-up me-2"></i> Listen
+                </button>
+
+                <!-- Pause Button -->
+                <button v-if="isSpeaking && !isPaused" @click="stopSpeaking"
+                  class="btn btn-light btn-md d-flex align-items-center">
+                  <i class="bi bi-pause-fill me-2"></i> Pause
+                </button>
+
+                <!-- Resume Button -->
+                <button v-if="isPaused" @click="speakText(message.text)"
+                  class="btn btn-light btn-md d-flex align-items-center">
+                  <i class="bi bi-play-fill me-2"></i> Resume
                 </button>
 
                 <!-- Stop Button -->
@@ -68,7 +81,16 @@
                   <i class="bi bi-stop-fill me-2"></i> Stop
                 </button>
               </div>
+
+              <!-- Set controlsRendered flag to true after rendering the buttons -->
+              <div v-if="!controlsRendered">
+                <script>
+                  this.controlsRendered = true;  // After rendering buttons, set to true
+                </script>
+              </div>
             </div>
+
+
           </div>
         </div>
       </div>
@@ -89,11 +111,21 @@
 
       <div class="input-container"
         style="display: flex; gap: 10px; align-items: center; padding: 10px; flex-wrap: nowrap;">
-        <input v-model="question" placeholder="What do you want to know about Islam?" class="input-box"
-          :disabled="loading" style="flex: 1; padding: 8px; min-width: 0;" />
+        <input v-model="question" type="text" placeholder="What do you want to know about Islam?" class="form-control"
+          :disabled="loading" />
+        <button class="btn btn-outline-secondary" type="button" @click="question = ''" :disabled="loading || !question"
+          title="Clear">
+          <i class="bi bi-x-lg"></i>
+        </button>
 
-        <i class="bi bi-mic" :class="{ 'mic-glow': micActive }" @click="startSpeechRecognition"
-          style="font-size: 1.6em; cursor: pointer;"></i>
+        <!-- Mic Button with Enhanced UI/UX -->
+        <i @click="startSpeechRecognition" class="mic-btn" :class="{ 'mic-active': micActive }"
+          aria-label="Activate voice recognition"
+          style="border: none; background: transparent; padding: 10px; cursor: pointer; outline: none;">
+
+          <i class="bi bi-mic" :class="{ 'mic-glow': micActive }" style="font-size: 1.5em;"></i>
+      </i>
+
       </div>
       <div class="d-flex gap-2 flex-wrap" style="padding: 0 10px 10px;">
         <button @click="getAnswer" :disabled="loading || !question.trim()" class="btn btn-success flex-grow-1"
@@ -107,8 +139,8 @@
           Clear Conversation
         </button>
       </div>
-      <div style="color:black;" class="text-center display-8">Islamic connect AI can make mistakes. Check important
-        info.</div>
+      <!-- <div style="color:black;" class="text-center display-8">Islamic connect AI can make mistakes. Check important
+        info.</div> -->
 
       <div v-if="loading" class="loading">Fetching response...</div>
     </div>
@@ -116,6 +148,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -486,6 +519,59 @@ export default {
       }
     },
 
+
+    // Utility function to clean answer text
+    cleanAnswer(answerText) {
+      return answerText
+        .replace(/[^\w\s.,!?()'"-]/g, "")      // Remove unwanted characters
+        .replace(/\n\s*\n/g, "\n")             // Remove excessive line breaks
+        .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+        .trim();
+    },
+
+    // Utility function to chunk long responses for better readability
+    chunkifyResponse(text) {
+      return text.match(/(.{1,400})(\s|$)/g); // smart chunking for text with line breaks
+    },
+
+    // Utility function to detect offensive words
+    detectOffensiveWords(text) {
+      const flagged = ["kill", "sex", "drugs", "terror", "hate"]; // Customize this list as needed
+      return flagged.some(word => text.toLowerCase().includes(word));
+    },
+
+    // Optional helper to detect the language of the question (use a library or API)
+    detectLanguage(text) {
+      // Example logic, replace with a proper language detection tool
+      if (text.includes("سلام")) return "ar"; // example check for Arabic
+      if (text.includes("hello")) return "en"; // example check for English
+      return "unknown";
+    },
+
+    // Optional helper to translate text into English
+    async translateToEnglish(text, fromLang) {
+      if (fromLang === "en") return text;
+
+      const translationAPI = "https://api.libretranslate.com/translate"; // Example API
+      const response = await fetch(translationAPI, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          q: text,
+          source: fromLang,
+          target: "en",
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.translatedText;
+      }
+      return text; // fallback
+    },
+
     // Clears the entire chat history
     clearChat() {
       this.chatHistory = [];
@@ -502,18 +588,17 @@ export default {
 </script>
 
 <style scoped>
+/* Animation for glowing effect */
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 0px red;
+    transform: scale(1);
+    opacity: 0.8;
   }
-
   50% {
-    text-shadow: 0 0 12px red;
+    transform: scale(1.1);
+    opacity: 1;
   }
-
-  100% {
-    text-shadow: 0 0 0px red;
-  }
+  
 }
 
 .header-buttons {
@@ -574,25 +659,26 @@ export default {
 }
 
 .mic-btn {
-  background-color: #0db691;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  display: inline-flex;
   justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.mic-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.mic-btn:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
 }
 
-.mic-btn:hover:not(:disabled) {
-  background-color: #0a8a72;
+/* Glowing effect when mic is active */
+.mic-glow {
+  color: #0db691; /* Green glow when active */
+  animation: pulse 1.5s infinite; /* Pulsing effect */
+}
+
+.mic-active {
+  background-color: #0db691; /* Light green background when active */
+  box-shadow: 0px 0px 15px #0db691; /* Stronger glow effect */
 }
 
 .tts-btn {

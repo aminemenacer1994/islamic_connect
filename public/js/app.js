@@ -34834,7 +34834,68 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }
       }, _callee, null, [[6, 18, 22, 26]]);
     }))();
-  }), _defineProperty(_methods, "clearChat", function clearChat() {
+  }), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "cleanAnswer", function cleanAnswer(answerText) {
+    return answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
+    .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
+    .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+    .trim();
+  }), "chunkifyResponse", function chunkifyResponse(text) {
+    return text.match(/(.{1,400})(\s|$)/g); // smart chunking for text with line breaks
+  }), "detectOffensiveWords", function detectOffensiveWords(text) {
+    var flagged = ["kill", "sex", "drugs", "terror", "hate"]; // Customize this list as needed
+    return flagged.some(function (word) {
+      return text.toLowerCase().includes(word);
+    });
+  }), "detectLanguage", function detectLanguage(text) {
+    // Example logic, replace with a proper language detection tool
+    if (text.includes("سلام")) return "ar"; // example check for Arabic
+    if (text.includes("hello")) return "en"; // example check for English
+    return "unknown";
+  }), "translateToEnglish", function translateToEnglish(text, fromLang) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var translationAPI, response, data;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(fromLang === "en")) {
+              _context2.next = 2;
+              break;
+            }
+            return _context2.abrupt("return", text);
+          case 2:
+            translationAPI = "https://api.libretranslate.com/translate"; // Example API
+            _context2.next = 5;
+            return fetch(translationAPI, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                q: text,
+                source: fromLang,
+                target: "en"
+              })
+            });
+          case 5:
+            response = _context2.sent;
+            if (!response.ok) {
+              _context2.next = 11;
+              break;
+            }
+            _context2.next = 9;
+            return response.json();
+          case 9:
+            data = _context2.sent;
+            return _context2.abrupt("return", data.translatedText);
+          case 11:
+            return _context2.abrupt("return", text);
+          case 12:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2);
+    }))();
+  }), "clearChat", function clearChat() {
     this.chatHistory = [];
   })),
   watch: {
@@ -46374,22 +46435,27 @@ var _hoisted_12 = {
   "class": "timestamp"
 };
 var _hoisted_13 = {
+  key: 0,
   "class": "d-flex flex-wrap justify-content-center gap-3 my-3"
 };
 var _hoisted_14 = ["onClick"];
 var _hoisted_15 = ["onClick"];
 var _hoisted_16 = ["onClick"];
-var _hoisted_17 = {
-  "class": "common-questions-container"
-};
+var _hoisted_17 = ["onClick"];
 var _hoisted_18 = {
-  "class": "common-questions"
+  key: 1
 };
 var _hoisted_19 = {
+  "class": "common-questions-container"
+};
+var _hoisted_20 = {
+  "class": "common-questions"
+};
+var _hoisted_21 = {
   "class": "question-row"
 };
-var _hoisted_20 = ["onClick"];
-var _hoisted_21 = {
+var _hoisted_22 = ["onClick"];
+var _hoisted_23 = {
   "class": "input-container",
   style: {
     "display": "flex",
@@ -46399,15 +46465,16 @@ var _hoisted_21 = {
     "flex-wrap": "nowrap"
   }
 };
-var _hoisted_22 = ["disabled"];
-var _hoisted_23 = {
+var _hoisted_24 = ["disabled"];
+var _hoisted_25 = ["disabled"];
+var _hoisted_26 = {
   "class": "d-flex gap-2 flex-wrap",
   style: {
     "padding": "0 10px 10px"
   }
 };
-var _hoisted_24 = ["disabled"];
-var _hoisted_25 = {
+var _hoisted_27 = ["disabled"];
+var _hoisted_28 = {
   key: 0,
   "class": "loading"
 };
@@ -46417,7 +46484,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     })
-  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chat-left-text-fill"
   }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.showChat || $data.isDesktop]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -46427,7 +46494,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "title"
   }, "Islamic Connect AI Assistant", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[1] || (_cache[1] = function () {
@@ -46449,46 +46516,63 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "message"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       "class": "text-left"
     }, "You:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editQuestion(index);
       },
       "class": "btn btn-secondary btn-sm"
-    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-pencil"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section, rendered only once "), !_ctx.controlsRendered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(index);
       },
       "class": "btn btn-light btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp me-2"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.copyQuestionAndAnswer(index);
       },
       "class": "btn btn-light btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard me-2"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play Button "), !$data.isSpeaking && !$data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
       onClick: function onClick($event) {
         return $options.speakText(message.text);
       },
       "class": "btn btn-light btn-md d-flex align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isPaused ? 'bi bi-play-fill me-2' : $data.isSpeaking ? 'bi bi-pause-fill me-2' : 'bi bi-volume-up me-2')
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isPaused ? 'Resume' : $data.isSpeaking ? 'Pause' : 'Listen'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), $data.isSpeaking || $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+    }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-volume-up me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")])), 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pause Button "), $data.isSpeaking && !$data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 1,
       onClick: _cache[4] || (_cache[4] = function () {
         return $options.stopSpeaking && $options.stopSpeaking.apply($options, arguments);
       }),
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-pause-fill me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Pause ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Resume Button "), $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 2,
+      onClick: function onClick($event) {
+        return $options.speakText(message.text);
+      },
+      "class": "btn btn-light btn-md d-flex align-items-center"
+    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-play-fill me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Resume ")])), 8 /* PROPS */, _hoisted_17)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), $data.isSpeaking || $data.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 3,
+      onClick: _cache[5] || (_cache[5] = function () {
+        return $options.stopSpeaking && $options.stopSpeaking.apply($options, arguments);
+      }),
       "class": "btn btn-danger btn-md d-flex align-items-center"
-    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-stop-fill me-2"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Islamic Questions (Fixed at the Top) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.commonQuestions, function (question, index) {
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Stop ")])))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Set controlsRendered flag to true after rendering the buttons "), !_ctx.controlsRendered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Islamic Questions (Fixed at the Top) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.commonQuestions, function (question, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "question-wrapper"
@@ -46497,32 +46581,49 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.autoSendQuestion(question);
       },
       "class": "question-btn"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 9 /* TEXT, PROPS */, _hoisted_20)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input and Button for asking new questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 9 /* TEXT, PROPS */, _hoisted_22)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input and Button for asking new questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.question = $event;
     }),
+    type: "text",
     placeholder: "What do you want to know about Islam?",
-    "class": "input-box",
-    disabled: $data.loading,
+    "class": "form-control",
+    disabled: $data.loading
+  }, null, 8 /* PROPS */, _hoisted_24), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary",
+    type: "button",
+    onClick: _cache[7] || (_cache[7] = function ($event) {
+      return $data.question = '';
+    }),
+    disabled: $data.loading || !$data.question,
+    title: "Clear"
+  }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x-lg"
+  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mic Button with Enhanced UI/UX "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[8] || (_cache[8] = function () {
+      return $options.startSpeechRecognition && $options.startSpeechRecognition.apply($options, arguments);
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mic-btn", {
+      'mic-active': $data.micActive
+    }]),
+    "aria-label": "Activate voice recognition",
     style: {
-      "flex": "1",
-      "padding": "8px",
-      "min-width": "0"
+      "border": "none",
+      "background": "transparent",
+      "padding": "10px",
+      "cursor": "pointer",
+      "outline": "none"
     }
-  }, null, 8 /* PROPS */, _hoisted_22), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.question]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-mic", {
       'mic-glow': $data.micActive
     }]),
-    onClick: _cache[6] || (_cache[6] = function () {
-      return $options.startSpeechRecognition && $options.startSpeechRecognition.apply($options, arguments);
-    }),
     style: {
-      "font-size": "1.6em",
-      "cursor": "pointer"
+      "font-size": "1.5em"
     }
-  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function () {
+  }, null, 2 /* CLASS */)], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.getAnswer && $options.getAnswer.apply($options, arguments);
     }),
     disabled: $data.loading || !$data.question.trim(),
@@ -46530,21 +46631,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "min-width": "120px"
     }
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? "Fetching..." : "Send"), 9 /* TEXT, PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear Button "), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? "Fetching..." : "Send"), 9 /* TEXT, PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear Button "), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[10] || (_cache[10] = function () {
       return $options.clearChat && $options.clearChat.apply($options, arguments);
     }),
     "class": "btn btn-danger flex-grow-1",
     style: {
       "min-width": "120px"
     }
-  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: {
-      "color": "black"
-    },
-    "class": "text-center display-8"
-  }, "Islamic connect AI can make mistakes. Check important info.", -1 /* HOISTED */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, "Fetching response...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, " Clear Conversation ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"color:black;\" class=\"text-center display-8\">Islamic connect AI can make mistakes. Check important\n        info.</div> "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, "Fetching response...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -82865,7 +82961,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes pulse-9200016c {\n0% {\n    text-shadow: 0 0 0px red;\n}\n50% {\n    text-shadow: 0 0 12px red;\n}\n100% {\n    text-shadow: 0 0 0px red;\n}\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.mic-btn[data-v-9200016c]:disabled {\n  background-color: #ccc;\n  cursor: not-allowed;\n}\n.mic-btn[data-v-9200016c]:hover:not(:disabled) {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 15px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    padding-top: 7px;\n    border-top: 1px solid #eee;\n    display: flex;\n    gap: 10px;\n    margin-bottom: 10px;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Animation for glowing effect */\n@keyframes pulse-9200016c {\n0% {\n    transform: scale(1);\n    opacity: 0.8;\n}\n50% {\n    transform: scale(1.1);\n    opacity: 1;\n}\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  display: inline-flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 50%;\n  transition: transform 0.2s ease, box-shadow 0.3s ease;\n}\n.mic-btn[data-v-9200016c]:hover {\n  transform: scale(1.1); /* Slightly enlarge on hover */\n}\n/* Glowing effect when mic is active */\n.mic-glow[data-v-9200016c] {\n  color: #0db691; /* Green glow when active */\n  animation: pulse-9200016c 1.5s infinite; /* Pulsing effect */\n}\n.mic-active[data-v-9200016c] {\n  background-color: #0db691; /* Light green background when active */\n  box-shadow: 0px 0px 15px #0db691; /* Stronger glow effect */\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 0.8em;\n  color: #ffffff;\n}\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 15px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  padding-top: 10px;\n  border-top: 1px solid #eee;\n  display: flex;\n  gap: 10px;\n  margin-bottom: 10px;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    padding-top: 7px;\n    border-top: 1px solid #eee;\n    display: flex;\n    gap: 10px;\n    margin-bottom: 10px;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
