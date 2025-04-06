@@ -34484,34 +34484,21 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
-      voices: [],
-      selectedVoice: null,
+    var _ref;
+    return _ref = {
       micActive: false,
-      isSpeaking: false,
-      isPaused: false,
-      currentUtterance: null,
-      isDesktop: window.innerWidth >= 768,
-      question: "",
-      loading: false,
-      chatHistory: [],
-      // Store the entire conversation history
-      showChat: false,
-      // Flag to toggle chat visibility
-      isExpanded: false,
-      // Flag to toggle expanded state
-      apiToken: process.env.HF_API_KEY || "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",
-      // API token
-      editingIndex: null,
-      // Track the index of the message being edited
-      defaultMessage: {
-        type: "bot",
-        text: "Assalamu Alaikum! How can I assist you with Islamic knowledge today?"
-      },
-      commonQuestions: ["What are the Five Pillars of Islam?", "What is the significance of Ramadan?", "Who is Prophet Muhammad (PBUH)?", "What is the Quran?", "What is the importance of Salah (prayer)?", "What is Zakat and who is it for?", "What is Hajj and why is it important?", "What is the meaning of Tawheed?", "What are the major sins in Islam?", "What is the Day of Judgment in Islam?"]
-    };
+      micClicked: false,
+      voices: [],
+      selectedVoice: null
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "micActive", false), "isSpeaking", false), "isPaused", false), "currentUtterance", null), "isDesktop", window.innerWidth >= 768), "question", ""), "loading", false), "chatHistory", []), "showChat", false), "isExpanded", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "apiToken", process.env.HF_API_KEY || "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"), "editingIndex", null), "defaultMessage", {
+      type: "bot",
+      text: "Assalamu Alaikum! How can I assist you with Islamic knowledge today?"
+    }), "commonQuestions", ["What are the Five Pillars of Islam?", "What is the significance of Ramadan?", "Who is Prophet Muhammad (PBUH)?", "What is the Quran?", "What is the importance of Salah (prayer)?", "What is Zakat and who is it for?", "What is Hajj and why is it important?", "What is the meaning of Tawheed?", "What are the major sins in Islam?", "What is the Day of Judgment in Islam?"]);
   },
   mounted: function mounted() {
     var _this = this;
@@ -34529,7 +34516,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     }
   },
-  methods: {
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
     setDefaultVoice: function setDefaultVoice() {
       // Pick your preferred voice by name or language
       var preferredVoice = this.voices.find(function (v) {
@@ -34541,8 +34528,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.voices = speechSynthesis.getVoices();
       console.log("Available voices:", this.voices);
     },
+    cleanAnswer: function cleanAnswer(text) {
+      // Removes only trailing question marks, not from the middle of the sentence
+      return text.replace(/\?+$/, '').trim();
+    },
     startSpeechRecognition: function startSpeechRecognition() {
       var _this2 = this;
+      this.micActive = !this.micActive;
+      this.micClicked = true;
       var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         alert("Speech recognition is not supported in this browser.");
@@ -34837,83 +34830,71 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }
         }, _callee, null, [[6, 18, 22, 26]]);
       }))();
-    },
-    // Utility function to clean answer text
-    cleanAnswer: function cleanAnswer(answerText) {
-      return answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
-      .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
-      .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
-      .trim();
-    },
-    // Utility function to chunk long responses for better readability
-    chunkifyResponse: function chunkifyResponse(text) {
-      return text.match(/(.{1,400})(\s|$)/g); // smart chunking for text with line breaks
-    },
-    // Utility function to detect offensive words
-    detectOffensiveWords: function detectOffensiveWords(text) {
-      var flagged = ["kill", "sex", "drugs", "terror", "hate"]; // Customize this list as needed
-      return flagged.some(function (word) {
-        return text.toLowerCase().includes(word);
-      });
-    },
-    // Optional helper to detect the language of the question (use a library or API)
-    detectLanguage: function detectLanguage(text) {
-      // Example logic, replace with a proper language detection tool
-      if (text.includes("سلام")) return "ar"; // example check for Arabic
-      if (text.includes("hello")) return "en"; // example check for English
-      return "unknown";
-    },
-    // Optional helper to translate text into English
-    translateToEnglish: function translateToEnglish(text, fromLang) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var translationAPI, response, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              if (!(fromLang === "en")) {
-                _context2.next = 2;
-                break;
-              }
-              return _context2.abrupt("return", text);
-            case 2:
-              translationAPI = "https://api.libretranslate.com/translate"; // Example API
-              _context2.next = 5;
-              return fetch(translationAPI, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  q: text,
-                  source: fromLang,
-                  target: "en"
-                })
-              });
-            case 5:
-              response = _context2.sent;
-              if (!response.ok) {
-                _context2.next = 11;
-                break;
-              }
-              _context2.next = 9;
-              return response.json();
-            case 9:
-              data = _context2.sent;
-              return _context2.abrupt("return", data.translatedText);
-            case 11:
-              return _context2.abrupt("return", text);
-            case 12:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2);
-      }))();
-    },
-    // Clears the entire chat history
-    clearChat: function clearChat() {
-      this.chatHistory = [];
     }
-  },
+  }, "cleanAnswer", function cleanAnswer(answerText) {
+    return answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
+    .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
+    .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+    .trim();
+  }), "chunkifyResponse", function chunkifyResponse(text) {
+    return text.match(/(.{1,400})(\s|$)/g); // smart chunking for text with line breaks
+  }), "detectOffensiveWords", function detectOffensiveWords(text) {
+    var flagged = ["kill", "sex", "drugs", "terror", "hate"]; // Customize this list as needed
+    return flagged.some(function (word) {
+      return text.toLowerCase().includes(word);
+    });
+  }), "detectLanguage", function detectLanguage(text) {
+    // Example logic, replace with a proper language detection tool
+    if (text.includes("سلام")) return "ar"; // example check for Arabic
+    if (text.includes("hello")) return "en"; // example check for English
+    return "unknown";
+  }), "translateToEnglish", function translateToEnglish(text, fromLang) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var translationAPI, response, data;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(fromLang === "en")) {
+              _context2.next = 2;
+              break;
+            }
+            return _context2.abrupt("return", text);
+          case 2:
+            translationAPI = "https://api.libretranslate.com/translate"; // Example API
+            _context2.next = 5;
+            return fetch(translationAPI, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                q: text,
+                source: fromLang,
+                target: "en"
+              })
+            });
+          case 5:
+            response = _context2.sent;
+            if (!response.ok) {
+              _context2.next = 11;
+              break;
+            }
+            _context2.next = 9;
+            return response.json();
+          case 9:
+            data = _context2.sent;
+            return _context2.abrupt("return", data.translatedText);
+          case 11:
+            return _context2.abrupt("return", text);
+          case 12:
+          case "end":
+            return _context2.stop();
+        }
+      }, _callee2);
+    }))();
+  }), "clearChat", function clearChat() {
+    this.chatHistory = [];
+  }),
   watch: {
     // Automatically scroll to bottom when a new message is added
     chatHistory: function chatHistory() {
@@ -43181,9 +43162,10 @@ var _hoisted_35 = {
   "class": "text-center"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_ChatBot = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ChatBot");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-5"
-  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-center container mb-4 lead\">\n      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,\n      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to\n      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing\n      the Muslim community.\n    </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"bookmarks.length || favourites.length\" class=\"mb-4\">\n      <h4 class=\"display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2\">\n        Bookmark Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ bookmarks.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#bookmarksCollapse\" aria-expanded=\"false\" aria-controls=\"bookmarksCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"bookmarksCollapse\" class=\"collapse\">\n        <div v-if=\"bookmarks.length\" class=\"list-group\">\n          <div v-for=\"podcast in bookmarks\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeBookmark(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Bookmark\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No bookmarked podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favourites "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4\">\n        Favourite Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ favourites.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#favouritesCollapse\" aria-expanded=\"false\" aria-controls=\"favouritesCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"favouritesCollapse\" class=\"collapse\">\n        <div v-if=\"favourites.length\" class=\"list-group\">\n          <div v-for=\"podcast in favourites\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeFavourite(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Favourite\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No favourite podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n      <div class=\"col-md-6 pb-3 text-center\">\n        <p style=\"display: flex;\">Select a podcast</p>\n        <select class=\"form-select\" id=\"podcastDropdown\" v-model=\"selectedPodcast\" @change=\"fetchPodcasts\">\n          <option disabled value=\"\">Select a podcast</option>\n          <option v-for=\"podcast in islamicPodcasts\" :key=\"podcast.rssUrl\" :value=\"podcast\">\n            {{ podcast.name }}\n          </option>\n        </select>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ChatBot), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-center container mb-4 lead\">\n      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,\n      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to\n      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing\n      the Muslim community.\n    </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"bookmarks.length || favourites.length\" class=\"mb-4\">\n      <h4 class=\"display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2\">\n        Bookmark Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ bookmarks.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#bookmarksCollapse\" aria-expanded=\"false\" aria-controls=\"bookmarksCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"bookmarksCollapse\" class=\"collapse\">\n        <div v-if=\"bookmarks.length\" class=\"list-group\">\n          <div v-for=\"podcast in bookmarks\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeBookmark(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Bookmark\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No bookmarked podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favourites "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4\">\n        Favourite Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ favourites.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#favouritesCollapse\" aria-expanded=\"false\" aria-controls=\"favouritesCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"favouritesCollapse\" class=\"collapse\">\n        <div v-if=\"favourites.length\" class=\"list-group\">\n          <div v-for=\"podcast in favourites\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeFavourite(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Favourite\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No favourite podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n      <div class=\"col-md-6 pb-3 text-center\">\n        <p style=\"display: flex;\">Select a podcast</p>\n        <select class=\"form-select\" id=\"podcastDropdown\" v-model=\"selectedPodcast\" @change=\"fetchPodcasts\">\n          <option disabled value=\"\">Select a podcast</option>\n          <option v-for=\"podcast in islamicPodcasts\" :key=\"podcast.rssUrl\" :value=\"podcast\">\n            {{ podcast.name }}\n          </option>\n        </select>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Select a Podcast:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -46403,7 +46385,10 @@ var _hoisted_1 = {
   "class": "container"
 };
 var _hoisted_2 = {
-  "class": "chat-header"
+  "class": "chat-header",
+  style: {
+    "padding": "5px"
+  }
 };
 var _hoisted_3 = {
   "class": "header-buttons"
@@ -46495,7 +46480,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleChat && $options.toggleChat.apply($options, arguments);
     })
-  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chat-left-text-fill"
   }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.showChat || $data.isDesktop]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox that opens when FAB is clicked "), $data.showChat ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
@@ -46505,7 +46490,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "title"
   }, "Islamic Connect AI Assistant", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     onClick: _cache[1] || (_cache[1] = function () {
@@ -46527,32 +46512,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: index,
       "class": "message"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" User Question "), message.type === 'user' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       "class": "text-left"
     }, "You:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.editQuestion(index);
       },
       "class": "btn btn-secondary btn-sm"
-    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-pencil"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), !_ctx.controlsRendered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit Question ")])), 8 /* PROPS */, _hoisted_10)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bot Answer "), message.type === 'bot' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.cleanAnswer(message.text)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.timestamp), 1 /* TEXT */), !_ctx.controlsRendered ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(index);
       },
+      style: {
+        "cursor": "pointer"
+      },
       "class": "d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp me-2"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.copyQuestionAndAnswer(index);
       },
+      style: {
+        "cursor": "pointer"
+      },
       "class": "d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer"
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard me-2"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play/Stop Button (combined) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.togglePlayStop(message);
+      },
+      style: {
+        "cursor": "pointer"
       },
       "class": "d-flex align-items-center p-2 rounded-3 shadow-sm bg-white text-dark cursor-pointer"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Conditionally change the icon based on speaking state "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -46583,32 +46577,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     disabled: $data.loading || !$data.question,
     title: "Clear"
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
-  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mic Button with Enhanced UI/UX "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mic Button with Enhanced UI/UX "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.startSpeechRecognition && $options.startSpeechRecognition.apply($options, arguments);
     }),
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mic-btn", {
-      'mic-active': $data.micActive
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mic-button d-inline-flex justify-content-center align-items-center rounded-circle", {
+      'mic-active': $data.micActive,
+      'mic-pulse': $data.micClicked
     }]),
     "aria-label": "Activate voice recognition",
-    style: {
-      "border": "none",
-      "background": "transparent",
-      "padding": "10px",
-      "cursor": "pointer",
-      "outline": "none"
-    }
+    role: "button",
+    tabindex: "0",
+    onAnimationend: _cache[7] || (_cache[7] = function ($event) {
+      return $data.micClicked = false;
+    })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-mic", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-mic mic-icon", {
       'mic-glow': $data.micActive
-    }]),
-    style: {
-      "font-size": "1.5em"
-    }
-  }, null, 2 /* CLASS */)], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function () {
+    }])
+  }, null, 2 /* CLASS */)], 34 /* CLASS, NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.getAnswer && $options.getAnswer.apply($options, arguments);
     }),
     disabled: $data.loading || !$data.question.trim(),
@@ -46618,7 +46608,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? "Fetching..." : "Send"), 9 /* TEXT, PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear Button "), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.clearChat && $options.clearChat.apply($options, arguments);
     }),
     "class": "btn btn-danger flex-grow-1",
@@ -82946,7 +82936,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Animation for glowing effect */\n@keyframes pulse-9200016c {\n0% {\n    transform: scale(1);\n    opacity: 0.8;\n}\n50% {\n    transform: scale(1.1);\n    opacity: 1;\n}\n100% {\n    transform: scale(1);\n    opacity: 0.8;\n}\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.mic-btn[data-v-9200016c] {\n  display: inline-flex;\n  justify-content: center;\n  align-items: center;\n  border-radius: 50%;\n  transition: transform 0.2s ease, box-shadow 0.3s ease;\n}\n.mic-btn[data-v-9200016c]:hover {\n  transform: scale(1.1);\n  /* Slightly enlarge on hover */\n}\n/* Glowing effect when mic is active */\n.mic-glow[data-v-9200016c] {\n  color: #0db691;\n  /* Green glow when active */\n  animation: pulse-9200016c 1.5s infinite;\n  /* Pulsing effect */\n}\n.mic-active[data-v-9200016c] {\n  background-color: #0db691;\n  /* Light green background when active */\n  box-shadow: 0px 0px 15px #0db691;\n  /* Stronger glow effect */\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 1em;\n  color: #ffffff;\n}\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 10px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 0;\n  background-color: #fff;\n  border-top: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    border-top: 1px solid #eee;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.mic-button[data-v-9200016c] {\n  width: 50px;\n  height: 50px;\n  background-color: #f8f9fa;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.mic-button[data-v-9200016c]:hover {\n  background-color: #e2e6ea;\n}\n.mic-icon[data-v-9200016c] {\n  font-size: 1.5em;\n  color: #000;\n  transition: color 0.3s;\n}\n\n/* Glow when active */\n.mic-glow[data-v-9200016c] {\n  color: #21a587;\n  text-shadow: 0 0 8px #21a587;\n}\n\n/* Pulse animation on click */\n@keyframes pulse-9200016c {\n0% {\n    box-shadow: 0 0 0 0 #21a587;\n}\n70% {\n    box-shadow: 0 0 0 10px rgba(233, 233, 233, 0);\n}\n100% {\n    box-shadow: 0 0 0 0 rgba(228, 231, 229, 0.439);\n}\n}\n.mic-pulse[data-v-9200016c] {\n  animation: pulse-9200016c 0.5s;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 1em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 10px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 21;\n\n  background-color: #fff;\n  border-top: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    border-top: 1px solid #eee;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

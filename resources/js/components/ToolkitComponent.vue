@@ -8,7 +8,7 @@
     <!-- Chatbox that opens when FAB is clicked -->
     <div v-if="showChat" class="chatbox" :class="{ expanded: isExpanded }"
       style="box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;">
-      <div class="chat-header">
+      <div class="chat-header" style="padding: 5px;">
         <span class="title">Islamic Connect AI Assistant</span>
         <div class="header-buttons">
           <i @click="toggleExpand" class="expand-btn pr-2"
@@ -42,25 +42,25 @@
 
             <!-- Bot Answer -->
             <div v-if="message.type === 'bot'" class="bot-message">
-              <p>{{ message.text }}</p>
+              <p>{{ cleanAnswer(message.text) }}</p>
               <span class="timestamp">{{ message.timestamp }}</span>
 
               <div v-if="!controlsRendered" class="d-flex flex-wrap gap-3 my-3">
 
                 <!-- Share Button -->
-                <div @click="shareOnWhatsApp(index)"
+                <div @click="shareOnWhatsApp(index)" style="cursor: pointer;"
                   class="d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer">
                   <i class="bi bi-whatsapp me-2"></i> Share
                 </div>
 
                 <!-- Copy Button -->
-                <div @click="copyQuestionAndAnswer(index)"
+                <div @click="copyQuestionAndAnswer(index)" style="cursor: pointer;"
                   class="d-flex align-items-center p-2 rounded-3 shadow-sm text-dark bg-light cursor-pointer">
                   <i class="bi bi-clipboard me-2"></i> Copy
                 </div>
 
                 <!-- Play/Stop Button (combined) -->
-                <div @click="togglePlayStop(message)"
+                <div @click="togglePlayStop(message)" style="cursor: pointer;"
                   class="d-flex align-items-center p-2 rounded-3 shadow-sm bg-white text-dark cursor-pointer">
                   <!-- Conditionally change the icon based on speaking state -->
                   <i :class="isSpeaking ? 'bi bi-stop me-2' : 'bi bi-play me-2'"></i>
@@ -104,12 +104,14 @@
         </div>
 
         <!-- Mic Button with Enhanced UI/UX -->
-        <i @click="startSpeechRecognition" class="mic-btn" :class="{ 'mic-active': micActive }"
-          aria-label="Activate voice recognition"
-          style="border: none; background: transparent; padding: 10px; cursor: pointer; outline: none;">
+        <div @click="startSpeechRecognition"
+          class="mic-button  d-inline-flex justify-content-center align-items-center rounded-circle"
+          :class="{ 'mic-active': micActive, 'mic-pulse': micClicked }" aria-label="Activate voice recognition"
+          role="button" tabindex="0" @animationend="micClicked = false">
+          <i class="bi bi-mic mic-icon" :class="{ 'mic-glow': micActive }"></i>
+        </div>
 
-          <i class="bi bi-mic" :class="{ 'mic-glow': micActive }" style="font-size: 1.5em;"></i>
-        </i>
+
 
       </div>
       <div class="d-flex gap-2 flex-wrap">
@@ -137,6 +139,8 @@
 export default {
   data() {
     return {
+      micActive: false,
+      micClicked: false,
       voices: [],
       selectedVoice: null,
       micActive: false,
@@ -194,7 +198,15 @@ export default {
       console.log("Available voices:", this.voices);
     },
 
+    cleanAnswer(text) {
+      // Removes only trailing question marks, not from the middle of the sentence
+      return text.replace(/\?+$/, '').trim();
+    },
+
     startSpeechRecognition() {
+      this.micActive = !this.micActive;
+      this.micClicked = true;
+      
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         alert("Speech recognition is not supported in this browser.");
@@ -560,23 +572,47 @@ export default {
 </script>
 
 <style scoped>
-/* Animation for glowing effect */
+.mic-button {
+  width: 50px;
+  height: 50px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mic-button:hover {
+  background-color: #e2e6ea;
+}
+
+.mic-icon {
+  font-size: 1.5em;
+  color: #000;
+  transition: color 0.3s;
+}
+
+/* Glow when active */
+.mic-glow {
+  color: #21a587;
+  text-shadow: 0 0 8px #21a587;
+}
+
+/* Pulse animation on click */
 @keyframes pulse {
   0% {
-    transform: scale(1);
-    opacity: 0.8;
+    box-shadow: 0 0 0 0 #21a587;
   }
-
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
+  70% {
+    box-shadow: 0 0 0 10px rgba(233, 233, 233, 0);
   }
-
   100% {
-    transform: scale(1);
-    opacity: 0.8;
+    box-shadow: 0 0 0 0 rgba(228, 231, 229, 0.439);
   }
 }
+
+.mic-pulse {
+  animation: pulse 0.5s;
+}
+
 
 .header-buttons {
   display: flex;
@@ -635,33 +671,7 @@ export default {
   /* Darker WhatsApp green */
 }
 
-.mic-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
 
-.mic-btn:hover {
-  transform: scale(1.1);
-  /* Slightly enlarge on hover */
-}
-
-/* Glowing effect when mic is active */
-.mic-glow {
-  color: #0db691;
-  /* Green glow when active */
-  animation: pulse 1.5s infinite;
-  /* Pulsing effect */
-}
-
-.mic-active {
-  background-color: #0db691;
-  /* Light green background when active */
-  box-shadow: 0px 0px 15px #0db691;
-  /* Stronger glow effect */
-}
 
 .tts-btn {
   background-color: #0db691;
@@ -869,7 +879,8 @@ export default {
 
 .input-container {
   position: sticky;
-  bottom: 0;
+  bottom: 21;
+
   background-color: #fff;
   border-top: 1px solid #eee;
   display: flex;
