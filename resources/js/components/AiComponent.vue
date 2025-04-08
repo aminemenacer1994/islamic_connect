@@ -1,117 +1,99 @@
 <template>
-  <div>
-    <h1>Islamic Live Streams (Makkah & Madinah)</h1>
+  <div class="audiobook-container">
+    <h2>Islamic Audiobooks</h2>
+    <select v-model="selectedBook" @change="loadBookAudio" class="form-select">
+      <option disabled value="">Select an Audiobook</option>
+      <option v-for="book in books" :key="book.identifier" :value="book.identifier">{{ book.title }}</option>
+    </select>
 
+    <audio v-if="audioUrl" controls class="audio-player">
+      <source :src="audioUrl" type="audio/mp3" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <p v-if="audioUrl">Now Playing: {{ selectedBookTitle }}</p>
   </div>
 </template>
 
 <script>
-// Import Hls.js for HLS stream handling
-import Hls from 'hls.js';
-
 export default {
   data() {
     return {
-      channels: [],  // To hold live stream channels data
-      loading: true,  // Flag to show loading state
-      error: null,    // Error message if something goes wrong
+      books: [],
+      selectedBook: '',
+      audioUrl: '',
+      selectedBookTitle: ''
     };
   },
   created() {
-    this.fetchChannels();  // Fetch channels when the component is created
-  },
-  mounted() {
-    this.setupStreams();  // Setup HLS streams after the component is mounted
+    this.fetchIslamicAudiobooks();
   },
   methods: {
-    async fetchChannels() {
+    async fetchIslamicAudiobooks() {
       try {
-        const response = await fetch('https://mp3quran.net/api/v3/live-tv');
+        // Fetch books from Internet Archive
+        const response = await fetch('https://archive.org/advancedsearch.php?q=islamic+audio&output=json');
         const data = await response.json();
-
-        console.log('API Response:', data);
-
-        if (data && data.livetv) {
-          this.channels = data.livetv;  // Update channels array with live stream data
-        } else {
-          this.error = 'No channel data available.';
-        }
+        this.books = data.response.docs;
+        console.log('Fetched books:', this.books); // Debugging line to inspect the data structure
       } catch (error) {
-        console.error('Error fetching live streams:', error);
-        this.error = 'Failed to fetch data. Please try again later.';
-      } finally {
-        this.loading = false;  // Hide loading indicator
+        console.error('Error fetching Islamic audiobooks:', error);
       }
     },
-    setupStreams() {
-      // Check if HLS.js is supported
-      if (Hls.isSupported()) {
-        this.channels.forEach(channel => {
-          const videoElement = document.getElementById('video_' + channel.id);
-          console.log('videoElement:', videoElement);  // Check if video element is found
-          
-          if (videoElement) {
-            const hls = new Hls();
-            hls.loadSource(channel.url);
+    async loadBookAudio() {
+      if (this.selectedBook) {
+        // Find selected book in the list
+        const selected = this.books.find(book => book.identifier === this.selectedBook);
+        console.log('Selected Book:', selected); // Debugging line to inspect the structure of the selected book
+        if (selected && selected.files) {
+          this.selectedBookTitle = selected.title;
 
-            hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
-              console.log(`Stream loaded for ${channel.name}`);
-            });
-
-            hls.on(Hls.Events.ERROR, (event, data) => {
-              console.error(`HLS Error on ${channel.name}:`, data);
-              this.error = `Error loading stream for ${channel.name}.`;
-            });
-
-            // Attach the media (video element)
-            hls.attachMedia(videoElement);
-
-            // Event listeners for state change (debugging)
-            hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
-              console.log(`Level switched to ${data.level} for ${channel.name}`);
-            });
-
-            hls.on(Hls.Events.FRAG_LOADED, (event, data) => {
-              console.log(`Fragment loaded for ${channel.name}:`, data);
-            });
+          // Safely find an MP3 file in the 'files' array
+          const audioFile = selected.files.find(file => file.format === 'MP3');
+          console.log('Audio File:', audioFile); // Debugging line to check the audio file details
+          if (audioFile && audioFile.name) {
+            this.audioUrl = `https://archive.org/download/${selected.identifier}/${audioFile.name}`;
           } else {
-            console.error('No video element found for', channel.name);
-            this.error = `Video element not found for ${channel.name}`;
+            console.error('No MP3 file found for this book.');
           }
-        });
-      } else {
-        console.error("HLS.js is not supported by your browser.");
-        this.error = "HLS.js is not supported by your browser. Please try in a different browser.";
+        } else {
+          console.error('Selected book does not have the expected structure.');
+        }
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
-.channel {
-  margin: 20px 0;
+.audiobook-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
 }
 
-.channel h3 {
-  font-size: 1.5em;
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-.channel a {
-  color: #2b6cb0;
-  text-decoration: none;
+.form-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
 }
 
-.channel a:hover {
-  text-decoration: underline;
-}
-
-.error {
-  color: red;
-  font-weight: bold;
-}
-
-.video-container {
+.audio-player {
+  width: 100%;
   margin-top: 20px;
+  background-color: #f9f9f9;
+}
+
+p {
+  font-size: 18px;
+  margin-top: 15px;
+  color: #333;
 }
 </style>

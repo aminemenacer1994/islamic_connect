@@ -23,7 +23,8 @@
         </div>
         <div class="row align-items-center mb-3">
           <div class="col-md-4 container">
-            <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah text:</span>
+            <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah
+              text:</span>
           </div>
           <div class="col-md-6 container">
             <input type="text" v-model="searchTerm" class="form-control"
@@ -31,6 +32,17 @@
           </div>
         </div>
         <hr />
+
+        <div class="time-estimates">
+          <p>
+            <i class="bi bi-book pr-2" style="font-size: 22px; color: gray;"></i>
+            <strong>Read Time:</strong> {{ readTime }} minutes
+          </p>
+          <p>
+            <i class="bi bi-headphones pr-2" style="font-size: 22px; color: gray;"></i>
+            <strong>Listen Time:</strong> {{ listenTime }} minutes
+          </p>
+        </div>
 
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
           v-html="highlightedDescription">
@@ -74,6 +86,7 @@ export default {
       scrollDirection: 'up',
       speech: null,
       searchQuery: '',
+      currentEvent: null,
     };
   },
   mounted() {
@@ -95,9 +108,25 @@ export default {
         regex,
         '<mark style="background-color: #0db691; color: white; border-radius: 2px; padding: 0 2px;">$1</mark>'
       );
+    },
+    // Calculate Read Time (words per minute: 200)
+    readTime() {
+      const wordCount = this.countWords(this.highlightedDescription);
+      const wordsPerMinute = 200;
+      return Math.ceil(wordCount / wordsPerMinute);
+    },
+    // Calculate Listen Time (words per minute: 150)
+    listenTime() {
+      const wordCount = this.countWords(this.highlightedDescription);
+      const wordsPerMinute = 150;
+      return Math.ceil(wordCount / wordsPerMinute);
     }
   },
   methods: {
+    countWords(text) {
+      if (!text) return 0;
+      return text.split(/\s+/).filter(Boolean).length;
+    },
     filterEvents() {
       const query = this.searchQuery.trim().toLowerCase();
       if (!query) {
@@ -128,8 +157,18 @@ export default {
       }
     },
     selectEvent(index) {
-      this.currentIndex = index;
-      this.scrollToBadge();
+      this.currentIndex = index;  // Update the selected index
+      this.currentEvent = this.events[index];  // Update the selected event details
+
+      // Optionally scroll the selected event into view for better user experience
+      this.scrollToEvent(index);
+    },
+    // Method to scroll to the selected event
+    scrollToEvent(index) {
+      const element = this.$refs.timeline[index];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });  // Smooth scroll to the selected event
+      }
     },
     scrollToBadge() {
       this.$nextTick(() => {
@@ -228,13 +267,21 @@ export default {
 <style scoped>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
+.time-estimates {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.time-estimates p {
+  margin: 5px 0;
+}
+
 mark {
   background-color: #0db691;
   color: white;
   padding: 0 2px;
   border-radius: 2px;
 }
-
 
 .btn-play {
   background-color: #0db691;
