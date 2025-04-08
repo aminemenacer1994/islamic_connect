@@ -15,13 +15,27 @@
 
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
+
         <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
         <!-- Bootstrap message -->
         <div v-if="copySuccess" class="alert alert-success mt-2 mb-2" role="alert">
           Text copied to clipboard!
         </div>
+        <div class="row align-items-center mb-3">
+          <div class="col-md-4 container">
+            <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah text:</span>
+          </div>
+          <div class="col-md-6 container">
+            <input type="text" v-model="searchTerm" class="form-control"
+              placeholder="Search for a word in the Seerah text...">
+          </div>
+        </div>
+        <hr />
+
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
-          v-html="events[currentIndex].description"></h5>
+          v-html="highlightedDescription">
+        </h5>
+
 
         <div class="controls text-center">
           <button @click="prev" :disabled="currentIndex === 0">Previous</button>
@@ -49,24 +63,58 @@ export default {
   name: 'SeerahTimeline',
   data() {
     return {
+      searchTerm: '',
       isPlaying: false,
-      textToRead: '', // Default empty string
-      speechInstance: null,  // Store the SpeechSynthesisUtterance instance
+      textToRead: '',
+      speechInstance: null,
       currentIndex: 0,
       events: [],
-      fontSize: 16, // Default font size
-      scrollDirection: 'up', // Scroll direction state
-      speech: null, // Store TTS instance
+      originalEvents: [],
+      fontSize: 16,
+      scrollDirection: 'up',
+      speech: null,
+      searchQuery: '',
     };
   },
   mounted() {
-    this.events = events;  // Assume you load this from somewhere
-    this.textToRead = this.events[this.currentIndex]?.description || '';  // Safely access description
+    this.events = events;
+    this.originalEvents = events;
+    this.textToRead = this.events[this.currentIndex]?.description || '';
   },
   beforeUnmount() {
     window.removeEventListener("keydown", this.handleKey);
   },
+  computed: {
+    highlightedDescription() {
+      const currentDescription = this.events[this.currentIndex]?.description || '';
+      if (!this.searchTerm) return currentDescription;
+
+      const escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape regex
+      const regex = new RegExp(`(${escapedTerm})`, 'gi');
+      return currentDescription.replace(
+        regex,
+        '<mark style="background-color: #0db691; color: white; border-radius: 2px; padding: 0 2px;">$1</mark>'
+      );
+    }
+  },
   methods: {
+    filterEvents() {
+      const query = this.searchQuery.trim().toLowerCase();
+      if (!query) {
+        this.events = this.originalEvents;
+        this.currentIndex = 0;
+        return;
+      }
+
+      const filtered = this.originalEvents.filter(e =>
+        e.title.toLowerCase().includes(query) ||
+        e.description.toLowerCase().includes(query) ||
+        e.year.toLowerCase().includes(query)
+      );
+
+      this.events = filtered;
+      this.currentIndex = 0;
+    },
     next() {
       if (this.currentIndex < this.events.length - 1) {
         this.currentIndex++;
@@ -179,6 +227,14 @@ export default {
 </script>
 <style scoped>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+mark {
+  background-color: #0db691;
+  color: white;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
 
 .btn-play {
   background-color: #0db691;
