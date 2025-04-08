@@ -31185,6 +31185,12 @@ __webpack_require__.r(__webpack_exports__);
     window.removeEventListener("keydown", this.handleKey);
   },
   computed: {
+    wordCount: function wordCount() {
+      var div = document.createElement('div');
+      div.innerHTML = this.highlightedDescription || '';
+      var text = div.textContent || div.innerText || '';
+      return text.trim().split(/\s+/).length;
+    },
     highlightedDescription: function highlightedDescription() {
       var _this$events$this$cur2;
       var currentDescription = ((_this$events$this$cur2 = this.events[this.currentIndex]) === null || _this$events$this$cur2 === void 0 ? void 0 : _this$events$this$cur2.description) || '';
@@ -44640,7 +44646,7 @@ var _hoisted_10 = {
 };
 var _hoisted_11 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "fw-bold display-5 text-center mb-2"
   }, "Seerah Timeline", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -44677,7 +44683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         "class": "form-control",
         placeholder: "Search for a word in the Seerah text..."
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])])]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book pr-2",
         style: {
           "font-size": "22px",
@@ -44689,47 +44695,53 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "font-size": "22px",
           "color": "gray"
         }
-      }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi bi-calculator pr-2",
+        style: {
+          "font-size": "22px",
+          "color": "gray"
+        }
+      }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[1] || (_cache[1] = function () {
           return $options.prev && $options.prev.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-arrow-left-circle fs-4 me-2"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[2] || (_cache[2] = function () {
           return $options.next && $options.next.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-arrow-right-circle fs-4 me-2"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[3] || (_cache[3] = function () {
           return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-plus-circle fs-4 me-2"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Increase Font ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[4] || (_cache[4] = function () {
           return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-dash-circle fs-4 me-2"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Decrease Font ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[5] || (_cache[5] = function () {
           return $options.copyToClipboard && $options.copyToClipboard.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-clipboard fs-4 me-2"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[6] || (_cache[6] = function () {
           return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
         }),
         "class": "d-flex align-items-center shadow-sm p-2 rounded action-button"
-      }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-whatsapp fs-4 me-2 text-success"
       }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[7] || (_cache[7] = function () {

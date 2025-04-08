@@ -47,6 +47,10 @@
             <i class="bi bi-headphones pr-2" style="font-size: 22px; color: gray;"></i>
             <strong>Listen Time:</strong> {{ listenTime }} minutes
           </p>
+          <p>
+            <i class="bi bi bi-calculator pr-2" style="font-size: 22px; color: gray;"></i>
+            <strong>Word Count:</strong> {{ wordCount }}
+          </p>
         </div>
 
         <div class="d-flex flex-wrap justify-content-center gap-3 py-3 animate__animated animate__fadeInUp">
@@ -80,17 +84,9 @@
           </div>
         </div>
 
-
-        
-
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
           v-html="highlightedDescription">
         </h5>
-
-
-
-
-
 
       </div>
     </transition>
@@ -128,6 +124,12 @@ export default {
     window.removeEventListener("keydown", this.handleKey);
   },
   computed: {
+    wordCount() {
+      const div = document.createElement('div');
+      div.innerHTML = this.highlightedDescription || '';
+      const text = div.textContent || div.innerText || '';
+      return text.trim().split(/\s+/).length;
+    },
     highlightedDescription() {
       const currentDescription = this.events[this.currentIndex]?.description || '';
       if (!this.searchTerm) return currentDescription;
