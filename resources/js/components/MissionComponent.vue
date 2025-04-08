@@ -13,14 +13,18 @@
       </div>
     </div>
 
+
+
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
 
         <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
+
         <!-- Bootstrap message -->
-        <div v-if="copySuccess" class="alert alert-success mt-2 mb-2" role="alert">
+        <div v-if="copySuccess" class="alert alert-success" role="alert">
           Text copied to clipboard!
         </div>
+
         <div class="row align-items-center mb-3">
           <div class="col-md-4 container">
             <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah
@@ -31,6 +35,7 @@
               placeholder="Search for a word in the Seerah text...">
           </div>
         </div>
+
         <hr />
 
         <div class="time-estimates">
@@ -44,25 +49,49 @@
           </p>
         </div>
 
+        <div class="d-flex flex-wrap justify-content-center gap-3 py-3 animate__animated animate__fadeInUp">
+          <div @click="prev" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-arrow-left-circle fs-4 me-2"></i> Previous
+          </div>
+
+          <div @click="next" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-arrow-right-circle fs-4 me-2"></i> Next
+          </div>
+
+          <div @click="increaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
+          </div>
+
+          <div @click="decreaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
+          </div>
+
+          <div @click="copyToClipboard" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-clipboard fs-4 me-2"></i> Copy
+          </div>
+
+          <div @click="shareOnWhatsApp" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
+          </div>
+
+          <div @click="togglePlayStop" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+            <i :class="isPlaying ? 'bi bi-stop-circle' : 'bi bi-play-circle'" class="fs-4 me-2"></i>
+            {{ isPlaying ? 'Stop' : 'Play' }}
+          </div>
+        </div>
+
+
+        
+
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
           v-html="highlightedDescription">
         </h5>
 
 
-        <div class="controls text-center">
-          <button @click="prev" :disabled="currentIndex === 0">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1">Next</button>
-          <button @click="increaseFontSize">Increase Font</button>
-          <button @click="decreaseFontSize">Decrease Font</button>
-          <button @click="copyToClipboard">Copy</button>
-          <button @click="shareOnWhatsApp">Share on WhatsApp</button>
-          <button @click="togglePlayStop" :class="{
-            'btn-play': !isPlaying,
-            'btn-stop': isPlaying
-          }">
-            {{ isPlaying ? 'Stop' : 'Play' }}
-          </button>
-        </div>
+
+
+
+
       </div>
     </transition>
 
@@ -75,6 +104,7 @@ export default {
   name: 'SeerahTimeline',
   data() {
     return {
+      copySuccess: false,
       searchTerm: '',
       isPlaying: false,
       textToRead: '',
@@ -229,15 +259,20 @@ export default {
       window.speechSynthesis.cancel();  // Stop the speech synthesis
       this.isPlaying = false;  // Reset state
     },
+    stripHtmlTags(html) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    },
     copyToClipboard() {
-      const description = this.stripHTML(this.events[this.currentIndex].description);
-      navigator.clipboard.writeText(description).then(() => {
-        this.copySuccess = true; // Show success message
+      const rawHtml = this.events[this.currentIndex]?.description || '';
+      const plainText = this.stripHtmlTags(rawHtml);
+
+      navigator.clipboard.writeText(plainText).then(() => {
+        this.copySuccess = true;
         setTimeout(() => {
-          this.copySuccess = false; // Hide success message after 2 seconds
+          this.copySuccess = false;
         }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy: ', err);
       });
     },
     stripHTML(text) {
@@ -266,6 +301,19 @@ export default {
 </script>
 <style scoped>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+.action-button {
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #333;
+}
+
+.action-button:hover {
+  color: #0db691;
+  /* Bootstrap primary */
+  background-color: #f0f8ff;
+  transform: translateY(-2px);
+}
 
 .time-estimates {
   font-size: 14px;
@@ -378,6 +426,7 @@ mark {
 }
 
 .controls {
+
   margin-top: 20px;
 }
 
