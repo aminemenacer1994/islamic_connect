@@ -19,14 +19,14 @@
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
 
-        <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
+        <!-- <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div> -->
 
         <!-- Bootstrap message -->
         <div v-if="copySuccess" class="alert alert-success" role="alert">
           Text copied to clipboard!
         </div>
 
-        <div class="row align-items-center mb-3">
+        <!-- <div class="row align-items-center mb-3">
           <div class="col-md-4 container">
             <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah
               text:</span>
@@ -35,61 +35,91 @@
             <input type="text" v-model="searchTerm" class="form-control"
               placeholder="Search for a word in the Seerah text...">
           </div>
-        </div>
+        </div> -->
 
-        <hr />
+        <!-- <div class="time-estimates">
 
-        <div class="time-estimates">
-          
-          <p>
+          <div class="scroll-container text-center" style="
+              color: black;
+              border-radius: 15px;
+              border: 2px solid rgba(0, 0, 0, 0.1);
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+              overflow-x: auto;
+              display: flex;
+              flex-direction: row;
+              gap: 5px;
+              white-space: nowrap;
+              margin-bottom: 15px;
+            ">
+
+            <div class="container">
+              <div class="row text-center">
+                <div class="col">
+                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
+                    style="cursor: pointer;">
+                    <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
+                  </div>
+                </div>
+                <div class="col">
+                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
+                    style="cursor: pointer;">
+                    <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
+                  </div>
+                </div>
+                <div class="col">
+                  <div @click="copyToClipboard" class="d-flex align-items-center p-2 rounded action-button"
+                    style="cursor: pointer;">
+                    <i class="bi bi-clipboard fs-4 me-2"></i> Copy Text
+                  </div>
+                </div>
+                <div class="col">
+                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
+                    style="cursor: pointer;">
+                    <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div> -->
+
+
+        <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
+
+        <div style="overflow-x: auto; white-space: nowrap;">
+          <p style="display: inline-block; min-width: max-content; ">
             <i class="bi bi-book pr-2" style="font-size: 22px; color: gray;"></i>
             <strong>Read Time:</strong> {{ readTime }} minutes
-          </p>
-          <p>
-            <i class="bi bi-headphones pr-2" style="font-size: 22px; color: gray;"></i>
+
+            <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
             <strong>Listen Time:</strong> {{ listenTime }} minutes
-          </p>
-          <p>
-            <i class="bi bi bi-calculator pr-2" style="font-size: 22px; color: gray;"></i>
+
+            <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
             <strong>Word Count:</strong> {{ wordCount }}
           </p>
-          <div class="d-flex flex-wrap justify-content-center gap-3 py-3 animate__animated animate__fadeInUp">
-            <div @click="prev" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-arrow-left-circle fs-4 me-2"></i> Previous
-            </div>
-
-            <div @click="next" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-arrow-right-circle fs-4 me-2"></i> Next
-            </div>
-
-            <div @click="increaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
-            </div>
-
-            <div @click="decreaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
-            </div>
-
-            <div @click="copyToClipboard" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-clipboard fs-4 me-2"></i> Copy
-            </div>
-
-            <div @click="shareOnWhatsApp" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
-            </div>
-
-            <div @click="togglePlayStop" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-              <i :class="isPlaying ? 'bi bi-stop-circle' : 'bi bi-play-circle'" class="fs-4 me-2"></i>
-              {{ isPlaying ? 'Stop' : 'Play' }}
-            </div>
-          </div>
         </div>
 
+        <div style="overflow-x: auto; white-space: nowrap;">
+          <p style="display: inline-block; min-width: max-content;">
+            <i class="bi bi-plus-circle pr-2" @click="increaseFontSize"
+              style="font-size: 22px; cursor: pointer; color: gray;"></i>
+            <strong style="cursor: pointer;">Increase Font</strong>
 
+            <i class="bi bi-dash-circle pl-2 pr-2" @click="decreaseFontSize"
+              style="font-size: 22px; cursor: pointer; color: gray;"></i>
+            <strong style="cursor: pointer;">Increase Font</strong>
+          </p>
+        </div>
 
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
           v-html="highlightedDescription">
         </h5>
+
+        <div class="controls text-center">
+          <button @click="prev" :disabled="currentIndex === 0">Previous</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1">Next</button>
+        </div>
 
       </div>
     </transition>
@@ -316,7 +346,6 @@ export default {
 .action-button:hover {
   color: #0db691;
   /* Bootstrap primary */
-  background-color: #f0f8ff;
   transform: translateY(-2px);
 }
 
