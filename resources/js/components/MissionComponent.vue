@@ -15,6 +15,7 @@
 
 
 
+
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
 
@@ -39,6 +40,7 @@
         <hr />
 
         <div class="time-estimates">
+          
           <p>
             <i class="bi bi-book pr-2" style="font-size: 22px; color: gray;"></i>
             <strong>Read Time:</strong> {{ readTime }} minutes
@@ -51,38 +53,39 @@
             <i class="bi bi bi-calculator pr-2" style="font-size: 22px; color: gray;"></i>
             <strong>Word Count:</strong> {{ wordCount }}
           </p>
+          <div class="d-flex flex-wrap justify-content-center gap-3 py-3 animate__animated animate__fadeInUp">
+            <div @click="prev" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-arrow-left-circle fs-4 me-2"></i> Previous
+            </div>
+
+            <div @click="next" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-arrow-right-circle fs-4 me-2"></i> Next
+            </div>
+
+            <div @click="increaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
+            </div>
+
+            <div @click="decreaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
+            </div>
+
+            <div @click="copyToClipboard" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-clipboard fs-4 me-2"></i> Copy
+            </div>
+
+            <div @click="shareOnWhatsApp" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
+            </div>
+
+            <div @click="togglePlayStop" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
+              <i :class="isPlaying ? 'bi bi-stop-circle' : 'bi bi-play-circle'" class="fs-4 me-2"></i>
+              {{ isPlaying ? 'Stop' : 'Play' }}
+            </div>
+          </div>
         </div>
 
-        <div class="d-flex flex-wrap justify-content-center gap-3 py-3 animate__animated animate__fadeInUp">
-          <div @click="prev" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-arrow-left-circle fs-4 me-2"></i> Previous
-          </div>
 
-          <div @click="next" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-arrow-right-circle fs-4 me-2"></i> Next
-          </div>
-
-          <div @click="increaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
-          </div>
-
-          <div @click="decreaseFontSize" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
-          </div>
-
-          <div @click="copyToClipboard" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-clipboard fs-4 me-2"></i> Copy
-          </div>
-
-          <div @click="shareOnWhatsApp" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
-          </div>
-
-          <div @click="togglePlayStop" class="d-flex align-items-center shadow-sm p-2 rounded action-button">
-            <i :class="isPlaying ? 'bi bi-stop-circle' : 'bi bi-play-circle'" class="fs-4 me-2"></i>
-            {{ isPlaying ? 'Stop' : 'Play' }}
-          </div>
-        </div>
 
         <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
           v-html="highlightedDescription">

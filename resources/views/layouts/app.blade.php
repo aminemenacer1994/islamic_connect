@@ -90,25 +90,45 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/welcome" data-path="/welcome"><b style="color:black">Home</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/welcome" data-path="/welcome"><b style="color:black">Home</b></a></h6>
                     </li>
-                    <li class="nav-item mt-3">
+                    <li class="nav-item dropdown pt-3 pl-4">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                            <b style="color:black">Holy Quran</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/quran">Companion</a></li>
+                            <li><a class="dropdown-item" href="/surat">Explorer</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b style="color:black">Quran Companion</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/surat" data-path="/surat"><b style="color:black">Quran Explorer</b></a></h6>
+                    </li> -->
+
+                    <li class="nav-item dropdown pt-3 pl-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                            <b style="color:black">Audio Center</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/content">Audio Podcasts</a></li>
+                            <li><a class="dropdown-item" href="/radio">Radio Stations</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item mt-3">
+
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b style="color:black">Audio Podcasts</b></a></h6>
-                    </li> 
+                    </li>  -->
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
-                    <li class="nav-item mt-3">
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/radio" data-path="/radio"><b style="color:black">Radio Stations</b></a></h6>
-                    </li>
+                    </li> -->
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/guide" data-path="/guide"><b style="color:black">Islamic Guides</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/guide" data-path="/guide"><b style="color:black">Islamic Guides</b></a></h6>
                     </li>
                     <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
@@ -117,13 +137,13 @@
                         <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
                     </li> -->
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
                                     
                     @guest
                     @if (Route::has('login'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
+                        <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
                     <!-- @if (Route::has('register'))
