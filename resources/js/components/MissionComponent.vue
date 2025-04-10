@@ -13,9 +13,6 @@
       </div>
     </div>
 
-
-
-
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
 
@@ -102,19 +99,128 @@
 
         <div style="overflow-x: auto; white-space: nowrap;">
           <p style="display: inline-block; min-width: max-content;">
-            <i class="bi bi-plus-circle pr-2" @click="increaseFontSize"
-              style="font-size: 22px; cursor: pointer; color: gray;"></i>
-            <strong style="cursor: pointer;">Increase Font</strong>
 
-            <i class="bi bi-dash-circle pl-2 pr-2" @click="decreaseFontSize"
-              style="font-size: 22px; cursor: pointer; color: gray;"></i>
-            <strong style="cursor: pointer;">Increase Font</strong>
+            <i class="bi bi-whatsapp pr-2" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
+            <strong style="cursor: pointer;">Share</strong>
+            
+            <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
+            <strong style="cursor: pointer;">Copy Text</strong>
+
+            <!-- <i class="bi bi-play pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click="handleTTS"></i>
+            <strong style="cursor: pointer;">Play</strong> -->
           </p>
         </div>
 
-        <h5 class="text-left fw-medium" :style="`line-height: 1.7em; color: gray; font-size: ${fontSize}px;`"
-          v-html="highlightedDescription">
+        <!-- Styled Text desc -->
+        <h5 class="fw-medium mt-4 p-3 rounded" :style="{
+          lineHeight: '1.7em',
+          fontSize: fontSize + 'px',
+          backgroundColor: fontSettings.backgroundColor,
+          color: fontSettings.color,
+          fontStyle: fontSettings.fontStyle,
+          textShadow: fontSettings.textShadow,
+          textDecoration: fontSettings.textDecoration,
+          fontFamily: fontSettings.fontFamily
+        }" v-html="highlightedDescription">
         </h5>
+
+        <!-- Offcanvas Settings Panel -->
+        <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
+          aria-labelledby="settingsOffcanvasLabel" :style="offcanvasStyle">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title fs-3" id="settingsOffcanvasLabel">Font Settings</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body d-flex flex-column gap-3">
+
+            <form @submit.prevent="saveSettings" class="text-white">
+              <div class="d-flex flex-column gap-3">
+
+                <div v-if="showSuccess" class="alert alert-success mt-3" role="alert">
+                  Preferences saved successfully!
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Background Color</label>
+                  <input type="color" v-model="fontSettings.backgroundColor" class="form-control form-control-color" />
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Text Color</label>
+                  <input type="color" v-model="fontSettings.color" class="form-control form-control-color" />
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Font Size:</label>
+                  <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-light px-2 py-1" @click="decreaseFontSize">−</button>
+                    <span class="fw-bold fs-5">{{ fontSize }}px</span>
+                    <button class="btn btn-outline-light px-2 py-1" @click="increaseFontSize">+</button>
+                  </div>
+                </div>
+
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Font Style</label>
+                  <select v-model="fontSettings.fontStyle" class="form-select">
+                    <option value="normal">Normal</option>
+                    <option value="italic">Italic</option>
+                    <option value="bold">Bold</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Text Shadow</label>
+                  <select v-model="fontSettings.textShadow" class="form-select">
+                    <option value="none">None</option>
+                    <option value="1px 1px 2px gray">Soft Shadow</option>
+                    <option value="2px 2px 4px black">Dark Shadow</option>
+                    <option value="1px 1px 2px red">Red Shadow</option>
+                    <option value="1px 1px 2px blue">Blue Shadow</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Underline</label>
+                  <select v-model="fontSettings.textDecoration" class="form-select">
+                    <option value="none">None</option>
+                    <option value="underline">Underline</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Font Family</label>
+                  <select v-model="fontSettings.fontFamily" class="form-select">
+                    <option value="Arial, sans-serif">Arial</option>
+                    <option value="'Times New Roman', serif">Times New Roman</option>
+                    <option value="'Courier New', monospace">Courier New</option>
+                    <option value="Tahoma, sans-serif">Tahoma</option>
+                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                    <option value="'Open Sans', sans-serif">Open Sans</option>
+                    <option value="'Roboto', sans-serif">Roboto</option>
+                    <option value="'Lato', sans-serif">Lato</option>
+                    <option value="'Merriweather', serif">Merriweather</option>
+                    <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                    <option value="'Poppins', sans-serif">Poppins</option>
+                  </select>
+                </div>
+
+                <div class="text-end mt-2">
+                  <button type="submit" class="btn btn-light ">Save Preferences</button>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+        <div class="fab btn btn-light rounded-circle shadow container"
+          style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;"
+          data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas" aria-controls="settingsOffcanvas">
+          <i class="bi bi-gear-fill fs-4"></i>
+        </div>
 
         <div class="controls text-center">
           <button @click="prev" :disabled="currentIndex === 0">Previous</button>
@@ -133,6 +239,20 @@ export default {
   name: 'SeerahTimeline',
   data() {
     return {
+      fontSettings: {
+        backgroundColor: "#ffffff",
+        color: "#000000",
+        fontStyle: "normal",
+        textShadow: "none",
+        textDecoration: "none",
+        fontFamily: "Arial, sans-serif"
+      },
+      showSuccess: false,
+      currentIndex: 0,
+      selectedVoice: null,
+      ttsState: 'stopped', // 'playing' | 'paused' | 'stopped'
+      utterance: null,
+      synth: window.speechSynthesis,
       copySuccess: false,
       searchTerm: '',
       isPlaying: false,
@@ -148,12 +268,40 @@ export default {
       currentEvent: null,
     };
   },
+  computed: {
+    offcanvasStyle() {
+      return {
+        backgroundColor: "#10584f",
+        width: window.innerWidth < 576 ? "100%" : "40%",
+      };
+    }
+  },
   mounted() {
+    const saved = localStorage.getItem("userFontSettings");
+    if (saved) {
+      this.fontSettings = JSON.parse(saved);
+    }
+    const savedSettings = localStorage.getItem("fontSettings");
+    if (savedSettings) {
+      this.fontSettings = JSON.parse(savedSettings);
+    }
+    window.addEventListener("resize", this.updateOffcanvasWidth);
+
+    if (typeof speechSynthesis !== 'undefined') {
+      speechSynthesis.onvoiceschanged = this.loadVoices;
+      this.loadVoices();
+    }
+
+    // Listen for tab visibility change
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.events = events;
     this.originalEvents = events;
     this.textToRead = this.events[this.currentIndex]?.description || '';
   },
   beforeUnmount() {
+    window.removeEventListener("resize", this.updateOffcanvasWidth);
+    speechSynthesis.onvoiceschanged = null;
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener("keydown", this.handleKey);
   },
   computed: {
@@ -188,10 +336,92 @@ export default {
     }
   },
   methods: {
+    saveSettings() {
+      localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
+      this.showSuccess = true;
+
+      // Hide alert & close offcanvas after 3s
+      setTimeout(() => {
+        this.showSuccess = false;
+
+        // Bootstrap Offcanvas API
+        const offcanvas = bootstrap.Offcanvas.getInstance(
+          document.getElementById("settingsOffcanvas")
+        );
+        if (offcanvas) {
+          offcanvas.hide();
+        }
+      }, 3000);
+    },
+    updateOffcanvasWidth() {
+      this.$forceUpdate(); // trigger recompute
+    },
+    handleVisibilityChange() {
+      // If the tab is hidden and audio is still playing, stop it
+      if (document.hidden && speechSynthesis.speaking) {
+        speechSynthesis.cancel(); // Stop speech immediately
+        this.ttsState = 'stopped'; // Update the TTS state
+      }
+    },
+
+    loadVoices() {
+      const voices = speechSynthesis.getVoices();
+      if (voices.length) {
+        this.selectedVoice = voices.find(voice =>
+          voice.lang === 'en-US' &&
+          (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'))
+        ) || voices.find(voice => voice.lang === 'en-US');
+      }
+    },
+
+    // Handle TTS play, pause, and resume
+    handleTTS() {
+      // If no voice selected yet, try to load the voices again
+      if (!this.selectedVoice) {
+        this.loadVoices();
+        return;
+      }
+
+      const description = this.stripHtml(this.highlightedDescription);
+      const title = this.events[this.currentIndex]?.title || '';
+      const ttsText = `${title}. Read time ${this.readTime} minutes. Listen time ${this.listenTime} minutes. Word count ${this.wordCount}. ${description}`;
+
+      if (this.ttsState === 'stopped') {
+        this.utterance = new SpeechSynthesisUtterance(ttsText);
+        this.utterance.voice = this.selectedVoice;
+        this.utterance.rate = 1;
+        this.utterance.pitch = 1;
+        this.utterance.onend = () => this.ttsState = 'stopped'; // Reset state after speaking ends
+        speechSynthesis.speak(this.utterance);
+        this.ttsState = 'playing'; // Set state to playing
+      } else if (this.ttsState === 'playing') {
+        speechSynthesis.stop(); // Pause the TTS
+        this.ttsState = 'stop'; // Update state to paused
+      } else if (this.ttsState === 'stop') {
+        speechSynthesis.resume(); // Resume the TTS
+        this.ttsState = 'playing'; // Update state to playing
+      }
+    },
+
+    // Stop TTS immediately
+    stopTTS() {
+      if (speechSynthesis.speaking || speechSynthesis.stop) {
+        speechSynthesis.cancel(); // Stop speaking or pause immediately
+        this.ttsState = 'stopped'; // Reset the state to stopped
+      }
+    },
+
+    selectEvent(index) {
+      this.currentIndex = index;
+      this.stopTTS(); // Stop TTS before moving to a new event
+      this.handleTTS(); // Start TTS for the new event
+    },
+
     countWords(text) {
       if (!text) return 0;
       return text.split(/\s+/).filter(Boolean).length;
     },
+
     filterEvents() {
       const query = this.searchQuery.trim().toLowerCase();
       if (!query) {
@@ -294,6 +524,19 @@ export default {
       window.speechSynthesis.cancel();  // Stop the speech synthesis
       this.isPlaying = false;  // Reset state
     },
+    stripHtml(html) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    },
+    next() {
+      this.stopTTS();
+      this.currentIndex++;
+    },
+    prev() {
+      this.stopTTS();
+      this.currentIndex--;
+    },
     stripHtmlTags(html) {
       const div = document.createElement('div');
       div.innerHTML = html;
@@ -319,23 +562,45 @@ export default {
       const url = `https://wa.me/?text=${message}`;
       window.open(url, '_blank');
     },
-    textToSpeech() {
-      if ('speechSynthesis' in window) {
-        const text = this.events[this.currentIndex].description;
-        if (this.speech) {
-          speechSynthesis.cancel(); // Stop any previous speech
-        }
-        this.speech = new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(this.speech);
-      } else {
-        alert('Text-to-Speech not supported in your browser.');
-      }
+  },
+  watch: {
+    fontSettings: {
+      handler(newVal) {
+        localStorage.setItem("fontSettings", JSON.stringify(newVal));
+      },
+      deep: true
     }
   }
 }
 </script>
 <style scoped>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+@media (max-width: 767px) {
+  #settingsOffcanvas {
+    width: 100% !important;
+  }
+}
+
+/* Offcanvas 40% Width on Larger Screens (tablet and above) */
+@media (min-width: 768px) {
+  #settingsOffcanvas {
+    width: 40% !important;
+  }
+}
+.custom-offcanvas {
+  background-color: #10584f;
+  color: white;
+  min-width: 30%;
+}
+
+.fab {
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+}
 
 .action-button {
   transition: all 0.3s ease;

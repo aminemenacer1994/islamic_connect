@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-4">
-    <h1 class="display-5 fw-bold text-center mb-5">Islamic Podcasts</h1>
+    <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
     <ChatBot />
     <!-- <p class="text-center container mb-4 lead">
       Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
@@ -87,7 +87,7 @@
       </div>
     </div> -->
 
-    <div class="container mt-5">
+    <div class="container ">
       <h2 class="fw-bold text-left pt-2 pb-2 container">Select a Podcast:</h2>
 
       <div class="d-flex overflow-auto text-center px-3 shadow-md"

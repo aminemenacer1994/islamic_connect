@@ -31155,218 +31155,323 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./prophet_events.json */ "./resources/js/components/prophet_events.json");
+var _methods;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_defineProperty(_defineProperty(_defineProperty({
   name: 'SeerahTimeline',
   data: function data() {
-    return {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+      fontSettings: {
+        backgroundColor: "#ffffff",
+        color: "#000000",
+        fontStyle: "normal",
+        textShadow: "none",
+        textDecoration: "none",
+        fontFamily: "Arial, sans-serif"
+      },
+      showSuccess: false,
+      currentIndex: 0,
+      selectedVoice: null,
+      ttsState: 'stopped',
+      // 'playing' | 'paused' | 'stopped'
+      utterance: null,
+      synth: window.speechSynthesis,
       copySuccess: false,
       searchTerm: '',
       isPlaying: false,
       textToRead: '',
-      speechInstance: null,
-      currentIndex: 0,
-      events: [],
-      originalEvents: [],
-      fontSize: 16,
-      scrollDirection: 'up',
-      speech: null,
-      searchQuery: '',
-      currentEvent: null
-    };
+      speechInstance: null
+    }, "currentIndex", 0), "events", []), "originalEvents", []), "fontSize", 16), "scrollDirection", 'up'), "speech", null), "searchQuery", ''), "currentEvent", null);
+  },
+  computed: {
+    offcanvasStyle: function offcanvasStyle() {
+      return {
+        backgroundColor: "#10584f",
+        width: window.innerWidth < 576 ? "100%" : "40%"
+      };
+    }
   },
   mounted: function mounted() {
     var _this$events$this$cur;
+    var saved = localStorage.getItem("userFontSettings");
+    if (saved) {
+      this.fontSettings = JSON.parse(saved);
+    }
+    var savedSettings = localStorage.getItem("fontSettings");
+    if (savedSettings) {
+      this.fontSettings = JSON.parse(savedSettings);
+    }
+    window.addEventListener("resize", this.updateOffcanvasWidth);
+    if (typeof speechSynthesis !== 'undefined') {
+      speechSynthesis.onvoiceschanged = this.loadVoices;
+      this.loadVoices();
+    }
+
+    // Listen for tab visibility change
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
     this.events = _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__.events;
     this.originalEvents = _prophet_events_json__WEBPACK_IMPORTED_MODULE_0__.events;
     this.textToRead = ((_this$events$this$cur = this.events[this.currentIndex]) === null || _this$events$this$cur === void 0 ? void 0 : _this$events$this$cur.description) || '';
   },
   beforeUnmount: function beforeUnmount() {
+    window.removeEventListener("resize", this.updateOffcanvasWidth);
+    speechSynthesis.onvoiceschanged = null;
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
     window.removeEventListener("keydown", this.handleKey);
+  }
+}, "computed", {
+  wordCount: function wordCount() {
+    var div = document.createElement('div');
+    div.innerHTML = this.highlightedDescription || '';
+    var text = div.textContent || div.innerText || '';
+    return text.trim().split(/\s+/).length;
   },
-  computed: {
-    wordCount: function wordCount() {
-      var div = document.createElement('div');
-      div.innerHTML = this.highlightedDescription || '';
-      var text = div.textContent || div.innerText || '';
-      return text.trim().split(/\s+/).length;
-    },
-    highlightedDescription: function highlightedDescription() {
-      var _this$events$this$cur2;
-      var currentDescription = ((_this$events$this$cur2 = this.events[this.currentIndex]) === null || _this$events$this$cur2 === void 0 ? void 0 : _this$events$this$cur2.description) || '';
-      if (!this.searchTerm) return currentDescription;
-      var escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape regex
-      var regex = new RegExp("(".concat(escapedTerm, ")"), 'gi');
-      return currentDescription.replace(regex, '<mark style="background-color: #0db691; color: white; border-radius: 2px; padding: 0 2px;">$1</mark>');
-    },
-    // Calculate Read Time (words per minute: 200)
-    readTime: function readTime() {
-      var wordCount = this.countWords(this.highlightedDescription);
-      var wordsPerMinute = 200;
-      return Math.ceil(wordCount / wordsPerMinute);
-    },
-    // Calculate Listen Time (words per minute: 150)
-    listenTime: function listenTime() {
-      var wordCount = this.countWords(this.highlightedDescription);
-      var wordsPerMinute = 150;
-      return Math.ceil(wordCount / wordsPerMinute);
+  highlightedDescription: function highlightedDescription() {
+    var _this$events$this$cur2;
+    var currentDescription = ((_this$events$this$cur2 = this.events[this.currentIndex]) === null || _this$events$this$cur2 === void 0 ? void 0 : _this$events$this$cur2.description) || '';
+    if (!this.searchTerm) return currentDescription;
+    var escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape regex
+    var regex = new RegExp("(".concat(escapedTerm, ")"), 'gi');
+    return currentDescription.replace(regex, '<mark style="background-color: #0db691; color: white; border-radius: 2px; padding: 0 2px;">$1</mark>');
+  },
+  // Calculate Read Time (words per minute: 200)
+  readTime: function readTime() {
+    var wordCount = this.countWords(this.highlightedDescription);
+    var wordsPerMinute = 200;
+    return Math.ceil(wordCount / wordsPerMinute);
+  },
+  // Calculate Listen Time (words per minute: 150)
+  listenTime: function listenTime() {
+    var wordCount = this.countWords(this.highlightedDescription);
+    var wordsPerMinute = 150;
+    return Math.ceil(wordCount / wordsPerMinute);
+  }
+}), "methods", (_methods = {
+  saveSettings: function saveSettings() {
+    var _this = this;
+    localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
+    this.showSuccess = true;
+
+    // Hide alert & close offcanvas after 3s
+    setTimeout(function () {
+      _this.showSuccess = false;
+
+      // Bootstrap Offcanvas API
+      var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("settingsOffcanvas"));
+      if (offcanvas) {
+        offcanvas.hide();
+      }
+    }, 3000);
+  },
+  updateOffcanvasWidth: function updateOffcanvasWidth() {
+    this.$forceUpdate(); // trigger recompute
+  },
+  handleVisibilityChange: function handleVisibilityChange() {
+    // If the tab is hidden and audio is still playing, stop it
+    if (document.hidden && speechSynthesis.speaking) {
+      speechSynthesis.cancel(); // Stop speech immediately
+      this.ttsState = 'stopped'; // Update the TTS state
     }
   },
-  methods: {
-    countWords: function countWords(text) {
-      if (!text) return 0;
-      return text.split(/\s+/).filter(Boolean).length;
-    },
-    filterEvents: function filterEvents() {
-      var query = this.searchQuery.trim().toLowerCase();
-      if (!query) {
-        this.events = this.originalEvents;
-        this.currentIndex = 0;
-        return;
-      }
-      var filtered = this.originalEvents.filter(function (e) {
-        return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
+  loadVoices: function loadVoices() {
+    var voices = speechSynthesis.getVoices();
+    if (voices.length) {
+      this.selectedVoice = voices.find(function (voice) {
+        return voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'));
+      }) || voices.find(function (voice) {
+        return voice.lang === 'en-US';
       });
-      this.events = filtered;
+    }
+  },
+  // Handle TTS play, pause, and resume
+  handleTTS: function handleTTS() {
+    var _this$events$this$cur3,
+      _this2 = this;
+    // If no voice selected yet, try to load the voices again
+    if (!this.selectedVoice) {
+      this.loadVoices();
+      return;
+    }
+    var description = this.stripHtml(this.highlightedDescription);
+    var title = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.title) || '';
+    var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
+    if (this.ttsState === 'stopped') {
+      this.utterance = new SpeechSynthesisUtterance(ttsText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.rate = 1;
+      this.utterance.pitch = 1;
+      this.utterance.onend = function () {
+        return _this2.ttsState = 'stopped';
+      }; // Reset state after speaking ends
+      speechSynthesis.speak(this.utterance);
+      this.ttsState = 'playing'; // Set state to playing
+    } else if (this.ttsState === 'playing') {
+      speechSynthesis.stop(); // Pause the TTS
+      this.ttsState = 'stop'; // Update state to paused
+    } else if (this.ttsState === 'stop') {
+      speechSynthesis.resume(); // Resume the TTS
+      this.ttsState = 'playing'; // Update state to playing
+    }
+  },
+  // Stop TTS immediately
+  stopTTS: function stopTTS() {
+    if (speechSynthesis.speaking || speechSynthesis.stop) {
+      speechSynthesis.cancel(); // Stop speaking or pause immediately
+      this.ttsState = 'stopped'; // Reset the state to stopped
+    }
+  },
+  selectEvent: function selectEvent(index) {
+    this.currentIndex = index;
+    this.stopTTS(); // Stop TTS before moving to a new event
+    this.handleTTS(); // Start TTS for the new event
+  },
+  countWords: function countWords(text) {
+    if (!text) return 0;
+    return text.split(/\s+/).filter(Boolean).length;
+  },
+  filterEvents: function filterEvents() {
+    var query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      this.events = this.originalEvents;
       this.currentIndex = 0;
-    },
-    next: function next() {
-      if (this.currentIndex < this.events.length - 1) {
-        this.currentIndex++;
-        this.scrollToBadge();
-      }
-    },
-    prev: function prev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-        this.scrollToBadge();
-      }
-    },
-    selectEvent: function selectEvent(index) {
-      this.currentIndex = index; // Update the selected index
-      this.currentEvent = this.events[index]; // Update the selected event details
-
-      // Optionally scroll the selected event into view for better user experience
-      this.scrollToEvent(index);
-    },
-    // Method to scroll to the selected event
-    scrollToEvent: function scrollToEvent(index) {
-      var element = this.$refs.timeline[index];
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        }); // Smooth scroll to the selected event
-      }
-    },
-    scrollToBadge: function scrollToBadge() {
-      var _this = this;
-      this.$nextTick(function () {
-        var badges = _this.$el.querySelectorAll('.timeline-badge');
-        if (badges[_this.currentIndex]) {
-          badges[_this.currentIndex].scrollIntoView({
-            behavior: 'smooth',
-            inline: 'center'
-          });
-        }
-      });
-    },
-    handleKey: function handleKey(e) {
-      if (e.key === 'ArrowRight') this.next();else if (e.key === 'ArrowLeft') this.prev();
-    },
-    toggleScroll: function toggleScroll() {
-      if (this.scrollDirection === 'up') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        this.scrollDirection = 'down';
-      } else {
-        window.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: 'smooth'
-        });
-        this.scrollDirection = 'up';
-      }
-    },
-    increaseFontSize: function increaseFontSize() {
-      this.fontSize += 2; // Increase font size by 2px
-    },
-    decreaseFontSize: function decreaseFontSize() {
-      if (this.fontSize > 10) {
-        this.fontSize -= 2; // Decrease font size by 2px, minimum size of 10px
-      }
-    },
-    togglePlayStop: function togglePlayStop() {
-      if (this.isPlaying) {
-        this.stopTTS();
-      } else {
-        this.startTTS();
-      }
-      this.isPlaying = !this.isPlaying;
-    },
-    startTTS: function startTTS() {
-      var _this2 = this;
-      if ('speechSynthesis' in window) {
-        // Ensure there is no previous speech in progress
-        if (this.speechInstance) {
-          window.speechSynthesis.cancel(); // Stop any ongoing speech before starting new
-        }
-        this.speechInstance = new SpeechSynthesisUtterance(this.textToRead);
-        window.speechSynthesis.speak(this.speechInstance);
-
-        // Event listener for when speech ends
-        this.speechInstance.onend = function () {
-          _this2.isPlaying = false; // Reset state when speech ends
-        };
-      } else {
-        console.error('TTS not supported in this browser.');
-      }
-    },
-    stopTTS: function stopTTS() {
-      window.speechSynthesis.cancel(); // Stop the speech synthesis
-      this.isPlaying = false; // Reset state
-    },
-    stripHtmlTags: function stripHtmlTags(html) {
-      var div = document.createElement('div');
-      div.innerHTML = html;
-      return div.textContent || div.innerText || '';
-    },
-    copyToClipboard: function copyToClipboard() {
-      var _this$events$this$cur3,
-        _this3 = this;
-      var rawHtml = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.description) || '';
-      var plainText = this.stripHtmlTags(rawHtml);
-      navigator.clipboard.writeText(plainText).then(function () {
-        _this3.copySuccess = true;
-        setTimeout(function () {
-          _this3.copySuccess = false;
-        }, 2000);
-      });
-    },
-    stripHTML: function stripHTML(text) {
-      var doc = new DOMParser().parseFromString(text, "text/html");
-      return doc.body.textContent || "";
-    },
-    shareOnWhatsApp: function shareOnWhatsApp() {
-      var message = encodeURIComponent(this.stripHTML(this.events[this.currentIndex].description));
-      var url = "https://wa.me/?text=".concat(message);
-      window.open(url, '_blank');
-    },
-    textToSpeech: function textToSpeech() {
-      if ('speechSynthesis' in window) {
-        var text = this.events[this.currentIndex].description;
-        if (this.speech) {
-          speechSynthesis.cancel(); // Stop any previous speech
-        }
-        this.speech = new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(this.speech);
-      } else {
-        alert('Text-to-Speech not supported in your browser.');
-      }
+      return;
+    }
+    var filtered = this.originalEvents.filter(function (e) {
+      return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
+    });
+    this.events = filtered;
+    this.currentIndex = 0;
+  },
+  next: function next() {
+    if (this.currentIndex < this.events.length - 1) {
+      this.currentIndex++;
+      this.scrollToBadge();
+    }
+  },
+  prev: function prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.scrollToBadge();
     }
   }
-});
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "selectEvent", function selectEvent(index) {
+  this.currentIndex = index; // Update the selected index
+  this.currentEvent = this.events[index]; // Update the selected event details
+
+  // Optionally scroll the selected event into view for better user experience
+  this.scrollToEvent(index);
+}), "scrollToEvent", function scrollToEvent(index) {
+  var element = this.$refs.timeline[index];
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    }); // Smooth scroll to the selected event
+  }
+}), "scrollToBadge", function scrollToBadge() {
+  var _this3 = this;
+  this.$nextTick(function () {
+    var badges = _this3.$el.querySelectorAll('.timeline-badge');
+    if (badges[_this3.currentIndex]) {
+      badges[_this3.currentIndex].scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center'
+      });
+    }
+  });
+}), "handleKey", function handleKey(e) {
+  if (e.key === 'ArrowRight') this.next();else if (e.key === 'ArrowLeft') this.prev();
+}), "toggleScroll", function toggleScroll() {
+  if (this.scrollDirection === 'up') {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+    this.scrollDirection = 'down';
+  } else {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+    this.scrollDirection = 'up';
+  }
+}), "increaseFontSize", function increaseFontSize() {
+  this.fontSize += 2; // Increase font size by 2px
+}), "decreaseFontSize", function decreaseFontSize() {
+  if (this.fontSize > 10) {
+    this.fontSize -= 2; // Decrease font size by 2px, minimum size of 10px
+  }
+}), "togglePlayStop", function togglePlayStop() {
+  if (this.isPlaying) {
+    this.stopTTS();
+  } else {
+    this.startTTS();
+  }
+  this.isPlaying = !this.isPlaying;
+}), "startTTS", function startTTS() {
+  var _this4 = this;
+  if ('speechSynthesis' in window) {
+    // Ensure there is no previous speech in progress
+    if (this.speechInstance) {
+      window.speechSynthesis.cancel(); // Stop any ongoing speech before starting new
+    }
+    this.speechInstance = new SpeechSynthesisUtterance(this.textToRead);
+    window.speechSynthesis.speak(this.speechInstance);
+
+    // Event listener for when speech ends
+    this.speechInstance.onend = function () {
+      _this4.isPlaying = false; // Reset state when speech ends
+    };
+  } else {
+    console.error('TTS not supported in this browser.');
+  }
+}), "stopTTS", function stopTTS() {
+  window.speechSynthesis.cancel(); // Stop the speech synthesis
+  this.isPlaying = false; // Reset state
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stripHtml", function stripHtml(html) {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}), "next", function next() {
+  this.stopTTS();
+  this.currentIndex++;
+}), "prev", function prev() {
+  this.stopTTS();
+  this.currentIndex--;
+}), "stripHtmlTags", function stripHtmlTags(html) {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}), "copyToClipboard", function copyToClipboard() {
+  var _this$events$this$cur4,
+    _this5 = this;
+  var rawHtml = ((_this$events$this$cur4 = this.events[this.currentIndex]) === null || _this$events$this$cur4 === void 0 ? void 0 : _this$events$this$cur4.description) || '';
+  var plainText = this.stripHtmlTags(rawHtml);
+  navigator.clipboard.writeText(plainText).then(function () {
+    _this5.copySuccess = true;
+    setTimeout(function () {
+      _this5.copySuccess = false;
+    }, 2000);
+  });
+}), "stripHTML", function stripHTML(text) {
+  var doc = new DOMParser().parseFromString(text, "text/html");
+  return doc.body.textContent || "";
+}), "shareOnWhatsApp", function shareOnWhatsApp() {
+  var message = encodeURIComponent(this.stripHTML(this.events[this.currentIndex].description));
+  var url = "https://wa.me/?text=".concat(message);
+  window.open(url, '_blank');
+}))), "watch", {
+  fontSettings: {
+    handler: function handler(newVal) {
+      localStorage.setItem("fontSettings", JSON.stringify(newVal));
+    },
+    deep: true
+  }
+}));
 
 /***/ }),
 
@@ -43302,7 +43407,7 @@ var _hoisted_1 = {
   "class": "container mt-4"
 };
 var _hoisted_2 = {
-  "class": "container mt-5"
+  "class": "container"
 };
 var _hoisted_3 = {
   "class": "d-flex overflow-auto text-center px-3 shadow-md",
@@ -43405,7 +43510,7 @@ var _hoisted_35 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ChatBot = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ChatBot");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 fw-bold text-center mb-5"
+    "class": "display-5 fw-bold text-center"
   }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ChatBot), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-center container mb-4 lead\">\n      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,\n      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to\n      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing\n      the Muslim community.\n    </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"bookmarks.length || favourites.length\" class=\"mb-4\">\n      <h4 class=\"display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2\">\n        Bookmark Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ bookmarks.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#bookmarksCollapse\" aria-expanded=\"false\" aria-controls=\"bookmarksCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"bookmarksCollapse\" class=\"collapse\">\n        <div v-if=\"bookmarks.length\" class=\"list-group\">\n          <div v-for=\"podcast in bookmarks\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeBookmark(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Bookmark\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No bookmarked podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favourites "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4\">\n        Favourite Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ favourites.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#favouritesCollapse\" aria-expanded=\"false\" aria-controls=\"favouritesCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"favouritesCollapse\" class=\"collapse\">\n        <div v-if=\"favourites.length\" class=\"list-group\">\n          <div v-for=\"podcast in favourites\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeFavourite(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Favourite\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No favourite podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n      <div class=\"col-md-6 pb-3 text-center\">\n        <p style=\"display: flex;\">Select a podcast</p>\n        <select class=\"form-select\" id=\"podcastDropdown\" v-model=\"selectedPodcast\" @change=\"fetchPodcasts\">\n          <option disabled value=\"\">Select a podcast</option>\n          <option v-for=\"podcast in islamicPodcasts\" :key=\"podcast.rssUrl\" :value=\"podcast\">\n            {{ podcast.name }}\n          </option>\n        </select>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Select a Podcast:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
@@ -44658,12 +44763,29 @@ var _hoisted_10 = {
 };
 var _hoisted_11 = ["innerHTML"];
 var _hoisted_12 = {
+  "class": "offcanvas-body d-flex flex-column gap-3"
+};
+var _hoisted_13 = {
+  "class": "d-flex flex-column gap-3"
+};
+var _hoisted_14 = {
+  key: 0,
+  "class": "alert alert-success mt-3",
+  role: "alert"
+};
+var _hoisted_15 = {
+  "class": "d-flex align-items-center gap-3"
+};
+var _hoisted_16 = {
+  "class": "fw-bold fs-5"
+};
+var _hoisted_17 = {
   "class": "controls text-center"
 };
-var _hoisted_13 = ["disabled"];
-var _hoisted_14 = ["disabled"];
+var _hoisted_18 = ["disabled"];
+var _hoisted_19 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "fw-bold display-5 text-center mb-2"
   }, "Seerah Timeline", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -44685,67 +44807,217 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$data.events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: $data.currentIndex,
         "class": "event-box animate__animated"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"fw-bold display-6 text-center mb-3\">{{ events[currentIndex].title }}</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap message "), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row align-items-center mb-3\">\n          <div class=\"col-md-4 container\">\n            <span class=\"fw-semibold\" style=\"white-space: nowrap;font-size: 1.3em;\">Search for a word in the Seerah\n              text:</span>\n          </div>\n          <div class=\"col-md-6 container\">\n            <input type=\"text\" v-model=\"searchTerm\" class=\"form-control\"\n              placeholder=\"Search for a word in the Seerah text...\">\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"time-estimates\">\n\n          <div class=\"scroll-container text-center\" style=\"\n              color: black;\n              border-radius: 15px;\n              border: 2px solid rgba(0, 0, 0, 0.1);\n              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n              overflow-x: auto;\n              display: flex;\n              flex-direction: row;\n              gap: 5px;\n              white-space: nowrap;\n              margin-bottom: 15px;\n            \">\n\n            <div class=\"container\">\n              <div class=\"row text-center\">\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-plus-circle fs-4 me-2\"></i> Increase Font\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-whatsapp fs-4 me-2 text-success\"></i> Share\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"copyToClipboard\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-clipboard fs-4 me-2\"></i> Copy Text\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-dash-circle fs-4 me-2\"></i> Decrease Font\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"fw-bold display-6 text-center mb-3\">{{ events[currentIndex].title }}</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap message "), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row align-items-center mb-3\">\n          <div class=\"col-md-4 container\">\n            <span class=\"fw-semibold\" style=\"white-space: nowrap;font-size: 1.3em;\">Search for a word in the Seerah\n              text:</span>\n          </div>\n          <div class=\"col-md-6 container\">\n            <input type=\"text\" v-model=\"searchTerm\" class=\"form-control\"\n              placeholder=\"Search for a word in the Seerah text...\">\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"time-estimates\">\n\n          <div class=\"scroll-container text-center\" style=\"\n              color: black;\n              border-radius: 15px;\n              border: 2px solid rgba(0, 0, 0, 0.1);\n              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n              overflow-x: auto;\n              display: flex;\n              flex-direction: row;\n              gap: 5px;\n              white-space: nowrap;\n              margin-bottom: 15px;\n            \">\n\n            <div class=\"container\">\n              <div class=\"row text-center\">\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-plus-circle fs-4 me-2\"></i> Increase Font\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-whatsapp fs-4 me-2 text-success\"></i> Share\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"copyToClipboard\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-clipboard fs-4 me-2\"></i> Copy Text\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-dash-circle fs-4 me-2\"></i> Decrease Font\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book pr-2",
         style: {
           "font-size": "22px",
           "color": "gray"
         }
-      }, null, -1 /* HOISTED */)), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-headphones pr-2 pl-2",
         style: {
           "font-size": "22px",
           "color": "gray"
         }
-      }, null, -1 /* HOISTED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-calculator pr-2 pl-2",
         style: {
           "font-size": "22px",
           "color": "gray"
         }
-      }, null, -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-plus-circle pr-2",
+      }, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-whatsapp pr-2",
+        style: {
+          "cursor": "pointer",
+          "font-size": "22px"
+        },
         onClick: _cache[0] || (_cache[0] = function () {
-          return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
-        }),
-        style: {
-          "font-size": "22px",
-          "cursor": "pointer",
-          "color": "gray"
-        }
-      }), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+          return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
+        })
+      }), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         style: {
           "cursor": "pointer"
         }
-      }, "Increase Font", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-dash-circle pl-2 pr-2",
-        onClick: _cache[1] || (_cache[1] = function () {
-          return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
-        }),
+      }, "Share", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-clipboard pl-3 pr-2",
         style: {
-          "font-size": "22px",
           "cursor": "pointer",
-          "color": "gray"
-        }
-      }), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+          "font-size": "22px"
+        },
+        onClick: _cache[1] || (_cache[1] = function ($event) {
+          return $options.copyToClipboard();
+        })
+      }), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         style: {
           "cursor": "pointer"
         }
-      }, "Increase Font", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-        "class": "text-left fw-medium",
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)("line-height: 1.7em; color: gray; font-size: ".concat($data.fontSize, "px;")),
+      }, "Copy Text", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-play pl-3 pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=\"handleTTS\"></i>\n            <strong style=\"cursor: pointer;\">Play</strong> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+        "class": "fw-medium mt-4 p-3 rounded",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          lineHeight: '1.7em',
+          fontSize: $data.fontSize + 'px',
+          backgroundColor: $data.fontSettings.backgroundColor,
+          color: $data.fontSettings.color,
+          fontStyle: $data.fontSettings.fontStyle,
+          textShadow: $data.fontSettings.textShadow,
+          textDecoration: $data.fontSettings.textDecoration,
+          fontFamily: $data.fontSettings.fontFamily
+        }),
         innerHTML: $options.highlightedDescription
-      }, null, 12 /* STYLE, PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[2] || (_cache[2] = function () {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "offcanvas offcanvas-end custom-offcanvas",
+        tabindex: "-1",
+        id: "settingsOffcanvas",
+        "aria-labelledby": "settingsOffcanvasLabel",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.offcanvasStyle)
+      }, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "offcanvas-header"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+        "class": "offcanvas-title fs-3",
+        id: "settingsOffcanvasLabel"
+      }, "Font Settings"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        type: "button",
+        "class": "btn-close btn-close-white",
+        "data-bs-dismiss": "offcanvas",
+        "aria-label": "Close"
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+        onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+          return $options.saveSettings && $options.saveSettings.apply($options, arguments);
+        }, ["prevent"])),
+        "class": "text-white"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, " Preferences saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Background Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "color",
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+          return $data.fontSettings.backgroundColor = $event;
+        }),
+        "class": "form-control form-control-color"
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.backgroundColor]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Text Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "color",
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return $data.fontSettings.color = $event;
+        }),
+        "class": "form-control form-control-color"
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.color]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Font Size:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-outline-light px-2 py-1",
+        onClick: _cache[4] || (_cache[4] = function () {
+          return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
+        })
+      }, "−"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.fontSize) + "px", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-outline-light px-2 py-1",
+        onClick: _cache[5] || (_cache[5] = function () {
+          return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
+        })
+      }, "+")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Font Style", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+          return $data.fontSettings.fontStyle = $event;
+        }),
+        "class": "form-select"
+      }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "normal"
+      }, "Normal", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "italic"
+      }, "Italic", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "bold"
+      }, "Bold", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontStyle]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Text Shadow", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+          return $data.fontSettings.textShadow = $event;
+        }),
+        "class": "form-select"
+      }, _cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "none"
+      }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1px 1px 2px gray"
+      }, "Soft Shadow", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "2px 2px 4px black"
+      }, "Dark Shadow", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1px 1px 2px red"
+      }, "Red Shadow", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1px 1px 2px blue"
+      }, "Blue Shadow", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textShadow]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Underline", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+          return $data.fontSettings.textDecoration = $event;
+        }),
+        "class": "form-select"
+      }, _cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "none"
+      }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "underline"
+      }, "Underline", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textDecoration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold fs-4"
+      }, "Font Family", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+          return $data.fontSettings.fontFamily = $event;
+        }),
+        "class": "form-select"
+      }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "Arial, sans-serif"
+      }, "Arial", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Times New Roman', serif"
+      }, "Times New Roman", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Courier New', monospace"
+      }, "Courier New", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "Tahoma, sans-serif"
+      }, "Tahoma", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Segoe UI', sans-serif"
+      }, "Segoe UI", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Open Sans', sans-serif"
+      }, "Open Sans", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Roboto', sans-serif"
+      }, "Roboto", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Lato', sans-serif"
+      }, "Lato", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Merriweather', serif"
+      }, "Merriweather", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Noto Sans', sans-serif"
+      }, "Noto Sans", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "'Poppins', sans-serif"
+      }, "Poppins", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontFamily]])]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "text-end mt-2"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        type: "submit",
+        "class": "btn btn-light"
+      }, "Save Preferences")], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "fab btn btn-light rounded-circle shadow container",
+        style: {
+          "position": "fixed",
+          "bottom": "20px",
+          "right": "20px",
+          "width": "60px",
+          "height": "60px",
+          "display": "flex",
+          "align-items": "center",
+          "justify-content": "center",
+          "z-index": "1000",
+          "cursor": "pointer"
+        },
+        "data-bs-toggle": "offcanvas",
+        "data-bs-target": "#settingsOffcanvas",
+        "aria-controls": "settingsOffcanvas"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-gear-fill fs-4"
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[11] || (_cache[11] = function () {
           return $options.prev && $options.prev.apply($options, arguments);
         }),
         disabled: $data.currentIndex === 0
-      }, "Previous", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[3] || (_cache[3] = function () {
+      }, "Previous", 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[12] || (_cache[12] = function () {
           return $options.next && $options.next.apply($options, arguments);
         }),
         disabled: $data.currentIndex === $data.events.length - 1
-      }, "Next", 8 /* PROPS */, _hoisted_14)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }, "Next", 8 /* PROPS */, _hoisted_19)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   })]);
@@ -83167,7 +83439,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n  /* Bootstrap primary */\n  transform: translateY(-2px);\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 14px;\n  margin-bottom: 20px;\n}\n.time-estimates p[data-v-39610a88] {\n  margin: 5px 0;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 2px;\n  border-radius: 2px;\n}\n.btn-play[data-v-39610a88] {\n  background-color: #0db691;\n  /* Green color for play */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-play[data-v-39610a88]:hover {\n  background-color: #17a085;\n  /* Slightly darker green */\n}\n.btn-stop[data-v-39610a88] {\n  background-color: #e74c3c;\n  /* Red color for stop */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-stop[data-v-39610a88]:hover {\n  background-color: #c0392b;\n  /* Slightly darker red */\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n  /* Firefox */\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n  /* Chrome/Safari */\n}\n.timeline[data-v-39610a88] {\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: all 0.3s ease;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ced4da;\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n  transform: scale(1.05);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);\n}\n.event-box[data-v-39610a88] {\n  padding: 15px;\n  border-radius: 10px;\n  background: #fff;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.controls[data-v-39610a88] {\n\n  margin-top: 20px;\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* FAB Button Styles */\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  font-size: 24px;\n  border: none;\n  padding: 20px;\n  border-radius: 50%;\n  /* Rounded circle */\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.3s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n  transform: scale(1.1);\n}\n\n/* Transition */\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n\n/* Offcanvas 40% Width on Larger Screens (tablet and above) */\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 40% !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 30%;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n  transform: scale(1.1);\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n  /* Bootstrap primary */\n  transform: translateY(-2px);\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 14px;\n  margin-bottom: 20px;\n}\n.time-estimates p[data-v-39610a88] {\n  margin: 5px 0;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 2px;\n  border-radius: 2px;\n}\n.btn-play[data-v-39610a88] {\n  background-color: #0db691;\n  /* Green color for play */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-play[data-v-39610a88]:hover {\n  background-color: #17a085;\n  /* Slightly darker green */\n}\n.btn-stop[data-v-39610a88] {\n  background-color: #e74c3c;\n  /* Red color for stop */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-stop[data-v-39610a88]:hover {\n  background-color: #c0392b;\n  /* Slightly darker red */\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n  /* Firefox */\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n  /* Chrome/Safari */\n}\n.timeline[data-v-39610a88] {\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: all 0.3s ease;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ced4da;\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n  transform: scale(1.05);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);\n}\n.event-box[data-v-39610a88] {\n  padding: 15px;\n  border-radius: 10px;\n  background: #fff;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.controls[data-v-39610a88] {\n\n  margin-top: 20px;\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* FAB Button Styles */\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  font-size: 24px;\n  border: none;\n  padding: 20px;\n  border-radius: 50%;\n  /* Rounded circle */\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.3s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n  transform: scale(1.1);\n}\n\n/* Transition */\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
