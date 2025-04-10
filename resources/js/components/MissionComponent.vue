@@ -102,7 +102,7 @@
 
             <i class="bi bi-whatsapp pr-2" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
             <strong style="cursor: pointer;">Share</strong>
-            
+
             <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
             <strong style="cursor: pointer;">Copy Text</strong>
 
@@ -120,7 +120,8 @@
           fontStyle: fontSettings.fontStyle,
           textShadow: fontSettings.textShadow,
           textDecoration: fontSettings.textDecoration,
-          fontFamily: fontSettings.fontFamily
+          fontFamily: fontSettings.fontFamily,
+          fontWeight: fontSettings.fontWeight,
         }" v-html="highlightedDescription">
         </h5>
 
@@ -166,6 +167,13 @@
                   <select v-model="fontSettings.fontStyle" class="form-select">
                     <option value="normal">Normal</option>
                     <option value="italic">Italic</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="form-label fw-bold fs-4">Font Weight</label>
+                  <select v-model="fontSettings.fontWeight" class="form-select">
+                    <option value="normal">Normal</option>
                     <option value="bold">Bold</option>
                   </select>
                 </div>
@@ -207,7 +215,7 @@
                 </div>
 
                 <div class="text-end mt-2">
-                  <button type="submit" class="btn btn-light ">Save Preferences</button>
+                  <button type="submit" class="btn btn-light ">Submit Changes</button>
                 </div>
 
               </div>
@@ -245,7 +253,8 @@ export default {
         fontStyle: "normal",
         textShadow: "none",
         textDecoration: "none",
-        fontFamily: "Arial, sans-serif"
+        fontFamily: "Arial, sans-serif",
+        fontWeight: "normal"
       },
       showSuccess: false,
       currentIndex: 0,
@@ -588,6 +597,7 @@ export default {
     width: 40% !important;
   }
 }
+
 .custom-offcanvas {
   background-color: #10584f;
   color: white;

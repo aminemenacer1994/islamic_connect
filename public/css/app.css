@@ -20120,8 +20120,19 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
 .dark-mode .info-box .info-box .bg-gradient-dark .progress-bar {
   background-color: #fff;
 }.timeline {
+  margin: 0 0 45px;
   padding: 0;
   position: relative;
+}.timeline::before {
+  border-radius: 0.25rem;
+  background-color: #dee2e6;
+  bottom: 0;
+  content: "";
+  left: 31px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  width: 4px;
 }.timeline > div {
   margin-bottom: 15px;
   margin-right: 10px;
@@ -20196,6 +20207,8 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
   border: 1px solid #dee2e6;
 }.timeline-inverse > div > .timeline-item > .timeline-header {
   border-bottom-color: #dee2e6;
+}.dark-mode .timeline::before {
+  background-color: #6c757d;
 }.dark-mode .timeline > div > .timeline-item {
   background-color: #343a40;
   color: #fff;

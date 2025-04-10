@@ -118,9 +118,9 @@
                         </ul>
                     </li>
 
-                    <!-- <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/content" data-path="/content"><b style="color:black">Audio Podcasts</b></a></h6>
-                    </li>  -->
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/mission" data-path="/seerah"><b style="color:black">Seerah</b></a></h6>
+                    </li> 
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
