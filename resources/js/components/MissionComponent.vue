@@ -80,25 +80,31 @@
 
           </div>
         </div> -->
-        <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
+        <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
 
-        <div style="overflow-x: auto; white-space: nowrap;">
+        <div class="container overflow-x: auto; white-space: nowrap;">
           <p style="display: inline-block; min-width: max-content; ">
-            <i class="bi bi-book pr-2" style="font-size: 22px;"></i>
+            <i class="bi bi-book pr-3 pt-3" style="font-size: 20px;"></i>
             <strong>Read Time:</strong> {{ readTime }} minutes
+
+            <i class="bi bi-whatsapp pr-2 pl-3" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
+            <strong style="cursor: pointer;">Share</strong>
+
+            <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
+            <strong style="cursor: pointer;">Copy Text</strong>
 
             <!-- <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
             <strong>Listen Time:</strong> {{ listenTime }} minutes -->
 
-            <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; "></i>
-            <strong>Word Count:</strong> {{ wordCount }}
+            <!-- <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; "></i>
+            <strong>Word Count:</strong> {{ wordCount }} -->
 
           </p>
 
         </div>
 
 
-        <div style="overflow-x: auto; white-space: nowrap;">
+        <!-- <div style="overflow-x: auto; white-space: nowrap;">
           <p style="display: inline-block; min-width: max-content;">
 
             <i class="bi bi-whatsapp pr-2" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
@@ -107,10 +113,10 @@
             <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
             <strong style="cursor: pointer;">Copy Text</strong>
 
-            <!-- <i class="bi bi-play pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click="handleTTS"></i>
-            <strong style="cursor: pointer;">Play</strong> -->
+            <i class="bi bi-play pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click="handleTTS"></i>
+            <strong style="cursor: pointer;">Play</strong>
           </p>
-        </div>
+        </div> -->
 
         <!-- Styled Text desc -->
         <h5 class="fw-medium p-3 rounded" :style="{
@@ -139,7 +145,7 @@
               <div class="d-flex flex-column gap-3">
 
                 <div v-if="showSuccess" class="alert alert-success mt-3" role="alert">
-                  Preferences saved successfully!
+                  Changes saved successfully!
                 </div>
 
                 <div>
@@ -206,11 +212,11 @@
                   </select>
                 </div>
 
-                <button class="btn btn-success mt-3" @click="submitFontSize" >
-                  Submit
-                </button>
+                
 
-              </div>
+              </div><button class="btn btn-success text-right mt-3" @click="submitFontSize" >
+                  Submit Changes
+                </button>
             </form>
 
           </div>
