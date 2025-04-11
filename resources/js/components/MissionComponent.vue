@@ -80,22 +80,23 @@
 
           </div>
         </div> -->
-
-
         <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
 
         <div style="overflow-x: auto; white-space: nowrap;">
           <p style="display: inline-block; min-width: max-content; ">
-            <i class="bi bi-book pr-2" style="font-size: 22px; color: gray;"></i>
+            <i class="bi bi-book pr-2" style="font-size: 22px;"></i>
             <strong>Read Time:</strong> {{ readTime }} minutes
 
-            <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
-            <strong>Listen Time:</strong> {{ listenTime }} minutes
+            <!-- <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
+            <strong>Listen Time:</strong> {{ listenTime }} minutes -->
 
-            <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
+            <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; "></i>
             <strong>Word Count:</strong> {{ wordCount }}
+
           </p>
+
         </div>
+
 
         <div style="overflow-x: auto; white-space: nowrap;">
           <p style="display: inline-block; min-width: max-content;">
@@ -112,7 +113,7 @@
         </div>
 
         <!-- Styled Text desc -->
-        <h5 class="fw-medium mt-4 p-3 rounded" :style="{
+        <h5 class="fw-medium p-3 rounded" :style="{
           lineHeight: '1.7em',
           fontSize: fontSize + 'px',
           backgroundColor: fontSettings.backgroundColor,
@@ -121,7 +122,6 @@
           textShadow: fontSettings.textShadow,
           textDecoration: fontSettings.textDecoration,
           fontFamily: fontSettings.fontFamily,
-          fontWeight: fontSettings.fontWeight,
         }" v-html="highlightedDescription">
         </h5>
 
@@ -152,13 +152,13 @@
                   <input type="color" v-model="fontSettings.color" class="form-control form-control-color" />
                 </div>
 
-                <div>
-                  <label class="form-label fw-bold fs-4">Font Size:</label>
-                  <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-light px-2 py-1" @click="decreaseFontSize">−</button>
-                    <span class="fw-bold fs-5">{{ fontSize }}px</span>
-                    <button class="btn btn-outline-light px-2 py-1" @click="increaseFontSize">+</button>
-                  </div>
+                <label class="form-label fw-bold fs-4">Font Size:</label>
+                <div class="d-flex align-items-center gap-3">
+                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="decreaseFontSize">−</button>
+
+                  <span class="fw-bold fs-5">{{ tempFontSize }}px</span>
+
+                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="increaseFontSize">+</button>
                 </div>
 
 
@@ -167,14 +167,6 @@
                   <select v-model="fontSettings.fontStyle" class="form-select">
                     <option value="normal">Normal</option>
                     <option value="italic">Italic</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Font Weight</label>
-                  <select v-model="fontSettings.fontWeight" class="form-select">
-                    <option value="normal">Normal</option>
-                    <option value="bold">Bold</option>
                   </select>
                 </div>
 
@@ -214,9 +206,9 @@
                   </select>
                 </div>
 
-                <div class="text-end mt-2">
-                  <button type="submit" class="btn btn-light ">Submit Changes</button>
-                </div>
+                <button class="btn btn-success mt-3" @click="submitFontSize" >
+                  Submit
+                </button>
 
               </div>
             </form>
@@ -247,6 +239,7 @@ export default {
   name: 'SeerahTimeline',
   data() {
     return {
+      isOffcanvasOpen: true,
       fontSettings: {
         backgroundColor: "#ffffff",
         color: "#000000",
@@ -254,7 +247,6 @@ export default {
         textShadow: "none",
         textDecoration: "none",
         fontFamily: "Arial, sans-serif",
-        fontWeight: "normal"
       },
       showSuccess: false,
       currentIndex: 0,
@@ -270,7 +262,8 @@ export default {
       currentIndex: 0,
       events: [],
       originalEvents: [],
-      fontSize: 16,
+      fontSize: 18,         // Final applied value
+      tempFontSize: 18,
       scrollDirection: 'up',
       speech: null,
       searchQuery: '',
@@ -496,12 +489,18 @@ export default {
       }
     },
     increaseFontSize() {
-      this.fontSize += 2; // Increase font size by 2px
+      this.tempFontSize += 1;
     },
     decreaseFontSize() {
-      if (this.fontSize > 10) {
-        this.fontSize -= 2; // Decrease font size by 2px, minimum size of 10px
-      }
+      if (this.tempFontSize > 1) this.tempFontSize -= 1;
+    },
+    submitFontSize() {
+      this.fontSize = this.tempFontSize;
+      this.showSuccess = true;
+
+      setTimeout(() => {
+        this.showSuccess = false;
+      }, 2000);
     },
     togglePlayStop() {
       if (this.isPlaying) {

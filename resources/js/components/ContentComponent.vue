@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
-    <ChatBot />
+    <!-- <ChatBot /> -->
     <!-- <p class="text-center container mb-4 lead">
       Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
       thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
