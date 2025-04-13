@@ -2,9 +2,10 @@
   <div class="container py-3">
     <!-- Title -->
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Gallery</h2>
-    <p class="text-center text-muted mb-4">
-      Explore beautiful Islamic visuals including mosques, calligraphy, Quranic themes, and more.
-    </p>
+    <p class="text-center text-muted mb-4" style="font-size: 18px;">
+      Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene
+      landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites,
+      daily life, artistic expressions, and more. </p>
 
     <!-- Search -->
 
@@ -18,85 +19,82 @@
     <!-- Filters -->
     <div class="mb-4 text-center">
       <div class="d-flex text-center overflow-x-auto gap-2 px-1 py-2" style="cursor: pointer; white-space: nowrap;">
-        <span class="badge 0 flex-shrink-0 text-center" v-for="filter in filters" :key="filter"
-          @click="applyFilter(filter)">
+        <span class="badge flex-shrink-0 text-center px-3 py-2" v-for="filter in filters" :key="filter"
+          @click="applyFilter(filter)" :class="{
+            ' text-white': activeFilter === filter,
+            'bg-light text-dark': activeFilter !== filter
+          }">
           {{ filter }}
         </span>
       </div>
     </div>
 
 
-
     <!-- Image Grid -->
     <div class="row g-3">
+      <!-- Loop through images -->
       <div v-for="(image, index) in images" :key="index" class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
-        <div class="card d-flex flex-column shadow-md p-1" style="height: 100%; transition: box-shadow 0.3s;">
+        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s;">
+          <!-- Image -->
           <img :src="image.src.large2x" :alt="image.alt" class="img-fluid"
-            style="height: 480px; width: 100%; object-fit: cover; border-top-right-radius: 5px; border-top-left-radius: 5px;" @click="openModal(image)"  />
+            style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
+            data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image" />
 
+          <!-- Caption -->
           <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
             {{ image.alt || 'Islamic Image' }}
           </p>
 
+          <!-- Push buttons to bottom -->
+          <div class="flex-grow-1"></div>
 
-          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-3 px-2">
+          <!-- Bottom Buttons -->
+          <div
+            class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
             <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn">
-              WhatsApp
+              class="btn btn-sm w-100 custom-btn" style="font-size: 20px;">
+              Share
             </a>
-            <a href="#" @click="openModal(image)" role="button" class="btn btn-sm w-100 custom-btn"
-              data-bs-toggle="button" aria-pressed="true">
-              Enlarge
+            <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 20px;"
+              data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image">
+              Expand
             </a>
           </div>
         </div>
       </div>
+    </div>
 
-
-      <!-- Pagination -->
-      <div class="mt-5">
-        <nav class="d-flex justify-content-center">
-          <ul class="pagination flex-wrap">
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-              <button class="page-link" @click="changePage(page)">
-                {{ page }}
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      <!-- Modal -->
-      <div v-if="isModalOpen" class="modal fade show" style="display: block; background-color: rgba(0, 0, 0, 0.8);"
-        @click.self="closeModal">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content bg-dark text-white">
-            <div class="modal-body p-0">
-              <img :src="selectedImage.src.original" :alt="selectedImage.alt" class="img-fluid w-100" />
-            </div>
-            <div class="modal-footer justify-content-between bg-secondary">
-              <span>{{ selectedImage.alt }}</span>
-              <button class="btn btn-light" @click="closeModal">Close</button>
-            </div>
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Image</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid w-100 h-100"
+              style="object-fit: cover; padding: 5px;" />
+            <p class="mt-2 text-center" style="padding: 0 5px; font-size: 20px; color: #444;">
+              {{ selectedImage?.alt || 'Islamic Image' }}
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-
 <script>
 export default {
   data() {
     return {
+      selectedImage: null,
       images: [],
-      searchTerm: 'islam',
-      currentPage: 1,
-      totalPages: 1,
-      perPage: 12,
+      searchTerm: 'Islamic',
+      activeFilter: 'Islamic',
       isModalOpen: false,
-      selectedImage: {},
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
       filters: [
         'Islamic',
@@ -106,10 +104,9 @@ export default {
         'Kaaba',
         'Mecca',
         'Madina',
-        'Dome',
+        'Hijab',
         'Ramadan',
         'Prayer',
-        'Ramadan',
         'Eid',
         'Arabic Art',
         'Islamic Architecture',
@@ -119,20 +116,11 @@ export default {
   mounted() {
     this.fetchGallery();
   },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.images.length / this.perPage);
-    },
-    paginatedImages() {
-      const start = (this.currentPage - 1) * this.perPage;
-      return this.images.slice(start, start + this.perPage);
-    }
-  },
   methods: {
     async fetchGallery() {
       try {
         const response = await fetch(
-          `https://api.pexels.com/v1/search?query=${this.searchTerm}&page=${this.currentPage}&per_page=${this.perPage}`,
+          `https://api.pexels.com/v1/search?query=${this.searchTerm}`,
           {
             headers: {
               Authorization: this.apiKey,
@@ -141,17 +129,13 @@ export default {
         );
         const data = await response.json();
         this.images = data.photos;
-        this.totalPages = Math.ceil(data.total_results / this.perPage);
       } catch (error) {
         console.error('Error fetching images:', error);
       }
     },
-    changePage(page) {
-      this.currentPage = page;
-    },
     applyFilter(keyword) {
+      this.activeFilter = keyword;
       this.searchTerm = keyword;
-      this.currentPage = 1;
       this.fetchGallery();
     },
     openModal(image) {
@@ -164,6 +148,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .custom-btn {
@@ -211,17 +196,20 @@ export default {
   background-color: rgba(0, 191, 166, 0.2);
   color: rgb(5, 32, 29);
   border: 1px solid rgba(0, 191, 166);
+
 }
 
 .badge {
   background-color: rgba(0, 191, 166);
   font-size: 1em;
+  color: #fff;
+  border: 1px solid rgba(0, 191, 166);
+  border-radius: 2px;
   border-radius: 6px;
   padding: 8px;
 }
 
 .badge:hover {
-  background: rgb(9, 94, 68);
   font-size: 1em;
   color: white;
   border-radius: 6px;
