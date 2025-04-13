@@ -10,7 +10,7 @@
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
 
             </div>
-            <!-- <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection> -->
+            <custom-surah-selection v-if="information != null" :customSurat="customSuratList" v-model="selectedSurah"></custom-surah-selection>
 
 
             <!-- accordion headers -->

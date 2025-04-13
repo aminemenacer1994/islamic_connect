@@ -83,15 +83,15 @@
         <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
 
         <div class="container overflow-x: auto; white-space: nowrap;">
-          <p style="display: inline-block; min-width: max-content; ">
-            <i class="bi bi-book pr-3 pt-3" style="font-size: 20px;"></i>
-            <strong>Read Time:</strong> {{ readTime }} minutes
+          <p style="display: inline-block; min-width: max-content;" >
+            <i class="bi bi-book pr-3 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+            <strong >Read Time:</strong> {{ readTime }} minutes
 
-            <i class="bi bi-whatsapp pr-2 pl-3" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
-            <strong style="cursor: pointer;">Share</strong>
+            <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
+            <strong style="cursor: pointer;" class="feature">Share</strong>
 
-            <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
-            <strong style="cursor: pointer;">Copy Text</strong>
+            <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
+            <strong style="cursor: pointer;" class="feature">Copy Text</strong>
 
             <!-- <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
             <strong>Listen Time:</strong> {{ listenTime }} minutes -->
@@ -621,6 +621,10 @@ export default {
   transition: all 0.3s ease;
   cursor: pointer;
   color: #333;
+}
+
+.feature:hover{
+  color: #0db691;
 }
 
 .action-button:hover {
