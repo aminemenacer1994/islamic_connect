@@ -29609,36 +29609,33 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   data: function data() {
     return {
       selectedImage: null,
+      allImages: [],
       images: [],
+      currentPage: 1,
+      itemsPerPage: 9,
       searchTerm: 'Islamic',
       activeFilter: 'Islamic',
       isModalOpen: false,
+      loading: true,
+      // 👈 added
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
       filters: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Prayer', 'Eid', 'Arabic Art', 'Islamic Architecture']
     };
+  },
+  computed: {
+    paginatedImages: function paginatedImages() {
+      var start = (this.currentPage - 1) * this.itemsPerPage;
+      var end = start + this.itemsPerPage;
+      return this.allImages.slice(start, end);
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.allImages.length / this.itemsPerPage);
+    }
   },
   mounted: function mounted() {
     this.fetchGallery();
   },
   methods: {
-    prev: function prev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        }); // scroll to top
-      }
-    },
-    next: function next() {
-      if (this.currentIndex < this.events.length - 1) {
-        this.currentIndex++;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        }); // scroll to top
-      }
-    },
     fetchGallery: function fetchGallery() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -29646,31 +29643,37 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return fetch("https://api.pexels.com/v1/search?query=".concat(_this.searchTerm), {
+              _this.loading = true;
+              _context.prev = 1;
+              _context.next = 4;
+              return fetch("https://api.pexels.com/v1/search?query=".concat(_this.searchTerm, "&per_page=30"), {
                 headers: {
                   Authorization: _this.apiKey
                 }
               });
-            case 3:
+            case 4:
               response = _context.sent;
-              _context.next = 6;
+              _context.next = 7;
               return response.json();
-            case 6:
+            case 7:
               data = _context.sent;
-              _this.images = data.photos;
-              _context.next = 13;
+              _this.allImages = data.photos;
+              _this.currentPage = 1;
+              _context.next = 15;
               break;
-            case 10:
-              _context.prev = 10;
-              _context.t0 = _context["catch"](0);
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](1);
               console.error('Error fetching images:', _context.t0);
-            case 13:
+            case 15:
+              _context.prev = 15;
+              _this.loading = false; // 👈 stop loading
+              return _context.finish(15);
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 10]]);
+        }, _callee, null, [[1, 12, 15, 18]]);
       }))();
     },
     applyFilter: function applyFilter(keyword) {
@@ -29684,6 +29687,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     closeModal: function closeModal() {
       this.isModalOpen = false;
+    },
+    goToPage: function goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
     }
   }
 });
@@ -29961,15 +29973,15 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       desc: "A podcast that explores various topics related to Islam and the Muslim experience, featuring interviews with scholars, activists, and artists.",
       image: "./images/islamic_pc.png"
     }, {
-      name: "The Greed for Ilm",
-      rssUrl: "https://greedforilm.libsyn.com/rss",
-      desc: "This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.",
-      image: "./images/ilm.jpg"
-    }, {
       name: "Muslim Footprints",
       rssUrl: "https://footprints.podcast.ismaili/feed.xml",
       desc: "Exploring Muslim narratives and stories across cultures, presented by The Ismaili & Kalima Communications.",
       image: "./images/mf.png"
+    }, {
+      name: "The Greed for Ilm",
+      rssUrl: "https://greedforilm.libsyn.com/rss",
+      desc: "This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.",
+      image: "./images/ilm.jpg"
     }, {
       name: "Thinking Muslim",
       rssUrl: "https://anchor.fm/s/4c6115d8/podcast/rss",
@@ -43155,16 +43167,21 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = ["onClick"];
 var _hoisted_7 = {
-  "class": "row g-3"
+  key: 0,
+  "class": "text-center my-5"
 };
 var _hoisted_8 = {
+  key: 1,
+  "class": "row g-3"
+};
+var _hoisted_9 = {
   "class": "card d-flex flex-column shadow-md p-1 w-100 h-100",
   style: {
     "transition": "box-shadow 0.3s"
   }
 };
-var _hoisted_9 = ["src", "alt", "onClick"];
-var _hoisted_10 = {
+var _hoisted_10 = ["src", "alt", "onClick"];
+var _hoisted_11 = {
   "class": "mt-2 text-center",
   style: {
     "padding": "0 10px",
@@ -43172,29 +43189,35 @@ var _hoisted_10 = {
     "color": "#444"
   }
 };
-var _hoisted_11 = {
+var _hoisted_12 = {
   "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
 };
-var _hoisted_12 = ["href"];
-var _hoisted_13 = ["onClick"];
-var _hoisted_14 = {
+var _hoisted_13 = ["href"];
+var _hoisted_14 = ["onClick"];
+var _hoisted_15 = {
+  "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
+};
+var _hoisted_16 = ["disabled"];
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = ["disabled"];
+var _hoisted_19 = {
   "class": "modal fade",
   id: "imageModal",
   tabindex: "-1",
   "aria-labelledby": "imageModalLabel",
   "aria-hidden": "true"
 };
-var _hoisted_15 = {
+var _hoisted_20 = {
   "class": "modal-dialog modal-lg"
 };
-var _hoisted_16 = {
+var _hoisted_21 = {
   "class": "modal-content"
 };
-var _hoisted_17 = {
+var _hoisted_22 = {
   "class": "modal-body"
 };
-var _hoisted_18 = ["src", "alt"];
-var _hoisted_19 = {
+var _hoisted_23 = ["src", "alt"];
+var _hoisted_24 = {
   "class": "mt-2 text-center",
   style: {
     "padding": "0 5px",
@@ -43204,14 +43227,14 @@ var _hoisted_19 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$selectedImage, _$data$selectedImage2, _$data$selectedImage3;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Gallery", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Gallery", -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center text-muted mb-4",
     style: {
       "font-size": "18px"
     }
-  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Search Islamic images:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     onKeyup: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
@@ -43231,14 +43254,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.applyFilter(filter);
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loop through images "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.images, function (image, index) {
+  }), 128 /* KEYED_FRAGMENT */))])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-success mb-3",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "fw-semibold fs-4 text-muted"
+  }, "Images loading, please wait...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Grid "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedImages, function (image, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
+      key: image.id || index,
       "class": "col-12 col-sm-4 col-md-4 col-lg-4 d-flex"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: image.src.large2x,
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: image.src.large,
       alt: image.alt,
       "class": "img-fluid",
+      loading: "lazy",
       style: {
         "height": "480px",
         "object-fit": "cover",
@@ -43250,16 +43281,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.selectedImage = image;
       }
-    }, null, 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Caption "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Push buttons to bottom "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Caption "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Push buttons to bottom "), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "flex-grow-1"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bottom Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bottom Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "https://wa.me/?text=".concat(encodeURIComponent(image.src.original)),
       target: "_blank",
       "class": "btn btn-sm w-100 custom-btn",
       style: {
         "font-size": "18px"
       }
-    }, " Share ", 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, " Share ", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
       role: "button",
       "class": "btn btn-sm w-100 custom-btn",
@@ -43271,23 +43302,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.selectedImage = image;
       }
-    }, " Expand ", 8 /* PROPS */, _hoisted_13)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, " Expand ", 8 /* PROPS */, _hoisted_14)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
+    disabled: $data.currentPage === 1,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.goToPage($data.currentPage - 1);
+    })
+  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: page,
+      onClick: function onClick($event) {
+        return $options.goToPage(page);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === $data.currentPage ? '' : 'btn-outline-success']),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === $data.currentPage ? 'background-color: #17a085; color: white;' : '')
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_17);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
+    disabled: $data.currentPage === $options.totalPages,
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.goToPage($data.currentPage + 1);
+    })
+  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_18)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5 class=\"modal-title\">Image</h5> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "modal-title fw-bold display-5"
+  }, "Islamic Image", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: (_$data$selectedImage = $data.selectedImage) === null || _$data$selectedImage === void 0 || (_$data$selectedImage = _$data$selectedImage.src) === null || _$data$selectedImage === void 0 ? void 0 : _$data$selectedImage.original,
     alt: (_$data$selectedImage2 = $data.selectedImage) === null || _$data$selectedImage2 === void 0 ? void 0 : _$data$selectedImage2.alt,
-    "class": "img-fluid w-100 h-100",
+    "class": "img-fluid mx-auto d-block",
     style: {
-      "object-fit": "cover",
+      "max-width": "100%",
+      "max-height": "80vh",
+      "object-fit": "contain",
       "padding": "5px"
     }
-  }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$data$selectedImage3 = $data.selectedImage) === null || _$data$selectedImage3 === void 0 ? void 0 : _$data$selectedImage3.alt) || 'Islamic Image'), 1 /* TEXT */)]), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$data$selectedImage3 = $data.selectedImage) === null || _$data$selectedImage3 === void 0 ? void 0 : _$data$selectedImage3.alt) || 'Islamic Image'), 1 /* TEXT */)]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-footer"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -83357,7 +83415,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-btn[data-v-300b761a] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-300b761a]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-300b761a] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-300b761a]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-300b761a]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-300b761a]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-300b761a] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-300b761a] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-300b761a] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-300b761a]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-300b761a] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-300b761a]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-300b761a] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-300b761a] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-300b761a] {\n  display: none;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.img-fluid[data-v-300b761a] {\n  width: 100%;\n  height: auto;\n}\n.custom-btn[data-v-300b761a] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-300b761a]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-300b761a] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-300b761a]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-300b761a]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-300b761a]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-300b761a] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-300b761a] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-300b761a] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-300b761a]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-300b761a] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-300b761a]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-300b761a] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-300b761a]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-300b761a] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-300b761a] {\n  display: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

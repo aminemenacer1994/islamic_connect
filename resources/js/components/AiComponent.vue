@@ -5,10 +5,10 @@
     <p class="text-center text-muted mb-4" style="font-size: 18px;">
       Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene
       landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites,
-      daily life, artistic expressions, and more. </p>
+      daily life, artistic expressions, and more.
+    </p>
 
     <!-- Search -->
-
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
         <h3 class="fw-bold text-left pt-2 pb-2 container">Search Islamic images:</h3>
@@ -29,17 +29,22 @@
       </div>
     </div>
 
+    <div v-if="loading" class="text-center my-5">
+      <div class="spinner-border text-success mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="fw-semibold fs-4 text-muted">Images loading, please wait...</p>
+    </div>
 
     <!-- Image Grid -->
-    <div class="row g-3">
-      <!-- Loop through images -->
-      <div v-for="(image, index) in images" :key="index" class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
+    <div class="row g-3" v-if="!loading">
+      <div v-for="(image, index) in paginatedImages" :key="image.id || index"
+        class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
         <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s;">
           <!-- Image -->
-          <img :src="image.src.large2x" :alt="image.alt" class="img-fluid"
+          <img :src="image.src.large" :alt="image.alt" class="img-fluid" loading="lazy"
             style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image" />
-
           <!-- Caption -->
           <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
             {{ image.alt || 'Islamic Image' }}
@@ -64,16 +69,39 @@
       </div>
     </div>
 
+    <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+      <button class="btn"
+        :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
+        :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+        Previous
+      </button>
+
+      <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="btn"
+        :style="page === currentPage ? 'background-color: #17a085; color: white;' : ''"
+        :class="page === currentPage ? '' : 'btn-outline-success'">
+        {{ page }}
+      </button>
+
+      <button class="btn"
+        :style="currentPage === totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
+        :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
+        Next
+      </button>
+    </div>
+
+
+    <!-- Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <!-- <h5 class="modal-title">Image</h5> -->
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid w-100 h-100"
-              style="object-fit: cover; padding: 5px;" />
+            <h2 class="modal-title fw-bold display-5">Islamic Image</h2>
+            <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid mx-auto d-block"
+              style="max-width: 100%; max-height: 80vh; object-fit: contain; padding: 5px;" />
+
             <p class="mt-2 text-center" style="padding: 0 5px; font-size: 20px; color: #444;">
               {{ selectedImage?.alt || 'Islamic Image' }}
             </p>
@@ -86,53 +114,46 @@
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
       selectedImage: null,
+      allImages: [],
       images: [],
+      currentPage: 1,
+      itemsPerPage: 9,
       searchTerm: 'Islamic',
       activeFilter: 'Islamic',
       isModalOpen: false,
+      loading: true, // 👈 added
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
       filters: [
-        'Islamic',
-        'Mosque',
-        'Calligraphy',
-        'Quran',
-        'Kaaba',
-        'Mecca',
-        'Madina',
-        'Hijab',
-        'Ramadan',
-        'Prayer',
-        'Eid',
-        'Arabic Art',
-        'Islamic Architecture',
+        'Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
+        'Ramadan', 'Prayer', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
     };
+  },
+  computed: {
+    paginatedImages() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.allImages.slice(start, end);
+    },
+    totalPages() {
+      return Math.ceil(this.allImages.length / this.itemsPerPage);
+    }
   },
   mounted() {
     this.fetchGallery();
   },
   methods: {
-    prev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
-      }
-    },
-    next() {
-      if (this.currentIndex < this.events.length - 1) {
-        this.currentIndex++;
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
-      }
-    },
     async fetchGallery() {
+      this.loading = true; 
       try {
         const response = await fetch(
-          `https://api.pexels.com/v1/search?query=${this.searchTerm}`,
+          `https://api.pexels.com/v1/search?query=${this.searchTerm}&per_page=30`,
           {
             headers: {
               Authorization: this.apiKey,
@@ -140,9 +161,12 @@ export default {
           }
         );
         const data = await response.json();
-        this.images = data.photos;
+        this.allImages = data.photos;
+        this.currentPage = 1;
       } catch (error) {
         console.error('Error fetching images:', error);
+      } finally {
+        this.loading = false; // 👈 stop loading
       }
     },
     applyFilter(keyword) {
@@ -157,12 +181,21 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
   },
 };
 </script>
-
-
 <style scoped>
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
 .custom-btn {
   background-color: #0db691;
   color: white;
