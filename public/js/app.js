@@ -29621,6 +29621,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     this.fetchGallery();
   },
   methods: {
+    prev: function prev() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        }); // scroll to top
+      }
+    },
+    next: function next() {
+      if (this.currentIndex < this.events.length - 1) {
+        this.currentIndex++;
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        }); // scroll to top
+      }
+    },
     fetchGallery: function fetchGallery() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -29947,6 +29965,16 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       rssUrl: "https://greedforilm.libsyn.com/rss",
       desc: "This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.",
       image: "./images/ilm.jpg"
+    }, {
+      name: "Muslim Footprints",
+      rssUrl: "https://footprints.podcast.ismaili/feed.xml",
+      desc: "Exploring Muslim narratives and stories across cultures, presented by The Ismaili & Kalima Communications.",
+      image: "./images/mf.png"
+    }, {
+      name: "Thinking Muslim",
+      rssUrl: "https://anchor.fm/s/4c6115d8/podcast/rss",
+      desc: "A podcast that engages in thoughtful discussions on Islamic beliefs, contemporary issues, and interviews with experts in various fields.",
+      image: "./images/tm.png"
     }]), "playingIndex", null), "selectedPodcast", ""), "isDownloading", false), "showToast", false), "toastType", ''), "podcasts", []), "filteredPodcasts", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "loading", true), "rssUrl", 'https://themadmamluks.libsyn.com/rss'), "searchQuery", ''), "currentPage", 1), "podcastsPerPage", 8), "bookmarks", JSON.parse(localStorage.getItem('bookmarks')) || []), "favourites", JSON.parse(localStorage.getItem('favourites')) || []), "sortOption", 'mostViewed'), "dateFilter", 'weekly'), "durationFilter", 'longest');
   },
   computed: {
@@ -31155,6 +31183,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         textDecoration: "none",
         fontFamily: "Arial, sans-serif"
       },
+      events: [],
       showSuccess: false,
       currentIndex: 0,
       selectedVoice: null,
@@ -31233,6 +31262,24 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     return Math.ceil(wordCount / wordsPerMinute);
   }
 }), "methods", (_methods = {
+  prev: function prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      }); // scroll to top
+    }
+  },
+  next: function next() {
+    if (this.currentIndex < this.events.length - 1) {
+      this.currentIndex++;
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      }); // scroll to top
+    }
+  },
   saveSettings: function saveSettings() {
     var _this = this;
     localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
@@ -31327,18 +31374,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
     this.events = filtered;
     this.currentIndex = 0;
-  },
-  next: function next() {
-    if (this.currentIndex < this.events.length - 1) {
-      this.currentIndex++;
-      this.scrollToBadge();
-    }
-  },
-  prev: function prev() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.scrollToBadge();
-    }
   }
 }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "selectEvent", function selectEvent(index) {
   this.currentIndex = index; // Update the selected index
@@ -43222,14 +43257,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       target: "_blank",
       "class": "btn btn-sm w-100 custom-btn",
       style: {
-        "font-size": "20px"
+        "font-size": "18px"
       }
     }, " Share ", 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
       role: "button",
       "class": "btn btn-sm w-100 custom-btn",
       style: {
-        "font-size": "20px"
+        "font-size": "18px"
       },
       "data-bs-toggle": "modal",
       "data-bs-target": "#imageModal",
@@ -43239,9 +43274,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, " Expand ", 8 /* PROPS */, _hoisted_13)])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "modal-title"
-  }, "Image"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h5 class=\"modal-title\">Image</h5> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     "data-bs-dismiss": "modal",
@@ -44852,7 +44885,12 @@ var _hoisted_6 = {
   "class": "fw-bold display-6 pb-3 text-center"
 };
 var _hoisted_7 = {
-  "class": "container overflow-x: auto; white-space: nowrap;"
+  "class": "container",
+  style: {
+    "overflow-x": "auto",
+    "white-space": "nowrap",
+    "-webkit-overflow-scrolling": "touch"
+  }
 };
 var _hoisted_8 = {
   style: {
@@ -44879,7 +44917,7 @@ var _hoisted_14 = {
   "class": "fw-bold fs-5"
 };
 var _hoisted_15 = {
-  "class": "controls text-center"
+  "class": "controls text-center mt-4"
 };
 var _hoisted_16 = ["disabled"];
 var _hoisted_17 = ["disabled"];
@@ -44905,7 +44943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [$data.events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: $data.currentIndex,
-        "class": "event-box animate__animated"
+        "class": "event-box event-details animate__animated"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"fw-bold display-6 text-center mb-3\">{{ events[currentIndex].title }}</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap message "), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row align-items-center mb-3\">\n          <div class=\"col-md-4 container\">\n            <span class=\"fw-semibold\" style=\"white-space: nowrap;font-size: 1.3em;\">Search for a word in the Seerah\n              text:</span>\n          </div>\n          <div class=\"col-md-6 container\">\n            <input type=\"text\" v-model=\"searchTerm\" class=\"form-control\"\n              placeholder=\"Search for a word in the Seerah text...\">\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"time-estimates\">\n\n          <div class=\"scroll-container text-center\" style=\"\n              color: black;\n              border-radius: 15px;\n              border: 2px solid rgba(0, 0, 0, 0.1);\n              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n              overflow-x: auto;\n              display: flex;\n              flex-direction: row;\n              gap: 5px;\n              white-space: nowrap;\n              margin-bottom: 15px;\n            \">\n\n            <div class=\"container\">\n              <div class=\"row text-center\">\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-plus-circle fs-4 me-2\"></i> Increase Font\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-whatsapp fs-4 me-2 text-success\"></i> Share\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"copyToClipboard\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-clipboard fs-4 me-2\"></i> Copy Text\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-dash-circle fs-4 me-2\"></i> Decrease Font\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book pr-3 pt-3",
         style: {
@@ -44940,7 +44978,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "cursor": "pointer"
         },
         "class": "feature"
-      }, "Copy Text", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-headphones pr-2 pl-2\" style=\"font-size: 22px; color: gray;\"></i>\n            <strong>Listen Time:</strong> {{ listenTime }} minutes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-calculator pr-2 pl-2\" style=\"font-size: 22px; \"></i>\n            <strong>Word Count:</strong> {{ wordCount }} ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"overflow-x: auto; white-space: nowrap;\">\n          <p style=\"display: inline-block; min-width: max-content;\">\n\n            <i class=\"bi bi-whatsapp pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=\"shareOnWhatsApp\"></i>\n            <strong style=\"cursor: pointer;\">Share</strong>\n\n            <i class=\"bi bi-clipboard pl-3 pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=copyToClipboard()></i>\n            <strong style=\"cursor: pointer;\">Copy Text</strong>\n\n            <i class=\"bi bi-play pl-3 pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=\"handleTTS\"></i>\n            <strong style=\"cursor: pointer;\">Play</strong>\n          </p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      }, "Copy Text", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"overflow-x: auto; white-space: nowrap;\">\n          <p style=\"display: inline-block; min-width: max-content;\">\n\n            <i class=\"bi bi-whatsapp pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=\"shareOnWhatsApp\"></i>\n            <strong style=\"cursor: pointer;\">Share</strong>\n\n            <i class=\"bi bi-clipboard pl-3 pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=copyToClipboard()></i>\n            <strong style=\"cursor: pointer;\">Copy Text</strong>\n\n            <i class=\"bi bi-play pl-3 pr-2\" style=\"cursor: pointer; font-size: 22px;\" @click=\"handleTTS\"></i>\n            <strong style=\"cursor: pointer;\">Play</strong>\n          </p>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "fw-medium p-3 rounded",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           lineHeight: '1.7em',
@@ -45098,12 +45136,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[12] || (_cache[12] = function () {
           return $options.prev && $options.prev.apply($options, arguments);
         }),
-        disabled: $data.currentIndex === 0
+        disabled: $data.currentIndex === 0,
+        "class": "btn btn-primary me-2"
       }, "Previous", 8 /* PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: _cache[13] || (_cache[13] = function () {
           return $options.next && $options.next.apply($options, arguments);
         }),
-        disabled: $data.currentIndex === $data.events.length - 1
+        disabled: $data.currentIndex === $data.events.length - 1,
+        "class": "btn btn-primary"
       }, "Next", 8 /* PROPS */, _hoisted_17)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
@@ -83534,7 +83574,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n\n/* Offcanvas 40% Width on Larger Screens (tablet and above) */\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 40% !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 30%;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n  transform: scale(1.1);\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.feature[data-v-39610a88]:hover{\n  color: #0db691;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n  /* Bootstrap primary */\n  transform: translateY(-2px);\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 14px;\n  margin-bottom: 20px;\n}\n.time-estimates p[data-v-39610a88] {\n  margin: 5px 0;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 2px;\n  border-radius: 2px;\n}\n.btn-play[data-v-39610a88] {\n  background-color: #0db691;\n  /* Green color for play */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-play[data-v-39610a88]:hover {\n  background-color: #17a085;\n  /* Slightly darker green */\n}\n.btn-stop[data-v-39610a88] {\n  background-color: #e74c3c;\n  /* Red color for stop */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-stop[data-v-39610a88]:hover {\n  background-color: #c0392b;\n  /* Slightly darker red */\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n  /* Firefox */\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n  /* Chrome/Safari */\n}\n.timeline[data-v-39610a88] {\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: all 0.3s ease;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ced4da;\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n  transform: scale(1.05);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);\n}\n.event-box[data-v-39610a88] {\n  padding: 15px;\n  border-radius: 10px;\n  background: #fff;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.controls[data-v-39610a88] {\n\n  margin-top: 20px;\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* FAB Button Styles */\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  font-size: 24px;\n  border: none;\n  padding: 20px;\n  border-radius: 50%;\n  /* Rounded circle */\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.3s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n  transform: scale(1.1);\n}\n\n/* Transition */\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (max-width: 767px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 100% !important;\n}\n}\n\n/* Offcanvas 40% Width on Larger Screens (tablet and above) */\n@media (min-width: 768px) {\n#settingsOffcanvas[data-v-39610a88] {\n    width: 40% !important;\n}\n}\n.custom-offcanvas[data-v-39610a88] {\n  background-color: #10584f;\n  color: white;\n  min-width: 30%;\n}\n.fab[data-v-39610a88] {\n  transition: background-color 0.3s ease, transform 0.2s;\n}\n.fab[data-v-39610a88]:hover {\n  transform: scale(1.1);\n}\n.action-button[data-v-39610a88] {\n  transition: all 0.3s ease;\n  cursor: pointer;\n  color: #333;\n}\n.feature[data-v-39610a88]:hover {\n  color: #0db691;\n}\n.action-button[data-v-39610a88]:hover {\n  color: #0db691;\n  /* Bootstrap primary */\n  transform: translateY(-2px);\n}\n.time-estimates[data-v-39610a88] {\n  font-size: 14px;\n  margin-bottom: 20px;\n}\n.time-estimates p[data-v-39610a88] {\n  margin: 5px 0;\n}\nmark[data-v-39610a88] {\n  background-color: #0db691;\n  color: white;\n  padding: 0 2px;\n  border-radius: 2px;\n}\n.btn-play[data-v-39610a88] {\n  background-color: #0db691;\n  /* Green color for play */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-play[data-v-39610a88]:hover {\n  background-color: #17a085;\n  /* Slightly darker green */\n}\n.btn-stop[data-v-39610a88] {\n  background-color: #e74c3c;\n  /* Red color for stop */\n  color: white;\n  border: none;\n  padding: 10px 20px;\n  font-size: 16px;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.btn-stop[data-v-39610a88]:hover {\n  background-color: #c0392b;\n  /* Slightly darker red */\n}\n.timeline[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n}\n.timeline-wrapper[data-v-39610a88] {\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  scrollbar-width: none;\n  /* Firefox */\n}\n.timeline-wrapper[data-v-39610a88]::-webkit-scrollbar {\n  display: none;\n  /* Chrome/Safari */\n}\n.timeline[data-v-39610a88] {\n  display: flex;\n  flex-wrap: nowrap;\n  gap: 12px;\n  min-width: -moz-max-content;\n  min-width: max-content;\n}\n.timeline-point[data-v-39610a88] {\n  flex-shrink: 0;\n}\n.timeline-badge[data-v-39610a88] {\n  border-radius: 1rem;\n  padding: 0.8rem 1.3rem;\n  background-color: #f8f9fa;\n  color: #212529;\n  transition: all 0.3s ease;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);\n  border: 1px solid #ced4da;\n  font-weight: 300;\n  white-space: nowrap;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.timeline-badge[data-v-39610a88]:hover {\n  background-color: #20c997;\n  color: white;\n  cursor: pointer;\n  transform: scale(1.05);\n  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);\n}\n.timeline-badge.active[data-v-39610a88] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border: 2px solid lightgrey;\n  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);\n}\n.event-box[data-v-39610a88] {\n  padding: 15px;\n  border-radius: 10px;\n  background: #fff;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.controls[data-v-39610a88] {\n\n  margin-top: 20px;\n}\n.controls button[data-v-39610a88] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-39610a88]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-39610a88]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* FAB Button Styles */\n.fab[data-v-39610a88] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  background-color: #20c997;\n  color: white;\n  font-size: 24px;\n  border: none;\n  padding: 20px;\n  border-radius: 50%;\n  /* Rounded circle */\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  transition: background-color 0.3s ease, transform 0.3s ease;\n  cursor: pointer;\n}\n.fab[data-v-39610a88]:hover {\n  background-color: #17a085;\n  transform: scale(1.1);\n}\n\n/* Transition */\n.fade-enter-active[data-v-39610a88],\n.fade-leave-active[data-v-39610a88] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-39610a88],\n.fade-leave-to[data-v-39610a88] {\n  opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

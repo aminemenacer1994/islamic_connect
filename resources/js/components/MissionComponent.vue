@@ -14,7 +14,7 @@
     </div>
 
     <transition name="fade" mode="out-in">
-      <div v-if="events.length" :key="currentIndex" class="event-box animate__animated">
+      <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
 
         <!-- <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div> -->
 
@@ -82,26 +82,21 @@
         </div> -->
         <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
 
-        <div class="container overflow-x: auto; white-space: nowrap;">
-          <p style="display: inline-block; min-width: max-content;" >
+        <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+          <p style="display: inline-block; min-width: max-content;">
             <i class="bi bi-book pr-3 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong >Read Time:</strong> {{ readTime }} minutes
+            <strong>Read Time:</strong> {{ readTime }} minutes
 
-            <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
+            <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
+              @click="shareOnWhatsApp"></i>
             <strong style="cursor: pointer;" class="feature">Share</strong>
 
-            <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
+            <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;"
+              @click="copyToClipboard()"></i>
             <strong style="cursor: pointer;" class="feature">Copy Text</strong>
-
-            <!-- <i class="bi bi-headphones pr-2 pl-2" style="font-size: 22px; color: gray;"></i>
-            <strong>Listen Time:</strong> {{ listenTime }} minutes -->
-
-            <!-- <i class="bi bi-calculator pr-2 pl-2" style="font-size: 22px; "></i>
-            <strong>Word Count:</strong> {{ wordCount }} -->
-
           </p>
-
         </div>
+
 
 
         <!-- <div style="overflow-x: auto; white-space: nowrap;">
@@ -212,11 +207,11 @@
                   </select>
                 </div>
 
-                
 
-              </div><button class="btn btn-success text-right mt-3" @click="submitFontSize" >
-                  Submit Changes
-                </button>
+
+              </div><button class="btn btn-success text-right mt-3" @click="submitFontSize">
+                Submit Changes
+              </button>
             </form>
 
           </div>
@@ -228,9 +223,9 @@
           <i class="bi bi-gear-fill fs-4"></i>
         </div>
 
-        <div class="controls text-center">
-          <button @click="prev" :disabled="currentIndex === 0">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1">Next</button>
+        <div class="controls text-center mt-4">
+          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary">Next</button>
         </div>
 
       </div>
@@ -254,6 +249,7 @@ export default {
         textDecoration: "none",
         fontFamily: "Arial, sans-serif",
       },
+      events: [],
       showSuccess: false,
       currentIndex: 0,
       selectedVoice: null,
@@ -344,6 +340,18 @@ export default {
     }
   },
   methods: {
+    prev() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+      }
+    },
+    next() {
+      if (this.currentIndex < this.events.length - 1) {
+        this.currentIndex++;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+      }
+    },
     saveSettings() {
       localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
       this.showSuccess = true;
@@ -446,18 +454,6 @@ export default {
 
       this.events = filtered;
       this.currentIndex = 0;
-    },
-    next() {
-      if (this.currentIndex < this.events.length - 1) {
-        this.currentIndex++;
-        this.scrollToBadge();
-      }
-    },
-    prev() {
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-        this.scrollToBadge();
-      }
     },
     selectEvent(index) {
       this.currentIndex = index;  // Update the selected index
@@ -623,7 +619,7 @@ export default {
   color: #333;
 }
 
-.feature:hover{
+.feature:hover {
   color: #0db691;
 }
 

@@ -52,10 +52,10 @@
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
             <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 20px;">
+              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
               Share
             </a>
-            <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 20px;"
+            <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"
               data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image">
               Expand
             </a>
@@ -68,7 +68,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Image</h5>
+            <!-- <h5 class="modal-title">Image</h5> -->
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -117,6 +117,18 @@ export default {
     this.fetchGallery();
   },
   methods: {
+    prev() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+      }
+    },
+    next() {
+      if (this.currentIndex < this.events.length - 1) {
+        this.currentIndex++;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+      }
+    },
     async fetchGallery() {
       try {
         const response = await fetch(
