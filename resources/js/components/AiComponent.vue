@@ -12,9 +12,12 @@
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
         <h3 class="fw-bold text-left pt-2 pb-2 container">Search Islamic images:</h3>
-        <input @keyup.enter="fetchGallery" type="text" class="form-control" placeholder="Search for images..." />
+        <input v-model="searchTerm" @input="handleSearchInput" type="text" class="form-control"
+          placeholder="Search for Islamic keywords..." />
       </div>
     </div>
+
+
 
     <!-- Filters -->
     <div class="mb-4 text-center">
@@ -95,10 +98,11 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
+            <div class="modal-title" style="font-size: 24px; font-weight: bold;">Islamic Image</div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h2 class="modal-title fw-bold display-5">Islamic Image</h2>
+
             <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid mx-auto d-block"
               style="max-width: 100%; max-height: 80vh; object-fit: contain; padding: 5px;" />
 
@@ -119,19 +123,20 @@
 export default {
   data() {
     return {
+      searchTerm: '',
       selectedImage: null,
       allImages: [],
       images: [],
       currentPage: 1,
       itemsPerPage: 9,
-      searchTerm: 'Islamic',
+
       activeFilter: 'Islamic',
       isModalOpen: false,
-      loading: true, // 👈 added
+      loading: true,
       apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
       filters: [
         'Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
-        'Ramadan', 'Prayer', 'Eid', 'Arabic Art', 'Islamic Architecture',
+        'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
     };
   },
@@ -150,10 +155,12 @@ export default {
   },
   methods: {
     async fetchGallery() {
-      this.loading = true; 
+      this.loading = true;
       try {
+        // Always prepend "Islamic" to the search term
+        const query = `Islamic ${this.searchTerm}`.trim();
         const response = await fetch(
-          `https://api.pexels.com/v1/search?query=${this.searchTerm}&per_page=30`,
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
           {
             headers: {
               Authorization: this.apiKey,
@@ -166,9 +173,10 @@ export default {
       } catch (error) {
         console.error('Error fetching images:', error);
       } finally {
-        this.loading = false; // 👈 stop loading
+        this.loading = false;
       }
     },
+    
     applyFilter(keyword) {
       this.activeFilter = keyword;
       this.searchTerm = keyword;

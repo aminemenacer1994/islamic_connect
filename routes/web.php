@@ -291,7 +291,7 @@ Route::get('/support', [SupportController::class, 'index'])->name('support');
 // mission
 Route::get('/mission', [MissionController::class, 'index'])->name('mission');
 // ai
-Route::get('/ai', [AiController::class, 'index'])->name('ai');
+Route::get('/gallery', [AiController::class, 'index'])->name('gallery');
 // access
 Route::get('/access', [AccessController::class, 'index'])->name('access');
 // content

@@ -10,7 +10,7 @@
       <div class="row mb-4">
 
         <!-- Category Dropdown -->
-        <div class="col-md-6">
+        <div class="col-md-8">
           <div class="mb-3">
             <h4 class="fw-bold text-left pt-2 pb-2 container">Select a Category:</h4>
 
@@ -24,12 +24,12 @@
         </div>
 
         <!-- Search Input -->
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <div class="mb-3">
             <h4 class="fw-bold text-left pt-2 pb-2 container">Search for a Dua word:</h4>
             <input v-model="searchQuery" type="text" placeholder="Search for a keyword..." class="form-control" />
           </div>
-        </div>
+        </div> -->
 
       </div>
     </div>

@@ -125,7 +125,7 @@
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/ai" data-path="/ai"><b style="color:black">Islamic Gallery</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/gallery" data-path="/gallery"><b style="color:black">Islamic Gallery</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/guide" data-path="/guide"><b style="color:black">Islamic Guides</b></a></h6>

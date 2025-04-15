@@ -540,10 +540,12 @@ export default {
       return div.textContent || div.innerText || '';
     },
     next() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.stopTTS();
       this.currentIndex++;
     },
     prev() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.stopTTS();
       this.currentIndex--;
     },

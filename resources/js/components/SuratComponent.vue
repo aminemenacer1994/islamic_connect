@@ -129,9 +129,6 @@
               </ul>
             </div>
           </div>
-
-
-
           <!-- Arabic Text (RTL) -->
           <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
             :style="{ fontSize: arabicFontSize + 'px' }">

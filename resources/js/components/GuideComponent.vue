@@ -17,13 +17,12 @@
           </option>
         </select>
       </div>
-
-      <h2 class="fw-bold text-left pt-2 pb-2 container" v-if="selectedCategory !== ''">Search for a Keyword:</h2>
+      <!-- <h2 class="fw-bold text-left pt-2 pb-2 container" v-if="selectedCategory !== ''">Search for a Keyword:</h2>
       <div class="col-md-6" v-if="selectedCategory !== ''">
         <div class="mb-3 d-flex align-items-center gap-2">
           <input type="text" v-model="searchText" class="form-control" placeholder="Search text..." />
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Add your content here -->
