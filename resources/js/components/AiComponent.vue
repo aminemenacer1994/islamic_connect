@@ -11,11 +11,17 @@
     <!-- Search -->
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
-        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Islamic images:</h3>
-        <input v-model="searchTerm" @input="handleSearchInput" type="text" class="form-control"
-          placeholder="Search for Islamic keywords..." />
+        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Images in Gallery:</h3>
+        <div class="input-group">
+          <input v-model="searchTerm" @keyup.enter="fetchGallery" type="text" class="form-control"
+            placeholder="Search for Islamic images..." />
+          <button @click="fetchGallery" class="btn" type="button" style="background-color: #0db691; color: white;">
+            Search
+          </button>
+        </div>
       </div>
     </div>
+
 
 
 
@@ -176,7 +182,6 @@ export default {
         this.loading = false;
       }
     },
-    
     applyFilter(keyword) {
       this.activeFilter = keyword;
       this.searchTerm = keyword;
