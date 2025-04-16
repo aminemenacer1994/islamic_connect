@@ -1,45 +1,37 @@
 <template>
   <div>
     <!-- header -->
-    <div class="jumbotron" style="
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        position: relative;
-        height: 100%;
-        background-image: url('images/banner-img.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: white;
-      ">
-      <!-- Dark Overlay -->
-      <div style="
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.6);
-          z-index: 1;
-        "></div>
+    <div class="jumbotron">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
         <div class="container-fluid text-center">
-          <div class="row">
-            <div class="col-md-12">
-              <h2 class="display-5 mt-2 fw-bold text-center container">
+          <div class="row mb-2">
+            <div class="col-md-5">
+              <h1 class="display-5 mt-2 fw-bold text-center container">
                 Empowering Islamic Teachings Through AI
-              </h2>
-              <h2 class="lead container pt-3 text-center" style="line-height: 1.8em">
+              </h1>
+              <h3 class="lead container pt-3 text-center" style="line-height: 1.8em">
                 <strong>
                   Experience the transformative power of AI as it helps us break down barriers and make Islamic
                   knowledge more accessible than ever before. At the heart of our mission is a deep commitment to
                   fostering spiritual growth and strengthening the bond within the global Muslim community.</strong>
-              </h2>
+              </h3>
+              <div class="col-lg-12">
+                <div class="d-flex justify-content-center gap-4 py-2" style="gap: 4rem">
+                  <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/quran">Get
+                    Started</a>
+                  <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/support">Donate
+                    Now</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <img src="/images/quran_search1.png" width="100%">
             </div>
           </div>
-          <div class="row justify-content-center text-center py-5">
-            <div class="col-lg-12">
+          <!-- <div class="row justify-content-center text-center py-5">
+            <div class="col-lg-6">
               <div class="d-flex justify-content-center gap-4 py-2" style="gap: 4rem">
                 <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/quran">Get
                   Started</a>
@@ -47,12 +39,59 @@
                   Now</a>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
-        <PrayerTimes />
+        <!-- <PrayerTimes /> -->
         <!-- <HijriCalendar /> -->
       </div>
     </div>
+    
+    <div class="bg-light py-5 service-1">
+      <div class="container">
+        <!-- Row  -->
+        <div class="row">
+          <!-- Column -->
+          <div class="col-md-4 wrap-service1-box">
+            <div class="card border-0 card-shadow mb-4">
+              <div class="card-body text-center">
+                <div class="my-3"><img src="images/galaxy.png" width="100px" /></div>
+                <h3 class="fw-bold">Explore with Ease</h3>
+                <p class="mt-3" style="font-size: 18px;">Search the Quran, Duas, and Seerah effortlessly, using simple
+                  keywords or topics. Whether you’re seeking inspiration or answers, you’ll find meaningful content
+                  instantly, making your spiritual journey easier.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+          <div class="col-md-4 wrap-service1-box">
+            <div class="card border-0 card-shadow mb-4">
+              <div class="card-body text-center">
+                <div class="my-3"><img src="images/watching.png" width="100px" /></div>
+                <h3 class="fw-bold">Listen, Watch & Reflect</h3>
+                <p class="mt-3" style="font-size: 18px;">Enjoy Quran recitations, insightful audio podcasts, and a rich
+                  image gallery of Islamic art. Learn through sound, visuals, and reflection making it easier to stay
+                  spiritually engaged anywhere.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+          <div class="col-md-4 wrap-service1-box">
+            <div class="card border-0 card-shadow mb-4">
+              <div class="card-body text-center">
+                <div class="my-3"><img src="images/school.png" width="100px" /></div>
+                <h3 class="fw-bold">Learn Your Way</h3>
+                <p class="mt-3" style="font-size: 18px;">With text-to-speech, screen reader support, and customizable
+                  bookmarks, Islamic Connect ensures everyone can learn. It’s built for accessibility, allowing everyone
+                  regardless of ability to engage with content comfortably.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
 
     <!-- AI tools & features -->
     <section class="py-5">
@@ -183,7 +222,7 @@
       </div>
     </section>
     <!-- about us -->
-    <section class="py-5" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
+    <!-- <section class="py-5" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <div class="container">
         <div class="row gx-4 pt-3 align-items-center justify-content-between">
           <div class="col-md-6 order-1">
@@ -211,7 +250,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- donation -->
     <div class="jumbotron" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <div class="container pt-3">
@@ -386,6 +425,67 @@
   </div>
 </template>
 <style scoped>
+.service-1 {
+  font-family: "Montserrat", sans-serif;
+  color: #8d97ad;
+  font-weight: 300;
+}
+
+.service-1 h1,
+.service-1 h2,
+.service-1 h3,
+.service-1 h4,
+.service-1 h5,
+.service-1 h6 {
+  color: #3e4555;
+}
+
+.service-1 .font-weight-medium {
+  font-weight: 500;
+}
+
+.service-1 .bg-light {
+  background-color: #f4f8fa !important;
+}
+
+.service-1 .subtitle {
+  color: #8d97ad;
+  line-height: 24px;
+}
+
+.service-1 .card.card-shadow {
+  -webkit-box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+}
+
+.service-1 .wrap-service1-box .card-body {
+  padding: 40px;
+}
+
+.service-1 .btn-success-gradiant {
+  background: #2cdd9b;
+  background: -webkit-linear-gradient(legacy-direction(to right), #2cdd9b 0%, #1dc8cc 100%);
+  background: -webkit-gradient(linear, left top, right top, from(#2cdd9b), to(#1dc8cc));
+  background: -webkit-linear-gradient(left, #2cdd9b 0%, #1dc8cc 100%);
+  background: -o-linear-gradient(left, #2cdd9b 0%, #1dc8cc 100%);
+  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);
+  border: 0px;
+}
+
+.service-1 .btn-success-gradiant:hover {
+  background: #1dc8cc;
+  background: -webkit-linear-gradient(legacy-direction(to right), #1dc8cc 0%, #2cdd9b 100%);
+  background: -webkit-gradient(linear, left top, right top, from(#1dc8cc), to(#2cdd9b));
+  background: -webkit-linear-gradient(left, #1dc8cc 0%, #2cdd9b 100%);
+  background: -o-linear-gradient(left, #1dc8cc 0%, #2cdd9b 100%);
+  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);
+}
+
+.service-1 .btn-md {
+  padding: 15px 45px;
+  font-size: 16px;
+}
+
 .jumbotron-overlay {
   position: absolute;
   top: 0;

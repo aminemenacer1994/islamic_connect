@@ -33099,9 +33099,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "IslamicTv",
+  name: 'IslamicArticles',
   data: function data() {
-    return {};
+    return {
+      articles: [],
+      loading: true,
+      error: null
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+    var API_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://aboutislam.net/feed/');
+    fetch(API_URL).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      var parsedXML = new window.DOMParser().parseFromString(data.contents, 'text/xml');
+      var items = parsedXML.querySelectorAll('item');
+      _this.articles = Array.from(items).map(function (item) {
+        return {
+          title: item.querySelector('title').textContent,
+          description: item.querySelector('description').textContent,
+          link: item.querySelector('link').textContent
+        };
+      });
+      _this.loading = false;
+    })["catch"](function (err) {
+      _this.error = err.message;
+      _this.loading = false;
+    });
   }
 });
 
@@ -44465,39 +44490,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "jumbotron",
-  style: {
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    "position": "relative",
-    "height": "100%",
-    "background-image": "url('images/banner-img.jpg')",
-    "background-size": "cover",
-    "background-position": "center",
-    "background-repeat": "no-repeat",
-    "color": "white"
-  }
-};
-var _hoisted_2 = {
-  "class": "container-fluid",
-  style: {
-    "position": "relative",
-    "z-index": "2"
-  }
-};
-var _hoisted_3 = {
   "class": "py-5"
 };
-var _hoisted_4 = {
+var _hoisted_2 = {
   "class": "container-fluid"
+};
+var _hoisted_3 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_4 = {
+  "class": "col-md-10 col-lg-6 mt-2"
 };
 var _hoisted_5 = {
   "class": "row justify-content-center"
 };
 var _hoisted_6 = {
-  "class": "col-md-10 col-lg-6 mt-2"
+  "class": "col-md-6"
 };
 var _hoisted_7 = {
-  "class": "row justify-content-center"
+  "class": "mb-3"
 };
 var _hoisted_8 = {
   "class": "col-md-6"
@@ -44530,49 +44541,32 @@ var _hoisted_17 = {
   "class": "mb-3"
 };
 var _hoisted_18 = {
-  "class": "col-md-6"
-};
-var _hoisted_19 = {
-  "class": "mb-3"
-};
-var _hoisted_20 = {
   "class": "py-5",
   style: {
     "background": "#00bfa6",
     "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
   }
 };
-var _hoisted_21 = {
+var _hoisted_19 = {
   "class": "container"
 };
-var _hoisted_22 = {
+var _hoisted_20 = {
   "class": "row justify-content-center"
 };
-var _hoisted_23 = {
+var _hoisted_21 = {
   "class": "col-lg-10"
 };
-var _hoisted_24 = {
+var _hoisted_22 = {
   "class": "mx-auto mt-3"
 };
-var _hoisted_25 = {
+var _hoisted_23 = {
   "class": "col-md-4"
 };
-var _hoisted_26 = {
+var _hoisted_24 = {
   "class": "col-md-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _component_PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PrayerTimes");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dark Overlay "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: {
-      "position": "absolute",
-      "top": "0",
-      "left": "0",
-      "width": "100%",
-      "height": "100%",
-      "background-color": "rgba(0, 0, 0, 0.6)",
-      "z-index": "1"
-    }
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container-fluid text-center\" data-v-2ba25654><div class=\"row\" data-v-2ba25654><div class=\"col-md-12\" data-v-2ba25654><h2 class=\"display-5 mt-2 fw-bold text-center container\" data-v-2ba25654> Empowering Islamic Teachings Through AI </h2><h2 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Experience the transformative power of AI as it helps us break down barriers and make Islamic knowledge more accessible than ever before. At the heart of our mission is a deep commitment to fostering spiritual growth and strengthening the bond within the global Muslim community.</strong></h2></div></div><div class=\"row justify-content-center text-center py-5\" data-v-2ba25654><div class=\"col-lg-12\" data-v-2ba25654><div class=\"d-flex justify-content-center gap-4 py-2\" style=\"gap:4rem;\" data-v-2ba25654><a class=\"btn btn-lg\" style=\"background-color:rgb(53, 163, 139);color:white;\" href=\"/quran\" data-v-2ba25654>Get Started</a><a class=\"btn btn-lg\" style=\"background-color:rgb(53, 163, 139);color:white;\" href=\"/support\" data-v-2ba25654>Donate Now</a></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_PrayerTimes), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <HijriCalendar /> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. We believe that technology should bridge gaps, not create them, and that every person deserves the chance to connect with their faith in a way that resonates with them. and how they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" about us "), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row gx-4 pt-3 align-items-center justify-content-between\" data-v-2ba25654><div class=\"col-md-6 order-1\" data-v-2ba25654><div class=\"mt-3 mt-md-0 text-center\" data-v-2ba25654><h4 class=\"display-5 fw-bold\" data-v-2ba25654> Why This Platform has been built? </h4><p class=\"lead\" data-v-2ba25654> Islamic Connect was built with the belief that knowledge is the key to understanding, and understanding forms the foundation of acceptance. The platform is designed to be a welcoming and inclusive space where English-speaking individuals from all backgrounds can come together to learn and grow. </p><p class=\"lead\" data-v-2ba25654> The mission is to empower everyone to explore Islam with confidence and clarity, free from fear or confusion. Islamic Connect is here to provide the support and guidance needed on this journey. </p></div></div><div class=\"col-md-6 order-2 pb-1\" data-v-2ba25654><img src=\"/images/group.png\" width=\"100%\" loading=\"lazy\" data-v-2ba25654></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" donation "), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"jumbotron\" data-v-2ba25654><!-- Content --><div class=\"container-fluid\" style=\"position:relative;z-index:2;\" data-v-2ba25654><div class=\"container-fluid text-center\" data-v-2ba25654><div class=\"row mb-2\" data-v-2ba25654><div class=\"col-md-5\" data-v-2ba25654><h1 class=\"display-5 mt-2 fw-bold text-center container\" data-v-2ba25654> Empowering Islamic Teachings Through AI </h1><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Experience the transformative power of AI as it helps us break down barriers and make Islamic knowledge more accessible than ever before. At the heart of our mission is a deep commitment to fostering spiritual growth and strengthening the bond within the global Muslim community.</strong></h3><div class=\"col-lg-12\" data-v-2ba25654><div class=\"d-flex justify-content-center gap-4 py-2\" style=\"gap:4rem;\" data-v-2ba25654><a class=\"btn btn-lg\" style=\"background-color:rgb(53, 163, 139);color:white;\" href=\"/quran\" data-v-2ba25654>Get Started</a><a class=\"btn btn-lg\" style=\"background-color:rgb(53, 163, 139);color:white;\" href=\"/support\" data-v-2ba25654>Donate Now</a></div></div></div><div class=\"col-md-7\" data-v-2ba25654><img src=\"/images/quran_search1.png\" width=\"100%\" data-v-2ba25654></div></div><!-- &lt;div class=&quot;row justify-content-center text-center py-5&quot;&gt;\n            &lt;div class=&quot;col-lg-6&quot;&gt;\n              &lt;div class=&quot;d-flex justify-content-center gap-4 py-2&quot; style=&quot;gap: 4rem&quot;&gt;\n                &lt;a class=&quot;btn btn-lg&quot; style=&quot;background-color: rgb(53, 163, 139); color: white&quot; href=&quot;/quran&quot;&gt;Get\n                  Started&lt;/a&gt;\n                &lt;a class=&quot;btn btn-lg&quot; style=&quot;background-color: rgb(53, 163, 139); color: white&quot; href=&quot;/support&quot;&gt;Donate\n                  Now&lt;/a&gt;\n              &lt;/div&gt;\n            &lt;/div&gt;\n          &lt;/div&gt; --></div><!-- &lt;PrayerTimes /&gt; --><!-- &lt;HijriCalendar /&gt; --></div></div><div class=\"bg-light py-5 service-1\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><!-- Row  --><div class=\"row\" data-v-2ba25654><!-- Column --><div class=\"col-md-4 wrap-service1-box\" data-v-2ba25654><div class=\"card border-0 card-shadow mb-4\" data-v-2ba25654><div class=\"card-body text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/galaxy.png\" width=\"100px\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Explore with Ease</h3><p class=\"mt-3\" style=\"font-size:18px;\" data-v-2ba25654>Search the Quran, Duas, and Seerah effortlessly, using simple keywords or topics. Whether you’re seeking inspiration or answers, you’ll find meaningful content instantly, making your spiritual journey easier.</p></div></div></div><!-- Column --><div class=\"col-md-4 wrap-service1-box\" data-v-2ba25654><div class=\"card border-0 card-shadow mb-4\" data-v-2ba25654><div class=\"card-body text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/watching.png\" width=\"100px\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Listen, Watch &amp; Reflect</h3><p class=\"mt-3\" style=\"font-size:18px;\" data-v-2ba25654>Enjoy Quran recitations, insightful audio podcasts, and a rich image gallery of Islamic art. Learn through sound, visuals, and reflection making it easier to stay spiritually engaged anywhere.</p></div></div></div><!-- Column --><div class=\"col-md-4 wrap-service1-box\" data-v-2ba25654><div class=\"card border-0 card-shadow mb-4\" data-v-2ba25654><div class=\"card-body text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/school.png\" width=\"100px\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Learn Your Way</h3><p class=\"mt-3\" style=\"font-size:18px;\" data-v-2ba25654>With text-to-speech, screen reader support, and customizable bookmarks, Islamic Connect ensures everyone can learn. It’s built for accessibility, allowing everyone regardless of ability to engage with content comfortably.</p></div></div></div></div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. We believe that technology should bridge gaps, not create them, and that every person deserves the chance to connect with their faith in a way that resonates with them. and how they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" about us "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px\">\n      <div class=\"container\">\n        <div class=\"row gx-4 pt-3 align-items-center justify-content-between\">\n          <div class=\"col-md-6 order-1\">\n            <div class=\"mt-3 mt-md-0 text-center\">\n              <h4 class=\"display-5 fw-bold\">\n                Why This Platform has been built?\n              </h4>\n              <p class=\"lead\">\n                Islamic Connect was built with the belief that knowledge is the\n                key to understanding, and understanding forms the foundation of\n                acceptance. The platform is designed to be a welcoming and\n                inclusive space where English-speaking individuals from all\n                backgrounds can come together to learn and grow.\n              </p>\n              <p class=\"lead\">\n                The mission is to empower everyone to explore Islam with\n                confidence and clarity, free from fear or confusion. Islamic\n                Connect is here to provide the support and guidance needed on\n                this journey.\n              </p>\n            </div>\n          </div>\n          <div class=\"col-md-6 order-2 pb-1\">\n            <img src=\"/images/group.png\" width=\"100%\" loading=\"lazy\" />\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" donation "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "jumbotron",
     style: {
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
@@ -44605,7 +44599,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onclick: "window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "mt-3 mb-3"
-  }, "Support Islamic Knowledge")])])])])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Support Islamic Knowledge")])])])])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
@@ -44613,14 +44607,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-5 fw-bold mb-3"
   }, "Contact Us"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "lead"
-  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support, feedback or inquiries about our content and services. ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, " Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support, feedback or inquiries about our content and services. ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onReset: _cache[6] || (_cache[6] = function () {
       return _ctx.reset && _ctx.reset.apply(_ctx, arguments);
     }),
     onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.sendMessage();
     }, ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.form.firstname = $event;
@@ -44628,7 +44622,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "firstname",
     placeholder: "First name",
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.firstname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.form.lastname = $event;
@@ -44636,7 +44630,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "lastname",
     placeholder: "Last name",
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.lastname]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.form.email = $event;
@@ -44644,7 +44638,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "email",
     placeholder: "Email Adress",
     type: "email"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.form.subject = $event;
@@ -44652,7 +44646,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "subject",
     placeholder: "subject",
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.subject]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.form.mobile = $event;
@@ -44660,7 +44654,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "mobile",
     placeholder: "Phone number",
     type: "number"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.mobile]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.form.message = $event;
@@ -44668,7 +44662,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "message",
     placeholder: "Your message",
     rows: "4"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.message]])])]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-12"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-grid"
@@ -44679,9 +44673,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, " Send message ")])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, " Send message ")])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-center text-white"
-  }, " Subscribe to Mailing List ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, " Subscribe to Mailing List ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "lead container pt-1 text-center text-white",
     style: {
       "line-height": "1.8em"
@@ -44694,21 +44688,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSubmit: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.submitMail();
     }, ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.form.name = $event;
     }),
     placeholder: "Full name",
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-control bg-light",
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.form.email = $event;
     }),
     placeholder: "Email address",
     type: "text"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.email]])]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-grid"
@@ -44720,7 +44714,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "border": "white solid 2px"
     },
     type: "submit"
-  }, " Subscribe ")])], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-3\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"d-lg-flex justify-content-between py-lg-2\" data-v-2ba25654><div class=\"md mb-2 mb-lg-0\" data-v-2ba25654><p class=\"mb-0 me-5\" data-v-2ba25654><b data-v-2ba25654>© 2025 islamic connect All rights reserved.</b></p></div><!-- Social icons container, aligned to the right --><div class=\"d-flex justify-content-end ms-3\" data-v-2ba25654><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.instagram.com/islamicconnect24/\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.tiktok.com/@islamic_connect24\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://x.com/islamiconnect24\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, " Subscribe ")])], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-3\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"d-lg-flex justify-content-between py-lg-2\" data-v-2ba25654><div class=\"md mb-2 mb-lg-0\" data-v-2ba25654><p class=\"mb-0 me-5\" data-v-2ba25654><b data-v-2ba25654>© 2025 islamic connect All rights reserved.</b></p></div><!-- Social icons container, aligned to the right --><div class=\"d-flex justify-content-end ms-3\" data-v-2ba25654><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.instagram.com/islamicconnect24/\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.tiktok.com/@islamic_connect24\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div><div class=\"me-3\" data-v-2ba25654><a class=\"me-2\" href=\"https://x.com/islamiconnect24\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -45568,7 +45562,6 @@ var _hoisted_94 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Title = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Title");
   var _component_AdvancedSearch = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AdvancedSearch");
-  var _component_custom_surah_selection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("custom-surah-selection");
   var _component_SurahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SurahDropdown");
   var _component_AyahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahDropdown");
   var _component_ErrorAlert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorAlert");
@@ -45588,14 +45581,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Title), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_4, "Search for a word in the Quran...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 1,
     onInputChange: _ctx.handleInputChange
-  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_custom_surah_selection, {
-    key: 1,
-    customSurat: $data.customSuratList,
-    modelValue: $data.selectedSurah,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.selectedSurah = $event;
-    })
-  }, null, 8 /* PROPS */, ["customSurat", "modelValue"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "fw-bold text-left pt-2 container"
   }, "Select a Surah:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SurahDropdown, {
     "class": "col-md-12",
@@ -45608,7 +45594,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 1,
     "class": "d-flex pb-2 container hide-on-mobile-tablet",
     role: "search",
-    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.scrollToAyah && $options.scrollToAyah.apply($options, arguments);
     }, ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -45619,11 +45605,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     type: "number",
     placeholder: "Enter Verse Number",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.verseNumber = $event;
     }),
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.verseNumber]]), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.verseNumber]]), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-success mb-1 ml-1",
     style: {
       "background": "#00bfa6",
@@ -45660,40 +45646,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: "-1",
     "aria-labelledby": "surahInfoModalLabel",
     "aria-hidden": "true",
-    onClick: _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onClick: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     }, ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "modal-title fs-5",
     id: "surahInfoModalLabel"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Information")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     }),
     "aria-label": "Close"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_26, [$data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_26, [$data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label"
-  }, "Surah Name (English):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.name_en), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Surah Name (English):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.name_en), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information.ayah && $data.information.ayah.surah ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "formGroupExampleInput",
     "class": "form-label text-left"
   }, "Surah Information:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.information.ayah.surah.text), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-secondary",
     "data-bs-dismiss": "modal",
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return _ctx.closeModal && _ctx.closeModal.apply(_ctx, arguments);
     })
   }, " Close ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Welcome, {
     information: $data.information
   }, null, 8 /* PROPS */, ["information"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[10] || (_cache[10] = function () {
+    onUpdateTafseer: _cache[9] || (_cache[9] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[11] || (_cache[11] = function () {
+    onUpdateInformation: _cache[10] || (_cache[10] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
     style: {
@@ -45708,51 +45694,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[7] || (_cache[7] = function () {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[8] || (_cache[8] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[9] || (_cache[9] = function () {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* HOISTED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
-    onClick: _cache[12] || (_cache[12] = function () {
+    onClick: _cache[11] || (_cache[11] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -45760,29 +45746,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[13] || (_cache[13] = function ($event) {
+    onClick: _cache[12] || (_cache[12] = function ($event) {
       return $options.openModal('translationNote');
     })
-  }), _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
   }, "Write a Note", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[14] || (_cache[14] = function () {
+    onClick: _cache[13] || (_cache[13] = function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
-  }), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2"
-  }, "Bookmark", -1 /* HOISTED */))]), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"icon-text pt-2\" data-v-2b3c2c26>Surah Info</div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text desktop-icon text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"icon-text pt-2\" data-v-2b3c2c26>Feedback</div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Bookmark", -1 /* HOISTED */))]), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"icon-text pt-2\" data-v-2b3c2c26>Surah Info</div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text desktop-icon text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"icon-text pt-2\" data-v-2b3c2c26>Feedback</div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrows-fullscreen h4",
-    onClick: _cache[15] || (_cache[15] = function () {
+    onClick: _cache[14] || (_cache[14] = function () {
       return $options.toggleFullScreen && $options.toggleFullScreen.apply($options, arguments);
     }),
     title: "Full screen"
-  }), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Full Screen", -1 /* HOISTED */))])])]), _cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Full Screen", -1 /* HOISTED */))])])]), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -45794,7 +45780,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[16] || (_cache[16] = function ($event) {
+    onClick: _cache[15] || (_cache[15] = function ($event) {
       return $options.goToFirstAyah();
     }),
     title: "Last verse"
@@ -45803,12 +45789,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[17] || (_cache[17] = function ($event) {
+    onClick: _cache[16] || (_cache[16] = function ($event) {
       return $options.goToPreviousAyah();
     }),
     title: "Previous verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[18] || (_cache[18] = function () {
+    onClick: _cache[17] || (_cache[17] = function () {
       return $options.submitForm && $options.submitForm.apply($options, arguments);
     }),
     "class": "bi bi-bookmark mb-2 h4",
@@ -45820,7 +45806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[19] || (_cache[19] = function ($event) {
+    onClick: _cache[18] || (_cache[18] = function ($event) {
       return $options.goToNextAyah();
     }),
     title: "Next verse"
@@ -45829,7 +45815,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[20] || (_cache[20] = function ($event) {
+    onClick: _cache[19] || (_cache[19] = function ($event) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
@@ -45855,7 +45841,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
   }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
-    onClick: _cache[21] || (_cache[21] = function () {
+    onClick: _cache[20] || (_cache[20] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TranslationActions, {
@@ -45867,10 +45853,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     isPlaying: _ctx.isPlaying
   }, null, 8 /* PROPS */, ["translation", "onOpenModal", "onSubmitForm", "onToggleAudio", "isPlaying"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tafseer Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[26] || (_cache[26] = function () {
+    onUpdateTafseer: _cache[25] || (_cache[25] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[27] || (_cache[27] = function () {
+    onUpdateInformation: _cache[26] || (_cache[26] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
     style: {
@@ -45885,51 +45871,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[22] || (_cache[22] = function () {
+    onClick: _cache[21] || (_cache[21] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[23] || (_cache[23] = function () {
+    onClick: _cache[22] || (_cache[22] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[24] || (_cache[24] = function () {
+    onClick: _cache[23] || (_cache[23] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[25] || (_cache[25] = function () {
+    onClick: _cache[24] || (_cache[24] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* HOISTED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
-    onClick: _cache[28] || (_cache[28] = function () {
+    onClick: _cache[27] || (_cache[27] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)]), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -45937,38 +45923,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[29] || (_cache[29] = function ($event) {
+    onClick: _cache[28] || (_cache[28] = function ($event) {
       return $options.openModal('tafseerNote');
     })
-  }), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
   }, "Write a Note")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[30] || (_cache[30] = function () {
+    onClick: _cache[29] || (_cache[29] = function () {
       return $options.submitFormTafseer && $options.submitFormTafseer.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Bookmark verse"
-  }), _cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* HOISTED */))]), _cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Surah Info</div></div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Feedback</div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Bookmark")], -1 /* HOISTED */))]), _cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Surah Info</div></div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Feedback</div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrows-fullscreen h4",
-    onClick: _cache[31] || (_cache[31] = function () {
+    onClick: _cache[30] || (_cache[30] = function () {
       return $options.toggleFullScreen && $options.toggleFullScreen.apply($options, arguments);
     }),
     title: "Full screen",
     "aria-expanded": "false",
     "data-bs-placement": "top"
-  }), _cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Full Screen")], -1 /* HOISTED */))])])]), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Full Screen")], -1 /* HOISTED */))])])]), _cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid #333"
     }
@@ -45980,7 +45966,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[32] || (_cache[32] = function ($event) {
+    onClick: _cache[31] || (_cache[31] = function ($event) {
       return $options.goToFirstAyah();
     }),
     title: "Last verse"
@@ -45989,12 +45975,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[33] || (_cache[33] = function ($event) {
+    onClick: _cache[32] || (_cache[32] = function ($event) {
       return $options.goToPreviousAyah();
     }),
     title: "Previous verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[34] || (_cache[34] = function () {
+    onClick: _cache[33] || (_cache[33] = function () {
       return $options.submitFormTafseer && $options.submitFormTafseer.apply($options, arguments);
     }),
     "class": "bi bi-bookmark mb-2 h4",
@@ -46006,7 +45992,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[35] || (_cache[35] = function ($event) {
+    onClick: _cache[34] || (_cache[34] = function ($event) {
       return $options.goToNextAyah();
     }),
     title: "Next verse"
@@ -46015,7 +46001,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[36] || (_cache[36] = function ($event) {
+    onClick: _cache[35] || (_cache[35] = function ($event) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
@@ -46041,7 +46027,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onUpdateSuccessMessage: _ctx.updateSuccessMessage
   }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio", "onUpdateSuccessMessage"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
-    onClick: _cache[37] || (_cache[37] = function () {
+    onClick: _cache[36] || (_cache[36] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TafseerActions, {
@@ -46055,10 +46041,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     information: $data.information
   }, null, 8 /* PROPS */, ["information"])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Transliteration Section "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Ayah Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     selectedSurahId: $data.selectedSurah,
-    onUpdateTafseer: _cache[42] || (_cache[42] = function () {
+    onUpdateTafseer: _cache[41] || (_cache[41] = function () {
       return $options.updateTafseer && $options.updateTafseer.apply($options, arguments);
     }),
-    onUpdateInformation: _cache[43] || (_cache[43] = function () {
+    onUpdateInformation: _cache[42] || (_cache[42] = function () {
       return $options.updateInformation && $options.updateInformation.apply($options, arguments);
     }),
     style: {
@@ -46073,50 +46059,50 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[38] || (_cache[38] = function () {
+    onClick: _cache[37] || (_cache[37] = function () {
       return $options.goToFirstAyah && $options.goToFirstAyah.apply($options, arguments);
     }),
     title: "First verse"
-  }), _cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "First verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[39] || (_cache[39] = function () {
+    onClick: _cache[38] || (_cache[38] = function () {
       return $options.goToPreviousAyah && $options.goToPreviousAyah.apply($options, arguments);
     }),
     title: "Previous verse"
-  }), _cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Previous verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[40] || (_cache[40] = function () {
+    onClick: _cache[39] || (_cache[39] = function () {
       return $options.goToNextAyah && $options.goToNextAyah.apply($options, arguments);
     }),
     title: "Next verse"
-  }), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Next verse", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon",
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[41] || (_cache[41] = function () {
+    onClick: _cache[40] || (_cache[40] = function () {
       return $options.goToLastAyah && $options.goToLastAyah.apply($options, arguments);
     }),
     title: "Last verse"
-  }), _cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "large"
   }, "Last verse", -1 /* HOISTED */))])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_76), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" desktop top features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.iconStyle)
   }, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle-fill' : 'bi bi-plus-circle-fill', "text-left hide-on-mobile h4"]),
-    onClick: _cache[44] || (_cache[44] = function () {
+    onClick: _cache[43] || (_cache[43] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -46124,35 +46110,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": "false",
     "data-bs-placement": "top",
     title: "Write a note",
-    onClick: _cache[45] || (_cache[45] = function ($event) {
+    onClick: _cache[44] || (_cache[44] = function ($event) {
       return $options.openModal('transliterationNote');
     })
-  }), _cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
   }, "Write a Note ")], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[46] || (_cache[46] = function () {
+    onClick: _cache[45] || (_cache[45] = function () {
       return $options.submitFormTransliteration && $options.submitFormTransliteration.apply($options, arguments);
     }),
     "class": "bi bi-bookmark text-right mr-2 h4",
     "aria-expanded": "false",
     title: "Bookmark verse"
+  }), _cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col desktop-icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "icon-text pt-2 mb-2"
+  }, "Bookmark")], -1 /* HOISTED */))]), _cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Surah Info </div></div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Feedback</div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrows-fullscreen h4",
+    onClick: _cache[46] || (_cache[46] = function () {
+      return $options.toggleFullScreen && $options.toggleFullScreen.apply($options, arguments);
+    }),
+    title: "Full screen"
   }), _cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col desktop-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "icon-text pt-2 mb-2"
-  }, "Bookmark")], -1 /* HOISTED */))]), _cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i class=\"bi bi-info-circle h4 mr-2 pl-2\" data-bs-toggle=\"modal\" data-bs-target=\"#translationInfo\" aria-expanded=\"false\" data-bs-placement=\"top\" title=\"Surah info\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Surah Info </div></div></div><div class=\"col desktop-icon\" style=\"cursor:pointer;\" data-v-2b3c2c26><i title=\"Give feedback\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" class=\"bi bi-chat-left-text text-right mr-2 h4\" aria-expanded=\"false\" data-bs-placement=\"top\" data-v-2b3c2c26></i><div class=\"col desktop-icon\" data-v-2b3c2c26><div class=\"icon-text pt-2 mb-2\" data-v-2b3c2c26>Feedback</div></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-arrows-fullscreen h4",
-    onClick: _cache[47] || (_cache[47] = function () {
-      return $options.toggleFullScreen && $options.toggleFullScreen.apply($options, arguments);
-    }),
-    title: "Full screen"
-  }), _cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col desktop-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "icon-text pt-2 mb-2"
-  }, "Full Screen ")], -1 /* HOISTED */))])])]), _cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Full Screen ")], -1 /* HOISTED */))])])]), _cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     style: {
       "border": "2px solid\n                                                                #333"
     }
@@ -46164,7 +46150,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[48] || (_cache[48] = function ($event) {
+    onClick: _cache[47] || (_cache[47] = function ($event) {
       return $options.goToFirstAyah();
     }),
     title: "Last verse"
@@ -46173,12 +46159,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[49] || (_cache[49] = function ($event) {
+    onClick: _cache[48] || (_cache[48] = function ($event) {
       return $options.goToPreviousAyah();
     }),
     title: "Previous verse"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    onClick: _cache[50] || (_cache[50] = function () {
+    onClick: _cache[49] || (_cache[49] = function () {
       return $options.submitFormTransliteration && $options.submitFormTransliteration.apply($options, arguments);
     }),
     "class": "bi bi-bookmark mb-2 h4",
@@ -46190,7 +46176,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[51] || (_cache[51] = function ($event) {
+    onClick: _cache[50] || (_cache[50] = function ($event) {
       return $options.goToNextAyah();
     }),
     title: "Next verse"
@@ -46199,7 +46185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     },
-    onClick: _cache[52] || (_cache[52] = function ($event) {
+    onClick: _cache[51] || (_cache[51] = function ($event) {
       return $options.goToLastAyah();
     }),
     title: "End verse"
@@ -46224,7 +46210,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onToggleAudio: $options.toggleAudioPlayback
   }, null, 8 /* PROPS */, ["currentAyah", "isVisible", "information", "isFullScreen", "expanded", "showMoreLink", "showAlertText", "showAlert", "showErrorAlert", "showAlertTextNote", "isPlaying", "onHighlightText", "onClearHighlight", "onToggleChange", "onToggleFullScreen", "onToggleExpand", "onCloseAlertText", "onToggleAudio"])], 512 /* NEED_PATCH */), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.isOpen ? 'bi bi-x-circle' : 'bi bi-plus-circle-fill', "text-center mobile-only h3 pt-3"]),
-    onClick: _cache[53] || (_cache[53] = function () {
+    onClick: _cache[52] || (_cache[52] = function () {
       return $options.toggleContent && $options.toggleContent.apply($options, arguments);
     })
   }, null, 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toolbar mobile "), $data.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_93, [!$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_TransliterationActions, {
@@ -46358,10 +46344,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6 ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -46372,12 +46358,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-5"
+  "class": "articles-container"
 };
+var _hoisted_2 = {
+  key: 0,
+  "class": "loading"
+};
+var _hoisted_3 = {
+  key: 1,
+  "class": "error"
+};
+var _hoisted_4 = {
+  key: 2
+};
+var _hoisted_5 = {
+  key: 0,
+  "class": "no-results"
+};
+var _hoisted_6 = {
+  key: 1,
+  "class": "article-list"
+};
+var _hoisted_7 = ["href"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "mb-4 text-center"
-  }, "Islamic Live TV Streaming", -1 /* HOISTED */)]));
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "title"
+  }, "📚 Islamic Articles", -1 /* HOISTED */)), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, "Loading articles...")) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [$data.articles.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, "No articles found.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.articles, function (article, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "article-card"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(article.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(article.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: article.link,
+      target: "_blank"
+    }, "Read more", 8 /* PROPS */, _hoisted_7)]);
+  }), 128 /* KEYED_FRAGMENT */))]))]))]);
 }
 
 /***/ }),
@@ -83465,7 +83479,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.jumbotron-overlay[data-v-2ba25654] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n  color: white;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.service-1[data-v-2ba25654] {\n  font-family: \"Montserrat\", sans-serif;\n  color: #8d97ad;\n  font-weight: 300;\n}\n.service-1 h1[data-v-2ba25654],\n.service-1 h2[data-v-2ba25654],\n.service-1 h3[data-v-2ba25654],\n.service-1 h4[data-v-2ba25654],\n.service-1 h5[data-v-2ba25654],\n.service-1 h6[data-v-2ba25654] {\n  color: #3e4555;\n}\n.service-1 .font-weight-medium[data-v-2ba25654] {\n  font-weight: 500;\n}\n.service-1 .bg-light[data-v-2ba25654] {\n  background-color: #f4f8fa !important;\n}\n.service-1 .subtitle[data-v-2ba25654] {\n  color: #8d97ad;\n  line-height: 24px;\n}\n.service-1 .card.card-shadow[data-v-2ba25654] {\n  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);\n}\n.service-1 .wrap-service1-box .card-body[data-v-2ba25654] {\n  padding: 40px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654] {\n  background: #2cdd9b;\n  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);\n  border: 0px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654]:hover {\n  background: #1dc8cc;\n  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);\n}\n.service-1 .btn-md[data-v-2ba25654] {\n  padding: 15px 45px;\n  font-size: 16px;\n}\n.jumbotron-overlay[data-v-2ba25654] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n  color: white;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -83587,6 +83601,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  background: rgba(13, 182, 145, 0.09);\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.articles-container[data-v-670f86e6] {\n  max-width: 800px;\n  margin: auto;\n  padding: 2rem;\n  font-family: Arial, sans-serif;\n}\n.title[data-v-670f86e6] {\n  font-size: 1.8rem;\n  margin-bottom: 1rem;\n  text-align: center;\n}\n.loading[data-v-670f86e6],\n.error[data-v-670f86e6],\n.no-results[data-v-670f86e6] {\n  text-align: center;\n  font-size: 1.2rem;\n  color: #555;\n}\n.article-list[data-v-670f86e6] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.article-card[data-v-670f86e6] {\n  padding: 1rem;\n  border: 1px solid #ccc;\n  border-radius: 8px;\n}\n.article-card h3[data-v-670f86e6] {\n  margin: 0 0 0.5rem;\n}\n.article-card p[data-v-670f86e6] {\n  margin-bottom: 0.5rem;\n}\n.article-card a[data-v-670f86e6] {\n  color: #007BFF;\n  text-decoration: none;\n}\n.article-card a[data-v-670f86e6]:hover {\n  text-decoration: underline;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -84738,7 +84776,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".swal2-popup.swal2-toast {\n  box-sizing: border-box;\n  grid-column: 1/4 !important;\n  grid-row: 1/4 !important;\n  grid-template-columns: min-content auto min-content;\n  padding: 1em;\n  overflow-y: hidden;\n  background: #fff;\n  box-shadow: 0 0 1px hsla(0, 0%, 0%, 0.075), 0 1px 2px hsla(0, 0%, 0%, 0.075), 1px 2px 4px hsla(0, 0%, 0%, 0.075), 1px 3px 8px hsla(0, 0%, 0%, 0.075), 2px 4px 16px hsla(0, 0%, 0%, 0.075);\n  pointer-events: all;\n}\n.swal2-popup.swal2-toast > * {\n  grid-column: 2;\n}\n.swal2-popup.swal2-toast .swal2-title {\n  margin: 0.5em 1em;\n  padding: 0;\n  font-size: 1em;\n  text-align: initial;\n}\n.swal2-popup.swal2-toast .swal2-loading {\n  justify-content: center;\n}\n.swal2-popup.swal2-toast .swal2-input {\n  height: 2em;\n  margin: 0.5em;\n  font-size: 1em;\n}\n.swal2-popup.swal2-toast .swal2-validation-message {\n  font-size: 1em;\n}\n.swal2-popup.swal2-toast .swal2-footer {\n  margin: 0.5em 0 0;\n  padding: 0.5em 0 0;\n  font-size: 0.8em;\n}\n.swal2-popup.swal2-toast .swal2-close {\n  grid-column: 3/3;\n  grid-row: 1/99;\n  align-self: center;\n  width: 0.8em;\n  height: 0.8em;\n  margin: 0;\n  font-size: 2em;\n}\n.swal2-popup.swal2-toast .swal2-html-container {\n  margin: 0.5em 1em;\n  padding: 0;\n  overflow: initial;\n  font-size: 1em;\n  text-align: initial;\n}\n.swal2-popup.swal2-toast .swal2-html-container:empty {\n  padding: 0;\n}\n.swal2-popup.swal2-toast .swal2-loader {\n  grid-column: 1;\n  grid-row: 1/99;\n  align-self: center;\n  width: 2em;\n  height: 2em;\n  margin: 0.25em;\n}\n.swal2-popup.swal2-toast .swal2-icon {\n  grid-column: 1;\n  grid-row: 1/99;\n  align-self: center;\n  width: 2em;\n  min-width: 2em;\n  height: 2em;\n  margin: 0 0.5em 0 0;\n}\n.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content {\n  display: flex;\n  align-items: center;\n  font-size: 1.8em;\n  font-weight: bold;\n}\n.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring {\n  width: 2em;\n  height: 2em;\n}\n.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line] {\n  top: 0.875em;\n  width: 1.375em;\n}\n.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left] {\n  left: 0.3125em;\n}\n.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right] {\n  right: 0.3125em;\n}\n.swal2-popup.swal2-toast .swal2-actions {\n  justify-content: flex-start;\n  height: auto;\n  margin: 0;\n  margin-top: 0.5em;\n  padding: 0 0.5em;\n}\n.swal2-popup.swal2-toast .swal2-styled {\n  margin: 0.25em 0.5em;\n  padding: 0.4em 0.6em;\n  font-size: 1em;\n}\n.swal2-popup.swal2-toast .swal2-success {\n  border-color: #a5dc86;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line] {\n  position: absolute;\n  width: 1.6em;\n  height: 3em;\n  border-radius: 50%;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left] {\n  top: -0.8em;\n  left: -0.5em;\n  transform: rotate(-45deg);\n  transform-origin: 2em 2em;\n  border-radius: 4em 0 0 4em;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right] {\n  top: -0.25em;\n  left: 0.9375em;\n  transform-origin: 0 1.5em;\n  border-radius: 0 4em 4em 0;\n}\n.swal2-popup.swal2-toast .swal2-success .swal2-success-ring {\n  width: 2em;\n  height: 2em;\n}\n.swal2-popup.swal2-toast .swal2-success .swal2-success-fix {\n  top: 0;\n  left: 0.4375em;\n  width: 0.4375em;\n  height: 2.6875em;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line] {\n  height: 0.3125em;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip] {\n  top: 1.125em;\n  left: 0.1875em;\n  width: 0.75em;\n}\n.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long] {\n  top: 0.9375em;\n  right: 0.1875em;\n  width: 1.375em;\n}\n.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip {\n  animation: swal2-toast-animate-success-line-tip 0.75s;\n}\n.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long {\n  animation: swal2-toast-animate-success-line-long 0.75s;\n}\n.swal2-popup.swal2-toast.swal2-show {\n  animation: swal2-toast-show 0.5s;\n}\n.swal2-popup.swal2-toast.swal2-hide {\n  animation: swal2-toast-hide 0.1s forwards;\n}\ndiv:where(.swal2-container) {\n  display: grid;\n  position: fixed;\n  z-index: 1060;\n  inset: 0;\n  box-sizing: border-box;\n  grid-template-areas: \"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";\n  grid-template-rows: minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);\n  height: 100%;\n  padding: 0.625em;\n  overflow-x: hidden;\n  transition: background-color 0.1s;\n  -webkit-overflow-scrolling: touch;\n}\ndiv:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {\n  background: rgba(0, 0, 0, 0.4);\n}\ndiv:where(.swal2-container).swal2-backdrop-hide {\n  background: transparent !important;\n}\ndiv:where(.swal2-container).swal2-top-start, div:where(.swal2-container).swal2-center-start, div:where(.swal2-container).swal2-bottom-start {\n  grid-template-columns: minmax(0, 1fr) auto auto;\n}\ndiv:where(.swal2-container).swal2-top, div:where(.swal2-container).swal2-center, div:where(.swal2-container).swal2-bottom {\n  grid-template-columns: auto minmax(0, 1fr) auto;\n}\ndiv:where(.swal2-container).swal2-top-end, div:where(.swal2-container).swal2-center-end, div:where(.swal2-container).swal2-bottom-end {\n  grid-template-columns: auto auto minmax(0, 1fr);\n}\ndiv:where(.swal2-container).swal2-top-start > .swal2-popup {\n  align-self: start;\n}\ndiv:where(.swal2-container).swal2-top > .swal2-popup {\n  grid-column: 2;\n  place-self: start center;\n}\ndiv:where(.swal2-container).swal2-top-end > .swal2-popup, div:where(.swal2-container).swal2-top-right > .swal2-popup {\n  grid-column: 3;\n  place-self: start end;\n}\ndiv:where(.swal2-container).swal2-center-start > .swal2-popup, div:where(.swal2-container).swal2-center-left > .swal2-popup {\n  grid-row: 2;\n  align-self: center;\n}\ndiv:where(.swal2-container).swal2-center > .swal2-popup {\n  grid-column: 2;\n  grid-row: 2;\n  place-self: center center;\n}\ndiv:where(.swal2-container).swal2-center-end > .swal2-popup, div:where(.swal2-container).swal2-center-right > .swal2-popup {\n  grid-column: 3;\n  grid-row: 2;\n  place-self: center end;\n}\ndiv:where(.swal2-container).swal2-bottom-start > .swal2-popup, div:where(.swal2-container).swal2-bottom-left > .swal2-popup {\n  grid-column: 1;\n  grid-row: 3;\n  align-self: end;\n}\ndiv:where(.swal2-container).swal2-bottom > .swal2-popup {\n  grid-column: 2;\n  grid-row: 3;\n  place-self: end center;\n}\ndiv:where(.swal2-container).swal2-bottom-end > .swal2-popup, div:where(.swal2-container).swal2-bottom-right > .swal2-popup {\n  grid-column: 3;\n  grid-row: 3;\n  place-self: end end;\n}\ndiv:where(.swal2-container).swal2-grow-row > .swal2-popup, div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {\n  grid-column: 1/4;\n  width: 100%;\n}\ndiv:where(.swal2-container).swal2-grow-column > .swal2-popup, div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {\n  grid-row: 1/4;\n  align-self: stretch;\n}\ndiv:where(.swal2-container).swal2-no-transition {\n  transition: none !important;\n}\ndiv:where(.swal2-container) div:where(.swal2-popup) {\n  display: none;\n  position: relative;\n  box-sizing: border-box;\n  grid-template-columns: minmax(0, 100%);\n  width: 32em;\n  max-width: 100%;\n  padding: 0 0 1.25em;\n  border: none;\n  border-radius: 5px;\n  background: #fff;\n  color: rgb(84.15, 84.15, 84.15);\n  font-family: inherit;\n  font-size: 1rem;\n}\ndiv:where(.swal2-container) div:where(.swal2-popup):focus {\n  outline: none;\n}\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-loading {\n  overflow-y: hidden;\n}\ndiv:where(.swal2-container) h2:where(.swal2-title) {\n  position: relative;\n  max-width: 100%;\n  margin: 0;\n  padding: 0.8em 1em 0;\n  color: inherit;\n  font-size: 1.875em;\n  font-weight: 600;\n  text-align: center;\n  text-transform: none;\n  word-wrap: break-word;\n}\ndiv:where(.swal2-container) div:where(.swal2-actions) {\n  display: flex;\n  z-index: 1;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  width: auto;\n  margin: 1.25em auto 0;\n  padding: 0;\n}\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled] {\n  opacity: 0.4;\n}\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover {\n  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));\n}\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active {\n  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));\n}\ndiv:where(.swal2-container) div:where(.swal2-loader) {\n  display: none;\n  align-items: center;\n  justify-content: center;\n  width: 2.2em;\n  height: 2.2em;\n  margin: 0 1.875em;\n  animation: swal2-rotate-loading 1.5s linear 0s infinite normal;\n  border-width: 0.25em;\n  border-style: solid;\n  border-radius: 100%;\n  border-color: #2778c4 transparent #2778c4 transparent;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled) {\n  margin: 0.3125em;\n  padding: 0.625em 1.1em;\n  transition: box-shadow 0.1s;\n  box-shadow: 0 0 0 3px transparent;\n  font-weight: 500;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {\n  cursor: pointer;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: #7066e0;\n  color: #fff;\n  font-size: 1em;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):focus-visible {\n  box-shadow: 0 0 0 3px rgba(112, 102, 224, 0.5);\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: #dc3741;\n  color: #fff;\n  font-size: 1em;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):focus-visible {\n  box-shadow: 0 0 0 3px rgba(220, 55, 65, 0.5);\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: #6e7881;\n  color: #fff;\n  font-size: 1em;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):focus-visible {\n  box-shadow: 0 0 0 3px rgba(110, 120, 129, 0.5);\n}\ndiv:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus-visible {\n  box-shadow: 0 0 0 3px rgba(100, 150, 200, 0.5);\n}\ndiv:where(.swal2-container) button:where(.swal2-styled):focus-visible {\n  outline: none;\n}\ndiv:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner {\n  border: 0;\n}\ndiv:where(.swal2-container) div:where(.swal2-footer) {\n  margin: 1em 0 0;\n  padding: 1em 1em 0;\n  border-top: 1px solid #eee;\n  color: inherit;\n  font-size: 1em;\n  text-align: center;\n}\ndiv:where(.swal2-container) .swal2-timer-progress-bar-container {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  grid-column: auto !important;\n  overflow: hidden;\n  border-bottom-right-radius: 5px;\n  border-bottom-left-radius: 5px;\n}\ndiv:where(.swal2-container) div:where(.swal2-timer-progress-bar) {\n  width: 100%;\n  height: 0.25em;\n  background: rgba(0, 0, 0, 0.2);\n}\ndiv:where(.swal2-container) img:where(.swal2-image) {\n  max-width: 100%;\n  margin: 2em auto 1em;\n}\ndiv:where(.swal2-container) button:where(.swal2-close) {\n  z-index: 2;\n  align-items: center;\n  justify-content: center;\n  width: 1.2em;\n  height: 1.2em;\n  margin-top: 0;\n  margin-right: 0;\n  margin-bottom: -1.2em;\n  padding: 0;\n  overflow: hidden;\n  transition: color 0.1s, box-shadow 0.1s;\n  border: none;\n  border-radius: 5px;\n  background: transparent;\n  color: #ccc;\n  font-family: monospace;\n  font-size: 2.5em;\n  cursor: pointer;\n  justify-self: end;\n}\ndiv:where(.swal2-container) button:where(.swal2-close):hover {\n  transform: none;\n  background: transparent;\n  color: #f27474;\n}\ndiv:where(.swal2-container) button:where(.swal2-close):focus-visible {\n  outline: none;\n  box-shadow: inset 0 0 0 3px rgba(100, 150, 200, 0.5);\n}\ndiv:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner {\n  border: 0;\n}\ndiv:where(.swal2-container) .swal2-html-container {\n  z-index: 1;\n  justify-content: center;\n  margin: 0;\n  padding: 1em 1.6em 0.3em;\n  overflow: auto;\n  color: inherit;\n  font-size: 1.125em;\n  font-weight: normal;\n  line-height: normal;\n  text-align: center;\n  word-wrap: break-word;\n  word-break: break-word;\n}\ndiv:where(.swal2-container) input:where(.swal2-input),\ndiv:where(.swal2-container) input:where(.swal2-file),\ndiv:where(.swal2-container) textarea:where(.swal2-textarea),\ndiv:where(.swal2-container) select:where(.swal2-select),\ndiv:where(.swal2-container) div:where(.swal2-radio),\ndiv:where(.swal2-container) label:where(.swal2-checkbox) {\n  margin: 1em 2em 3px;\n}\ndiv:where(.swal2-container) input:where(.swal2-input),\ndiv:where(.swal2-container) input:where(.swal2-file),\ndiv:where(.swal2-container) textarea:where(.swal2-textarea) {\n  box-sizing: border-box;\n  width: auto;\n  transition: border-color 0.1s, box-shadow 0.1s;\n  border: 1px solid rgb(216.75, 216.75, 216.75);\n  border-radius: 0.1875em;\n  background: transparent;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;\n  color: inherit;\n  font-size: 1.125em;\n}\ndiv:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,\ndiv:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror {\n  border-color: #f27474 !important;\n  box-shadow: 0 0 2px #f27474 !important;\n}\ndiv:where(.swal2-container) input:where(.swal2-input):focus,\ndiv:where(.swal2-container) input:where(.swal2-file):focus,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea):focus {\n  border: 1px solid #b4dbed;\n  outline: none;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);\n}\ndiv:where(.swal2-container) input:where(.swal2-input)::-moz-placeholder, div:where(.swal2-container) input:where(.swal2-file)::-moz-placeholder, div:where(.swal2-container) textarea:where(.swal2-textarea)::-moz-placeholder {\n  color: #ccc;\n}\ndiv:where(.swal2-container) input:where(.swal2-input)::placeholder,\ndiv:where(.swal2-container) input:where(.swal2-file)::placeholder,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder {\n  color: #ccc;\n}\ndiv:where(.swal2-container) .swal2-range {\n  margin: 1em 2em 3px;\n  background: #fff;\n}\ndiv:where(.swal2-container) .swal2-range input {\n  width: 80%;\n}\ndiv:where(.swal2-container) .swal2-range output {\n  width: 20%;\n  color: inherit;\n  font-weight: 600;\n  text-align: center;\n}\ndiv:where(.swal2-container) .swal2-range input,\ndiv:where(.swal2-container) .swal2-range output {\n  height: 2.625em;\n  padding: 0;\n  font-size: 1.125em;\n  line-height: 2.625em;\n}\ndiv:where(.swal2-container) .swal2-input {\n  height: 2.625em;\n  padding: 0 0.75em;\n}\ndiv:where(.swal2-container) .swal2-file {\n  width: 75%;\n  margin-right: auto;\n  margin-left: auto;\n  background: transparent;\n  font-size: 1.125em;\n}\ndiv:where(.swal2-container) .swal2-textarea {\n  height: 6.75em;\n  padding: 0.75em;\n}\ndiv:where(.swal2-container) .swal2-select {\n  min-width: 50%;\n  max-width: 100%;\n  padding: 0.375em 0.625em;\n  background: transparent;\n  color: inherit;\n  font-size: 1.125em;\n}\ndiv:where(.swal2-container) .swal2-radio,\ndiv:where(.swal2-container) .swal2-checkbox {\n  align-items: center;\n  justify-content: center;\n  background: #fff;\n  color: inherit;\n}\ndiv:where(.swal2-container) .swal2-radio label,\ndiv:where(.swal2-container) .swal2-checkbox label {\n  margin: 0 0.6em;\n  font-size: 1.125em;\n}\ndiv:where(.swal2-container) .swal2-radio input,\ndiv:where(.swal2-container) .swal2-checkbox input {\n  flex-shrink: 0;\n  margin: 0 0.4em;\n}\ndiv:where(.swal2-container) label:where(.swal2-input-label) {\n  display: flex;\n  justify-content: center;\n  margin: 1em auto 0;\n}\ndiv:where(.swal2-container) div:where(.swal2-validation-message) {\n  align-items: center;\n  justify-content: center;\n  margin: 1em 0 0;\n  padding: 0.625em;\n  overflow: hidden;\n  background: rgb(239.7, 239.7, 239.7);\n  color: #666666;\n  font-size: 1em;\n  font-weight: 300;\n}\ndiv:where(.swal2-container) div:where(.swal2-validation-message)::before {\n  content: \"!\";\n  display: inline-block;\n  width: 1.5em;\n  min-width: 1.5em;\n  height: 1.5em;\n  margin: 0 0.625em;\n  border-radius: 50%;\n  background-color: #f27474;\n  color: #fff;\n  font-weight: 600;\n  line-height: 1.5em;\n  text-align: center;\n}\ndiv:where(.swal2-container) .swal2-progress-steps {\n  flex-wrap: wrap;\n  align-items: center;\n  max-width: 100%;\n  margin: 1.25em auto;\n  padding: 0;\n  background: transparent;\n  font-weight: 600;\n}\ndiv:where(.swal2-container) .swal2-progress-steps li {\n  display: inline-block;\n  position: relative;\n}\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step {\n  z-index: 20;\n  flex-shrink: 0;\n  width: 2em;\n  height: 2em;\n  border-radius: 2em;\n  background: #2778c4;\n  color: #fff;\n  line-height: 2em;\n  text-align: center;\n}\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {\n  background: #2778c4;\n}\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step {\n  background: #add8e6;\n  color: #fff;\n}\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {\n  background: #add8e6;\n}\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line {\n  z-index: 10;\n  flex-shrink: 0;\n  width: 2.5em;\n  height: 0.4em;\n  margin: 0 -1px;\n  background: #2778c4;\n}\ndiv:where(.swal2-icon) {\n  position: relative;\n  box-sizing: content-box;\n  justify-content: center;\n  width: 5em;\n  height: 5em;\n  margin: 2.5em auto 0.6em;\n  border: 0.25em solid transparent;\n  border-radius: 50%;\n  border-color: #000;\n  font-family: inherit;\n  line-height: 5em;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\ndiv:where(.swal2-icon) .swal2-icon-content {\n  display: flex;\n  align-items: center;\n  font-size: 3.75em;\n}\ndiv:where(.swal2-icon).swal2-error {\n  border-color: #f27474;\n  color: #f27474;\n}\ndiv:where(.swal2-icon).swal2-error .swal2-x-mark {\n  position: relative;\n  flex-grow: 1;\n}\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line] {\n  display: block;\n  position: absolute;\n  top: 2.3125em;\n  width: 2.9375em;\n  height: 0.3125em;\n  border-radius: 0.125em;\n  background-color: #f27474;\n}\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left] {\n  left: 1.0625em;\n  transform: rotate(45deg);\n}\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right] {\n  right: 1em;\n  transform: rotate(-45deg);\n}\ndiv:where(.swal2-icon).swal2-error.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\ndiv:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark {\n  animation: swal2-animate-error-x-mark 0.5s;\n}\ndiv:where(.swal2-icon).swal2-warning {\n  border-color: rgb(249.95234375, 205.965625, 167.74765625);\n  color: #f8bb86;\n}\ndiv:where(.swal2-icon).swal2-warning.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\ndiv:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-i-mark 0.5s;\n}\ndiv:where(.swal2-icon).swal2-info {\n  border-color: rgb(156.7033492823, 224.2822966507, 246.2966507177);\n  color: #3fc3ee;\n}\ndiv:where(.swal2-icon).swal2-info.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\ndiv:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-i-mark 0.8s;\n}\ndiv:where(.swal2-icon).swal2-question {\n  border-color: rgb(200.8064516129, 217.9677419355, 225.1935483871);\n  color: #87adbd;\n}\ndiv:where(.swal2-icon).swal2-question.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\ndiv:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-question-mark 0.8s;\n}\ndiv:where(.swal2-icon).swal2-success {\n  border-color: #a5dc86;\n  color: #a5dc86;\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line] {\n  position: absolute;\n  width: 3.75em;\n  height: 7.5em;\n  border-radius: 50%;\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left] {\n  top: -0.4375em;\n  left: -2.0635em;\n  transform: rotate(-45deg);\n  transform-origin: 3.75em 3.75em;\n  border-radius: 7.5em 0 0 7.5em;\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right] {\n  top: -0.6875em;\n  left: 1.875em;\n  transform: rotate(-45deg);\n  transform-origin: 0 3.75em;\n  border-radius: 0 7.5em 7.5em 0;\n}\ndiv:where(.swal2-icon).swal2-success .swal2-success-ring {\n  position: absolute;\n  z-index: 2;\n  top: -0.25em;\n  left: -0.25em;\n  box-sizing: content-box;\n  width: 100%;\n  height: 100%;\n  border: 0.25em solid rgba(165, 220, 134, 0.3);\n  border-radius: 50%;\n}\ndiv:where(.swal2-icon).swal2-success .swal2-success-fix {\n  position: absolute;\n  z-index: 1;\n  top: 0.5em;\n  left: 1.625em;\n  width: 0.4375em;\n  height: 5.625em;\n  transform: rotate(-45deg);\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line] {\n  display: block;\n  position: absolute;\n  z-index: 2;\n  height: 0.3125em;\n  border-radius: 0.125em;\n  background-color: #a5dc86;\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip] {\n  top: 2.875em;\n  left: 0.8125em;\n  width: 1.5625em;\n  transform: rotate(45deg);\n}\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long] {\n  top: 2.375em;\n  right: 0.5em;\n  width: 2.9375em;\n  transform: rotate(-45deg);\n}\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip {\n  animation: swal2-animate-success-line-tip 0.75s;\n}\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long {\n  animation: swal2-animate-success-line-long 0.75s;\n}\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right {\n  animation: swal2-rotate-success-circular-line 4.25s ease-in;\n}\n[class^=swal2] {\n  -webkit-tap-highlight-color: transparent;\n}\n.swal2-show {\n  animation: swal2-show 0.3s;\n}\n.swal2-hide {\n  animation: swal2-hide 0.15s forwards;\n}\n.swal2-noanimation {\n  transition: none;\n}\n.swal2-scrollbar-measure {\n  position: absolute;\n  top: -9999px;\n  width: 50px;\n  height: 50px;\n  overflow: scroll;\n}\n.swal2-rtl .swal2-close {\n  margin-right: initial;\n  margin-left: 0;\n}\n.swal2-rtl .swal2-timer-progress-bar {\n  right: 0;\n  left: auto;\n}\n@keyframes swal2-toast-show {\n  0% {\n    transform: translateY(-0.625em) rotateZ(2deg);\n  }\n  33% {\n    transform: translateY(0) rotateZ(-2deg);\n  }\n  66% {\n    transform: translateY(0.3125em) rotateZ(2deg);\n  }\n  100% {\n    transform: translateY(0) rotateZ(0deg);\n  }\n}\n@keyframes swal2-toast-hide {\n  100% {\n    transform: rotateZ(1deg);\n    opacity: 0;\n  }\n}\n@keyframes swal2-toast-animate-success-line-tip {\n  0% {\n    top: 0.5625em;\n    left: 0.0625em;\n    width: 0;\n  }\n  54% {\n    top: 0.125em;\n    left: 0.125em;\n    width: 0;\n  }\n  70% {\n    top: 0.625em;\n    left: -0.25em;\n    width: 1.625em;\n  }\n  84% {\n    top: 1.0625em;\n    left: 0.75em;\n    width: 0.5em;\n  }\n  100% {\n    top: 1.125em;\n    left: 0.1875em;\n    width: 0.75em;\n  }\n}\n@keyframes swal2-toast-animate-success-line-long {\n  0% {\n    top: 1.625em;\n    right: 1.375em;\n    width: 0;\n  }\n  65% {\n    top: 1.25em;\n    right: 0.9375em;\n    width: 0;\n  }\n  84% {\n    top: 0.9375em;\n    right: 0;\n    width: 1.125em;\n  }\n  100% {\n    top: 0.9375em;\n    right: 0.1875em;\n    width: 1.375em;\n  }\n}\n@keyframes swal2-show {\n  0% {\n    transform: scale(0.7);\n  }\n  45% {\n    transform: scale(1.05);\n  }\n  80% {\n    transform: scale(0.95);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n@keyframes swal2-hide {\n  0% {\n    transform: scale(1);\n    opacity: 1;\n  }\n  100% {\n    transform: scale(0.5);\n    opacity: 0;\n  }\n}\n@keyframes swal2-animate-success-line-tip {\n  0% {\n    top: 1.1875em;\n    left: 0.0625em;\n    width: 0;\n  }\n  54% {\n    top: 1.0625em;\n    left: 0.125em;\n    width: 0;\n  }\n  70% {\n    top: 2.1875em;\n    left: -0.375em;\n    width: 3.125em;\n  }\n  84% {\n    top: 3em;\n    left: 1.3125em;\n    width: 1.0625em;\n  }\n  100% {\n    top: 2.8125em;\n    left: 0.8125em;\n    width: 1.5625em;\n  }\n}\n@keyframes swal2-animate-success-line-long {\n  0% {\n    top: 3.375em;\n    right: 2.875em;\n    width: 0;\n  }\n  65% {\n    top: 3.375em;\n    right: 2.875em;\n    width: 0;\n  }\n  84% {\n    top: 2.1875em;\n    right: 0;\n    width: 3.4375em;\n  }\n  100% {\n    top: 2.375em;\n    right: 0.5em;\n    width: 2.9375em;\n  }\n}\n@keyframes swal2-rotate-success-circular-line {\n  0% {\n    transform: rotate(-45deg);\n  }\n  5% {\n    transform: rotate(-45deg);\n  }\n  12% {\n    transform: rotate(-405deg);\n  }\n  100% {\n    transform: rotate(-405deg);\n  }\n}\n@keyframes swal2-animate-error-x-mark {\n  0% {\n    margin-top: 1.625em;\n    transform: scale(0.4);\n    opacity: 0;\n  }\n  50% {\n    margin-top: 1.625em;\n    transform: scale(0.4);\n    opacity: 0;\n  }\n  80% {\n    margin-top: -0.375em;\n    transform: scale(1.15);\n  }\n  100% {\n    margin-top: 0;\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n@keyframes swal2-animate-error-icon {\n  0% {\n    transform: rotateX(100deg);\n    opacity: 0;\n  }\n  100% {\n    transform: rotateX(0deg);\n    opacity: 1;\n  }\n}\n@keyframes swal2-rotate-loading {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n@keyframes swal2-animate-question-mark {\n  0% {\n    transform: rotateY(-360deg);\n  }\n  100% {\n    transform: rotateY(0);\n  }\n}\n@keyframes swal2-animate-i-mark {\n  0% {\n    transform: rotateZ(45deg);\n    opacity: 0;\n  }\n  25% {\n    transform: rotateZ(-25deg);\n    opacity: 0.4;\n  }\n  50% {\n    transform: rotateZ(15deg);\n    opacity: 0.8;\n  }\n  75% {\n    transform: rotateZ(-5deg);\n    opacity: 1;\n  }\n  100% {\n    transform: rotateX(0);\n    opacity: 1;\n  }\n}\nbody.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {\n  overflow: hidden;\n}\nbody.swal2-height-auto {\n  height: auto !important;\n}\nbody.swal2-no-backdrop .swal2-container {\n  background-color: transparent !important;\n  pointer-events: none;\n}\nbody.swal2-no-backdrop .swal2-container .swal2-popup {\n  pointer-events: all;\n}\nbody.swal2-no-backdrop .swal2-container .swal2-modal {\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);\n}\n@media print {\n  body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {\n    overflow-y: scroll !important;\n  }\n  body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) > [aria-hidden=true] {\n    display: none;\n  }\n  body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container {\n    position: static !important;\n  }\n}\nbody.swal2-toast-shown .swal2-container {\n  box-sizing: border-box;\n  width: 360px;\n  max-width: 100%;\n  background-color: transparent;\n  pointer-events: none;\n}\nbody.swal2-toast-shown .swal2-container.swal2-top {\n  inset: 0 auto auto 50%;\n  transform: translateX(-50%);\n}\nbody.swal2-toast-shown .swal2-container.swal2-top-end, body.swal2-toast-shown .swal2-container.swal2-top-right {\n  inset: 0 0 auto auto;\n}\nbody.swal2-toast-shown .swal2-container.swal2-top-start, body.swal2-toast-shown .swal2-container.swal2-top-left {\n  inset: 0 auto auto 0;\n}\nbody.swal2-toast-shown .swal2-container.swal2-center-start, body.swal2-toast-shown .swal2-container.swal2-center-left {\n  inset: 50% auto auto 0;\n  transform: translateY(-50%);\n}\nbody.swal2-toast-shown .swal2-container.swal2-center {\n  inset: 50% auto auto 50%;\n  transform: translate(-50%, -50%);\n}\nbody.swal2-toast-shown .swal2-container.swal2-center-end, body.swal2-toast-shown .swal2-container.swal2-center-right {\n  inset: 50% 0 auto auto;\n  transform: translateY(-50%);\n}\nbody.swal2-toast-shown .swal2-container.swal2-bottom-start, body.swal2-toast-shown .swal2-container.swal2-bottom-left {\n  inset: auto auto 0 0;\n}\nbody.swal2-toast-shown .swal2-container.swal2-bottom {\n  inset: auto auto 0 50%;\n  transform: translateX(-50%);\n}\nbody.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown .swal2-container.swal2-bottom-right {\n  inset: auto 0 0 auto;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);\n  --swal2-container-padding: 0.625em;\n  --swal2-backdrop: rgba(0, 0, 0, 0.4);\n  --swal2-width: 32em;\n  --swal2-padding: 0 0 1.25em;\n  --swal2-border: none;\n  --swal2-border-radius: 0.3125rem;\n  --swal2-background: white;\n  --swal2-color: #545454;\n  --swal2-footer-border-color: #eee;\n  --swal2-show-animation: swal2-show 0.3s;\n  --swal2-hide-animation: swal2-hide 0.15s forwards;\n  --swal2-title-padding: 0.8em 1em 0;\n  --swal2-html-container-padding: 1em 1.6em 0.3em;\n  --swal2-input-background: transparent;\n  --swal2-progress-step-background: #add8e6;\n  --swal2-validation-message-background: #f0f0f0;\n  --swal2-validation-message-color: #666;\n  --swal2-close-button-position: initial;\n  --swal2-close-button-inset: auto;\n  --swal2-close-button-font-size: 2.5em;\n  --swal2-close-button-color: #ccc;\n  --swal2-close-button-transition: color 0.1s, box-shadow 0.1s;\n  --swal2-close-button-outline: initial;\n  --swal2-close-button-box-shadow: inset 0 0 0 3px transparent;\n  --swal2-close-button-focus-box-shadow: inset var(--swal2-outline);\n  --swal2-close-button-hover-transform: none;\n  --swal2-confirm-button-background-color: #7066e0;\n  --swal2-deny-button-background-color: #dc3741;\n  --swal2-cancel-button-background-color: #6e7881;\n}\n\n[data-swal2-theme=dark] {\n  --swal2-dark-theme-black: #19191a;\n  --swal2-dark-theme-white: #e1e1e1;\n  --swal2-background: var(--swal2-dark-theme-black);\n  --swal2-color: var(--swal2-dark-theme-white);\n  --swal2-footer-border-color: #555;\n  --swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);\n  --swal2-validation-message-background: color-mix(\n    in srgb,\n    var(--swal2-dark-theme-black),\n    var(--swal2-dark-theme-white) 10%\n  );\n  --swal2-validation-message-color: var(--swal2-dark-theme-white);\n}\n\n@media (prefers-color-scheme: dark) {\n  [data-swal2-theme=auto] {\n    --swal2-dark-theme-black: #19191a;\n    --swal2-dark-theme-white: #e1e1e1;\n    --swal2-background: var(--swal2-dark-theme-black);\n    --swal2-color: var(--swal2-dark-theme-white);\n    --swal2-footer-border-color: #555;\n    --swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);\n    --swal2-validation-message-background: color-mix(\n      in srgb,\n      var(--swal2-dark-theme-black),\n      var(--swal2-dark-theme-white) 10%\n    );\n    --swal2-validation-message-color: var(--swal2-dark-theme-white);\n  }\n}\n\nbody.swal2-shown:not(.swal2-no-backdrop, .swal2-toast-shown) {\n  overflow: hidden;\n}\n\nbody.swal2-height-auto {\n  height: auto !important;\n}\n\nbody.swal2-no-backdrop .swal2-container {\n  background-color: transparent !important;\n  pointer-events: none;\n}\n\nbody.swal2-no-backdrop .swal2-container .swal2-popup {\n  pointer-events: all;\n}\n\nbody.swal2-no-backdrop .swal2-container .swal2-modal {\n  box-shadow: 0 0 10px var(--swal2-backdrop);\n}\n\nbody.swal2-toast-shown .swal2-container {\n  box-sizing: border-box;\n  width: 360px;\n  max-width: 100%;\n  background-color: transparent;\n  pointer-events: none;\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-top {\n  inset: 0 auto auto 50%;\n  transform: translateX(-50%);\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-top-end, body.swal2-toast-shown .swal2-container.swal2-top-right {\n  inset: 0 0 auto auto;\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-top-start, body.swal2-toast-shown .swal2-container.swal2-top-left {\n  inset: 0 auto auto 0;\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-center-start, body.swal2-toast-shown .swal2-container.swal2-center-left {\n  inset: 50% auto auto 0;\n  transform: translateY(-50%);\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-center {\n  inset: 50% auto auto 50%;\n  transform: translate(-50%, -50%);\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-center-end, body.swal2-toast-shown .swal2-container.swal2-center-right {\n  inset: 50% 0 auto auto;\n  transform: translateY(-50%);\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-bottom-start, body.swal2-toast-shown .swal2-container.swal2-bottom-left {\n  inset: auto auto 0 0;\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-bottom {\n  inset: auto auto 0 50%;\n  transform: translateX(-50%);\n}\n\nbody.swal2-toast-shown .swal2-container.swal2-bottom-end, body.swal2-toast-shown .swal2-container.swal2-bottom-right {\n  inset: auto 0 0 auto;\n}\n\n@media print {\n  body.swal2-shown:not(.swal2-no-backdrop, .swal2-toast-shown) {\n    overflow-y: scroll !important;\n  }\n  body.swal2-shown:not(.swal2-no-backdrop, .swal2-toast-shown) > [aria-hidden=true] {\n    display: none;\n  }\n  body.swal2-shown:not(.swal2-no-backdrop, .swal2-toast-shown) .swal2-container {\n    position: static !important;\n  }\n}\n\ndiv:where(.swal2-container) {\n  display: grid;\n  position: fixed;\n  z-index: 1060;\n  inset: 0;\n  box-sizing: border-box;\n  grid-template-areas: \"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";\n  grid-template-rows: minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);\n  height: 100%;\n  padding: var(--swal2-container-padding);\n  overflow-x: hidden;\n  transition: background-color 0.1s;\n  -webkit-overflow-scrolling: touch;\n}\n\ndiv:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {\n  background: var(--swal2-backdrop);\n}\n\ndiv:where(.swal2-container).swal2-backdrop-hide {\n  background: transparent !important;\n}\n\ndiv:where(.swal2-container).swal2-top-start, div:where(.swal2-container).swal2-center-start, div:where(.swal2-container).swal2-bottom-start {\n  grid-template-columns: minmax(0, 1fr) auto auto;\n}\n\ndiv:where(.swal2-container).swal2-top, div:where(.swal2-container).swal2-center, div:where(.swal2-container).swal2-bottom {\n  grid-template-columns: auto minmax(0, 1fr) auto;\n}\n\ndiv:where(.swal2-container).swal2-top-end, div:where(.swal2-container).swal2-center-end, div:where(.swal2-container).swal2-bottom-end {\n  grid-template-columns: auto auto minmax(0, 1fr);\n}\n\ndiv:where(.swal2-container).swal2-top-start > .swal2-popup {\n  align-self: start;\n}\n\ndiv:where(.swal2-container).swal2-top > .swal2-popup {\n  grid-column: 2;\n  place-self: start center;\n}\n\ndiv:where(.swal2-container).swal2-top-end > .swal2-popup, div:where(.swal2-container).swal2-top-right > .swal2-popup {\n  grid-column: 3;\n  place-self: start end;\n}\n\ndiv:where(.swal2-container).swal2-center-start > .swal2-popup, div:where(.swal2-container).swal2-center-left > .swal2-popup {\n  grid-row: 2;\n  align-self: center;\n}\n\ndiv:where(.swal2-container).swal2-center > .swal2-popup {\n  grid-column: 2;\n  grid-row: 2;\n  place-self: center center;\n}\n\ndiv:where(.swal2-container).swal2-center-end > .swal2-popup, div:where(.swal2-container).swal2-center-right > .swal2-popup {\n  grid-column: 3;\n  grid-row: 2;\n  place-self: center end;\n}\n\ndiv:where(.swal2-container).swal2-bottom-start > .swal2-popup, div:where(.swal2-container).swal2-bottom-left > .swal2-popup {\n  grid-column: 1;\n  grid-row: 3;\n  align-self: end;\n}\n\ndiv:where(.swal2-container).swal2-bottom > .swal2-popup {\n  grid-column: 2;\n  grid-row: 3;\n  place-self: end center;\n}\n\ndiv:where(.swal2-container).swal2-bottom-end > .swal2-popup, div:where(.swal2-container).swal2-bottom-right > .swal2-popup {\n  grid-column: 3;\n  grid-row: 3;\n  place-self: end end;\n}\n\ndiv:where(.swal2-container).swal2-grow-row > .swal2-popup, div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {\n  grid-column: 1/4;\n  width: 100%;\n}\n\ndiv:where(.swal2-container).swal2-grow-column > .swal2-popup, div:where(.swal2-container).swal2-grow-fullscreen > .swal2-popup {\n  grid-row: 1/4;\n  align-self: stretch;\n}\n\ndiv:where(.swal2-container).swal2-no-transition {\n  transition: none !important;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup) {\n  display: none;\n  position: relative;\n  box-sizing: border-box;\n  grid-template-columns: minmax(0, 100%);\n  width: var(--swal2-width);\n  max-width: 100%;\n  padding: var(--swal2-padding);\n  border: var(--swal2-border);\n  border-radius: var(--swal2-border-radius);\n  background: var(--swal2-background);\n  color: var(--swal2-color);\n  font-family: inherit;\n  font-size: 1rem;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup):focus {\n  outline: none;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-loading {\n  overflow-y: hidden;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-draggable {\n  cursor: grab;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon) {\n  cursor: grab;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-dragging {\n  cursor: grabbing;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon) {\n  cursor: grabbing;\n}\n\ndiv:where(.swal2-container) h2:where(.swal2-title) {\n  position: relative;\n  max-width: 100%;\n  margin: 0;\n  padding: var(--swal2-title-padding);\n  color: inherit;\n  font-size: 1.875em;\n  font-weight: 600;\n  text-align: center;\n  text-transform: none;\n  word-wrap: break-word;\n  cursor: initial;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-actions) {\n  display: flex;\n  z-index: 1;\n  box-sizing: border-box;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  width: auto;\n  margin: 1.25em auto 0;\n  padding: 0;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled] {\n  opacity: 0.4;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover {\n  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));\n}\n\ndiv:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active {\n  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));\n}\n\ndiv:where(.swal2-container) div:where(.swal2-loader) {\n  display: none;\n  align-items: center;\n  justify-content: center;\n  width: 2.2em;\n  height: 2.2em;\n  margin: 0 1.875em;\n  animation: swal2-rotate-loading 1.5s linear 0s infinite normal;\n  border-width: 0.25em;\n  border-style: solid;\n  border-radius: 100%;\n  border-color: #2778c4 transparent #2778c4 transparent;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled) {\n  margin: 0.3125em;\n  padding: 0.625em 1.1em;\n  transition: box-shadow 0.1s;\n  box-shadow: 0 0 0 3px transparent;\n  font-weight: 500;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {\n  cursor: pointer;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: var(--swal2-confirm-button-background-color);\n  color: #fff;\n  font-size: 1em;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: var(--swal2-deny-button-background-color);\n  color: #fff;\n  font-size: 1em;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel) {\n  border: 0;\n  border-radius: 0.25em;\n  background: initial;\n  background-color: var(--swal2-cancel-button-background-color);\n  color: #fff;\n  font-size: 1em;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled):focus-visible {\n  outline: none;\n  box-shadow: var(--swal2-action-button-outline);\n}\n\ndiv:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner {\n  border: 0;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-footer) {\n  margin: 1em 0 0;\n  padding: 1em 1em 0;\n  border-top: 1px solid var(--swal2-footer-border-color);\n  color: inherit;\n  font-size: 1em;\n  text-align: center;\n  cursor: initial;\n}\n\ndiv:where(.swal2-container) .swal2-timer-progress-bar-container {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  grid-column: auto !important;\n  overflow: hidden;\n  border-bottom-right-radius: var(--swal2-border-radius);\n  border-bottom-left-radius: var(--swal2-border-radius);\n}\n\ndiv:where(.swal2-container) div:where(.swal2-timer-progress-bar) {\n  width: 100%;\n  height: 0.25em;\n  background: rgba(0, 0, 0, 0.2);\n}\n\ndiv:where(.swal2-container) img:where(.swal2-image) {\n  max-width: 100%;\n  margin: 2em auto 1em;\n  cursor: initial;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-close) {\n  position: var(--swal2-close-button-position);\n  inset: var(--swal2-close-button-inset);\n  z-index: 2;\n  align-items: center;\n  justify-content: center;\n  width: 1.2em;\n  height: 1.2em;\n  margin-top: 0;\n  margin-right: 0;\n  margin-bottom: -1.2em;\n  padding: 0;\n  overflow: hidden;\n  transition: var(--swal2-close-button-transition);\n  border: none;\n  border-radius: var(--swal2-border-radius);\n  outline: var(--swal2-close-button-outline);\n  background: transparent;\n  color: var(--swal2-close-button-color);\n  font-family: monospace;\n  font-size: var(--swal2-close-button-font-size);\n  cursor: pointer;\n  justify-self: end;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-close):hover {\n  transform: var(--swal2-close-button-hover-transform);\n  background: transparent;\n  color: #f27474;\n}\n\ndiv:where(.swal2-container) button:where(.swal2-close):focus-visible {\n  outline: none;\n  box-shadow: var(--swal2-close-button-focus-box-shadow);\n}\n\ndiv:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner {\n  border: 0;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-html-container) {\n  z-index: 1;\n  justify-content: center;\n  margin: 0;\n  padding: var(--swal2-html-container-padding);\n  overflow: auto;\n  color: inherit;\n  font-size: 1.125em;\n  font-weight: normal;\n  line-height: normal;\n  text-align: center;\n  word-wrap: break-word;\n  word-break: break-word;\n  cursor: initial;\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input),\ndiv:where(.swal2-container) input:where(.swal2-file),\ndiv:where(.swal2-container) textarea:where(.swal2-textarea),\ndiv:where(.swal2-container) select:where(.swal2-select),\ndiv:where(.swal2-container) div:where(.swal2-radio),\ndiv:where(.swal2-container) label:where(.swal2-checkbox) {\n  margin: 1em 2em 3px;\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input),\ndiv:where(.swal2-container) input:where(.swal2-file),\ndiv:where(.swal2-container) textarea:where(.swal2-textarea) {\n  box-sizing: border-box;\n  width: auto;\n  transition: border-color 0.1s, box-shadow 0.1s;\n  border: 1px solid #d9d9d9;\n  border-radius: 0.1875em;\n  background: var(--swal2-input-background);\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;\n  color: inherit;\n  font-size: 1.125em;\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,\ndiv:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror {\n  border-color: #f27474 !important;\n  box-shadow: 0 0 2px #f27474 !important;\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input):focus,\ndiv:where(.swal2-container) input:where(.swal2-file):focus,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea):focus {\n  border: 1px solid #b4dbed;\n  outline: none;\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input)::-moz-placeholder, div:where(.swal2-container) input:where(.swal2-file)::-moz-placeholder, div:where(.swal2-container) textarea:where(.swal2-textarea)::-moz-placeholder {\n  color: #ccc;\n}\n\ndiv:where(.swal2-container) input:where(.swal2-input)::placeholder,\ndiv:where(.swal2-container) input:where(.swal2-file)::placeholder,\ndiv:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder {\n  color: #ccc;\n}\n\ndiv:where(.swal2-container) .swal2-range {\n  margin: 1em 2em 3px;\n  background: var(--swal2-background);\n}\n\ndiv:where(.swal2-container) .swal2-range input {\n  width: 80%;\n}\n\ndiv:where(.swal2-container) .swal2-range output {\n  width: 20%;\n  color: inherit;\n  font-weight: 600;\n  text-align: center;\n}\n\ndiv:where(.swal2-container) .swal2-range input,\ndiv:where(.swal2-container) .swal2-range output {\n  height: 2.625em;\n  padding: 0;\n  font-size: 1.125em;\n  line-height: 2.625em;\n}\n\ndiv:where(.swal2-container) .swal2-input {\n  height: 2.625em;\n  padding: 0 0.75em;\n}\n\ndiv:where(.swal2-container) .swal2-file {\n  width: 75%;\n  margin-right: auto;\n  margin-left: auto;\n  background: var(--swal2-input-background);\n  font-size: 1.125em;\n}\n\ndiv:where(.swal2-container) .swal2-textarea {\n  height: 6.75em;\n  padding: 0.75em;\n}\n\ndiv:where(.swal2-container) .swal2-select {\n  min-width: 50%;\n  max-width: 100%;\n  padding: 0.375em 0.625em;\n  background: var(--swal2-input-background);\n  color: inherit;\n  font-size: 1.125em;\n}\n\ndiv:where(.swal2-container) .swal2-radio,\ndiv:where(.swal2-container) .swal2-checkbox {\n  align-items: center;\n  justify-content: center;\n  background: var(--swal2-background);\n  color: inherit;\n}\n\ndiv:where(.swal2-container) .swal2-radio label,\ndiv:where(.swal2-container) .swal2-checkbox label {\n  margin: 0 0.6em;\n  font-size: 1.125em;\n}\n\ndiv:where(.swal2-container) .swal2-radio input,\ndiv:where(.swal2-container) .swal2-checkbox input {\n  flex-shrink: 0;\n  margin: 0 0.4em;\n}\n\ndiv:where(.swal2-container) label:where(.swal2-input-label) {\n  display: flex;\n  justify-content: center;\n  margin: 1em auto 0;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-validation-message) {\n  align-items: center;\n  justify-content: center;\n  margin: 1em 0 0;\n  padding: 0.625em;\n  overflow: hidden;\n  background: var(--swal2-validation-message-background);\n  color: var(--swal2-validation-message-color);\n  font-size: 1em;\n  font-weight: 300;\n}\n\ndiv:where(.swal2-container) div:where(.swal2-validation-message)::before {\n  content: \"!\";\n  display: inline-block;\n  width: 1.5em;\n  min-width: 1.5em;\n  height: 1.5em;\n  margin: 0 0.625em;\n  border-radius: 50%;\n  background-color: #f27474;\n  color: #fff;\n  font-weight: 600;\n  line-height: 1.5em;\n  text-align: center;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps {\n  flex-wrap: wrap;\n  align-items: center;\n  max-width: 100%;\n  margin: 1.25em auto;\n  padding: 0;\n  background: transparent;\n  font-weight: 600;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps li {\n  display: inline-block;\n  position: relative;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step {\n  z-index: 20;\n  flex-shrink: 0;\n  width: 2em;\n  height: 2em;\n  border-radius: 2em;\n  background: #2778c4;\n  color: #fff;\n  line-height: 2em;\n  text-align: center;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {\n  background: #2778c4;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step {\n  background: var(--swal2-progress-step-background);\n  color: #fff;\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {\n  background: var(--swal2-progress-step-background);\n}\n\ndiv:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line {\n  z-index: 10;\n  flex-shrink: 0;\n  width: 2.5em;\n  height: 0.4em;\n  margin: 0 -1px;\n  background: #2778c4;\n}\n\ndiv:where(.swal2-icon) {\n  position: relative;\n  box-sizing: content-box;\n  justify-content: center;\n  width: 5em;\n  height: 5em;\n  margin: 2.5em auto 0.6em;\n  border: 0.25em solid transparent;\n  border-radius: 50%;\n  border-color: #000;\n  font-family: inherit;\n  line-height: 5em;\n  cursor: default;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n\ndiv:where(.swal2-icon) .swal2-icon-content {\n  display: flex;\n  align-items: center;\n  font-size: 3.75em;\n}\n\ndiv:where(.swal2-icon).swal2-error {\n  border-color: #f27474;\n  color: #f27474;\n}\n\ndiv:where(.swal2-icon).swal2-error .swal2-x-mark {\n  position: relative;\n  flex-grow: 1;\n}\n\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line] {\n  display: block;\n  position: absolute;\n  top: 2.3125em;\n  width: 2.9375em;\n  height: 0.3125em;\n  border-radius: 0.125em;\n  background-color: #f27474;\n}\n\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left] {\n  left: 1.0625em;\n  transform: rotate(45deg);\n}\n\ndiv:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right] {\n  right: 1em;\n  transform: rotate(-45deg);\n}\n\ndiv:where(.swal2-icon).swal2-error.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark {\n  animation: swal2-animate-error-x-mark 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-warning {\n  border-color: #f8bb86;\n  color: #f8bb86;\n}\n\ndiv:where(.swal2-icon).swal2-warning.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-i-mark 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-info {\n  border-color: #3fc3ee;\n  color: #3fc3ee;\n}\n\ndiv:where(.swal2-icon).swal2-info.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-i-mark 0.8s;\n}\n\ndiv:where(.swal2-icon).swal2-question {\n  border-color: #87adbd;\n  color: #87adbd;\n}\n\ndiv:where(.swal2-icon).swal2-question.swal2-icon-show {\n  animation: swal2-animate-error-icon 0.5s;\n}\n\ndiv:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content {\n  animation: swal2-animate-question-mark 0.8s;\n}\n\ndiv:where(.swal2-icon).swal2-success {\n  border-color: #a5dc86;\n  color: #a5dc86;\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line] {\n  position: absolute;\n  width: 3.75em;\n  height: 7.5em;\n  border-radius: 50%;\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left] {\n  top: -0.4375em;\n  left: -2.0635em;\n  transform: rotate(-45deg);\n  transform-origin: 3.75em 3.75em;\n  border-radius: 7.5em 0 0 7.5em;\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right] {\n  top: -0.6875em;\n  left: 1.875em;\n  transform: rotate(-45deg);\n  transform-origin: 0 3.75em;\n  border-radius: 0 7.5em 7.5em 0;\n}\n\ndiv:where(.swal2-icon).swal2-success .swal2-success-ring {\n  position: absolute;\n  z-index: 2;\n  top: -0.25em;\n  left: -0.25em;\n  box-sizing: content-box;\n  width: 100%;\n  height: 100%;\n  border: 0.25em solid rgba(165, 220, 134, 0.3);\n  border-radius: 50%;\n}\n\ndiv:where(.swal2-icon).swal2-success .swal2-success-fix {\n  position: absolute;\n  z-index: 1;\n  top: 0.5em;\n  left: 1.625em;\n  width: 0.4375em;\n  height: 5.625em;\n  transform: rotate(-45deg);\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line] {\n  display: block;\n  position: absolute;\n  z-index: 2;\n  height: 0.3125em;\n  border-radius: 0.125em;\n  background-color: #a5dc86;\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip] {\n  top: 2.875em;\n  left: 0.8125em;\n  width: 1.5625em;\n  transform: rotate(45deg);\n}\n\ndiv:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long] {\n  top: 2.375em;\n  right: 0.5em;\n  width: 2.9375em;\n  transform: rotate(-45deg);\n}\n\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip {\n  animation: swal2-animate-success-line-tip 0.75s;\n}\n\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long {\n  animation: swal2-animate-success-line-long 0.75s;\n}\n\ndiv:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right {\n  animation: swal2-rotate-success-circular-line 4.25s ease-in;\n}\n\n[class^=swal2] {\n  -webkit-tap-highlight-color: transparent;\n}\n\n.swal2-show {\n  animation: var(--swal2-show-animation);\n}\n\n.swal2-hide {\n  animation: var(--swal2-hide-animation);\n}\n\n.swal2-noanimation {\n  transition: none;\n}\n\n.swal2-scrollbar-measure {\n  position: absolute;\n  top: -9999px;\n  width: 50px;\n  height: 50px;\n  overflow: scroll;\n}\n\n.swal2-rtl .swal2-close {\n  margin-right: initial;\n  margin-left: 0;\n}\n\n.swal2-rtl .swal2-timer-progress-bar {\n  right: 0;\n  left: auto;\n}\n\n.swal2-toast {\n  box-sizing: border-box;\n  grid-column: 1/4 !important;\n  grid-row: 1/4 !important;\n  grid-template-columns: min-content auto min-content;\n  padding: 1em;\n  overflow-y: hidden;\n  background: var(--swal2-background);\n  box-shadow: 0 0 1px hsla(0, 0%, 0%, 0.075), 0 1px 2px hsla(0, 0%, 0%, 0.075), 1px 2px 4px hsla(0, 0%, 0%, 0.075), 1px 3px 8px hsla(0, 0%, 0%, 0.075), 2px 4px 16px hsla(0, 0%, 0%, 0.075);\n  pointer-events: all;\n}\n\n.swal2-toast > * {\n  grid-column: 2;\n}\n\n.swal2-toast h2:where(.swal2-title) {\n  margin: 0.5em 1em;\n  padding: 0;\n  font-size: 1em;\n  text-align: initial;\n}\n\n.swal2-toast .swal2-loading {\n  justify-content: center;\n}\n\n.swal2-toast input:where(.swal2-input) {\n  height: 2em;\n  margin: 0.5em;\n  font-size: 1em;\n}\n\n.swal2-toast .swal2-validation-message {\n  font-size: 1em;\n}\n\n.swal2-toast div:where(.swal2-footer) {\n  margin: 0.5em 0 0;\n  padding: 0.5em 0 0;\n  font-size: 0.8em;\n}\n\n.swal2-toast button:where(.swal2-close) {\n  grid-column: 3/3;\n  grid-row: 1/99;\n  align-self: center;\n  width: 0.8em;\n  height: 0.8em;\n  margin: 0;\n  font-size: 2em;\n}\n\n.swal2-toast div:where(.swal2-html-container) {\n  margin: 0.5em 1em;\n  padding: 0;\n  overflow: initial;\n  font-size: 1em;\n  text-align: initial;\n}\n\n.swal2-toast div:where(.swal2-html-container):empty {\n  padding: 0;\n}\n\n.swal2-toast .swal2-loader {\n  grid-column: 1;\n  grid-row: 1/99;\n  align-self: center;\n  width: 2em;\n  height: 2em;\n  margin: 0.25em;\n}\n\n.swal2-toast .swal2-icon {\n  grid-column: 1;\n  grid-row: 1/99;\n  align-self: center;\n  width: 2em;\n  min-width: 2em;\n  height: 2em;\n  margin: 0 0.5em 0 0;\n}\n\n.swal2-toast .swal2-icon .swal2-icon-content {\n  display: flex;\n  align-items: center;\n  font-size: 1.8em;\n  font-weight: bold;\n}\n\n.swal2-toast .swal2-icon.swal2-success .swal2-success-ring {\n  width: 2em;\n  height: 2em;\n}\n\n.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line] {\n  top: 0.875em;\n  width: 1.375em;\n}\n\n.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left] {\n  left: 0.3125em;\n}\n\n.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right] {\n  right: 0.3125em;\n}\n\n.swal2-toast div:where(.swal2-actions) {\n  justify-content: flex-start;\n  height: auto;\n  margin: 0;\n  margin-top: 0.5em;\n  padding: 0 0.5em;\n}\n\n.swal2-toast button:where(.swal2-styled) {\n  margin: 0.25em 0.5em;\n  padding: 0.4em 0.6em;\n  font-size: 1em;\n}\n\n.swal2-toast .swal2-success {\n  border-color: #a5dc86;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-circular-line] {\n  position: absolute;\n  width: 1.6em;\n  height: 3em;\n  border-radius: 50%;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left] {\n  top: -0.8em;\n  left: -0.5em;\n  transform: rotate(-45deg);\n  transform-origin: 2em 2em;\n  border-radius: 4em 0 0 4em;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right] {\n  top: -0.25em;\n  left: 0.9375em;\n  transform-origin: 0 1.5em;\n  border-radius: 0 4em 4em 0;\n}\n\n.swal2-toast .swal2-success .swal2-success-ring {\n  width: 2em;\n  height: 2em;\n}\n\n.swal2-toast .swal2-success .swal2-success-fix {\n  top: 0;\n  left: 0.4375em;\n  width: 0.4375em;\n  height: 2.6875em;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-line] {\n  height: 0.3125em;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip] {\n  top: 1.125em;\n  left: 0.1875em;\n  width: 0.75em;\n}\n\n.swal2-toast .swal2-success [class^=swal2-success-line][class$=long] {\n  top: 0.9375em;\n  right: 0.1875em;\n  width: 1.375em;\n}\n\n.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip {\n  animation: swal2-toast-animate-success-line-tip 0.75s;\n}\n\n.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long {\n  animation: swal2-toast-animate-success-line-long 0.75s;\n}\n\n.swal2-toast.swal2-show {\n  animation: swal2-toast-show 0.5s;\n}\n\n.swal2-toast.swal2-hide {\n  animation: swal2-toast-hide 0.1s forwards;\n}\n\n@keyframes swal2-show {\n  0% {\n    transform: scale(0.7);\n  }\n  45% {\n    transform: scale(1.05);\n  }\n  80% {\n    transform: scale(0.95);\n  }\n  100% {\n    transform: scale(1);\n  }\n}\n\n@keyframes swal2-hide {\n  0% {\n    transform: scale(1);\n    opacity: 1;\n  }\n  100% {\n    transform: scale(0.5);\n    opacity: 0;\n  }\n}\n\n@keyframes swal2-animate-success-line-tip {\n  0% {\n    top: 1.1875em;\n    left: 0.0625em;\n    width: 0;\n  }\n  54% {\n    top: 1.0625em;\n    left: 0.125em;\n    width: 0;\n  }\n  70% {\n    top: 2.1875em;\n    left: -0.375em;\n    width: 3.125em;\n  }\n  84% {\n    top: 3em;\n    left: 1.3125em;\n    width: 1.0625em;\n  }\n  100% {\n    top: 2.8125em;\n    left: 0.8125em;\n    width: 1.5625em;\n  }\n}\n\n@keyframes swal2-animate-success-line-long {\n  0% {\n    top: 3.375em;\n    right: 2.875em;\n    width: 0;\n  }\n  65% {\n    top: 3.375em;\n    right: 2.875em;\n    width: 0;\n  }\n  84% {\n    top: 2.1875em;\n    right: 0;\n    width: 3.4375em;\n  }\n  100% {\n    top: 2.375em;\n    right: 0.5em;\n    width: 2.9375em;\n  }\n}\n\n@keyframes swal2-rotate-success-circular-line {\n  0% {\n    transform: rotate(-45deg);\n  }\n  5% {\n    transform: rotate(-45deg);\n  }\n  12% {\n    transform: rotate(-405deg);\n  }\n  100% {\n    transform: rotate(-405deg);\n  }\n}\n\n@keyframes swal2-animate-error-x-mark {\n  0% {\n    margin-top: 1.625em;\n    transform: scale(0.4);\n    opacity: 0;\n  }\n  50% {\n    margin-top: 1.625em;\n    transform: scale(0.4);\n    opacity: 0;\n  }\n  80% {\n    margin-top: -0.375em;\n    transform: scale(1.15);\n  }\n  100% {\n    margin-top: 0;\n    transform: scale(1);\n    opacity: 1;\n  }\n}\n\n@keyframes swal2-animate-error-icon {\n  0% {\n    transform: rotateX(100deg);\n    opacity: 0;\n  }\n  100% {\n    transform: rotateX(0deg);\n    opacity: 1;\n  }\n}\n\n@keyframes swal2-rotate-loading {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n\n@keyframes swal2-animate-question-mark {\n  0% {\n    transform: rotateY(-360deg);\n  }\n  100% {\n    transform: rotateY(0);\n  }\n}\n\n@keyframes swal2-animate-i-mark {\n  0% {\n    transform: rotateZ(45deg);\n    opacity: 0;\n  }\n  25% {\n    transform: rotateZ(-25deg);\n    opacity: 0.4;\n  }\n  50% {\n    transform: rotateZ(15deg);\n    opacity: 0.8;\n  }\n  75% {\n    transform: rotateZ(-5deg);\n    opacity: 1;\n  }\n  100% {\n    transform: rotateX(0);\n    opacity: 1;\n  }\n}\n\n@keyframes swal2-toast-show {\n  0% {\n    transform: translateY(-0.625em) rotateZ(2deg);\n  }\n  33% {\n    transform: translateY(0) rotateZ(-2deg);\n  }\n  66% {\n    transform: translateY(0.3125em) rotateZ(2deg);\n  }\n  100% {\n    transform: translateY(0) rotateZ(0deg);\n  }\n}\n\n@keyframes swal2-toast-hide {\n  100% {\n    transform: rotateZ(1deg);\n    opacity: 0;\n  }\n}\n\n@keyframes swal2-toast-animate-success-line-tip {\n  0% {\n    top: 0.5625em;\n    left: 0.0625em;\n    width: 0;\n  }\n  54% {\n    top: 0.125em;\n    left: 0.125em;\n    width: 0;\n  }\n  70% {\n    top: 0.625em;\n    left: -0.25em;\n    width: 1.625em;\n  }\n  84% {\n    top: 1.0625em;\n    left: 0.75em;\n    width: 0.5em;\n  }\n  100% {\n    top: 1.125em;\n    left: 0.1875em;\n    width: 0.75em;\n  }\n}\n\n@keyframes swal2-toast-animate-success-line-long {\n  0% {\n    top: 1.625em;\n    right: 1.375em;\n    width: 0;\n  }\n  65% {\n    top: 1.25em;\n    right: 0.9375em;\n    width: 0;\n  }\n  84% {\n    top: 0.9375em;\n    right: 0;\n    width: 1.125em;\n  }\n  100% {\n    top: 0.9375em;\n    right: 0.1875em;\n    width: 1.375em;\n  }\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -128713,6 +128751,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=style&index=0&id=57940159&lang=css":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SupportComponent.vue?vue&type=style&index=0&id=57940159&lang=css ***!
@@ -130439,7 +130507,7 @@ module.exports = function (list, options) {
 /***/ (function(module) {
 
 /*!
-* sweetalert2 v11.12.4
+* sweetalert2 v11.19.1
 * Released under the MIT License.
 */
 (function (global, factory) {
@@ -130447,33 +130515,12 @@ module.exports = function (list, options) {
   0;
 })(this, (function () { 'use strict';
 
-  function _arrayLikeToArray(r, a) {
-    (null == a || a > r.length) && (a = r.length);
-    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-    return n;
-  }
-  function _arrayWithHoles(r) {
-    if (Array.isArray(r)) return r;
-  }
-  function _arrayWithoutHoles(r) {
-    if (Array.isArray(r)) return _arrayLikeToArray(r);
-  }
   function _assertClassBrand(e, t, n) {
     if ("function" == typeof e ? e === t : e.has(t)) return arguments.length < 3 ? t : n;
     throw new TypeError("Private element is not present on this object");
   }
-  function _assertThisInitialized(e) {
-    if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    return e;
-  }
-  function _callSuper(t, o, e) {
-    return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
-  }
   function _checkPrivateRedeclaration(e, t) {
     if (t.has(e)) throw new TypeError("Cannot initialize the same private elements twice on an object");
-  }
-  function _classCallCheck(a, n) {
-    if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
   }
   function _classPrivateFieldGet2(s, a) {
     return s.get(_assertClassBrand(s, a));
@@ -130484,201 +130531,12 @@ module.exports = function (list, options) {
   function _classPrivateFieldSet2(s, a, r) {
     return s.set(_assertClassBrand(s, a), r), r;
   }
-  function _construct(t, e, r) {
-    if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments);
-    var o = [null];
-    o.push.apply(o, e);
-    var p = new (t.bind.apply(t, o))();
-    return p;
-  }
-  function _defineProperties(e, r) {
-    for (var t = 0; t < r.length; t++) {
-      var o = r[t];
-      o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
-    }
-  }
-  function _createClass(e, r, t) {
-    return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
-      writable: !1
-    }), e;
-  }
-  function _createForOfIteratorHelper(r, e) {
-    var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-    if (!t) {
-      if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) {
-        t && (r = t);
-        var n = 0,
-          F = function () {};
-        return {
-          s: F,
-          n: function () {
-            return n >= r.length ? {
-              done: !0
-            } : {
-              done: !1,
-              value: r[n++]
-            };
-          },
-          e: function (r) {
-            throw r;
-          },
-          f: F
-        };
-      }
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-    var o,
-      a = !0,
-      u = !1;
-    return {
-      s: function () {
-        t = t.call(r);
-      },
-      n: function () {
-        var r = t.next();
-        return a = r.done, r;
-      },
-      e: function (r) {
-        u = !0, o = r;
-      },
-      f: function () {
-        try {
-          a || null == t.return || t.return();
-        } finally {
-          if (u) throw o;
-        }
-      }
-    };
-  }
-  function _get() {
-    return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) {
-      var p = _superPropBase(e, t);
-      if (p) {
-        var n = Object.getOwnPropertyDescriptor(p, t);
-        return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value;
-      }
-    }, _get.apply(null, arguments);
-  }
-  function _getPrototypeOf(t) {
-    return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) {
-      return t.__proto__ || Object.getPrototypeOf(t);
-    }, _getPrototypeOf(t);
-  }
-  function _inherits(t, e) {
-    if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
-    t.prototype = Object.create(e && e.prototype, {
-      constructor: {
-        value: t,
-        writable: !0,
-        configurable: !0
-      }
-    }), Object.defineProperty(t, "prototype", {
-      writable: !1
-    }), e && _setPrototypeOf(t, e);
-  }
-  function _isNativeReflectConstruct() {
-    try {
-      var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    } catch (t) {}
-    return (_isNativeReflectConstruct = function () {
-      return !!t;
-    })();
-  }
-  function _iterableToArray(r) {
-    if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
-  }
-  function _iterableToArrayLimit(r, l) {
-    var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-    if (null != t) {
-      var e,
-        n,
-        i,
-        u,
-        a = [],
-        f = !0,
-        o = !1;
-      try {
-        if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-      } catch (r) {
-        o = !0, n = r;
-      } finally {
-        try {
-          if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
-        } finally {
-          if (o) throw n;
-        }
-      }
-      return a;
-    }
-  }
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _possibleConstructorReturn(t, e) {
-    if (e && ("object" == typeof e || "function" == typeof e)) return e;
-    if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined");
-    return _assertThisInitialized(t);
-  }
-  function _setPrototypeOf(t, e) {
-    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
-      return t.__proto__ = e, t;
-    }, _setPrototypeOf(t, e);
-  }
-  function _slicedToArray(r, e) {
-    return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
-  }
-  function _superPropBase(t, o) {
-    for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t)););
-    return t;
-  }
-  function _superPropGet(t, e, r, o) {
-    var p = _get(_getPrototypeOf(t.prototype ), e, r);
-    return function (t) {
-      return p.apply(r, t);
-    } ;
-  }
-  function _toConsumableArray(r) {
-    return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
-  }
-  function _toPrimitive(t, r) {
-    if ("object" != typeof t || !t) return t;
-    var e = t[Symbol.toPrimitive];
-    if (void 0 !== e) {
-      var i = e.call(t, r);
-      if ("object" != typeof i) return i;
-      throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return (String )(t);
-  }
-  function _toPropertyKey(t) {
-    var i = _toPrimitive(t, "string");
-    return "symbol" == typeof i ? i : i + "";
-  }
-  function _typeof(o) {
-    "@babel/helpers - typeof";
 
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
-      return typeof o;
-    } : function (o) {
-      return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-    }, _typeof(o);
-  }
-  function _unsupportedIterableToArray(r, a) {
-    if (r) {
-      if ("string" == typeof r) return _arrayLikeToArray(r, a);
-      var t = {}.toString.call(r).slice(8, -1);
-      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
-    }
-  }
-
-  var RESTORE_FOCUS_TIMEOUT = 100;
+  const RESTORE_FOCUS_TIMEOUT = 100;
 
   /** @type {GlobalState} */
-  var globalState = {};
-  var focusPreviousActiveElement = function focusPreviousActiveElement() {
+  const globalState = {};
+  const focusPreviousActiveElement = () => {
     if (globalState.previousActiveElement instanceof HTMLElement) {
       globalState.previousActiveElement.focus();
       globalState.previousActiveElement = null;
@@ -130693,14 +130551,14 @@ module.exports = function (list, options) {
    * @param {boolean} returnFocus
    * @returns {Promise<void>}
    */
-  var restoreActiveElement = function restoreActiveElement(returnFocus) {
-    return new Promise(function (resolve) {
+  const restoreActiveElement = returnFocus => {
+    return new Promise(resolve => {
       if (!returnFocus) {
         return resolve();
       }
-      var x = window.scrollX;
-      var y = window.scrollY;
-      globalState.restoreFocusTimeout = setTimeout(function () {
+      const x = window.scrollX;
+      const y = window.scrollY;
+      globalState.restoreFocusTimeout = setTimeout(() => {
         focusPreviousActiveElement();
         resolve();
       }, RESTORE_FOCUS_TIMEOUT); // issues/900
@@ -130709,7 +130567,7 @@ module.exports = function (list, options) {
     });
   };
 
-  var swalPrefix = 'swal2-';
+  const swalPrefix = 'swal2-';
 
   /**
    * @typedef {Record<SwalClass, string>} SwalClasses
@@ -130721,20 +130579,20 @@ module.exports = function (list, options) {
    */
 
   /** @type {SwalClass[]} */
-  var classNames = ['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'no-transition', 'toast', 'toast-shown', 'show', 'hide', 'close', 'title', 'html-container', 'actions', 'confirm', 'deny', 'cancel', 'default-outline', 'footer', 'icon', 'icon-content', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'input-label', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loader', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl', 'timer-progress-bar', 'timer-progress-bar-container', 'scrollbar-measure', 'icon-success', 'icon-warning', 'icon-info', 'icon-question', 'icon-error'];
-  var swalClasses = classNames.reduce(function (acc, className) {
+  const classNames = ['container', 'shown', 'height-auto', 'iosfix', 'popup', 'modal', 'no-backdrop', 'no-transition', 'toast', 'toast-shown', 'show', 'hide', 'close', 'title', 'html-container', 'actions', 'confirm', 'deny', 'cancel', 'footer', 'icon', 'icon-content', 'image', 'input', 'file', 'range', 'select', 'radio', 'checkbox', 'label', 'textarea', 'inputerror', 'input-label', 'validation-message', 'progress-steps', 'active-progress-step', 'progress-step', 'progress-step-line', 'loader', 'loading', 'styled', 'top', 'top-start', 'top-end', 'top-left', 'top-right', 'center', 'center-start', 'center-end', 'center-left', 'center-right', 'bottom', 'bottom-start', 'bottom-end', 'bottom-left', 'bottom-right', 'grow-row', 'grow-column', 'grow-fullscreen', 'rtl', 'timer-progress-bar', 'timer-progress-bar-container', 'scrollbar-measure', 'icon-success', 'icon-warning', 'icon-info', 'icon-question', 'icon-error', 'draggable', 'dragging'];
+  const swalClasses = classNames.reduce((acc, className) => {
     acc[className] = swalPrefix + className;
     return acc;
   }, /** @type {SwalClasses} */{});
 
   /** @type {SwalIcon[]} */
-  var icons = ['success', 'warning', 'info', 'question', 'error'];
-  var iconTypes = icons.reduce(function (acc, icon) {
+  const icons = ['success', 'warning', 'info', 'question', 'error'];
+  const iconTypes = icons.reduce((acc, icon) => {
     acc[icon] = swalPrefix + icon;
     return acc;
   }, /** @type {SwalIcons} */{});
 
-  var consolePrefix = 'SweetAlert2:';
+  const consolePrefix = 'SweetAlert2:';
 
   /**
    * Capitalize the first letter of a string
@@ -130742,17 +130600,15 @@ module.exports = function (list, options) {
    * @param {string} str
    * @returns {string}
    */
-  var capitalizeFirstLetter = function capitalizeFirstLetter(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+  const capitalizeFirstLetter = str => str.charAt(0).toUpperCase() + str.slice(1);
 
   /**
    * Standardize console warnings
    *
    * @param {string | string[]} message
    */
-  var warn = function warn(message) {
-    console.warn("".concat(consolePrefix, " ").concat(_typeof(message) === 'object' ? message.join(' ') : message));
+  const warn = message => {
+    console.warn(`${consolePrefix} ${typeof message === 'object' ? message.join(' ') : message}`);
   };
 
   /**
@@ -130760,8 +130616,8 @@ module.exports = function (list, options) {
    *
    * @param {string} message
    */
-  var error = function error(message) {
-    console.error("".concat(consolePrefix, " ").concat(message));
+  const error = message => {
+    console.error(`${consolePrefix} ${message}`);
   };
 
   /**
@@ -130770,14 +130626,14 @@ module.exports = function (list, options) {
    * @type {string[]}
    * @private
    */
-  var previousWarnOnceMessages = [];
+  const previousWarnOnceMessages = [];
 
   /**
    * Show a console warning, but only if it hasn't already been shown
    *
    * @param {string} message
    */
-  var warnOnce = function warnOnce(message) {
+  const warnOnce = message => {
     if (!previousWarnOnceMessages.includes(message)) {
       previousWarnOnceMessages.push(message);
       warn(message);
@@ -130790,9 +130646,9 @@ module.exports = function (list, options) {
    * @param {string} deprecatedParam
    * @param {string?} useInstead
    */
-  var warnAboutDeprecation = function warnAboutDeprecation(deprecatedParam) {
-    var useInstead = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    warnOnce("\"".concat(deprecatedParam, "\" is deprecated and will be removed in the next major release.").concat(useInstead ? " Use \"".concat(useInstead, "\" instead.") : ''));
+  const warnAboutDeprecation = function (deprecatedParam) {
+    let useInstead = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    warnOnce(`"${deprecatedParam}" is deprecated and will be removed in the next major release.${useInstead ? ` Use "${useInstead}" instead.` : ''}`);
   };
 
   /**
@@ -130802,49 +130658,39 @@ module.exports = function (list, options) {
    * @param {Function | any} arg
    * @returns {any}
    */
-  var callIfFunction = function callIfFunction(arg) {
-    return typeof arg === 'function' ? arg() : arg;
-  };
+  const callIfFunction = arg => typeof arg === 'function' ? arg() : arg;
 
   /**
    * @param {any} arg
    * @returns {boolean}
    */
-  var hasToPromiseFn = function hasToPromiseFn(arg) {
-    return arg && typeof arg.toPromise === 'function';
-  };
+  const hasToPromiseFn = arg => arg && typeof arg.toPromise === 'function';
 
   /**
    * @param {any} arg
    * @returns {Promise<any>}
    */
-  var asPromise = function asPromise(arg) {
-    return hasToPromiseFn(arg) ? arg.toPromise() : Promise.resolve(arg);
-  };
+  const asPromise = arg => hasToPromiseFn(arg) ? arg.toPromise() : Promise.resolve(arg);
 
   /**
    * @param {any} arg
    * @returns {boolean}
    */
-  var isPromise = function isPromise(arg) {
-    return arg && Promise.resolve(arg) === arg;
-  };
+  const isPromise = arg => arg && Promise.resolve(arg) === arg;
 
   /**
    * Gets the popup container which contains the backdrop and the popup itself.
    *
    * @returns {HTMLElement | null}
    */
-  var getContainer = function getContainer() {
-    return document.body.querySelector(".".concat(swalClasses.container));
-  };
+  const getContainer = () => document.body.querySelector(`.${swalClasses.container}`);
 
   /**
    * @param {string} selectorString
    * @returns {HTMLElement | null}
    */
-  var elementBySelector = function elementBySelector(selectorString) {
-    var container = getContainer();
+  const elementBySelector = selectorString => {
+    const container = getContainer();
     return container ? container.querySelector(selectorString) : null;
   };
 
@@ -130852,146 +130698,127 @@ module.exports = function (list, options) {
    * @param {string} className
    * @returns {HTMLElement | null}
    */
-  var elementByClass = function elementByClass(className) {
-    return elementBySelector(".".concat(className));
+  const elementByClass = className => {
+    return elementBySelector(`.${className}`);
   };
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getPopup = function getPopup() {
-    return elementByClass(swalClasses.popup);
-  };
+  const getPopup = () => elementByClass(swalClasses.popup);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getIcon = function getIcon() {
-    return elementByClass(swalClasses.icon);
-  };
+  const getIcon = () => elementByClass(swalClasses.icon);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getIconContent = function getIconContent() {
-    return elementByClass(swalClasses['icon-content']);
-  };
+  const getIconContent = () => elementByClass(swalClasses['icon-content']);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getTitle = function getTitle() {
-    return elementByClass(swalClasses.title);
-  };
+  const getTitle = () => elementByClass(swalClasses.title);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getHtmlContainer = function getHtmlContainer() {
-    return elementByClass(swalClasses['html-container']);
-  };
+  const getHtmlContainer = () => elementByClass(swalClasses['html-container']);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getImage = function getImage() {
-    return elementByClass(swalClasses.image);
-  };
+  const getImage = () => elementByClass(swalClasses.image);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getProgressSteps = function getProgressSteps() {
-    return elementByClass(swalClasses['progress-steps']);
-  };
+  const getProgressSteps = () => elementByClass(swalClasses['progress-steps']);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getValidationMessage = function getValidationMessage() {
-    return elementByClass(swalClasses['validation-message']);
-  };
+  const getValidationMessage = () => elementByClass(swalClasses['validation-message']);
 
   /**
    * @returns {HTMLButtonElement | null}
    */
-  var getConfirmButton = function getConfirmButton() {
-    return /** @type {HTMLButtonElement} */elementBySelector(".".concat(swalClasses.actions, " .").concat(swalClasses.confirm));
-  };
+  const getConfirmButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.confirm}`));
 
   /**
    * @returns {HTMLButtonElement | null}
    */
-  var getCancelButton = function getCancelButton() {
-    return /** @type {HTMLButtonElement} */elementBySelector(".".concat(swalClasses.actions, " .").concat(swalClasses.cancel));
-  };
+  const getCancelButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.cancel}`));
 
   /**
    * @returns {HTMLButtonElement | null}
    */
-  var getDenyButton = function getDenyButton() {
-    return /** @type {HTMLButtonElement} */elementBySelector(".".concat(swalClasses.actions, " .").concat(swalClasses.deny));
-  };
+  const getDenyButton = () => (/** @type {HTMLButtonElement} */elementBySelector(`.${swalClasses.actions} .${swalClasses.deny}`));
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getInputLabel = function getInputLabel() {
-    return elementByClass(swalClasses['input-label']);
-  };
+  const getInputLabel = () => elementByClass(swalClasses['input-label']);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getLoader = function getLoader() {
-    return elementBySelector(".".concat(swalClasses.loader));
-  };
+  const getLoader = () => elementBySelector(`.${swalClasses.loader}`);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getActions = function getActions() {
-    return elementByClass(swalClasses.actions);
-  };
+  const getActions = () => elementByClass(swalClasses.actions);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getFooter = function getFooter() {
-    return elementByClass(swalClasses.footer);
-  };
+  const getFooter = () => elementByClass(swalClasses.footer);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getTimerProgressBar = function getTimerProgressBar() {
-    return elementByClass(swalClasses['timer-progress-bar']);
-  };
+  const getTimerProgressBar = () => elementByClass(swalClasses['timer-progress-bar']);
 
   /**
    * @returns {HTMLElement | null}
    */
-  var getCloseButton = function getCloseButton() {
-    return elementByClass(swalClasses.close);
-  };
+  const getCloseButton = () => elementByClass(swalClasses.close);
 
   // https://github.com/jkup/focusable/blob/master/index.js
-  var focusable = "\n  a[href],\n  area[href],\n  input:not([disabled]),\n  select:not([disabled]),\n  textarea:not([disabled]),\n  button:not([disabled]),\n  iframe,\n  object,\n  embed,\n  [tabindex=\"0\"],\n  [contenteditable],\n  audio[controls],\n  video[controls],\n  summary\n";
+  const focusable = `
+  a[href],
+  area[href],
+  input:not([disabled]),
+  select:not([disabled]),
+  textarea:not([disabled]),
+  button:not([disabled]),
+  iframe,
+  object,
+  embed,
+  [tabindex="0"],
+  [contenteditable],
+  audio[controls],
+  video[controls],
+  summary
+`;
   /**
    * @returns {HTMLElement[]}
    */
-  var getFocusableElements = function getFocusableElements() {
-    var popup = getPopup();
+  const getFocusableElements = () => {
+    const popup = getPopup();
     if (!popup) {
       return [];
     }
     /** @type {NodeListOf<HTMLElement>} */
-    var focusableElementsWithTabindex = popup.querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])');
-    var focusableElementsWithTabindexSorted = Array.from(focusableElementsWithTabindex)
+    const focusableElementsWithTabindex = popup.querySelectorAll('[tabindex]:not([tabindex="-1"]):not([tabindex="0"])');
+    const focusableElementsWithTabindexSorted = Array.from(focusableElementsWithTabindex)
     // sort according to tabindex
-    .sort(function (a, b) {
-      var tabindexA = parseInt(a.getAttribute('tabindex') || '0');
-      var tabindexB = parseInt(b.getAttribute('tabindex') || '0');
+    .sort((a, b) => {
+      const tabindexA = parseInt(a.getAttribute('tabindex') || '0');
+      const tabindexB = parseInt(b.getAttribute('tabindex') || '0');
       if (tabindexA > tabindexB) {
         return 1;
       } else if (tabindexA < tabindexB) {
@@ -131001,27 +130828,23 @@ module.exports = function (list, options) {
     });
 
     /** @type {NodeListOf<HTMLElement>} */
-    var otherFocusableElements = popup.querySelectorAll(focusable);
-    var otherFocusableElementsFiltered = Array.from(otherFocusableElements).filter(function (el) {
-      return el.getAttribute('tabindex') !== '-1';
-    });
-    return _toConsumableArray(new Set(focusableElementsWithTabindexSorted.concat(otherFocusableElementsFiltered))).filter(function (el) {
-      return isVisible$1(el);
-    });
+    const otherFocusableElements = popup.querySelectorAll(focusable);
+    const otherFocusableElementsFiltered = Array.from(otherFocusableElements).filter(el => el.getAttribute('tabindex') !== '-1');
+    return [...new Set(focusableElementsWithTabindexSorted.concat(otherFocusableElementsFiltered))].filter(el => isVisible$1(el));
   };
 
   /**
    * @returns {boolean}
    */
-  var isModal = function isModal() {
+  const isModal = () => {
     return hasClass(document.body, swalClasses.shown) && !hasClass(document.body, swalClasses['toast-shown']) && !hasClass(document.body, swalClasses['no-backdrop']);
   };
 
   /**
    * @returns {boolean}
    */
-  var isToast = function isToast() {
-    var popup = getPopup();
+  const isToast = () => {
+    const popup = getPopup();
     if (!popup) {
       return false;
     }
@@ -131031,8 +130854,8 @@ module.exports = function (list, options) {
   /**
    * @returns {boolean}
    */
-  var isLoading = function isLoading() {
-    var popup = getPopup();
+  const isLoading = () => {
+    const popup = getPopup();
     if (!popup) {
       return false;
     }
@@ -131046,20 +130869,20 @@ module.exports = function (list, options) {
    * @param {HTMLElement} elem
    * @param {string} html
    */
-  var setInnerHtml = function setInnerHtml(elem, html) {
+  const setInnerHtml = (elem, html) => {
     elem.textContent = '';
     if (html) {
-      var parser = new DOMParser();
-      var parsed = parser.parseFromString(html, "text/html");
-      var head = parsed.querySelector('head');
+      const parser = new DOMParser();
+      const parsed = parser.parseFromString(html, `text/html`);
+      const head = parsed.querySelector('head');
       if (head) {
-        Array.from(head.childNodes).forEach(function (child) {
+        Array.from(head.childNodes).forEach(child => {
           elem.appendChild(child);
         });
       }
-      var body = parsed.querySelector('body');
+      const body = parsed.querySelector('body');
       if (body) {
-        Array.from(body.childNodes).forEach(function (child) {
+        Array.from(body.childNodes).forEach(child => {
           if (child instanceof HTMLVideoElement || child instanceof HTMLAudioElement) {
             elem.appendChild(child.cloneNode(true)); // https://github.com/sweetalert2/sweetalert2/issues/2507
           } else {
@@ -131075,12 +130898,12 @@ module.exports = function (list, options) {
    * @param {string} className
    * @returns {boolean}
    */
-  var hasClass = function hasClass(elem, className) {
+  const hasClass = (elem, className) => {
     if (!className) {
       return false;
     }
-    var classList = className.split(/\s+/);
-    for (var i = 0; i < classList.length; i++) {
+    const classList = className.split(/\s+/);
+    for (let i = 0; i < classList.length; i++) {
       if (!elem.classList.contains(classList[i])) {
         return false;
       }
@@ -131092,8 +130915,8 @@ module.exports = function (list, options) {
    * @param {HTMLElement} elem
    * @param {SweetAlertOptions} params
    */
-  var removeCustomClasses = function removeCustomClasses(elem, params) {
-    Array.from(elem.classList).forEach(function (className) {
+  const removeCustomClasses = (elem, params) => {
+    Array.from(elem.classList).forEach(className => {
       if (!Object.values(swalClasses).includes(className) && !Object.values(iconTypes).includes(className) && !Object.values(params.showClass || {}).includes(className)) {
         elem.classList.remove(className);
       }
@@ -131105,17 +130928,17 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @param {string} className
    */
-  var applyCustomClass = function applyCustomClass(elem, params, className) {
+  const applyCustomClass = (elem, params, className) => {
     removeCustomClasses(elem, params);
     if (!params.customClass) {
       return;
     }
-    var customClass = params.customClass[( /** @type {keyof SweetAlertCustomClass} */className)];
+    const customClass = params.customClass[(/** @type {keyof SweetAlertCustomClass} */className)];
     if (!customClass) {
       return;
     }
     if (typeof customClass !== 'string' && !customClass.forEach) {
-      warn("Invalid type of customClass.".concat(className, "! Expected string or iterable object, got \"").concat(_typeof(customClass), "\""));
+      warn(`Invalid type of customClass.${className}! Expected string or iterable object, got "${typeof customClass}"`);
       return;
     }
     addClass(elem, customClass);
@@ -131126,7 +130949,7 @@ module.exports = function (list, options) {
    * @param {import('./renderers/renderInput').InputClass | SweetAlertInput} inputClass
    * @returns {HTMLInputElement | null}
    */
-  var getInput$1 = function getInput(popup, inputClass) {
+  const getInput$1 = (popup, inputClass) => {
     if (!inputClass) {
       return null;
     }
@@ -131134,28 +130957,28 @@ module.exports = function (list, options) {
       case 'select':
       case 'textarea':
       case 'file':
-        return popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses[inputClass]));
+        return popup.querySelector(`.${swalClasses.popup} > .${swalClasses[inputClass]}`);
       case 'checkbox':
-        return popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses.checkbox, " input"));
+        return popup.querySelector(`.${swalClasses.popup} > .${swalClasses.checkbox} input`);
       case 'radio':
-        return popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses.radio, " input:checked")) || popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses.radio, " input:first-child"));
+        return popup.querySelector(`.${swalClasses.popup} > .${swalClasses.radio} input:checked`) || popup.querySelector(`.${swalClasses.popup} > .${swalClasses.radio} input:first-child`);
       case 'range':
-        return popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses.range, " input"));
+        return popup.querySelector(`.${swalClasses.popup} > .${swalClasses.range} input`);
       default:
-        return popup.querySelector(".".concat(swalClasses.popup, " > .").concat(swalClasses.input));
+        return popup.querySelector(`.${swalClasses.popup} > .${swalClasses.input}`);
     }
   };
 
   /**
    * @param {HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement} input
    */
-  var focusInput = function focusInput(input) {
+  const focusInput = input => {
     input.focus();
 
     // place cursor at end of text in text input
     if (input.type !== 'file') {
       // http://stackoverflow.com/a/2345915
-      var val = input.value;
+      const val = input.value;
       input.value = '';
       input.value = val;
     }
@@ -131166,16 +130989,16 @@ module.exports = function (list, options) {
    * @param {string | string[] | readonly string[] | undefined} classList
    * @param {boolean} condition
    */
-  var toggleClass = function toggleClass(target, classList, condition) {
+  const toggleClass = (target, classList, condition) => {
     if (!target || !classList) {
       return;
     }
     if (typeof classList === 'string') {
       classList = classList.split(/\s+/).filter(Boolean);
     }
-    classList.forEach(function (className) {
+    classList.forEach(className => {
       if (Array.isArray(target)) {
-        target.forEach(function (elem) {
+        target.forEach(elem => {
           if (condition) {
             elem.classList.add(className);
           } else {
@@ -131196,7 +131019,7 @@ module.exports = function (list, options) {
    * @param {HTMLElement | HTMLElement[] | null} target
    * @param {string | string[] | readonly string[] | undefined} classList
    */
-  var addClass = function addClass(target, classList) {
+  const addClass = (target, classList) => {
     toggleClass(target, classList, true);
   };
 
@@ -131204,7 +131027,7 @@ module.exports = function (list, options) {
    * @param {HTMLElement | HTMLElement[] | null} target
    * @param {string | string[] | readonly string[] | undefined} classList
    */
-  var removeClass = function removeClass(target, classList) {
+  const removeClass = (target, classList) => {
     toggleClass(target, classList, false);
   };
 
@@ -131215,10 +131038,10 @@ module.exports = function (list, options) {
    * @param {string} className
    * @returns {HTMLElement | undefined}
    */
-  var getDirectChildByClass = function getDirectChildByClass(elem, className) {
-    var children = Array.from(elem.children);
-    for (var i = 0; i < children.length; i++) {
-      var child = children[i];
+  const getDirectChildByClass = (elem, className) => {
+    const children = Array.from(elem.children);
+    for (let i = 0; i < children.length; i++) {
+      const child = children[i];
       if (child instanceof HTMLElement && hasClass(child, className)) {
         return child;
       }
@@ -131230,12 +131053,12 @@ module.exports = function (list, options) {
    * @param {string} property
    * @param {*} value
    */
-  var applyNumericalStyle = function applyNumericalStyle(elem, property, value) {
-    if (value === "".concat(parseInt(value))) {
+  const applyNumericalStyle = (elem, property, value) => {
+    if (value === `${parseInt(value)}`) {
       value = parseInt(value);
     }
     if (value || parseInt(value) === 0) {
-      elem.style.setProperty(property, typeof value === 'number' ? "".concat(value, "px") : value);
+      elem.style.setProperty(property, typeof value === 'number' ? `${value}px` : value);
     } else {
       elem.style.removeProperty(property);
     }
@@ -131245,8 +131068,8 @@ module.exports = function (list, options) {
    * @param {HTMLElement | null} elem
    * @param {string} display
    */
-  var show = function show(elem) {
-    var display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'flex';
+  const show = function (elem) {
+    let display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'flex';
     if (!elem) {
       return;
     }
@@ -131256,7 +131079,7 @@ module.exports = function (list, options) {
   /**
    * @param {HTMLElement | null} elem
    */
-  var hide = function hide(elem) {
+  const hide = elem => {
     if (!elem) {
       return;
     }
@@ -131267,12 +131090,12 @@ module.exports = function (list, options) {
    * @param {HTMLElement | null} elem
    * @param {string} display
    */
-  var showWhenInnerHtmlPresent = function showWhenInnerHtmlPresent(elem) {
-    var display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'block';
+  const showWhenInnerHtmlPresent = function (elem) {
+    let display = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'block';
     if (!elem) {
       return;
     }
-    new MutationObserver(function () {
+    new MutationObserver(() => {
       toggle(elem, elem.innerHTML, display);
     }).observe(elem, {
       childList: true,
@@ -131286,9 +131109,9 @@ module.exports = function (list, options) {
    * @param {string} property
    * @param {string} value
    */
-  var setStyle = function setStyle(parent, selector, property, value) {
+  const setStyle = (parent, selector, property, value) => {
     /** @type {HTMLElement | null} */
-    var el = parent.querySelector(selector);
+    const el = parent.querySelector(selector);
     if (el) {
       el.style.setProperty(property, value);
     }
@@ -131299,8 +131122,8 @@ module.exports = function (list, options) {
    * @param {any} condition
    * @param {string} display
    */
-  var toggle = function toggle(elem, condition) {
-    var display = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'flex';
+  const toggle = function (elem, condition) {
+    let display = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'flex';
     if (condition) {
       show(elem, display);
     } else {
@@ -131314,24 +131137,18 @@ module.exports = function (list, options) {
    * @param {HTMLElement | null} elem
    * @returns {boolean}
    */
-  var isVisible$1 = function isVisible(elem) {
-    return !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
-  };
+  const isVisible$1 = elem => !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
 
   /**
    * @returns {boolean}
    */
-  var allButtonsAreHidden = function allButtonsAreHidden() {
-    return !isVisible$1(getConfirmButton()) && !isVisible$1(getDenyButton()) && !isVisible$1(getCancelButton());
-  };
+  const allButtonsAreHidden = () => !isVisible$1(getConfirmButton()) && !isVisible$1(getDenyButton()) && !isVisible$1(getCancelButton());
 
   /**
    * @param {HTMLElement} elem
    * @returns {boolean}
    */
-  var isScrollable = function isScrollable(elem) {
-    return !!(elem.scrollHeight > elem.clientHeight);
-  };
+  const isScrollable = elem => !!(elem.scrollHeight > elem.clientHeight);
 
   /**
    * borrowed from https://stackoverflow.com/a/46352119
@@ -131339,10 +131156,10 @@ module.exports = function (list, options) {
    * @param {HTMLElement} elem
    * @returns {boolean}
    */
-  var hasCssAnimation = function hasCssAnimation(elem) {
-    var style = window.getComputedStyle(elem);
-    var animDuration = parseFloat(style.getPropertyValue('animation-duration') || '0');
-    var transDuration = parseFloat(style.getPropertyValue('transition-duration') || '0');
+  const hasCssAnimation = elem => {
+    const style = window.getComputedStyle(elem);
+    const animDuration = parseFloat(style.getPropertyValue('animation-duration') || '0');
+    const transDuration = parseFloat(style.getPropertyValue('transition-duration') || '0');
     return animDuration > 0 || transDuration > 0;
   };
 
@@ -131350,9 +131167,9 @@ module.exports = function (list, options) {
    * @param {number} timer
    * @param {boolean} reset
    */
-  var animateTimerProgressBar = function animateTimerProgressBar(timer) {
-    var reset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-    var timerProgressBar = getTimerProgressBar();
+  const animateTimerProgressBar = function (timer) {
+    let reset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+    const timerProgressBar = getTimerProgressBar();
     if (!timerProgressBar) {
       return;
     }
@@ -131361,23 +131178,23 @@ module.exports = function (list, options) {
         timerProgressBar.style.transition = 'none';
         timerProgressBar.style.width = '100%';
       }
-      setTimeout(function () {
-        timerProgressBar.style.transition = "width ".concat(timer / 1000, "s linear");
+      setTimeout(() => {
+        timerProgressBar.style.transition = `width ${timer / 1000}s linear`;
         timerProgressBar.style.width = '0%';
       }, 10);
     }
   };
-  var stopTimerProgressBar = function stopTimerProgressBar() {
-    var timerProgressBar = getTimerProgressBar();
+  const stopTimerProgressBar = () => {
+    const timerProgressBar = getTimerProgressBar();
     if (!timerProgressBar) {
       return;
     }
-    var timerProgressBarWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
+    const timerProgressBarWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
     timerProgressBar.style.removeProperty('transition');
     timerProgressBar.style.width = '100%';
-    var timerProgressBarFullWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
-    var timerProgressBarPercent = timerProgressBarWidth / timerProgressBarFullWidth * 100;
-    timerProgressBar.style.width = "".concat(timerProgressBarPercent, "%");
+    const timerProgressBarFullWidth = parseInt(window.getComputedStyle(timerProgressBar).width);
+    const timerProgressBarPercent = timerProgressBarWidth / timerProgressBarFullWidth * 100;
+    timerProgressBar.style.width = `${timerProgressBarPercent}%`;
   };
 
   /**
@@ -131385,17 +131202,48 @@ module.exports = function (list, options) {
    *
    * @returns {boolean}
    */
-  var isNodeEnv = function isNodeEnv() {
-    return typeof window === 'undefined' || typeof document === 'undefined';
-  };
+  const isNodeEnv = () => typeof window === 'undefined' || typeof document === 'undefined';
 
-  var sweetHTML = "\n <div aria-labelledby=\"".concat(swalClasses.title, "\" aria-describedby=\"").concat(swalClasses['html-container'], "\" class=\"").concat(swalClasses.popup, "\" tabindex=\"-1\">\n   <button type=\"button\" class=\"").concat(swalClasses.close, "\"></button>\n   <ul class=\"").concat(swalClasses['progress-steps'], "\"></ul>\n   <div class=\"").concat(swalClasses.icon, "\"></div>\n   <img class=\"").concat(swalClasses.image, "\" />\n   <h2 class=\"").concat(swalClasses.title, "\" id=\"").concat(swalClasses.title, "\"></h2>\n   <div class=\"").concat(swalClasses['html-container'], "\" id=\"").concat(swalClasses['html-container'], "\"></div>\n   <input class=\"").concat(swalClasses.input, "\" id=\"").concat(swalClasses.input, "\" />\n   <input type=\"file\" class=\"").concat(swalClasses.file, "\" />\n   <div class=\"").concat(swalClasses.range, "\">\n     <input type=\"range\" />\n     <output></output>\n   </div>\n   <select class=\"").concat(swalClasses.select, "\" id=\"").concat(swalClasses.select, "\"></select>\n   <div class=\"").concat(swalClasses.radio, "\"></div>\n   <label class=\"").concat(swalClasses.checkbox, "\">\n     <input type=\"checkbox\" id=\"").concat(swalClasses.checkbox, "\" />\n     <span class=\"").concat(swalClasses.label, "\"></span>\n   </label>\n   <textarea class=\"").concat(swalClasses.textarea, "\" id=\"").concat(swalClasses.textarea, "\"></textarea>\n   <div class=\"").concat(swalClasses['validation-message'], "\" id=\"").concat(swalClasses['validation-message'], "\"></div>\n   <div class=\"").concat(swalClasses.actions, "\">\n     <div class=\"").concat(swalClasses.loader, "\"></div>\n     <button type=\"button\" class=\"").concat(swalClasses.confirm, "\"></button>\n     <button type=\"button\" class=\"").concat(swalClasses.deny, "\"></button>\n     <button type=\"button\" class=\"").concat(swalClasses.cancel, "\"></button>\n   </div>\n   <div class=\"").concat(swalClasses.footer, "\"></div>\n   <div class=\"").concat(swalClasses['timer-progress-bar-container'], "\">\n     <div class=\"").concat(swalClasses['timer-progress-bar'], "\"></div>\n   </div>\n </div>\n").replace(/(^|\n)\s*/g, '');
+  const sweetHTML = `
+ <div aria-labelledby="${swalClasses.title}" aria-describedby="${swalClasses['html-container']}" class="${swalClasses.popup}" tabindex="-1">
+   <button type="button" class="${swalClasses.close}"></button>
+   <ul class="${swalClasses['progress-steps']}"></ul>
+   <div class="${swalClasses.icon}"></div>
+   <img class="${swalClasses.image}" />
+   <h2 class="${swalClasses.title}" id="${swalClasses.title}"></h2>
+   <div class="${swalClasses['html-container']}" id="${swalClasses['html-container']}"></div>
+   <input class="${swalClasses.input}" id="${swalClasses.input}" />
+   <input type="file" class="${swalClasses.file}" />
+   <div class="${swalClasses.range}">
+     <input type="range" />
+     <output></output>
+   </div>
+   <select class="${swalClasses.select}" id="${swalClasses.select}"></select>
+   <div class="${swalClasses.radio}"></div>
+   <label class="${swalClasses.checkbox}">
+     <input type="checkbox" id="${swalClasses.checkbox}" />
+     <span class="${swalClasses.label}"></span>
+   </label>
+   <textarea class="${swalClasses.textarea}" id="${swalClasses.textarea}"></textarea>
+   <div class="${swalClasses['validation-message']}" id="${swalClasses['validation-message']}"></div>
+   <div class="${swalClasses.actions}">
+     <div class="${swalClasses.loader}"></div>
+     <button type="button" class="${swalClasses.confirm}"></button>
+     <button type="button" class="${swalClasses.deny}"></button>
+     <button type="button" class="${swalClasses.cancel}"></button>
+   </div>
+   <div class="${swalClasses.footer}"></div>
+   <div class="${swalClasses['timer-progress-bar-container']}">
+     <div class="${swalClasses['timer-progress-bar']}"></div>
+   </div>
+ </div>
+`.replace(/(^|\n)\s*/g, '');
 
   /**
    * @returns {boolean}
    */
-  var resetOldContainer = function resetOldContainer() {
-    var oldContainer = getContainer();
+  const resetOldContainer = () => {
+    const oldContainer = getContainer();
     if (!oldContainer) {
       return false;
     }
@@ -131403,31 +131251,31 @@ module.exports = function (list, options) {
     removeClass([document.documentElement, document.body], [swalClasses['no-backdrop'], swalClasses['toast-shown'], swalClasses['has-column']]);
     return true;
   };
-  var resetValidationMessage$1 = function resetValidationMessage() {
+  const resetValidationMessage$1 = () => {
     globalState.currentInstance.resetValidationMessage();
   };
-  var addInputChangeListeners = function addInputChangeListeners() {
-    var popup = getPopup();
-    var input = getDirectChildByClass(popup, swalClasses.input);
-    var file = getDirectChildByClass(popup, swalClasses.file);
+  const addInputChangeListeners = () => {
+    const popup = getPopup();
+    const input = getDirectChildByClass(popup, swalClasses.input);
+    const file = getDirectChildByClass(popup, swalClasses.file);
     /** @type {HTMLInputElement} */
-    var range = popup.querySelector(".".concat(swalClasses.range, " input"));
+    const range = popup.querySelector(`.${swalClasses.range} input`);
     /** @type {HTMLOutputElement} */
-    var rangeOutput = popup.querySelector(".".concat(swalClasses.range, " output"));
-    var select = getDirectChildByClass(popup, swalClasses.select);
+    const rangeOutput = popup.querySelector(`.${swalClasses.range} output`);
+    const select = getDirectChildByClass(popup, swalClasses.select);
     /** @type {HTMLInputElement} */
-    var checkbox = popup.querySelector(".".concat(swalClasses.checkbox, " input"));
-    var textarea = getDirectChildByClass(popup, swalClasses.textarea);
+    const checkbox = popup.querySelector(`.${swalClasses.checkbox} input`);
+    const textarea = getDirectChildByClass(popup, swalClasses.textarea);
     input.oninput = resetValidationMessage$1;
     file.onchange = resetValidationMessage$1;
     select.onchange = resetValidationMessage$1;
     checkbox.onchange = resetValidationMessage$1;
     textarea.oninput = resetValidationMessage$1;
-    range.oninput = function () {
+    range.oninput = () => {
       resetValidationMessage$1();
       rangeOutput.value = range.value;
     };
-    range.onchange = function () {
+    range.onchange = () => {
       resetValidationMessage$1();
       rangeOutput.value = range.value;
     };
@@ -131437,15 +131285,13 @@ module.exports = function (list, options) {
    * @param {string | HTMLElement} target
    * @returns {HTMLElement}
    */
-  var getTarget = function getTarget(target) {
-    return typeof target === 'string' ? document.querySelector(target) : target;
-  };
+  const getTarget = target => typeof target === 'string' ? document.querySelector(target) : target;
 
   /**
    * @param {SweetAlertOptions} params
    */
-  var setupAccessibility = function setupAccessibility(params) {
-    var popup = getPopup();
+  const setupAccessibility = params => {
+    const popup = getPopup();
     popup.setAttribute('role', params.toast ? 'alert' : 'dialog');
     popup.setAttribute('aria-live', params.toast ? 'polite' : 'assertive');
     if (!params.toast) {
@@ -131456,7 +131302,7 @@ module.exports = function (list, options) {
   /**
    * @param {HTMLElement} targetElement
    */
-  var setupRTL = function setupRTL(targetElement) {
+  const setupRTL = targetElement => {
     if (window.getComputedStyle(targetElement).direction === 'rtl') {
       addClass(getContainer(), swalClasses.rtl);
     }
@@ -131467,20 +131313,21 @@ module.exports = function (list, options) {
    *
    * @param {SweetAlertOptions} params
    */
-  var init = function init(params) {
+  const init = params => {
     // Clean up the old popup container if it exists
-    var oldContainerExisted = resetOldContainer();
+    const oldContainerExisted = resetOldContainer();
     if (isNodeEnv()) {
       error('SweetAlert2 requires document to initialize');
       return;
     }
-    var container = document.createElement('div');
+    const container = document.createElement('div');
     container.className = swalClasses.container;
     if (oldContainerExisted) {
       addClass(container, swalClasses['no-transition']);
     }
     setInnerHtml(container, sweetHTML);
-    var targetElement = getTarget(params.target);
+    container.dataset['swal2Theme'] = params.theme;
+    const targetElement = getTarget(params.target);
     targetElement.appendChild(container);
     setupAccessibility(params);
     setupRTL(targetElement);
@@ -131491,14 +131338,14 @@ module.exports = function (list, options) {
    * @param {HTMLElement | object | string} param
    * @param {HTMLElement} target
    */
-  var parseHtmlToContainer = function parseHtmlToContainer(param, target) {
+  const parseHtmlToContainer = (param, target) => {
     // DOM element
     if (param instanceof HTMLElement) {
       target.appendChild(param);
     }
 
     // Object
-    else if (_typeof(param) === 'object') {
+    else if (typeof param === 'object') {
       handleObject(param, target);
     }
 
@@ -131512,7 +131359,7 @@ module.exports = function (list, options) {
    * @param {any} param
    * @param {HTMLElement} target
    */
-  var handleObject = function handleObject(param, target) {
+  const handleObject = (param, target) => {
     // JQuery element(s)
     if (param.jquery) {
       handleJqueryElem(target, param);
@@ -131528,10 +131375,10 @@ module.exports = function (list, options) {
    * @param {HTMLElement} target
    * @param {any} elem
    */
-  var handleJqueryElem = function handleJqueryElem(target, elem) {
+  const handleJqueryElem = (target, elem) => {
     target.textContent = '';
     if (0 in elem) {
-      for (var i = 0; i in elem; i++) {
+      for (let i = 0; i in elem; i++) {
         target.appendChild(elem[i].cloneNode(true));
       }
     } else {
@@ -131540,34 +131387,12 @@ module.exports = function (list, options) {
   };
 
   /**
-   * @returns {'webkitAnimationEnd' | 'animationend' | false}
-   */
-  var animationEndEvent = function () {
-    // Prevent run in Node env
-    if (isNodeEnv()) {
-      return false;
-    }
-    var testEl = document.createElement('div');
-
-    // Chrome, Safari and Opera
-    if (typeof testEl.style.webkitAnimation !== 'undefined') {
-      return 'webkitAnimationEnd';
-    }
-
-    // Standard syntax
-    if (typeof testEl.style.animation !== 'undefined') {
-      return 'animationend';
-    }
-    return false;
-  }();
-
-  /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderActions = function renderActions(instance, params) {
-    var actions = getActions();
-    var loader = getLoader();
+  const renderActions = (instance, params) => {
+    const actions = getActions();
+    const loader = getLoader();
     if (!actions || !loader) {
       return;
     }
@@ -131596,9 +131421,9 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    */
   function renderButtons(actions, loader, params) {
-    var confirmButton = getConfirmButton();
-    var denyButton = getDenyButton();
-    var cancelButton = getCancelButton();
+    const confirmButton = getConfirmButton();
+    const denyButton = getDenyButton();
+    const cancelButton = getCancelButton();
     if (!confirmButton || !denyButton || !cancelButton) {
       return;
     }
@@ -131633,19 +131458,30 @@ module.exports = function (list, options) {
     }
     addClass([confirmButton, denyButton, cancelButton], swalClasses.styled);
 
-    // Buttons background colors
+    // Apply custom background colors to action buttons
     if (params.confirmButtonColor) {
-      confirmButton.style.backgroundColor = params.confirmButtonColor;
-      addClass(confirmButton, swalClasses['default-outline']);
+      confirmButton.style.setProperty('--swal2-confirm-button-background-color', params.confirmButtonColor);
     }
     if (params.denyButtonColor) {
-      denyButton.style.backgroundColor = params.denyButtonColor;
-      addClass(denyButton, swalClasses['default-outline']);
+      denyButton.style.setProperty('--swal2-deny-button-background-color', params.denyButtonColor);
     }
     if (params.cancelButtonColor) {
-      cancelButton.style.backgroundColor = params.cancelButtonColor;
-      addClass(cancelButton, swalClasses['default-outline']);
+      cancelButton.style.setProperty('--swal2-cancel-button-background-color', params.cancelButtonColor);
     }
+
+    // Apply the outline color to action buttons
+    applyOutlineColor(confirmButton);
+    applyOutlineColor(denyButton);
+    applyOutlineColor(cancelButton);
+  }
+
+  /**
+   * @param {HTMLElement} button
+   */
+  function applyOutlineColor(button) {
+    const buttonStyle = window.getComputedStyle(button);
+    const outlineColor = buttonStyle.backgroundColor.replace(/rgba?\((\d+), (\d+), (\d+).*/, 'rgba($1, $2, $3, 0.5)');
+    button.style.setProperty('--swal2-action-button-outline', buttonStyle.getPropertyValue('--swal2-outline').replace(/ rgba\(.*/, ` ${outlineColor}`));
   }
 
   /**
@@ -131654,22 +131490,22 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    */
   function renderButton(button, buttonType, params) {
-    var buttonName = /** @type {'Confirm' | 'Deny' | 'Cancel'} */capitalizeFirstLetter(buttonType);
-    toggle(button, params["show".concat(buttonName, "Button")], 'inline-block');
-    setInnerHtml(button, params["".concat(buttonType, "ButtonText")] || ''); // Set caption text
-    button.setAttribute('aria-label', params["".concat(buttonType, "ButtonAriaLabel")] || ''); // ARIA label
+    const buttonName = /** @type {'Confirm' | 'Deny' | 'Cancel'} */capitalizeFirstLetter(buttonType);
+    toggle(button, params[`show${buttonName}Button`], 'inline-block');
+    setInnerHtml(button, params[`${buttonType}ButtonText`] || ''); // Set caption text
+    button.setAttribute('aria-label', params[`${buttonType}ButtonAriaLabel`] || ''); // ARIA label
 
     // Add buttons custom classes
     button.className = swalClasses[buttonType];
-    applyCustomClass(button, params, "".concat(buttonType, "Button"));
+    applyCustomClass(button, params, `${buttonType}Button`);
   }
 
   /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderCloseButton = function renderCloseButton(instance, params) {
-    var closeButton = getCloseButton();
+  const renderCloseButton = (instance, params) => {
+    const closeButton = getCloseButton();
     if (!closeButton) {
       return;
     }
@@ -131685,8 +131521,8 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderContainer = function renderContainer(instance, params) {
-    var container = getContainer();
+  const renderContainer = (instance, params) => {
+    const container = getContainer();
     if (!container) {
       return;
     }
@@ -131734,7 +131570,7 @@ module.exports = function (list, options) {
     if (!grow) {
       return;
     }
-    addClass(container, swalClasses["grow-".concat(grow)]);
+    addClass(container, swalClasses[`grow-${grow}`]);
   }
 
   /**
@@ -131752,22 +131588,25 @@ module.exports = function (list, options) {
     domCache: new WeakMap()
   };
 
+  /// <reference path="../../../../sweetalert2.d.ts"/>
+
+
   /** @type {InputClass[]} */
-  var inputClasses = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
+  const inputClasses = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea'];
 
   /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderInput = function renderInput(instance, params) {
-    var popup = getPopup();
+  const renderInput = (instance, params) => {
+    const popup = getPopup();
     if (!popup) {
       return;
     }
-    var innerParams = privateProps.innerParams.get(instance);
-    var rerender = !innerParams || params.input !== innerParams.input;
-    inputClasses.forEach(function (inputClass) {
-      var inputContainer = getDirectChildByClass(popup, swalClasses[inputClass]);
+    const innerParams = privateProps.innerParams.get(instance);
+    const rerender = !innerParams || params.input !== innerParams.input;
+    inputClasses.forEach(inputClass => {
+      const inputContainer = getDirectChildByClass(popup, swalClasses[inputClass]);
       if (!inputContainer) {
         return;
       }
@@ -131793,24 +131632,24 @@ module.exports = function (list, options) {
   /**
    * @param {SweetAlertOptions} params
    */
-  var showInput = function showInput(params) {
+  const showInput = params => {
     if (!params.input) {
       return;
     }
     if (!renderInputType[params.input]) {
-      error("Unexpected type of input! Expected ".concat(Object.keys(renderInputType).join(' | '), ", got \"").concat(params.input, "\""));
+      error(`Unexpected type of input! Expected ${Object.keys(renderInputType).join(' | ')}, got "${params.input}"`);
       return;
     }
-    var inputContainer = getInputContainer(params.input);
+    const inputContainer = getInputContainer(params.input);
     if (!inputContainer) {
       return;
     }
-    var input = renderInputType[params.input](inputContainer, params);
+    const input = renderInputType[params.input](inputContainer, params);
     show(inputContainer);
 
     // input autofocus
     if (params.inputAutoFocus) {
-      setTimeout(function () {
+      setTimeout(() => {
         focusInput(input);
       });
     }
@@ -131819,9 +131658,9 @@ module.exports = function (list, options) {
   /**
    * @param {HTMLInputElement} input
    */
-  var removeAttributes = function removeAttributes(input) {
-    for (var i = 0; i < input.attributes.length; i++) {
-      var attrName = input.attributes[i].name;
+  const removeAttributes = input => {
+    for (let i = 0; i < input.attributes.length; i++) {
+      const attrName = input.attributes[i].name;
       if (!['id', 'type', 'value', 'style'].includes(attrName)) {
         input.removeAttribute(attrName);
       }
@@ -131832,17 +131671,17 @@ module.exports = function (list, options) {
    * @param {InputClass} inputClass
    * @param {SweetAlertOptions['inputAttributes']} inputAttributes
    */
-  var setAttributes = function setAttributes(inputClass, inputAttributes) {
-    var popup = getPopup();
+  const setAttributes = (inputClass, inputAttributes) => {
+    const popup = getPopup();
     if (!popup) {
       return;
     }
-    var input = getInput$1(popup, inputClass);
+    const input = getInput$1(popup, inputClass);
     if (!input) {
       return;
     }
     removeAttributes(input);
-    for (var attr in inputAttributes) {
+    for (const attr in inputAttributes) {
       input.setAttribute(attr, inputAttributes[attr]);
     }
   };
@@ -131850,11 +131689,11 @@ module.exports = function (list, options) {
   /**
    * @param {SweetAlertOptions} params
    */
-  var setCustomClass = function setCustomClass(params) {
+  const setCustomClass = params => {
     if (!params.input) {
       return;
     }
-    var inputContainer = getInputContainer(params.input);
+    const inputContainer = getInputContainer(params.input);
     if (inputContainer) {
       applyCustomClass(inputContainer, params, 'input');
     }
@@ -131864,7 +131703,7 @@ module.exports = function (list, options) {
    * @param {HTMLInputElement | HTMLTextAreaElement} input
    * @param {SweetAlertOptions} params
    */
-  var setInputPlaceholder = function setInputPlaceholder(input, params) {
+  const setInputPlaceholder = (input, params) => {
     if (!input.placeholder && params.inputPlaceholder) {
       input.placeholder = params.inputPlaceholder;
     }
@@ -131875,13 +131714,13 @@ module.exports = function (list, options) {
    * @param {Input} prependTo
    * @param {SweetAlertOptions} params
    */
-  var setInputLabel = function setInputLabel(input, prependTo, params) {
+  const setInputLabel = (input, prependTo, params) => {
     if (params.inputLabel) {
-      var label = document.createElement('label');
-      var labelClass = swalClasses['input-label'];
+      const label = document.createElement('label');
+      const labelClass = swalClasses['input-label'];
       label.setAttribute('for', input.id);
       label.className = labelClass;
-      if (_typeof(params.customClass) === 'object') {
+      if (typeof params.customClass === 'object') {
         addClass(label, params.customClass.inputLabel);
       }
       label.innerText = params.inputLabel;
@@ -131893,28 +131732,28 @@ module.exports = function (list, options) {
    * @param {SweetAlertInput} inputType
    * @returns {HTMLElement | undefined}
    */
-  var getInputContainer = function getInputContainer(inputType) {
-    var popup = getPopup();
+  const getInputContainer = inputType => {
+    const popup = getPopup();
     if (!popup) {
       return;
     }
-    return getDirectChildByClass(popup, swalClasses[( /** @type {SwalClass} */inputType)] || swalClasses.input);
+    return getDirectChildByClass(popup, swalClasses[(/** @type {SwalClass} */inputType)] || swalClasses.input);
   };
 
   /**
    * @param {HTMLInputElement | HTMLOutputElement | HTMLTextAreaElement} input
    * @param {SweetAlertOptions['inputValue']} inputValue
    */
-  var checkAndSetInputValue = function checkAndSetInputValue(input, inputValue) {
-    if (['string', 'number'].includes(_typeof(inputValue))) {
-      input.value = "".concat(inputValue);
+  const checkAndSetInputValue = (input, inputValue) => {
+    if (['string', 'number'].includes(typeof inputValue)) {
+      input.value = `${inputValue}`;
     } else if (!isPromise(inputValue)) {
-      warn("Unexpected type of inputValue! Expected \"string\", \"number\" or \"Promise\", got \"".concat(_typeof(inputValue), "\""));
+      warn(`Unexpected type of inputValue! Expected "string", "number" or "Promise", got "${typeof inputValue}"`);
     }
   };
 
   /** @type {Record<SweetAlertInput, (input: Input | HTMLElement, params: SweetAlertOptions) => Input>} */
-  var renderInputType = {};
+  const renderInputType = {};
 
   /**
    * @param {HTMLInputElement} input
@@ -131922,7 +131761,7 @@ module.exports = function (list, options) {
    * @returns {HTMLInputElement}
    */
   renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = renderInputType.search = renderInputType.date = renderInputType['datetime-local'] = renderInputType.time = renderInputType.week = renderInputType.month = /** @type {(input: Input | HTMLElement, params: SweetAlertOptions) => Input} */
-  function (input, params) {
+  (input, params) => {
     checkAndSetInputValue(input, params.inputValue);
     setInputLabel(input, input, params);
     setInputPlaceholder(input, params);
@@ -131935,7 +131774,7 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLInputElement}
    */
-  renderInputType.file = function (input, params) {
+  renderInputType.file = (input, params) => {
     setInputLabel(input, input, params);
     setInputPlaceholder(input, params);
     return input;
@@ -131946,9 +131785,9 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLInputElement}
    */
-  renderInputType.range = function (range, params) {
-    var rangeInput = range.querySelector('input');
-    var rangeOutput = range.querySelector('output');
+  renderInputType.range = (range, params) => {
+    const rangeInput = range.querySelector('input');
+    const rangeOutput = range.querySelector('output');
     checkAndSetInputValue(rangeInput, params.inputValue);
     rangeInput.type = params.input;
     checkAndSetInputValue(rangeOutput, params.inputValue);
@@ -131961,10 +131800,10 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLSelectElement}
    */
-  renderInputType.select = function (select, params) {
+  renderInputType.select = (select, params) => {
     select.textContent = '';
     if (params.inputPlaceholder) {
-      var placeholder = document.createElement('option');
+      const placeholder = document.createElement('option');
       setInnerHtml(placeholder, params.inputPlaceholder);
       placeholder.value = '';
       placeholder.disabled = true;
@@ -131979,7 +131818,7 @@ module.exports = function (list, options) {
    * @param {HTMLInputElement} radio
    * @returns {HTMLInputElement}
    */
-  renderInputType.radio = function (radio) {
+  renderInputType.radio = radio => {
     radio.textContent = '';
     return radio;
   };
@@ -131989,12 +131828,12 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLInputElement}
    */
-  renderInputType.checkbox = function (checkboxContainer, params) {
-    var checkbox = getInput$1(getPopup(), 'checkbox');
+  renderInputType.checkbox = (checkboxContainer, params) => {
+    const checkbox = getInput$1(getPopup(), 'checkbox');
     checkbox.value = '1';
     checkbox.checked = Boolean(params.inputValue);
-    var label = checkboxContainer.querySelector('span');
-    setInnerHtml(label, params.inputPlaceholder);
+    const label = checkboxContainer.querySelector('span');
+    setInnerHtml(label, params.inputPlaceholder || params.inputLabel);
     return checkbox;
   };
 
@@ -132003,7 +131842,7 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLTextAreaElement}
    */
-  renderInputType.textarea = function (textarea, params) {
+  renderInputType.textarea = (textarea, params) => {
     checkAndSetInputValue(textarea, params.inputValue);
     setInputPlaceholder(textarea, params);
     setInputLabel(textarea, textarea, params);
@@ -132012,23 +131851,21 @@ module.exports = function (list, options) {
      * @param {HTMLElement} el
      * @returns {number}
      */
-    var getMargin = function getMargin(el) {
-      return parseInt(window.getComputedStyle(el).marginLeft) + parseInt(window.getComputedStyle(el).marginRight);
-    };
+    const getMargin = el => parseInt(window.getComputedStyle(el).marginLeft) + parseInt(window.getComputedStyle(el).marginRight);
 
     // https://github.com/sweetalert2/sweetalert2/issues/2291
-    setTimeout(function () {
+    setTimeout(() => {
       // https://github.com/sweetalert2/sweetalert2/issues/1699
       if ('MutationObserver' in window) {
-        var initialPopupWidth = parseInt(window.getComputedStyle(getPopup()).width);
-        var textareaResizeHandler = function textareaResizeHandler() {
+        const initialPopupWidth = parseInt(window.getComputedStyle(getPopup()).width);
+        const textareaResizeHandler = () => {
           // check if texarea is still in document (i.e. popup wasn't closed in the meantime)
           if (!document.body.contains(textarea)) {
             return;
           }
-          var textareaWidth = textarea.offsetWidth + getMargin(textarea);
+          const textareaWidth = textarea.offsetWidth + getMargin(textarea);
           if (textareaWidth > initialPopupWidth) {
-            getPopup().style.width = "".concat(textareaWidth, "px");
+            getPopup().style.width = `${textareaWidth}px`;
           } else {
             applyNumericalStyle(getPopup(), 'width', params.width);
           }
@@ -132046,8 +131883,8 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderContent = function renderContent(instance, params) {
-    var htmlContainer = getHtmlContainer();
+  const renderContent = (instance, params) => {
+    const htmlContainer = getHtmlContainer();
     if (!htmlContainer) {
       return;
     }
@@ -132077,8 +131914,8 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderFooter = function renderFooter(instance, params) {
-    var footer = getFooter();
+  const renderFooter = (instance, params) => {
+    const footer = getFooter();
     if (!footer) {
       return;
     }
@@ -132096,9 +131933,9 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderIcon = function renderIcon(instance, params) {
-    var innerParams = privateProps.innerParams.get(instance);
-    var icon = getIcon();
+  const renderIcon = (instance, params) => {
+    const innerParams = privateProps.innerParams.get(instance);
+    const icon = getIcon();
     if (!icon) {
       return;
     }
@@ -132115,7 +131952,7 @@ module.exports = function (list, options) {
       return;
     }
     if (params.icon && Object.keys(iconTypes).indexOf(params.icon) === -1) {
-      error("Unknown icon! Expected \"success\", \"error\", \"warning\", \"info\" or \"question\", got \"".concat(params.icon, "\""));
+      error(`Unknown icon! Expected "success", "error", "warning", "info" or "question", got "${params.icon}"`);
       hide(icon);
       return;
     }
@@ -132127,17 +131964,18 @@ module.exports = function (list, options) {
 
     // Animate icon
     addClass(icon, params.showClass && params.showClass.icon);
+
+    // Re-adjust the success icon on system theme change
+    const colorSchemeQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+    colorSchemeQueryList.addEventListener('change', adjustSuccessIconBackgroundColor);
   };
 
   /**
    * @param {HTMLElement} icon
    * @param {SweetAlertOptions} params
    */
-  var applyStyles = function applyStyles(icon, params) {
-    for (var _i = 0, _Object$entries = Object.entries(iconTypes); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-        iconType = _Object$entries$_i[0],
-        iconClassName = _Object$entries$_i[1];
+  const applyStyles = (icon, params) => {
+    for (const [iconType, iconClassName] of Object.entries(iconTypes)) {
       if (params.icon !== iconType) {
         removeClass(icon, iconClassName);
       }
@@ -132155,31 +131993,41 @@ module.exports = function (list, options) {
   };
 
   // Adjust success icon background color to match the popup background color
-  var adjustSuccessIconBackgroundColor = function adjustSuccessIconBackgroundColor() {
-    var popup = getPopup();
+  const adjustSuccessIconBackgroundColor = () => {
+    const popup = getPopup();
     if (!popup) {
       return;
     }
-    var popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
+    const popupBackgroundColor = window.getComputedStyle(popup).getPropertyValue('background-color');
     /** @type {NodeListOf<HTMLElement>} */
-    var successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
-    for (var i = 0; i < successIconParts.length; i++) {
+    const successIconParts = popup.querySelectorAll('[class^=swal2-success-circular-line], .swal2-success-fix');
+    for (let i = 0; i < successIconParts.length; i++) {
       successIconParts[i].style.backgroundColor = popupBackgroundColor;
     }
   };
-  var successIconHtml = "\n  <div class=\"swal2-success-circular-line-left\"></div>\n  <span class=\"swal2-success-line-tip\"></span> <span class=\"swal2-success-line-long\"></span>\n  <div class=\"swal2-success-ring\"></div> <div class=\"swal2-success-fix\"></div>\n  <div class=\"swal2-success-circular-line-right\"></div>\n";
-  var errorIconHtml = "\n  <span class=\"swal2-x-mark\">\n    <span class=\"swal2-x-mark-line-left\"></span>\n    <span class=\"swal2-x-mark-line-right\"></span>\n  </span>\n";
+  const successIconHtml = `
+  <div class="swal2-success-circular-line-left"></div>
+  <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
+  <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>
+  <div class="swal2-success-circular-line-right"></div>
+`;
+  const errorIconHtml = `
+  <span class="swal2-x-mark">
+    <span class="swal2-x-mark-line-left"></span>
+    <span class="swal2-x-mark-line-right"></span>
+  </span>
+`;
 
   /**
    * @param {HTMLElement} icon
    * @param {SweetAlertOptions} params
    */
-  var setContent = function setContent(icon, params) {
+  const setContent = (icon, params) => {
     if (!params.icon && !params.iconHtml) {
       return;
     }
-    var oldContent = icon.innerHTML;
-    var newContent = '';
+    let oldContent = icon.innerHTML;
+    let newContent = '';
     if (params.iconHtml) {
       newContent = iconContent(params.iconHtml);
     } else if (params.icon === 'success') {
@@ -132188,7 +132036,7 @@ module.exports = function (list, options) {
     } else if (params.icon === 'error') {
       newContent = errorIconHtml;
     } else if (params.icon) {
-      var defaultIconHtml = {
+      const defaultIconHtml = {
         question: '?',
         warning: '!',
         info: 'i'
@@ -132204,14 +132052,13 @@ module.exports = function (list, options) {
    * @param {HTMLElement} icon
    * @param {SweetAlertOptions} params
    */
-  var setColor = function setColor(icon, params) {
+  const setColor = (icon, params) => {
     if (!params.iconColor) {
       return;
     }
     icon.style.color = params.iconColor;
     icon.style.borderColor = params.iconColor;
-    for (var _i2 = 0, _arr = ['.swal2-success-line-tip', '.swal2-success-line-long', '.swal2-x-mark-line-left', '.swal2-x-mark-line-right']; _i2 < _arr.length; _i2++) {
-      var sel = _arr[_i2];
+    for (const sel of ['.swal2-success-line-tip', '.swal2-success-line-long', '.swal2-x-mark-line-left', '.swal2-x-mark-line-right']) {
       setStyle(icon, sel, 'background-color', params.iconColor);
     }
     setStyle(icon, '.swal2-success-ring', 'border-color', params.iconColor);
@@ -132221,16 +132068,14 @@ module.exports = function (list, options) {
    * @param {string} content
    * @returns {string}
    */
-  var iconContent = function iconContent(content) {
-    return "<div class=\"".concat(swalClasses['icon-content'], "\">").concat(content, "</div>");
-  };
+  const iconContent = content => `<div class="${swalClasses['icon-content']}">${content}</div>`;
 
   /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderImage = function renderImage(instance, params) {
-    var image = getImage();
+  const renderImage = (instance, params) => {
+    const image = getImage();
     if (!image) {
       return;
     }
@@ -132253,13 +132098,99 @@ module.exports = function (list, options) {
     applyCustomClass(image, params, 'image');
   };
 
+  let dragging = false;
+  let mousedownX = 0;
+  let mousedownY = 0;
+  let initialX = 0;
+  let initialY = 0;
+
+  /**
+   * @param {HTMLElement} popup
+   */
+  const addDraggableListeners = popup => {
+    popup.addEventListener('mousedown', down);
+    document.body.addEventListener('mousemove', move);
+    popup.addEventListener('mouseup', up);
+    popup.addEventListener('touchstart', down);
+    document.body.addEventListener('touchmove', move);
+    popup.addEventListener('touchend', up);
+  };
+
+  /**
+   * @param {HTMLElement} popup
+   */
+  const removeDraggableListeners = popup => {
+    popup.removeEventListener('mousedown', down);
+    document.body.removeEventListener('mousemove', move);
+    popup.removeEventListener('mouseup', up);
+    popup.removeEventListener('touchstart', down);
+    document.body.removeEventListener('touchmove', move);
+    popup.removeEventListener('touchend', up);
+  };
+
+  /**
+   * @param {MouseEvent | TouchEvent} event
+   */
+  const down = event => {
+    const popup = getPopup();
+    if (event.target === popup || getIcon().contains(/** @type {HTMLElement} */event.target)) {
+      dragging = true;
+      const clientXY = getClientXY(event);
+      mousedownX = clientXY.clientX;
+      mousedownY = clientXY.clientY;
+      initialX = parseInt(popup.style.insetInlineStart) || 0;
+      initialY = parseInt(popup.style.insetBlockStart) || 0;
+      addClass(popup, 'swal2-dragging');
+    }
+  };
+
+  /**
+   * @param {MouseEvent | TouchEvent} event
+   */
+  const move = event => {
+    const popup = getPopup();
+    if (dragging) {
+      let {
+        clientX,
+        clientY
+      } = getClientXY(event);
+      popup.style.insetInlineStart = `${initialX + (clientX - mousedownX)}px`;
+      popup.style.insetBlockStart = `${initialY + (clientY - mousedownY)}px`;
+    }
+  };
+  const up = () => {
+    const popup = getPopup();
+    dragging = false;
+    removeClass(popup, 'swal2-dragging');
+  };
+
+  /**
+   * @param {MouseEvent | TouchEvent} event
+   * @returns {{ clientX: number, clientY: number }}
+   */
+  const getClientXY = event => {
+    let clientX = 0,
+      clientY = 0;
+    if (event.type.startsWith('mouse')) {
+      clientX = /** @type {MouseEvent} */event.clientX;
+      clientY = /** @type {MouseEvent} */event.clientY;
+    } else if (event.type.startsWith('touch')) {
+      clientX = /** @type {TouchEvent} */event.touches[0].clientX;
+      clientY = /** @type {TouchEvent} */event.touches[0].clientY;
+    }
+    return {
+      clientX,
+      clientY
+    };
+  };
+
   /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderPopup = function renderPopup(instance, params) {
-    var container = getContainer();
-    var popup = getPopup();
+  const renderPopup = (instance, params) => {
+    const container = getContainer();
+    const popup = getPopup();
     if (!container || !popup) {
       return;
     }
@@ -132269,7 +132200,7 @@ module.exports = function (list, options) {
     if (params.toast) {
       applyNumericalStyle(container, 'width', params.width);
       popup.style.width = '100%';
-      var loader = getLoader();
+      const loader = getLoader();
       if (loader) {
         popup.insertBefore(loader, getIcon());
       }
@@ -132293,16 +132224,23 @@ module.exports = function (list, options) {
 
     // Classes
     addClasses$1(popup, params);
+    if (params.draggable && !params.toast) {
+      addClass(popup, swalClasses.draggable);
+      addDraggableListeners(popup);
+    } else {
+      removeClass(popup, swalClasses.draggable);
+      removeDraggableListeners(popup);
+    }
   };
 
   /**
    * @param {HTMLElement} popup
    * @param {SweetAlertOptions} params
    */
-  var addClasses$1 = function addClasses(popup, params) {
-    var showClass = params.showClass || {};
+  const addClasses$1 = (popup, params) => {
+    const showClass = params.showClass || {};
     // Default Class + showClass when updating Swal.update({})
-    popup.className = "".concat(swalClasses.popup, " ").concat(isVisible$1(popup) ? showClass.popup : '');
+    popup.className = `${swalClasses.popup} ${isVisible$1(popup) ? showClass.popup : ''}`;
     if (params.toast) {
       addClass([document.documentElement, document.body], swalClasses['toast-shown']);
       addClass(popup, swalClasses.toast);
@@ -132319,7 +132257,7 @@ module.exports = function (list, options) {
 
     // Icon class (#1842)
     if (params.icon) {
-      addClass(popup, swalClasses["icon-".concat(params.icon)]);
+      addClass(popup, swalClasses[`icon-${params.icon}`]);
     }
   };
 
@@ -132327,13 +132265,15 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderProgressSteps = function renderProgressSteps(instance, params) {
-    var progressStepsContainer = getProgressSteps();
+  const renderProgressSteps = (instance, params) => {
+    const progressStepsContainer = getProgressSteps();
     if (!progressStepsContainer) {
       return;
     }
-    var progressSteps = params.progressSteps,
-      currentProgressStep = params.currentProgressStep;
+    const {
+      progressSteps,
+      currentProgressStep
+    } = params;
     if (!progressSteps || progressSteps.length === 0 || currentProgressStep === undefined) {
       hide(progressStepsContainer);
       return;
@@ -132343,14 +132283,14 @@ module.exports = function (list, options) {
     if (currentProgressStep >= progressSteps.length) {
       warn('Invalid currentProgressStep parameter, it should be less than progressSteps.length ' + '(currentProgressStep like JS arrays starts from 0)');
     }
-    progressSteps.forEach(function (step, index) {
-      var stepEl = createStepElement(step);
+    progressSteps.forEach((step, index) => {
+      const stepEl = createStepElement(step);
       progressStepsContainer.appendChild(stepEl);
       if (index === currentProgressStep) {
         addClass(stepEl, swalClasses['active-progress-step']);
       }
       if (index !== progressSteps.length - 1) {
-        var lineEl = createLineElement(params);
+        const lineEl = createLineElement(params);
         progressStepsContainer.appendChild(lineEl);
       }
     });
@@ -132360,8 +132300,8 @@ module.exports = function (list, options) {
    * @param {string} step
    * @returns {HTMLLIElement}
    */
-  var createStepElement = function createStepElement(step) {
-    var stepEl = document.createElement('li');
+  const createStepElement = step => {
+    const stepEl = document.createElement('li');
     addClass(stepEl, swalClasses['progress-step']);
     setInnerHtml(stepEl, step);
     return stepEl;
@@ -132371,8 +132311,8 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {HTMLLIElement}
    */
-  var createLineElement = function createLineElement(params) {
-    var lineEl = document.createElement('li');
+  const createLineElement = params => {
+    const lineEl = document.createElement('li');
     addClass(lineEl, swalClasses['progress-step-line']);
     if (params.progressStepsDistance) {
       applyNumericalStyle(lineEl, 'width', params.progressStepsDistance);
@@ -132384,8 +132324,8 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var renderTitle = function renderTitle(instance, params) {
-    var title = getTitle();
+  const renderTitle = (instance, params) => {
+    const title = getTitle();
     if (!title) {
       return;
     }
@@ -132406,7 +132346,7 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var render = function render(instance, params) {
+  const render = (instance, params) => {
     renderPopup(instance, params);
     renderContainer(instance, params);
     renderProgressSteps(instance, params);
@@ -132417,23 +132357,24 @@ module.exports = function (list, options) {
     renderContent(instance, params);
     renderActions(instance, params);
     renderFooter(instance, params);
-    var popup = getPopup();
+    const popup = getPopup();
     if (typeof params.didRender === 'function' && popup) {
       params.didRender(popup);
     }
+    globalState.eventEmitter.emit('didRender', popup);
   };
 
   /*
    * Global function to determine if SweetAlert2 popup is shown
    */
-  var isVisible = function isVisible() {
+  const isVisible = () => {
     return isVisible$1(getPopup());
   };
 
   /*
    * Global function to click 'Confirm' button
    */
-  var clickConfirm = function clickConfirm() {
+  const clickConfirm = () => {
     var _dom$getConfirmButton;
     return (_dom$getConfirmButton = getConfirmButton()) === null || _dom$getConfirmButton === void 0 ? void 0 : _dom$getConfirmButton.click();
   };
@@ -132441,7 +132382,7 @@ module.exports = function (list, options) {
   /*
    * Global function to click 'Deny' button
    */
-  var clickDeny = function clickDeny() {
+  const clickDeny = () => {
     var _dom$getDenyButton;
     return (_dom$getDenyButton = getDenyButton()) === null || _dom$getDenyButton === void 0 ? void 0 : _dom$getDenyButton.click();
   };
@@ -132449,7 +132390,7 @@ module.exports = function (list, options) {
   /*
    * Global function to click 'Cancel' button
    */
-  var clickCancel = function clickCancel() {
+  const clickCancel = () => {
     var _dom$getCancelButton;
     return (_dom$getCancelButton = getCancelButton()) === null || _dom$getCancelButton === void 0 ? void 0 : _dom$getCancelButton.click();
   };
@@ -132457,7 +132398,7 @@ module.exports = function (list, options) {
   /** @typedef {'cancel' | 'backdrop' | 'close' | 'esc' | 'timer'} DismissReason */
 
   /** @type {Record<DismissReason, DismissReason>} */
-  var DismissReason = Object.freeze({
+  const DismissReason = Object.freeze({
     cancel: 'cancel',
     backdrop: 'backdrop',
     close: 'close',
@@ -132468,7 +132409,7 @@ module.exports = function (list, options) {
   /**
    * @param {GlobalState} globalState
    */
-  var removeKeydownHandler = function removeKeydownHandler(globalState) {
+  const removeKeydownHandler = globalState => {
     if (globalState.keydownTarget && globalState.keydownHandlerAdded) {
       globalState.keydownTarget.removeEventListener('keydown', globalState.keydownHandler, {
         capture: globalState.keydownListenerCapture
@@ -132482,12 +132423,10 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @param {*} dismissWith
    */
-  var addKeydownHandler = function addKeydownHandler(globalState, innerParams, dismissWith) {
+  const addKeydownHandler = (globalState, innerParams, dismissWith) => {
     removeKeydownHandler(globalState);
     if (!innerParams.toast) {
-      globalState.keydownHandler = function (e) {
-        return keydownHandler(innerParams, e, dismissWith);
-      };
+      globalState.keydownHandler = e => keydownHandler(innerParams, e, dismissWith);
       globalState.keydownTarget = innerParams.keydownListenerCapture ? window : getPopup();
       globalState.keydownListenerCapture = innerParams.keydownListenerCapture;
       globalState.keydownTarget.addEventListener('keydown', globalState.keydownHandler, {
@@ -132501,12 +132440,17 @@ module.exports = function (list, options) {
    * @param {number} index
    * @param {number} increment
    */
-  var setFocus = function setFocus(index, increment) {
+  const setFocus = (index, increment) => {
     var _dom$getPopup;
-    var focusableElements = getFocusableElements();
+    const focusableElements = getFocusableElements();
     // search for visible elements and select the next possible match
     if (focusableElements.length) {
       index = index + increment;
+
+      // shift + tab when .swal2-popup is focused
+      if (index === -2) {
+        index = focusableElements.length - 1;
+      }
 
       // rollover to first item
       if (index === focusableElements.length) {
@@ -132522,15 +132466,15 @@ module.exports = function (list, options) {
     // no visible focusable elements, focus the popup
     (_dom$getPopup = getPopup()) === null || _dom$getPopup === void 0 || _dom$getPopup.focus();
   };
-  var arrowKeysNextButton = ['ArrowRight', 'ArrowDown'];
-  var arrowKeysPreviousButton = ['ArrowLeft', 'ArrowUp'];
+  const arrowKeysNextButton = ['ArrowRight', 'ArrowDown'];
+  const arrowKeysPreviousButton = ['ArrowLeft', 'ArrowUp'];
 
   /**
    * @param {SweetAlertOptions} innerParams
    * @param {KeyboardEvent} event
    * @param {Function} dismissWith
    */
-  var keydownHandler = function keydownHandler(innerParams, event, dismissWith) {
+  const keydownHandler = (innerParams, event, dismissWith) => {
     if (!innerParams) {
       return; // This instance has already been destroyed
     }
@@ -132557,7 +132501,7 @@ module.exports = function (list, options) {
     }
 
     // ARROWS - switch focus between buttons
-    else if ([].concat(arrowKeysNextButton, arrowKeysPreviousButton).includes(event.key)) {
+    else if ([...arrowKeysNextButton, ...arrowKeysPreviousButton].includes(event.key)) {
       handleArrows(event.key);
     }
 
@@ -132571,12 +132515,12 @@ module.exports = function (list, options) {
    * @param {KeyboardEvent} event
    * @param {SweetAlertOptions} innerParams
    */
-  var handleEnter = function handleEnter(event, innerParams) {
+  const handleEnter = (event, innerParams) => {
     // https://github.com/sweetalert2/sweetalert2/issues/2386
     if (!callIfFunction(innerParams.allowEnterKey)) {
       return;
     }
-    var input = getInput$1(getPopup(), innerParams.input);
+    const input = getInput$1(getPopup(), innerParams.input);
     if (event.target && input && event.target instanceof HTMLElement && event.target.outerHTML === input.outerHTML) {
       if (['textarea', 'file'].includes(innerParams.input)) {
         return; // do not submit
@@ -132589,11 +132533,11 @@ module.exports = function (list, options) {
   /**
    * @param {KeyboardEvent} event
    */
-  var handleTab = function handleTab(event) {
-    var targetElement = event.target;
-    var focusableElements = getFocusableElements();
-    var btnIndex = -1;
-    for (var i = 0; i < focusableElements.length; i++) {
+  const handleTab = event => {
+    const targetElement = event.target;
+    const focusableElements = getFocusableElements();
+    let btnIndex = -1;
+    for (let i = 0; i < focusableElements.length; i++) {
       if (targetElement === focusableElements[i]) {
         btnIndex = i;
         break;
@@ -132616,25 +132560,25 @@ module.exports = function (list, options) {
   /**
    * @param {string} key
    */
-  var handleArrows = function handleArrows(key) {
-    var actions = getActions();
-    var confirmButton = getConfirmButton();
-    var denyButton = getDenyButton();
-    var cancelButton = getCancelButton();
+  const handleArrows = key => {
+    const actions = getActions();
+    const confirmButton = getConfirmButton();
+    const denyButton = getDenyButton();
+    const cancelButton = getCancelButton();
     if (!actions || !confirmButton || !denyButton || !cancelButton) {
       return;
     }
     /** @type HTMLElement[] */
-    var buttons = [confirmButton, denyButton, cancelButton];
+    const buttons = [confirmButton, denyButton, cancelButton];
     if (document.activeElement instanceof HTMLElement && !buttons.includes(document.activeElement)) {
       return;
     }
-    var sibling = arrowKeysNextButton.includes(key) ? 'nextElementSibling' : 'previousElementSibling';
-    var buttonToFocus = document.activeElement;
+    const sibling = arrowKeysNextButton.includes(key) ? 'nextElementSibling' : 'previousElementSibling';
+    let buttonToFocus = document.activeElement;
     if (!buttonToFocus) {
       return;
     }
-    for (var i = 0; i < actions.children.length; i++) {
+    for (let i = 0; i < actions.children.length; i++) {
       buttonToFocus = buttonToFocus[sibling];
       if (!buttonToFocus) {
         return;
@@ -132653,7 +132597,7 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @param {Function} dismissWith
    */
-  var handleEsc = function handleEsc(event, innerParams, dismissWith) {
+  const handleEsc = (event, innerParams, dismissWith) => {
     if (callIfFunction(innerParams.allowEscapeKey)) {
       event.preventDefault();
       dismissWith(DismissReason.esc);
@@ -132680,10 +132624,10 @@ module.exports = function (list, options) {
   // elements not within the active modal dialog will not be surfaced if a user opens a screen
   // reader’s list of elements (headings, form controls, landmarks, etc.) in the document.
 
-  var setAriaHidden = function setAriaHidden() {
-    var container = getContainer();
-    var bodyChildren = Array.from(document.body.children);
-    bodyChildren.forEach(function (el) {
+  const setAriaHidden = () => {
+    const container = getContainer();
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach(el => {
       if (el.contains(container)) {
         return;
       }
@@ -132693,9 +132637,9 @@ module.exports = function (list, options) {
       el.setAttribute('aria-hidden', 'true');
     });
   };
-  var unsetAriaHidden = function unsetAriaHidden() {
-    var bodyChildren = Array.from(document.body.children);
-    bodyChildren.forEach(function (el) {
+  const unsetAriaHidden = () => {
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach(el => {
       if (el.hasAttribute('data-previous-aria-hidden')) {
         el.setAttribute('aria-hidden', el.getAttribute('data-previous-aria-hidden') || '');
         el.removeAttribute('data-previous-aria-hidden');
@@ -132706,16 +132650,16 @@ module.exports = function (list, options) {
   };
 
   // @ts-ignore
-  var isSafariOrIOS = typeof window !== 'undefined' && !!window.GestureEvent; // true for Safari desktop + all iOS browsers https://stackoverflow.com/a/70585394
+  const isSafariOrIOS = typeof window !== 'undefined' && !!window.GestureEvent; // true for Safari desktop + all iOS browsers https://stackoverflow.com/a/70585394
 
   /**
    * Fix iOS scrolling
    * http://stackoverflow.com/q/39626302
    */
-  var iOSfix = function iOSfix() {
+  const iOSfix = () => {
     if (isSafariOrIOS && !hasClass(document.body, swalClasses.iosfix)) {
-      var offset = document.body.scrollTop;
-      document.body.style.top = "".concat(offset * -1, "px");
+      const offset = document.body.scrollTop;
+      document.body.style.top = `${offset * -1}px`;
       addClass(document.body, swalClasses.iosfix);
       lockBodyScroll();
     }
@@ -132724,23 +132668,23 @@ module.exports = function (list, options) {
   /**
    * https://github.com/sweetalert2/sweetalert2/issues/1246
    */
-  var lockBodyScroll = function lockBodyScroll() {
-    var container = getContainer();
+  const lockBodyScroll = () => {
+    const container = getContainer();
     if (!container) {
       return;
     }
     /** @type {boolean} */
-    var preventTouchMove;
+    let preventTouchMove;
     /**
      * @param {TouchEvent} event
      */
-    container.ontouchstart = function (event) {
+    container.ontouchstart = event => {
       preventTouchMove = shouldPreventTouchMove(event);
     };
     /**
      * @param {TouchEvent} event
      */
-    container.ontouchmove = function (event) {
+    container.ontouchmove = event => {
       if (preventTouchMove) {
         event.preventDefault();
         event.stopPropagation();
@@ -132752,10 +132696,10 @@ module.exports = function (list, options) {
    * @param {TouchEvent} event
    * @returns {boolean}
    */
-  var shouldPreventTouchMove = function shouldPreventTouchMove(event) {
-    var target = event.target;
-    var container = getContainer();
-    var htmlContainer = getHtmlContainer();
+  const shouldPreventTouchMove = event => {
+    const target = event.target;
+    const container = getContainer();
+    const htmlContainer = getHtmlContainer();
     if (!container || !htmlContainer) {
       return false;
     }
@@ -132783,7 +132727,7 @@ module.exports = function (list, options) {
    * @param {*} event
    * @returns {boolean}
    */
-  var isStylus = function isStylus(event) {
+  const isStylus = event => {
     return event.touches && event.touches.length && event.touches[0].touchType === 'stylus';
   };
 
@@ -132793,12 +132737,12 @@ module.exports = function (list, options) {
    * @param {TouchEvent} event
    * @returns {boolean}
    */
-  var isZoom = function isZoom(event) {
+  const isZoom = event => {
     return event.touches && event.touches.length > 1;
   };
-  var undoIOSfix = function undoIOSfix() {
+  const undoIOSfix = () => {
     if (hasClass(document.body, swalClasses.iosfix)) {
-      var offset = parseInt(document.body.style.top, 10);
+      const offset = parseInt(document.body.style.top, 10);
       removeClass(document.body, swalClasses.iosfix);
       document.body.style.top = '';
       document.body.scrollTop = offset * -1;
@@ -132811,11 +132755,11 @@ module.exports = function (list, options) {
    *
    * @returns {number}
    */
-  var measureScrollbar = function measureScrollbar() {
-    var scrollDiv = document.createElement('div');
+  const measureScrollbar = () => {
+    const scrollDiv = document.createElement('div');
     scrollDiv.className = swalClasses['scrollbar-measure'];
     document.body.appendChild(scrollDiv);
-    var scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
+    const scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth;
     document.body.removeChild(scrollDiv);
     return scrollbarWidth;
   };
@@ -132824,12 +132768,12 @@ module.exports = function (list, options) {
    * Remember state in cases where opening and handling a modal will fiddle with it.
    * @type {number | null}
    */
-  var previousBodyPadding = null;
+  let previousBodyPadding = null;
 
   /**
    * @param {string} initialBodyOverflow
    */
-  var replaceScrollbarWithPadding = function replaceScrollbarWithPadding(initialBodyOverflow) {
+  const replaceScrollbarWithPadding = initialBodyOverflow => {
     // for queues, do not do this more than once
     if (previousBodyPadding !== null) {
       return;
@@ -132839,12 +132783,12 @@ module.exports = function (list, options) {
     ) {
       // add padding so the content doesn't shift after removal of scrollbar
       previousBodyPadding = parseInt(window.getComputedStyle(document.body).getPropertyValue('padding-right'));
-      document.body.style.paddingRight = "".concat(previousBodyPadding + measureScrollbar(), "px");
+      document.body.style.paddingRight = `${previousBodyPadding + measureScrollbar()}px`;
     }
   };
-  var undoReplaceScrollbarWithPadding = function undoReplaceScrollbarWithPadding() {
+  const undoReplaceScrollbarWithPadding = () => {
     if (previousBodyPadding !== null) {
-      document.body.style.paddingRight = "".concat(previousBodyPadding, "px");
+      document.body.style.paddingRight = `${previousBodyPadding}px`;
       previousBodyPadding = null;
     }
   };
@@ -132859,9 +132803,7 @@ module.exports = function (list, options) {
     if (isToast()) {
       triggerDidCloseAndDispose(instance, didClose);
     } else {
-      restoreActiveElement(returnFocus).then(function () {
-        return triggerDidCloseAndDispose(instance, didClose);
-      });
+      restoreActiveElement(returnFocus).then(() => triggerDidCloseAndDispose(instance, didClose));
       removeKeydownHandler(globalState);
     }
 
@@ -132896,8 +132838,8 @@ module.exports = function (list, options) {
    */
   function close(resolveValue) {
     resolveValue = prepareResolveValue(resolveValue);
-    var swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
-    var didClose = triggerClosePopup(this);
+    const swalPromiseResolve = privateMethods.swalPromiseResolve.get(this);
+    const didClose = triggerClosePopup(this);
     if (this.isAwaitingPromise) {
       // A swal awaiting for a promise (after a click on Confirm or Deny) cannot be dismissed anymore #2335
       if (!resolveValue.isDismissed) {
@@ -132909,18 +132851,18 @@ module.exports = function (list, options) {
       swalPromiseResolve(resolveValue);
     }
   }
-  var triggerClosePopup = function triggerClosePopup(instance) {
-    var popup = getPopup();
+  const triggerClosePopup = instance => {
+    const popup = getPopup();
     if (!popup) {
       return false;
     }
-    var innerParams = privateProps.innerParams.get(instance);
+    const innerParams = privateProps.innerParams.get(instance);
     if (!innerParams || hasClass(popup, innerParams.hideClass.popup)) {
       return false;
     }
     removeClass(popup, innerParams.showClass.popup);
     addClass(popup, innerParams.hideClass.popup);
-    var backdrop = getContainer();
+    const backdrop = getContainer();
     removeClass(backdrop, innerParams.showClass.backdrop);
     addClass(backdrop, innerParams.hideClass.backdrop);
     handlePopupAnimation(instance, popup, innerParams);
@@ -132931,7 +132873,7 @@ module.exports = function (list, options) {
    * @param {any} error
    */
   function rejectPromise(error) {
-    var rejectPromise = privateMethods.swalPromiseReject.get(this);
+    const rejectPromise = privateMethods.swalPromiseReject.get(this);
     handleAwaitingPromise(this);
     if (rejectPromise) {
       // Reject Swal promise
@@ -132942,7 +132884,7 @@ module.exports = function (list, options) {
   /**
    * @param {SweetAlert} instance
    */
-  var handleAwaitingPromise = function handleAwaitingPromise(instance) {
+  const handleAwaitingPromise = instance => {
     if (instance.isAwaitingPromise) {
       delete instance.isAwaitingPromise;
       // The instance might have been previously partly destroyed, we must resume the destroy process in this case #2335
@@ -132956,7 +132898,7 @@ module.exports = function (list, options) {
    * @param {any} resolveValue
    * @returns {SweetAlertResult}
    */
-  var prepareResolveValue = function prepareResolveValue(resolveValue) {
+  const prepareResolveValue = resolveValue => {
     // When user calls Swal.close()
     if (typeof resolveValue === 'undefined') {
       return {
@@ -132977,13 +132919,15 @@ module.exports = function (list, options) {
    * @param {HTMLElement} popup
    * @param {SweetAlertOptions} innerParams
    */
-  var handlePopupAnimation = function handlePopupAnimation(instance, popup, innerParams) {
-    var container = getContainer();
+  const handlePopupAnimation = (instance, popup, innerParams) => {
+    var _globalState$eventEmi;
+    const container = getContainer();
     // If animation is supported, animate
-    var animationIsSupported = animationEndEvent && hasCssAnimation(popup);
+    const animationIsSupported = hasCssAnimation(popup);
     if (typeof innerParams.willClose === 'function') {
       innerParams.willClose(popup);
     }
+    (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === void 0 || _globalState$eventEmi.emit('willClose', popup);
     if (animationIsSupported) {
       animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose);
     } else {
@@ -132999,28 +132943,35 @@ module.exports = function (list, options) {
    * @param {boolean} returnFocus
    * @param {Function} didClose
    */
-  var animatePopup = function animatePopup(instance, popup, container, returnFocus, didClose) {
-    if (!animationEndEvent) {
-      return;
-    }
+  const animatePopup = (instance, popup, container, returnFocus, didClose) => {
     globalState.swalCloseEventFinishedCallback = removePopupAndResetState.bind(null, instance, container, returnFocus, didClose);
-    popup.addEventListener(animationEndEvent, function (e) {
+    /**
+     * @param {AnimationEvent | TransitionEvent} e
+     */
+    const swalCloseAnimationFinished = function (e) {
       if (e.target === popup) {
-        globalState.swalCloseEventFinishedCallback();
+        var _globalState$swalClos;
+        (_globalState$swalClos = globalState.swalCloseEventFinishedCallback) === null || _globalState$swalClos === void 0 || _globalState$swalClos.call(globalState);
         delete globalState.swalCloseEventFinishedCallback;
+        popup.removeEventListener('animationend', swalCloseAnimationFinished);
+        popup.removeEventListener('transitionend', swalCloseAnimationFinished);
       }
-    });
+    };
+    popup.addEventListener('animationend', swalCloseAnimationFinished);
+    popup.addEventListener('transitionend', swalCloseAnimationFinished);
   };
 
   /**
    * @param {SweetAlert} instance
    * @param {Function} didClose
    */
-  var triggerDidCloseAndDispose = function triggerDidCloseAndDispose(instance, didClose) {
-    setTimeout(function () {
+  const triggerDidCloseAndDispose = (instance, didClose) => {
+    setTimeout(() => {
+      var _globalState$eventEmi2;
       if (typeof didClose === 'function') {
         didClose.bind(instance.params)();
       }
+      (_globalState$eventEmi2 = globalState.eventEmitter) === null || _globalState$eventEmi2 === void 0 || _globalState$eventEmi2.emit('didClose');
       // instance might have been destroyed already
       if (instance._destroy) {
         instance._destroy();
@@ -133034,8 +132985,8 @@ module.exports = function (list, options) {
    *
    * @param {HTMLButtonElement | null} [buttonToReplace]
    */
-  var showLoading = function showLoading(buttonToReplace) {
-    var popup = getPopup();
+  const showLoading = buttonToReplace => {
+    let popup = getPopup();
     if (!popup) {
       new Swal();
     }
@@ -133043,7 +132994,7 @@ module.exports = function (list, options) {
     if (!popup) {
       return;
     }
-    var loader = getLoader();
+    const loader = getLoader();
     if (isToast()) {
       hide(getIcon());
     } else {
@@ -133059,9 +133010,9 @@ module.exports = function (list, options) {
    * @param {HTMLElement} popup
    * @param {HTMLButtonElement | null} [buttonToReplace]
    */
-  var replaceButton = function replaceButton(popup, buttonToReplace) {
-    var actions = getActions();
-    var loader = getLoader();
+  const replaceButton = (popup, buttonToReplace) => {
+    const actions = getActions();
+    const loader = getLoader();
     if (!actions || !loader) {
       return;
     }
@@ -133081,12 +133032,10 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var handleInputOptionsAndValue = function handleInputOptionsAndValue(instance, params) {
+  const handleInputOptionsAndValue = (instance, params) => {
     if (params.input === 'select' || params.input === 'radio') {
       handleInputOptions(instance, params);
-    } else if (['text', 'email', 'number', 'tel', 'textarea'].some(function (i) {
-      return i === params.input;
-    }) && (hasToPromiseFn(params.inputValue) || isPromise(params.inputValue))) {
+    } else if (['text', 'email', 'number', 'tel', 'textarea'].some(i => i === params.input) && (hasToPromiseFn(params.inputValue) || isPromise(params.inputValue))) {
       showLoading(getConfirmButton());
       handleInputValue(instance, params);
     }
@@ -133097,8 +133046,8 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @returns {SweetAlertInputValue}
    */
-  var getInputValue = function getInputValue(instance, innerParams) {
-    var input = instance.getInput();
+  const getInputValue = (instance, innerParams) => {
+    const input = instance.getInput();
     if (!input) {
       return null;
     }
@@ -133118,55 +133067,49 @@ module.exports = function (list, options) {
    * @param {HTMLInputElement} input
    * @returns {number}
    */
-  var getCheckboxValue = function getCheckboxValue(input) {
-    return input.checked ? 1 : 0;
-  };
+  const getCheckboxValue = input => input.checked ? 1 : 0;
 
   /**
    * @param {HTMLInputElement} input
    * @returns {string | null}
    */
-  var getRadioValue = function getRadioValue(input) {
-    return input.checked ? input.value : null;
-  };
+  const getRadioValue = input => input.checked ? input.value : null;
 
   /**
    * @param {HTMLInputElement} input
    * @returns {FileList | File | null}
    */
-  var getFileValue = function getFileValue(input) {
-    return input.files && input.files.length ? input.getAttribute('multiple') !== null ? input.files : input.files[0] : null;
-  };
+  const getFileValue = input => input.files && input.files.length ? input.getAttribute('multiple') !== null ? input.files : input.files[0] : null;
 
   /**
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var handleInputOptions = function handleInputOptions(instance, params) {
-    var popup = getPopup();
+  const handleInputOptions = (instance, params) => {
+    const popup = getPopup();
     if (!popup) {
       return;
     }
     /**
      * @param {Record<string, any>} inputOptions
      */
-    var processInputOptions = function processInputOptions(inputOptions) {
+    const processInputOptions = inputOptions => {
       if (params.input === 'select') {
-        populateSelectOptions(popup, _formatInputOptions(inputOptions), params);
+        populateSelectOptions(popup, formatInputOptions(inputOptions), params);
       } else if (params.input === 'radio') {
-        populateRadioOptions(popup, _formatInputOptions(inputOptions), params);
+        populateRadioOptions(popup, formatInputOptions(inputOptions), params);
       }
     };
     if (hasToPromiseFn(params.inputOptions) || isPromise(params.inputOptions)) {
       showLoading(getConfirmButton());
-      asPromise(params.inputOptions).then(function (inputOptions) {
+      asPromise(params.inputOptions).then(inputOptions => {
         instance.hideLoading();
         processInputOptions(inputOptions);
       });
-    } else if (_typeof(params.inputOptions) === 'object') {
+    } else if (typeof params.inputOptions === 'object') {
       processInputOptions(params.inputOptions);
     } else {
-      error("Unexpected type of inputOptions! Expected object, Map or Promise, got ".concat(_typeof(params.inputOptions)));
+      error(`Unexpected type of inputOptions! Expected object, Map or Promise, got ${typeof params.inputOptions}`);
     }
   };
 
@@ -133174,19 +133117,19 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {SweetAlertOptions} params
    */
-  var handleInputValue = function handleInputValue(instance, params) {
-    var input = instance.getInput();
+  const handleInputValue = (instance, params) => {
+    const input = instance.getInput();
     if (!input) {
       return;
     }
     hide(input);
-    asPromise(params.inputValue).then(function (inputValue) {
-      input.value = params.input === 'number' ? "".concat(parseFloat(inputValue) || 0) : "".concat(inputValue);
+    asPromise(params.inputValue).then(inputValue => {
+      input.value = params.input === 'number' ? `${parseFloat(inputValue) || 0}` : `${inputValue}`;
       show(input);
       input.focus();
       instance.hideLoading();
-    })["catch"](function (err) {
-      error("Error in inputValue promise: ".concat(err));
+    }).catch(err => {
+      error(`Error in inputValue promise: ${err}`);
       input.value = '';
       show(input);
       input.focus();
@@ -133200,7 +133143,7 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    */
   function populateSelectOptions(popup, inputOptions, params) {
-    var select = getDirectChildByClass(popup, swalClasses.select);
+    const select = getDirectChildByClass(popup, swalClasses.select);
     if (!select) {
       return;
     }
@@ -133209,29 +133152,27 @@ module.exports = function (list, options) {
      * @param {string} optionLabel
      * @param {string} optionValue
      */
-    var renderOption = function renderOption(parent, optionLabel, optionValue) {
-      var option = document.createElement('option');
+    const renderOption = (parent, optionLabel, optionValue) => {
+      const option = document.createElement('option');
       option.value = optionValue;
       setInnerHtml(option, optionLabel);
       option.selected = isSelected(optionValue, params.inputValue);
       parent.appendChild(option);
     };
-    inputOptions.forEach(function (inputOption) {
-      var optionValue = inputOption[0];
-      var optionLabel = inputOption[1];
+    inputOptions.forEach(inputOption => {
+      const optionValue = inputOption[0];
+      const optionLabel = inputOption[1];
       // <optgroup> spec:
       // https://www.w3.org/TR/html401/interact/forms.html#h-17.6
       // "...all OPTGROUP elements must be specified directly within a SELECT element (i.e., groups may not be nested)..."
       // check whether this is a <optgroup>
       if (Array.isArray(optionLabel)) {
         // if it is an array, then it is an <optgroup>
-        var optgroup = document.createElement('optgroup');
+        const optgroup = document.createElement('optgroup');
         optgroup.label = optionValue;
         optgroup.disabled = false; // not configurable for now
         select.appendChild(optgroup);
-        optionLabel.forEach(function (o) {
-          return renderOption(optgroup, o[1], o[0]);
-        });
+        optionLabel.forEach(o => renderOption(optgroup, o[1], o[0]));
       } else {
         // case of <option>
         renderOption(select, optionLabel, optionValue);
@@ -133246,29 +133187,29 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    */
   function populateRadioOptions(popup, inputOptions, params) {
-    var radio = getDirectChildByClass(popup, swalClasses.radio);
+    const radio = getDirectChildByClass(popup, swalClasses.radio);
     if (!radio) {
       return;
     }
-    inputOptions.forEach(function (inputOption) {
-      var radioValue = inputOption[0];
-      var radioLabel = inputOption[1];
-      var radioInput = document.createElement('input');
-      var radioLabelElement = document.createElement('label');
+    inputOptions.forEach(inputOption => {
+      const radioValue = inputOption[0];
+      const radioLabel = inputOption[1];
+      const radioInput = document.createElement('input');
+      const radioLabelElement = document.createElement('label');
       radioInput.type = 'radio';
       radioInput.name = swalClasses.radio;
       radioInput.value = radioValue;
       if (isSelected(radioValue, params.inputValue)) {
         radioInput.checked = true;
       }
-      var label = document.createElement('span');
+      const label = document.createElement('span');
       setInnerHtml(label, radioLabel);
       label.className = swalClasses.label;
       radioLabelElement.appendChild(radioInput);
       radioLabelElement.appendChild(label);
       radio.appendChild(radioLabelElement);
     });
-    var radios = radio.querySelectorAll('input');
+    const radios = radio.querySelectorAll('input');
     if (radios.length) {
       radios[0].focus();
     }
@@ -133281,24 +133222,24 @@ module.exports = function (list, options) {
    * @typedef {string[]} InputOptionFlattened
    * @returns {InputOptionFlattened[]}
    */
-  var _formatInputOptions = function formatInputOptions(inputOptions) {
+  const formatInputOptions = inputOptions => {
     /** @type {InputOptionFlattened[]} */
-    var result = [];
+    const result = [];
     if (inputOptions instanceof Map) {
-      inputOptions.forEach(function (value, key) {
-        var valueFormatted = value;
-        if (_typeof(valueFormatted) === 'object') {
+      inputOptions.forEach((value, key) => {
+        let valueFormatted = value;
+        if (typeof valueFormatted === 'object') {
           // case of <optgroup>
-          valueFormatted = _formatInputOptions(valueFormatted);
+          valueFormatted = formatInputOptions(valueFormatted);
         }
         result.push([key, valueFormatted]);
       });
     } else {
-      Object.keys(inputOptions).forEach(function (key) {
-        var valueFormatted = inputOptions[key];
-        if (_typeof(valueFormatted) === 'object') {
+      Object.keys(inputOptions).forEach(key => {
+        let valueFormatted = inputOptions[key];
+        if (typeof valueFormatted === 'object') {
           // case of <optgroup>
-          valueFormatted = _formatInputOptions(valueFormatted);
+          valueFormatted = formatInputOptions(valueFormatted);
         }
         result.push([key, valueFormatted]);
       });
@@ -133311,17 +133252,15 @@ module.exports = function (list, options) {
    * @param {SweetAlertInputValue} inputValue
    * @returns {boolean}
    */
-  var isSelected = function isSelected(optionValue, inputValue) {
+  const isSelected = (optionValue, inputValue) => {
     return !!inputValue && inputValue.toString() === optionValue.toString();
   };
-
-  var _this = undefined;
 
   /**
    * @param {SweetAlert} instance
    */
-  var handleConfirmButtonClick = function handleConfirmButtonClick(instance) {
-    var innerParams = privateProps.innerParams.get(instance);
+  const handleConfirmButtonClick = instance => {
+    const innerParams = privateProps.innerParams.get(instance);
     instance.disableButtons();
     if (innerParams.input) {
       handleConfirmOrDenyWithInput(instance, 'confirm');
@@ -133333,8 +133272,8 @@ module.exports = function (list, options) {
   /**
    * @param {SweetAlert} instance
    */
-  var handleDenyButtonClick = function handleDenyButtonClick(instance) {
-    var innerParams = privateProps.innerParams.get(instance);
+  const handleDenyButtonClick = instance => {
+    const innerParams = privateProps.innerParams.get(instance);
     instance.disableButtons();
     if (innerParams.returnInputValueOnDeny) {
       handleConfirmOrDenyWithInput(instance, 'deny');
@@ -133347,7 +133286,7 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {Function} dismissWith
    */
-  var handleCancelButtonClick = function handleCancelButtonClick(instance, dismissWith) {
+  const handleCancelButtonClick = (instance, dismissWith) => {
     instance.disableButtons();
     dismissWith(DismissReason.cancel);
   };
@@ -133356,14 +133295,14 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {'confirm' | 'deny'} type
    */
-  var handleConfirmOrDenyWithInput = function handleConfirmOrDenyWithInput(instance, type) {
-    var innerParams = privateProps.innerParams.get(instance);
+  const handleConfirmOrDenyWithInput = (instance, type) => {
+    const innerParams = privateProps.innerParams.get(instance);
     if (!innerParams.input) {
-      error("The \"input\" parameter is needed to be set when using returnInputValueOn".concat(capitalizeFirstLetter(type)));
+      error(`The "input" parameter is needed to be set when using returnInputValueOn${capitalizeFirstLetter(type)}`);
       return;
     }
-    var input = instance.getInput();
-    var inputValue = getInputValue(instance, innerParams);
+    const input = instance.getInput();
+    const inputValue = getInputValue(instance, innerParams);
     if (innerParams.inputValidator) {
       handleInputValidator(instance, inputValue, type);
     } else if (input && !input.checkValidity()) {
@@ -133381,13 +133320,11 @@ module.exports = function (list, options) {
    * @param {SweetAlertInputValue} inputValue
    * @param {'confirm' | 'deny'} type
    */
-  var handleInputValidator = function handleInputValidator(instance, inputValue, type) {
-    var innerParams = privateProps.innerParams.get(instance);
+  const handleInputValidator = (instance, inputValue, type) => {
+    const innerParams = privateProps.innerParams.get(instance);
     instance.disableInput();
-    var validationPromise = Promise.resolve().then(function () {
-      return asPromise(innerParams.inputValidator(inputValue, innerParams.validationMessage));
-    });
-    validationPromise.then(function (validationMessage) {
+    const validationPromise = Promise.resolve().then(() => asPromise(innerParams.inputValidator(inputValue, innerParams.validationMessage)));
+    validationPromise.then(validationMessage => {
       instance.enableButtons();
       instance.enableInput();
       if (validationMessage) {
@@ -133404,17 +133341,15 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {any} value
    */
-  var deny = function deny(instance, value) {
-    var innerParams = privateProps.innerParams.get(instance || _this);
+  const deny = (instance, value) => {
+    const innerParams = privateProps.innerParams.get(instance || undefined);
     if (innerParams.showLoaderOnDeny) {
       showLoading(getDenyButton());
     }
     if (innerParams.preDeny) {
       instance.isAwaitingPromise = true; // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preDeny's promise is received
-      var preDenyPromise = Promise.resolve().then(function () {
-        return asPromise(innerParams.preDeny(value, innerParams.validationMessage));
-      });
-      preDenyPromise.then(function (preDenyValue) {
+      const preDenyPromise = Promise.resolve().then(() => asPromise(innerParams.preDeny(value, innerParams.validationMessage)));
+      preDenyPromise.then(preDenyValue => {
         if (preDenyValue === false) {
           instance.hideLoading();
           handleAwaitingPromise(instance);
@@ -133424,13 +133359,11 @@ module.exports = function (list, options) {
             value: typeof preDenyValue === 'undefined' ? value : preDenyValue
           });
         }
-      })["catch"](function (error) {
-        return rejectWith(instance || _this, error);
-      });
+      }).catch(error => rejectWith(instance || undefined, error));
     } else {
       instance.close({
         isDenied: true,
-        value: value
+        value
       });
     }
   };
@@ -133439,10 +133372,10 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {any} value
    */
-  var succeedWith = function succeedWith(instance, value) {
+  const succeedWith = (instance, value) => {
     instance.close({
       isConfirmed: true,
-      value: value
+      value
     });
   };
 
@@ -133451,7 +133384,7 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {string} error
    */
-  var rejectWith = function rejectWith(instance, error) {
+  const rejectWith = (instance, error) => {
     instance.rejectPromise(error);
   };
 
@@ -133460,27 +133393,23 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @param {any} value
    */
-  var confirm = function confirm(instance, value) {
-    var innerParams = privateProps.innerParams.get(instance || _this);
+  const confirm = (instance, value) => {
+    const innerParams = privateProps.innerParams.get(instance || undefined);
     if (innerParams.showLoaderOnConfirm) {
       showLoading();
     }
     if (innerParams.preConfirm) {
       instance.resetValidationMessage();
       instance.isAwaitingPromise = true; // Flagging the instance as awaiting a promise so it's own promise's reject/resolve methods doesn't get destroyed until the result from this preConfirm's promise is received
-      var preConfirmPromise = Promise.resolve().then(function () {
-        return asPromise(innerParams.preConfirm(value, innerParams.validationMessage));
-      });
-      preConfirmPromise.then(function (preConfirmValue) {
+      const preConfirmPromise = Promise.resolve().then(() => asPromise(innerParams.preConfirm(value, innerParams.validationMessage)));
+      preConfirmPromise.then(preConfirmValue => {
         if (isVisible$1(getValidationMessage()) || preConfirmValue === false) {
           instance.hideLoading();
           handleAwaitingPromise(instance);
         } else {
           succeedWith(instance, typeof preConfirmValue === 'undefined' ? value : preConfirmValue);
         }
-      })["catch"](function (error) {
-        return rejectWith(instance || _this, error);
-      });
+      }).catch(error => rejectWith(instance || undefined, error));
     } else {
       succeedWith(instance, value);
     }
@@ -133491,11 +133420,11 @@ module.exports = function (list, options) {
    */
   function hideLoading() {
     // do nothing if popup is closed
-    var innerParams = privateProps.innerParams.get(this);
+    const innerParams = privateProps.innerParams.get(this);
     if (!innerParams) {
       return;
     }
-    var domCache = privateProps.domCache.get(this);
+    const domCache = privateProps.domCache.get(this);
     hide(domCache.loader);
     if (isToast()) {
       if (innerParams.icon) {
@@ -133511,8 +133440,8 @@ module.exports = function (list, options) {
     domCache.denyButton.disabled = false;
     domCache.cancelButton.disabled = false;
   }
-  var showRelatedButton = function showRelatedButton(domCache) {
-    var buttonToReplace = domCache.popup.getElementsByClassName(domCache.loader.getAttribute('data-button-to-replace'));
+  const showRelatedButton = domCache => {
+    const buttonToReplace = domCache.popup.getElementsByClassName(domCache.loader.getAttribute('data-button-to-replace'));
     if (buttonToReplace.length) {
       show(buttonToReplace[0], 'inline-block');
     } else if (allButtonsAreHidden()) {
@@ -133526,8 +133455,8 @@ module.exports = function (list, options) {
    * @returns {HTMLInputElement | null}
    */
   function getInput() {
-    var innerParams = privateProps.innerParams.get(this);
-    var domCache = privateProps.domCache.get(this);
+    const innerParams = privateProps.innerParams.get(this);
+    const domCache = privateProps.domCache.get(this);
     if (!domCache) {
       return null;
     }
@@ -133540,8 +133469,8 @@ module.exports = function (list, options) {
    * @param {boolean} disabled
    */
   function setButtonsDisabled(instance, buttons, disabled) {
-    var domCache = privateProps.domCache.get(instance);
-    buttons.forEach(function (button) {
+    const domCache = privateProps.domCache.get(instance);
+    buttons.forEach(button => {
       domCache[button].disabled = disabled;
     });
   }
@@ -133551,14 +133480,14 @@ module.exports = function (list, options) {
    * @param {boolean} disabled
    */
   function setInputDisabled(input, disabled) {
-    var popup = getPopup();
+    const popup = getPopup();
     if (!popup || !input) {
       return;
     }
     if (input.type === 'radio') {
       /** @type {NodeListOf<HTMLInputElement>} */
-      var radios = popup.querySelectorAll("[name=\"".concat(swalClasses.radio, "\"]"));
-      for (var i = 0; i < radios.length; i++) {
+      const radios = popup.querySelectorAll(`[name="${swalClasses.radio}"]`);
+      for (let i = 0; i < radios.length; i++) {
         radios[i].disabled = disabled;
       }
     } else {
@@ -133605,15 +133534,15 @@ module.exports = function (list, options) {
    * @this {SweetAlert}
    */
   function showValidationMessage(error) {
-    var domCache = privateProps.domCache.get(this);
-    var params = privateProps.innerParams.get(this);
+    const domCache = privateProps.domCache.get(this);
+    const params = privateProps.innerParams.get(this);
     setInnerHtml(domCache.validationMessage, error);
     domCache.validationMessage.className = swalClasses['validation-message'];
     if (params.customClass && params.customClass.validationMessage) {
       addClass(domCache.validationMessage, params.customClass.validationMessage);
     }
     show(domCache.validationMessage);
-    var input = this.getInput();
+    const input = this.getInput();
     if (input) {
       input.setAttribute('aria-invalid', 'true');
       input.setAttribute('aria-describedby', swalClasses['validation-message']);
@@ -133628,11 +133557,11 @@ module.exports = function (list, options) {
    * @this {SweetAlert}
    */
   function resetValidationMessage() {
-    var domCache = privateProps.domCache.get(this);
+    const domCache = privateProps.domCache.get(this);
     if (domCache.validationMessage) {
       hide(domCache.validationMessage);
     }
-    var input = this.getInput();
+    const input = this.getInput();
     if (input) {
       input.removeAttribute('aria-invalid');
       input.removeAttribute('aria-describedby');
@@ -133640,7 +133569,7 @@ module.exports = function (list, options) {
     }
   }
 
-  var defaultParams = {
+  const defaultParams = {
     title: '',
     titleText: '',
     text: '',
@@ -133651,7 +133580,9 @@ module.exports = function (list, options) {
     iconHtml: undefined,
     template: undefined,
     toast: false,
+    draggable: false,
     animation: true,
+    theme: 'light',
     showClass: {
       popup: 'swal2-show',
       backdrop: 'swal2-backdrop-show',
@@ -133731,13 +133662,13 @@ module.exports = function (list, options) {
     didDestroy: undefined,
     scrollbarPadding: true
   };
-  var updatableParams = ['allowEscapeKey', 'allowOutsideClick', 'background', 'buttonsStyling', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonText', 'closeButtonAriaLabel', 'closeButtonHtml', 'color', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonText', 'currentProgressStep', 'customClass', 'denyButtonAriaLabel', 'denyButtonColor', 'denyButtonText', 'didClose', 'didDestroy', 'footer', 'hideClass', 'html', 'icon', 'iconColor', 'iconHtml', 'imageAlt', 'imageHeight', 'imageUrl', 'imageWidth', 'preConfirm', 'preDeny', 'progressSteps', 'returnFocus', 'reverseButtons', 'showCancelButton', 'showCloseButton', 'showConfirmButton', 'showDenyButton', 'text', 'title', 'titleText', 'willClose'];
+  const updatableParams = ['allowEscapeKey', 'allowOutsideClick', 'background', 'buttonsStyling', 'cancelButtonAriaLabel', 'cancelButtonColor', 'cancelButtonText', 'closeButtonAriaLabel', 'closeButtonHtml', 'color', 'confirmButtonAriaLabel', 'confirmButtonColor', 'confirmButtonText', 'currentProgressStep', 'customClass', 'denyButtonAriaLabel', 'denyButtonColor', 'denyButtonText', 'didClose', 'didDestroy', 'draggable', 'footer', 'hideClass', 'html', 'icon', 'iconColor', 'iconHtml', 'imageAlt', 'imageHeight', 'imageUrl', 'imageWidth', 'preConfirm', 'preDeny', 'progressSteps', 'returnFocus', 'reverseButtons', 'showCancelButton', 'showCloseButton', 'showConfirmButton', 'showDenyButton', 'text', 'title', 'titleText', 'theme', 'willClose'];
 
   /** @type {Record<string, string | undefined>} */
-  var deprecatedParams = {
+  const deprecatedParams = {
     allowEnterKey: undefined
   };
-  var toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'focusConfirm', 'focusDeny', 'focusCancel', 'returnFocus', 'heightAuto', 'keydownListenerCapture'];
+  const toastIncompatibleParams = ['allowOutsideClick', 'allowEnterKey', 'backdrop', 'draggable', 'focusConfirm', 'focusDeny', 'focusCancel', 'returnFocus', 'heightAuto', 'keydownListenerCapture'];
 
   /**
    * Is valid parameter
@@ -133745,7 +133676,7 @@ module.exports = function (list, options) {
    * @param {string} paramName
    * @returns {boolean}
    */
-  var isValidParameter = function isValidParameter(paramName) {
+  const isValidParameter = paramName => {
     return Object.prototype.hasOwnProperty.call(defaultParams, paramName);
   };
 
@@ -133755,7 +133686,7 @@ module.exports = function (list, options) {
    * @param {string} paramName
    * @returns {boolean}
    */
-  var isUpdatableParameter = function isUpdatableParameter(paramName) {
+  const isUpdatableParameter = paramName => {
     return updatableParams.indexOf(paramName) !== -1;
   };
 
@@ -133765,33 +133696,33 @@ module.exports = function (list, options) {
    * @param {string} paramName
    * @returns {string | undefined}
    */
-  var isDeprecatedParameter = function isDeprecatedParameter(paramName) {
+  const isDeprecatedParameter = paramName => {
     return deprecatedParams[paramName];
   };
 
   /**
    * @param {string} param
    */
-  var checkIfParamIsValid = function checkIfParamIsValid(param) {
+  const checkIfParamIsValid = param => {
     if (!isValidParameter(param)) {
-      warn("Unknown parameter \"".concat(param, "\""));
+      warn(`Unknown parameter "${param}"`);
     }
   };
 
   /**
    * @param {string} param
    */
-  var checkIfToastParamIsValid = function checkIfToastParamIsValid(param) {
+  const checkIfToastParamIsValid = param => {
     if (toastIncompatibleParams.includes(param)) {
-      warn("The parameter \"".concat(param, "\" is incompatible with toasts"));
+      warn(`The parameter "${param}" is incompatible with toasts`);
     }
   };
 
   /**
    * @param {string} param
    */
-  var checkIfParamIsDeprecated = function checkIfParamIsDeprecated(param) {
-    var isDeprecated = isDeprecatedParameter(param);
+  const checkIfParamIsDeprecated = param => {
+    const isDeprecated = isDeprecatedParameter(param);
     if (isDeprecated) {
       warnAboutDeprecation(param, isDeprecated);
     }
@@ -133802,11 +133733,14 @@ module.exports = function (list, options) {
    *
    * @param {SweetAlertOptions} params
    */
-  var showWarningsForParams = function showWarningsForParams(params) {
+  const showWarningsForParams = params => {
     if (params.backdrop === false && params.allowOutsideClick) {
       warn('"allowOutsideClick" parameter requires `backdrop` parameter to be set to `true`');
     }
-    for (var param in params) {
+    if (params.theme && !['light', 'dark', 'auto', 'borderless', 'embed-iframe'].includes(params.theme)) {
+      warn(`Invalid theme "${params.theme}". Expected "light", "dark", "auto", "borderless", or "embed-iframe"`);
+    }
+    for (const param in params) {
       checkIfParamIsValid(param);
       if (params.toast) {
         checkIfToastParamIsValid(param);
@@ -133821,14 +133755,17 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    */
   function update(params) {
-    var popup = getPopup();
-    var innerParams = privateProps.innerParams.get(this);
+    const container = getContainer();
+    const popup = getPopup();
+    const innerParams = privateProps.innerParams.get(this);
     if (!popup || hasClass(popup, innerParams.hideClass.popup)) {
-      warn("You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.");
+      warn(`You're trying to update the closed or closing popup, that won't work. Use the update() method in preConfirm parameter or show a new popup.`);
       return;
     }
-    var validUpdatableParams = filterValidParams(params);
-    var updatedParams = Object.assign({}, innerParams, validUpdatableParams);
+    const validUpdatableParams = filterValidParams(params);
+    const updatedParams = Object.assign({}, innerParams, validUpdatableParams);
+    showWarningsForParams(updatedParams);
+    container.dataset['swal2Theme'] = updatedParams.theme;
     render(this, updatedParams);
     privateProps.innerParams.set(this, updatedParams);
     Object.defineProperties(this, {
@@ -133844,13 +133781,13 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} params
    * @returns {SweetAlertOptions}
    */
-  var filterValidParams = function filterValidParams(params) {
-    var validUpdatableParams = {};
-    Object.keys(params).forEach(function (param) {
+  const filterValidParams = params => {
+    const validUpdatableParams = {};
+    Object.keys(params).forEach(param => {
       if (isUpdatableParameter(param)) {
         validUpdatableParams[param] = params[param];
       } else {
-        warn("Invalid parameter to update: ".concat(param));
+        warn(`Invalid parameter to update: ${param}`);
       }
     });
     return validUpdatableParams;
@@ -133860,8 +133797,8 @@ module.exports = function (list, options) {
    * Dispose the current SweetAlert2 instance
    */
   function _destroy() {
-    var domCache = privateProps.domCache.get(this);
-    var innerParams = privateProps.innerParams.get(this);
+    const domCache = privateProps.domCache.get(this);
+    const innerParams = privateProps.innerParams.get(this);
     if (!innerParams) {
       disposeWeakMaps(this); // The WeakMaps might have been partly destroyed, we must recall it to dispose any remaining WeakMaps #2335
       return; // This instance has already been destroyed
@@ -133875,13 +133812,14 @@ module.exports = function (list, options) {
     if (typeof innerParams.didDestroy === 'function') {
       innerParams.didDestroy();
     }
+    globalState.eventEmitter.emit('didDestroy');
     disposeSwal(this);
   }
 
   /**
    * @param {SweetAlert} instance
    */
-  var disposeSwal = function disposeSwal(instance) {
+  const disposeSwal = instance => {
     disposeWeakMaps(instance);
     // Unset this.params so GC will dispose it (#1569)
     delete instance.params;
@@ -133895,7 +133833,7 @@ module.exports = function (list, options) {
   /**
    * @param {SweetAlert} instance
    */
-  var disposeWeakMaps = function disposeWeakMaps(instance) {
+  const disposeWeakMaps = instance => {
     // If the current instance is awaiting a promise result, we keep the privateMethods to call them once the promise result is retrieved #2335
     if (instance.isAwaitingPromise) {
       unsetWeakMaps(privateProps, instance);
@@ -133928,9 +133866,9 @@ module.exports = function (list, options) {
    * @param {object} obj
    * @param {SweetAlert} instance
    */
-  var unsetWeakMaps = function unsetWeakMaps(obj, instance) {
-    for (var i in obj) {
-      obj[i]["delete"](instance);
+  const unsetWeakMaps = (obj, instance) => {
+    for (const i in obj) {
+      obj[i].delete(instance);
     }
   };
 
@@ -133960,7 +133898,7 @@ module.exports = function (list, options) {
    * @param {DomCache} domCache
    * @param {Function} dismissWith
    */
-  var handlePopupClick = function handlePopupClick(innerParams, domCache, dismissWith) {
+  const handlePopupClick = (innerParams, domCache, dismissWith) => {
     if (innerParams.toast) {
       handleToastClick(innerParams, domCache, dismissWith);
     } else {
@@ -133979,9 +133917,9 @@ module.exports = function (list, options) {
    * @param {DomCache} domCache
    * @param {Function} dismissWith
    */
-  var handleToastClick = function handleToastClick(innerParams, domCache, dismissWith) {
+  const handleToastClick = (innerParams, domCache, dismissWith) => {
     // Closing toast by internal click
-    domCache.popup.onclick = function () {
+    domCache.popup.onclick = () => {
       if (innerParams && (isAnyButtonShown(innerParams) || innerParams.timer || innerParams.input)) {
         return;
       }
@@ -133993,18 +133931,18 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @returns {boolean}
    */
-  var isAnyButtonShown = function isAnyButtonShown(innerParams) {
+  const isAnyButtonShown = innerParams => {
     return !!(innerParams.showConfirmButton || innerParams.showDenyButton || innerParams.showCancelButton || innerParams.showCloseButton);
   };
-  var ignoreOutsideClick = false;
+  let ignoreOutsideClick = false;
 
   /**
    * @param {DomCache} domCache
    */
-  var handleModalMousedown = function handleModalMousedown(domCache) {
-    domCache.popup.onmousedown = function () {
+  const handleModalMousedown = domCache => {
+    domCache.popup.onmousedown = () => {
       domCache.container.onmouseup = function (e) {
-        domCache.container.onmouseup = function () {};
+        domCache.container.onmouseup = () => {};
         // We only check if the mouseup target is the container because usually it doesn't
         // have any other direct children aside of the popup
         if (e.target === domCache.container) {
@@ -134017,14 +133955,14 @@ module.exports = function (list, options) {
   /**
    * @param {DomCache} domCache
    */
-  var handleContainerMousedown = function handleContainerMousedown(domCache) {
-    domCache.container.onmousedown = function (e) {
+  const handleContainerMousedown = domCache => {
+    domCache.container.onmousedown = e => {
       // prevent the modal text from being selected on double click on the container (allowOutsideClick: false)
       if (e.target === domCache.container) {
         e.preventDefault();
       }
       domCache.popup.onmouseup = function (e) {
-        domCache.popup.onmouseup = function () {};
+        domCache.popup.onmouseup = () => {};
         // We also need to check if the mouseup target is a child of the popup
         if (e.target === domCache.popup || e.target instanceof HTMLElement && domCache.popup.contains(e.target)) {
           ignoreOutsideClick = true;
@@ -134038,8 +133976,8 @@ module.exports = function (list, options) {
    * @param {DomCache} domCache
    * @param {Function} dismissWith
    */
-  var handleModalClick = function handleModalClick(innerParams, domCache, dismissWith) {
-    domCache.container.onclick = function (e) {
+  const handleModalClick = (innerParams, domCache, dismissWith) => {
+    domCache.container.onclick = e => {
       if (ignoreOutsideClick) {
         ignoreOutsideClick = false;
         return;
@@ -134050,23 +133988,19 @@ module.exports = function (list, options) {
     };
   };
 
-  var isJqueryElement = function isJqueryElement(elem) {
-    return _typeof(elem) === 'object' && elem.jquery;
-  };
-  var isElement = function isElement(elem) {
-    return elem instanceof Element || isJqueryElement(elem);
-  };
-  var argsToParams = function argsToParams(args) {
-    var params = {};
-    if (_typeof(args[0]) === 'object' && !isElement(args[0])) {
+  const isJqueryElement = elem => typeof elem === 'object' && elem.jquery;
+  const isElement = elem => elem instanceof Element || isJqueryElement(elem);
+  const argsToParams = args => {
+    const params = {};
+    if (typeof args[0] === 'object' && !isElement(args[0])) {
       Object.assign(params, args[0]);
     } else {
-      ['title', 'html', 'icon'].forEach(function (name, index) {
-        var arg = args[index];
+      ['title', 'html', 'icon'].forEach((name, index) => {
+        const arg = args[index];
         if (typeof arg === 'string' || isElement(arg)) {
           params[name] = arg;
         } else if (arg !== undefined) {
-          error("Unexpected type of ".concat(name, "! Expected \"string\" or \"Element\", got ").concat(_typeof(arg)));
+          error(`Unexpected type of ${name}! Expected "string" or "Element", got ${typeof arg}`);
         }
       });
     }
@@ -134083,7 +134017,7 @@ module.exports = function (list, options) {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-    return _construct(this, args);
+    return new this(...args);
   }
 
   /**
@@ -134106,19 +134040,12 @@ module.exports = function (list, options) {
    * @returns {SweetAlert}
    */
   function mixin(mixinParams) {
-    var MixinSwal = /*#__PURE__*/function (_this) {
-      function MixinSwal() {
-        _classCallCheck(this, MixinSwal);
-        return _callSuper(this, MixinSwal, arguments);
+    class MixinSwal extends this {
+      _main(params, priorityMixinParams) {
+        return super._main(params, Object.assign({}, mixinParams, priorityMixinParams));
       }
-      _inherits(MixinSwal, _this);
-      return _createClass(MixinSwal, [{
-        key: "_main",
-        value: function _main(params, priorityMixinParams) {
-          return _superPropGet(MixinSwal, "_main", this)([params, Object.assign({}, mixinParams, priorityMixinParams)]);
-        }
-      }]);
-    }(this); // @ts-ignore
+    }
+    // @ts-ignore
     return MixinSwal;
   }
 
@@ -134128,7 +134055,7 @@ module.exports = function (list, options) {
    *
    * @returns {number | undefined}
    */
-  var getTimerLeft = function getTimerLeft() {
+  const getTimerLeft = () => {
     return globalState.timeout && globalState.timeout.getTimerLeft();
   };
 
@@ -134138,7 +134065,7 @@ module.exports = function (list, options) {
    *
    * @returns {number | undefined}
    */
-  var stopTimer = function stopTimer() {
+  const stopTimer = () => {
     if (globalState.timeout) {
       stopTimerProgressBar();
       return globalState.timeout.stop();
@@ -134151,9 +134078,9 @@ module.exports = function (list, options) {
    *
    * @returns {number | undefined}
    */
-  var resumeTimer = function resumeTimer() {
+  const resumeTimer = () => {
     if (globalState.timeout) {
-      var remaining = globalState.timeout.start();
+      const remaining = globalState.timeout.start();
       animateTimerProgressBar(remaining);
       return remaining;
     }
@@ -134165,8 +134092,8 @@ module.exports = function (list, options) {
    *
    * @returns {number | undefined}
    */
-  var toggleTimer = function toggleTimer() {
-    var timer = globalState.timeout;
+  const toggleTimer = () => {
+    const timer = globalState.timeout;
     return timer && (timer.running ? stopTimer() : resumeTimer());
   };
 
@@ -134177,9 +134104,9 @@ module.exports = function (list, options) {
    * @param {number} ms
    * @returns {number | undefined}
    */
-  var increaseTimer = function increaseTimer(ms) {
+  const increaseTimer = ms => {
     if (globalState.timeout) {
-      var remaining = globalState.timeout.increase(ms);
+      const remaining = globalState.timeout.increase(ms);
       animateTimerProgressBar(remaining, true);
       return remaining;
     }
@@ -134192,35 +134119,170 @@ module.exports = function (list, options) {
    *
    * @returns {boolean}
    */
-  var isTimerRunning = function isTimerRunning() {
+  const isTimerRunning = () => {
     return !!(globalState.timeout && globalState.timeout.isRunning());
   };
 
-  var bodyClickListenerAdded = false;
-  var clickHandlers = {};
+  let bodyClickListenerAdded = false;
+  const clickHandlers = {};
 
   /**
    * @param {string} attr
    */
   function bindClickHandler() {
-    var attr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'data-swal-template';
+    let attr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'data-swal-template';
     clickHandlers[attr] = this;
     if (!bodyClickListenerAdded) {
       document.body.addEventListener('click', bodyClickListener);
       bodyClickListenerAdded = true;
     }
   }
-  var bodyClickListener = function bodyClickListener(event) {
-    for (var el = event.target; el && el !== document; el = el.parentNode) {
-      for (var attr in clickHandlers) {
-        var template = el.getAttribute(attr);
+  const bodyClickListener = event => {
+    for (let el = event.target; el && el !== document; el = el.parentNode) {
+      for (const attr in clickHandlers) {
+        const template = el.getAttribute(attr);
         if (template) {
           clickHandlers[attr].fire({
-            template: template
+            template
           });
           return;
         }
       }
+    }
+  };
+
+  // Source: https://gist.github.com/mudge/5830382?permalink_comment_id=2691957#gistcomment-2691957
+
+  class EventEmitter {
+    constructor() {
+      /** @type {Events} */
+      this.events = {};
+    }
+
+    /**
+     * @param {string} eventName
+     * @returns {EventHandlers}
+     */
+    _getHandlersByEventName(eventName) {
+      if (typeof this.events[eventName] === 'undefined') {
+        // not Set because we need to keep the FIFO order
+        // https://github.com/sweetalert2/sweetalert2/pull/2763#discussion_r1748990334
+        this.events[eventName] = [];
+      }
+      return this.events[eventName];
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {EventHandler} eventHandler
+     */
+    on(eventName, eventHandler) {
+      const currentHandlers = this._getHandlersByEventName(eventName);
+      if (!currentHandlers.includes(eventHandler)) {
+        currentHandlers.push(eventHandler);
+      }
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {EventHandler} eventHandler
+     */
+    once(eventName, eventHandler) {
+      var _this = this;
+      /**
+       * @param {Array} args
+       */
+      const onceFn = function () {
+        _this.removeListener(eventName, onceFn);
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        eventHandler.apply(_this, args);
+      };
+      this.on(eventName, onceFn);
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {Array} args
+     */
+    emit(eventName) {
+      for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+        args[_key2 - 1] = arguments[_key2];
+      }
+      this._getHandlersByEventName(eventName).forEach(
+      /**
+       * @param {EventHandler} eventHandler
+       */
+      eventHandler => {
+        try {
+          eventHandler.apply(this, args);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    }
+
+    /**
+     * @param {string} eventName
+     * @param {EventHandler} eventHandler
+     */
+    removeListener(eventName, eventHandler) {
+      const currentHandlers = this._getHandlersByEventName(eventName);
+      const index = currentHandlers.indexOf(eventHandler);
+      if (index > -1) {
+        currentHandlers.splice(index, 1);
+      }
+    }
+
+    /**
+     * @param {string} eventName
+     */
+    removeAllListeners(eventName) {
+      if (this.events[eventName] !== undefined) {
+        // https://github.com/sweetalert2/sweetalert2/pull/2763#discussion_r1749239222
+        this.events[eventName].length = 0;
+      }
+    }
+    reset() {
+      this.events = {};
+    }
+  }
+
+  globalState.eventEmitter = new EventEmitter();
+
+  /**
+   * @param {string} eventName
+   * @param {EventHandler} eventHandler
+   */
+  const on = (eventName, eventHandler) => {
+    globalState.eventEmitter.on(eventName, eventHandler);
+  };
+
+  /**
+   * @param {string} eventName
+   * @param {EventHandler} eventHandler
+   */
+  const once = (eventName, eventHandler) => {
+    globalState.eventEmitter.once(eventName, eventHandler);
+  };
+
+  /**
+   * @param {string} [eventName]
+   * @param {EventHandler} [eventHandler]
+   */
+  const off = (eventName, eventHandler) => {
+    // Remove all handlers for all events
+    if (!eventName) {
+      globalState.eventEmitter.reset();
+      return;
+    }
+    if (eventHandler) {
+      // Remove a specific handler
+      globalState.eventEmitter.removeListener(eventName, eventHandler);
+    } else {
+      // Remove all handlers for a specific event
+      globalState.eventEmitter.removeAllListeners(eventName);
     }
   };
 
@@ -134261,19 +134323,21 @@ module.exports = function (list, options) {
     isValidParameter: isValidParameter,
     isVisible: isVisible,
     mixin: mixin,
+    off: off,
+    on: on,
+    once: once,
     resumeTimer: resumeTimer,
     showLoading: showLoading,
     stopTimer: stopTimer,
     toggleTimer: toggleTimer
   });
 
-  var Timer = /*#__PURE__*/function () {
+  class Timer {
     /**
      * @param {Function} callback
      * @param {number} delay
      */
-    function Timer(callback, delay) {
-      _classCallCheck(this, Timer);
+    constructor(callback, delay) {
       this.callback = callback;
       this.remaining = delay;
       this.running = false;
@@ -134283,88 +134347,77 @@ module.exports = function (list, options) {
     /**
      * @returns {number}
      */
-    return _createClass(Timer, [{
-      key: "start",
-      value: function start() {
-        if (!this.running) {
-          this.running = true;
-          this.started = new Date();
-          this.id = setTimeout(this.callback, this.remaining);
-        }
-        return this.remaining;
+    start() {
+      if (!this.running) {
+        this.running = true;
+        this.started = new Date();
+        this.id = setTimeout(this.callback, this.remaining);
       }
+      return this.remaining;
+    }
 
-      /**
-       * @returns {number}
-       */
-    }, {
-      key: "stop",
-      value: function stop() {
-        if (this.started && this.running) {
-          this.running = false;
-          clearTimeout(this.id);
-          this.remaining -= new Date().getTime() - this.started.getTime();
-        }
-        return this.remaining;
+    /**
+     * @returns {number}
+     */
+    stop() {
+      if (this.started && this.running) {
+        this.running = false;
+        clearTimeout(this.id);
+        this.remaining -= new Date().getTime() - this.started.getTime();
       }
+      return this.remaining;
+    }
 
-      /**
-       * @param {number} n
-       * @returns {number}
-       */
-    }, {
-      key: "increase",
-      value: function increase(n) {
-        var running = this.running;
-        if (running) {
-          this.stop();
-        }
-        this.remaining += n;
-        if (running) {
-          this.start();
-        }
-        return this.remaining;
+    /**
+     * @param {number} n
+     * @returns {number}
+     */
+    increase(n) {
+      const running = this.running;
+      if (running) {
+        this.stop();
       }
-
-      /**
-       * @returns {number}
-       */
-    }, {
-      key: "getTimerLeft",
-      value: function getTimerLeft() {
-        if (this.running) {
-          this.stop();
-          this.start();
-        }
-        return this.remaining;
+      this.remaining += n;
+      if (running) {
+        this.start();
       }
+      return this.remaining;
+    }
 
-      /**
-       * @returns {boolean}
-       */
-    }, {
-      key: "isRunning",
-      value: function isRunning() {
-        return this.running;
+    /**
+     * @returns {number}
+     */
+    getTimerLeft() {
+      if (this.running) {
+        this.stop();
+        this.start();
       }
-    }]);
-  }();
+      return this.remaining;
+    }
 
-  var swalStringParams = ['swal-title', 'swal-html', 'swal-footer'];
+    /**
+     * @returns {boolean}
+     */
+    isRunning() {
+      return this.running;
+    }
+  }
+
+  const swalStringParams = ['swal-title', 'swal-html', 'swal-footer'];
 
   /**
    * @param {SweetAlertOptions} params
    * @returns {SweetAlertOptions}
    */
-  var getTemplateParams = function getTemplateParams(params) {
-    var template = typeof params.template === 'string' ? ( /** @type {HTMLTemplateElement} */document.querySelector(params.template)) : params.template;
+  const getTemplateParams = params => {
+    const template = typeof params.template === 'string' ? (/** @type {HTMLTemplateElement} */document.querySelector(params.template)) : params.template;
     if (!template) {
       return {};
     }
     /** @type {DocumentFragment} */
-    var templateContent = template.content;
+    const templateContent = template.content;
     showWarningsForElements(templateContent);
-    var result = Object.assign(getSwalParams(templateContent), getSwalFunctionParams(templateContent), getSwalButtons(templateContent), getSwalImage(templateContent), getSwalIcon(templateContent), getSwalInput(templateContent), getSwalStringParams(templateContent, swalStringParams));
+    const result = Object.assign(getSwalParams(templateContent), getSwalFunctionParams(templateContent), getSwalButtons(templateContent), getSwalImage(templateContent), getSwalIcon(templateContent), getSwalInput(templateContent), getSwalStringParams(templateContent, swalStringParams));
     return result;
   };
 
@@ -134372,21 +134425,21 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Record<string, any>}
    */
-  var getSwalParams = function getSwalParams(templateContent) {
+  const getSwalParams = templateContent => {
     /** @type {Record<string, any>} */
-    var result = {};
+    const result = {};
     /** @type {HTMLElement[]} */
-    var swalParams = Array.from(templateContent.querySelectorAll('swal-param'));
-    swalParams.forEach(function (param) {
+    const swalParams = Array.from(templateContent.querySelectorAll('swal-param'));
+    swalParams.forEach(param => {
       showWarningsForAttributes(param, ['name', 'value']);
-      var paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
-      var value = param.getAttribute('value');
+      const paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
+      const value = param.getAttribute('value');
       if (!paramName || !value) {
         return;
       }
       if (typeof defaultParams[paramName] === 'boolean') {
         result[paramName] = value !== 'false';
-      } else if (_typeof(defaultParams[paramName]) === 'object') {
+      } else if (typeof defaultParams[paramName] === 'object') {
         result[paramName] = JSON.parse(value);
       } else {
         result[paramName] = value;
@@ -134399,18 +134452,18 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Record<string, any>}
    */
-  var getSwalFunctionParams = function getSwalFunctionParams(templateContent) {
+  const getSwalFunctionParams = templateContent => {
     /** @type {Record<string, any>} */
-    var result = {};
+    const result = {};
     /** @type {HTMLElement[]} */
-    var swalFunctions = Array.from(templateContent.querySelectorAll('swal-function-param'));
-    swalFunctions.forEach(function (param) {
-      var paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
-      var value = param.getAttribute('value');
+    const swalFunctions = Array.from(templateContent.querySelectorAll('swal-function-param'));
+    swalFunctions.forEach(param => {
+      const paramName = /** @type {keyof SweetAlertOptions} */param.getAttribute('name');
+      const value = param.getAttribute('value');
       if (!paramName || !value) {
         return;
       }
-      result[paramName] = new Function("return ".concat(value))();
+      result[paramName] = new Function(`return ${value}`)();
     });
     return result;
   };
@@ -134419,24 +134472,24 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Record<string, any>}
    */
-  var getSwalButtons = function getSwalButtons(templateContent) {
+  const getSwalButtons = templateContent => {
     /** @type {Record<string, any>} */
-    var result = {};
+    const result = {};
     /** @type {HTMLElement[]} */
-    var swalButtons = Array.from(templateContent.querySelectorAll('swal-button'));
-    swalButtons.forEach(function (button) {
+    const swalButtons = Array.from(templateContent.querySelectorAll('swal-button'));
+    swalButtons.forEach(button => {
       showWarningsForAttributes(button, ['type', 'color', 'aria-label']);
-      var type = button.getAttribute('type');
+      const type = button.getAttribute('type');
       if (!type || !['confirm', 'cancel', 'deny'].includes(type)) {
         return;
       }
-      result["".concat(type, "ButtonText")] = button.innerHTML;
-      result["show".concat(capitalizeFirstLetter(type), "Button")] = true;
+      result[`${type}ButtonText`] = button.innerHTML;
+      result[`show${capitalizeFirstLetter(type)}Button`] = true;
       if (button.hasAttribute('color')) {
-        result["".concat(type, "ButtonColor")] = button.getAttribute('color');
+        result[`${type}ButtonColor`] = button.getAttribute('color');
       }
       if (button.hasAttribute('aria-label')) {
-        result["".concat(type, "ButtonAriaLabel")] = button.getAttribute('aria-label');
+        result[`${type}ButtonAriaLabel`] = button.getAttribute('aria-label');
       }
     });
     return result;
@@ -134446,10 +134499,10 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Pick<SweetAlertOptions, 'imageUrl' | 'imageWidth' | 'imageHeight' | 'imageAlt'>}
    */
-  var getSwalImage = function getSwalImage(templateContent) {
-    var result = {};
+  const getSwalImage = templateContent => {
+    const result = {};
     /** @type {HTMLElement | null} */
-    var image = templateContent.querySelector('swal-image');
+    const image = templateContent.querySelector('swal-image');
     if (image) {
       showWarningsForAttributes(image, ['src', 'width', 'height', 'alt']);
       if (image.hasAttribute('src')) {
@@ -134472,10 +134525,10 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Record<string, any>}
    */
-  var getSwalIcon = function getSwalIcon(templateContent) {
-    var result = {};
+  const getSwalIcon = templateContent => {
+    const result = {};
     /** @type {HTMLElement | null} */
-    var icon = templateContent.querySelector('swal-icon');
+    const icon = templateContent.querySelector('swal-icon');
     if (icon) {
       showWarningsForAttributes(icon, ['type', 'color']);
       if (icon.hasAttribute('type')) {
@@ -134493,11 +134546,11 @@ module.exports = function (list, options) {
    * @param {DocumentFragment} templateContent
    * @returns {Record<string, any>}
    */
-  var getSwalInput = function getSwalInput(templateContent) {
+  const getSwalInput = templateContent => {
     /** @type {Record<string, any>} */
-    var result = {};
+    const result = {};
     /** @type {HTMLElement | null} */
-    var input = templateContent.querySelector('swal-input');
+    const input = templateContent.querySelector('swal-input');
     if (input) {
       showWarningsForAttributes(input, ['type', 'label', 'placeholder', 'value']);
       result.input = input.getAttribute('type') || 'text';
@@ -134512,16 +134565,16 @@ module.exports = function (list, options) {
       }
     }
     /** @type {HTMLElement[]} */
-    var inputOptions = Array.from(templateContent.querySelectorAll('swal-input-option'));
+    const inputOptions = Array.from(templateContent.querySelectorAll('swal-input-option'));
     if (inputOptions.length) {
       result.inputOptions = {};
-      inputOptions.forEach(function (option) {
+      inputOptions.forEach(option => {
         showWarningsForAttributes(option, ['value']);
-        var optionValue = option.getAttribute('value');
+        const optionValue = option.getAttribute('value');
         if (!optionValue) {
           return;
         }
-        var optionName = option.innerHTML;
+        const optionName = option.innerHTML;
         result.inputOptions[optionValue] = optionName;
       });
     }
@@ -134533,13 +134586,13 @@ module.exports = function (list, options) {
    * @param {string[]} paramNames
    * @returns {Record<string, any>}
    */
-  var getSwalStringParams = function getSwalStringParams(templateContent, paramNames) {
+  const getSwalStringParams = (templateContent, paramNames) => {
     /** @type {Record<string, any>} */
-    var result = {};
-    for (var i in paramNames) {
-      var paramName = paramNames[i];
+    const result = {};
+    for (const i in paramNames) {
+      const paramName = paramNames[i];
       /** @type {HTMLElement | null} */
-      var tag = templateContent.querySelector(paramName);
+      const tag = templateContent.querySelector(paramName);
       if (tag) {
         showWarningsForAttributes(tag, []);
         result[paramName.replace(/^swal-/, '')] = tag.innerHTML.trim();
@@ -134551,12 +134604,12 @@ module.exports = function (list, options) {
   /**
    * @param {DocumentFragment} templateContent
    */
-  var showWarningsForElements = function showWarningsForElements(templateContent) {
-    var allowedElements = swalStringParams.concat(['swal-param', 'swal-function-param', 'swal-button', 'swal-image', 'swal-icon', 'swal-input', 'swal-input-option']);
-    Array.from(templateContent.children).forEach(function (el) {
-      var tagName = el.tagName.toLowerCase();
+  const showWarningsForElements = templateContent => {
+    const allowedElements = swalStringParams.concat(['swal-param', 'swal-function-param', 'swal-button', 'swal-image', 'swal-icon', 'swal-input', 'swal-input-option']);
+    Array.from(templateContent.children).forEach(el => {
+      const tagName = el.tagName.toLowerCase();
       if (!allowedElements.includes(tagName)) {
-        warn("Unrecognized element <".concat(tagName, ">"));
+        warn(`Unrecognized element <${tagName}>`);
       }
     });
   };
@@ -134565,33 +134618,34 @@ module.exports = function (list, options) {
    * @param {HTMLElement} el
    * @param {string[]} allowedAttributes
    */
-  var showWarningsForAttributes = function showWarningsForAttributes(el, allowedAttributes) {
-    Array.from(el.attributes).forEach(function (attribute) {
+  const showWarningsForAttributes = (el, allowedAttributes) => {
+    Array.from(el.attributes).forEach(attribute => {
       if (allowedAttributes.indexOf(attribute.name) === -1) {
-        warn(["Unrecognized attribute \"".concat(attribute.name, "\" on <").concat(el.tagName.toLowerCase(), ">."), "".concat(allowedAttributes.length ? "Allowed attributes are: ".concat(allowedAttributes.join(', ')) : 'To set the value, use HTML within the element.')]);
+        warn([`Unrecognized attribute "${attribute.name}" on <${el.tagName.toLowerCase()}>.`, `${allowedAttributes.length ? `Allowed attributes are: ${allowedAttributes.join(', ')}` : 'To set the value, use HTML within the element.'}`]);
       }
     });
   };
 
-  var SHOW_CLASS_TIMEOUT = 10;
+  const SHOW_CLASS_TIMEOUT = 10;
 
   /**
    * Open popup, add necessary classes and styles, fix scrollbar
    *
    * @param {SweetAlertOptions} params
    */
-  var openPopup = function openPopup(params) {
-    var container = getContainer();
-    var popup = getPopup();
+  const openPopup = params => {
+    const container = getContainer();
+    const popup = getPopup();
     if (typeof params.willOpen === 'function') {
       params.willOpen(popup);
     }
-    var bodyStyles = window.getComputedStyle(document.body);
-    var initialBodyOverflow = bodyStyles.overflowY;
+    globalState.eventEmitter.emit('willOpen', popup);
+    const bodyStyles = window.getComputedStyle(document.body);
+    const initialBodyOverflow = bodyStyles.overflowY;
     addClasses(container, popup, params);
 
     // scrolling is 'hidden' until animation is done, after that 'auto'
-    setTimeout(function () {
+    setTimeout(() => {
       setScrollingVisibility(container, popup);
     }, SHOW_CLASS_TIMEOUT);
     if (isModal()) {
@@ -134602,23 +134656,23 @@ module.exports = function (list, options) {
       globalState.previousActiveElement = document.activeElement;
     }
     if (typeof params.didOpen === 'function') {
-      setTimeout(function () {
-        return params.didOpen(popup);
-      });
+      setTimeout(() => params.didOpen(popup));
     }
+    globalState.eventEmitter.emit('didOpen', popup);
     removeClass(container, swalClasses['no-transition']);
   };
 
   /**
    * @param {AnimationEvent} event
    */
-  var _swalOpenAnimationFinished = function swalOpenAnimationFinished(event) {
-    var popup = getPopup();
-    if (event.target !== popup || !animationEndEvent) {
+  const swalOpenAnimationFinished = event => {
+    const popup = getPopup();
+    if (event.target !== popup) {
       return;
     }
-    var container = getContainer();
-    popup.removeEventListener(animationEndEvent, _swalOpenAnimationFinished);
+    const container = getContainer();
+    popup.removeEventListener('animationend', swalOpenAnimationFinished);
+    popup.removeEventListener('transitionend', swalOpenAnimationFinished);
     container.style.overflowY = 'auto';
   };
 
@@ -134626,10 +134680,11 @@ module.exports = function (list, options) {
    * @param {HTMLElement} container
    * @param {HTMLElement} popup
    */
-  var setScrollingVisibility = function setScrollingVisibility(container, popup) {
-    if (animationEndEvent && hasCssAnimation(popup)) {
+  const setScrollingVisibility = (container, popup) => {
+    if (hasCssAnimation(popup)) {
       container.style.overflowY = 'hidden';
-      popup.addEventListener(animationEndEvent, _swalOpenAnimationFinished);
+      popup.addEventListener('animationend', swalOpenAnimationFinished);
+      popup.addEventListener('transitionend', swalOpenAnimationFinished);
     } else {
       container.style.overflowY = 'auto';
     }
@@ -134640,14 +134695,14 @@ module.exports = function (list, options) {
    * @param {boolean} scrollbarPadding
    * @param {string} initialBodyOverflow
    */
-  var fixScrollContainer = function fixScrollContainer(container, scrollbarPadding, initialBodyOverflow) {
+  const fixScrollContainer = (container, scrollbarPadding, initialBodyOverflow) => {
     iOSfix();
     if (scrollbarPadding && initialBodyOverflow !== 'hidden') {
       replaceScrollbarWithPadding(initialBodyOverflow);
     }
 
     // sweetalert2/issues/1247
-    setTimeout(function () {
+    setTimeout(() => {
       container.scrollTop = 0;
     });
   };
@@ -134657,13 +134712,13 @@ module.exports = function (list, options) {
    * @param {HTMLElement} popup
    * @param {SweetAlertOptions} params
    */
-  var addClasses = function addClasses(container, popup, params) {
+  const addClasses = (container, popup, params) => {
     addClass(container, params.showClass.backdrop);
     if (params.animation) {
       // this workaround with opacity is needed for https://github.com/sweetalert2/sweetalert2/issues/2059
       popup.style.setProperty('opacity', '0', 'important');
       show(popup, 'grid');
-      setTimeout(function () {
+      setTimeout(() => {
         // Animate popup right after showing it
         addClass(popup, params.showClass.popup);
         // and remove the opacity workaround
@@ -134684,7 +134739,7 @@ module.exports = function (list, options) {
      * @param {string} [validationMessage]
      * @returns {Promise<string | void>}
      */
-    email: function email(string, validationMessage) {
+    email: (string, validationMessage) => {
       return /^[a-zA-Z0-9.+_'-]+@[a-zA-Z0-9.-]+\.[a-zA-Z0-9-]+$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid email address');
     },
     /**
@@ -134692,7 +134747,7 @@ module.exports = function (list, options) {
      * @param {string} [validationMessage]
      * @returns {Promise<string | void>}
      */
-    url: function url(string, validationMessage) {
+    url: (string, validationMessage) => {
       // taken from https://stackoverflow.com/a/3809435 with a small change from #1306 and #2013
       return /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)$/.test(string) ? Promise.resolve() : Promise.resolve(validationMessage || 'Invalid URL');
     }
@@ -134747,15 +134802,14 @@ module.exports = function (list, options) {
   }
 
   /** @type {SweetAlert} */
-  var currentInstance;
+  let currentInstance;
   var _promise = /*#__PURE__*/new WeakMap();
-  var SweetAlert = /*#__PURE__*/function () {
+  class SweetAlert {
     /**
      * @param {...any} args
      * @this {SweetAlert}
      */
-    function SweetAlert() {
-      _classCallCheck(this, SweetAlert);
+    constructor() {
       /**
        * @type {Promise<SweetAlertResult>}
        */
@@ -134770,7 +134824,7 @@ module.exports = function (list, options) {
       for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
-      var outerParams = Object.freeze(this.constructor.argsToParams(args));
+      const outerParams = Object.freeze(this.constructor.argsToParams(args));
 
       /** @type {Readonly<SweetAlertOptions>} */
       this.params = outerParams;
@@ -134779,56 +134833,51 @@ module.exports = function (list, options) {
       this.isAwaitingPromise = false;
       _classPrivateFieldSet2(_promise, this, this._main(currentInstance.params));
     }
-    return _createClass(SweetAlert, [{
-      key: "_main",
-      value: function _main(userParams) {
-        var mixinParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        showWarningsForParams(Object.assign({}, mixinParams, userParams));
-        if (globalState.currentInstance) {
-          var swalPromiseResolve = privateMethods.swalPromiseResolve.get(globalState.currentInstance);
-          var isAwaitingPromise = globalState.currentInstance.isAwaitingPromise;
-          globalState.currentInstance._destroy();
-          if (!isAwaitingPromise) {
-            swalPromiseResolve({
-              isDismissed: true
-            });
-          }
-          if (isModal()) {
-            unsetAriaHidden();
-          }
+    _main(userParams) {
+      let mixinParams = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      showWarningsForParams(Object.assign({}, mixinParams, userParams));
+      if (globalState.currentInstance) {
+        const swalPromiseResolve = privateMethods.swalPromiseResolve.get(globalState.currentInstance);
+        const {
+          isAwaitingPromise
+        } = globalState.currentInstance;
+        globalState.currentInstance._destroy();
+        if (!isAwaitingPromise) {
+          swalPromiseResolve({
+            isDismissed: true
+          });
         }
-        globalState.currentInstance = currentInstance;
-        var innerParams = prepareParams(userParams, mixinParams);
-        setParameters(innerParams);
-        Object.freeze(innerParams);
-
-        // clear the previous timer
-        if (globalState.timeout) {
-          globalState.timeout.stop();
-          delete globalState.timeout;
+        if (isModal()) {
+          unsetAriaHidden();
         }
+      }
+      globalState.currentInstance = currentInstance;
+      const innerParams = prepareParams(userParams, mixinParams);
+      setParameters(innerParams);
+      Object.freeze(innerParams);
 
-        // clear the restore focus timeout
-        clearTimeout(globalState.restoreFocusTimeout);
-        var domCache = populateDomCache(currentInstance);
-        render(currentInstance, innerParams);
-        privateProps.innerParams.set(currentInstance, innerParams);
-        return swalPromise(currentInstance, domCache, innerParams);
+      // clear the previous timer
+      if (globalState.timeout) {
+        globalState.timeout.stop();
+        delete globalState.timeout;
       }
 
-      // `catch` cannot be the name of a module export, so we define our thenable methods here instead
-    }, {
-      key: "then",
-      value: function then(onFulfilled) {
-        return _classPrivateFieldGet2(_promise, this).then(onFulfilled);
-      }
-    }, {
-      key: "finally",
-      value: function _finally(onFinally) {
-        return _classPrivateFieldGet2(_promise, this)["finally"](onFinally);
-      }
-    }]);
-  }();
+      // clear the restore focus timeout
+      clearTimeout(globalState.restoreFocusTimeout);
+      const domCache = populateDomCache(currentInstance);
+      render(currentInstance, innerParams);
+      privateProps.innerParams.set(currentInstance, innerParams);
+      return swalPromise(currentInstance, domCache, innerParams);
+    }
+
+    // `catch` cannot be the name of a module export, so we define our thenable methods here instead
+    then(onFulfilled) {
+      return _classPrivateFieldGet2(_promise, this).then(onFulfilled);
+    }
+    finally(onFinally) {
+      return _classPrivateFieldGet2(_promise, this).finally(onFinally);
+    }
+  }
 
   /**
    * @param {SweetAlert} instance
@@ -134836,30 +134885,30 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @returns {Promise}
    */
-  var swalPromise = function swalPromise(instance, domCache, innerParams) {
-    return new Promise(function (resolve, reject) {
+  const swalPromise = (instance, domCache, innerParams) => {
+    return new Promise((resolve, reject) => {
       // functions to handle all closings/dismissals
       /**
        * @param {DismissReason} dismiss
        */
-      var dismissWith = function dismissWith(dismiss) {
+      const dismissWith = dismiss => {
         instance.close({
           isDismissed: true,
-          dismiss: dismiss
+          dismiss
         });
       };
       privateMethods.swalPromiseResolve.set(instance, resolve);
       privateMethods.swalPromiseReject.set(instance, reject);
-      domCache.confirmButton.onclick = function () {
+      domCache.confirmButton.onclick = () => {
         handleConfirmButtonClick(instance);
       };
-      domCache.denyButton.onclick = function () {
+      domCache.denyButton.onclick = () => {
         handleDenyButtonClick(instance);
       };
-      domCache.cancelButton.onclick = function () {
+      domCache.cancelButton.onclick = () => {
         handleCancelButtonClick(instance, dismissWith);
       };
-      domCache.closeButton.onclick = function () {
+      domCache.closeButton.onclick = () => {
         dismissWith(DismissReason.close);
       };
       handlePopupClick(innerParams, domCache, dismissWith);
@@ -134870,7 +134919,7 @@ module.exports = function (list, options) {
       initFocus(domCache, innerParams);
 
       // Scroll container to top on open (#1247, #1946)
-      setTimeout(function () {
+      setTimeout(() => {
         domCache.container.scrollTop = 0;
       });
     });
@@ -134881,9 +134930,9 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} mixinParams
    * @returns {SweetAlertOptions}
    */
-  var prepareParams = function prepareParams(userParams, mixinParams) {
-    var templateParams = getTemplateParams(userParams);
-    var params = Object.assign({}, defaultParams, mixinParams, templateParams, userParams); // precedence is described in #2131
+  const prepareParams = (userParams, mixinParams) => {
+    const templateParams = getTemplateParams(userParams);
+    const params = Object.assign({}, defaultParams, mixinParams, templateParams, userParams); // precedence is described in #2131
     params.showClass = Object.assign({}, defaultParams.showClass, params.showClass);
     params.hideClass = Object.assign({}, defaultParams.hideClass, params.hideClass);
     if (params.animation === false) {
@@ -134899,8 +134948,8 @@ module.exports = function (list, options) {
    * @param {SweetAlert} instance
    * @returns {DomCache}
    */
-  var populateDomCache = function populateDomCache(instance) {
-    var domCache = {
+  const populateDomCache = instance => {
+    const domCache = {
       popup: getPopup(),
       container: getContainer(),
       actions: getActions(),
@@ -134921,18 +134970,18 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @param {Function} dismissWith
    */
-  var setupTimer = function setupTimer(globalState, innerParams, dismissWith) {
-    var timerProgressBar = getTimerProgressBar();
+  const setupTimer = (globalState, innerParams, dismissWith) => {
+    const timerProgressBar = getTimerProgressBar();
     hide(timerProgressBar);
     if (innerParams.timer) {
-      globalState.timeout = new Timer(function () {
+      globalState.timeout = new Timer(() => {
         dismissWith('timer');
         delete globalState.timeout;
       }, innerParams.timer);
       if (innerParams.timerProgressBar) {
         show(timerProgressBar);
         applyCustomClass(timerProgressBar, innerParams, 'timerProgressBar');
-        setTimeout(function () {
+        setTimeout(() => {
           if (globalState.timeout && globalState.timeout.running) {
             // timer can be already stopped or unset at this point
             animateTimerProgressBar(innerParams.timer);
@@ -134955,7 +135004,7 @@ module.exports = function (list, options) {
    * @param {DomCache} domCache
    * @param {SweetAlertOptions} innerParams
    */
-  var initFocus = function initFocus(domCache, innerParams) {
+  const initFocus = (domCache, innerParams) => {
     if (innerParams.toast) {
       return;
     }
@@ -134978,22 +135027,13 @@ module.exports = function (list, options) {
    * @param {DomCache} domCache
    * @returns {boolean}
    */
-  var focusAutofocus = function focusAutofocus(domCache) {
-    var autofocusElements = domCache.popup.querySelectorAll('[autofocus]');
-    var _iterator = _createForOfIteratorHelper(autofocusElements),
-      _step;
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var autofocusElement = _step.value;
-        if (autofocusElement instanceof HTMLElement && isVisible$1(autofocusElement)) {
-          autofocusElement.focus();
-          return true;
-        }
+  const focusAutofocus = domCache => {
+    const autofocusElements = Array.from(domCache.popup.querySelectorAll('[autofocus]'));
+    for (const autofocusElement of autofocusElements) {
+      if (autofocusElement instanceof HTMLElement && isVisible$1(autofocusElement)) {
+        autofocusElement.focus();
+        return true;
       }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
     }
     return false;
   };
@@ -135003,7 +135043,7 @@ module.exports = function (list, options) {
    * @param {SweetAlertOptions} innerParams
    * @returns {boolean}
    */
-  var focusButton = function focusButton(domCache, innerParams) {
+  const focusButton = (domCache, innerParams) => {
     if (innerParams.focusDeny && isVisible$1(domCache.denyButton)) {
       domCache.denyButton.focus();
       return true;
@@ -135018,7 +135058,7 @@ module.exports = function (list, options) {
     }
     return false;
   };
-  var blurActiveElement = function blurActiveElement() {
+  const blurActiveElement = () => {
     if (document.activeElement instanceof HTMLElement && typeof document.activeElement.blur === 'function') {
       document.activeElement.blur();
     }
@@ -135026,19 +135066,19 @@ module.exports = function (list, options) {
 
   // Dear russian users visiting russian sites. Let's have fun.
   if (typeof window !== 'undefined' && /^ru\b/.test(navigator.language) && location.host.match(/\.(ru|su|by|xn--p1ai)$/)) {
-    var now = new Date();
-    var initiationDate = localStorage.getItem('swal-initiation');
+    const now = new Date();
+    const initiationDate = localStorage.getItem('swal-initiation');
     if (!initiationDate) {
-      localStorage.setItem('swal-initiation', "".concat(now));
+      localStorage.setItem('swal-initiation', `${now}`);
     } else if ((now.getTime() - Date.parse(initiationDate)) / (1000 * 60 * 60 * 24) > 3) {
-      setTimeout(function () {
+      setTimeout(() => {
         document.body.style.pointerEvents = 'none';
-        var ukrainianAnthem = document.createElement('audio');
+        const ukrainianAnthem = document.createElement('audio');
         ukrainianAnthem.src = 'https://flag-gimn.ru/wp-content/uploads/2021/09/Ukraina.mp3';
         ukrainianAnthem.loop = true;
         document.body.appendChild(ukrainianAnthem);
-        setTimeout(function () {
-          ukrainianAnthem.play()["catch"](function () {
+        setTimeout(() => {
+          ukrainianAnthem.play().catch(() => {
             // ignore
           });
         }, 2500);
@@ -135068,31 +135108,30 @@ module.exports = function (list, options) {
   Object.assign(SweetAlert, staticMethods);
 
   // Proxy to instance methods to constructor, for now, for backwards compatibility
-  Object.keys(instanceMethods).forEach(function (key) {
+  Object.keys(instanceMethods).forEach(key => {
     /**
      * @param {...any} args
      * @returns {any | undefined}
      */
     SweetAlert[key] = function () {
       if (currentInstance && currentInstance[key]) {
-        var _currentInstance;
-        return (_currentInstance = currentInstance)[key].apply(_currentInstance, arguments);
+        return currentInstance[key](...arguments);
       }
       return null;
     };
   });
   SweetAlert.DismissReason = DismissReason;
-  SweetAlert.version = '11.12.4';
+  SweetAlert.version = '11.19.1';
 
-  var Swal = SweetAlert;
+  const Swal = SweetAlert;
   // @ts-ignore
-  Swal["default"] = Swal;
+  Swal.default = Swal;
 
   return Swal;
 
 }));
 if (typeof this !== 'undefined' && this.Sweetalert2){this.swal = this.sweetAlert = this.Swal = this.SweetAlert = this.Sweetalert2}
-"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,".swal2-popup.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:#fff;box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-popup.swal2-toast>*{grid-column:2}.swal2-popup.swal2-toast .swal2-title{margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-loading{justify-content:center}.swal2-popup.swal2-toast .swal2-input{height:2em;margin:.5em;font-size:1em}.swal2-popup.swal2-toast .swal2-validation-message{font-size:1em}.swal2-popup.swal2-toast .swal2-footer{margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-popup.swal2-toast .swal2-close{grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-popup.swal2-toast .swal2-html-container{margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-popup.swal2-toast .swal2-html-container:empty{padding:0}.swal2-popup.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-popup.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-popup.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-popup.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-popup.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-popup.swal2-toast .swal2-actions{justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-popup.swal2-toast .swal2-styled{margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-popup.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-popup.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-popup.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-popup.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-popup.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-popup.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-popup.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:.625em;overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:rgba(0,0,0,.4)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:32em;max-width:100%;padding:0 0 1.25em;border:none;border-radius:5px;background:#fff;color:#545454;font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:.8em 1em 0;color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border:0;border-radius:.25em;background:initial;background-color:#7066e0;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):focus-visible{box-shadow:0 0 0 3px rgba(112,102,224,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border:0;border-radius:.25em;background:initial;background-color:#dc3741;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):focus-visible{box-shadow:0 0 0 3px rgba(220,55,65,.5)}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border:0;border-radius:.25em;background:initial;background-color:#6e7881;color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):focus-visible{box-shadow:0 0 0 3px rgba(110,120,129,.5)}div:where(.swal2-container) button:where(.swal2-styled).swal2-default-outline:focus-visible{box-shadow:0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid #eee;color:inherit;font-size:1em;text-align:center}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:5px;border-bottom-left-radius:5px}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:rgba(0,0,0,.2)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em}div:where(.swal2-container) button:where(.swal2-close){z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:color .1s,box-shadow .1s;border:none;border-radius:5px;background:rgba(0,0,0,0);color:#ccc;font-family:monospace;font-size:2.5em;cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:none;background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:inset 0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) .swal2-html-container{z-index:1;justify-content:center;margin:0;padding:1em 1.6em .3em;overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:rgba(0,0,0,0);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:#fff}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:rgba(0,0,0,0);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:#fff;color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:#f0f0f0;color:#666;font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:#add8e6;color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:#add8e6}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:0.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#facea8;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#9de0f6;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#c9dae1;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:swal2-show .3s}.swal2-hide{animation:swal2-hide .15s forwards}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px rgba(0,0,0,.4)}@media print{body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) .swal2-container{position:static !important}}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}");
+"undefined"!=typeof document&&function(e,t){var n=e.createElement("style");if(e.getElementsByTagName("head")[0].appendChild(n),n.styleSheet)n.styleSheet.disabled||(n.styleSheet.cssText=t);else try{n.innerHTML=t}catch(e){n.innerText=t}}(document,":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-footer-border-color: #eee;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-background: transparent;--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.1s, box-shadow 0.1s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-confirm-button-background-color: #7066e0;--swal2-deny-button-background-color: #dc3741;--swal2-cancel-button-background-color: #6e7881}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:background-color .1s;-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;word-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:center;width:auto;margin:1.25em auto 0;padding:0}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled[disabled]{opacity:.4}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover{background-image:linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))}div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:active{background-image:linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2))}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:box-shadow .1s;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border:0;border-radius:.25em;background:initial;background-color:var(--swal2-confirm-button-background-color);color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border:0;border-radius:.25em;background:initial;background-color:var(--swal2-deny-button-background-color);color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border:0;border-radius:.25em;background:initial;background-color:var(--swal2-cancel-button-background-color);color:#fff;font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-outline)}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);color:inherit;font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:rgba(0,0,0,.2)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;word-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:border-color .1s,box-shadow .1s;border:1px solid #d9d9d9;border-radius:.1875em;background:var(--swal2-input-background);box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(0,0,0,0);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:1px solid #b4dbed;outline:none;box-shadow:inset 0 1px 1px rgba(0,0,0,.06),0 0 0 3px rgba(100,150,200,.5)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;background:var(--swal2-background);box-shadow:0 0 1px rgba(0,0,0,.075),0 1px 2px rgba(0,0,0,.075),1px 2px 4px rgba(0,0,0,.075),1px 3px 8px rgba(0,0,0,.075),2px 4px 16px rgba(0,0,0,.075);pointer-events:all}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}.swal2-toast.swal2-show{animation:swal2-toast-show .5s}.swal2-toast.swal2-hide{animation:swal2-toast-hide .1s forwards}@keyframes swal2-show{0%{transform:scale(0.7)}45%{transform:scale(1.05)}80%{transform:scale(0.95)}100%{transform:scale(1)}}@keyframes swal2-hide{0%{transform:scale(1);opacity:1}100%{transform:scale(0.5);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
 
 /***/ }),
 
@@ -201698,15 +201737,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _StreamingComponent_vue_vue_type_template_id_670f86e6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StreamingComponent.vue?vue&type=template&id=670f86e6 */ "./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6");
+/* harmony import */ var _StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true */ "./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true");
 /* harmony import */ var _StreamingComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StreamingComponent.vue?vue&type=script&lang=js */ "./resources/js/components/StreamingComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css */ "./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_StreamingComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_StreamingComponent_vue_vue_type_template_id_670f86e6__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/StreamingComponent.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_StreamingComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-670f86e6"],['__file',"resources/js/components/StreamingComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -205299,18 +205341,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6 ***!
-  \**************************************************************************************/
+/***/ "./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true ***!
+  \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=template&id=670f86e6 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_template_id_670f86e6_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=template&id=670f86e6&scoped=true");
 
 
 /***/ }),
@@ -206549,6 +206591,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RadioComponent_vue_vue_type_style_index_0_id_87252526_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RadioComponent.vue?vue&type=style&index=0&id=87252526&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RadioComponent.vue?vue&type=style&index=0&id=87252526&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StreamingComponent_vue_vue_type_style_index_0_id_670f86e6_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css");
 
 
 /***/ }),
