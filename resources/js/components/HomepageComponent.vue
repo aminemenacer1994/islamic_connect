@@ -7,18 +7,18 @@
       <div class="container-fluid" style="position: relative; z-index: 2">
         <div class="container-fluid text-center">
           <div class="row mb-2">
-            <div class="col-md-5">
-              <h1 class="display-5 mt-2 fw-bold text-center container">
-                Empowering Islamic Teachings Through AI
+            <div class="col-md-6">
+              <h1 class="display-4 mt-2 fw-bold text-center container">
+                Connecting You to Islamic Knowledge Seamlessly and Accessibly
               </h1>
-              <h3 class="lead container pt-3 text-center" style="line-height: 1.8em">
+              <h2 class="lead container pt-3 text-center" style="line-height: 1.8em">
                 <strong>
-                  Experience the transformative power of AI as it helps us break down barriers and make Islamic
-                  knowledge more accessible than ever before. At the heart of our mission is a deep commitment to
-                  fostering spiritual growth and strengthening the bond within the global Muslim community.</strong>
-              </h3>
+                  Islamic Connect is your all-in-one Islamic platform designed to help you explore the Quran, learn from
+                  trusted Islamic content, and access AI-powered tools for a better spiritual experience – anytime,
+                  anywhere.</strong>
+              </h2>
               <div class="col-lg-12">
-                <div class="d-flex justify-content-center gap-4 py-2" style="gap: 4rem">
+                <div class="d-flex justify-content-center gap-4 py-2" style="gap: 8rem">
                   <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/quran">Get
                     Started</a>
                   <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/support">Donate
@@ -26,8 +26,35 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-7">
-              <img src="/images/quran_search1.png" width="100%">
+            <div class="col-md-6">
+
+              <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active" data-bs-interval="3000">
+                    <img src="/images/quran.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="3000">
+                    <img src="/images/surat.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="3000">
+                    <img src="/images/podcast1.png" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="3000">
+                    <img src="/images/seerah.png" class="d-block w-100" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                  data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                  data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <!-- <img src="/images/quran_search1.png" width="100%"> -->
             </div>
           </div>
           <!-- <div class="row justify-content-center text-center py-5">
@@ -45,7 +72,7 @@
         <!-- <HijriCalendar /> -->
       </div>
     </div>
-    
+
     <div class="bg-light py-5 service-1">
       <div class="container">
         <!-- Row  -->
@@ -252,7 +279,7 @@
       </div>
     </section> -->
     <!-- donation -->
-    <div class="jumbotron" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
+    <!-- <div class="jumbotron" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
       <div class="container pt-3">
         <div class="row gx-4 align-items-center justify-content-between">
           <div class="col-md-6">
@@ -275,7 +302,7 @@
                 with the faith in a meaningful way.
               </p>
 
-              <!-- Donate Button -->
+              -- Donate Button --
               <button class="container form-control" style="background: #00bfa6; color: white"
                 onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
                 <b class="mt-3 mb-3">Support Islamic Knowledge</b>
@@ -284,7 +311,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- contact -->
     <section class="py-5">
       <div class="container-fluid">
