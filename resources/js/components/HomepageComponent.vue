@@ -117,7 +117,7 @@
     <section class="container pt-3">
       <!-- First row -->
       <div class="row pb-5 pt-3 container">
-        <div class="col-md-7 order-0 order-md-0">
+        <div class="col-md-6 order-0 order-md-0">
           <p class="display-4 mt-4 fw-bold text-left container">
             Quran Companion Powered by AI, Built for Everyone
           </p>
@@ -129,18 +129,18 @@
             </strong>
           </p>
         </div>
-        <div class="col-md-5 mt-4 order-1 order-md-1">
-          <img src="/images/quran.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        <div class="col-md-6 mt-4 order-1 order-md-1">
+          <img src="/images/quran.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 
 
       <!-- Second row -->
       <div class="row py-6 container">
-        <div class="col-md-5 order-1 order-md-0">
-          <img src="/images/podcast1.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        <div class="col-md-6 order-1 order-md-0">
+          <img src="/images/podcast1.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
-        <div class="col-md-7 pb-5 order-0 order-md-1">
+        <div class="col-md-6 pb-5 order-0 order-md-1">
           <h6 class="display-4 mt-2 fw-bold text-left container">
             Stream Your Iman Anytime, Anywhere
           </h6>
@@ -156,7 +156,7 @@
 
       <!-- Third row -->
       <div class="row container py-5">
-        <div class="col-md-7 order-0 order-md-0">
+        <div class="col-md-6 order-0 order-md-0">
           <h5 class="display-4 mt-2 fw-bold text-left container">
             Explore the Quran, Deeply and Intuitively
           </h5>
@@ -167,8 +167,8 @@
             </strong>
           </h6>
         </div>
-        <div class="col-md-5 order-1 order-md-1">
-          <img src="/images/surat.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        <div class="col-md-6 order-1 order-md-1">
+          <img src="/images/surat.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 
@@ -575,9 +575,7 @@
 
 @media (min-width: 768px) {
   .img-mobile-bigger {
-    width: 120%;
-    margin-left: -10%;
-    margin-right: -10%;
+    width: 140%;
   }
 
   .button-37 {
