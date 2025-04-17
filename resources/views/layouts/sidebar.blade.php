@@ -1,6 +1,6 @@
 <aside id="tablet-sidebar; background:#C1E1C1; " class="main-sidebar">
     <a href="/" class="brand-link">
-        <img src="/images/logo_main.png" width="420" height="45" alt="" loading="lazy">
+        <img src="/images/logo_main.png" width="420" height="45" alt="islamic connect logo" loading="lazy">
     </a>
     <div class="w-200 elevation-4">
         <nav class="mt-2 ">

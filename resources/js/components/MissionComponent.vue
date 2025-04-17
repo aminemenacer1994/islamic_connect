@@ -742,7 +742,6 @@ mark {
 }
 
 .controls {
-
   margin-top: 20px;
 }
 
