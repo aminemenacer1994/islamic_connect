@@ -6,7 +6,7 @@
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
         <div class="container-fluid text-center">
-          <div class="row mb-2 pt-5">
+          <div class="row mb-2 ">
             <div class="col-md-6">
               <h1 class="display-4 mt-2 fw-bold text-left container">
                 Connecting You to Islamic Knowledge Seamlessly and Accessibly
@@ -18,9 +18,9 @@
                   anywhere.</strong>
               </h2>
               <div class="col-lg-12">
-                <div class="container controls text-left mt-4">
-                  <button class="btn btn-lg me-2" href="/quran">Get Started</button>
-                  <button class="btn btn-lg " href="/support">Donate Here</button>
+                <div class="container controls d-block d-md-flex justify-content-start text-left">
+                  <button class="btn btn-lg me-2" onclick="window.location.href='/quran'">Get Started</button>
+                  <button class="btn btn-lg" onclick="window.location.href='/support'">Donate Here</button>
                 </div>
               </div>
             </div>
@@ -29,13 +29,16 @@
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active" data-bs-interval="4000">
-                    <img src="/images/quran.png" class="d-block w-100" alt="Quran companion">
+                    <img src="/images/quran.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                    <img src="/images/surat.png" class="d-block w-100" alt="Quran explorer">
+                    <img src="/images/surat.png" class="d-block w-100 img-mobile-bigger" alt="Quran explorer">
                   </div>
                   <div class="carousel-item" data-bs-interval="4000">
-                    <img src="/images/podcast1.png" class="d-block w-100" alt="Audio podcasts">
+                    <img src="/images/podcast1.png" class="d-block w-100 img-mobile-bigger" alt="Audio podcasts">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="4000">
+                    <img src="/images/seerah_main1.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
@@ -49,126 +52,133 @@
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
-              <!-- <img src="/images/quran_search1.png" width="100%"> -->
             </div>
           </div>
-          <!-- <div class="row justify-content-center text-center py-5">
-            <div class="col-lg-6">
-              <div class="d-flex justify-content-center gap-4 py-2" style="gap: 4rem">
-                <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/quran">Get
-                  Started</a>
-                <a class="btn btn-lg" style="background-color: rgb(53, 163, 139); color: white" href="/support">Donate
-                  Now</a>
-              </div>
-            </div>
-          </div> -->
         </div>
-        <!-- <HijriCalendar /> -->
         <!-- <PrayerTimes /> -->
       </div>
       </hr>
     </div>
-
-    <div class="bg-light py-3 service-1">
-      <div class="container">
-        <!-- Row  -->
-        <div class="row bg-light">
-          <!-- Column -->
-          <div class="col-md-4 wrap-service1-box">
-            <div class="card border-0 card-shadow mb-4">
-              <div class="card-body text-center">
-                <div class="my-3"><img src="images/galaxy.png" width="100px" /></div>
-                <h3 class="fw-bold">Explore with Ease</h3>
-                <p class="mt-3" style="font-size: 18px;">Search the Quran, Duas, and Seerah effortlessly, using simple
-                  keywords or topics. Whether you’re seeking inspiration or answers, you’ll find meaningful content
-                  instantly, making your spiritual journey easier.</p>
+    <section>
+      <div class="py-3 service-1">
+        <div class="container">
+          <!-- Row  -->
+          <div class="row ">
+            <!-- Column -->
+            <div class="row justify-content-center text-center mb-3">
+              <div class="col-lg-8 col-xl-7">
+                <h1 class="display-4 mb-3 fw-bold">What do we Offer ?</h1>
+              </div>
+            </div>
+            <div class="col-md-4 wrap-service1-box">
+              <div class="card border-0 card-shadow mb-4">
+                <div class="card-body text-center">
+                  <div class="my-3"><img src="images/galaxy.png" width="100px" /></div>
+                  <h3 class="fw-bold">Explore with Ease</h3>
+                  <p class="mt-3" style="font-size: 18px;">Search the Quran, Duas, and Seerah effortlessly, using simple
+                    keywords or topics. Whether you’re seeking inspiration or answers, you’ll find meaningful content
+                    instantly, making your spiritual journey easier.</p>
+                </div>
+              </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-4 wrap-service1-box">
+              <div class="card border-0 card-shadow mb-4">
+                <div class="card-body text-center">
+                  <div class="my-3"><img src="images/watching.png" width="100px" /></div>
+                  <h3 class="fw-bold">Listen, Watch & Reflect</h3>
+                  <p class="mt-3" style="font-size: 18px;">
+                    Enjoy Quran recitations, insightful audio podcasts, and a rich image gallery of Islamic art. Learn
+                    through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere,
+                    anytime with peace, purpose, and clarity.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Column -->
+            <div class="col-md-4 wrap-service1-box">
+              <div class="card border-0 card-shadow mb-4">
+                <div class="card-body text-center">
+                  <div class="my-3"><img src="images/school.png" width="100px" /></div>
+                  <h3 class="fw-bold">Learn Your Way</h3>
+                  <p class="mt-3" style="font-size: 18px;">With text-to-speech, screen reader support, and bookmarking
+                    ensures everyone can learn. It’s built for accessibility, allowing
+                    everyone regardless of ability to engage with content comfortably.</p>
+                </div>
               </div>
             </div>
           </div>
-          <!-- Column -->
-          <div class="col-md-4 wrap-service1-box">
-            <div class="card border-0 card-shadow mb-4">
-              <div class="card-body text-center">
-                <div class="my-3"><img src="images/watching.png" width="100px" /></div>
-                <h3 class="fw-bold">Listen, Watch & Reflect</h3>
-                <p class="mt-3" style="font-size: 18px;">Enjoy Quran recitations, insightful audio podcasts, and a rich
-                  image gallery of Islamic art. Learn through sound, visuals, and reflection making it easier to stay
-                  spiritually engaged anywhere.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Column -->
-          <div class="col-md-4 wrap-service1-box">
-            <div class="card border-0 card-shadow mb-4">
-              <div class="card-body text-center">
-                <div class="my-3"><img src="images/school.png" width="100px" /></div>
-                <h3 class="fw-bold">Learn Your Way</h3>
-                <p class="mt-3" style="font-size: 18px;">With text-to-speech, screen reader support, and customizable
-                  bookmarks, Islamic Connect ensures everyone can learn. It’s built for accessibility, allowing everyone
-                  regardless of ability to engage with content comfortably.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <section class="container">
-      <div class="row pb-5 pt-3 container">
-        <div class="col-md-7">
-          <p class="display-4 mt-2 fw-bold text-left container">
-            Quran Companion Powered by AI, Built for Everyone
-          </p>
-          <p class="lead container pt-3 text-left" style="line-height: 1.8em">
-            <strong>
-              Experience the Quran with advanced tools for reading, listening, and understanding. From AI Text-to-Speech
-              to screen reader support, gesture navigation, and voice search – it's your accessible, intelligent way to
-              connect with the Divine.</strong>
-          </p>
-        </div>
-        <div class="col-md-5">
-          <img src="/images/quran.png" class="d-block w-100" alt="Quran companion">
-        </div>
-      </div>
-      <div class="row pb-5 container">
-        <div class="col-md-5">
-          <img src="/images/podcast1.png" class="d-block w-100" alt="Quran companion">
-
-        </div>
-        <div class="col-md-7 pb-5">
-          <h6 class="display-4 mt-2 fw-bold text-left container">
-            Stream Your Iman Anytime, Anywhere
-          </h6>
-          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
-            <strong>
-              Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay
-              spiritually connected through sound, reflection, and knowledge on the go.</strong>
-          </h6>
-        </div>
-      </div>
-      <div class="row container">
-        <div class="col-md-7">
-          <h5 class="display-4 mt-2 fw-bold text-left container">
-            Explore the Quran, Deeply and Intuitively
-          </h5>
-          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
-            <strong>
-              Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools
-              designed for simplicity, speed, and spiritual growth.</strong>
-          </h6>
-        </div>
-        <div class="col-md-5">
-          <img src="/images/surat.png" class="d-block w-100" alt="Quran companion">
         </div>
       </div>
     </section>
 
 
 
+    <section class="container pt-3">
+      <!-- First row -->
+      <div class="row pb-5 pt-3 container">
+        <div class="col-md-7 order-0 order-md-0">
+          <p class="display-4 mt-4 fw-bold text-left container">
+            Quran Companion Powered by AI, Built for Everyone
+          </p>
+          <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+            <strong>
+              Experience the Quran with advanced tools for reading, listening, and understanding. From AI Text-to-Speech
+              to screen reader support and voice search it's your accessible, intelligent way to
+              connect with the Divine.
+            </strong>
+          </p>
+        </div>
+        <div class="col-md-5 mt-4 order-1 order-md-1">
+          <img src="/images/quran.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        </div>
+      </div>
+
+
+      <!-- Second row -->
+      <div class="row py-6 container">
+        <div class="col-md-5 order-1 order-md-0">
+          <img src="/images/podcast1.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        </div>
+        <div class="col-md-7 pb-5 order-0 order-md-1">
+          <h6 class="display-4 mt-2 fw-bold text-left container">
+            Stream Your Iman Anytime, Anywhere
+          </h6>
+          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
+            <strong>
+              Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay
+              spiritually connected through sound, reflection, and knowledge on the go.
+            </strong>
+          </h6>
+        </div>
+      </div>
+
+
+      <!-- Third row -->
+      <div class="row container py-5">
+        <div class="col-md-7 order-0 order-md-0">
+          <h5 class="display-4 mt-2 fw-bold text-left container">
+            Explore the Quran, Deeply and Intuitively
+          </h5>
+          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
+            <strong>
+              Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools
+              designed for simplicity, speed, and spiritual growth.
+            </strong>
+          </h6>
+        </div>
+        <div class="col-md-5 order-1 order-md-1">
+          <img src="/images/surat.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+        </div>
+      </div>
+
+    </section>
+
+
+
+
     <!-- AI tools & features -->
-    <section class="py-5">
+    <section style="background: #e4e5e6;" class="py-5">
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -293,70 +303,7 @@
         </div>
       </div>
     </section>
-    <!-- about us -->
-    <!-- <section class="py-5" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
-      <div class="container">
-        <div class="row gx-4 pt-3 align-items-center justify-content-between">
-          <div class="col-md-6 order-1">
-            <div class="mt-3 mt-md-0 text-center">
-              <h4 class="display-5 fw-bold">
-                Why This Platform has been built?
-              </h4>
-              <p class="lead">
-                Islamic Connect was built with the belief that knowledge is the
-                key to understanding, and understanding forms the foundation of
-                acceptance. The platform is designed to be a welcoming and
-                inclusive space where English-speaking individuals from all
-                backgrounds can come together to learn and grow.
-              </p>
-              <p class="lead">
-                The mission is to empower everyone to explore Islam with
-                confidence and clarity, free from fear or confusion. Islamic
-                Connect is here to provide the support and guidance needed on
-                this journey.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6 order-2 pb-1">
-            <img src="/images/group.png" width="100%" loading="lazy" />
-          </div>
-        </div>
-      </div>
-    </section> -->
-    <!-- donation -->
-    <!-- <div class="jumbotron" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
-      <div class="container pt-3">
-        <div class="row gx-4 align-items-center justify-content-between">
-          <div class="col-md-6">
-            <img src="/images/money1.png" width="100%" />
-          </div>
-          <div class="col-md-6 pb-3">
-            <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Support Us</h2>
-              <p class="lead">
-                Islamic Connect was created with a deep belief in the transformative power of knowledge. We understand
-                that knowledge is not just about facts—it's about understanding, and understanding is the foundation of
-                true acceptance. Our platform was built to be a space where everyone, regardless of background, can come
-                together to learn, share, and grow in their understanding of Islam.
-              </p>
-              <p class="lead">
-                Our mission is personal and simple: we want to empower each individual to explore Islam with confidence,
-                free from fear or confusion. Whether you’re taking your first step or deepening your knowledge, Islamic
-                Connect is here to provide the support, clarity, and guidance you need on your journey. This is not just
-                about learning—it's about creating a space where you feel welcomed, understood, and inspired to connect
-                with the faith in a meaningful way.
-              </p>
 
-              -- Donate Button --
-              <button class="container form-control" style="background: #00bfa6; color: white"
-                onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                <b class="mt-3 mb-3">Support Islamic Knowledge</b>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <!-- contact -->
     <section class="py-5">
       <div class="container-fluid">
@@ -522,11 +469,11 @@
   background-color: #0db691;
 }
 
-.service-1 {
+/* .service-1 {
   font-family: "Montserrat", sans-serif;
   color: #8d97ad;
   font-weight: 300;
-}
+} */
 
 .service-1 h1,
 .service-1 h2,
@@ -627,8 +574,41 @@
 }
 
 @media (min-width: 768px) {
+  .img-mobile-bigger {
+    width: 120%;
+    margin-left: -10%;
+    margin-right: -10%;
+  }
+
   .button-37 {
     padding: 10px 30px;
+  }
+
+  .controls {
+    .controls {
+      margin-top: 20px;
+    }
+
+    .controls button {
+      margin: 5px;
+      padding: 10px 20px;
+      border: none;
+      background-color: rgb(13, 182, 145);
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .controls button:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+
+    .controls button:hover:not(:disabled) {
+      background-color: #0db691;
+    }
   }
 }
 </style>
