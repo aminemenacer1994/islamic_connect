@@ -7,7 +7,7 @@
             :value="selectedSurahLocal"
             @change="handleChange"
         >
-            <option value="0" disabled>Select a Surah:</option>
+            <option value="0" disabled>Please select here:</option>
             <option
                 v-for="(surah, index) in displayedSurahs"
                 :key="index"

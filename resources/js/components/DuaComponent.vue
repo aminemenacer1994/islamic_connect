@@ -44,23 +44,23 @@
         <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6">
           <div class="card dua-card text-dark rounded-3 p-3">
             <!-- Highlighted Title -->
-            <div><strong :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></div>
+            <div><strong class="pb-2" :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></div>
 
             <!-- Arabic Section with TTS Icon -->
-            <div class="row align-items-center mt-3">
+            <div class="row align-items-center mt-4">
               <div class="col-md-2 text-center">
                 <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')"
                   data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i> -->
               </div>
               <div class="col-md-10">
                 <!-- Highlighted Arabic Text -->
-                <h3 :style="{ fontSize: fontSize + 'px' }" class="text-right mb-0" v-html="highlightText(dua.arabic)">
+                <h3 :style="{ fontSize: fontSize + 'px' }" class="text-right py-3" v-html="highlightText(dua.arabic)">
                 </h3>
               </div>
             </div>
 
             <!-- Translation Section with TTS Icon -->
-            <div class="row align-items-center mt-3">
+            <div class="row align-items-center">
               <div class="col-md-10 dua-description">
                 <!-- Highlighted Translation Text -->
                 <p :style="{ fontSize: fontSize + 'px' }" class="text-left mb-0"
@@ -86,23 +86,7 @@
                 <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 pb-2 icon-hover"
                   @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
                   title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
-                <div class="small">Decrease</div>
-              </div>
-
-              <!-- Share Icon -->
-              <div class="text-center">
-                <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-2 icon-hover"
-                  data-bs-toggle="tooltip" style="cursor:pointer" data-bs-placement="top" title="Share"
-                  aria-label="Share content" role="button"></i>
-                <div class="small pt-2">Share</div>
-              </div>
-
-              <!-- Copy Icon -->
-              <div class="text-center">
-                <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-2 icon-hover"
-                  @click="copyContent(dua)" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content"
-                  aria-label="Copy content" role="button"></i>
-                <div class="small pt-2">Copy</div>
+                <div class="small" style="cursor:pointer" @click="changeFontSize('decrease')">Decrease</div>
               </div>
 
               <!-- Font Size Increase -->
@@ -110,7 +94,23 @@
                 <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
                   @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
                   title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
-                <div class="small">Increase</div>
+                <div class="small" style="cursor:pointer" @click="changeFontSize('increase')">Increase</div>
+              </div>
+
+              <!-- Share Icon -->
+              <div class="text-center">
+                <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-2 icon-hover"
+                  data-bs-toggle="tooltip" style="cursor:pointer" data-bs-placement="top" title="Share"
+                  aria-label="Share content" role="button"></i>
+                <div class="small pt-2" style="cursor:pointer" @click="shareOnWhatsApp(dua)">Share</div>
+              </div>
+
+              <!-- Copy Icon -->
+              <div class="text-center">
+                <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-2 icon-hover"
+                  @click="copyContent(dua)" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content"
+                  aria-label="Copy content" role="button"></i>
+                <div class="small pt-2" style="cursor:pointer" @click="copyContent(dua)">Copy</div>
               </div>
             </div>
 
@@ -284,8 +284,6 @@ export default {
 .dua-description {
   font-size: 1.2rem;
   color: #000000;
-  margin-top: 10px;
-  margin-bottom: 10px;
   line-height: 1.6;
 }
 

@@ -4,7 +4,7 @@
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewUser" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">
@@ -78,7 +78,7 @@
 
   <!-- add user -->
   <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="addNew" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark fs-5" id="exampleModalLabel"><b>Add new user</b></h5>
@@ -140,7 +140,7 @@
 
   <!-- edit user -->
   <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title text-dark" id="addNew">

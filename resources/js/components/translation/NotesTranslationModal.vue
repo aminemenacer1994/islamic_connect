@@ -1,7 +1,7 @@
 <!-- NoteModal.vue -->
 <template>
 <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true" ref="exampleModal1">
- <div class="modal-dialog modal-lg">
+ <div class="modal-dialog modal-dialog-centered modal-lg">
   <div class="modal-content">
    <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel1">Write a Note</h5>

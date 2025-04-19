@@ -46,7 +46,7 @@
 
           <!-- Toggle Button -->
 
-          <button type="button" class="btn btn-secondary text-center" @click="showOptions = !showOptions">{{ showOptions
+          <button type="button" class="btn btn-secondary text-center mb-2" @click="showOptions = !showOptions">{{ showOptions
             ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
           <!-- Rate, Pitch, and Voice Dropdowns -->
           <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">

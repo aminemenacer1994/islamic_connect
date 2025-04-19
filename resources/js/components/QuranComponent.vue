@@ -156,7 +156,7 @@
                                 <!-- Surah info Modal -->
                                 <div class="modal fade" id="translationInfo" tabindex="-1"
                                     aria-labelledby="surahInfoModalLabel" aria-hidden="true" @click.self="closeModal">
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h1 class="modal-title fs-5" id="surahInfoModalLabel">

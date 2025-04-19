@@ -89,11 +89,11 @@
 
             <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
               @click="shareOnWhatsApp"></i>
-            <strong style="cursor: pointer;" class="feature">Share</strong>
+            <strong @click="shareOnWhatsApp" style="cursor: pointer;" class="feature">Share</strong>
 
             <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;"
               @click="copyToClipboard()"></i>
-            <strong style="cursor: pointer;" class="feature">Copy Text</strong>
+            <strong @click="copyToClipboard()" style="cursor: pointer;" class="feature">Copy Text</strong>
           </p>
         </div>
 

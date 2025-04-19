@@ -8,7 +8,7 @@
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
         <div class="container-fluid text-center">
-          <div class="row mb-2 ">
+          <div class="row mb-2 py-5">
             <div class="col-md-6">
               <h1 class="display-4 mt-2 fw-bold text-left container">
                 Connecting You to Islamic Knowledge Seamlessly and Accessibly
@@ -45,15 +45,15 @@
                     <img src="/images/seerah_main1.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
                   </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                <button class="carousel-control-prev text-dark" type="button" data-bs-target="#carouselExampleInterval"
                   data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
+                  <span class="carousel-control-prev-icon text-dark" aria-hidden="true"></span>
+                  <span class="visually-hidden text-dark">Previous</span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                <button class="carousel-control-next text-dark" type="button" data-bs-target="#carouselExampleInterval"
                   data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
+                  <span class="carousel-control-next-icon text-dark" aria-hidden="true"></span>
+                  <span class="visually-hidden text-dark">Next</span>
                 </button>
               </div>
             </div>
@@ -84,8 +84,8 @@
                     instantly, making your spiritual journey easier.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/surat'"
-                      style="background: #00bfa6; color: white" type="submit">
-                      View more
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      <b>View more</b>
                     </button>
                   </div>
                 </div>
@@ -104,8 +104,8 @@
                   </p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/content'"
-                      style="background: #00bfa6; color: white" type="submit">
-                      View more
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      <b>View more</b>
                     </button>
                   </div>
                 </div>
@@ -122,8 +122,8 @@
                     everyone regardless of ability to engage with content comfortably.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/quran'"
-                      style="background: #00bfa6; color: white" type="submit">
-                      View more
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      <b>View more</b>
                     </button>
                   </div>
                 </div>
@@ -200,7 +200,7 @@
 
 
     <!-- AI tools & features -->
-    <section style="background: #e4e5e6;" class="py-5">
+    <section style="background: #e6e6e6;" class="py-5">
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">

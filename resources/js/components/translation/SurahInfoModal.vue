@@ -1,6 +1,6 @@
 <template>
   <div class="modal fade show" tabindex="-1" aria-labelledby="surahInfoModalLabel" aria-hidden="true" style="display: block;" @click.self="closeModal">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="surahInfoModalLabel"><strong>Information</strong></h1>

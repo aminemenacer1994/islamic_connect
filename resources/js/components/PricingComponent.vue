@@ -21,7 +21,7 @@
               <h2 class="display-5 fw-bold pb-3">Where Your Donation Goes</h2>
 
               <ul class="lead ps-3">
-                <li>Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures.</li>
+                <li >Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures.</li>
                 <li>Accessibility Tools – Improving features for the blind, deaf, and physically disabled (screen
                   readers, TTS, voice search, etc.)</li>
                 <li>AI Development – Building voice search, personalized recitation tools, and smart learning

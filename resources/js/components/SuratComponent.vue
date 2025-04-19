@@ -35,14 +35,15 @@
         <!-- Dropdown to select Reciter -->
         <div class="col-md-4">
           <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
-          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter"
-            @change="fetchSurahDetails">
-            <option value="" disabled selected>Select a reciter</option>
+          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
+            <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
               {{ reciter.englishName }}
             </option>
           </select>
         </div>
+
+
 
         <!-- Dropdown to select Translation Language -->
         <div class="col-md-4">
@@ -59,14 +60,12 @@
       </div>
     </div>
 
-    <!-- Bootstrap Alert -->
-    <div v-if="toastVisible" class="alert container pr-2 text-center alert-success alert-dismissible fade show mx-3"
-      role="alert">
-      {{ toastMessage }}
-      <button type="button" class="btn-close" @click="toastVisible = false" aria-label="Close"></button>
+    <!-- Custom Toast/Alert Style -->
+    <div v-if="toastVisible" class="container mx-auto mb-3 px-4">
+      <div class="text-center p-3 rounded shadow-sm fw-semibold" style="background-color: #d1e7dd; color: #0f5132;">
+        {{ toastMessage }}
+      </div>
     </div>
-
-
 
 
     <div class="row rtl-text">
@@ -88,19 +87,19 @@
 
             <!-- dropdown for features -->
             <div class="dropdown">
-              <div type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-three-dots-vertical h2 mt-3"></i>
-            </div>
-              
+              </div>
+
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">
+                <li>
+                  <a class="dropdown-item " href="#">
                     <div class="col text-center" @click="shareOnWhatsApp(ayah)">
                       <div class="d-flex flex-column align-items-center">
                         <!-- <i class="bi bi-share" style="cursor: pointer; font-size: 1.3rem;"
                           @click="shareOnWhatsApp(ayah)" data-bs-toggle="tooltip" data-bs-placement="top"
                           title="Share on WhatsApp"></i> -->
-                        <span class="mt-1 ml-2 text-left " style="font-size:1.2rem">Share</span>
+                        <span class="mt-1 ml-2" style="font-size:1.2rem">Share</span>
                       </div>
                     </div>
                   </a>
@@ -109,7 +108,7 @@
                   <a class="dropdown-item" href="#">
                     <div class="col text-center" @click="copyAyah(ayah)">
                       <div class="d-flex flex-column align-items-center">
-                        <span class="mt-1 ml-2 text-left" style="font-size:1.2rem">Copy Text</span>
+                        <span class="mt-1 ml-2 text-left" style="font-size:1.2rem">Copy</span>
                       </div>
                     </div>
                   </a>
@@ -146,10 +145,10 @@
               <hr>
               <div class="row">
                 <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
+                  <div class="d-flex flex-column align-items-center" @click="rewindAudio(index)">
                     <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.3rem;"
-                      @click="rewindAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
-                    <span class="mt-1">Rewind 5 Secs</span>
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                    <span class="mt-1" style="cursor:pointer">Rewind 5 Secs</span>
                   </div>
                 </div>
 
@@ -162,30 +161,27 @@
                 </div> -->
 
                 <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
+                  <div class="d-flex flex-column align-items-center" @click="decreaseFontSize">
                     <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-dash-circle mx-2"
-                      @click="decreaseFontSize" data-bs-toggle="tooltip" data-bs-placement="top"
-                      title="Decrease Font Size"></i>
-                    <span class="mt-1">Decrease Font</span>
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
+                    <span class="mt-1" style="cursor:pointer">Decrease Font</span>
                   </div>
                 </div>
 
                 <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
-                    <i style="cursor: pointer; font-size: 1.3rem;" @click="increaseFontSize"
-                      class="bi bi-plus-circle mx-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                      title="Increase Font Size"></i>
-                    <span class="mt-1">Increase Font</span>
+                  <div class="d-flex flex-column align-items-center" @click="increaseFontSize">
+                    <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-plus-circle mx-2"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
+                    <span class="mt-1" style="cursor:pointer">Increase Font</span>
                   </div>
                 </div>
 
 
                 <div class="col text-center">
-                  <div class="d-flex flex-column align-items-center">
+                  <div class="d-flex flex-column align-items-center" @click="fastForwardAudio(index)">
                     <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.3rem;"
-                      @click="fastForwardAudio(index)" data-bs-toggle="tooltip" data-bs-placement="top"
-                      title="Fast Forward"></i>
-                    <span class="mt-1">Forward 5 Secs</span>
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
+                    <span class="mt-1" style="cursor:pointer">Forward 5 Secs</span>
                   </div>
                 </div>
               </div>
@@ -259,6 +255,7 @@ export default {
     };
   },
   mounted() {
+    this.audioElement = new Audio();
     this.prepareAyahText();
     window.addEventListener("scroll", this.handleScroll);
   },
@@ -271,6 +268,13 @@ export default {
     this.fetchTranslations();
   },
   watch: {
+    selectedReciter(newVal) {
+      if (newVal) {
+        this.fetchSurahDetails().then(() => {
+          this.resetAllAudioPlayers();
+        });
+      }
+    },
     ayah: {
       handler(newAyah) {
         console.log("Ayah received:", newAyah); // Debugging log
@@ -310,6 +314,15 @@ export default {
     }
   },
   methods: {
+    resetAudioPlayer() {
+      const audio = this.$refs.audioPlayer;
+      if (audio) {
+        audio.pause();
+        audio.src = this.currentAudioUrl;
+        audio.load();
+        audio.play();
+      }
+    },
     checkIfAnyAudioPlaying() {
       this.isAudioPlaying = this.$refs.audioPlayer.some(audio => !audio.paused);
     },
@@ -487,7 +500,7 @@ export default {
     },
 
     async fetchSurahDetails() {
-      if (!this.selectedSurah) return;
+      if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return;
 
       try {
         const response = await fetch(
@@ -511,11 +524,30 @@ export default {
             audio: ayah.audio || "",
           })),
         };
+
+        // Set first ayah audio URL
+        if (this.surahDetails.ayahs.length > 0) {
+          this.currentAudioUrl = this.surahDetails.ayahs[0].audio;
+        }
+
       } catch (error) {
         console.error("Error fetching Surah details:", error);
       }
     },
-
+    resetAllAudioPlayers() {
+      this.$nextTick(() => {
+        const audios = document.querySelectorAll("audio");
+        audios.forEach((audioEl, index) => {
+          const ayah = this.surahDetails?.ayahs?.[index];
+          if (ayah && ayah.audio) {
+            audioEl.pause();
+            audioEl.src = ayah.audio;
+            audioEl.load();
+            audioEl.currentTime = 0;
+          }
+        });
+      });
+    },
     async stopAudio(audioElement) {
       if (audioElement) {
         audioElement.pause();

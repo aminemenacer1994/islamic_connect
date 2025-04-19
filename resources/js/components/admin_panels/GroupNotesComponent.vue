@@ -84,7 +84,7 @@
 
     <!-- View Note Modal -->
     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-dark"><b>View Note</b></h5>

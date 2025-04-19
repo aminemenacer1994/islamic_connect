@@ -4,7 +4,7 @@
 
  <!-- edit new Modal -->
  <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
    <div class="modal-content">
     <div class="modal-header">
      <h5 class="modal-title text-dark" id="addNew">
@@ -108,7 +108,7 @@
        </div>
       </div>
       <hr>
-      <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn text-white text-right user-btn mr-2" style="background:rgba(0, 191, 166); color:white; font-weight:bold border-radius:8px" @click="editModal(user)">
+      <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn text-white text-right user-btn mr-2" style="background:rgba(0, 191, 166); color:white; font-weight:bold; border-radius:8px" @click="editModal(user)">
        Edit Profile
       </button>
      </div>

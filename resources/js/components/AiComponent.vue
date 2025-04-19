@@ -101,7 +101,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title" style="font-size: 24px; font-weight: bold;">Islamic Image</div>
