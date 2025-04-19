@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- header -->
-    <div class="jumbotron">
+    <div class="jumbotron" style="
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      ">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
@@ -14,13 +16,15 @@
               <h2 class="lead container pt-3 text-left" style="line-height: 1.8em">
                 <strong>
                   Islamic Connect is your all-in-one Islamic platform designed to help you explore the Quran, learn from
-                  trusted Islamic content, and access AI-powered tools for a better spiritual experience – anytime,
+                  trusted Islamic content, and access AI-powered tools for a better spiritual experience anytime,
                   anywhere.</strong>
               </h2>
               <div class="col-lg-12">
                 <div class="container controls d-block d-md-flex justify-content-start text-left">
-                  <button class="btn btn-lg me-2" onclick="window.location.href='/quran'">Get Started</button>
-                  <button class="btn btn-lg" onclick="window.location.href='/support'">Donate Here</button>
+                  <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg me-2"
+                    onclick="window.location.href='/quran'">Get Started</button>
+                  <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg"
+                    onclick="window.location.href='/support'">Donate Today</button>
                 </div>
               </div>
             </div>
@@ -28,16 +32,16 @@
 
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="4000">
+                  <div class="carousel-item active" data-bs-interval="3000">
                     <img src="/images/quran.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
                   </div>
-                  <div class="carousel-item" data-bs-interval="4000">
+                  <div class="carousel-item" data-bs-interval="3000">
                     <img src="/images/surat.png" class="d-block w-100 img-mobile-bigger" alt="Quran explorer">
                   </div>
-                  <div class="carousel-item" data-bs-interval="4000">
+                  <div class="carousel-item" data-bs-interval="3000">
                     <img src="/images/podcast1.png" class="d-block w-100 img-mobile-bigger" alt="Audio podcasts">
                   </div>
-                  <div class="carousel-item" data-bs-interval="4000">
+                  <div class="carousel-item" data-bs-interval="3000">
                     <img src="/images/seerah_main1.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
                   </div>
                 </div>
@@ -78,6 +82,12 @@
                   <p class="mt-3" style="font-size: 18px;">Search the Quran, Duas, and Seerah effortlessly, using simple
                     keywords or topics. Whether you’re seeking inspiration or answers, you’ll find meaningful content
                     instantly, making your spiritual journey easier.</p>
+                  <div class="d-grid">
+                    <button class="form-control" onclick="window.location.href='/surat'"
+                      style="background: #00bfa6; color: white" type="submit">
+                      View more
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -92,6 +102,12 @@
                     through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere,
                     anytime with peace, purpose, and clarity.
                   </p>
+                  <div class="d-grid">
+                    <button class="form-control" onclick="window.location.href='/content'"
+                      style="background: #00bfa6; color: white" type="submit">
+                      View more
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,6 +120,12 @@
                   <p class="mt-3" style="font-size: 18px;">With text-to-speech, screen reader support, and bookmarking
                     ensures everyone can learn. It’s built for accessibility, allowing
                     everyone regardless of ability to engage with content comfortably.</p>
+                  <div class="d-grid">
+                    <button class="form-control" onclick="window.location.href='/quran'"
+                      style="background: #00bfa6; color: white" type="submit">
+                      View more
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -116,7 +138,7 @@
 
     <section class="container pt-3">
       <!-- First row -->
-      <div class="row pb-5 pt-3 container">
+      <div class="row py-5 container">
         <div class="col-md-6 order-0 order-md-0">
           <p class="display-4 mt-4 fw-bold text-left container">
             Quran Companion Powered by AI, Built for Everyone
@@ -136,7 +158,7 @@
 
 
       <!-- Second row -->
-      <div class="row py-6 container">
+      <div class="row pt-5 pb-5 py-5 container">
         <div class="col-md-6 order-1 order-md-0">
           <img src="/images/podcast1.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
@@ -155,7 +177,7 @@
 
 
       <!-- Third row -->
-      <div class="row container py-5">
+      <div class="row pt-5 pb-5 py-5 container">
         <div class="col-md-6 order-0 order-md-0">
           <h5 class="display-4 mt-2 fw-bold text-left container">
             Explore the Quran, Deeply and Intuitively
@@ -371,7 +393,7 @@
       </div>
     </section>
     <!-- mailing list -->
-    <section class="py-5" style="
+    <!-- <section class="py-5" style="
         background: #00bfa6;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
       ">
@@ -407,36 +429,56 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- footer -->
-    <section class="py-3" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px">
+    <section class="py-4" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
       <footer>
-        <div class="container">
-          <div class="d-lg-flex justify-content-between py-lg-2">
-            <div class="md mb-2 mb-lg-0">
-              <p class="mb-0 me-5">
-                <b>© 2025 islamic connect All rights reserved.</b>
-              </p>
+        <div class="container-fluid">
+          <div class="row align-items-center text-center text-lg-start">
+
+            <!-- Copyright -->
+            <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-4">
+              <h5 class="mb-0 fs-5">© 2025 Islamic Connect. All rights reserved.</h5>
             </div>
-            <!-- Social icons container, aligned to the right -->
-            <div class="d-flex justify-content-end ms-3">
-              <div class="me-3">
-                <a class="me-2" href="https://www.instagram.com/islamicconnect24/"><i class="bi bi-instagram h4"
-                    style="color: rgb(0, 191, 166)"></i></a>
-              </div>
-              <div class="me-3">
-                <a class="me-2" href="https://www.tiktok.com/@islamic_connect24"><i class="bi bi-tiktok h4"
-                    style="color: rgb(0, 191, 166)"></i></a>
-              </div>
-              <div class="me-3">
-                <a class="me-2" href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"><i
-                    class="bi bi-linkedin h4" style="color: rgb(0, 191, 166)"></i></a>
-              </div>
-              <div class="me-3">
-                <a class="me-2" href="https://x.com/islamiconnect24"><i class="bi bi-twitter-x
-                     h4" style="color: rgb(0, 191, 166)"></i></a>
+
+            <!-- Navigation Links -->
+            <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-4">
+              <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="/home" class="text-dark text-decoration-none">
+                  <h6 class="mb-0 fs-6">Home</h6>
+                </a>
+                <a href="/about" class="text-dark text-decoration-none">
+                  <h6 class="mb-0 fs-6">About Us</h6>
+                </a>
+                <a href="/faq" class="text-dark text-decoration-none">
+                  <h6 class="mb-0 fs-6">FAQ</h6>
+                </a>
+                <a href="/contact" class="text-dark text-decoration-none">
+                  <h6 class="mb-0 fs-6">Contact</h6>
+                </a>
+
               </div>
             </div>
+
+            <!-- Social Icons -->
+            <div class="col-12 col-lg-4 px-4">
+              <div class="d-flex justify-content-center justify-content-lg-end gap-3">
+                <a href="https://www.instagram.com/islamicconnect24/" class="text-decoration-none">
+                  <i class="bi bi-instagram h4" style="color: rgb(0, 191, 166);"></i>
+                </a>
+                <a href="https://www.tiktok.com/@islamic_connect24" class="text-decoration-none">
+                  <i class="bi bi-tiktok h4" style="color: rgb(0, 191, 166);"></i>
+                </a>
+                <a href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"
+                  class="text-decoration-none">
+                  <i class="bi bi-linkedin h4" style="color: rgb(0, 191, 166);"></i>
+                </a>
+                <a href="https://x.com/islamiconnect24" class="text-decoration-none">
+                  <i class="bi bi-twitter-x h4" style="color: rgb(0, 191, 166);"></i>
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </footer>

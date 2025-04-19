@@ -5,36 +5,38 @@
         <div class="row gx-4 align-items-center justify-content-between">
           <div class="col-md-8 order-2 order-md-1 pb-3">
             <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Empower the Future of Islamic Learning</h2>
+              <h2 class="display-5 fw-bold pb-3">Make Islamic Knowledge Accessible to Everyone</h2>
               <p class="lead">
-                At <strong>Islamic Connect</strong>, we are dedicated to transforming access to Islamic knowledge
-                through
-                technology, accessibility, and AI-driven innovations. Our mission is to ensure that every Muslim,
-                regardless of
-                background, ability, or location, can engage with the Quran and Islamic teachings effortlessly.
+                Millions of Muslims still struggle to access the Quran and authentic Islamic knowledge—especially those
+                with disabilities, new reverts, or those in under-resourced communities.
+
+                At Islamic Connect, we’re building a platform that removes these barriers using AI, voice tools, and
+                accessibility features but we need your support.
               </p>
               <p class="lead">
-                <b>Your support makes a difference.</b> Every donation fuels our vision by:
+                Any amount you give is used with care to help Muslims around the world engage with Islam in a way that
+                truly fits their needs. Donate today and help us build a platform that serves the entire ummah.
               </p>
+
+              <h2 class="display-5 fw-bold pb-3">Where Your Donation Goes</h2>
+
               <ul class="lead ps-3">
-                <li>Expanding our platform with more Islamic content, including Hadith, Seerah, Dua, and more.</li>
-                <li>Enhancing accessibility tools for the visually and hearing impaired.</li>
-                <li>Enhancing AI-powered tools, including voice search and personalized recitation guidance.</li>
-                <li>Covering essential costs like servers, security, AI tools, and third-party integrations to keep the
-                  platform fast, smart, and secure.</li>
-                <li>Supporting our dedicated team working on continuous development and innovation.</li>
+                <li>Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures.</li>
+                <li>Accessibility Tools – Improving features for the blind, deaf, and physically disabled (screen
+                  readers, TTS, voice search, etc.)</li>
+                <li>AI Development – Building voice search, personalized recitation tools, and smart learning
+                  experiences.</li>
+                <li>Essential Costs – Covering servers, security, third-party services, and keeping the platform free
+                  for all.</li>
+                <li>Salaries & Stipends – Supporting our small team of developers, scholars, and designers working
+                  around the clock.</li>
               </ul>
-              <p class="lead">
-                <strong>Every contribution brings us closer</strong> to a world where Islamic knowledge is accessible to
-                all, breaking barriers and creating lasting impact. Join us in shaping the future—<strong>give
-                  today</strong>
-                and be part of something transformative.
-              </p>
+
 
               <div class="col-md-8">
                 <button class="container form-control" style="background:#00BFA6; color:white"
                   onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  <b class="mt-3 mb-3">Support Islamic Knowledge</b>
+                  <b class="mt-3 mb-3">Donate today</b>
                 </button>
               </div>
             </div>
@@ -46,7 +48,7 @@
       </div>
     </section>
 
-      <!-- <hr class="container" />
+    <!-- <hr class="container" />
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">

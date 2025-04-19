@@ -144,9 +144,12 @@ Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index
     ->middleware('auth');
 
 Route::get('/', function () {
-    return view('quran');
+    return view('home');
 });
 Route::get('/welcome', function () {
+    return view('home');
+});
+Route::get('/home', function () {
     return view('home');
 });
 
@@ -236,7 +239,7 @@ Route::get('/fetch-corrections', [CorrectionController::class, 'getCorrections']
 Route::delete('/delete-correction/{id}',  [CorrectionController::class, 'deleteCorrections']);
 
 // dashboard
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('api/fetch-dashboard', [DashboardController::class, 'getDashboard'])->name('fetch_dashboard');
 
