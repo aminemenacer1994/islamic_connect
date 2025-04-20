@@ -83,7 +83,6 @@
 
     <hr v-if="selectedCategory !== ''" />
 
-
     <!-- Action Icons: Share & Copy -->
     <div class="container text-center d-flex pb-3 justify-content-around align-items-center"
       v-if="selectedCategory !== ''">

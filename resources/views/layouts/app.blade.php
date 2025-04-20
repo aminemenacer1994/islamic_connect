@@ -94,7 +94,7 @@ body{
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav justify-content-end pr-4 flex-grow-1">                
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3" href="/welcome" data-path="/welcome"><b style="color:black">Home</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3" href="/home" data-path="/home"><b style="color:black">Home</b></a></h6>
                     </li>
                     <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
@@ -123,7 +123,7 @@ body{
                     </li>
 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/seerah"><b style="color:black">Seerah Timeline</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah Timeline</b></a></h6>
                     </li> 
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>

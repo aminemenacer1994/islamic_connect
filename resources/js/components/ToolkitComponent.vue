@@ -7,8 +7,8 @@
 
     <!-- Chatbox that opens when FAB is clicked -->
     <div v-if="showChat" class="chatbox" :class="{ expanded: isExpanded }"
-      style="box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;">
-      <div class="chat-header" style="padding: 5px;">
+      style="bottom: 0px; box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; padding-top: 40px; padding: 30%;">
+      <div class="chat-header">
         <span class="title">Islamic Connect AI Assistant</span>
         <div class="header-buttons">
           <i @click="toggleExpand" class="expand-btn pr-2"
@@ -45,7 +45,7 @@
               <p>{{ cleanAnswer(message.text) }}</p>
               <span class="timestamp">{{ message.timestamp }}</span>
 
-              <div v-if="!controlsRendered" class="d-flex flex-wrap gap-3 my-3">
+              <div v-if="!controlsRendered" class="d-flex flex-wrap gap-3 my-2">
 
                 <!-- Share Button -->
                 <div @click="shareOnWhatsApp(index)" style="cursor: pointer;"
@@ -573,7 +573,7 @@ export default {
 .mic-button {
   width: 50px;
   height: 50px;
-  background-color: #f8f9fa;
+  /* background-color: #f8f9fa; */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -758,24 +758,16 @@ export default {
 }
 
 .chatbox {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  width: 90%;
-  max-width: 500px;
-  /* Max width for larger screens */
-  height: 70vh;
+  padding-top: 15px;
   background-color: #fff;
-  border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  z-index: 999;
   display: flex;
   flex-direction: column;
 }
 
 
 .chatbox.expanded {
+  padding-top: 15px;
   max-width: 75%;
   width: 75%;
 }
@@ -949,14 +941,9 @@ export default {
 
 @media (max-width: 480px) {
   .chatbox {
+    padding-top: 15px;
     width: 100%;
     max-width: 100%;
-    bottom: 10px;
-    /* Adjust bottom positioning */
-    height: 60vh;
-    /* Reduce height for mobile */
-    padding: 5px;
-    /* Reduce padding for mobile */
   }
 
   .input-box {
@@ -977,17 +964,7 @@ export default {
 
 @media (max-width: 600px) {
   .chatbox {
-    width: calc(100% - 20px) !important;
-    /* Full width with padding */
-    max-width: calc(100% - 20px) !important;
-    /* Full width with padding */
-    height: calc(100vh - 20px) !important;
-    /* Full height with padding */
-    bottom: 10px !important;
-    /* Add padding at the bottom */
-    right: 10px !important;
-    /* Add padding on the right */
-    left: 10px !important;
+    padding-top: 15px;
     /* Add padding on the left */
     border-radius: 12px !important;
     /* Keep border-radius */

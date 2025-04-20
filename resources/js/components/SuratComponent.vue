@@ -11,7 +11,7 @@
     </div>
 
     <!-- Sticky Dropdowns Container -->
-    <div class="sticky-dropdown container-fluid">
+    <div class="sticky-dropdown container-fluid" style="top:50px">
       <!-- Show/Hide icon for the entire container -->
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
         <i v-if="isVisible" class="bi bi-x-lg"></i> <!-- X icon to hide -->
@@ -60,12 +60,7 @@
       </div>
     </div>
 
-    <!-- Custom Toast/Alert Style -->
-    <div v-if="toastVisible" class="container mx-auto mb-3 px-4">
-      <div class="text-center p-3 rounded shadow-sm fw-semibold" style="background-color: #d1e7dd; color: #0f5132;">
-        {{ toastMessage }}
-      </div>
-    </div>
+
 
 
     <div class="row rtl-text">
@@ -93,34 +88,19 @@
 
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item " href="#">
+                  <a class="dropdown-item" href="javascript:void(0)">
                     <div class="col text-center" @click="shareOnWhatsApp(ayah)">
                       <div class="d-flex flex-column align-items-center">
-                        <!-- <i class="bi bi-share" style="cursor: pointer; font-size: 1.3rem;"
-                          @click="shareOnWhatsApp(ayah)" data-bs-toggle="tooltip" data-bs-placement="top"
-                          title="Share on WhatsApp"></i> -->
-                        <span class="mt-1 ml-2" style="font-size:1.2rem">Share</span>
+                        <span class="mt-1 ml-2" style="font-size:1.2rem">Share Ayah</span>
                       </div>
                     </div>
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="javascript:void(0)">
                     <div class="col text-center" @click="copyAyah(ayah)">
                       <div class="d-flex flex-column align-items-center">
-                        <span class="mt-1 ml-2 text-left" style="font-size:1.2rem">Copy</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    <div class="col text-center">
-                      <div class="d-flex flex-column align-items-center">
-                        <!-- <i class="bi bi-file-arrow-down" style="cursor: pointer; font-size: 1.3rem;"
-                          data-bs-toggle="tooltip" data-bs-placement="top" title="Download Audio"></i> -->
-                        <!-- <span class="mt-1 text-left pl-2"
-                          @click="downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)">Download</span> -->
+                        <span class="mt-1 ml-2 text-left" style="font-size:1.2rem">Copy Ayah</span>
                       </div>
                     </div>
                   </a>
@@ -244,8 +224,7 @@ export default {
       searchQuery: "",
       arabicFontSize: 23, // Default font size for Arabic text
       translationFontSize: 19,
-      toastMessage: "",
-      toastVisible: false,
+
       words: [],
       timestamps: [],
       highlightedAyah: "",
@@ -398,18 +377,11 @@ export default {
 
       try {
         await navigator.clipboard.writeText(ayahText);
-        this.showToast("Ayah & Translation copied to clipboard");
+        window.alert("Ayah & Translation copied to clipboard");
       } catch (error) {
         console.error("Error copying text:", error);
+        window.alert("Failed to copy Ayah. Please try again.");
       }
-    },
-
-    showToast(message) {
-      this.toastMessage = message;
-      this.toastVisible = true;
-      setTimeout(() => {
-        this.toastVisible = false;
-      }, 3000); // Hide after 3 seconds
     },
 
     increaseFontSize() {

@@ -2,91 +2,6 @@
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
     <!-- <ChatBot /> -->
-    <!-- <p class="text-center container mb-4 lead">
-      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
-      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
-      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing
-      the Muslim community.
-    </p> -->
-
-    <!-- Bookmarks Section -->
-    <!-- <div v-if="bookmarks.length || favourites.length" class="mb-4">
-      <h4 class="display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2">
-        Bookmark Podcasts
-        <span class="badge bg-secondary ms-2">{{ bookmarks.length }}</span>
-        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-          data-bs-target="#bookmarksCollapse" aria-expanded="false" aria-controls="bookmarksCollapse">
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </h4>
-      <div id="bookmarksCollapse" class="collapse">
-        <div v-if="bookmarks.length" class="list-group">
-          <div v-for="podcast in bookmarks" :key="podcast.title"
-            class="list-group-item d-flex justify-content-between align-items-center row">
-            <div class="col-12 col-md-6">
-              <span class="fs-6">{{ podcast.title }}</span>
-            </div>
-            <div class="col-12 col-md-6 text-md-end">
-              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-play-circle"></i> Play Podcast
-              </button>
-              <button @click="removeBookmark(podcast)" class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash-fill"></i> Remove Bookmark
-              </button>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="alert alert-info" role="alert">No bookmarked podcasts found.</div>
-        </div>
-      </div> -->
-
-    <!-- Favourites -->
-    <!-- <h4 class="display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4">
-        Favourite Podcasts
-        <span class="badge bg-secondary ms-2">{{ favourites.length }}</span>
-        <button class="btn btn-link btn-sm ms-3" type="button" data-bs-toggle="collapse"
-          data-bs-target="#favouritesCollapse" aria-expanded="false" aria-controls="favouritesCollapse">
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </h4>
-      <div id="favouritesCollapse" class="collapse">
-        <div v-if="favourites.length" class="list-group">
-          <div v-for="podcast in favourites" :key="podcast.title"
-            class="list-group-item d-flex justify-content-between align-items-center row">
-            <div class="col-12 col-md-6">
-              <span class="fs-6">{{ podcast.title }}</span>
-            </div>
-            <div class="col-12 col-md-6 text-md-end">
-              <button @click="goToPodcast(podcast)" class="btn btn-sm btn-outline-primary me-2">
-                <i class="bi bi-play-circle"></i> Play Podcast
-              </button>
-              <button @click="removeFavourite(podcast)" class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash-fill"></i> Remove Favourite
-              </button>
-            </div>
-          </div>
-        </div>
-        <div v-else>
-          <div class="alert alert-info" role="alert">No favourite podcasts found.</div>
-        </div>
-      </div> -->
-    <!-- </div> -->
-
-
-    <!-- Search Bar -->
-    <!-- <div class="row">
-      <div class="col-md-6 pb-3 text-center">
-        <p style="display: flex;">Select a podcast</p>
-        <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
-          <option disabled value="">Select a podcast</option>
-          <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
-            {{ podcast.name }}
-          </option>
-        </select>
-      </div>
-    </div> -->
-
     <div class="container ">
       <h2 class="fw-bold text-left pt-2 pb-2 container">Select a Podcast:</h2>
 
@@ -104,26 +19,7 @@
     </div>
 
 
-
-    <!-- <div class="container text-center">
-      <div class="row">
-        <div class="col-md-2">
-          <h5 class="pt-1" style="display: flex;"><b>Select a podcast:</b></h5>
-        </div>
-        <div class="col-md-5">
-          <select class="form-select" id="podcastDropdown" v-model="selectedPodcast" @change="fetchPodcasts">
-            <option disabled value="">Select a podcast</option>
-            <option v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" :value="podcast">
-              {{ podcast.name }}
-            </option>
-          </select>
-        </div>
-        <div class="col-md-3">
-        </div>
-      </div>
-    </div> -->
-
-    <div class="pb- pt-3" v-if="selectedPodcast">
+    <div class=" pt-3" v-if="selectedPodcast">
       <hr class="container" />
       <p class="fw-bold display-5 ">{{ selectedPodcast.name }}</p>
       <img style=" border-radius: 15px;" class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
@@ -138,7 +34,7 @@
     </div>
 
 
-    <div class="row g-2 g-md-3">
+    <div class="row pb-3 g-2 g-md-3">
       <div class="col-md-6 px-2 px-md-3" v-if="selectedPodcast">
         <h4 for="sortPodcasts" class="form-label fw-bold">Views:</h4>
         <select id="sortPodcasts" class="form-select" v-model="sortBy" @change="sortPodcasts">
@@ -160,15 +56,7 @@
         </select>
       </div>
 
-      <!-- <div class="col-md-6 px-2 px-md-3 mb-3" v-if="selectedPodcast">
-        <h4 for="searchPodcasts" class="form-label fw-bold">Search Episode:</h4>
-        <input id="searchPodcasts" type="search" class="form-control" placeholder="Search podcast keyword..."
-          v-model="searchQuery" @input="onSearch" />
-      </div> -->
     </div>
-
-
-
 
     <!-- Podcast Cards -->
     <div v-if="!loading && paginatedPodcasts.length">

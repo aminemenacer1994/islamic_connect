@@ -38068,8 +38068,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       arabicFontSize: 23,
       // Default font size for Arabic text
       translationFontSize: 19,
-      toastMessage: "",
-      toastVisible: false,
       words: [],
       timestamps: [],
       highlightedAyah: "",
@@ -38235,27 +38233,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context.next = 4;
               return navigator.clipboard.writeText(ayahText);
             case 4:
-              _this4.showToast("Ayah & Translation copied to clipboard");
-              _context.next = 10;
+              window.alert("Ayah & Translation copied to clipboard");
+              _context.next = 11;
               break;
             case 7:
               _context.prev = 7;
               _context.t0 = _context["catch"](1);
               console.error("Error copying text:", _context.t0);
-            case 10:
+              window.alert("Failed to copy Ayah. Please try again.");
+            case 11:
             case "end":
               return _context.stop();
           }
         }, _callee, null, [[1, 7]]);
       }))();
-    },
-    showToast: function showToast(message) {
-      var _this5 = this;
-      this.toastMessage = message;
-      this.toastVisible = true;
-      setTimeout(function () {
-        _this5.toastVisible = false;
-      }, 3000); // Hide after 3 seconds
     },
     increaseFontSize: function increaseFontSize() {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
@@ -38317,7 +38308,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     // Fetch all Surahs
     fetchSurahs: function fetchSurahs() {
-      var _this6 = this;
+      var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -38338,7 +38329,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context3.sent;
-              _this6.surahs = data.data;
+              _this5.surahs = data.data;
               _context3.next = 15;
               break;
             case 12:
@@ -38353,7 +38344,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchReciters: function fetchReciters() {
-      var _this7 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -38374,7 +38365,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context4.sent;
-              _this7.reciters = data.data.filter(function (reciter) {
+              _this6.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -38397,7 +38388,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     // Fetch all Translations
     fetchTranslations: function fetchTranslations() {
-      var _this8 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
@@ -38418,7 +38409,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context5.sent;
-              _this8.translations = data.data;
+              _this7.translations = data.data;
               _context5.next = 15;
               break;
             case 12:
@@ -38433,13 +38424,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this9 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         var response, data, arabicText, translation;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              if (!(!_this9.selectedSurah || !_this9.selectedReciter || !_this9.selectedTranslation)) {
+              if (!(!_this8.selectedSurah || !_this8.selectedReciter || !_this8.selectedTranslation)) {
                 _context6.next = 2;
                 break;
               }
@@ -38447,7 +38438,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               _context6.prev = 2;
               _context6.next = 5;
-              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this9.selectedSurah, "/editions/").concat(_this9.selectedReciter, ",").concat(_this9.selectedTranslation));
+              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this8.selectedSurah, "/editions/").concat(_this8.selectedReciter, ",").concat(_this8.selectedTranslation));
             case 5:
               response = _context6.sent;
               if (response.ok) {
@@ -38462,8 +38453,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               data = _context6.sent;
               arabicText = data.data[0];
               translation = data.data[1];
-              _this9.surahDetails = {
-                surahNumber: _this9.selectedSurah,
+              _this8.surahDetails = {
+                surahNumber: _this8.selectedSurah,
                 englishName: arabicText.englishName,
                 name: arabicText.name,
                 ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -38478,8 +38469,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               };
 
               // Set first ayah audio URL
-              if (_this9.surahDetails.ayahs.length > 0) {
-                _this9.currentAudioUrl = _this9.surahDetails.ayahs[0].audio;
+              if (_this8.surahDetails.ayahs.length > 0) {
+                _this8.currentAudioUrl = _this8.surahDetails.ayahs[0].audio;
               }
               _context6.next = 20;
               break;
@@ -38495,12 +38486,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this10 = this;
+      var _this9 = this;
       this.$nextTick(function () {
         var audios = document.querySelectorAll("audio");
         audios.forEach(function (audioEl, index) {
-          var _this10$surahDetails;
-          var ayah = (_this10$surahDetails = _this10.surahDetails) === null || _this10$surahDetails === void 0 || (_this10$surahDetails = _this10$surahDetails.ayahs) === null || _this10$surahDetails === void 0 ? void 0 : _this10$surahDetails[index];
+          var _this9$surahDetails;
+          var ayah = (_this9$surahDetails = _this9.surahDetails) === null || _this9$surahDetails === void 0 || (_this9$surahDetails = _this9$surahDetails.ayahs) === null || _this9$surahDetails === void 0 ? void 0 : _this9$surahDetails[index];
           if (ayah && ayah.audio) {
             audioEl.pause();
             audioEl.src = ayah.audio;
@@ -38527,15 +38518,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     playAudio: function playAudio(index) {
-      var _this11 = this;
+      var _this10 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
         var audioPlayers, audioCards;
         return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) switch (_context8.prev = _context8.next) {
             case 0:
-              _this11.isAudioPlaying = true;
-              audioPlayers = _this11.$refs.audioPlayer;
-              audioCards = _this11.$refs.audioCard;
+              _this10.isAudioPlaying = true;
+              audioPlayers = _this10.$refs.audioPlayer;
+              audioCards = _this10.$refs.audioCard;
               if (!(!audioPlayers || !audioPlayers[index])) {
                 _context8.next = 5;
                 break;
@@ -38543,29 +38534,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return _context8.abrupt("return");
             case 5:
               // Stop any previously playing audio
-              if (_this11.currentlyPlaying && _this11.currentlyPlaying !== audioPlayers[index]) {
+              if (_this10.currentlyPlaying && _this10.currentlyPlaying !== audioPlayers[index]) {
                 console.log("Pausing previous audio");
-                _this11.currentlyPlaying.pause();
-                _this11.currentlyPlaying.currentTime = 0; // Reset time
+                _this10.currentlyPlaying.pause();
+                _this10.currentlyPlaying.currentTime = 0; // Reset time
               }
 
               // Set the new audio
-              _this11.currentlyPlaying = audioPlayers[index];
-              _this11.currentlyPlayingIndex = index;
+              _this10.currentlyPlaying = audioPlayers[index];
+              _this10.currentlyPlayingIndex = index;
 
               // Remove any previous 'onended' event listeners
-              _this11.currentlyPlaying.onended = null;
+              _this10.currentlyPlaying.onended = null;
 
               // Play new selection
-              _this11.currentlyPlaying.play().then(function () {
+              _this10.currentlyPlaying.play().then(function () {
                 console.log("Now playing Ayah ".concat(index));
               })["catch"](function (err) {
                 console.error("Play error:", err);
-                _this11.currentlyPlaying = null;
+                _this10.currentlyPlaying = null;
               });
-              _this11.currentlyPlaying.onended = function () {
+              _this10.currentlyPlaying.onended = function () {
                 console.log("Audio ended. No auto-play to next.");
-                _this11.currentlyPlaying = null;
+                _this10.currentlyPlaying = null;
               };
 
               // Remove previous highlight and highlight current Ayah
@@ -38577,7 +38568,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               }
 
               // Scroll to active Ayah
-              _this11.scrollToCard(index);
+              _this10.scrollToCard(index);
             case 14:
             case "end":
               return _context8.stop();
@@ -38586,7 +38577,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     startAudio: function startAudio(index) {
-      var _this12 = this;
+      var _this11 = this;
       var audioPlayers = this.$refs.audioPlayer;
       var audioCards = this.$refs.audioCard;
       if (!audioPlayers || !audioPlayers[index]) return;
@@ -38599,8 +38590,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       // Ensure ontimeupdate updates the highlights
       audioPlayers[index].ontimeupdate = function () {
         requestAnimationFrame(function () {
-          if (typeof _this12.updateHighlight === "function") {
-            _this12.updateHighlight(audioPlayers[index]);
+          if (typeof _this11.updateHighlight === "function") {
+            _this11.updateHighlight(audioPlayers[index]);
           }
         });
       };
@@ -38615,7 +38606,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
       // Automatically play the next Ayah when current one ends
       audioPlayers[index].onended = function () {
-        _this12.playNextAyah();
+        _this11.playNextAyah();
       };
     },
     playNextAyah: function playNextAyah() {
@@ -38659,13 +38650,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var regex = new RegExp("(".concat(this.searchQuery, ")"), "gi");
     return text.replace(regex, "<span class=\"highlight\">$1</span>");
   }), "fetchJuzDetails", function fetchJuzDetails() {
-    var _this13 = this;
+    var _this12 = this;
     return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9() {
       var response, data, arabicText, translation;
       return _regeneratorRuntime().wrap(function _callee9$(_context9) {
         while (1) switch (_context9.prev = _context9.next) {
           case 0:
-            if (!(!_this13.selectedJuz || _this13.selectedJuz < 1 || _this13.selectedJuz > 30)) {
+            if (!(!_this12.selectedJuz || _this12.selectedJuz < 1 || _this12.selectedJuz > 30)) {
               _context9.next = 2;
               break;
             }
@@ -38673,7 +38664,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           case 2:
             _context9.prev = 2;
             _context9.next = 5;
-            return fetch("https://api.alquran.cloud/v1/juz/".concat(_this13.selectedJuz, "/editions/").concat(_this13.selectedReciter, ",").concat(_this13.selectedTranslation));
+            return fetch("https://api.alquran.cloud/v1/juz/".concat(_this12.selectedJuz, "/editions/").concat(_this12.selectedReciter, ",").concat(_this12.selectedTranslation));
           case 5:
             response = _context9.sent;
             if (response.ok) {
@@ -38688,9 +38679,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             data = _context9.sent;
             arabicText = data.data[0];
             translation = data.data[1];
-            _this13.surahDetails = {
-              englishName: "Juz ".concat(_this13.selectedJuz),
-              name: "Juz ".concat(_this13.selectedJuz),
+            _this12.surahDetails = {
+              englishName: "Juz ".concat(_this12.selectedJuz),
+              name: "Juz ".concat(_this12.selectedJuz),
               ayahs: arabicText.ayahs.map(function (ayah, index) {
                 var _translation$ayahs$in2;
                 return {
@@ -48458,7 +48449,7 @@ var _hoisted_7 = {
 };
 var _hoisted_8 = {
   key: 0,
-  "class": "pb- pt-3"
+  "class": "pt-3"
 };
 var _hoisted_9 = {
   "class": "fw-bold display-5"
@@ -48474,7 +48465,7 @@ var _hoisted_12 = {
   "class": "fw-bold ml-2 pb-3"
 };
 var _hoisted_13 = {
-  "class": "row g-2 g-md-3"
+  "class": "row pb-3 g-2 g-md-3"
 };
 var _hoisted_14 = {
   key: 0,
@@ -48536,7 +48527,7 @@ var _hoisted_35 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-center container mb-4 lead\">\n      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,\n      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to\n      deepen your understanding of Islam, from spiritual guidance and personal development to contemporary issues facing\n      the Muslim community.\n    </p> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bookmarks Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"bookmarks.length || favourites.length\" class=\"mb-4\">\n      <h4 class=\"display-6 pb-2 fw-bold fs-4 fs-md-3 fs-lg-2\">\n        Bookmark Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ bookmarks.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#bookmarksCollapse\" aria-expanded=\"false\" aria-controls=\"bookmarksCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"bookmarksCollapse\" class=\"collapse\">\n        <div v-if=\"bookmarks.length\" class=\"list-group\">\n          <div v-for=\"podcast in bookmarks\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeBookmark(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Bookmark\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No bookmarked podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Favourites "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h4 class=\"display-6 fw-bold fs-4 fs-md-3 fs-lg-2 mt-4\">\n        Favourite Podcasts\n        <span class=\"badge bg-secondary ms-2\">{{ favourites.length }}</span>\n        <button class=\"btn btn-link btn-sm ms-3\" type=\"button\" data-bs-toggle=\"collapse\"\n          data-bs-target=\"#favouritesCollapse\" aria-expanded=\"false\" aria-controls=\"favouritesCollapse\">\n          <i class=\"bi bi-chevron-down\"></i>\n        </button>\n      </h4>\n      <div id=\"favouritesCollapse\" class=\"collapse\">\n        <div v-if=\"favourites.length\" class=\"list-group\">\n          <div v-for=\"podcast in favourites\" :key=\"podcast.title\"\n            class=\"list-group-item d-flex justify-content-between align-items-center row\">\n            <div class=\"col-12 col-md-6\">\n              <span class=\"fs-6\">{{ podcast.title }}</span>\n            </div>\n            <div class=\"col-12 col-md-6 text-md-end\">\n              <button @click=\"goToPodcast(podcast)\" class=\"btn btn-sm btn-outline-primary me-2\">\n                <i class=\"bi bi-play-circle\"></i> Play Podcast\n              </button>\n              <button @click=\"removeFavourite(podcast)\" class=\"btn btn-sm btn-outline-danger\">\n                <i class=\"bi bi-trash-fill\"></i> Remove Favourite\n              </button>\n            </div>\n          </div>\n        </div>\n        <div v-else>\n          <div class=\"alert alert-info\" role=\"alert\">No favourite podcasts found.</div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n      <div class=\"col-md-6 pb-3 text-center\">\n        <p style=\"display: flex;\">Select a podcast</p>\n        <select class=\"form-select\" id=\"podcastDropdown\" v-model=\"selectedPodcast\" @change=\"fetchPodcasts\">\n          <option disabled value=\"\">Select a podcast</option>\n          <option v-for=\"podcast in islamicPodcasts\" :key=\"podcast.rssUrl\" :value=\"podcast\">\n            {{ podcast.name }}\n          </option>\n        </select>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Select a Podcast:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -48560,7 +48551,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "18px"
       }
     }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.name), 1 /* TEXT */)])], 8 /* PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n      <div class=\"row\">\n        <div class=\"col-md-2\">\n          <h5 class=\"pt-1\" style=\"display: flex;\"><b>Select a podcast:</b></h5>\n        </div>\n        <div class=\"col-md-5\">\n          <select class=\"form-select\" id=\"podcastDropdown\" v-model=\"selectedPodcast\" @change=\"fetchPodcasts\">\n            <option disabled value=\"\">Select a podcast</option>\n            <option v-for=\"podcast in islamicPodcasts\" :key=\"podcast.rssUrl\" :value=\"podcast\">\n              {{ podcast.name }}\n            </option>\n          </select>\n        </div>\n        <div class=\"col-md-3\">\n        </div>\n      </div>\n    </div> "), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }), 128 /* KEYED_FRAGMENT */))])]), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     style: {
@@ -48599,7 +48590,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[3] || (_cache[3] = function () {
       return $options.filterPodcasts && $options.filterPodcasts.apply($options, arguments);
     })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-e4489e22>All Durations</option><option value=\"longest\" data-v-e4489e22>Longest</option><option value=\"shortest\" data-v-e4489e22>Shortest</option><option value=\"0-10\" data-v-e4489e22>0 - 10 min</option><option value=\"10-30\" data-v-e4489e22>10 - 30 min</option><option value=\"30-60\" data-v-e4489e22>30 - 60 min</option><option value=\"more-than-60\" data-v-e4489e22>More than 1 hour</option>", 7)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 px-2 px-md-3 mb-3\" v-if=\"selectedPodcast\">\n        <h4 for=\"searchPodcasts\" class=\"form-label fw-bold\">Search Episode:</h4>\n        <input id=\"searchPodcasts\" type=\"search\" class=\"form-control\" placeholder=\"Search podcast keyword...\"\n          v-model=\"searchQuery\" @input=\"onSearch\" />\n      </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Cards "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [!$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"\" data-v-e4489e22>All Durations</option><option value=\"longest\" data-v-e4489e22>Longest</option><option value=\"shortest\" data-v-e4489e22>Shortest</option><option value=\"0-10\" data-v-e4489e22>0 - 10 min</option><option value=\"10-30\" data-v-e4489e22>10 - 30 min</option><option value=\"30-60\" data-v-e4489e22>30 - 60 min</option><option value=\"more-than-60\" data-v-e4489e22>More than 1 hour</option>", 7)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.durationFilter]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Cards "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [!$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mt-2 fw-bold"
   }, "Loading podcasts, please wait...", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success",
@@ -49618,7 +49609,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])])])])])], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container pt-3\" data-v-2ba25654><!-- First row --><div class=\"row py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-0 order-md-0\" data-v-2ba25654><p class=\"display-4 mt-4 fw-bold text-left container\" data-v-2ba25654> Quran Companion Powered by AI, Built for Everyone </p><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Experience the Quran with advanced tools for reading, listening, and understanding. From AI Text-to-Speech to screen reader support and voice search it&#39;s your accessible, intelligent way to connect with the Divine. </strong></p></div><div class=\"col-md-6 mt-4 order-1 order-md-1\" data-v-2ba25654><img src=\"/images/quran.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div></div><!-- Second row --><div class=\"row pt-5 pb-5 py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-1 order-md-0\" data-v-2ba25654><img src=\"/images/podcast1.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div><div class=\"col-md-6 pb-5 order-0 order-md-1\" data-v-2ba25654><h6 class=\"display-4 mt-2 fw-bold text-left container\" data-v-2ba25654> Stream Your Iman Anytime, Anywhere </h6><h6 class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay spiritually connected through sound, reflection, and knowledge on the go. </strong></h6></div></div><!-- Third row --><div class=\"row pt-5 pb-5 py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-0 order-md-0\" data-v-2ba25654><h5 class=\"display-4 mt-2 fw-bold text-left container\" data-v-2ba25654> Explore the Quran, Deeply and Intuitively </h5><h6 class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools designed for simplicity, speed, and spiritual growth. </strong></h6></div><div class=\"col-md-6 order-1 order-md-1\" data-v-2ba25654><img src=\"/images/surat.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section style=\"background:#e6e6e6;\" class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])])])])])], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"container pt-3\" data-v-2ba25654><!-- First row --><div class=\"row py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-0 order-md-0\" data-v-2ba25654><p class=\"display-4 mt-4 fw-bold text-left container\" data-v-2ba25654> Quran Companion Powered by AI, Built for Everyone </p><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Experience the Quran with advanced tools for reading, listening, and understanding. From AI Text-to-Speech to screen reader support and voice search it&#39;s your accessible, intelligent way to connect with the Divine. </strong></p></div><div class=\"col-md-6 mt-4 order-1 order-md-1\" data-v-2ba25654><img src=\"/images/quran.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div></div><!-- Second row --><div class=\"row pt-5 pb-5 py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-1 order-md-0\" data-v-2ba25654><img src=\"/images/podcast1.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div><div class=\"col-md-6 pb-5 order-0 order-md-1\" data-v-2ba25654><h6 class=\"display-4 mt-2 fw-bold text-left container\" data-v-2ba25654> Stream Your Iman Anytime, Anywhere </h6><h6 class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay spiritually connected through sound, reflection, and knowledge on the go. </strong></h6></div></div><!-- Third row --><div class=\"row pt-5 pb-5 py-5 container\" data-v-2ba25654><div class=\"col-md-6 order-0 order-md-0\" data-v-2ba25654><h5 class=\"display-4 mt-2 fw-bold text-left container\" data-v-2ba25654> Explore the Quran, Deeply and Intuitively </h5><h6 class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools designed for simplicity, speed, and spiritual growth. </strong></h6></div><div class=\"col-md-6 order-1 order-md-1\" data-v-2ba25654><img src=\"/images/surat.png\" class=\"d-block text-right w-100 img-mobile-bigger\" alt=\"Quran companion\" data-v-2ba25654></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"60px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"50px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
@@ -49692,7 +49683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, " Send message ")])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center flex-wrap gap-3\" data-v-2ba25654><a href=\"/home\" class=\"text-dark text-decoration-none\" data-v-2ba25654><h6 class=\"mb-0 fs-6\" data-v-2ba25654>Home</h6></a><a href=\"/about\" class=\"text-dark text-decoration-none\" data-v-2ba25654><h6 class=\"mb-0 fs-6\" data-v-2ba25654>About Us</h6></a><a href=\"/faq\" class=\"text-dark text-decoration-none\" data-v-2ba25654><h6 class=\"mb-0 fs-6\" data-v-2ba25654>FAQ</h6></a><a href=\"/contact\" class=\"text-dark text-decoration-none\" data-v-2ba25654><h6 class=\"mb-0 fs-6\" data-v-2ba25654>Contact</h6></a></div></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, " Send message ")])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -50143,14 +50134,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold pb-3"
   }, "Make Islamic Knowledge Accessible to Everyone"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
-  }, " Millions of Muslims still struggle to access the Quran and authentic Islamic knowledge—especially those with disabilities, new reverts, or those in under-resourced communities. At Islamic Connect, we’re building a platform that removes these barriers using AI, voice tools, and accessibility features but we need your support. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
+    "class": "lead lh-base mb-3"
+  }, " Millions of Muslims still struggle to access the Quran and authentic Islamic knowledge— especially those with disabilities, new reverts, or those in under-resourced communities. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead lh-base mb-4"
+  }, " At Islamic Connect, we’re building a platform that removes these barriers using AI, voice tools, and accessibility features—but we need your support. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead lh-base mb-4"
   }, " Any amount you give is used with care to help Muslims around the world engage with Islam in a way that truly fits their needs. Donate today and help us build a platform that serves the entire ummah. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "display-5 fw-bold pb-3"
+    "class": "display-5 fw-bold pb-3 mt-4"
   }, "Where Your Donation Goes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-    "class": "lead ps-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Accessibility Tools – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.)"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "AI Development – Building voice search, personalized recitation tools, and smart learning experiences."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Essential Costs – Covering servers, security, third-party services, and keeping the platform free for all."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, "Salaries & Stipends – Supporting our small team of developers, scholars, and designers working around the clock.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "lead lh-base ps-3 mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-1"
+  }, "Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-1"
+  }, "Accessibility Tools – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.)."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-1"
+  }, "AI Development – Building voice search, personalized recitation tools, and smart learning experiences."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-1"
+  }, "Essential Costs – Covering servers, security, third-party services, and keeping the platform free for all."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-1"
+  }, "Salaries & Stipends – Supporting our small team of developers, scholars, and designers working around the clock.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-8"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "container form-control",
@@ -50159,9 +50162,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     onclick: "window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "mt-3 mb-3"
-  }, "Donate today")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Donate today")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-4 order-2 d-none d-lg-block"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/heart.png",
@@ -51453,7 +51454,10 @@ var _hoisted_1 = {
   "class": "container py-4"
 };
 var _hoisted_2 = {
-  "class": "sticky-dropdown container-fluid"
+  "class": "sticky-dropdown container-fluid",
+  style: {
+    "top": "50px"
+  }
 };
 var _hoisted_3 = {
   key: 0,
@@ -51478,20 +51482,9 @@ var _hoisted_9 = {
 };
 var _hoisted_10 = ["value"];
 var _hoisted_11 = {
-  key: 0,
-  "class": "container mx-auto mb-3 px-4"
-};
-var _hoisted_12 = {
-  "class": "text-center p-3 rounded shadow-sm fw-semibold",
-  style: {
-    "background-color": "#d1e7dd",
-    "color": "#0f5132"
-  }
-};
-var _hoisted_13 = {
   "class": "row rtl-text"
 };
-var _hoisted_14 = {
+var _hoisted_12 = {
   "class": "shadow-xl h-100 rtl-text d-flex flex-column",
   style: {
     "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -51504,57 +51497,57 @@ var _hoisted_14 = {
     "height": "100%"
   }
 };
-var _hoisted_15 = {
+var _hoisted_13 = {
   "class": "d-flex justify-content-between p-3 text-muted ltr-text"
 };
-var _hoisted_16 = {
+var _hoisted_14 = {
   "class": "dropdown"
 };
-var _hoisted_17 = {
+var _hoisted_15 = {
   "class": "dropdown-menu"
 };
+var _hoisted_16 = {
+  "class": "dropdown-item",
+  href: "javascript:void(0)"
+};
+var _hoisted_17 = ["onClick"];
 var _hoisted_18 = {
   "class": "dropdown-item",
-  href: "#"
+  href: "javascript:void(0)"
 };
 var _hoisted_19 = ["onClick"];
-var _hoisted_20 = {
-  "class": "dropdown-item",
-  href: "#"
-};
-var _hoisted_21 = ["onClick"];
-var _hoisted_22 = ["innerHTML"];
-var _hoisted_23 = ["innerHTML"];
-var _hoisted_24 = {
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = ["innerHTML"];
+var _hoisted_22 = {
   "class": "mt-auto"
 };
-var _hoisted_25 = {
+var _hoisted_23 = {
   "class": "container pb-3 text-center"
 };
-var _hoisted_26 = {
+var _hoisted_24 = {
   "class": "row"
 };
+var _hoisted_25 = {
+  "class": "col text-center"
+};
+var _hoisted_26 = ["onClick"];
 var _hoisted_27 = {
   "class": "col text-center"
 };
-var _hoisted_28 = ["onClick"];
+var _hoisted_28 = {
+  "class": "col text-center"
+};
 var _hoisted_29 = {
   "class": "col text-center"
 };
-var _hoisted_30 = {
-  "class": "col text-center"
-};
+var _hoisted_30 = ["onClick"];
 var _hoisted_31 = {
-  "class": "col text-center"
-};
-var _hoisted_32 = ["onClick"];
-var _hoisted_33 = {
   "class": "pt-2"
 };
-var _hoisted_34 = ["onPlay"];
-var _hoisted_35 = ["src"];
+var _hoisted_32 = ["onPlay"];
+var _hoisted_33 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -51631,35 +51624,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: translation.identifier,
       value: translation.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName), 9 /* TEXT, PROPS */, _hoisted_10);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.isVisible]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Toast/Alert Style "), $data.toastVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toastMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reading Progress Bar "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.isVisible]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reading Progress Bar "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
     var _$data$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       ref_for: true,
       ref: "audioCard",
       key: ayah.number,
       "class": "col-md-12 mb-2 mt-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "images/art.png",
       width: "35px"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown for features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dropdown for features "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       type: "button",
       "data-bs-toggle": "dropdown",
       "aria-expanded": "false"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-three-dots-vertical h2 mt-3"
-    })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "col text-center",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
     }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "d-flex flex-column align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-share\" style=\"cursor: pointer; font-size: 1.3rem;\"\n                          @click=\"shareOnWhatsApp(ayah)\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\"\n                          title=\"Share on WhatsApp\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "mt-1 ml-2",
       style: {
         "font-size": "1.2rem"
       }
-    }, "Share")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_19)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Share Ayah")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "col text-center",
       onClick: function onClick($event) {
         return $options.copyAyah(ayah);
@@ -51671,20 +51664,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.2rem"
       }
-    }, "Copy")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_21)])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "dropdown-item",
-      href: "#"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "col text-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "d-flex flex-column align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-file-arrow-down\" style=\"cursor: pointer; font-size: 1.3rem;\"\n                          data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Download Audio\"></i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"mt-1 text-left pl-2\"\n                          @click=\"downloadAudio(ayah.audio, `Surah${surahDetails.surahNumber}_Ayah${ayah.number}`)\">Download</span> ")])])])], -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text (RTL) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, "Copy Ayah")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_19)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text (RTL) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation (LTR) "), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation (LTR) "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -51692,12 +51678,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stick to bottom container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stick to bottom container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "d-flex flex-column align-items-center",
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       }
-    }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle",
       style: {
         "cursor": "pointer",
@@ -51711,12 +51697,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, "Rewind 5 Secs", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_28)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col text-center\">\n                  <div class=\"d-flex flex-column align-items-center\">\n                    <i class=\"bi bi-repeat\" style=\"cursor: pointer; font-size: 1.5rem;\" @click=\"replayAudio(index)\"\n                      data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Replay\"></i>\n                    <span class=\"mt-1\">Replay</span>\n                  </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Rewind 5 Secs", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col text-center\">\n                  <div class=\"d-flex flex-column align-items-center\">\n                    <i class=\"bi bi-repeat\" style=\"cursor: pointer; font-size: 1.5rem;\" @click=\"replayAudio(index)\"\n                      data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Replay\"></i>\n                    <span class=\"mt-1\">Replay</span>\n                  </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "d-flex flex-column align-items-center",
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.3rem"
@@ -51730,12 +51716,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, "Decrease Font", -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Decrease Font", -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "d-flex flex-column align-items-center",
       onClick: _cache[7] || (_cache[7] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.3rem"
@@ -51749,12 +51735,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, "Increase Font", -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Increase Font", -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "d-flex flex-column align-items-center",
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       }
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle",
       style: {
         "cursor": "pointer",
@@ -51768,7 +51754,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, "Forward 5 Secs", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player Stuck to Bottom "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, "Forward 5 Secs", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_30)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player Stuck to Bottom "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: "audioPlayer",
       style: {
@@ -51790,22 +51776,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: 0,
       src: ayah.audio,
       type: "audio/mpeg"
-    }, null, 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_34)])])])]);
+    }, null, 8 /* PROPS */, _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_32)])])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[9] || (_cache[9] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
     "class": "fab",
     title: "Scroll to top"
-  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-double-up pt-1 h2"
   }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showScrollButton]]), $data.isAudioPlaying ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 1,
+    key: 0,
     "class": "fab_audio",
     onClick: _cache[10] || (_cache[10] = function () {
       return $options.scrollToCurrentAudio && $options.scrollToCurrentAudio.apply($options, arguments);
     })
-  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-reply h2"
   }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -52131,10 +52117,7 @@ var _hoisted_1 = {
   "class": "container"
 };
 var _hoisted_2 = {
-  "class": "chat-header",
-  style: {
-    "padding": "5px"
-  }
+  "class": "chat-header"
 };
 var _hoisted_3 = {
   "class": "header-buttons"
@@ -52183,7 +52166,7 @@ var _hoisted_12 = {
 };
 var _hoisted_13 = {
   key: 0,
-  "class": "d-flex flex-wrap gap-3 my-3"
+  "class": "d-flex flex-wrap gap-3 my-2"
 };
 var _hoisted_14 = ["onClick"];
 var _hoisted_15 = ["onClick"];
@@ -52234,7 +52217,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       expanded: $data.isExpanded
     }]),
     style: {
-      "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px"
+      "bottom": "0px",
+      "box-shadow": "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+      "padding-top": "40px",
+      "padding": "30%"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "title"
@@ -121994,7 +121980,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.controls[data-v-2ba25654] {\n  margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* .service-1 {\n  font-family: \"Montserrat\", sans-serif;\n  color: #8d97ad;\n  font-weight: 300;\n} */\n.service-1 h1[data-v-2ba25654],\n.service-1 h2[data-v-2ba25654],\n.service-1 h3[data-v-2ba25654],\n.service-1 h4[data-v-2ba25654],\n.service-1 h5[data-v-2ba25654],\n.service-1 h6[data-v-2ba25654] {\n  color: #3e4555;\n}\n.service-1 .font-weight-medium[data-v-2ba25654] {\n  font-weight: 500;\n}\n.service-1 .bg-light[data-v-2ba25654] {\n  background-color: #f4f8fa !important;\n}\n.service-1 .subtitle[data-v-2ba25654] {\n  color: #8d97ad;\n  line-height: 24px;\n}\n.service-1 .card.card-shadow[data-v-2ba25654] {\n  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);\n}\n.service-1 .wrap-service1-box .card-body[data-v-2ba25654] {\n  padding: 40px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654] {\n  background: #2cdd9b;\n  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);\n  border: 0px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654]:hover {\n  background: #1dc8cc;\n  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);\n}\n.service-1 .btn-md[data-v-2ba25654] {\n  padding: 15px 45px;\n  font-size: 16px;\n}\n.jumbotron-overlay[data-v-2ba25654] {\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.img-mobile-bigger[data-v-2ba25654] {\n    width: 140%;\n}\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n.controls {\n.controls[data-v-2ba25654] {\n      margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n      margin: 5px;\n      padding: 10px 20px;\n      border: none;\n      background-color: rgb(13, 182, 145);\n      color: white;\n      border-radius: 5px;\n      cursor: pointer;\n      font-weight: bold;\n      transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n      background-color: #bdc3c7;\n      cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n      background-color: #0db691;\n}\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.controls[data-v-2ba25654] {\n  margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n  margin: 5px;\n  padding: 10px 20px;\n  border: none;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  border-radius: 5px;\n  cursor: pointer;\n  font-weight: bold;\n  transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n  background-color: #bdc3c7;\n  cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n  background-color: #0db691;\n}\n\n/* .service-1 {\n  font-family: \"Montserrat\", sans-serif;\n  color: #8d97ad;\n  font-weight: 300;\n} */\n.service-1 h1[data-v-2ba25654],\n.service-1 h2[data-v-2ba25654],\n.service-1 h3[data-v-2ba25654],\n.service-1 h4[data-v-2ba25654],\n.service-1 h5[data-v-2ba25654],\n.service-1 h6[data-v-2ba25654] {\n  color: #3e4555;\n}\n.service-1 .font-weight-medium[data-v-2ba25654] {\n  font-weight: 500;\n}\n.service-1 .bg-light[data-v-2ba25654] {\n  background-color: #f4f8fa !important;\n}\n.service-1 .subtitle[data-v-2ba25654] {\n  color: #8d97ad;\n  line-height: 24px;\n}\n.service-1 .card.card-shadow[data-v-2ba25654] {\n  box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);\n}\n.service-1 .wrap-service1-box .card-body[data-v-2ba25654] {\n  padding: 40px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654] {\n  background: #2cdd9b;\n  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);\n  border: 0px;\n}\n.service-1 .btn-success-gradiant[data-v-2ba25654]:hover {\n  background: #1dc8cc;\n  background: linear-gradient(to right, #1dc8cc 0%, #2cdd9b 100%);\n}\n.service-1 .btn-md[data-v-2ba25654] {\n  padding: 15px 45px;\n  font-size: 16px;\n}\n.jumbotron-overlay[data-v-2ba25654] {\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.6);\n  z-index: 1;\n}\n.jumbotron-content[data-v-2ba25654] {\n  position: relative;\n  z-index: 2;\n}\n\n/* CSS */\n.button-37[data-v-2ba25654] {\n  background-color: rgb(53, 163, 139);\n  border: 1px solid rgb(53, 163, 139);\n  border-radius: 4px;\n  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;\n  box-sizing: border-box;\n  color: #fff;\n  cursor: pointer;\n  font-family: \"Akzidenz Grotesk BQ Medium\", -apple-system, BlinkMacSystemFont,\n    sans-serif;\n  font-size: 16px;\n  font-weight: 400;\n  outline: none;\n  outline: 0;\n  padding: 10px 25px;\n  text-align: center;\n  transform: translateY(0);\n  transition: transform 150ms, box-shadow 150ms;\n  -moz-user-select: none;\n       user-select: none;\n  -webkit-user-select: none;\n  touch-action: manipulation;\n}\n.button-37[data-v-2ba25654]:hover {\n  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;\n  transform: translateY(-2px);\n}\n@media (min-width: 768px) {\n.img-mobile-bigger[data-v-2ba25654] {\n    width: 160%;\n}\n.button-37[data-v-2ba25654] {\n    padding: 10px 30px;\n}\n.controls {\n.controls[data-v-2ba25654] {\n      margin-top: 20px;\n}\n.controls button[data-v-2ba25654] {\n      margin: 5px;\n      padding: 10px 20px;\n      border: none;\n      background-color: rgb(13, 182, 145);\n      color: white;\n      border-radius: 5px;\n      cursor: pointer;\n      font-weight: bold;\n      transition: background 0.3s ease;\n}\n.controls button[data-v-2ba25654]:disabled {\n      background-color: #bdc3c7;\n      cursor: not-allowed;\n}\n.controls button[data-v-2ba25654]:hover:not(:disabled) {\n      background-color: #0db691;\n}\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -122235,7 +122221,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.mic-button[data-v-9200016c] {\n  width: 50px;\n  height: 50px;\n  background-color: #f8f9fa;\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.mic-button[data-v-9200016c]:hover {\n  background-color: #e2e6ea;\n}\n.mic-icon[data-v-9200016c] {\n  font-size: 1.5em;\n  color: #000;\n  transition: color 0.3s;\n}\n\n/* Glow when active */\n.mic-glow[data-v-9200016c] {\n  color: #21a587;\n  text-shadow: 0 0 8px #21a587;\n}\n\n/* Pulse animation on click */\n@keyframes pulse-9200016c {\n0% {\n    box-shadow: 0 0 0 0 #21a587;\n}\n70% {\n    box-shadow: 0 0 0 10px rgba(233, 233, 233, 0);\n}\n100% {\n    box-shadow: 0 0 0 0 rgba(228, 231, 229, 0.439);\n}\n}\n.mic-pulse[data-v-9200016c] {\n  animation: pulse-9200016c 0.5s;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 1em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  width: 90%;\n  max-width: 500px;\n  /* Max width for larger screens */\n  height: 70vh;\n  background-color: #fff;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  padding: 10px;\n  z-index: 999;\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 21;\n\n  background-color: #fff;\n  border-top: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    width: 100%;\n    max-width: 100%;\n    bottom: 10px;\n    /* Adjust bottom positioning */\n    height: 60vh;\n    /* Reduce height for mobile */\n    padding: 5px;\n    /* Reduce padding for mobile */\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    max-width: calc(100% - 20px) !important;\n    /* Full width with padding */\n    height: calc(100vh - 20px) !important;\n    /* Full height with padding */\n    bottom: 10px !important;\n    /* Add padding at the bottom */\n    right: 10px !important;\n    /* Add padding on the right */\n    left: 10px !important;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    border-top: 1px solid #eee;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.mic-button[data-v-9200016c] {\n  width: 50px;\n  height: 50px;\n  /* background-color: #f8f9fa; */\n  cursor: pointer;\n  transition: background-color 0.3s ease;\n}\n.mic-button[data-v-9200016c]:hover {\n  background-color: #e2e6ea;\n}\n.mic-icon[data-v-9200016c] {\n  font-size: 1.5em;\n  color: #000;\n  transition: color 0.3s;\n}\n\n/* Glow when active */\n.mic-glow[data-v-9200016c] {\n  color: #21a587;\n  text-shadow: 0 0 8px #21a587;\n}\n\n/* Pulse animation on click */\n@keyframes pulse-9200016c {\n0% {\n    box-shadow: 0 0 0 0 #21a587;\n}\n70% {\n    box-shadow: 0 0 0 10px rgba(233, 233, 233, 0);\n}\n100% {\n    box-shadow: 0 0 0 0 rgba(228, 231, 229, 0.439);\n}\n}\n.mic-pulse[data-v-9200016c] {\n  animation: pulse-9200016c 0.5s;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.save-btn[data-v-9200016c],\n.download-btn[data-v-9200016c],\n.load-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  color: #333;\n  cursor: pointer;\n  font-size: 1em;\n}\n.save-btn[data-v-9200016c]:hover,\n.download-btn[data-v-9200016c]:hover,\n.load-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.copy-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.copy-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.whatsapp-btn[data-v-9200016c] {\n  background-color: #25d366;\n  /* WhatsApp green */\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n  display: flex;\n  align-items: center;\n  gap: 5px;\n}\n.whatsapp-btn[data-v-9200016c]:hover {\n  background-color: #128c7e;\n  /* Darker WhatsApp green */\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 10px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.tts-btn[data-v-9200016c] {\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 5px;\n  padding: 5px 5px;\n  cursor: pointer;\n  font-size: 0.8em;\n  margin-top: 5px;\n}\n.tts-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.message-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 5px;\n}\n.timestamp[data-v-9200016c] {\n  font-size: 1em;\n  color: #ffffff;\n}\n\n/* Hide scrollbar for Chrome, Safari, and Opera */\n.messages[data-v-9200016c]::-webkit-scrollbar,\n.common-questions[data-v-9200016c]::-webkit-scrollbar {\n  display: none;\n}\n\n/* Hide scrollbar for IE, Edge, and Firefox */\n.messages[data-v-9200016c],\n.common-questions[data-v-9200016c] {\n  -ms-overflow-style: none;\n  /* IE and Edge */\n  scrollbar-width: none;\n  /* Firefox */\n}\n.container[data-v-9200016c] {\n  position: relative;\n  padding: 4px;\n}\n.fab[data-v-9200016c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);\n  color: white;\n  font-size: 30px;\n  border: none;\n  cursor: pointer;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  z-index: 9999;\n}\n.fab[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.fab i[data-v-9200016c] {\n  font-size: 24px;\n}\n.chatbox[data-v-9200016c] {\n  padding-top: 15px;\n  background-color: #fff;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  display: flex;\n  flex-direction: column;\n}\n.chatbox.expanded[data-v-9200016c] {\n  padding-top: 15px;\n  max-width: 75%;\n  width: 75%;\n}\n.chat-header[data-v-9200016c] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-size: 1.3em;\n  font-weight: bold;\n  margin-bottom: 15px;\n}\n.header-buttons[data-v-9200016c] {\n  display: flex;\n}\n.expand-btn[data-v-9200016c],\n.close-btn[data-v-9200016c] {\n  background: none;\n  border: none;\n  cursor: pointer;\n  color: #333;\n}\n.expand-btn[data-v-9200016c]:hover,\n.close-btn[data-v-9200016c]:hover {\n  color: #0db691;\n}\n.common-questions-container[data-v-9200016c] {\n  position: sticky;\n  top: 0;\n  background-color: #fff;\n  z-index: 1;\n  border-bottom: 1px solid #eee;\n}\n.common-questions[data-v-9200016c] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n  overflow-x: auto;\n}\n.question-row[data-v-9200016c] {\n  display: flex;\n  gap: 10px;\n  padding-bottom: 10px;\n}\n.question-btn[data-v-9200016c] {\n  flex: 0 0 auto;\n  padding: 8px 12px;\n  border: none;\n  background-color: #0db691;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  font-size: 0.9em;\n  white-space: nowrap;\n}\n.question-btn[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.messages[data-v-9200016c] {\n  flex: 1;\n  overflow-y: auto;\n  margin-bottom: 20px;\n}\n.message[data-v-9200016c] {\n  margin-bottom: 10px;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-9200016c],\n.bot-message[data-v-9200016c] {\n  padding: 10px 10px;\n  border-radius: 5px;\n  max-width: 80%;\n  word-wrap: break-word;\n}\n.user-message[data-v-9200016c] {\n  background-color: #f1f1f1;\n  align-self: flex-end;\n  text-align: left;\n}\n.bot-message[data-v-9200016c] {\n  background-color: #0a8a72;\n  color: white;\n  align-self: flex-start;\n}\n.input-container[data-v-9200016c] {\n  position: sticky;\n  bottom: 21;\n\n  background-color: #fff;\n  border-top: 1px solid #eee;\n  display: flex;\n  justify-content: space-between;\n}\n.input-box[data-v-9200016c] {\n  padding: 8px 12px;\n  border-radius: 5px;\n  border: 1px solid #ccc;\n  width: 100%;\n  /* Ensure input box takes full width */\n  font-size: 0.9rem;\n}\n.button[data-v-9200016c] {\n  padding: 8px 12px;\n  border: none;\n  background-color: #0a8a72;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.button[data-v-9200016c]:disabled {\n  background-color: #d6d6d6;\n  cursor: not-allowed;\n}\n.clear-button[data-v-9200016c] {\n  padding: 8px 10px;\n  border: none;\n  background-color: #ff4d4d;\n  color: white;\n  cursor: pointer;\n  border-radius: 5px;\n  width: 100%;\n  margin-top: 10px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.loading[data-v-9200016c] {\n  margin-top: 10px;\n  font-size: 1.1em;\n  color: #555;\n}\n.edit-button[data-v-9200016c] {\n  text-align: right;\n  padding: 4px 8px;\n  background-color: #0db691;\n  color: white;\n  border: none;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.8em;\n}\n.edit-button[data-v-9200016c]:hover {\n  background-color: #0a8a72;\n}\n.bi-mic[data-v-9200016c] {\n  font-size: 1.5rem;\n  cursor: pointer;\n}\n@media (max-width: 480px) {\n.chatbox[data-v-9200016c] {\n    padding-top: 15px;\n    width: 100%;\n    max-width: 100%;\n}\n.input-box[data-v-9200016c] {\n    font-size: 1rem;\n}\n.bi-mic[data-v-9200016c] {\n    font-size: 1.4rem;\n    /* Adjust mic icon size for mobile */\n}\n}\n@media (min-width: 768px) {\n.hidden-on-mobile-when-chat-open[data-v-9200016c] {\n    display: inline-block !important;\n}\n}\n@media (max-width: 600px) {\n.chatbox[data-v-9200016c] {\n    padding-top: 15px;\n    /* Add padding on the left */\n    border-radius: 12px !important;\n    /* Keep border-radius */\n    padding: 15px !important;\n    /* Reduce padding for more space */\n}\n.chat-header[data-v-9200016c] {\n    border-radius: 0 !important;\n    /* Remove rounded corners */\n}\n.messages[data-v-9200016c] {\n    max-height: calc(100vh - 160px);\n    /* Adjust height dynamically */\n    overflow-y: auto;\n}\n.expand-btn[data-v-9200016c] {\n    display: none !important;\n}\n.fab[data-v-9200016c] {\n    width: 50px;\n    height: 50px;\n    /* font-size: 20px; */\n}\n.input-container[data-v-9200016c] {\n    position: sticky;\n    bottom: 0;\n    background-color: #fff;\n    border-top: 1px solid #eee;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n.user-message[data-v-9200016c],\n  .bot-message[data-v-9200016c] {\n    max-width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

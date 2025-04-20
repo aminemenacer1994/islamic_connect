@@ -200,7 +200,7 @@
 
 
     <!-- AI tools & features -->
-    <section style="background: #e6e6e6;" class="py-5">
+    <section style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="py-5">
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -443,7 +443,7 @@
 
             <!-- Navigation Links -->
             <div class="col-12 col-lg-4 mb-3 mb-lg-0 px-4">
-              <div class="d-flex justify-content-center flex-wrap gap-3">
+              <!-- <div class="d-flex justify-content-center flex-wrap gap-3">
                 <a href="/home" class="text-dark text-decoration-none">
                   <h6 class="mb-0 fs-6">Home</h6>
                 </a>
@@ -457,7 +457,7 @@
                   <h6 class="mb-0 fs-6">Contact</h6>
                 </a>
 
-              </div>
+              </div> -->
             </div>
 
             <!-- Social Icons -->
@@ -617,7 +617,7 @@
 
 @media (min-width: 768px) {
   .img-mobile-bigger {
-    width: 140%;
+    width: 160%;
   }
 
   .button-37 {
