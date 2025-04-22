@@ -41728,6 +41728,107 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      videos: [],
+      query: 'islamic animation',
+      page: 1,
+      perPage: 9,
+      suggestedKeywords: ['quran', 'prophet', 'islamic prayer', 'hijab', 'mosque', 'ramadan']
+    };
+  },
+  mounted: function mounted() {
+    this.searchVideos();
+  },
+  methods: {
+    searchVideos: function searchVideos() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var apiKey, url, response, data;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
+              url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(_this.query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.page);
+              _context.prev = 2;
+              _context.next = 5;
+              return fetch(url, {
+                headers: {
+                  Authorization: apiKey
+                }
+              });
+            case 5:
+              response = _context.sent;
+              _context.next = 8;
+              return response.json();
+            case 8:
+              data = _context.sent;
+              // Filter only short videos around 15 seconds
+              _this.videos = data.videos.filter(function (v) {
+                return v.duration <= 20;
+              }).map(function (video) {
+                var _video$video_files$fi;
+                return {
+                  id: video.id,
+                  url: ((_video$video_files$fi = video.video_files.find(function (file) {
+                    return file.quality === 'sd' && file.width <= 640;
+                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || video.video_files[0].link
+                };
+              });
+              _context.next = 16;
+              break;
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](2);
+              console.error('Error fetching videos:', _context.t0);
+              _this.videos = [];
+            case 16:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[2, 12]]);
+      }))();
+    },
+    applySuggested: function applySuggested(keyword) {
+      this.query = keyword;
+      this.page = 1;
+      this.searchVideos();
+    },
+    expandVideo: function expandVideo(url) {
+      var win = window.open();
+      win.document.write("\n        <video src=\"".concat(url, "\" controls autoplay style=\"width:100%; height:100vh;\"></video>\n      "));
+    },
+    nextPage: function nextPage() {
+      this.page++;
+      this.searchVideos();
+    },
+    prevPage: function prevPage() {
+      if (this.page > 1) {
+        this.page--;
+        this.searchVideos();
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VolunteerComponent.vue?vue&type=script&lang=js":
 /*!************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VolunteerComponent.vue?vue&type=script&lang=js ***!
@@ -53205,6 +53306,122 @@ var _hoisted_1 = {
 };
 function render(_ctx, _cache) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Introducing User Accounts with Notes, Bookmarks, and Google Sign-In</b></h2><div class=\"col-md-5\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">December 31st, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Enhance Islamic Connect with user profiles, accessible note-taking, bookmarks, and AI-powered tools for a personalized experience. Google sign-in ensures quick, secure access to all features.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>User Profiles: Personalized accounts for saving notes, bookmarks, and preferences.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Google Sign-In: Quick, secure access without lengthy registrations, improving user accessibility.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Bookmark and Notes: Save Quranic ayahs, notes and bookmarks and key insights for easy reference.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Profile Page: Users can manage basic account details in a simple, accessible interface.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#IslamicConnect #AccessibilityForAll #QuranBookmarks #AIInIslam #SeamlessUserExperience #IslamicTech #GoogleSignIn #NotesAndReflections #InclusiveIslamicTools #PersonalizedLearningPath</b></p></div></div><div class=\"col-md-7\"><img src=\"images/user-account.png\" style=\"width:70%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Download Quran Ayahs with Translations, Tafseer, Transliteration (CSV/DOC)</b></h2><div class=\"col-md-5\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">December 16th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Easily download Quranic ayahs, including Arabic text, translations, tafseer, and transliterations in CSV and Doc formats. Ideal for personal study, research, and sharing knowledge effectively.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Convenience: Access and download Quranic content in multiple formats easily.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Study Aid: Enhance your understanding with detailed translations and tafseer.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Customization: Choose specific translations and tafseer for personalized study.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Sharing: Easily share Quranic content with others for collaborative learning.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Archiving: Store and organize Quranic information for future reference.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#QuranDownload #IslamicResources #Tafseer #QuranStudy #IslamicConnect #IslamicKnowledge #Translations #Transliteration #QuranUnderstanding #QuranicResearch #IslamicEducation #PersonalizedContent</b></p></div></div><div class=\"col-md-7\"><img src=\"images/csv.png\" style=\"width:70%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Announcing the AI-Powered Rich Text Editor for Quranic Content Creation</b></h2><div class=\"col-md-5\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">December 5th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">The AI-Powered Rich Text Editor is designed to empower users with advanced tools for creating, formatting, and sharing Quranic content with ease and precision.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Keyboard editor provides full creative freedom, allowing you to design and organize your content in a way that aligns with your unique vision and message.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The AI features help streamline the writing and formatting process, making it easier to create polished content quickly.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Focus on crafting meaningful content, while the editor handles the technical details.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>By automating many of the editing and formatting tasks, the editor allows you to focus more on content creation, making the process faster and more efficient.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#QuranicContent #AIinIslam #ContentCreation #IslamicTech #AIinEducation #IslamicKnowledge #QuranicReflections #RichTextEditor #QuranUnderstanding #AIforQuran #IslamicWriting #PersonalizedContent</b></p></div></div><div class=\"col-md-7\"><img src=\"images/rke.png\" style=\"width:70%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Presenting AI-Driven Text Summary Generator</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">December 2nd, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">AI-Driven Text Summary Generator for Efficient and Accurate Content Analysis. This is highly beneficial for the following reasons:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>AI-powered summaries make Quranic verses and Islamic content more accessible, especially for individuals with limited time or reading ability.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>By condensing complex religious texts, users can quickly grasp key teachings, fostering a deeper understanding of Islamic principles.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>With concise summaries, users can absorb important insights from Quranic verses and Islamic content in a fraction of the time, promoting regular engagement.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The AI can adapt to individual preferences, providing summaries tailored to specific interests or levels of understanding in the context of Islamic teachings.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The generator can cater to a wider audience, including those new to Islam or non-native Arabic speakers, making Quranic content more relatable and easier to comprehend.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#AIforIslam #QuranicSummaries #IslamicInnovation #IslamicTech #AIinEducation #DigitalIslam #EfficientLearning #TechForGood #QuranUnderstanding #IslamicConnect #AIforGood #TechForFaith</b></p></div></div><div class=\"col-md-6\"><img src=\"images/text.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Introducing Quranic Word Search with AI</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">November 27th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Unlock the Quran with Your Voice: Accessible, Convenient, AI-Powered. This is beneficial for the following reasons:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Empowering visually impaired and physically challenged users with a seamless way to explore the Quran through voice commands.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>No more typing just speak, and the Quranic verse or word appears instantly.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Quickly find the verses you need for study, reflection, or prayer without interruptions.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>No more scrolling, jump straight to the verse you are looking for in seconds.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#VoiceSearch #QuranAccessibility #IslamicInnovation #SpeechRecognition #AccessibleQuran #DigitalIslam #QuranTechnology #TechForGood #FaithAndTech</b></p></div></div><div class=\"col-md-6\"><img src=\"images/vs_update.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>QuranSearch: Instant Access to Relevant Verses with Auto-Complete</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">November 25th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">QuranFinder uses AI-driven auto-complete to quickly find Quranic words, displaying relevant verses, translations, and share options for convenience. This is beneficial for the following reasons:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Explore specific words, their context, and translations with just a few taps. AI-driven auto-completion helps find relevant verses faster.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Users can access all related verses and translations instantly in a side panel. This eliminates the need to load new pages or scroll through long lists.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The option to share Quranic verses via WhatsApp or X enhances the user experience, allowing for easy sharing of insights with others.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The side panel feature allows users to explore multiple verses and their meanings without disrupting their flow.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#QuranSearch #AIforAccessibility #QuranicStudy #VoiceSearch #IslamicTech #AccessibleQuran #QuranExploration #AIandAccessibility #TechForGood #QuranTranslation</b></p></div></div><div class=\"col-md-6\"><img src=\"images/sic.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>QuranFinder: Seamless Auto-Complete for Quranic Words</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">November 25th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">QuranFinder offers seamless auto-complete for Quranic words, instantly displaying relevant verses, translations, and share options for easy exploration. This feature is useful for the following reasons:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The auto-complete feature allows users to easily find Quranic words without manually searching.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Powered by AI, it provides accurate, contextually relevant results, helping users quickly find verses related to their search.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Instantly displaying verses with translations and share options saves users time, making Quranic exploration faster and more convenient.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The seamless design ensures a smooth experience across devices, accommodating both novice and experienced users, especially those using assistive technologies.</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>The built-in share options enable users to effortlessly share meaningful verses via WhatsApp or X, promoting knowledge sharing and engagement.</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#QuranSearch #AIInIslam #AccessibleTech #QuranApp #IslamicTech #QuranFinder #VoiceSearch #QuranTranslation #AIAccessibility #TechForGood</b></p></div></div><div class=\"col-md-6\"><img src=\"images/acis.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b>Seamless mode switch: Basic or Advanced</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">November 20th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Easily Personalize Your Experience by Switching Between Basic and Advanced Modes for Better Usability. This feature is useful for the following reasons:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Provides an easy-to-use interface for beginners or users who prefer a minimal setup</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Allows users to choose the level of complexity that suits their needs, improving comfort and ease of use</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Helps users with accessibility needs concentrate on relevant tasks without unnecessary complexity</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Simplifies the user experience by hiding advanced options, making the platform more intuitive for everyone</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Ensures that all users, including those with disabilities, can navigate and interact with the platform more easily</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#IslamicConnect #QuranApp #Accessibility #TechForGood #FaithAndTechnology #IslamicCommunity</b></p></div></div><div class=\"col-md-6\"><img src=\"images/bva.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\"><b> Islamic Connect Beta Version 2 has arrived! </b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">November 14th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We are thrilled to introduce Islamic Connect V2, redesigned and reimagined to bring an enhanced, accessible Quranic experience to everyone. Here is whats new:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Record audio and instantly convert it to text for note-taking </strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Fully responsive design for an optimal experience on any device</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Listen to tafseer or translation audios for deeper understanding</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Screen Capture of verses to save or share</strong></li></div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">and much, much more!</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Visit us at www.islamiconnect.com and explore the new features We would love to hear your feedback to make the platform even better.</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\"><b>#IslamicConnect #QuranApp #Accessibility #TechForGood #FaithAndTechnology #IslamicCommunity</b></p></div></div><div class=\"col-md-6\"><img src=\"images/icv21.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Revamp of New UI with Enhanced Features</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 30th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We are excited to announce a significant revamp of our user interface, incorporating several new features designed to enhance your experience. Our goal is to provide a more intuitive, user-friendly, and engaging platform for reading and exploring the Quran. Below, we outline the key enhancements we&#39;ve made to achieve this objective.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Expand Text to Full Screen </strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Search by Quran Verse Number</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved UI for Mobile and Desktop Devices</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Comprehensive Surah Information</strong></li></div></div></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2 display-4\" loading=\"lazy\"><b>Access Your Bookmarks and Notes</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">July 7th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Log into your account to easily access and manage all your saved Ayah verses and notes. Whether you have bookmarked verses for further reflection or taken notes for deeper understanding.</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">They are securely stored and readily available. Enhance your study and spiritual journey by logging in to view and edit your saved Ayah verses and notes with ease.</p></div></div><div class=\"col-md-6\"><img src=\"images/collection.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Revamp of New UI with Enhanced Features</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 30th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We are excited to announce a significant revamp of our user interface, incorporating several new features designed to enhance your experience. Our goal is to provide a more intuitive, user-friendly, and engaging platform for reading and exploring the Quran. Below, we outline the key enhancements we&#39;ve made to achieve this objective.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Expand Text to Full Screen </strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Search by Quran Verse Number</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved UI for Mobile and Desktop Devices</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Comprehensive Surah Information</strong></li></div></div></div><div class=\"col-md-6\"><img src=\"images/new__ui.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Introducing Ayah (verse) sharing</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">July 4th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Share meaningful verses (Ayahs) using WhatsApp or Twitter with their friends and family. This can help spread the message and teachings of the Quran, facilitating more discussions and reflections on its content.</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">You can now share specific Ayahs that hold personal significance or relevance to current events, making the shared content more impactful.</p></div></div><div class=\"col-md-6\"><img src=\"images/ayah_sharing.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Revamp of New UI with Enhanced Features</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 30th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We are excited to announce a significant revamp of our user interface, incorporating several new features designed to enhance your experience. Our goal is to provide a more intuitive, user-friendly, and engaging platform for reading and exploring the Quran. Below, we outline the key enhancements we&#39;ve made to achieve this objective.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Expand Text to Full Screen </strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Search by Quran Verse Number</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved UI for Mobile and Desktop Devices</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Comprehensive Surah Information</strong></li></div></div></div><div class=\"col-md-6\"><img src=\"images/new__ui.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Release our newest feature &quot;Bookmarking&quot;</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 26th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We&#39;re excited to announce our new bookmarking feature! Now you can save and easily access your favorite content anytime. Happy bookmarking!</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Bookmarking Ayah verses can be very helpful for anyone studying or reflecting on the Quran. When you bookmark specific verses, you can easily return to them later without having to search through the entire text.</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">This way, you can deepen your understanding and connection to the Quran more easily.</p></div></div><div class=\"col-md-6\"><img src=\"images/bookmarking.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Announcing our latest feature &quot;Notes and Reflections&quot;</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 19th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Introducing the writing notes and reflections feature for the Quran: This innovative tool is designed to enrich your study and understanding of the Quran by allowing you to record personal insights, reflections, and interpretations as you read.</p><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">Whether you&#39;re engaging with the text for spiritual growth, academic research, or personal contemplation, this feature provides a seamless way to capture your thoughts in real-time. By integrating your reflections directly alongside the verses, you can create a personalized commentary that evolves with your understanding.</p></div></div><div class=\"col-md-6\"><img src=\"images/notes_feat.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\"><b>Introducing &quot;Featured Reading&quot;</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 17th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">We are excited to announce the addition of a new feature set for Surat, enhancing user experience with adding a curated collection of significant Surahs for your daily reflection and study</p></div><p class=\"text-left text-dark\" style=\"line-height:1.7em;\">In addition to the Featured reading feature, several other features and improvments have been made to further enhance better user and Quran reading experience:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>New UI layout for better user experience</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved screenshoots</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved reading experience</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Smooth transitions between dropdowns</strong></li></div></div><div class=\"col-md-6\"><img src=\"images/featured_read.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\"><b>Introducing &quot;Swipe Gestures&quot;</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 11th, 2024</h5><div><p style=\"padding:5px;line-height:1.7em;\" class=\"text-left text-dark\">The Ayah Swipe Gesture feature offers a significant enhancement to the user experience by providing an intuitive and fluid method for navigating through the Quran. By enabling users to swipe left or right to move between ayahs, the feature mimics the natural act of turning pages, making digital Quran reading more engaging and less cumbersome. This seamless navigation reduces the need for repetitive clicks or taps, allowing readers to maintain their focus and concentration on the sacred text.</p></div><p class=\"text-left text-dark\" style=\"line-height:1.7em;\">In addition to the Ayah Swipe Gesture, several other features have been added to enrich the Quran reading experience:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Surah Information</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Surah Indexing</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Easier reading experience</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Added translation source</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Beginning and ending around arrow</strong></li></div></div><div class=\"col-md-6\"><img src=\"images/updategesture.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Discover Our Updated Features for an Enhanced Quranic Journey</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 8th, 2024</h5><p class=\"text-left text-dark\" style=\"line-height:1.7em;\">Welcome everyone! I&#39;m excited to share with you the latest updates and features we&#39;ve added to our website. Our team has been working diligently to enhance your user experience and provide you with the best possible tools and resources. Here’s a rundown of what’s new:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Revamped User Interface:</strong> We&#39;ve completely redesigned our user interface to make it more intuitive and user-friendly. The new layout is cleaner, more modern, and optimized for both desktop and mobile devices, ensuring a seamless experience no matter how you access our site.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Improved Navigation:</strong> Navigating through our website is now easier than ever. We’ve streamlined the menu structure, added a search bar.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Report a Bug:</strong> This tool allows you to easily report any issues or bugs you encounter while using our website. Your feedback is crucial in helping us identify and fix problems quickly, ensuring a smoother and more enjoyable experience for everyone.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Ayah Numbering:</strong> This enhancement allows you to easily locate and reference specific verses in the Quran. Each Ayah is now clearly numbered, providing a more organized and efficient way to navigate through the sacred text. Whether you&#39;re studying, teaching, or simply reading.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Bug Fixes:</strong> In addition to the exciting new features, we’ve also addressed several bugs to improve the overall stability and performance of our website. Our team has been hard at work identifying and resolving issues reported by our users.</li></div></div><div class=\"col-md-6\"><img src=\"images/updatesv3.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container-fluid\"><h2 class=\"text-left mt-3 mb-2 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Unlock Your Quranic Journey with Ayah Controls</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">June 4th, 2024</h5><p class=\"text-left text-dark\" style=\"line-height:1.7em;\">We are introducing the Ayah controls feature on our website, specifically designed for Quranic study and recitation, offering several benefits.</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Enhanced User Experience:</strong> Ayah controls allow users to navigate through different verses of the Quran with ease. Users can quickly switch between Ayahs without needing to manually scroll through the text.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Convenience in Memorization:</strong> For those engaged in memorizing Quranic verses (Hifz), Ayah controls provide a convenient way to repeat and review specific verses or sections.</li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Accessibility:</strong> Ayah controls can improve accessibility for users with disabilities or those who may find it challenging to navigate large amounts of text, making the Quran more accessible to a wider audience.</li></div></div><div class=\"col-md-6\"><img src=\"images/ac_img.png\" style=\"width:80%;\"></div></div><hr><div class=\"row ml-4 mt-3 container\"><h2 class=\"text-left mt-3 container\" style=\"line-height:1.7em;\"><img src=\"/images/art.png\" style=\"width:40px;\" class=\"mb-1 mr-2\" loading=\"lazy\"><b>Welcome to the Islamic Connect Beta Version</b></h2><div class=\"col-md-6\"><h5 class=\"text-left text-dark\" width=\"80%\" style=\"line-height:1.7em;\">May 27th, 2024</h5><p class=\"text-left text-dark\" style=\"line-height:1.7em;\">Islamic Connect Beta Version provides an exciting preview of our inclusive online Islamic community. Engage with our evolving platform, designed to foster meaningful connections and enhance your spiritual journey. We invite you to join us in shaping the future of Islamic Connect through your valuable feedback and active participation&quot;. We offer many features such as:</p><div><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Translation, Tafseer and Transliteration</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Searchable Quran Translations</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Notable Annotation</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Verse screen-shoting</strong></li><li style=\"padding:5px;\" class=\"text-left text-dark\"><strong>Mobile friendly design</strong></li></div><p class=\"text-left text-dark mt-1\" style=\"line-height:1.7em;\">and much, much more.</p></div><div class=\"col-md-6\"><img src=\"images/main-design.png\" style=\"width:80%;\"></div></div>", 41)]));
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container my-4"
+};
+var _hoisted_2 = {
+  "class": "input-group mb-3"
+};
+var _hoisted_3 = {
+  "class": "mb-3"
+};
+var _hoisted_4 = ["onClick"];
+var _hoisted_5 = {
+  "class": "row"
+};
+var _hoisted_6 = {
+  "class": "card"
+};
+var _hoisted_7 = ["src"];
+var _hoisted_8 = {
+  "class": "card-body text-center"
+};
+var _hoisted_9 = ["onClick"];
+var _hoisted_10 = ["href"];
+var _hoisted_11 = {
+  "class": "pagination justify-content-center"
+};
+var _hoisted_12 = {
+  "class": "page-item disabled"
+};
+var _hoisted_13 = {
+  "class": "page-link"
+};
+var _hoisted_14 = {
+  "class": "page-item"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "text-center mb-4"
+  }, "Islamic Animated Videos", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.query = $event;
+    }),
+    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.searchVideos && $options.searchVideos.apply($options, arguments);
+    }, ["enter"])),
+    type: "text",
+    "class": "form-control",
+    placeholder: "Search Islamic videos..."
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-primary",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.searchVideos && $options.searchVideos.apply($options, arguments);
+    })
+  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggested Keywords "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestedKeywords, function (keyword, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      key: index,
+      "class": "badge bg-secondary me-2 pointer",
+      onClick: function onClick($event) {
+        return $options.applySuggested(keyword);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keyword), 9 /* TEXT, PROPS */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: video.id,
+      "class": "col-md-3 mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+      src: video.url,
+      "class": "card-img-top",
+      controls: "",
+      muted: "",
+      loop: "",
+      playsinline: "",
+      style: {
+        "max-height": "200px"
+      }
+    }, null, 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-sm btn-outline-primary me-2",
+      onClick: function onClick($event) {
+        return $options.expandVideo(video.url);
+      }
+    }, "Expand", 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
+      target: "_blank",
+      "class": "btn btn-sm btn-outline-success"
+    }, " Share ", 8 /* PROPS */, _hoisted_10)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.page === 1
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.prevPage && $options.prevPage.apply($options, arguments);
+    })
+  }, "Previous")], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.page), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.nextPage && $options.nextPage.apply($options, arguments);
+    })
+  }, "Next")])])])]);
 }
 
 /***/ }),
@@ -151282,6 +151499,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.full-screen[data-v-71167b92] {\n  p
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VolunteerComponent.vue?vue&type=style&index=0&id=5e1604be&scoped=true&lang=css":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VolunteerComponent.vue?vue&type=style&index=0&id=5e1604be&scoped=true&lang=css ***!
@@ -196379,6 +196620,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TransliterationSection_vue_vue_type_style_index_0_id_71167b92_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_style_index_0_id_26d38626_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_style_index_0_id_26d38626_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_style_index_0_id_26d38626_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -276347,17 +276618,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_GuideComponent_vue__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./components/GuideComponent.vue */ "./resources/js/components/GuideComponent.vue");
 /* harmony import */ var _components_StreamingComponent_vue__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./components/StreamingComponent.vue */ "./resources/js/components/StreamingComponent.vue");
 /* harmony import */ var _components_ToolkitComponent_vue__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./components/ToolkitComponent.vue */ "./resources/js/components/ToolkitComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/VideoComponent.vue */ "./resources/js/components/VideoComponent.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -276470,7 +276743,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_64__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -276497,11 +276770,11 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_63__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
@@ -276509,6 +276782,7 @@ app.component('radio-component', _components_RadioComponent_vue__WEBPACK_IMPORTE
 app.component('guide-component', _components_GuideComponent_vue__WEBPACK_IMPORTED_MODULE_56__["default"]);
 app.component('streaming-component', _components_StreamingComponent_vue__WEBPACK_IMPORTED_MODULE_57__["default"]);
 app.component('toolkit-component', _components_ToolkitComponent_vue__WEBPACK_IMPORTED_MODULE_58__["default"]);
+app.component('video-component', _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -278553,6 +278827,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UpdatesComponent_vue_vue_type_template_id_2790503e__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_UpdatesComponent_vue_vue_type_template_id_2790503e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./UpdatesComponent.vue?vue&type=template&id=2790503e */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/UpdatesComponent.vue?vue&type=template&id=2790503e");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/VideoComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/VideoComponent.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _VideoComponent_vue_vue_type_template_id_26d38626_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./VideoComponent.vue?vue&type=template&id=26d38626&scoped=true */ "./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true");
+/* harmony import */ var _VideoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./VideoComponent.vue?vue&type=script&lang=js */ "./resources/js/components/VideoComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _VideoComponent_vue_vue_type_style_index_0_id_26d38626_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css */ "./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_VideoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_VideoComponent_vue_vue_type_template_id_26d38626_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-26d38626"],['__file',"resources/js/components/VideoComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/VideoComponent.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/VideoComponent.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./VideoComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_style_index_0_id_26d38626_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=style&index=0&id=26d38626&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_template_id_26d38626_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_VideoComponent_vue_vue_type_template_id_26d38626_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./VideoComponent.vue?vue&type=template&id=26d38626&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/VideoComponent.vue?vue&type=template&id=26d38626&scoped=true");
 
 
 /***/ }),

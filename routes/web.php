@@ -40,6 +40,7 @@ use App\Http\Controllers\RadioController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\StreamingController;
 use App\Http\Controllers\ToolkitController;
+use App\Http\Controllers\VideoController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -311,3 +312,5 @@ Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
 // streaming
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');
+// video
+Route::get('/video', [VideoController::class, 'index'])->name('video');
