@@ -6,35 +6,50 @@
       prayers, and spiritual reflections from the heart of Islam.
     </p>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      <!-- Rest of your channel cards code remains the same -->
-      <div class="col" v-for="(channel, index) in filteredChannels" :key="index">
-        <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden" @click="playChannel(channel)"
-          style="cursor: pointer; background-color: #fff;">
-          <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
-            style="object-fit: contain; height: 250px;">
-          <div class="card-body p-4 text-center">
-            <h5 class="card-title fw-bold display-6 text-dark">{{ channel.name }}</h5>
-            <p class="card-text large text-muted">{{ channel.description }}</p>
-            <button class="form-control" @click.stop="playChannel(channel)"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
-              type="submit">
-              <b class="pt-3 pb-3">Display Channel</b>
-            </button>
+    <!-- Scrollable Row Wrapper with visible scrollbar -->
+    <div style="overflow-x: auto;" class="pb-2">
+      <!-- Scrollable Horizontal Row -->
+      <div class="row row-cols-1 row-cols-md-2 g-4 flex-nowrap" style="display: flex;">
+        <div class="col" v-for="(channel, index) in filteredChannels" :key="index" style="min-width: 320px;">
+          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" @click="playChannel(channel)"
+            style="cursor: pointer; background-color: #fff;">
+            <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
+              style="object-fit: contain; height: 250px;">
+            <div class="card-body p-4 text-center">
+              <h5 class="card-title fw-bold display-6 text-dark text-truncate" style="max-width: 100%;">
+                {{ channel.name }}
+              </h5>
+              <p class="card-text text-muted text-wrap"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+                {{ channel.description }}
+              </p>
+              <button class="form-control" @click.stop="playChannel(channel)"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                type="submit">
+                <b class="pt-3 pb-3">Display Channel</b>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="selectedChannel" class="mt-5 px-3" ref="playerSection" :class="{ 'mini-screen': isMiniScreen }">
+
+
+
+    <div v-if="selectedChannel" class="mt-5 mb-5 px-3" ref="playerSection" :class="{ 'mini-screen': isMiniScreen }">
       <!-- Now Playing Section -->
       <div class="text-center mb-4">
         <h6 class="fw-bold display-6 text-dark">🔴 Now Playing: <span class="text-dark">{{ selectedChannel.name
-            }}</span></h6>
+        }}</span></h6>
       </div>
 
+      <button class="btn btn-outline-secondary mb-3 rounded-pill shadow-md" @click="showFilters = !showFilters">
+        {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+      </button>
+
       <!-- Filter Controls Row -->
-      <div class="row mb-4 g-3">
+      <div class="row mb-4 g-3" v-if="showFilters">
         <div class="col-md-4">
           <label for="qualitySelect" class="form-label fw-semibold">Stream Quality:</label>
           <select id="qualitySelect" v-model="manualQuality" class="form-select shadow-sm rounded-pill">
@@ -64,6 +79,7 @@
         </div>
       </div>
 
+
       <!-- Video Player Section -->
       <div class="shadow-lg overflow-hidden" style="max-width: 100%; margin: 0; padding: 0;">
         <div :class="`ratio ratio-${videoRatio}`" style="position: relative; margin: 0; padding: 0;">
@@ -84,6 +100,8 @@ export default {
   name: 'LiveChannels',
   data() {
     return {
+      showFilters: true,
+      manualQuality: 'auto',
       userCountry: '',
       manualQuality: 'auto',
       videoRatio: '21x9',
@@ -240,6 +258,10 @@ export default {
 </script>
 
 <style scoped>
+div[style*="overflow-x: overflow"]::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   background-color: #f8f9fa;
 }
