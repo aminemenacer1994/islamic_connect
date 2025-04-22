@@ -70,11 +70,11 @@
               </div>
 
               <!-- Set controlsRendered flag to true after rendering the buttons -->
-              <div v-if="!controlsRendered">
+              <!-- <div v-if="!controlsRendered">
                 <script>
                   this.controlsRendered = true;  // After rendering buttons, set to true
                 </script>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

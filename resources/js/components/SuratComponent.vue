@@ -66,7 +66,7 @@
     <div class="row rtl-text">
       <!-- Reading Progress Bar -->
 
-      <div ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           border-top-left-radius: 25px; 
           border-top-right-radius: 25px; 
@@ -109,7 +109,7 @@
             </div>
           </div>
           <!-- Arabic Text (RTL) -->
-          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" style="padding: 12px;" v-html="highlightedText(ayah)"
             :style="{ fontSize: arabicFontSize + 'px' }">
           </p>
 
