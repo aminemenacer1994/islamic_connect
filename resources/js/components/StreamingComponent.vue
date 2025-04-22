@@ -1,57 +1,10 @@
 <template>
   <div class="container py-4">
-    <!-- Metadata for SEO and Social Sharing -->
-
-    <Head>
-      <title>Live Islamic TV Channels - Watch Makkah and Madinah Live</title>
-      <meta name="description"
-        content="Watch live Islamic TV channels from Makkah and Madinah. Stream Quran recitation, prayers from Masjid al-Haram and Masjid an-Nabawi, and Islamic programs in multiple languages.">
-
-      <!-- Open Graph / Facebook -->
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="https://yourdomain.com/live-channels">
-      <meta property="og:title" content="Live Islamic TV Channels - Makkah & Madinah Live Stream">
-      <meta property="og:description"
-        content="Watch live broadcasts from the holy cities of Makkah and Madinah. Experience Quran recitation and prayers from the Two Holy Mosques.">
-      <meta property="og:image" content="https://yourdomain.com/images/islamic-tv-social.jpg">
-
-      <!-- Twitter -->
-      <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:url" content="https://yourdomain.com/live-channels">
-      <meta name="twitter:title" content="Live Islamic TV Channels - Makkah & Madinah Live Stream">
-      <meta name="twitter:description"
-        content="Watch live broadcasts from the holy cities of Makkah and Madinah. Experience Quran recitation and prayers from the Two Holy Mosques.">
-      <meta name="twitter:image" content="https://yourdomain.com/images/islamic-tv-social.jpg">
-
-      <!-- Canonical URL -->
-      <link rel="canonical" href="https://yourdomain.com/live-channels">
-
-      <!-- Structured Data (JSON-LD) -->
-      <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Live Islamic TV Channels",
-        "description": "Watch live Islamic TV channels from Makkah and Madinah",
-        "url": "https://yourdomain.com/live-channels",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Your Organization Name",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://yourdomain.com/logo.png"
-          }
-        }
-      }
-      </script>
-    </Head>
     <h3 class="text-center fw-bold display-4 mb-4">Live Islamic TV Channels</h3>
     <p class="text-center container mb-4 lead d-none d-md-block">
       Watch live broadcasts from the holy cities of Makkah and Madinah. Experience continuous Quran recitation, live
       prayers, and spiritual reflections from the heart of Islam.
     </p>
-
-
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
       <!-- Rest of your channel cards code remains the same -->
@@ -59,7 +12,7 @@
         <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden" @click="playChannel(channel)"
           style="cursor: pointer; background-color: #fff;">
           <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
-            style="object-fit: cover; height: 200px;">
+            style="object-fit: contain; height: 250px;">
           <div class="card-body p-4 text-center">
             <h5 class="card-title fw-bold display-6 text-dark">{{ channel.name }}</h5>
             <p class="card-text large text-muted">{{ channel.description }}</p>
@@ -155,6 +108,14 @@ export default {
           thumbnail: '/images/madina_tv1.png',
           description: 'Madinah TV streams live from Masjid an-Nabawi. Tune in to see the resting place of the Prophet Muhammad ﷺ, prayers, and peaceful views of the mosque.',
           languages: ['arabic', 'english']
+        },
+        {
+          name: 'Eman Channel',
+          streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
+          streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
+          thumbnail: '/images/eman_img.png',
+          description: 'Eman Channel provides Islamic educational content, live events, and discussions relevant to the Muslim community in the UK.',
+          languages: ['english']
         },
       ],
       geoQualityMap: ['US', 'CA', 'DE', 'SA', 'AE', 'UK', 'FR'],
