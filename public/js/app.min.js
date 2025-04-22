@@ -51465,40 +51465,40 @@ var _hoisted_1 = {
   "class": "container py-4"
 };
 var _hoisted_2 = {
-  "class": "row mb-4 g-3"
-};
-var _hoisted_3 = {
-  "class": "col-md-4"
-};
-var _hoisted_4 = {
-  "class": "col-md-4"
-};
-var _hoisted_5 = {
-  "class": "col-md-4"
-};
-var _hoisted_6 = {
   "class": "row row-cols-1 row-cols-md-2 g-4"
 };
-var _hoisted_7 = ["onClick"];
-var _hoisted_8 = ["src", "alt"];
-var _hoisted_9 = {
+var _hoisted_3 = ["onClick"];
+var _hoisted_4 = ["src", "alt"];
+var _hoisted_5 = {
   "class": "card-body p-4 text-center"
 };
-var _hoisted_10 = {
+var _hoisted_6 = {
   "class": "card-title fw-bold display-6 text-dark"
 };
-var _hoisted_11 = {
+var _hoisted_7 = {
   "class": "card-text large text-muted"
 };
-var _hoisted_12 = ["onClick"];
-var _hoisted_13 = {
+var _hoisted_8 = ["onClick"];
+var _hoisted_9 = {
   "class": "text-center mb-4"
 };
-var _hoisted_14 = {
+var _hoisted_10 = {
   "class": "fw-bold display-6 text-dark"
 };
-var _hoisted_15 = {
+var _hoisted_11 = {
   "class": "text-dark"
+};
+var _hoisted_12 = {
+  "class": "row mb-4 g-3"
+};
+var _hoisted_13 = {
+  "class": "col-md-4"
+};
+var _hoisted_14 = {
+  "class": "col-md-4"
+};
+var _hoisted_15 = {
+  "class": "col-md-4"
 };
 var _hoisted_16 = {
   "class": "shadow-lg overflow-hidden",
@@ -51566,49 +51566,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 mb-4"
   }, "Live Islamic TV Channels", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead"
-  }, " Watch live broadcasts from the holy cities of Makkah and Madinah. Experience continuous Quran recitation, live prayers, and spiritual reflections from the heart of Islam. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Controls Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "qualitySelect",
-    "class": "form-label fw-semibold"
-  }, "Stream Quality:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "qualitySelect",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.manualQuality = $event;
-    }),
-    "class": "form-select shadow-sm rounded-pill"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "auto"
-  }, "Auto", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "hd"
-  }, "HD", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "sd"
-  }, "SD", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.manualQuality]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "ratioSelect",
-    "class": "form-label fw-semibold"
-  }, "Video Ratio:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "ratioSelect",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.videoRatio = $event;
-    }),
-    "class": "form-select shadow-sm rounded-pill"
-  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "16x9"
-  }, "16:9 (Widescreen)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "21x9"
-  }, "21:9 (Ultrawide)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "4x3"
-  }, "4:3 (Standard)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "1x1"
-  }, "1:1 (Square)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.videoRatio]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "languageSelect",
-    "class": "form-label fw-semibold"
-  }, "Language:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "languageSelect",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.selectedLanguage = $event;
-    }),
-    "class": "form-select shadow-sm rounded-pill"
-  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"all\" data-v-670f86e6>All Languages</option><option value=\"arabic\" data-v-670f86e6>Arabic</option><option value=\"english\" data-v-670f86e6>English</option><option value=\"urdu\" data-v-670f86e6>Urdu</option><option value=\"french\" data-v-670f86e6>French</option>", 5)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rest of your channel cards code remains the same "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredChannels, function (channel, index) {
+    "class": "text-center container mb-4 lead d-none d-md-block"
+  }, " Watch live broadcasts from the holy cities of Makkah and Madinah. Experience continuous Quran recitation, live prayers, and spiritual reflections from the heart of Islam. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rest of your channel cards code remains the same "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredChannels, function (channel, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: index
@@ -51629,7 +51588,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "object-fit": "cover",
         "height": "200px"
       }
-    }, null, 8 /* PROPS */, _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(channel.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "form-control",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $options.playChannel(channel);
@@ -51640,16 +51599,57 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white"
       },
       type: "submit"
-    }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+    }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
       "class": "pt-3 pb-3"
-    }, "Display Channel", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_12)])], 8 /* PROPS */, _hoisted_7)]);
+    }, "Display Channel", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_8)])], 8 /* PROPS */, _hoisted_3)]);
   }), 128 /* KEYED_FRAGMENT */))]), $data.selectedChannel ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mt-5 px-3", {
       'mini-screen': $data.isMiniScreen
     }]),
     ref: "playerSection"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_14, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔴 Now Playing: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Now Playing Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_10, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔴 Now Playing: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedChannel.name), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filter Controls Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "qualitySelect",
+    "class": "form-label fw-semibold"
+  }, "Stream Quality:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "qualitySelect",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.manualQuality = $event;
+    }),
+    "class": "form-select shadow-sm rounded-pill"
+  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "auto"
+  }, "Auto", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "hd"
+  }, "HD", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "sd"
+  }, "SD", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.manualQuality]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "ratioSelect",
+    "class": "form-label fw-semibold"
+  }, "Video Ratio:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "ratioSelect",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.videoRatio = $event;
+    }),
+    "class": "form-select shadow-sm rounded-pill"
+  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "16x9"
+  }, "16:9 (Widescreen)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "21x9"
+  }, "21:9 (Ultrawide)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "4x3"
+  }, "4:3 (Standard)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1x1"
+  }, "1:1 (Square)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.videoRatio]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "languageSelect",
+    "class": "form-label fw-semibold"
+  }, "Language:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "languageSelect",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.selectedLanguage = $event;
+    }),
+    "class": "form-select shadow-sm rounded-pill"
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"all\" data-v-670f86e6>All Languages</option><option value=\"arabic\" data-v-670f86e6>Arabic</option><option value=\"english\" data-v-670f86e6>English</option><option value=\"urdu\" data-v-670f86e6>Urdu</option><option value=\"french\" data-v-670f86e6>French</option>", 5)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedLanguage]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Player Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)("ratio ratio-".concat($data.videoRatio)),
     style: {
       "position": "relative",

@@ -46,41 +46,12 @@
       </script>
     </Head>
     <h3 class="text-center fw-bold display-4 mb-4">Live Islamic TV Channels</h3>
-    <p class="text-center container mb-4 lead">
+    <p class="text-center container mb-4 lead d-none d-md-block">
       Watch live broadcasts from the holy cities of Makkah and Madinah. Experience continuous Quran recitation, live
       prayers, and spiritual reflections from the heart of Islam.
     </p>
 
-    <!-- Filter Controls Row -->
-    <div class="row mb-4 g-3">
-      <div class="col-md-4">
-        <label for="qualitySelect" class="form-label fw-semibold">Stream Quality:</label>
-        <select id="qualitySelect" v-model="manualQuality" class="form-select shadow-sm rounded-pill">
-          <option value="auto">Auto</option>
-          <option value="hd">HD</option>
-          <option value="sd">SD</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="ratioSelect" class="form-label fw-semibold">Video Ratio:</label>
-        <select id="ratioSelect" v-model="videoRatio" class="form-select shadow-sm rounded-pill">
-          <option value="16x9">16:9 (Widescreen)</option>
-          <option value="21x9">21:9 (Ultrawide)</option>
-          <option value="4x3">4:3 (Standard)</option>
-          <option value="1x1">1:1 (Square)</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label for="languageSelect" class="form-label fw-semibold">Language:</label>
-        <select id="languageSelect" v-model="selectedLanguage" class="form-select shadow-sm rounded-pill">
-          <option value="all">All Languages</option>
-          <option value="arabic">Arabic</option>
-          <option value="english">English</option>
-          <option value="urdu">Urdu</option>
-          <option value="french">French</option>
-        </select>
-      </div>
-    </div>
+
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
       <!-- Rest of your channel cards code remains the same -->
@@ -103,18 +74,53 @@
     </div>
 
     <div v-if="selectedChannel" class="mt-5 px-3" ref="playerSection" :class="{ 'mini-screen': isMiniScreen }">
+      <!-- Now Playing Section -->
       <div class="text-center mb-4">
         <h6 class="fw-bold display-6 text-dark">🔴 Now Playing: <span class="text-dark">{{ selectedChannel.name
             }}</span></h6>
       </div>
 
+      <!-- Filter Controls Row -->
+      <div class="row mb-4 g-3">
+        <div class="col-md-4">
+          <label for="qualitySelect" class="form-label fw-semibold">Stream Quality:</label>
+          <select id="qualitySelect" v-model="manualQuality" class="form-select shadow-sm rounded-pill">
+            <option value="auto">Auto</option>
+            <option value="hd">HD</option>
+            <option value="sd">SD</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="ratioSelect" class="form-label fw-semibold">Video Ratio:</label>
+          <select id="ratioSelect" v-model="videoRatio" class="form-select shadow-sm rounded-pill">
+            <option value="16x9">16:9 (Widescreen)</option>
+            <option value="21x9">21:9 (Ultrawide)</option>
+            <option value="4x3">4:3 (Standard)</option>
+            <option value="1x1">1:1 (Square)</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="languageSelect" class="form-label fw-semibold">Language:</label>
+          <select id="languageSelect" v-model="selectedLanguage" class="form-select shadow-sm rounded-pill">
+            <option value="all">All Languages</option>
+            <option value="arabic">Arabic</option>
+            <option value="english">English</option>
+            <option value="urdu">Urdu</option>
+            <option value="french">French</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Video Player Section -->
       <div class="shadow-lg overflow-hidden" style="max-width: 100%; margin: 0; padding: 0;">
         <div :class="`ratio ratio-${videoRatio}`" style="position: relative; margin: 0; padding: 0;">
           <video id="video" controls autoplay ref="video"
             style="border-radius: 15px; margin: 0; padding: 0; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;"></video>
         </div>
       </div>
+
     </div>
+
   </div>
 </template>
 
