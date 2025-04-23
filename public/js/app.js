@@ -37931,6 +37931,83 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       thumbnail: '/images/eman_img.png',
       description: 'Eman Channel provides Islamic educational content, live events, and discussions relevant to the Muslim community in the UK.',
       languages: ['english']
+    }, {
+      name: 'Ahlulbayt TV',
+      streamUrlHD: 'https://cdn5.iqsat.net/iqb02/35fae546b99b61a038d52353487e8190.sdp/playlist.m3u8',
+      streamUrlSD: 'https://cdn5.iqsat.net/iqb02/35fae546b99b61a038d52353487e8190.sdp/playlist.m3u8',
+      thumbnail: '/images/ahlubayt_tv.png',
+      description: 'Ahlulbayt TV is the first Shia Islamic channel. It delivers content based on the teachings of the Prophet Muhammad (PBUH).',
+      languages: ['english']
+    }, {
+      name: 'Islam Channel (English)',
+      streamUrlHD: 'https://live.islamchannel.tv/live11/islamtv_english/bitrate1.isml/live.m3u8',
+      streamUrlSD: 'https://live.islamchannel.tv/live11/islamtv_english/bitrate1.isml/live.m3u8',
+      thumbnail: '/images/islam_channel_en.png',
+      description: 'UK-based channel offering news, documentaries, and educational Islamic content.',
+      languages: ['english']
+    }, {
+      name: 'Islam Channel Urdu',
+      streamUrlHD: 'https://live-islamtv-urdu.simplestreamcdn.com/live7/islamtv_urdu/bitrate1.isml/live.m3u8',
+      streamUrlSD: 'https://live-islamtv-urdu.simplestreamcdn.com/live7/islamtv_urdu/bitrate1.isml/live.m3u8',
+      thumbnail: '/images/islam_channel_urdu.png',
+      description: 'Urdu-language Islamic programming for Muslims in the UK and abroad.',
+      languages: ['urdu']
+    }, {
+      name: 'British Muslim TV',
+      streamUrlHD: 'https://api.visionip.tv/live/ASHTTP/visiontvuk-international-britishmuslimtv-hsslive-25f-16x9-MB/playlist.m3u8',
+      streamUrlSD: 'https://api.visionip.tv/live/ASHTTP/visiontvuk-international-britishmuslimtv-hsslive-25f-16x9-MB/playlist.m3u8',
+      thumbnail: '/images/british_muslim_tv.png',
+      description: 'Cultural, lifestyle, and religious content for British Muslims.',
+      languages: ['english']
+    }, {
+      name: 'Eman Channel',
+      streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
+      streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/3m9n/playlist.m3u8',
+      thumbnail: '/images/eman_channel.png',
+      description: 'Educational and spiritual programming for UK Muslims.',
+      languages: ['english']
+    }, {
+      name: 'Fadak TV',
+      streamUrlHD: 'https://ythls.armelin.one/channel/UC2ZoBzeCXrZcMz4f82eMe-g.m3u8',
+      streamUrlSD: 'https://ythls.armelin.one/channel/UC2ZoBzeCXrZcMz4f82eMe-g.m3u8',
+      thumbnail: '/images/fadak_tv.png',
+      description: 'Shia Islamic teachings and discussions from Fadak TV.',
+      languages: ['english']
+    }, {
+      name: 'Noor TV',
+      streamUrlHD: 'http://45.76.186.114:8080/hls/noortv.m3u8',
+      streamUrlSD: 'http://45.76.186.114:8080/hls/noortv.m3u8',
+      thumbnail: '/images/noor_tv.png',
+      description: 'UK-based religious education and cultural programs by Pir Alauddin Siddiqui.',
+      languages: ['urdu', 'english']
+    }, {
+      name: 'Al Quran Al Kareem TV',
+      streamUrlHD: 'https://edge.taghtia.com/sa/7.m3u8',
+      streamUrlSD: 'https://edge.taghtia.com/sa/7.m3u8',
+      thumbnail: '/images/al_quran_al_kareem_tv.png',
+      description: 'Live broadcast from Masjid al-Haram in Mecca, featuring Quran recitations.',
+      languages: ['arabic']
+    }, {
+      name: 'Iqra TV',
+      streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/iqratv/playlist.m3u8',
+      streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/iqratv/playlist.m3u8',
+      thumbnail: '/images/iqra_tv.png',
+      description: 'UK-based Islamic channel offering educational and religious content.',
+      languages: ['english', 'urdu']
+    }, {
+      name: 'Hidayat TV',
+      streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/hidayattv/playlist.m3u8',
+      streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/hidayattv/playlist.m3u8',
+      thumbnail: '/images/hidayat_tv.png',
+      description: 'Shia Islamic channel broadcasting religious and educational programs.',
+      languages: ['urdu', 'english']
+    }, {
+      name: 'Huda TV',
+      streamUrlHD: 'https://ap02.iqplay.tv:8082/iqb8002/hudatv/playlist.m3u8',
+      streamUrlSD: 'https://ap02.iqplay.tv:8082/iqb8002/hudatv/playlist.m3u8',
+      thumbnail: '/images/huda_tv.png',
+      description: 'English-language Islamic channel offering educational programs.',
+      languages: ['english']
     }]), "geoQualityMap", ['US', 'CA', 'DE', 'SA', 'AE', 'UK', 'FR']), "isMiniScreen", false), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "isDragging", false), "initialX", 0), "initialY", 0), "currentX", 0), "currentY", 0);
   },
   computed: {
@@ -41749,11 +41826,26 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       query: 'islamic animation',
       page: 1,
       perPage: 9,
-      suggestedKeywords: ['quran', 'prophet', 'islamic prayer', 'hijab', 'mosque', 'ramadan']
+      suggestedKeywords: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture']
     };
   },
   mounted: function mounted() {
     this.searchVideos();
+    // Bootstrap tooltip init
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (el) {
+      return new bootstrap.Tooltip(el);
+    });
+  },
+  computed: {
+    paginatedImages: function paginatedImages() {
+      var start = (this.currentPage - 1) * this.itemsPerPage;
+      var end = start + this.itemsPerPage;
+      return this.allImages.slice(start, end);
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.allImages.length / this.itemsPerPage);
+    }
   },
   methods: {
     searchVideos: function searchVideos() {
@@ -41763,55 +41855,50 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
+              _this.loading = true;
               apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
               url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(_this.query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.page);
-              _context.prev = 2;
-              _context.next = 5;
+              _context.prev = 3;
+              _context.next = 6;
               return fetch(url, {
                 headers: {
                   Authorization: apiKey
                 }
               });
-            case 5:
+            case 6:
               response = _context.sent;
-              _context.next = 8;
+              _context.next = 9;
               return response.json();
-            case 8:
+            case 9:
               data = _context.sent;
-              // Filter only short videos around 15 seconds
               _this.videos = data.videos.filter(function (v) {
                 return v.duration <= 20;
               }).map(function (video) {
-                var _video$video_files$fi;
+                var _video$video_files$fi, _video$video_files$;
                 return {
                   id: video.id,
-                  url: ((_video$video_files$fi = video.video_files.find(function (file) {
-                    return file.quality === 'sd' && file.width <= 640;
-                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || video.video_files[0].link
+                  url: ((_video$video_files$fi = video.video_files.find(function (f) {
+                    return f.quality === 'sd' && f.width <= 640;
+                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || ((_video$video_files$ = video.video_files[0]) === null || _video$video_files$ === void 0 ? void 0 : _video$video_files$.link) || null
                 };
               });
-              _context.next = 16;
+              _context.next = 17;
               break;
-            case 12:
-              _context.prev = 12;
-              _context.t0 = _context["catch"](2);
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](3);
               console.error('Error fetching videos:', _context.t0);
               _this.videos = [];
-            case 16:
+            case 17:
+              _context.prev = 17;
+              _this.loading = false;
+              return _context.finish(17);
+            case 20:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[2, 12]]);
+        }, _callee, null, [[3, 13, 17, 20]]);
       }))();
-    },
-    applySuggested: function applySuggested(keyword) {
-      this.query = keyword;
-      this.page = 1;
-      this.searchVideos();
-    },
-    expandVideo: function expandVideo(url) {
-      var win = window.open();
-      win.document.write("\n        <video src=\"".concat(url, "\" controls autoplay style=\"width:100%; height:100vh;\"></video>\n      "));
     },
     nextPage: function nextPage() {
       this.page++;
@@ -41822,6 +41909,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.page--;
         this.searchVideos();
       }
+    },
+    applySuggested: function applySuggested(keyword) {
+      this.query = keyword;
+      this.page = 1;
+      this.searchVideos();
+    },
+    showModal: function showModal(url) {
+      this.selectedVideo = url;
+      var modal = new bootstrap.Modal(document.getElementById('videoModal'));
+      modal.show();
     }
   }
 });
@@ -53307,43 +53404,106 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container my-4"
+  "class": "container py-3"
 };
 var _hoisted_2 = {
   "class": "input-group mb-3"
 };
 var _hoisted_3 = {
+  "class": "mb-4 text-center"
+};
+var _hoisted_4 = {
+  "class": "d-flex justify-content-center overflow-x-auto gap-2",
+  style: {
+    "cursor": "pointer",
+    "white-space": "nowrap"
+  }
+};
+var _hoisted_5 = ["onClick"];
+var _hoisted_6 = {
+  key: 0,
+  "class": "text-center my-5"
+};
+var _hoisted_7 = {
   "class": "mb-3"
 };
-var _hoisted_4 = ["onClick"];
-var _hoisted_5 = {
-  "class": "row"
+var _hoisted_8 = ["onClick"];
+var _hoisted_9 = {
+  key: 1,
+  "class": "row g-3"
 };
-var _hoisted_6 = {
-  "class": "card"
+var _hoisted_10 = {
+  "class": "card shadow-sm h-100"
 };
-var _hoisted_7 = ["src"];
-var _hoisted_8 = {
-  "class": "card-body text-center"
-};
-var _hoisted_9 = ["onClick"];
-var _hoisted_10 = ["href"];
 var _hoisted_11 = {
-  "class": "pagination justify-content-center"
+  "class": "ratio ratio-16x9"
 };
-var _hoisted_12 = {
-  "class": "page-item disabled"
-};
+var _hoisted_12 = ["src"];
 var _hoisted_13 = {
-  "class": "page-link"
+  key: 1,
+  "class": "d-flex align-items-center justify-content-center text-center bg-light text-muted p-3"
 };
 var _hoisted_14 = {
-  "class": "page-item"
+  "class": "card-body text-center"
 };
+var _hoisted_15 = ["onClick", "disabled"];
+var _hoisted_16 = ["href"];
+var _hoisted_17 = {
+  key: 2,
+  "class": "row g-3"
+};
+var _hoisted_18 = {
+  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100",
+  style: {
+    "transition": "box-shadow 0.3s"
+  }
+};
+var _hoisted_19 = ["src", "alt", "onClick"];
+var _hoisted_20 = {
+  "class": "mt-2 text-center",
+  style: {
+    "padding": "0 10px",
+    "font-size": "20px",
+    "color": "#444"
+  }
+};
+var _hoisted_21 = {
+  "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
+};
+var _hoisted_22 = ["href"];
+var _hoisted_23 = ["onClick"];
+var _hoisted_24 = {
+  "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
+};
+var _hoisted_25 = ["disabled"];
+var _hoisted_26 = ["onClick"];
+var _hoisted_27 = ["disabled"];
+var _hoisted_28 = {
+  "class": "modal fade",
+  id: "videoModal",
+  tabindex: "-1",
+  "aria-labelledby": "videoModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_29 = {
+  "class": "modal-dialog modal-fullscreen"
+};
+var _hoisted_30 = {
+  "class": "modal-content bg-dark"
+};
+var _hoisted_31 = {
+  "class": "modal-body p-0"
+};
+var _hoisted_32 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "text-center mb-4"
-  }, "Islamic Animated Videos", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "mb-2 text-center fw-bold display-5 display-md-4"
+  }, "Islamic Animated Videos", -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center text-muted mb-4",
+    style: {
+      "font-size": "18px"
+    }
+  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.query = $event;
     }),
@@ -53358,53 +53518,147 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchVideos && $options.searchVideos.apply($options, arguments);
     })
-  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggested Keywords "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestedKeywords, function (keyword, index) {
+  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filters, function (filter) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge shadow-lg flex-shrink-0", {
+        active: _ctx.activeFilter === filter
+      }]),
+      key: filter,
+      onClick: function onClick($event) {
+        return _ctx.applyFilter(filter);
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))])]), _ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-success mb-3",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "fw-semibold fs-4 text-muted"
+  }, "Images loading, please wait...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggested Keywords "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestedKeywords, function (keyword, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: index,
       "class": "badge bg-secondary me-2 pointer",
       onClick: function onClick($event) {
         return $options.applySuggested(keyword);
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keyword), 9 /* TEXT, PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keyword), 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !_ctx.loading && $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id,
-      "class": "col-md-3 mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+      "class": "col-md-6 col-md-4 col-lg-4 mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("video", {
+      key: 0,
       src: video.url,
-      "class": "card-img-top",
+      "class": "w-100 rounded-top",
       controls: "",
       muted: "",
       loop: "",
       playsinline: "",
-      style: {
-        "max-height": "200px"
-      }
-    }, null, 8 /* PROPS */, _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      loading: "lazy"
+    }, " Your browser does not support the video tag. ", 8 /* PROPS */, _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, " Video unavailable "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-outline-primary me-2",
       onClick: function onClick($event) {
-        return $options.expandVideo(video.url);
-      }
-    }, "Expand", 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+        return $options.showModal(video.url);
+      },
+      disabled: !video.url,
+      "data-bs-toggle": "tooltip",
+      title: "Expand video"
+    }, " Expand ", 8 /* PROPS */, _hoisted_15), video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: 0,
       href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
+      "class": "btn btn-sm btn-outline-success",
       target: "_blank",
-      "class": "btn btn-sm btn-outline-success"
-    }, " Share ", 8 /* PROPS */, _hoisted_10)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
-      disabled: $data.page === 1
-    }])
+      "data-bs-toggle": "tooltip",
+      title: "Share on WhatsApp"
+    }, " Share ", 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedImages, function (image, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: image.id || index,
+      "class": "col-12 col-sm-4 col-md-4 col-lg-4 d-flex"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: image.src.large,
+      alt: image.alt,
+      "class": "img-fluid",
+      loading: "lazy",
+      style: {
+        "height": "480px",
+        "object-fit": "cover",
+        "border-top-left-radius": "5px",
+        "border-top-right-radius": "5px"
+      },
+      "data-bs-toggle": "modal",
+      "data-bs-target": "#imageModal",
+      onClick: function onClick($event) {
+        return _ctx.selectedImage = image;
+      }
+    }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Caption "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Push buttons to bottom "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "flex-grow-1"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bottom Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "https://wa.me/?text=".concat(encodeURIComponent(image.src.original)),
+      target: "_blank",
+      "class": "btn btn-sm w-100 custom-btn",
+      style: {
+        "font-size": "18px"
+      }
+    }, " Share ", 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "#",
+      role: "button",
+      "class": "btn btn-sm w-100 custom-btn",
+      style: {
+        "font-size": "18px"
+      },
+      "data-bs-toggle": "modal",
+      "data-bs-target": "#imageModal",
+      onClick: function onClick($event) {
+        return _ctx.selectedImage = image;
+      }
+    }, " Expand ", 8 /* PROPS */, _hoisted_23)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : !_ctx.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 3
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5 text-muted"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "fs-5"
+  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
+    disabled: _ctx.currentPage === 1,
+    onClick: _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.goToPage(_ctx.currentPage - 1);
+    })
+  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_25), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: page,
+      onClick: function onClick($event) {
+        return _ctx.goToPage(page);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === _ctx.currentPage ? '' : 'btn-outline-success']),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === _ctx.currentPage ? 'background-color: #17a085; color: white;' : '')
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_26);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
+    disabled: _ctx.currentPage === $options.totalPages,
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return _ctx.goToPage(_ctx.currentPage + 1);
+    })
+  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "modal-header border-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "page-link",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.prevPage && $options.prevPage.apply($options, arguments);
-    })
-  }, "Previous")], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.page), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "page-link",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.nextPage && $options.nextPage.apply($options, arguments);
-    })
-  }, "Next")])])])]);
+    type: "button",
+    "class": "btn-close btn-close-white",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+    src: _ctx.selectedVideo,
+    controls: "",
+    autoplay: "",
+    style: {
+      "width": "100%",
+      "height": "100vh"
+    }
+  }, null, 8 /* PROPS */, _hoisted_32)])])])])]);
 }
 
 /***/ }),
@@ -151499,7 +151753,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
