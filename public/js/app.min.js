@@ -41894,6 +41894,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -41917,7 +41926,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return this.videos.slice(start, end);
     }
   },
-  methods: {
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    handleVideoError: function handleVideoError(video) {
+      video.url = null; // or show fallback content / message
+      console.warn('Video failed to load.');
+    },
+    loadAndPlay: function loadAndPlay(event) {
+      var video = event.currentTarget;
+      video.load(); // manually load
+      video.play()["catch"](function (err) {
+        return console.warn("Autoplay failed:", err);
+      });
+    },
     playOnHover: function playOnHover(event) {
       var video = event.currentTarget.querySelector('video');
       if (video) {
@@ -41932,70 +41952,112 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         video.pause();
       }
     },
-    searchVideos: function searchVideos() {
-      var _this = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var apiKey, url, response, data;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              _this.loading = true;
-              apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-              url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(_this.query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.page);
-              _context.prev = 3;
-              _context.next = 6;
-              return fetch(url, {
-                headers: {
-                  Authorization: apiKey
-                }
-              });
-            case 6:
-              response = _context.sent;
-              _context.next = 9;
-              return response.json();
-            case 9:
-              data = _context.sent;
-              _this.videos = data.videos.map(function (video) {
-                var _video$video_files$fi, _video$video_files$;
-                return {
-                  id: video.id,
-                  url: ((_video$video_files$fi = video.video_files.find(function (f) {
-                    return f.quality === 'sd';
-                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || ((_video$video_files$ = video.video_files[0]) === null || _video$video_files$ === void 0 ? void 0 : _video$video_files$.link)
-                };
-              });
-              _this.totalPages = Math.ceil(data.total_results / _this.perPage);
-              _context.next = 17;
+    updateMetadata: function updateMetadata(event, video) {
+      var videoElement = event.target;
+      video.metadata.width = videoElement.videoWidth;
+      video.metadata.height = videoElement.videoHeight;
+      video.metadata.duration = videoElement.duration;
+      video.metadata.aspectRatio = video.metadata.width / video.metadata.height;
+    }
+  }, "pauseOnLeave", function pauseOnLeave(event) {
+    var video = event.currentTarget.querySelector('video');
+    if (video) {
+      video.pause();
+      video.currentTime = 0; // Reset to first frame
+      video.muted = true; // Mute again
+    }
+  }), "searchVideos", function searchVideos() {
+    var _this = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var apiKey, query, url, response, data;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _this.loading = true;
+            apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
+            query = _this.query.trim(); // Ensure there are no extra spaces at the start/end
+            if (query) {
+              _context.next = 5;
               break;
-            case 14:
-              _context.prev = 14;
-              _context.t0 = _context["catch"](3);
-              console.error('Error fetching videos:', _context.t0);
-            case 17:
-              _context.prev = 17;
-              _this.loading = false;
-              return _context.finish(17);
-            case 20:
-            case "end":
-              return _context.stop();
+            }
+            return _context.abrupt("return");
+          case 5:
+            // Don't search if query is empty
+            url = "https://api.pexels.com/videos/search?query=".concat(encodeURIComponent(query), "&per_page=").concat(_this.perPage, "&page=").concat(_this.page);
+            _context.prev = 6;
+            _context.next = 9;
+            return fetch(url, {
+              headers: {
+                Authorization: apiKey
+              }
+            });
+          case 9:
+            response = _context.sent;
+            _context.next = 12;
+            return response.json();
+          case 12:
+            data = _context.sent;
+            _this.videos = data.videos.map(function (video) {
+              var _video$user;
+              var file = video.video_files.find(function (f) {
+                return f.quality === 'hd';
+              }) || video.video_files[0];
+              return {
+                id: video.id,
+                url: file === null || file === void 0 ? void 0 : file.link,
+                thumbnail: video.image,
+                description: ((_video$user = video.user) === null || _video$user === void 0 ? void 0 : _video$user.name) || 'No description',
+                metadata: {
+                  width: null,
+                  height: null,
+                  duration: null,
+                  aspectRatio: null
+                }
+              };
+            });
+            _this.totalPages = Math.ceil(data.total_results / _this.perPage);
+            _context.next = 20;
+            break;
+          case 17:
+            _context.prev = 17;
+            _context.t0 = _context["catch"](6);
+            console.error('Error fetching videos:', _context.t0);
+          case 20:
+            _context.prev = 20;
+            _this.loading = false;
+            return _context.finish(20);
+          case 23:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[6, 17, 20, 23]]);
+    }))();
+  }), "goToPage", function goToPage(pageNumber) {
+    this.page = pageNumber;
+    this.searchVideos();
+  }), "applyFilter", function applyFilter(filter) {
+    this.activeFilter = filter;
+    this.query = filter;
+    this.page = 1;
+    this.searchVideos();
+  }), "applySuggested", function applySuggested(keyword) {
+    this.query = keyword;
+    this.page = 1;
+    this.searchVideos();
+  }),
+  directives: {
+    intersect: {
+      mounted: function mounted(el, binding) {
+        var observer = new IntersectionObserver(function (_ref) {
+          var _ref2 = _slicedToArray(_ref, 1),
+            entry = _ref2[0];
+          if (entry.isIntersecting) {
+            binding.value();
+            observer.unobserve(el);
           }
-        }, _callee, null, [[3, 14, 17, 20]]);
-      }))();
-    },
-    goToPage: function goToPage(pageNumber) {
-      this.page = pageNumber;
-      this.searchVideos();
-    },
-    applyFilter: function applyFilter(filter) {
-      this.activeFilter = filter;
-      this.query = filter;
-      this.page = 1;
-      this.searchVideos();
-    },
-    applySuggested: function applySuggested(keyword) {
-      this.query = keyword;
-      this.page = 1;
-      this.searchVideos();
+        });
+        observer.observe(el);
+      }
     }
   },
   mounted: function mounted() {
@@ -53730,73 +53792,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-3"
+  "class": "container py-4"
 };
 var _hoisted_2 = {
-  "class": "input-group mb-3"
+  "class": "row container justify-content-center mb-3"
 };
 var _hoisted_3 = {
-  "class": "mb-4 text-center"
+  "class": "col-12 col-md-12"
 };
 var _hoisted_4 = {
-  "class": "d-flex justify-content-center overflow-x-auto gap-2",
-  style: {
-    "cursor": "pointer",
-    "white-space": "nowrap"
-  }
+  "class": "input-group"
 };
-var _hoisted_5 = ["onClick"];
+var _hoisted_5 = {
+  "class": "mb-4 text-center"
+};
 var _hoisted_6 = {
+  "class": "filter-scroll-wrapper position-relative"
+};
+var _hoisted_7 = {
+  "class": "filter-scroll d-flex justify-content-start gap-2 px-2 py-2"
+};
+var _hoisted_8 = ["onClick"];
+var _hoisted_9 = {
   key: 0,
   "class": "row g-3"
 };
-var _hoisted_7 = {
+var _hoisted_10 = {
   "class": "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm"
 };
-var _hoisted_8 = ["src", "poster"];
-var _hoisted_9 = {
-  "class": "px-2 mt-2 text-muted",
-  style: {
-    "font-size": "14px"
-  }
-};
-var _hoisted_10 = {
+var _hoisted_11 = ["src", "poster", "onLoadedmetadata"];
+var _hoisted_12 = {
   "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
 };
-var _hoisted_11 = ["href"];
-var _hoisted_12 = ["onClick"];
-var _hoisted_13 = {
+var _hoisted_13 = ["href"];
+var _hoisted_14 = ["href", "download"];
+var _hoisted_15 = {
   "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
 };
-var _hoisted_14 = ["disabled"];
-var _hoisted_15 = ["onClick"];
 var _hoisted_16 = ["disabled"];
-var _hoisted_17 = {
-  "class": "modal fade",
-  id: "videoModal",
-  tabindex: "-1",
-  "aria-labelledby": "videoModalLabel",
-  "aria-hidden": "true"
-};
-var _hoisted_18 = {
-  "class": "modal-dialog modal-fullscreen"
-};
-var _hoisted_19 = {
-  "class": "modal-content bg-dark"
-};
-var _hoisted_20 = {
-  "class": "modal-body p-0"
-};
-var _hoisted_21 = ["src"];
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Animated Videos", -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Animated Videos", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center text-muted mb-4",
     style: {
       "font-size": "18px"
     }
-  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, " Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks. Embark on a visual journey through faith, history, and art. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold text-left pt-2 pb-2 container"
+  }, "Search Animated Videos in Gallery:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.query = $event;
     }),
@@ -53805,30 +53851,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["enter"])),
     type: "text",
     "class": "form-control",
-    placeholder: "Search Islamic videos..."
+    placeholder: "Search for Islamic videos..."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchVideos && $options.searchVideos.apply($options, arguments);
-    })
-  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, function (filter) {
+    }),
+    "class": "btn",
+    type: "button",
+    style: {
+      "background-color": "#0db691",
+      "color": "white"
+    }
+  }, " Search ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, function (filter) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge shadow-lg flex-shrink-0", {
-        active: $data.activeFilter === filter
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge flex-shrink-0 px-3 py-2", {
+        'bg-dark text-white': $data.activeFilter === filter,
+        'bg-light text-dark': $data.activeFilter !== filter
       }]),
       key: filter,
       onClick: function onClick($event) {
         return $options.applyFilter(filter);
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $options.paginatedVideos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll Fade "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "scroll-fade scroll-fade-left"
+  }, null, -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "scroll-fade scroll-fade-right"
+  }, null, -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $options.paginatedVideos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id,
       "class": "col-12 col-sm-6 col-md-4 col-lg-4 mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "ratio ratio-16x9",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "ratio ratio-16x9 video-container",
       style: {
-        "height": "420px",
+        "height": "500px",
         "object-fit": "cover",
         "border-top-left-radius": "5px",
         "border-top-right-radius": "5px"
@@ -53839,49 +53895,47 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseleave: _cache[4] || (_cache[4] = function ($event) {
         return $options.pauseOnLeave($event);
       })
-    }, [video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("video", {
-      key: 0,
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
       src: video.url,
       poster: video.thumbnail,
       "class": "w-100 rounded-top video-hover",
       loop: "",
-      preload: "none",
+      preload: "metadata",
       muted: "",
-      playsinline: ""
-    }, " Your browser does not support the video tag. ", 8 /* PROPS */, _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description || 'This is a beautiful Islamic animation.'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      playsinline: "",
+      onLoadedmetadata: function onLoadedmetadata($event) {
+        return $options.updateMetadata($event, video);
+      }
+    }, " Your browser does not support the video tag. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_11)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
       target: "_blank",
       "class": "btn btn-sm w-100 custom-btn",
       style: {
         "font-size": "18px"
       }
-    }, "Share", 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "#",
-      role: "button",
+    }, "Share", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: video.url,
+      download: "video-".concat(video.id, ".mp4"),
       "class": "btn btn-sm w-100 custom-btn",
       style: {
         "font-size": "18px"
       },
-      "data-bs-toggle": "modal",
-      "data-bs-target": "#videoModal",
-      onClick: function onClick($event) {
-        return _ctx.selectedVideo = video.url;
-      }
-    }, " Expand ", 8 /* PROPS */, _hoisted_12)])])]);
+      target: "_blank"
+    }, " Download ", 8 /* PROPS */, _hoisted_14)])])]);
   }), 128 /* KEYED_FRAGMENT */))])) : !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-5 text-muted"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "fs-5"
-  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
     disabled: _ctx.currentPage === 1,
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $options.goToPage(_ctx.currentPage - 1);
     })
-  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_14), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.totalPages, function (page) {
+  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: page,
       onClick: function onClick($event) {
@@ -53889,7 +53943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === _ctx.currentPage ? '' : 'btn-outline-success']),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === _ctx.currentPage ? 'background-color: #17a085; color: white;' : '')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_15);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_17);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === $data.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
@@ -53897,22 +53951,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.goToPage(_ctx.currentPage + 1);
     })
-  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "modal-header border-0"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn-close btn-close-white",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
-    src: _ctx.selectedVideo,
-    controls: "",
-    autoplay: "",
-    style: {
-      "width": "100%",
-      "height": "100vh"
-    }
-  }, null, 8 /* PROPS */, _hoisted_21)])])])])]);
+  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_18)])]);
 }
 
 /***/ }),
@@ -152031,7 +152070,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.video-container[data-v-26d38626] {\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;\n}\n.video-container[data-v-26d38626]:hover {\n  transform: scale(1.05);\n  /* Slight zoom effect on hover */\n  opacity: 0.9;\n  /* Slight fade effect on hover */\n}\n.video-container video[data-v-26d38626] {\n  transition: opacity 0.3s ease-in-out;\n}\n.video-container video[data-v-26d38626]:hover {\n  opacity: 1;\n  /* Ensure video stays visible during hover */\n}\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll-wrapper[data-v-26d38626] {\n  overflow-x: hidden;\n  position: relative;\n}\n.filter-scroll[data-v-26d38626] {\n  overflow-x: auto;\n  scroll-behavior: smooth;\n  -webkit-overflow-scrolling: touch;\n  scroll-snap-type: x mandatory;\n  white-space: nowrap;\n}\n.filter-scroll span[data-v-26d38626] {\n  scroll-snap-align: start;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.scroll-fade[data-v-26d38626] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 40px;\n  pointer-events: none;\n  z-index: 1;\n}\n.scroll-fade-left[data-v-26d38626] {\n  left: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0.11), transparent);\n}\n.scroll-fade-right[data-v-26d38626] {\n  right: 0;\n  background: linear-gradient(to left, rgba(255, 255, 255, 0.11), transparent);\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

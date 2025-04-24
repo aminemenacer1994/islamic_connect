@@ -1,60 +1,68 @@
 <template>
-  <div class="container py-3">
+  <div class="container py-4">
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Animated Videos</h2>
     <p class="text-center text-muted mb-4" style="font-size: 18px;">
-      Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene
-      landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites,
-      daily life, artistic expressions, and more.
+      Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of
+      Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical
+      landmarks. Embark on a visual journey through faith, history, and art.
     </p>
 
-    <!-- Search Bar -->
-    <div class="input-group mb-3">
-      <input v-model="query" @keyup.enter="searchVideos" type="text" class="form-control"
-        placeholder="Search Islamic videos...">
-      <button class="btn btn-primary" @click="searchVideos">Search</button>
+    <div class="row container justify-content-center mb-3">
+      <div class="col-12 col-md-12">
+        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos in Gallery:</h3>
+        <div class="input-group">
+          <input v-model="query" @keyup.enter="searchVideos" type="text" class="form-control"
+            placeholder="Search for Islamic videos..." />
+          <button @click="searchVideos" class="btn" type="button" style="background-color: #0db691; color: white;">
+            Search
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Filters -->
     <div class="mb-4 text-center">
-      <div class="d-flex justify-content-center overflow-x-auto gap-2 " style="cursor: pointer; white-space: nowrap;">
-        <span class="badge shadow-lg flex-shrink-0" v-for="filter in filters" :key="filter" @click="applyFilter(filter)"
-          :class="{ active: activeFilter === filter }">
-          {{ filter }}
-        </span>
+      <div class="filter-scroll-wrapper position-relative">
+        <div class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2">
+          <span class="badge flex-shrink-0 px-3 py-2" v-for="filter in filters" :key="filter"
+            @click="applyFilter(filter)" :class="{
+              'bg-dark text-white': activeFilter === filter,
+              'bg-light text-dark': activeFilter !== filter
+            }">
+            {{ filter }}
+          </span>
+        </div>
+        <!-- Scroll Fade -->
+        <div class="scroll-fade scroll-fade-left"></div>
+        <div class="scroll-fade scroll-fade-right"></div>
       </div>
     </div>
+
 
     <!-- Video Grid -->
     <div class="row g-3" v-if="!loading && paginatedVideos.length">
       <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
         <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm">
-          <div class="ratio ratio-16x9"
-            style="height: 420px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
+          <div class="ratio ratio-16x9 video-container"
+            style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
-            <video :src="video.url" :poster="video.thumbnail" v-if="video.url" class="w-100 rounded-top video-hover"
-              loop preload="none" muted playsinline>
+            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" loop
+              preload="metadata" muted playsinline @loadedmetadata="updateMetadata($event, video)">
               Your browser does not support the video tag.
             </video>
-
-          </div>
-          <div class="px-2 mt-2 text-muted" style="font-size: 14px;">
-            {{ video.description || 'This is a beautiful Islamic animation.' }}
           </div>
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
             <a :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`" target="_blank"
               class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">Share</a>
-            <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"
-              data-bs-toggle="modal" data-bs-target="#videoModal" @click="selectedVideo = video.url">
-              Expand
+            <a :href="video.url" :download="`video-${video.id}.mp4`" class="btn btn-sm w-100 custom-btn"
+              style="font-size: 18px;" target="_blank">
+              Download
             </a>
           </div>
         </div>
       </div>
     </div>
-
-
-
 
     <!-- No videos fallback -->
     <div v-else-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
@@ -80,23 +88,6 @@
         Next
       </button>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content bg-dark">
-          <div class="modal-header border-0">
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body p-0">
-            <video :src="selectedVideo" controls autoplay style="width: 100%; height: 100vh;"></video>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
   </div>
 </template>
 
@@ -125,6 +116,15 @@ export default {
     },
   },
   methods: {
+    handleVideoError(video) {
+      video.url = null; // or show fallback content / message
+      console.warn('Video failed to load.');
+    },
+    loadAndPlay(event) {
+      const video = event.currentTarget;
+      video.load(); // manually load
+      video.play().catch(err => console.warn("Autoplay failed:", err));
+    },
     playOnHover(event) {
       const video = event.currentTarget.querySelector('video');
       if (video) {
@@ -137,18 +137,50 @@ export default {
         video.pause();
       }
     },
+    updateMetadata(event, video) {
+      const videoElement = event.target;
+      video.metadata.width = videoElement.videoWidth;
+      video.metadata.height = videoElement.videoHeight;
+      video.metadata.duration = videoElement.duration;
+      video.metadata.aspectRatio = video.metadata.width / video.metadata.height;
+    },
+
+    pauseOnLeave(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0; // Reset to first frame
+        video.muted = true;    // Mute again
+      }
+    },
     async searchVideos() {
       this.loading = true;
+
       const apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(this.query)}&per_page=${this.perPage}&page=${this.page}`;
+      const query = this.query.trim(); // Ensure there are no extra spaces at the start/end
+
+      if (!query) return; // Don't search if query is empty
+
+      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${this.page}`;
 
       try {
         const response = await fetch(url, { headers: { Authorization: apiKey } });
         const data = await response.json();
-        this.videos = data.videos.map(video => ({
-          id: video.id,
-          url: video.video_files.find(f => f.quality === 'sd')?.link || video.video_files[0]?.link
-        }));
+        this.videos = data.videos.map(video => {
+          const file = video.video_files.find(f => f.quality === 'hd') || video.video_files[0];
+          return {
+            id: video.id,
+            url: file?.link,
+            thumbnail: video.image,
+            description: video.user?.name || 'No description',
+            metadata: {
+              width: null,
+              height: null,
+              duration: null,
+              aspectRatio: null,
+            }
+          };
+        });
         this.totalPages = Math.ceil(data.total_results / this.perPage);
       } catch (err) {
         console.error('Error fetching videos:', err);
@@ -172,6 +204,19 @@ export default {
       this.searchVideos();
     },
   },
+  directives: {
+    intersect: {
+      mounted(el, binding) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            binding.value();
+            observer.unobserve(el);
+          }
+        });
+        observer.observe(el);
+      }
+    },
+  },
   mounted() {
     this.searchVideos();
 
@@ -189,12 +234,32 @@ export default {
       });
     });
   },
-
 };
-
 </script>
 
 <style scoped>
+.video-container {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.video-container:hover {
+  transform: scale(1.05);
+  /* Slight zoom effect on hover */
+  opacity: 0.9;
+  /* Slight fade effect on hover */
+}
+
+.video-container video {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.video-container video:hover {
+  opacity: 1;
+  /* Ensure video stays visible during hover */
+}
+
 .card-video {
   transition: all 0.3s ease;
 }
@@ -285,23 +350,41 @@ export default {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
+.filter-scroll-wrapper {
+  overflow-x: hidden;
+  position: relative;
+}
+
 .filter-scroll {
-  scrollbar-color: #17a085 transparent;
-  scrollbar-width: thin;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  white-space: nowrap;
 }
 
-/* For Webkit (Chrome, Edge, Safari) */
-.filter-scroll::-webkit-scrollbar {
-  height: 8px;
+.filter-scroll span {
+  scroll-snap-align: start;
+  user-select: none;
 }
 
-.filter-scroll::-webkit-scrollbar-thumb {
-  background-color: #17a085;
-  border-radius: 10px;
+.scroll-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.filter-scroll::-webkit-scrollbar-track {
-  background-color: transparent;
+.scroll-fade-left {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.11), transparent);
+}
+
+.scroll-fade-right {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.11), transparent);
 }
 
 .pagination .page-link {
