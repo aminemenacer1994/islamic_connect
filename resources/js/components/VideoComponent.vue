@@ -24,87 +24,43 @@
       </div>
     </div>
 
-
-    <div v-if="loading" class="text-center my-5">
-      <div class="spinner-border text-success mb-3" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="fw-semibold fs-4 text-muted">Images loading, please wait...</p>
-    </div>
-
-    <!-- Suggested Keywords -->
-    <div class="mb-3">
-      <span v-for="(keyword, index) in suggestedKeywords" :key="index" class="badge bg-secondary me-2 pointer"
-        @click="applySuggested(keyword)">
-        {{ keyword }}
-      </span>
-    </div>
-
     <!-- Video Grid -->
-    <div class="row g-3" v-if="!loading && videos.length">
-      <div v-for="video in videos" :key="video.id" class="col-md-6 col-md-4 col-lg-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="ratio ratio-16x9">
-            <video v-if="video.url" :src="video.url" class="w-100 rounded-top" controls muted loop playsinline
-              loading="lazy">
+    <div class="row g-3" v-if="!loading && paginatedVideos.length">
+      <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm">
+          <div class="ratio ratio-16x9"
+            style="height: 420px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
+            @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
+            <video :src="video.url" :poster="video.thumbnail" v-if="video.url" class="w-100 rounded-top video-hover"
+              loop preload="none" muted playsinline>
               Your browser does not support the video tag.
             </video>
-            <div v-else class="d-flex align-items-center justify-content-center text-center bg-light text-muted p-3">
-              Video unavailable
-            </div>
+
           </div>
-          <div class="card-body text-center">
-            <button class="btn btn-sm btn-outline-primary me-2" @click="showModal(video.url)" :disabled="!video.url"
-              data-bs-toggle="tooltip" title="Expand video">
-              Expand
-            </button>
-            <a :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`" class="btn btn-sm btn-outline-success"
-              target="_blank" v-if="video.url" data-bs-toggle="tooltip" title="Share on WhatsApp">
-              Share
-            </a>
+          <div class="px-2 mt-2 text-muted" style="font-size: 14px;">
+            {{ video.description || 'This is a beautiful Islamic animation.' }}
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row g-3" v-if="!loading">
-      <div v-for="(image, index) in paginatedImages" :key="image.id || index"
-        class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
-        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s;">
-          <!-- Image -->
-          <img :src="image.src.large" :alt="image.alt" class="img-fluid" loading="lazy"
-            style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
-            data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image" />
-          <!-- Caption -->
-          <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
-            {{ image.alt || 'Islamic Image' }}
-          </p>
-
-          <!-- Push buttons to bottom -->
-          <div class="flex-grow-1"></div>
-
-          <!-- Bottom Buttons -->
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
-            <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
-              Share
-            </a>
+            <a :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`" target="_blank"
+              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">Share</a>
             <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"
-              data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image">
+              data-bs-toggle="modal" data-bs-target="#videoModal" @click="selectedVideo = video.url">
               Expand
             </a>
           </div>
         </div>
       </div>
     </div>
+
+
+
 
     <!-- No videos fallback -->
     <div v-else-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
       <p class="fs-5">No videos found. Try another keyword.</p>
     </div>
 
-    <!-- Pagination -->
     <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
       <button class="btn"
         :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
@@ -124,6 +80,7 @@
         Next
       </button>
     </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
@@ -148,77 +105,113 @@ export default {
   data() {
     return {
       videos: [],
-      query: 'islamic animation',
+      query: 'mosque',
       page: 1,
       perPage: 9,
-      suggestedKeywords: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
-        'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',],
+      totalPages: 0,
+      loading: false,
+      filters: [
+        'Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
+        'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
+      ],
+      activeFilter: null,
     };
   },
-  mounted() {
-    this.searchVideos();
-    // Bootstrap tooltip init
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
-  },
   computed: {
-    paginatedImages() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      return this.allImages.slice(start, end);
+    paginatedVideos() {
+      const start = (this.page - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.videos.slice(start, end);
     },
-    totalPages() {
-      return Math.ceil(this.allImages.length / this.itemsPerPage);
-    }
   },
   methods: {
+    playOnHover(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.play().catch((err) => console.warn("Autoplay failed:", err));
+      }
+    },
+    pauseOnLeave(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.pause();
+      }
+    },
     async searchVideos() {
       this.loading = true;
       const apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
       const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(this.query)}&per_page=${this.perPage}&page=${this.page}`;
 
       try {
-        const response = await fetch(url, {
-          headers: { Authorization: apiKey }
-        });
-
+        const response = await fetch(url, { headers: { Authorization: apiKey } });
         const data = await response.json();
-        this.videos = data.videos.filter(v => v.duration <= 20).map(video => ({
+        this.videos = data.videos.map(video => ({
           id: video.id,
-          url: video.video_files.find(f => f.quality === 'sd' && f.width <= 640)?.link || video.video_files[0]?.link || null,
+          url: video.video_files.find(f => f.quality === 'sd')?.link || video.video_files[0]?.link
         }));
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-        this.videos = [];
+        this.totalPages = Math.ceil(data.total_results / this.perPage);
+      } catch (err) {
+        console.error('Error fetching videos:', err);
       } finally {
         this.loading = false;
       }
     },
-    nextPage() {
-      this.page++;
+    goToPage(pageNumber) {
+      this.page = pageNumber;
       this.searchVideos();
     },
-    prevPage() {
-      if (this.page > 1) {
-        this.page--;
-        this.searchVideos();
-      }
+    applyFilter(filter) {
+      this.activeFilter = filter;
+      this.query = filter;
+      this.page = 1;
+      this.searchVideos();
     },
     applySuggested(keyword) {
       this.query = keyword;
       this.page = 1;
       this.searchVideos();
     },
-    showModal(url) {
-      this.selectedVideo = url;
-      const modal = new bootstrap.Modal(document.getElementById('videoModal'));
-      modal.show();
-    }
-  }
+  },
+  mounted() {
+    this.searchVideos();
+
+    this.$nextTick(() => {
+      // Attach hover play/pause events after DOM update
+      this.$el.querySelectorAll('.video-hover').forEach(video => {
+        video.addEventListener('mouseenter', () => {
+          video.muted = false;
+          video.play();
+        });
+        video.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+        });
+      });
+    });
+  },
+
 };
+
 </script>
 
 <style scoped>
+.card-video {
+  transition: all 0.3s ease;
+}
+
+.video-hover {
+  object-fit: cover;
+}
+
+
+.card-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
 .custom-btn {
   background-color: #0db691;
   color: white;

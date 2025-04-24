@@ -41901,31 +41901,37 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   data: function data() {
     return {
       videos: [],
-      query: 'islamic animation',
+      query: 'mosque',
       page: 1,
       perPage: 9,
-      suggestedKeywords: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture']
+      totalPages: 0,
+      loading: false,
+      filters: ['Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture'],
+      activeFilter: null
     };
   },
-  mounted: function mounted() {
-    this.searchVideos();
-    // Bootstrap tooltip init
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (el) {
-      return new bootstrap.Tooltip(el);
-    });
-  },
   computed: {
-    paginatedImages: function paginatedImages() {
-      var start = (this.currentPage - 1) * this.itemsPerPage;
-      var end = start + this.itemsPerPage;
-      return this.allImages.slice(start, end);
-    },
-    totalPages: function totalPages() {
-      return Math.ceil(this.allImages.length / this.itemsPerPage);
+    paginatedVideos: function paginatedVideos() {
+      var start = (this.page - 1) * this.perPage;
+      var end = start + this.perPage;
+      return this.videos.slice(start, end);
     }
   },
   methods: {
+    playOnHover: function playOnHover(event) {
+      var video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.play()["catch"](function (err) {
+          return console.warn("Autoplay failed:", err);
+        });
+      }
+    },
+    pauseOnLeave: function pauseOnLeave(event) {
+      var video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.pause();
+      }
+    },
     searchVideos: function searchVideos() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -41949,24 +41955,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 9:
               data = _context.sent;
-              _this.videos = data.videos.filter(function (v) {
-                return v.duration <= 20;
-              }).map(function (video) {
+              _this.videos = data.videos.map(function (video) {
                 var _video$video_files$fi, _video$video_files$;
                 return {
                   id: video.id,
                   url: ((_video$video_files$fi = video.video_files.find(function (f) {
-                    return f.quality === 'sd' && f.width <= 640;
-                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || ((_video$video_files$ = video.video_files[0]) === null || _video$video_files$ === void 0 ? void 0 : _video$video_files$.link) || null
+                    return f.quality === 'sd';
+                  })) === null || _video$video_files$fi === void 0 ? void 0 : _video$video_files$fi.link) || ((_video$video_files$ = video.video_files[0]) === null || _video$video_files$ === void 0 ? void 0 : _video$video_files$.link)
                 };
               });
+              _this.totalPages = Math.ceil(data.total_results / _this.perPage);
               _context.next = 17;
               break;
-            case 13:
-              _context.prev = 13;
+            case 14:
+              _context.prev = 14;
               _context.t0 = _context["catch"](3);
               console.error('Error fetching videos:', _context.t0);
-              _this.videos = [];
             case 17:
               _context.prev = 17;
               _this.loading = false;
@@ -41975,29 +41979,41 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[3, 13, 17, 20]]);
+        }, _callee, null, [[3, 14, 17, 20]]);
       }))();
     },
-    nextPage: function nextPage() {
-      this.page++;
+    goToPage: function goToPage(pageNumber) {
+      this.page = pageNumber;
       this.searchVideos();
     },
-    prevPage: function prevPage() {
-      if (this.page > 1) {
-        this.page--;
-        this.searchVideos();
-      }
+    applyFilter: function applyFilter(filter) {
+      this.activeFilter = filter;
+      this.query = filter;
+      this.page = 1;
+      this.searchVideos();
     },
     applySuggested: function applySuggested(keyword) {
       this.query = keyword;
       this.page = 1;
       this.searchVideos();
-    },
-    showModal: function showModal(url) {
-      this.selectedVideo = url;
-      var modal = new bootstrap.Modal(document.getElementById('videoModal'));
-      modal.show();
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+    this.searchVideos();
+    this.$nextTick(function () {
+      // Attach hover play/pause events after DOM update
+      _this2.$el.querySelectorAll('.video-hover').forEach(function (video) {
+        video.addEventListener('mouseenter', function () {
+          video.muted = false;
+          video.play();
+        });
+        video.addEventListener('mouseleave', function () {
+          video.pause();
+          video.currentTime = 0;
+        });
+      });
+    });
   }
 });
 
@@ -53732,79 +53748,46 @@ var _hoisted_4 = {
 var _hoisted_5 = ["onClick"];
 var _hoisted_6 = {
   key: 0,
-  "class": "text-center my-5"
+  "class": "row g-3"
 };
 var _hoisted_7 = {
-  "class": "mb-3"
+  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm"
 };
-var _hoisted_8 = ["onClick"];
+var _hoisted_8 = ["src", "poster"];
 var _hoisted_9 = {
-  key: 1,
-  "class": "row g-3"
+  "class": "px-2 mt-2 text-muted",
+  style: {
+    "font-size": "14px"
+  }
 };
 var _hoisted_10 = {
-  "class": "card shadow-sm h-100"
-};
-var _hoisted_11 = {
-  "class": "ratio ratio-16x9"
-};
-var _hoisted_12 = ["src"];
-var _hoisted_13 = {
-  key: 1,
-  "class": "d-flex align-items-center justify-content-center text-center bg-light text-muted p-3"
-};
-var _hoisted_14 = {
-  "class": "card-body text-center"
-};
-var _hoisted_15 = ["onClick", "disabled"];
-var _hoisted_16 = ["href"];
-var _hoisted_17 = {
-  key: 2,
-  "class": "row g-3"
-};
-var _hoisted_18 = {
-  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100",
-  style: {
-    "transition": "box-shadow 0.3s"
-  }
-};
-var _hoisted_19 = ["src", "alt", "onClick"];
-var _hoisted_20 = {
-  "class": "mt-2 text-center",
-  style: {
-    "padding": "0 10px",
-    "font-size": "20px",
-    "color": "#444"
-  }
-};
-var _hoisted_21 = {
   "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
 };
-var _hoisted_22 = ["href"];
-var _hoisted_23 = ["onClick"];
-var _hoisted_24 = {
+var _hoisted_11 = ["href"];
+var _hoisted_12 = ["onClick"];
+var _hoisted_13 = {
   "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
 };
-var _hoisted_25 = ["disabled"];
-var _hoisted_26 = ["onClick"];
-var _hoisted_27 = ["disabled"];
-var _hoisted_28 = {
+var _hoisted_14 = ["disabled"];
+var _hoisted_15 = ["onClick"];
+var _hoisted_16 = ["disabled"];
+var _hoisted_17 = {
   "class": "modal fade",
   id: "videoModal",
   tabindex: "-1",
   "aria-labelledby": "videoModalLabel",
   "aria-hidden": "true"
 };
-var _hoisted_29 = {
+var _hoisted_18 = {
   "class": "modal-dialog modal-fullscreen"
 };
-var _hoisted_30 = {
+var _hoisted_19 = {
   "class": "modal-content bg-dark"
 };
-var _hoisted_31 = {
+var _hoisted_20 = {
   "class": "modal-body p-0"
 };
-var _hoisted_32 = ["src"];
+var _hoisted_21 = ["src"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "mb-2 text-center fw-bold display-5 display-md-4"
@@ -53828,90 +53811,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchVideos && $options.searchVideos.apply($options, arguments);
     })
-  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filters, function (filter) {
+  }, "Search")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, function (filter) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge shadow-lg flex-shrink-0", {
-        active: _ctx.activeFilter === filter
+        active: $data.activeFilter === filter
       }]),
       key: filter,
       onClick: function onClick($event) {
-        return _ctx.applyFilter(filter);
+        return $options.applyFilter(filter);
       }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))])]), _ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-success mb-3",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "fw-semibold fs-4 text-muted"
-  }, "Images loading, please wait...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Suggested Keywords "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestedKeywords, function (keyword, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: index,
-      "class": "badge bg-secondary me-2 pointer",
-      onClick: function onClick($event) {
-        return $options.applySuggested(keyword);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keyword), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !_ctx.loading && $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $options.paginatedVideos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id,
-      "class": "col-md-6 col-md-4 col-lg-4 mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("video", {
-      key: 0,
-      src: video.url,
-      "class": "w-100 rounded-top",
-      controls: "",
-      muted: "",
-      loop: "",
-      playsinline: "",
-      loading: "lazy"
-    }, " Your browser does not support the video tag. ", 8 /* PROPS */, _hoisted_12)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, " Video unavailable "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-sm btn-outline-primary me-2",
-      onClick: function onClick($event) {
-        return $options.showModal(video.url);
-      },
-      disabled: !video.url,
-      "data-bs-toggle": "tooltip",
-      title: "Expand video"
-    }, " Expand ", 8 /* PROPS */, _hoisted_15), video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
-      key: 0,
-      href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
-      "class": "btn btn-sm btn-outline-success",
-      target: "_blank",
-      "data-bs-toggle": "tooltip",
-      title: "Share on WhatsApp"
-    }, " Share ", 8 /* PROPS */, _hoisted_16)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_ctx.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedImages, function (image, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: image.id || index,
-      "class": "col-12 col-sm-4 col-md-4 col-lg-4 d-flex"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: image.src.large,
-      alt: image.alt,
-      "class": "img-fluid",
-      loading: "lazy",
+      "class": "col-12 col-sm-6 col-md-4 col-lg-4 mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "ratio ratio-16x9",
       style: {
-        "height": "480px",
+        "height": "420px",
         "object-fit": "cover",
         "border-top-left-radius": "5px",
         "border-top-right-radius": "5px"
       },
-      "data-bs-toggle": "modal",
-      "data-bs-target": "#imageModal",
-      onClick: function onClick($event) {
-        return _ctx.selectedImage = image;
-      }
-    }, null, 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Caption "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Push buttons to bottom "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "flex-grow-1"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bottom Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "https://wa.me/?text=".concat(encodeURIComponent(image.src.original)),
+      onMouseenter: _cache[3] || (_cache[3] = function ($event) {
+        return $options.playOnHover($event);
+      }),
+      onMouseleave: _cache[4] || (_cache[4] = function ($event) {
+        return $options.pauseOnLeave($event);
+      })
+    }, [video.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("video", {
+      key: 0,
+      src: video.url,
+      poster: video.thumbnail,
+      "class": "w-100 rounded-top video-hover",
+      loop: "",
+      preload: "none",
+      muted: "",
+      playsinline: ""
+    }, " Your browser does not support the video tag. ", 8 /* PROPS */, _hoisted_8)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description || 'This is a beautiful Islamic animation.'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
       target: "_blank",
       "class": "btn btn-sm w-100 custom-btn",
       style: {
         "font-size": "18px"
       }
-    }, " Share ", 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, "Share", 8 /* PROPS */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "#",
       role: "button",
       "class": "btn btn-sm w-100 custom-btn",
@@ -53919,48 +53863,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "18px"
       },
       "data-bs-toggle": "modal",
-      "data-bs-target": "#imageModal",
+      "data-bs-target": "#videoModal",
       onClick: function onClick($event) {
-        return _ctx.selectedImage = image;
+        return _ctx.selectedVideo = video.url;
       }
-    }, " Expand ", 8 /* PROPS */, _hoisted_23)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : !_ctx.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 3
+    }, " Expand ", 8 /* PROPS */, _hoisted_12)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-5 text-muted"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "fs-5"
-  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
     disabled: _ctx.currentPage === 1,
-    onClick: _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.goToPage(_ctx.currentPage - 1);
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return $options.goToPage(_ctx.currentPage - 1);
     })
-  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_25), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_14), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: page,
       onClick: function onClick($event) {
-        return _ctx.goToPage(page);
+        return $options.goToPage(page);
       },
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === _ctx.currentPage ? '' : 'btn-outline-success']),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === _ctx.currentPage ? 'background-color: #17a085; color: white;' : '')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_26);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_15);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: _ctx.currentPage === $options.totalPages,
-    onClick: _cache[4] || (_cache[4] = function ($event) {
-      return _ctx.goToPage(_ctx.currentPage + 1);
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.currentPage === $data.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
+    disabled: _ctx.currentPage === $data.totalPages,
+    onClick: _cache[6] || (_cache[6] = function ($event) {
+      return $options.goToPage(_ctx.currentPage + 1);
     })
-  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header border-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close btn-close-white",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
     src: _ctx.selectedVideo,
     controls: "",
     autoplay: "",
@@ -53968,7 +53912,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "width": "100%",
       "height": "100vh"
     }
-  }, null, 8 /* PROPS */, _hoisted_32)])])])])]);
+  }, null, 8 /* PROPS */, _hoisted_21)])])])])]);
 }
 
 /***/ }),
@@ -152087,7 +152031,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626] {\n  scrollbar-color: #17a085 transparent;\n  scrollbar-width: thin;\n}\n\n/* For Webkit (Chrome, Edge, Safari) */\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  height: 8px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #17a085;\n  border-radius: 10px;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar-track {\n  background-color: transparent;\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

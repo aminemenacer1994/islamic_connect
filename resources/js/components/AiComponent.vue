@@ -22,9 +22,6 @@
       </div>
     </div>
 
-
-
-
     <!-- Filters -->
     <div class="mb-4 text-center">
       <div class="d-flex text-center overflow-x-auto gap-2 px-1 py-2" style="cursor: pointer; white-space: nowrap;">
@@ -204,6 +201,7 @@ export default {
 };
 </script>
 <style scoped>
+
 .img-fluid {
   width: 100%;
   height: auto;
