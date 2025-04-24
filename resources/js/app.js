@@ -65,6 +65,7 @@ import GuideComponent from "./components/GuideComponent.vue";
 import StreamingComponent from "./components/StreamingComponent.vue";
 import ToolkitComponent from "./components/ToolkitComponent.vue";
 import VideoComponent from "./components/VideoComponent.vue";
+import BlogComponent from "./components/BlogComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -175,6 +176,7 @@ app.component('guide-component', GuideComponent);
 app.component('streaming-component', StreamingComponent);
 app.component('toolkit-component', ToolkitComponent);
 app.component('video-component', VideoComponent);
+app.component('blog-component', BlogComponent);
 
 
 app.mount("#app");

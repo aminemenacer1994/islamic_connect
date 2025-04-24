@@ -3,10 +3,10 @@
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h2 class="display-5 fw-bold">Quran Explorer</h2>
-        <!-- <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
+        <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
           Listen to beautiful recitations to enhance your understanding. Select a Surah, Juz, or specific verse, and
           immerse yourself in the wisdom of the Quran.
-        </p> -->
+        </p>
       </div>
     </div>
 

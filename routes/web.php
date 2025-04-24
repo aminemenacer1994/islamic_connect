@@ -41,6 +41,7 @@ use App\Http\Controllers\GuideController;
 use App\Http\Controllers\StreamingController;
 use App\Http\Controllers\ToolkitController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\BlogController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -314,3 +315,5 @@ Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');
 // video
 Route::get('/video', [VideoController::class, 'index'])->name('video');
+// blog
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
