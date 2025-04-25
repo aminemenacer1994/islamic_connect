@@ -127,8 +127,14 @@ body{
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/gallery" data-path="/gallery"><b style="color:black">Islamic Gallery</b></a></h6>
+                    <li class="nav-item dropdown pt-3 pl-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                            <b style="color:black">Islamic Gallery</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/gallery">Images</a></li>
+                            <li><a class="dropdown-item" href="/video">Short Video</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/guide" data-path="/guide"><b style="color:black">Islamic Guides</b></a></h6>

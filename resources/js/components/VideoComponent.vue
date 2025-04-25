@@ -3,13 +3,14 @@
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Animated Videos</h2>
     <p class="text-center text-muted mb-4" style="font-size: 18px;">
       Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of
-      Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical
-      landmarks. Embark on a visual journey through faith, history, and art.
+      Islamic culture.
+      From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks.
     </p>
 
+    <!-- Search -->
     <div class="row container justify-content-center mb-3">
       <div class="col-12 col-md-12">
-        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos in Gallery:</h3>
+        <h3 class="fw-bold text-left pt-2 pb-2 container">Search Animated Videos:</h3>
         <div class="input-group">
           <input v-model="query" @keyup.enter="searchVideos" type="text" class="form-control"
             placeholder="Search for Islamic videos..." />
@@ -32,22 +33,18 @@
             {{ filter }}
           </span>
         </div>
-        <!-- Scroll Fade -->
-        <div class="scroll-fade scroll-fade-left"></div>
-        <div class="scroll-fade scroll-fade-right"></div>
       </div>
     </div>
 
-
     <!-- Video Grid -->
-    <div class="row g-3" v-if="!loading && paginatedVideos.length">
+    <div class="row g-3" v-if="!loading && videos.length">
       <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
         <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm">
           <div class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
-            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" loop
-              preload="metadata" muted playsinline @loadedmetadata="updateMetadata($event, video)">
+            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" loop preload="none"
+              muted playsinline @loadedmetadata="updateMetadata($event, video)">
               Your browser does not support the video tag.
             </video>
           </div>
@@ -64,19 +61,15 @@
       </div>
     </div>
 
-    <!-- No videos fallback -->
-    <div v-else-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
-      <p class="fs-5">No videos found. Try another keyword.</p>
-    </div>
-
-    <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+    <!-- Pagination -->
+    <div v-if="videos.length" class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
       <button class="btn"
         :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
         :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
         Previous
       </button>
 
-      <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="btn"
+      <button v-for="page in visiblePages" :key="page" @click="goToPage(page)" class="btn"
         :style="page === currentPage ? 'background-color: #17a085; color: white;' : ''"
         :class="page === currentPage ? '' : 'btn-outline-success'">
         {{ page }}
@@ -88,8 +81,24 @@
         Next
       </button>
     </div>
+
+
+
+
+    <!-- Loading indicator -->
+    <div v-if="loading" class="text-center py-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- No videos fallback -->
+    <div v-else-if="!loading && videos.length === 0" class="text-center py-5 text-muted">
+      <p class="fs-5">No videos found. Try another keyword.</p>
+    </div>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -97,75 +106,61 @@ export default {
     return {
       videos: [],
       query: 'mosque',
-      page: 1,
-      perPage: 9,
-      totalPages: 0,
       loading: false,
       filters: [
         'Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab',
         'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture',
       ],
       activeFilter: null,
+      currentPage: 1,
+      perPage: 6,
+      totalResults: 0,
     };
   },
   computed: {
-    paginatedVideos() {
-      const start = (this.page - 1) * this.perPage;
-      const end = start + this.perPage;
-      return this.videos.slice(start, end);
+    totalPages() {
+      return Math.ceil(this.totalResults / this.perPage);
     },
+    visiblePages() {
+      const maxVisible = 5;
+      let start = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
+      let end = start + maxVisible - 1;
+
+      if (end > this.totalPages) {
+        end = this.totalPages;
+        start = Math.max(end - maxVisible + 1, 1);
+      }
+
+      const pages = [];
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+
+      return pages;
+    }
   },
   methods: {
-    handleVideoError(video) {
-      video.url = null; // or show fallback content / message
-      console.warn('Video failed to load.');
-    },
-    loadAndPlay(event) {
-      const video = event.currentTarget;
-      video.load(); // manually load
-      video.play().catch(err => console.warn("Autoplay failed:", err));
-    },
-    playOnHover(event) {
-      const video = event.currentTarget.querySelector('video');
-      if (video) {
-        video.play().catch((err) => console.warn("Autoplay failed:", err));
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.searchVideos();
       }
-    },
-    pauseOnLeave(event) {
-      const video = event.currentTarget.querySelector('video');
-      if (video) {
-        video.pause();
-      }
-    },
-    updateMetadata(event, video) {
-      const videoElement = event.target;
-      video.metadata.width = videoElement.videoWidth;
-      video.metadata.height = videoElement.videoHeight;
-      video.metadata.duration = videoElement.duration;
-      video.metadata.aspectRatio = video.metadata.width / video.metadata.height;
     },
 
-    pauseOnLeave(event) {
-      const video = event.currentTarget.querySelector('video');
-      if (video) {
-        video.pause();
-        video.currentTime = 0; // Reset to first frame
-        video.muted = true;    // Mute again
-      }
-    },
     async searchVideos() {
       this.loading = true;
 
       const apiKey = 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f';
-      const query = this.query.trim(); // Ensure there are no extra spaces at the start/end
-
-      if (!query) return; // Don't search if query is empty
-
-      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${this.page}`;
+      const url = `https://api.pexels.com/videos/search?query=${encodeURIComponent(this.query)}&per_page=${this.perPage}&page=${this.currentPage}`;
 
       try {
-        const response = await fetch(url, { headers: { Authorization: apiKey } });
+        const response = await fetch(url, {
+          headers: { Authorization: apiKey }
+        });
         const data = await response.json();
+
+        this.totalResults = data.total_results || 0;
+
         this.videos = data.videos.map(video => {
           const file = video.video_files.find(f => f.quality === 'hd') || video.video_files[0];
           return {
@@ -181,61 +176,48 @@ export default {
             }
           };
         });
-        this.totalPages = Math.ceil(data.total_results / this.perPage);
       } catch (err) {
         console.error('Error fetching videos:', err);
       } finally {
         this.loading = false;
       }
     },
-    goToPage(pageNumber) {
-      this.page = pageNumber;
-      this.searchVideos();
+
+    playOnHover(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (video) video.play().catch(err => console.warn("Autoplay failed:", err));
     },
+
+    pauseOnLeave(event) {
+      const video = event.currentTarget.querySelector('video');
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+        video.muted = true;
+      }
+    },
+
+    updateMetadata(event, video) {
+      const el = event.target;
+      video.metadata.width = el.videoWidth;
+      video.metadata.height = el.videoHeight;
+      video.metadata.duration = el.duration;
+      video.metadata.aspectRatio = el.videoWidth / el.videoHeight;
+    },
+
     applyFilter(filter) {
       this.activeFilter = filter;
       this.query = filter;
-      this.page = 1;
-      this.searchVideos();
-    },
-    applySuggested(keyword) {
-      this.query = keyword;
-      this.page = 1;
       this.searchVideos();
     },
   },
-  directives: {
-    intersect: {
-      mounted(el, binding) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) {
-            binding.value();
-            observer.unobserve(el);
-          }
-        });
-        observer.observe(el);
-      }
-    },
-  },
-  mounted() {
-    this.searchVideos();
 
-    this.$nextTick(() => {
-      // Attach hover play/pause events after DOM update
-      this.$el.querySelectorAll('.video-hover').forEach(video => {
-        video.addEventListener('mouseenter', () => {
-          video.muted = false;
-          video.play();
-        });
-        video.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      });
-    });
-  },
+  mounted() {
+    this.searchVideos(); // Load initial set
+  }
 };
 </script>
+
 
 <style scoped>
 .video-container {
