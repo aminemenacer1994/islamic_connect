@@ -142,12 +142,15 @@
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
             <h1 class="display-4 mb-3 fw-bold">Features</h1>
-            <!-- <p class="lead">Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize your journey with personalized notes & bookmarks, and enjoy accessibility features like text-to-speech and voice search.</p> -->
           </div>
+          <p class="lead">Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live
+            Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize
+            your journey with personalized notes & bookmarks, and enjoy accessibility features like text-to-speech and
+            voice search.</p>
         </div>
         <div class="row g-4 g-md-5">
-          <div class="col-md-6 col-xl-4">
-            <div class="text-primary mb-3">
+          <div class="col-md-6  col-xl-4">
+            <div class="text-primary mb-3 container">
               <div class="my-3"><img src="images/agenda.png" width="80px" /></div>
             </div>
             <h3 class="fw-bold">
@@ -191,7 +194,7 @@
 
 
 
-    <section class="container pt-3" >
+    <section class="container pt-3">
       <!-- First row -->
       <div class="row py-5 container">
         <div class="col-md-6 order-0 order-md-0">
@@ -204,10 +207,18 @@
               to screen reader support and voice search it's your accessible, intelligent way to
               connect with the Divine.
             </strong>
+          <div class="d-grid pt-2">
+            <button class="form-control" onclick="window.location.href='/quran'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+              type="submit">
+              <b>Learn more</b>
+            </button>
+          </div>
           </p>
         </div>
         <div class="col-md-6 mt-4 order-1 order-md-1">
           <img src="/images/quran.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+
         </div>
       </div>
 
@@ -226,6 +237,13 @@
               Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay
               spiritually connected through sound, reflection, and knowledge on the go.
             </strong>
+            <div class="d-grid pt-2">
+              <button class="form-control" onclick="window.location.href='/content'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                type="submit">
+                <b>Learn more</b>
+              </button>
+            </div>
           </h6>
         </div>
       </div>
@@ -242,6 +260,13 @@
               Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools
               designed for simplicity, speed, and spiritual growth.
             </strong>
+            <div class="d-grid pt-2">
+              <button class="form-control" onclick="window.location.href='/surat'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                type="submit">
+                <b>Learn more</b>
+              </button>
+            </div>
           </h6>
         </div>
         <div class="col-md-6 order-1 order-md-1">
