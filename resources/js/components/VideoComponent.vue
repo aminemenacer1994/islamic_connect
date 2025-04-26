@@ -114,7 +114,7 @@ export default {
       ],
       activeFilter: null,
       currentPage: 1,
-      perPage: 6,
+      perPage: 9,
       totalResults: 0,
     };
   },

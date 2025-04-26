@@ -10,7 +10,7 @@
         <div class="container-fluid text-center">
           <div class="row mb-2 py-5">
             <div class="col-md-6">
-              <h1 class="display-4 mt-2 fw-bold text-left container">
+              <h1 class="display-4 mt-1 fw-bold text-left container">
                 Connecting You to Islamic Knowledge Seamlessly and Accessibly
               </h1>
               <h2 class="lead container pt-3 text-left" style="line-height: 1.8em">
@@ -59,7 +59,7 @@
             </div>
           </div>
         </div>
-        <!-- <PrayerTimes /> -->
+        <PrayerTimes />
       </div>
       </hr>
     </div>
@@ -84,7 +84,8 @@
                     instantly, making your spiritual journey easier.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/surat'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      type="submit">
                       <b>View more</b>
                     </button>
                   </div>
@@ -104,7 +105,8 @@
                   </p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/content'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      type="submit">
                       <b>View more</b>
                     </button>
                   </div>
@@ -122,7 +124,8 @@
                     everyone regardless of ability to engage with content comfortably.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/quran'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white" type="submit">
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      type="submit">
                       <b>View more</b>
                     </button>
                   </div>
@@ -134,9 +137,61 @@
       </div>
     </section>
 
+    <section class="py-5" style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-3">
+          <div class="col-lg-8 col-xl-7">
+            <h1 class="display-4 mb-3 fw-bold">Features</h1>
+            <!-- <p class="lead">Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize your journey with personalized notes & bookmarks, and enjoy accessibility features like text-to-speech and voice search.</p> -->
+          </div>
+        </div>
+        <div class="row g-4 g-md-5">
+          <div class="col-md-6 col-xl-4">
+            <div class="text-primary mb-3">
+              <div class="my-3"><img src="images/agenda.png" width="80px" /></div>
+            </div>
+            <h3 class="fw-bold">
+              Notes & Reflections
+            </h3>
+            <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+              <strong>
+                Save personal notes, reflections, and insights while studying Quran and Islamic content.
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="text-primary mb-3">
+              <div class="my-3"><img src="images/pray.png" width="80px" /></div>
+            </div>
+            <h3 class="fw-bold">
+              Duas
+            </h3>
+            <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+              <strong>
+                Browse and recite authentic duas for daily life, protection, gratitude, and special occasions.
+              </strong>
+            </p>
+          </div>
+          <div class="col-md-6 col-xl-4">
+            <div class="text-primary mb-3">
+              <div class="my-3"><img src="images/praying-hands.png" width="80px" /></div>
+            </div>
+            <h3 class="fw-bold">
+              Prayer Times
+            </h3>
+            <p class="lead container-fluid pt-3 text-left" style="line-height: 1.8em">
+              <strong>
+                Access precise prayer timings based on your location, with alerts to never miss a prayer.
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
 
-    <section class="container pt-3">
+
+    <section class="container pt-3" >
       <!-- First row -->
       <div class="row py-5 container">
         <div class="col-md-6 order-0 order-md-0">
