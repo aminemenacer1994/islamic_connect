@@ -1,6 +1,10 @@
 <template>
   <div class="container mt-3 p-3">
     <div class="fw-bold display-5 text-center mb-2">Seerah Timeline</div>
+    <p class="text-center container mb-4 lead d-none d-md-block">
+      The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is
+      designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping
+      them better understand the significance of each event.</p>
 
     <div class="timeline-wrapper">
       <div class="timeline">

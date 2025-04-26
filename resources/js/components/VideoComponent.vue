@@ -24,7 +24,8 @@
     <!-- Filters -->
     <div class="mb-4 text-center">
       <div class="filter-scroll-wrapper position-relative">
-        <div class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2">
+        <div class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2"
+          style="overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
           <span class="badge flex-shrink-0 px-3 py-2" v-for="filter in filters" :key="filter"
             @click="applyFilter(filter)" :class="{
               'bg-dark text-white': activeFilter === filter,
@@ -332,22 +333,9 @@ export default {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.filter-scroll-wrapper {
-  overflow-x: hidden;
-  position: relative;
-}
-
-.filter-scroll {
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
-  white-space: nowrap;
-}
-
-.filter-scroll span {
-  scroll-snap-align: start;
-  user-select: none;
+.filter-scroll::-webkit-scrollbar {
+  display: none;
+  cursor: pointer;
 }
 
 .scroll-fade {

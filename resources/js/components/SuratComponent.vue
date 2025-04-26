@@ -115,7 +115,7 @@
 
           <!-- Translation (LTR) -->
           <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
-          <p class=" fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+          <p  class=" fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
             :style="{ fontSize: translationFontSize + 'px' }"></p>
 
           <!-- Stick to bottom container -->
@@ -905,6 +905,7 @@ export default {
   text-align: left !important;
   direction: ltr !important;
   font-family: 'Arial', sans-serif;
+  padding: 10px;
 }
 
 /* Card Styling */

@@ -6,11 +6,11 @@
       prayers, and spiritual reflections from the heart of Islam.
     </p>
 
-    <!-- Scrollable Row Wrapper with visible scrollbar -->
-    <div style="overflow-x: auto;" class="pb-2">
-      <!-- Scrollable Horizontal Row -->
-      <div class="row row-cols-1 row-cols-md-2 g-4 flex-nowrap" style="display: flex;">
-        <div class="col" v-for="(channel, index) in filteredChannels" :key="index" style="min-width: 320px;">
+    <!-- Grid Wrapper -->
+    <div class="pb-2">
+      <!-- Bootstrap Grid Row -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+        <div class="col" v-for="(channel, index) in filteredChannels" :key="index">
           <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" @click="playChannel(channel)"
             style="cursor: pointer; background-color: #fff;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
@@ -37,11 +37,12 @@
 
 
 
+
     <div v-if="selectedChannel" class="mt-5 mb-5 px-3" ref="playerSection" :class="{ 'mini-screen': isMiniScreen }">
       <!-- Now Playing Section -->
       <div class="text-center mb-4">
         <h6 class="fw-bold display-6 text-dark">🔴 Now Playing: <span class="text-dark">{{ selectedChannel.name
-            }}</span></h6>
+        }}</span></h6>
       </div>
 
       <button class="btn btn-outline-secondary mb-3 rounded-pill shadow-md" @click="showFilters = !showFilters">

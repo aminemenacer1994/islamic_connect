@@ -3,7 +3,7 @@
         <div class="pt-3 text-center ">
             <Title />
             <!-- <ChatBot /> -->
-
+            <p class="text-center container mb-4 lead">The Quran Companion page leverages AI tools and accessibility features to enhance the learning experience. It includes text-to-speech, speech-to-text, and synchronized highlighting to assist with memorization, recitation, and understanding.</p>
             <div v-if="!isVisible">
                 <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4>

@@ -1,200 +1,157 @@
 <template>
-  <div class="container my-4">
-    <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Radio Stations</h1>
-
+  <div class="container py-4">
+    <h1 class="display-5 fw-bold text-center">Islamic Radio Stations</h1>
+    <p class="text-center container-fluid mb-4 lead">This page provides a seamless and user-friendly experience for listening to live Quranic radio stations from various renowned reciters around the world. Users can browse all available stations, search by reciter name, and play audio streams directly on the page. </p>
     <!-- Search Bar -->
-    <div class="row container align-items-center mt-4">
-      <div class="col-md-4">
-        <h4 class="fw-bold mb-0 text-center">Search for Reciter's station:</h4>
-      </div>
-      <div class="col-md-6 pt-2">
-        <input type="text" v-model="searchQuery" @input="handleSearch" placeholder="Search keyword..."
-          class="form-control" />
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-10 col-lg-8 text-center">
+        <h5 class="fw-semibold mt-3 mb-3">Search for Reciter's Station</h5>
+        <input
+          v-model="searchQuery"
+          @input="handleSearch"
+          type="text"
+          class="form-control rounded-pill px-4 py-2 shadow-sm"
+          placeholder="Search by name..."
+        />
       </div>
     </div>
-    <hr class="container" />
 
-
-    <div class="row g-4 pt-5">
-      <h4 class="display-6 fw-bold text-left ">Reciter's Radio Stations:</h4>
-      <!-- <div v-if="currentlyPlaying && isPlaying"
-        class="card bg-primary-subtle text-success-emphasis border-success text-white mb-3 position-sticky top-0 z-3 shadow-lg rounded-3 p-2">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <b class="text-dark"> Currently Playing:</b>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title text-dark">
-            <div class="fw-bold text-center animate-text">{{ currentlyPlaying }}</div>
-          </h5>
-        </div>
-      </div> -->
-
-
-
-
-      <div v-for="station in paginatedStations" :key="station.id" class="col-md-4">
-        <div class="card" :class="{
-          'bg-success-subtle text-success-emphasis border-success': currentAudio && currentAudio.src === station.url,
-          'bg-secondary-subtle text-secondary-emphasis border-secondary-subtle': !(currentAudio && currentAudio.src === station.url)
-        }">
-          <div class="card-body">
-            <h5 class="card-title mb-3">
-              <b v-html="highlightSearch(station.name)"></b>
-            </h5>
-            <audio ref="audioPlayer" :src="station.url" controls class="w-100 mb-2"
-              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;"
-              @play="handlePlay(station.id, $event)" @pause="handlePause"></audio>
-
+    <!-- Reciters -->
+    <div>
+      <h4 class="fw-bold mb-4">Reciter's Radio Stations:</h4>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div v-for="station in paginatedStations" :key="station.id" class="col">
+          <div
+            class="card h-100 border-0 shadow-sm"
+            :class="{
+              'bg-success-subtle text-success-emphasis border border-success': currentAudio && currentAudio.src === station.url,
+              'bg-light': !(currentAudio && currentAudio.src === station.url)
+            }" style="border-radius: 10px;"
+          >
+            <div class="card-body" style="background-color:lightgray; border-radius: 10px;">
+              <h5 class="card-title" style="font-weight: bold;" v-html="highlightSearch(station.name)"></h5>
+              <audio
+                ref="audioPlayer"
+                :src="station.url"
+                controls
+                class="w-100 mt-3"
+                style="border-radius: 10px;"
+                @play="handlePlay(station.id, $event)"
+                @pause="handlePause"
+              ></audio>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Pagination Controls -->
-    <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center my-3">
-      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-secondary me-2">
+    <!-- Pagination -->
+    <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-5">
+      <button
+        @click="previousPage"
+        :disabled="currentPage === 1"
+        class="btn btn-outline-dark rounded-pill px-4 me-3"
+      >
         Previous
       </button>
-      <span class="mx-2"><b>Page {{ currentPage }} of {{ totalPages }}</b></span>
-      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn btn-outline-secondary ms-2">
+      <span class="fw-semibold">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        @click="nextPage"
+        :disabled="currentPage === totalPages"
+        class="btn btn-outline-dark rounded-pill px-4 ms-3"
+      >
         Next
       </button>
     </div>
   </div>
 </template>
 
-
 <script>
 export default {
   data() {
     return {
-      currentlyPlaying: null,
-      radioStations: [],
+      searchQuery: "",
       currentPage: 1,
-      perPage: 15, // Number of stations per page
-      currentAudio: null, // To keep track of the current playing audio
-      searchQuery: "", // The search query input
+      itemsPerPage: 12,
+      stations: [],
+      filteredStations: [],
+      currentAudio: null,
     };
-  },
-  mounted() {
-    this.loadPlayingStation();
-    fetch('https://mp3quran.net/api/v3/radios?language=eng')
-      .then(response => response.json())
-      .then(data => {
-        // Debug: Check data structure
-        console.log('Fetched Data:', data);
-
-        // Assuming the Imam name is in the station's name or it's available in the API response
-        this.radioStations = data.radios.map(station => ({
-          ...station,
-          imamName: station.name.split(" - ")[0] // Adjust this if Imam name is available differently
-        }));
-
-        // Debug: Check transformed data
-        console.log('Processed Stations:', this.radioStations);
-      })
-      .catch(error => console.error('Error fetching radio stations:', error));
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.filteredStations.length / this.perPage);
+      return Math.ceil(this.filteredStations.length / this.itemsPerPage);
     },
     paginatedStations() {
-      const start = (this.currentPage - 1) * this.perPage;
-      const end = start + this.perPage;
-      return this.filteredStations.slice(start, end);
-    },
-    filteredStations() {
-      if (!this.searchQuery) {
-        return this.radioStations;
-      }
-      return this.radioStations.filter(station =>
-        station.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.filteredStations.slice(start, start + this.itemsPerPage);
     },
   },
   methods: {
-    playStation(stationName, audioUrl) {
-      const audio = this.$refs.audioPlayer;
-
-      if (!audio) return;
-
-      // If switching stations, pause previous audio
-      if (this.currentlyPlaying && this.currentlyPlaying !== stationName) {
-        audio.pause();
-        audio.currentTime = 0; // Reset playback
+    async fetchStations() {
+      try {
+        const response = await fetch("https://mp3quran.net/api/v3/radios?language=eng");
+        const data = await response.json();
+        this.stations = data.radios.map((radio) => ({
+          id: radio.id,
+          name: radio.name,
+          url: radio.url,
+        }));
+        this.filteredStations = this.stations;
+      } catch (error) {
+        console.error("Failed to fetch stations:", error);
       }
-
-      // Set new source and play
-      audio.src = audioUrl;
-      audio.load(); // Ensure fresh loading of audio
-      audio.play()
-        .then(() => {
-          this.currentlyPlaying = stationName;
-          this.isPlaying = true;
-
-          // Persist data across pages
-          localStorage.setItem("currentlyPlaying", stationName);
-          localStorage.setItem("isPlaying", "true");
-        })
-        .catch(error => console.error("Audio play error:", error));
-    },
-
-    // Load last played station on page load
-    loadPlayingStation() {
-      const savedStation = localStorage.getItem("currentlyPlaying");
-      if (savedStation) {
-        this.currentlyPlaying = savedStation;
-        this.isPlaying = localStorage.getItem("isPlaying") === "true";
-      }
-    },
-    previousPage() {
-      if (this.currentPage > 1) {
-        this.currentPage -= 1;
-      }
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPages) {
-        this.currentPage += 1;
-      }
-    },
-    handlePlay(stationId, event) {
-      // Stop the current audio if another is playing
-      if (this.currentAudio && this.currentAudio !== event.target) {
-        this.currentAudio.pause();
-        this.currentAudio.currentTime = 0; // Reset playback time
-      }
-
-      // Set the current playing audio
-      this.currentAudio = event.target;
-      this.isPlaying = true; // Mark audio as playing
-
-      // Find and set the currently playing station
-      const station = this.radioStations.find(st => st.id === stationId);
-      if (station) {
-        this.currentlyPlaying = station.name;
-      }
-    },
-    handlePause() {
-      this.isPlaying = false; // Mark as not playing
-      this.currentlyPlaying = null; // Clear currently playing station
-    },
-    highlightSearch(text) {
-      if (!this.searchQuery) return text; // No highlighting if search is empty
-
-      const regex = new RegExp(`(${this.searchQuery})`, 'gi');
-      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>');
     },
     handleSearch() {
-      // Reset to first page when a search is performed
+      const query = this.searchQuery.toLowerCase();
+      this.filteredStations = this.stations.filter((station) =>
+        station.name.toLowerCase().includes(query)
+      );
       this.currentPage = 1;
     },
+    highlightSearch(name) {
+      if (!this.searchQuery) return name;
+      const regex = new RegExp(`(${this.searchQuery})`, "gi");
+      return name.replace(regex, `<mark>$1</mark>`);
+    },
+    handlePlay(id, event) {
+      const allAudios = this.$refs.audioPlayer;
+      const current = event.target;
+
+      if (Array.isArray(allAudios)) {
+        allAudios.forEach((audio) => {
+          if (audio !== current) audio.pause();
+        });
+      }
+
+      this.currentAudio = current;
+    },
+    handlePause() {
+      this.currentAudio = null;
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
+    },
+    previousPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    },
+  },
+  mounted() {
+    this.fetchStations();
   },
 };
 </script>
 
 
 <style scoped>
+
+mark {
+  background-color: rgb(13, 182, 145);
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
 audio::-webkit-media-controls-current-time-display,
 audio::-webkit-media-controls-time-remaining-display {
   display: none;

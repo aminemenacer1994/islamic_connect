@@ -51,6 +51,7 @@
           <img :src="image.src.large" :alt="image.alt" class="img-fluid" loading="lazy"
             style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image" />
+
           <!-- Caption -->
           <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
             {{ image.alt || 'Islamic Image' }}
@@ -62,18 +63,21 @@
           <!-- Bottom Buttons -->
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
+            <!-- Share Button -->
             <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
               class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
               Share
             </a>
-            <a href="#" role="button" class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"
-              data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image">
-              Expand
+            <a :download="`image-${image.id}.mp4`" :href="image.src.original" download :title="image.alt || 'Islamic Image'"
+              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
+              Download
             </a>
+            
           </div>
         </div>
       </div>
     </div>
+
 
     <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
       <button class="btn"
@@ -201,7 +205,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .img-fluid {
   width: 100%;
   height: auto;

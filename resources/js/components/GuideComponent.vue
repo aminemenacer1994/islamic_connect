@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <h1 class="display-5 fw-bold text-center mb-4 mt-4">Islamic Guides</h1>
-    <p class="text-center container mb-4 guide-description lead">
-      Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims
-      and non-Muslims understand the faith more deeply.
+    <h1 class="display-5 fw-bold text-center mb-2 mt-4">Islamic Guides</h1>
+    <p class="text-center container mb-3 guide-description lead">
+      Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply.
     </p>
 
     <div class="row mb-4">

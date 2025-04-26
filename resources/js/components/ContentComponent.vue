@@ -2,21 +2,27 @@
   <div class="container mt-4">
     <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
     <!-- <ChatBot /> -->
-    <div class="container ">
-      <h2 class="fw-bold text-left pt-2 pb-2 container">Select a Podcast:</h2>
+    <p class="text-center container mb-4 lead">
+      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
+      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
+      deepen your understanding of Islam.
+    </p>
+    <div class="container">
+      <h2 class="fw-bold text-left pt-2 pb-4">Select a Podcast:</h2>
 
-      <div class="d-flex overflow-auto text-center px-3 shadow-md"
-        style="white-space: nowrap; gap: 40px; border-radius: 15px; padding-bottom: 15px;">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="text-center flex-shrink-0"
-          style="width: 160px; cursor: pointer;" @click="selectPodcast(podcast)">
-          <img :src="podcast.image" alt="Podcast Logo"
-            style="width: 200px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; height: 180px; object-fit: cover; border-radius: 18px;">
-          <h5 class="text-center mt-3" style="font-size: 1.3rem; font-weight: 600;">
-            <span class="text-center">{{ podcast.name }}</span>
+      <div class="row">
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="col-12 col-sm-2 col-md-2 mb-4 text-center"
+          @click="selectPodcast(podcast)" style="cursor: pointer;">
+          <img :src="podcast.image" alt="Podcast Logo" class="img-fluid"
+            style="height: 180px; width: 100%; object-fit: cover; border-radius: 18px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
+          <h5 class="mt-3" style="font-size: 1.2rem; font-weight: 600;">
+            {{ podcast.name }}
           </h5>
         </div>
       </div>
     </div>
+
+
 
 
     <div class=" pt-3" v-if="selectedPodcast">
