@@ -277,7 +277,6 @@ export default {
           desc: `A podcast that engages in thoughtful discussions on Islamic beliefs, contemporary issues, and interviews with experts in various fields.`,
           image: "./images/tm.png",
         },
-        
       ],
 
       playingIndex: null,

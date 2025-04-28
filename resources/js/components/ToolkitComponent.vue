@@ -7,7 +7,7 @@
 
     <!-- Chatbox that opens when FAB is clicked -->
     <div v-if="showChat" class="chatbox" :class="{ expanded: isExpanded }"
-      style="bottom: 0px; box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; padding-top: 40px; padding: 30%;">
+      style="bottom: 0px; padding: 25px; box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; padding-top: 40px; padding: 30%;">
       <div class="chat-header">
         <span class="title">Islamic Connect AI Assistant</span>
         <div class="header-buttons">

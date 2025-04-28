@@ -5,7 +5,7 @@
     <!-- Search Bar -->
     <div class="row justify-content-center mb-4">
       <div class="col-md-10 col-lg-8 text-center">
-        <h5 class="fw-semibold mt-3 mb-3">Search for Reciter's Station</h5>
+        <h4 class="fw-semibold mt-3 mb-3">Search for Reciter's Station</h4>
         <input
           v-model="searchQuery"
           @input="handleSearch"

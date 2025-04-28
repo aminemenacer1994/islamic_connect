@@ -58,8 +58,9 @@
               </div>
             </div>
           </div>
+          <PrayerTimes />
         </div>
-        <PrayerTimes />
+
       </div>
       </hr>
     </div>

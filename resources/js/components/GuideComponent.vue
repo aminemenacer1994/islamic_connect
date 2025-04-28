@@ -2,7 +2,8 @@
   <div class="container">
     <h1 class="display-5 fw-bold text-center mb-2 mt-4">Islamic Guides</h1>
     <p class="text-center container mb-3 guide-description lead">
-      Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply.
+      Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims
+      and non-Muslims understand the faith more deeply.
     </p>
 
     <div class="row mb-4">
@@ -36,20 +37,20 @@
             </h2>
 
             <!-- Translate Button -->
-            <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto pt-2">
+            <!-- <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto pt-2">
               <button class="btn btn-success" @click="translateContent" :disabled="isLoading">
                 {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
               </button>
-            </div>
+            </div> -->
           </div>
 
           <!-- Loading Spinner -->
-          <div v-if="isLoading" class="text-center my-3">
+          <!-- <div v-if="isLoading" class="text-center my-3">
             <div class="spinner-border text-dark" role="status">
               <span class="visually-hidden">Translating...</span>
             </div>
             <p class="text-dark mt-2">Translating...</p>
-          </div>
+          </div> -->
 
           <!-- Bootstrap Alert for Content Copy Feedback -->
           <div id="copyAlert" class="alert" role="alert" style="display: none;">
@@ -263,14 +264,12 @@ export default {
 
     // Handle Stop Button
     stopText() {
-      if (this.isPlaying) {
+      if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        this.isPlaying = false;
-        this.isPaused = false;
-        this.ttsUtterance = null;
-        this.currentIndex = -1;
-        this.updateAudioControlState();  // Update the control state
       }
+      this.isPlaying = false;
+      this.isPaused = false;
+      this.currentUtterance = null; // if you have it
     },
 
     getHighlightedText(item) {
@@ -369,6 +368,13 @@ export default {
       setTimeout(() => {
         alertElement.style.display = 'none';
       }, 2000);
+    }
+  },
+  watch: {
+    selectedCategory(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.stopText(); // Stop the audio/text when guide changes
+      }
     }
   }
 }
