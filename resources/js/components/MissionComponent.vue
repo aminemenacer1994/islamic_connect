@@ -8,7 +8,7 @@
 
     <div class="timeline-wrapper">
       <div class="timeline">
-        <div v-for="(event, index) in events" :key="index" class="timeline-point">
+        <div v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
           <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }"
             @click="selectEvent(index)">
             {{ event.year }}
@@ -16,6 +16,7 @@
         </div>
       </div>
     </div>
+
 
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
@@ -88,34 +89,21 @@
 
         <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
           <p style="display: inline-block; min-width: max-content;">
-            <i class="bi bi-book pr-3 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+            <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
             <strong>Read Time:</strong> {{ readTime }} minutes
 
-            <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
+            <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+            <strong>Listen Time:</strong> {{ listenTime }} minutes
+
+            <!-- <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
               @click="shareOnWhatsApp"></i>
             <strong @click="shareOnWhatsApp" style="cursor: pointer;" class="feature">Share</strong>
 
             <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;"
               @click="copyToClipboard()"></i>
-            <strong @click="copyToClipboard()" style="cursor: pointer;" class="feature">Copy Text</strong>
+            <strong @click="copyToClipboard()" style="cursor: pointer;" class="feature">Copy Text</strong> -->
           </p>
         </div>
-
-
-
-        <!-- <div style="overflow-x: auto; white-space: nowrap;">
-          <p style="display: inline-block; min-width: max-content;">
-
-            <i class="bi bi-whatsapp pr-2" style="cursor: pointer; font-size: 22px;" @click="shareOnWhatsApp"></i>
-            <strong style="cursor: pointer;">Share</strong>
-
-            <i class="bi bi-clipboard pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click=copyToClipboard()></i>
-            <strong style="cursor: pointer;">Copy Text</strong>
-
-            <i class="bi bi-play pl-3 pr-2" style="cursor: pointer; font-size: 22px;" @click="handleTTS"></i>
-            <strong style="cursor: pointer;">Play</strong>
-          </p>
-        </div> -->
 
         <!-- Styled Text desc -->
         <h5 class="fw-medium p-3 rounded" :style="{
@@ -129,6 +117,7 @@
           fontFamily: fontSettings.fontFamily,
         }" v-html="highlightedDescription">
         </h5>
+
 
         <!-- Offcanvas Settings Panel -->
         <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
@@ -219,6 +208,13 @@
             </form>
 
           </div>
+        </div>
+
+        <!-- First your new Play/Pause FAB -->
+        <div @click="handleTTS" class="fab btn btn-light rounded-circle shadow container"
+          style="position: fixed; bottom: 100px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;">
+          <i v-if="ttsState === 'playing'" class="bi bi-pause-fill fs-4"></i>
+          <i v-else class="bi bi-play-fill fs-4"></i>
         </div>
 
         <div class="fab btn btn-light rounded-circle shadow container"
@@ -396,7 +392,6 @@ export default {
 
     // Handle TTS play, pause, and resume
     handleTTS() {
-      // If no voice selected yet, try to load the voices again
       if (!this.selectedVoice) {
         this.loadVoices();
         return;
@@ -406,22 +401,30 @@ export default {
       const title = this.events[this.currentIndex]?.title || '';
       const ttsText = `${title}. Read time ${this.readTime} minutes. Listen time ${this.listenTime} minutes. Word count ${this.wordCount}. ${description}`;
 
-      if (this.ttsState === 'stopped') {
-        this.utterance = new SpeechSynthesisUtterance(ttsText);
-        this.utterance.voice = this.selectedVoice;
-        this.utterance.rate = 1;
-        this.utterance.pitch = 1;
-        this.utterance.onend = () => this.ttsState = 'stopped'; // Reset state after speaking ends
-        speechSynthesis.speak(this.utterance);
-        this.ttsState = 'playing'; // Set state to playing
+      if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
+        // Start or Resume
+        if (this.ttsState === 'paused') {
+          speechSynthesis.resume();
+        } else {
+          this.utterance = new SpeechSynthesisUtterance(ttsText);
+          this.utterance.voice = this.selectedVoice;
+          this.utterance.rate = 1;
+          this.utterance.pitch = 1;
+          this.utterance.onend = () => {
+            this.ttsState = 'stopped'; // When finished
+          };
+          speechSynthesis.speak(this.utterance);
+        }
+        this.ttsState = 'playing';
       } else if (this.ttsState === 'playing') {
-        speechSynthesis.stop(); // Pause the TTS
-        this.ttsState = 'stop'; // Update state to paused
-      } else if (this.ttsState === 'stop') {
-        speechSynthesis.resume(); // Resume the TTS
-        this.ttsState = 'playing'; // Update state to playing
+        // Pause
+        speechSynthesis.pause();
+        this.ttsState = 'paused';
       }
     },
+
+
+
 
     // Stop TTS immediately
     stopTTS() {
@@ -433,8 +436,11 @@ export default {
 
     selectEvent(index) {
       this.currentIndex = index;
-      this.stopTTS(); // Stop TTS before moving to a new event
-      this.handleTTS(); // Start TTS for the new event
+      if (speechSynthesis.speaking || speechSynthesis.paused) {
+        speechSynthesis.cancel(); // Cancel speaking immediately
+        this.ttsState = 'stopped';
+      }
+      this.scrollToEvent(index); // Optional if you want scroll effect
     },
 
     countWords(text) {
@@ -460,19 +466,27 @@ export default {
       this.currentIndex = 0;
     },
     selectEvent(index) {
-      this.currentIndex = index;  // Update the selected index
-      this.currentEvent = this.events[index];  // Update the selected event details
+      if (speechSynthesis.speaking || speechSynthesis.paused) {
+        speechSynthesis.cancel(); // Immediately cancel any speaking
+        if (this.utterance) {
+          this.utterance = null;  // Clear the utterance reference
+        }
+        this.ttsState = 'stopped'; // Reset the state
+      }
 
-      // Optionally scroll the selected event into view for better user experience
-      this.scrollToEvent(index);
+      this.currentIndex = index;
+      this.scrollToEvent(index); // Scroll to the selected event
     },
+
     // Method to scroll to the selected event
     scrollToEvent(index) {
-      const element = this.$refs.timeline[index];
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });  // Smooth scroll to the selected event
+      const refs = this.$refs.eventRefs;
+
+      if (refs && refs[index]) {
+        refs[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     },
+
     scrollToBadge() {
       this.$nextTick(() => {
         const badges = this.$el.querySelectorAll('.timeline-badge');
@@ -605,6 +619,8 @@ export default {
   }
 }
 
+
+
 .custom-offcanvas {
   background-color: #10584f;
   color: white;
@@ -623,10 +639,6 @@ export default {
   transition: all 0.3s ease;
   cursor: pointer;
   color: #333;
-}
-
-.feature:hover {
-  color: #0db691;
 }
 
 .action-button:hover {

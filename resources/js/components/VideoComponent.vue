@@ -44,7 +44,7 @@
           <div class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
-            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" loop preload="none"
+            <video :src="video.url" :poster="video.thumbnail" class="w-100 rounded-top video-hover" controls loop preload="none"
               muted playsinline @loadedmetadata="updateMetadata($event, video)">
               Your browser does not support the video tag.
             </video>
