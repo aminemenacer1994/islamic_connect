@@ -23,6 +23,20 @@
           </div>
         </div>
 
+        <!-- <div class="mb-3">
+          <h4 class="fw-bold text-left pt-2 pb-2 container">Select a Category:</h4>
+          <div class="row">
+            <div class="col-4" v-for="category in duaCollection" :key="category.id">
+              <div class="card" style="cursor: pointer;" @click="selectedCategory = category.id">
+                <div class="card-body text-center">
+                  <h5 class="card-title">{{ category.name }}</h5>
+                  <p class="card-text">{{ category.duas.length }} Duas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
         <!-- Search Input -->
         <!-- <div class="col-md-6">
           <div class="mb-3">
@@ -42,85 +56,74 @@
     <div class="container text-center">
       <div v-for="category in filteredDuas" :key="category.id" class="row mb-4">
         <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-md-6">
-          <div class="card dua-card text-dark rounded-3 p-3">
+          <div class="card dua-card text-dark rounded-3 p-3 shadow-sm">
             <!-- Highlighted Title -->
-            <div><strong class="pb-2" :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></strong></div>
+            <div>
+              <h3 class="pb-2" :style="{ fontSize: fontSize + 'px' }" v-html="highlightText(dua.title)"></h3>
+            </div>
 
             <!-- Arabic Section with TTS Icon -->
-            <div class="row align-items-center mt-4">
+            <div class="row align-items-center mt-3">
               <div class="col-md-2 text-center">
-                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')"
-                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i> -->
+                <!-- TTS Icon (currently commented out) -->
+                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.arabic, 'ar')" data-bs-toggle="tooltip" data-bs-placement="top" title="Play Arabic"></i> -->
               </div>
               <div class="col-md-10">
                 <!-- Highlighted Arabic Text -->
-                <h3 :style="{ fontSize: fontSize + 'px' }" class="text-right py-3" v-html="highlightText(dua.arabic)">
-                </h3>
+                <h1 :style="{ fontSize: fontSize + 'px' }" class="text-right" v-html="highlightText(dua.arabic)"></h1>
               </div>
             </div>
 
             <!-- Translation Section with TTS Icon -->
             <div class="row align-items-center">
-              <div class="col-md-10 dua-description">
+              <div class="col-md-10">
                 <!-- Highlighted Translation Text -->
-                <p :style="{ fontSize: fontSize + 'px' }" class="text-left mb-0"
-                  v-html="highlightText(dua.translation)"></p>
+                <h4 :style="{ fontSize: fontSize + 'px' }" class="text-left" v-html="highlightText(dua.translation)">
+                </h4>
               </div>
               <div class="col-md-2 text-center">
-                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')"
-                  data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i> -->
+                <!-- TTS Icon (currently commented out) -->
+                <!-- <i class="bi bi-volume-up h3 icon-hover" style="cursor:pointer" @click="speak(dua.translation, 'en')" data-bs-toggle="tooltip" data-bs-placement="top" title="Play English"></i> -->
               </div>
-
               <!-- Reference -->
-              <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-3 text-secondary">- {{ dua.reference }}</p>
+              <p :style="{ fontSize: fontSize + 'px' }" class="text-left mt-1 small-text text-secondary">-{{
+                dua.reference }}</p>
             </div>
 
-
-            <hr />
-
-
             <!-- Action Icons: Share & Copy -->
-            <div class="container text-center d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
               <!-- Font Size Decrease -->
               <div class="text-center">
-                <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle mx-2 pb-2 icon-hover"
-                  @click="changeFontSize('decrease')" data-bs-toggle="tooltip" data-bs-placement="top"
-                  title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
-                <div class="small" style="cursor:pointer" @click="changeFontSize('decrease')">Decrease</div>
+                <i class="bi bi-dash-circle icon-hover" @click="changeFontSize('decrease')" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Decrease Font Size" aria-label="Decrease Font Size" role="button"></i>
+                <div class="small">Decrease</div>
               </div>
 
               <!-- Font Size Increase -->
               <div class="text-center">
-                <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle mx-2 icon-hover"
-                  @click="changeFontSize('increase')" data-bs-toggle="tooltip" data-bs-placement="top"
-                  title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
-                <div class="small" style="cursor:pointer" @click="changeFontSize('increase')">Increase</div>
+                <i class="bi bi-plus-circle icon-hover" @click="changeFontSize('increase')" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Increase Font Size" aria-label="Increase Font Size" role="button"></i>
+                <div class="small">Increase</div>
               </div>
 
               <!-- Share Icon -->
               <div class="text-center">
-                <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-tooltip h4 mx-2 pt-2 icon-hover"
-                  data-bs-toggle="tooltip" style="cursor:pointer" data-bs-placement="top" title="Share"
-                  aria-label="Share content" role="button"></i>
-                <div class="small pt-2" style="cursor:pointer" @click="shareOnWhatsApp(dua)">Share</div>
+                <i @click="shareOnWhatsApp(dua)" class="bi bi-share icon-hover" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Share" aria-label="Share content" role="button"></i>
+                <div class="small">Share</div>
               </div>
 
               <!-- Copy Icon -->
               <div class="text-center">
-                <i style="cursor:pointer" class="bi bi-clipboard icon-tooltip h4 mx-2 pt-2 icon-hover"
-                  @click="copyContent(dua)" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content"
-                  aria-label="Copy content" role="button"></i>
-                <div class="small pt-2" style="cursor:pointer" @click="copyContent(dua)">Copy</div>
+                <i class="bi bi-clipboard icon-hover" @click="copyContent(dua)" data-bs-toggle="tooltip"
+                  data-bs-placement="top" title="Copy Content" aria-label="Copy content" role="button"></i>
+                <div class="small">Copy</div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
     </div>
-
-
 
   </div>
 </template>
@@ -135,7 +138,7 @@ export default {
       currentPage: {},
       duasPerPage: 20, // Number of duas per page
       showCopyMessage: false,
-      fontSize: 20,
+      fontSize: 18,
     };
   },
   computed: {
@@ -176,7 +179,7 @@ export default {
     highlightText(text) {
       if (!this.searchQuery.trim()) return text;  // Return original text if search is empty
       const regex = new RegExp(`(${this.searchQuery})`, 'gi');
-      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>');  // Custom highlight with color
+      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); font-weight:bold; color: white;">$1</span>');  // Custom highlight with color
     },
     changeFontSize(action) {
       if (action === 'increase' && this.fontSize < 30) {
@@ -269,22 +272,39 @@ export default {
 </script>
 
 <style scoped>
+  /* Default font size for mobile devices */
+  .dua-card-content {
+    font-size: 18px; /* Increased mobile default font size */
+  }
+
+  /* Increase font size for tablets (768px and above) */
+  @media (min-width: 768px) {
+    .dua-card-content {
+      font-size: 22px; /* Increased tablet font size */
+    }
+  }
+
+  /* Increase font size further for desktop screens (1024px and above) */
+  @media (min-width: 1024px) {
+    .dua-card-content {
+      font-size: 26px; /* Increased desktop font size */
+    }
+  }
+
 .dua-card {
   border: 2px solid rgb(13, 182, 145);
   /* Highlight border */
   background-color: rgba(13, 182, 145, 0.1);
   /* Light highlight effect */
   transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-bottom-right-radius: 20px;
+  border-bottom-right-radius: 10px;
   background: rgb(13, 182, 145);
 }
 
 .dua-description {
-  font-size: 1.2rem;
   color: #000000;
-  line-height: 1.6;
 }
 
 .container {
@@ -317,6 +337,7 @@ mark {
   border-radius: 20%;
   border: 4px solid rgb(164, 197, 190);
   color: white;
+  font-style: bolder;
 }
 
 .dua-card {

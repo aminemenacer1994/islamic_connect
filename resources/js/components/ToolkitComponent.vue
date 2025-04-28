@@ -204,7 +204,7 @@ export default {
     startSpeechRecognition() {
       this.micActive = !this.micActive;
       this.micClicked = true;
-      
+
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         alert("Speech recognition is not supported in this browser.");
@@ -423,10 +423,9 @@ export default {
 
     async getAnswer() {
       if (!this.question.trim()) {
-        return; // Don't fetch if the question is empty
+        return;
       }
 
-      // If editing, remove the old bot response and update the question
       if (this.editingIndex !== null) {
         if (this.chatHistory[this.editingIndex + 1]?.type === "bot") {
           this.chatHistory.splice(this.editingIndex + 1, 1);
@@ -443,7 +442,7 @@ export default {
 
       try {
         const response = await fetch(
-          "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct",
+          "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill",
           {
             method: "POST",
             headers: {
@@ -453,7 +452,7 @@ export default {
             body: JSON.stringify({
               inputs: userQuestion,
               parameters: {
-                max_new_tokens: 1800, // Enough for ~1000+ words
+                max_new_tokens: 300,
               },
             }),
           }
@@ -465,27 +464,19 @@ export default {
 
         const data = await response.json();
 
-        if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
-          let answerText = data[0].generated_text.trim();
+        if (data.generated_text) {
+          let answerText = data.generated_text.trim();
 
-          // Remove the original question from the beginning of the answer
-          if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
-            answerText = answerText.slice(userQuestion.length).trim();
-          }
-
-          // Clean up response
           answerText = answerText
-            .replace(/[^\w\s.,!?()'"-]/g, "")       // Remove unwanted characters
-            .replace(/\n\s*\n/g, "\n")              // Remove excessive line breaks
-            .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
+            .replace(/[^\w\s.,!?()'"-]/g, "")
+            .replace(/\n\s*\n/g, "\n")
+            .replace(/(\w)([.!?])(\w)/g, "$1$2 $3")
             .trim();
 
-          // Remove trailing question mark if it ends with one
           if (answerText.endsWith("?")) {
             answerText = answerText.slice(0, -1).trim();
           }
 
-          // Add line breaks for better readability
           answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
 
           this.addMessage("bot", answerText);
@@ -500,8 +491,6 @@ export default {
         this.scrollToBottom();
       }
     },
-
-
     // Utility function to clean answer text
     cleanAnswer(answerText) {
       return answerText
@@ -599,9 +588,11 @@ export default {
   0% {
     box-shadow: 0 0 0 0 #21a587;
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(233, 233, 233, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(228, 231, 229, 0.439);
   }

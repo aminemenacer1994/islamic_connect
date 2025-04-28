@@ -35527,7 +35527,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       duasPerPage: 20,
       // Number of duas per page
       showCopyMessage: false,
-      fontSize: 20
+      fontSize: 18
     };
   },
   computed: {
@@ -35569,7 +35569,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     highlightText: function highlightText(text) {
       if (!this.searchQuery.trim()) return text; // Return original text if search is empty
       var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
-      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); color: white;">$1</span>'); // Custom highlight with color
+      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); font-weight:bold; color: white;">$1</span>'); // Custom highlight with color
     },
     changeFontSize: function changeFontSize(action) {
       if (action === 'increase' && this.fontSize < 30) {
@@ -40128,7 +40128,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               }
               return _context.abrupt("return");
             case 2:
-              // If editing, remove the old bot response and update the question
               if (_this4.editingIndex !== null) {
                 if (((_this4$chatHistory = _this4.chatHistory[_this4.editingIndex + 1]) === null || _this4$chatHistory === void 0 ? void 0 : _this4$chatHistory.type) === "bot") {
                   _this4.chatHistory.splice(_this4.editingIndex + 1, 1);
@@ -40143,7 +40142,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               _this4.question = "";
               _context.prev = 6;
               _context.next = 9;
-              return fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct", {
+              return fetch("https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -40152,7 +40151,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
                 body: JSON.stringify({
                   inputs: userQuestion,
                   parameters: {
-                    max_new_tokens: 1800 // Enough for ~1000+ words
+                    max_new_tokens: 300
                   }
                 })
               });
@@ -40168,24 +40167,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 14:
               data = _context.sent;
-              if (Array.isArray(data) && data.length > 0 && data[0].generated_text) {
-                answerText = data[0].generated_text.trim(); // Remove the original question from the beginning of the answer
-                if (answerText.toLowerCase().startsWith(userQuestion.toLowerCase())) {
-                  answerText = answerText.slice(userQuestion.length).trim();
-                }
-
-                // Clean up response
-                answerText = answerText.replace(/[^\w\s.,!?()'"-]/g, "") // Remove unwanted characters
-                .replace(/\n\s*\n/g, "\n") // Remove excessive line breaks
-                .replace(/(\w)([.!?])(\w)/g, "$1$2 $3") // Ensure spacing after punctuation
-                .trim();
-
-                // Remove trailing question mark if it ends with one
+              if (data.generated_text) {
+                answerText = data.generated_text.trim();
+                answerText = answerText.replace(/[^\w\s.,!?()'"-]/g, "").replace(/\n\s*\n/g, "\n").replace(/(\w)([.!?])(\w)/g, "$1$2 $3").trim();
                 if (answerText.endsWith("?")) {
                   answerText = answerText.slice(0, -1).trim();
                 }
-
-                // Add line breaks for better readability
                 answerText = answerText.replace(/(.{100,120})\s/g, "$1\n");
                 _this4.addMessage("bot", answerText);
               } else {
@@ -49410,11 +49397,11 @@ var _hoisted_8 = {
   "class": "container text-center"
 };
 var _hoisted_9 = {
-  "class": "card dua-card text-dark rounded-3 p-3"
+  "class": "card dua-card text-dark rounded-3 p-3 shadow-sm"
 };
 var _hoisted_10 = ["innerHTML"];
 var _hoisted_11 = {
-  "class": "row align-items-center mt-4"
+  "class": "row align-items-center mt-3"
 };
 var _hoisted_12 = {
   "class": "col-md-10"
@@ -49424,11 +49411,11 @@ var _hoisted_14 = {
   "class": "row align-items-center"
 };
 var _hoisted_15 = {
-  "class": "col-md-10 dua-description"
+  "class": "col-md-10"
 };
 var _hoisted_16 = ["innerHTML"];
 var _hoisted_17 = {
-  "class": "container text-center d-flex justify-content-between"
+  "class": "d-flex justify-content-between align-items-center"
 };
 var _hoisted_18 = {
   "class": "text-center"
@@ -49440,32 +49427,30 @@ var _hoisted_20 = {
   "class": "text-center"
 };
 var _hoisted_21 = ["onClick"];
-var _hoisted_22 = ["onClick"];
-var _hoisted_23 = {
+var _hoisted_22 = {
   "class": "text-center"
 };
-var _hoisted_24 = ["onClick"];
-var _hoisted_25 = ["onClick"];
+var _hoisted_23 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center mb-4 mt-4"
-  }, "Dua Collection", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Dua Collection", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 dua-description"
-  }, " The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like forgiveness, protection, healing and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, " The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like forgiveness, protection, healing and more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Select a Category:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedCategory = $event;
     }),
     "class": "form-select"
-  }, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Select a Dua Category", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " Duas) ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6\">\n          <div class=\"mb-3\">\n            <h4 class=\"fw-bold text-left pt-2 pb-2 container\">Search for a Dua word:</h4>\n            <input v-model=\"searchQuery\" type=\"text\" placeholder=\"Search for a keyword...\" class=\"form-control\" />\n          </div>\n        </div> ")])]), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Content copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mb-3\">\n          <h4 class=\"fw-bold text-left pt-2 pb-2 container\">Select a Category:</h4>\n          <div class=\"row\">\n            <div class=\"col-4\" v-for=\"category in duaCollection\" :key=\"category.id\">\n              <div class=\"card\" style=\"cursor: pointer;\" @click=\"selectedCategory = category.id\">\n                <div class=\"card-body text-center\">\n                  <h5 class=\"card-title\">{{ category.name }}</h5>\n                  <p class=\"card-text\">{{ category.duas.length }} Duas</p>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6\">\n          <div class=\"mb-3\">\n            <h4 class=\"fw-bold text-left pt-2 pb-2 container\">Search for a Dua word:</h4>\n            <input v-model=\"searchQuery\" type=\"text\" placeholder=\"Search for a keyword...\" class=\"form-control\" />\n          </div>\n        </div> ")])]), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Content copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     onClick: _cache[1] || (_cache[1] = function ($event) {
@@ -49480,39 +49465,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         "class": "col-md-6"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
         "class": "pb-2",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $data.fontSize + 'px'
         }),
         innerHTML: $options.highlightText(dua.title)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "col-md-2 text-center"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.arabic, 'ar')\"\n                  data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play Arabic\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (currently commented out) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.arabic, 'ar')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play Arabic\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $data.fontSize + 'px'
         }),
-        "class": "text-right py-3",
+        "class": "text-right",
         innerHTML: $options.highlightText(dua.arabic)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_13)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Translation Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_13)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Translation Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $data.fontSize + 'px'
         }),
-        "class": "text-left mb-0",
+        "class": "text-left",
         innerHTML: $options.highlightText(dua.translation)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_16)]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_16)]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "col-md-2 text-center"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.translation, 'en')\"\n                  data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play English\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (currently commented out) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.translation, 'en')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play English\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $data.fontSize + 'px'
         }),
-        "class": "text-left mt-3 text-secondary"
-      }, "- " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.reference), 5 /* TEXT, STYLE */)]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Decrease "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        style: {
-          "cursor": "pointer",
-          "font-size": "1.5rem"
-        },
-        "class": "bi bi-dash-circle mx-2 pb-2 icon-hover",
+        "class": "text-left mt-1 small-text text-secondary"
+      }, "-" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.reference), 5 /* TEXT, STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Decrease "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-dash-circle icon-hover",
         onClick: _cache[2] || (_cache[2] = function ($event) {
           return $options.changeFontSize('decrease');
         }),
@@ -49521,21 +49502,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         title: "Decrease Font Size",
         "aria-label": "Decrease Font Size",
         role: "button"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small",
-        style: {
-          "cursor": "pointer"
-        },
+      }), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "small"
+      }, "Decrease", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Increase "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-plus-circle icon-hover",
         onClick: _cache[3] || (_cache[3] = function ($event) {
-          return $options.changeFontSize('decrease');
-        })
-      }, "Decrease")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Increase "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        style: {
-          "cursor": "pointer",
-          "font-size": "1.5rem"
-        },
-        "class": "bi bi-plus-circle mx-2 icon-hover",
-        onClick: _cache[4] || (_cache[4] = function ($event) {
           return $options.changeFontSize('increase');
         }),
         "data-bs-toggle": "tooltip",
@@ -49543,40 +49514,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         title: "Increase Font Size",
         "aria-label": "Increase Font Size",
         role: "button"
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small",
-        style: {
-          "cursor": "pointer"
-        },
-        onClick: _cache[5] || (_cache[5] = function ($event) {
-          return $options.changeFontSize('increase');
-        })
-      }, "Increase")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "small"
+      }, "Increase", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         onClick: function onClick($event) {
           return $options.shareOnWhatsApp(dua);
         },
-        "class": "bi bi-share icon-tooltip h4 mx-2 pt-2 icon-hover",
+        "class": "bi bi-share icon-hover",
         "data-bs-toggle": "tooltip",
-        style: {
-          "cursor": "pointer"
-        },
         "data-bs-placement": "top",
         title: "Share",
         "aria-label": "Share content",
         role: "button"
-      }, null, 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small pt-2",
-        style: {
-          "cursor": "pointer"
-        },
-        onClick: function onClick($event) {
-          return $options.shareOnWhatsApp(dua);
-        }
-      }, "Share", 8 /* PROPS */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        style: {
-          "cursor": "pointer"
-        },
-        "class": "bi bi-clipboard icon-tooltip h4 mx-2 pt-2 icon-hover",
+      }, null, 8 /* PROPS */, _hoisted_21), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "small"
+      }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-clipboard icon-hover",
         onClick: function onClick($event) {
           return $options.copyContent(dua);
         },
@@ -49585,15 +49538,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         title: "Copy Content",
         "aria-label": "Copy content",
         role: "button"
-      }, null, 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small pt-2",
-        style: {
-          "cursor": "pointer"
-        },
-        onClick: function onClick($event) {
-          return $options.copyContent(dua);
-        }
-      }, "Copy", 8 /* PROPS */, _hoisted_25)])])])]);
+      }, null, 8 /* PROPS */, _hoisted_23), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "small"
+      }, "Copy", -1 /* HOISTED */))])])])]);
     }), 128 /* KEYED_FRAGMENT */))]);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
@@ -151699,7 +151646,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dua-card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgb(13, 182, 145);\n}\n.dua-description[data-v-7926cb50] {\n  font-size: 1.2rem;\n  color: #000000;\n  line-height: 1.6;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  /* Your desired highlight color */\n  color: white;\n  /* Optional: Change text color inside the highlight */\n}\n.icon-hover[data-v-7926cb50]:hover {\n  color: rgb(13, 182, 145) !important;\n  /* Change color on hover */\n}\n.card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgba(148, 208, 195, 0.179);\n  padding: 10px;\n  border-radius: 20%;\n  border: 4px solid rgb(164, 197, 190);\n  color: white;\n}\n.dua-card[data-v-7926cb50] {\n  text-align: center;\n  color: black;\n}\n.pagination button[data-v-7926cb50] {\n  margin: 5px;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n  /* Default font size for mobile devices */\n.dua-card-content[data-v-7926cb50] {\n    font-size: 18px; /* Increased mobile default font size */\n}\n  /* Increase font size for tablets (768px and above) */\n@media (min-width: 768px) {\n.dua-card-content[data-v-7926cb50] {\n      font-size: 22px; /* Increased tablet font size */\n}\n}\n  /* Increase font size further for desktop screens (1024px and above) */\n@media (min-width: 1024px) {\n.dua-card-content[data-v-7926cb50] {\n      font-size: 26px; /* Increased desktop font size */\n}\n}\n.dua-card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 10px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 10px;\n  background: rgb(13, 182, 145);\n}\n.dua-description[data-v-7926cb50] {\n  color: #000000;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  /* Your desired highlight color */\n  color: white;\n  /* Optional: Change text color inside the highlight */\n}\n.icon-hover[data-v-7926cb50]:hover {\n  color: rgb(13, 182, 145) !important;\n  /* Change color on hover */\n}\n.card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgba(148, 208, 195, 0.179);\n  padding: 10px;\n  border-radius: 20%;\n  border: 4px solid rgb(164, 197, 190);\n  color: white;\n  font-style: bolder;\n}\n.dua-card[data-v-7926cb50] {\n  text-align: center;\n  color: black;\n}\n.pagination button[data-v-7926cb50] {\n  margin: 5px;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
