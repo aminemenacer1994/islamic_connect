@@ -25,7 +25,7 @@
 
 
 
-    <div class=" pt-3" v-if="selectedPodcast">
+    <div class="pt-3" v-if="selectedPodcast">
       <hr class="container" />
       <p class="fw-bold display-5 ">{{ selectedPodcast.name }}</p>
       <img style=" border-radius: 15px;" class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">

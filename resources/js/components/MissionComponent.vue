@@ -95,6 +95,9 @@
             <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
             <strong>Listen Time:</strong> {{ listenTime }} minutes
 
+            <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+            <strong>Word Count:</strong> {{ wordCount }} words
+
             <!-- <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
               @click="shareOnWhatsApp"></i>
             <strong @click="shareOnWhatsApp" style="cursor: pointer;" class="feature">Share</strong>
