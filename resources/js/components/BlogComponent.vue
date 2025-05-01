@@ -1,278 +1,162 @@
 <template>
-  <div class="container my-5">
-    <div class="zakat-header text-center mb-5">
-      <h2 class="fw-bold">🧮 Zakat Calculator</h2>
-      <p class="text-muted">Calculate your annual zakat with precision and ease</p>
-    </div>
+  <div class="container py-5">
+    <h2 class="mb-4 text-center text-primary">Zakat Calculator</h2>
 
-    <!-- Nisab Section -->
-    <div class="card zakat-card mb-4 shadow-sm animate-fade">
-      <div class="card-body">
-        <h5 class="card-title mb-3">💰 Nisab Threshold</h5>
-        <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" v-model="nisabType" value="gold" id="nisabGold" />
-            <label class="form-check-label" for="nisabGold">Gold (87.48g)</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" v-model="nisabType" value="silver" id="nisabSilver" />
-            <label class="form-check-label" for="nisabSilver">Silver (612.36g)</label>
-          </div>
-          <div class="input-group w-auto">
-            <span class="input-group-text">Price/g</span>
-            <input type="number" v-model.number="pricePerGram" class="form-control" />
-            <button class="btn btn-outline-primary" @click="fetchMockPrice">Auto Update</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Assets -->
-    <div class="card zakat-card mb-4 shadow-sm animate-fade">
-      <div class="card-body">
-        <h5 class="card-title mb-3">📈 Zakatable Assets</h5>
-        <div v-for="(value, key) in assets" :key="key" class="mb-3">
-          <label class="form-label">{{ formatLabel(key) }}</label>
-          <input type="number" v-model.number="assets[key]" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Liabilities -->
-    <div class="card zakat-card mb-4 shadow-sm animate-fade">
-      <div class="card-body">
-        <h5 class="card-title mb-3">📉 Liabilities</h5>
-        <div v-for="(value, key) in liabilities" :key="key" class="mb-3">
-          <label class="form-label">{{ formatLabel(key) }}</label>
-          <input type="number" v-model.number="liabilities[key]" class="form-control" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Result Summary -->
-    <div class="card zakat-card bg-light border-0 shadow-lg p-4 animate-fade" id="summary">
-      <div class="card-body">
-        <h5 class="card-title mb-4">📝 Summary</h5>
-        <ul class="list-group list-group-flush mb-3">
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total Assets:</span>
-            <strong>{{ totalAssets }}</strong>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total Liabilities:</span>
-            <strong>{{ totalLiabilities }}</strong>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Net Assets:</span>
-            <strong>{{ netAssets }}</strong>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Nisab Threshold:</span>
-            <strong>{{ nisabThreshold }}</strong>
-          </li>
-        </ul>
-        <div class="alert" :class="zakatDue > 0 ? 'alert-success' : 'alert-warning'">
-          <strong v-if="zakatDue > 0">Zakat Due (2.5%):</strong>
-          <strong v-else>No Zakat Due:</strong>
-          <span class="ms-2">{{ zakatDue }}</span>
-        </div>
-        <div class="d-flex justify-content-between mt-4">
-          <button @click="resetForm" class="btn btn-outline-secondary">Reset</button>
-          <button @click="saveToLocal" class="btn btn-outline-success">💾 Save</button>
-          <button @click="loadFromLocal" class="btn btn-outline-info">📂 Load</button>
-          <button @click="printPDF" class="btn btn-outline-primary">🖨️ Export PDF</button>
-          <button @click="exportExcel" class="btn btn-outline-warning">📊 Export Excel</button>
-          <button @click="emailReport" class="btn btn-outline-danger">📧 Email Report</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Growth Chart Section -->
-    <div class="card zakat-card mb-4 shadow-sm animate-fade">
-      <div class="card-body">
-        <h5 class="card-title mb-3">📈 Asset Growth</h5>
-        <canvas id="growthChart" width="400" height="200"></canvas>
-      </div>
-    </div>
-
-    <!-- Language Switch Section -->
-    <div class="card zakat-card mb-4 shadow-sm animate-fade">
-      <div class="card-body">
-        <h5 class="card-title mb-3">🌍 Language Switch</h5>
-        <select v-model="language" class="form-select">
-          <option value="en">English</option>
-          <option value="ar">Arabic</option>
+    <!-- Currency and Nisab Selection -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Currency</label>
+        <select class="form-select" v-model="selectedCurrency">
+          <option v-for="(symbol, currency) in currencySymbols" :key="currency" :value="currency">
+            {{ currency }}
+          </option>
         </select>
       </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Nisab Standard</label>
+        <select class="form-select" v-model="nisabType">
+          <option value="gold">Gold (85g)</option>
+          <option value="silver">Silver (595g)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Zakat Inputs -->
+    <form @submit.prevent class="row g-4">
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Gold (grams)</label>
+        <input type="number" class="form-control" v-model.number="goldGrams" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Gold Price (per gram)</label>
+        <input type="number" class="form-control" v-model.number="goldPrice" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Silver (grams)</label>
+        <input type="number" class="form-control" v-model.number="silverGrams" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Silver Price (per gram)</label>
+        <input type="number" class="form-control" v-model.number="silverPrice" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Cash</label>
+        <input type="number" class="form-control" v-model.number="cash" />
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Investments</label>
+        <input type="number" class="form-control" v-model.number="investments" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Business Assets</label>
+        <input type="number" class="form-control" v-model.number="businessAssets" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-bold text-danger">Liabilities</label>
+        <input type="number" class="form-control" v-model.number="liabilities" />
+      </div>
+    </form>
+
+    <!-- Results -->
+    <div class="mt-5 p-4 bg-light rounded shadow-sm">
+      <h4 class="text-success mb-3">Zakat Summary</h4>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total Assets</span>
+          <strong>{{ currencySymbol }}{{ totalAssets.toFixed(2) }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Liabilities</span>
+          <strong class="text-danger">-{{ currencySymbol }}{{ liabilities.toFixed(2) }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Zakatable Amount</span>
+          <strong>{{ currencySymbol }}{{ zakatableAmount.toFixed(2) }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Zakat Due (2.5%)</span>
+          <strong class="text-primary">{{ currencySymbol }}{{ zakatDue.toFixed(2) }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Nisab Threshold ({{ nisabTypeLabel }})</span>
+          <strong>{{ currencySymbol }}{{ nisabThreshold.toFixed(2) }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Obligatory?</span>
+          <strong :class="isEligible ? 'text-success' : 'text-muted'">
+            {{ isEligible ? 'Yes, Zakat is due' : 'No, below Nisab' }}
+          </strong>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { jsPDF } from 'jspdf';
-import { saveAs } from 'file-saver';
-import Chart from 'chart.js/auto'; // For growth chart
-
 export default {
   name: "ZakatCalculator",
   data() {
     return {
+      goldGrams: 0,
+      goldPrice: 80,
+      silverGrams: 0,
+      silverPrice: 1,
+      cash: 0,
+      investments: 0,
+      businessAssets: 0,
+      liabilities: 0,
+      selectedCurrency: "USD",
       nisabType: "gold",
-      pricePerGram: 90,
-      assets: {
-        cash: 0,
-        gold: 0,
-        silver: 0,
-        businessAssets: 0,
-        investments: 0,
-        rentalIncome: 0,
-        receivables: 0
+      currencySymbols: {
+        USD: "$",
+        GBP: "£",
+        EUR: "€",
+        PKR: "Rs",
       },
-      liabilities: {
-        debts: 0,
-        bills: 0,
-        loans: 0
-      },
-      language: 'en'
     };
   },
   computed: {
-    nisabThreshold() {
-      const weight = this.nisabType === "gold" ? 87.48 : 612.36;
-      return (weight * this.pricePerGram).toFixed(2);
+    currencySymbol() {
+      return this.currencySymbols[this.selectedCurrency] || "$";
     },
     totalAssets() {
-      return Object.values(this.assets).reduce((a, b) => a + b, 0).toFixed(2);
+      return (
+        this.goldGrams * this.goldPrice +
+        this.silverGrams * this.silverPrice +
+        this.cash +
+        this.investments +
+        this.businessAssets
+      );
     },
-    totalLiabilities() {
-      return Object.values(this.liabilities).reduce((a, b) => a + b, 0).toFixed(2);
-    },
-    netAssets() {
-      return (this.totalAssets - this.totalLiabilities).toFixed(2);
+    zakatableAmount() {
+      const amount = this.totalAssets - this.liabilities;
+      return amount > 0 ? amount : 0;
     },
     zakatDue() {
-      const net = this.totalAssets - this.totalLiabilities;
-      return net >= this.nisabThreshold ? (net * 0.025).toFixed(2) : 0;
-    }
+      return this.zakatableAmount * 0.025;
+    },
+    nisabThreshold() {
+      return this.nisabType === "gold"
+        ? 85 * this.goldPrice
+        : 595 * this.silverPrice;
+    },
+    nisabTypeLabel() {
+      return this.nisabType === "gold" ? "Gold (85g)" : "Silver (595g)";
+    },
+    isEligible() {
+      return this.zakatableAmount >= this.nisabThreshold;
+    },
   },
-  methods: {
-    formatLabel(key) {
-      return key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase());
-    },
-    resetForm() {
-      for (let key in this.assets) this.assets[key] = 0;
-      for (let key in this.liabilities) this.liabilities[key] = 0;
-      this.pricePerGram = 90;
-      this.nisabType = "gold";
-      localStorage.removeItem("zakatData");
-    },
-    saveToLocal() {
-      const data = {
-        nisabType: this.nisabType,
-        pricePerGram: this.pricePerGram,
-        assets: this.assets,
-        liabilities: this.liabilities
-      };
-      localStorage.setItem("zakatData", JSON.stringify(data));
-      alert("Zakat data saved successfully!");
-    },
-    loadFromLocal() {
-      const saved = localStorage.getItem("zakatData");
-      if (saved) {
-        const data = JSON.parse(saved);
-        this.nisabType = data.nisabType;
-        this.pricePerGram = data.pricePerGram;
-        this.assets = data.assets;
-        this.liabilities = data.liabilities;
-        alert("Zakat data loaded!");
-      } else {
-        alert("No saved data found.");
-      }
-    },
-    printPDF() {
-      const doc = new jsPDF();
-      doc.text("Zakat Summary", 10, 10);
-      doc.text(`Total Assets: ${this.totalAssets}`, 10, 20);
-      doc.text(`Total Liabilities: ${this.totalLiabilities}`, 10, 30);
-      doc.text(`Net Assets: ${this.netAssets}`, 10, 40);
-      doc.text(`Nisab Threshold: ${this.nisabThreshold}`, 10, 50);
-      doc.text(`Zakat Due: ${this.zakatDue}`, 10, 60);
-      doc.save("Zakat_Calculator_Report.pdf");
-    },
-    exportExcel() {
-      const zakatData = [
-        ["Item", "Amount"],
-        ["Total Assets", this.totalAssets],
-        ["Total Liabilities", this.totalLiabilities],
-        ["Net Assets", this.netAssets],
-        ["Nisab Threshold", this.nisabThreshold],
-        ["Zakat Due", this.zakatDue]
-      ];
-      const ws = XLSX.utils.aoa_to_sheet(zakatData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Zakat Report");
-      XLSX.writeFile(wb, "Zakat_Report.xlsx");
-    },
-    emailReport() {
-      alert("Email functionality coming soon!");
-    },
-    fetchMockPrice() {
-      this.pricePerGram = 80; // Mock price update
-    }
-  },
-  mounted() {
-    // Chart.js Setup for Growth Chart
-    const ctx = document.getElementById('growthChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May'],
-        datasets: [{
-          label: 'Assets Over Time',
-          data: [10000, 12000, 13000, 15000, 17000],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
-        }]
-      }
-    });
-  }
 };
 </script>
 
 <style scoped>
-.zakat-card {
-  border-radius: 10px;
-}
-
-.animate-fade {
-  animation: fadeIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.card-body {
-  padding: 20px;
-}
-
-.card-title {
-  font-size: 1.5rem;
-}
-
-.container {
-  max-width: 1200px;
-}
-
-.shadow-sm {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-input[type="number"] {
-  padding: 10px;
-  font-size: 1rem;
+input,
+select {
+  border-radius: 0.375rem;
 }
 </style>
