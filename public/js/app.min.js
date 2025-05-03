@@ -52871,7 +52871,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Prayer Times")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -52881,7 +52881,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/guides1.png",
-    alt: "Madinah TV",
+    alt: "Islamic guides",
     "class": "w-100",
     style: {
       "object-fit": "contain"
@@ -52897,7 +52897,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Explore essential Islamic teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/guide'",
     style: {
@@ -52906,7 +52906,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -52915,8 +52915,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "background-color": "#fff"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/duas.png",
-    alt: "Eman Channel",
+    src: "/images/duaa1.png",
+    alt: "Explore Duas",
     "class": "w-100 pt-3",
     style: {
       "object-fit": "contain"
@@ -52932,7 +52932,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation, transliteration, and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/dua'",
     style: {
@@ -52941,7 +52941,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row pt-3 g-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
@@ -52952,8 +52952,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "background-color": "#fff"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/tv.png",
-    alt: "Prayer Times",
+    src: "/images/mtv2.png",
+    alt: "Watch Live",
     "class": "w-100",
     style: {
       "object-fit": "contain"
@@ -52969,7 +52969,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Accurate daily prayer times based on your location. View Fajr, Dhuhr, Asr, Maghrib, and Isha timings with sunrise and Qibla direction support."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/streaming'",
     style: {
@@ -52978,7 +52978,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -52988,7 +52988,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/calc.png",
-    alt: "Madinah TV",
+    alt: "Zakat Calculator",
     "class": "w-100",
     style: {
       "object-fit": "contain"
@@ -53004,7 +53004,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/blog'",
     style: {
@@ -53013,7 +53013,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -53022,8 +53022,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "background-color": "#fff"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/aotd1.png",
-    alt: "Eman Channel",
+    src: "/images/ml.webp",
+    alt: "Mosque Locator",
     "class": "w-100 pt-3",
     style: {
       "object-fit": "contain"
@@ -53032,14 +53032,121 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Ayah of the Day"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation, transliteration, and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/mosques'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row pt-3 g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/quibla1.png",
+    alt: "Qibla finder",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Qibla finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, " Find the Qibla direction from anywhere in the world using compass and map support—essential for your prayers. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/streaming'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/name_allah1.png",
+    alt: "Names of Allah",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, " Discover the 99 beautiful names of Allah (Asma’ul Husna) with meanings, benefits, and audio pronunciation. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/blog'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Names")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/calendar2.png",
+    alt: "Hijri Calendar",
+    "class": "w-100 pt-3",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Hijri Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "View today’s Hijri date alongside the Gregorian calendar, with key Islamic dates and fasting reminders."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/dua'",
     style: {
@@ -53048,7 +53155,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Select Utility")])])])])])], -1 /* HOISTED */))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])])], -1 /* HOISTED */))]);
 }
 
 /***/ }),
