@@ -39831,44 +39831,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var hls_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! hls.js */ "./node_modules/hls.js/dist/hls.mjs");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'LiveChannels',
   data: function data() {
-    var _ref;
-    return _ref = {
-      showPrayerInfo: false,
-      showMadinahInfo: false,
-      showFilters: true,
-      manualQuality: 'auto',
-      userCountry: ''
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "manualQuality", 'auto'), "videoRatio", '21x9'), "selectedLanguage", 'all'), "isLoading", false), "streamError", false), "selectedChannel", null), "hlsInstance", null), "isMiniScreen", false), "isDragging", false), "initialX", 0), _defineProperty(_defineProperty(_defineProperty(_ref, "initialY", 0), "currentX", 0), "currentY", 0);
-  },
-  computed: {
-    filteredChannels: function filteredChannels() {
-      var _this = this;
-      if (this.selectedLanguage === 'all') {
-        return this.channels;
-      }
-      return this.channels.filter(function (channel) {
-        return channel.languages && channel.languages.includes(_this.selectedLanguage);
-      });
-    }
-  },
-  methods: {
-    togglePrayerInfo: function togglePrayerInfo() {
-      this.showPrayerInfo = !this.showPrayerInfo;
-    }
-  },
-  beforeUnmount: function beforeUnmount() {
-    if (this.hlsInstance) {
-      this.hlsInstance.destroy();
-    }
+    return {};
   }
 });
 
@@ -52866,8 +52831,117 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 mb-4"
   }, "Islamic Utility Toolkit", -1 /* HOISTED */)), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead d-none d-md-block"
-  }, " The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious, educational, and spiritual needs. It typically includes a collection of tools and features that facilitate easier access to Islamic practices and information. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"pb-2\"><div class=\"row g-4\"><div class=\"col-md-6 col-lg-4\"><div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\"cursor:pointer;background-color:#fff;\"><img src=\"/images/pt1.png\" alt=\"Prayer Times\" class=\"w-100\" style=\"object-fit:contain;\"><div class=\"p-3\"><h5 class=\"mb-2 fw-bold display-6 text-dark\">Madinah TV</h5><p class=\"card-text text-muted text-wrap\" style=\"overflow:hidden;text-overflow:ellipsis;max-height:4.5em;\">Eman Channel provides Islamic educational content.</p></div></div></div><div class=\"col-md-6 col-lg-4\"><div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\"cursor:pointer;background-color:#fff;\"><img src=\"/images/madina_tv1.png\" alt=\"Madinah TV\" class=\"w-100\" style=\"object-fit:contain;\"><div class=\"p-3\"><h5 class=\"mb-2 fw-bold display-6 text-dark\">Madinah TV</h5><p class=\"card-text text-muted text-wrap\" style=\"overflow:hidden;text-overflow:ellipsis;max-height:4.5em;\">Eman Channel provides Islamic educational content.</p></div></div></div><div class=\"col-md-6 col-lg-4\"><div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\"cursor:pointer;background-color:#fff;\"><img src=\"/images/eman_img.png\" alt=\"Eman Channel\" class=\"w-100\" style=\"object-fit:contain;\"><div class=\"p-3\"><h5 class=\"mb-2 fw-bold display-6 text-dark\">Eman Channel</h5><p class=\"card-text text-muted text-wrap\" style=\"overflow:hidden;text-overflow:ellipsis;max-height:4.5em;\">Eman Channel provides Islamic educational content.</p></div></div></div></div></div>", 1))]);
+    "class": "text-center container mb-3 lead"
+  }, " The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious, educational, and spiritual needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "pb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/pt1.png",
+    alt: "Prayer Times",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Prayer Times"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Accurate daily prayer times based on your location. View Fajr, Dhuhr, Asr, Maghrib, and Isha timings with sunrise and Qibla direction support."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/content'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/guides1.png",
+    alt: "Madinah TV",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/guide'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "cursor": "pointer",
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/duas.png",
+    alt: "Eman Channel",
+    "class": "w-100 pt-3",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation, transliteration, and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/dua'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])])])], -1 /* HOISTED */))]);
 }
 
 /***/ }),
@@ -151873,7 +151947,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card {\n  height: 100%;\n  /* Adjust height as needed */\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card {\n  height: 100%;\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
