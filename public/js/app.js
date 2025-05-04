@@ -53094,9 +53094,9 @@ var _hoisted_9 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_PrayerTimes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PrayerTimes");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 mb-4"
-  }, "Islamic Utility Toolkit", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Utility Toolkit", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-3 lead"
   }, " The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious, educational, and spiritual needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/pt1.png",
@@ -53236,8 +53236,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "background-color": "#fff"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/calc.png",
-    alt: "Zakat Calculator",
+    src: "/images/radio1.png",
+    alt: "Radio stations",
     "class": "w-100",
     style: {
       "object-fit": "contain"
@@ -53246,23 +53246,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Radio Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onclick: "window.location.href='/blog'",
+    onclick: "window.location.href='/radio'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Radio")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -53400,7 +53400,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])], -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row pt-3 g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/calc.png",
+    alt: "Zakat Calculator",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/blog'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])])])])], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal fade",
     id: "prayerModal",
     tabindex: "-1",
@@ -53409,7 +53445,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onShown: _cache[1] || (_cache[1] = function () {
       return $options.onPrayerModalOpen && $options.onPrayerModalOpen.apply($options, arguments);
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "modal-title",
