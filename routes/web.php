@@ -42,6 +42,7 @@ use App\Http\Controllers\StreamingController;
 use App\Http\Controllers\ToolkitController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\QiblaController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -311,9 +312,11 @@ Route::get('/radio', [RadioController::class, 'index'])->name('radio');
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 // streaming
 Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
-// streaming
+// toolkit
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');
 // video
 Route::get('/video', [VideoController::class, 'index'])->name('video');
 // blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+// qibla
+Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');

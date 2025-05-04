@@ -66,6 +66,7 @@ import StreamingComponent from "./components/StreamingComponent.vue";
 import ToolkitComponent from "./components/ToolkitComponent.vue";
 import VideoComponent from "./components/VideoComponent.vue";
 import BlogComponent from "./components/BlogComponent.vue";
+import QiblaComponent from "./components/QiblaComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -177,6 +178,7 @@ app.component('streaming-component', StreamingComponent);
 app.component('toolkit-component', ToolkitComponent);
 app.component('video-component', VideoComponent);
 app.component('blog-component', BlogComponent);
+app.component('qibla-component', QiblaComponent);
 
 
 app.mount("#app");
