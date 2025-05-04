@@ -50887,80 +50887,90 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
+  "class": "container py-4"
+};
+var _hoisted_2 = {
   "class": "text-center"
 };
-var _hoisted_2 = ["disabled"];
-var _hoisted_3 = {
-  key: 0,
-  "class": "alert alert-warning mt-2"
-};
+var _hoisted_3 = ["disabled"];
 var _hoisted_4 = {
-  key: 1,
-  "class": "alert alert-danger"
-};
-var _hoisted_5 = {
-  key: 2,
+  key: 0,
   "class": "text-dark mb-3"
 };
+var _hoisted_5 = {
+  "class": "text-center container mb-3 lead"
+};
 var _hoisted_6 = {
-  "class": "d-flex justify-content-center"
+  "class": "text-center container mb-3 lead"
 };
 var _hoisted_7 = {
-  "class": "position-relative",
-  style: {
-    "width": "250px",
-    "height": "250px"
-  }
+  "class": "d-flex justify-content-center my-4"
 };
+var _hoisted_8 = ["data-latitude", "data-longitude", "data-qibla-angle", "data-distance-to-kaaba", "data-compass-rotation", "data-is-calibrated", "data-sensor-supported", "data-accuracy", "data-last-updated", "data-device-type", "data-user-agent"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container py-5", {
-      'bg-dark text-white': $data.darkMode
-    }])
-  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "fw-bold mb-2"
-  }, " 🧭 Advanced Qibla Finder "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted"
-  }, "Find your Qibla direction with live compass and distance to the Kaaba.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "text-center fw-bold display-4 mb-4"
+  }, " Qibla Finder "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-3 lead"
+  }, "The Advanced Qibla Finder is a high-precision tool that uses GPS, digital compass, maps, and optional AR to accurately determine the direction of the Kaaba from any location. It features real-time orientation, offline support, visual and voice guidance.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-lg btn-success mb-3",
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.getLocation && $options.getLocation.apply($options, arguments);
     }),
     disabled: $data.loading
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Locating...' : 'Find My Qibla'), 9 /* TEXT, PROPS */, _hoisted_2), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button class=\"btn btn-outline-secondary btn-sm mb-3 ms-2\" @click=\"toggleDarkMode\">\n        {{ darkMode ? '☀️ Light Mode' : '🌙 Dark Mode' }}\n      </button> "), !$data.isOnline ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, "⚠️ You are offline. Some features may not work.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.qiblaDirection !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🧭 Qibla Direction: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaDirection.toFixed(2)) + "°", 1 /* TEXT */), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" from North"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("📏 Distance to Kaaba: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.distanceToKaaba.toFixed(1)) + " km", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded-circle border border-3 border-secondary bg-light position-relative w-100 h-100", {
-      'bg-dark text-white border-light': $data.darkMode
-    }])
-  }, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "position-absolute top-0 start-50 translate-middle-x fw-bold"
-  }, "N", -1 /* HOISTED */)), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "position-absolute bottom-0 start-50 translate-middle-x fw-bold"
-  }, "S", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "position-absolute start-0 top-50 translate-middle-y fw-bold"
-  }, "W", -1 /* HOISTED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "position-absolute end-0 top-50 translate-middle-y fw-bold"
-  }, "E", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rotating Needle "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Locating...' : 'Find My Qibla'), 9 /* TEXT, PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Info "), $data.qiblaDirection !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+    "class": "fw-bold"
+  }, "Qibla Direction: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaDirection.toFixed(2)) + "°", 1 /* TEXT */), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" from North "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_6, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+    "class": "fw-bold"
+  }, "Distance to Kaaba: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.distanceToKaaba.toFixed(1)) + " km", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass UI with Metadata "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3",
+    role: "img",
+    "aria-label": "Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North",
+    tabindex: "0",
+    "data-latitude": _ctx.userLatitude,
+    "data-longitude": _ctx.userLongitude,
+    "data-qibla-angle": $data.qiblaDirection,
+    "data-distance-to-kaaba": $data.distanceToKaaba,
+    "data-compass-rotation": $data.compassRotation,
+    "data-is-calibrated": _ctx.isCalibrated,
+    "data-sensor-supported": _ctx.sensorSupported,
+    "data-accuracy": _ctx.accuracy,
+    "data-last-updated": _ctx.lastUpdated,
+    "data-device-type": _ctx.deviceType,
+    "data-user-agent": _ctx.userAgent
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass Image "), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Compass_Rose_English_North.svg/240px-Compass_Rose_English_North.svg.png",
-    alt: "Compass",
-    "class": "position-absolute top-50 start-50",
+    alt: "Compass Background",
+    "class": "position-absolute top-50 start-50 opacity-25",
     style: {
-      "width": "100px",
-      "height": "100px",
-      "transform": "translate(-50%, -50%) rotate(0deg)",
-      "opacity": "0.2"
+      "width": "100%",
+      "height": "100%",
+      "transform": "translate(-50%, -50%)",
+      "pointer-events": "none"
     }
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass Labels "), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label north fw-bold display-4"
+  }, "N", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label south fw-bold display-4"
+  }, "S", -1 /* HOISTED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label east fw-bold display-4"
+  }, "E", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label west fw-bold display-4"
+  }, "W", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Needle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "arrow bg-danger position-absolute top-50 start-50",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-      transform: 'rotate(' + ($data.compassRotation + $data.qiblaDirection) + 'deg) translate(-50%, -90%)'
+      transform: 'translate(-50%, -100%) rotate(' + ($data.compassRotation + $data.qiblaDirection) + 'deg)'
     }, {
-      "width": "12px",
-      "height": "100px",
-      "transition": "transform 0.5s ease-in-out"
-    }])
-  }, null, 4 /* STYLE */)], 2 /* CLASS */)])])], 2 /* CLASS */);
+      "width": "8px",
+      "height": "36%",
+      "transition": "transform 0.5s ease-in-out",
+      "transform-origin": "bottom center",
+      "border-radius": "8px"
+    }]),
+    "aria-hidden": "true"
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_8)])]);
 }
 
 /***/ }),
@@ -152297,7 +152307,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.arrow[data-v-6d77f7a9] {\n  transform-origin: bottom center;\n  border-radius: 6px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.arrow[data-v-6d77f7a9] {\n  transform-origin: bottom center;\n  border-radius: 6px;\n}\n.compass-wrapper[data-v-6d77f7a9] {\n  width: 90vw;\n  max-width: 400px;\n  aspect-ratio: 1 / 1;\n  margin: auto;\n  position: relative;\n}\n.compass-label[data-v-6d77f7a9] {\n  position: absolute;\n  font-weight: bold;\n  color: #343a40;\n  font-size: 1.25rem;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.compass-label.north[data-v-6d77f7a9] {\n  top: 4%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.south[data-v-6d77f7a9] {\n  bottom: 4%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.east[data-v-6d77f7a9] {\n  top: 50%;\n  right: 4%;\n  transform: translateY(-50%);\n}\n.compass-label.west[data-v-6d77f7a9] {\n  top: 50%;\n  left: 4%;\n  transform: translateY(-50%);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -1,50 +1,67 @@
 <template>
-  <div class="container py-5" :class="{ 'bg-dark text-white': darkMode }">
+  <div class="container py-4">
     <div class="text-center mb-4">
-      <h1 class="fw-bold mb-2">
-        🧭 Advanced Qibla Finder
-      </h1>
-      <p class="text-muted">Find your Qibla direction with live compass and distance to the Kaaba.</p>
+      <h3 class="text-center fw-bold display-4 mb-4">
+        Qibla Finder
+      </h3>
+      <p class="text-center container mb-3 lead">The Advanced Qibla Finder is a high-precision tool that uses GPS, digital compass, maps, and optional AR to accurately determine the direction of the Kaaba from any location. It features real-time orientation, offline support, visual and voice guidance.</p>
     </div>
 
     <div class="text-center">
+      <!-- Action Button -->
       <button class="btn btn-lg btn-success mb-3" @click="getLocation" :disabled="loading">
         {{ loading ? 'Locating...' : 'Find My Qibla' }}
       </button>
-      <!-- <button class="btn btn-outline-secondary btn-sm mb-3 ms-2" @click="toggleDarkMode">
-        {{ darkMode ? '☀️ Light Mode' : '🌙 Dark Mode' }}
-      </button> -->
-      <div v-if="!isOnline" class="alert alert-warning mt-2">⚠️ You are offline. Some features may not work.</div>
-      <div v-if="error" class="alert alert-danger">{{ error }}</div>
+
+      
+
+      <!-- Qibla Info -->
       <div v-if="qiblaDirection !== null" class="text-dark mb-3">
-        <p>🧭 Qibla Direction: <strong>{{ qiblaDirection.toFixed(2) }}°</strong> from North</p>
-        <p>📏 Distance to Kaaba: <strong>{{ distanceToKaaba.toFixed(1) }} km</strong></p>
+        <p class="text-center container mb-3 lead">
+          <b class="fw-bold">Qibla Direction: </b>
+          <strong>{{ qiblaDirection.toFixed(2) }}°</strong> from North
+        </p>
+        <p class="text-center container mb-3 lead">
+          <b class="fw-bold">Distance to Kaaba: </b>
+          <strong>{{ distanceToKaaba.toFixed(1) }} km</strong>
+        </p>
       </div>
     </div>
 
-    <div class="d-flex justify-content-center">
-      <div class="position-relative" style="width: 250px; height: 250px;">
-        <div class="rounded-circle border border-3 border-secondary bg-light position-relative w-100 h-100" :class="{ 'bg-dark text-white border-light': darkMode }">
-          <div class="position-absolute top-0 start-50 translate-middle-x fw-bold">N</div>
-          <div class="position-absolute bottom-0 start-50 translate-middle-x fw-bold">S</div>
-          <div class="position-absolute start-0 top-50 translate-middle-y fw-bold">W</div>
-          <div class="position-absolute end-0 top-50 translate-middle-y fw-bold">E</div>
+    <!-- Compass UI with Metadata -->
+    <div class="d-flex justify-content-center my-4">
+      <div class="position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3" role="img"
+        aria-label="Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North"
+        tabindex="0" :data-latitude="userLatitude" :data-longitude="userLongitude" :data-qibla-angle="qiblaDirection"
+        :data-distance-to-kaaba="distanceToKaaba" :data-compass-rotation="compassRotation"
+        :data-is-calibrated="isCalibrated" :data-sensor-supported="sensorSupported" :data-accuracy="accuracy"
+        :data-last-updated="lastUpdated" :data-device-type="deviceType" :data-user-agent="userAgent">
+        <!-- Compass Image -->
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Compass_Rose_English_North.svg/240px-Compass_Rose_English_North.svg.png"
+          alt="Compass Background" class="position-absolute top-50 start-50 opacity-25"
+          style="width: 100%; height: 100%; transform: translate(-50%, -50%); pointer-events: none;" />
 
-          <!-- Rotating Needle -->
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Compass_Rose_English_North.svg/240px-Compass_Rose_English_North.svg.png"
-            alt="Compass"
-            class="position-absolute top-50 start-50"
-            style="width: 100px; height: 100px; transform: translate(-50%, -50%) rotate(0deg); opacity: 0.2;"
-          />
-          <div
-            class="arrow bg-danger position-absolute top-50 start-50"
-            :style="{ transform: 'rotate(' + (compassRotation + qiblaDirection) + 'deg) translate(-50%, -90%)' }"
-            style="width: 12px; height: 100px; transition: transform 0.5s ease-in-out;"
-          ></div>
-        </div>
+        <!-- Compass Labels -->
+        <div class="compass-label north fw-bold display-4">N</div>
+        <div class="compass-label south fw-bold display-4">S</div>
+        <div class="compass-label east fw-bold display-4">E</div>
+        <div class="compass-label west fw-bold display-4">W</div>
+
+        <!-- Qibla Needle -->
+        <div class="arrow bg-danger position-absolute top-50 start-50" :style="{
+          transform: 'translate(-50%, -100%) rotate(' + (compassRotation + qiblaDirection) + 'deg)'
+        }" style="
+        width: 8px;
+        height: 36%;
+        transition: transform 0.5s ease-in-out;
+        transform-origin: bottom center;
+        border-radius: 8px;
+      " aria-hidden="true"></div>
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -147,5 +164,45 @@ export default {
 .arrow {
   transform-origin: bottom center;
   border-radius: 6px;
+}
+
+.compass-wrapper {
+  width: 90vw;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  margin: auto;
+  position: relative;
+}
+
+.compass-label {
+  position: absolute;
+  font-weight: bold;
+  color: #343a40;
+  font-size: 1.25rem;
+  user-select: none;
+}
+
+.compass-label.north {
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.compass-label.south {
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.compass-label.east {
+  top: 50%;
+  right: 4%;
+  transform: translateY(-50%);
+}
+
+.compass-label.west {
+  top: 50%;
+  left: 4%;
+  transform: translateY(-50%);
 }
 </style>
