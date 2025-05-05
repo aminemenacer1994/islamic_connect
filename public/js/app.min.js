@@ -36451,6 +36451,223 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "MosqueFinder",
+  data: function data() {
+    return {
+      searchQuery: "",
+      radius: "5000",
+      // Default 5km radius
+      mosques: [],
+      loading: false,
+      lastSearchLocation: null
+    };
+  },
+  computed: {
+    hasResults: function hasResults() {
+      return this.mosques.length > 0;
+    },
+    attributionText: function attributionText() {
+      return "Data \xA9 ".concat(new Date().getFullYear(), " OpenStreetMap contributors");
+    }
+  },
+  methods: {
+    searchMosques: function searchMosques() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var coords, mosques;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              if (_this.searchQuery.trim()) {
+                _context.next = 2;
+                break;
+              }
+              return _context.abrupt("return");
+            case 2:
+              _this.loading = true;
+              _this.mosques = [];
+              _this.lastSearchLocation = _this.searchQuery;
+              _context.prev = 5;
+              _context.next = 8;
+              return _this.geocodeLocation(_this.searchQuery);
+            case 8:
+              coords = _context.sent;
+              if (coords) {
+                _context.next = 11;
+                break;
+              }
+              return _context.abrupt("return");
+            case 11:
+              _context.next = 13;
+              return _this.fetchMosquesFromOverpass(coords.lat, coords.lon, parseInt(_this.radius));
+            case 13:
+              mosques = _context.sent;
+              // Step 3: Process and store results
+              _this.mosques = mosques.map(function (mosque) {
+                return _this.processMosqueData(mosque, coords);
+              });
+              _context.next = 21;
+              break;
+            case 17:
+              _context.prev = 17;
+              _context.t0 = _context["catch"](5);
+              console.error("Error in mosque search:", _context.t0);
+              _this.mosques = [];
+            case 21:
+              _context.prev = 21;
+              _this.loading = false;
+              return _context.finish(21);
+            case 24:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[5, 17, 21, 24]]);
+      }))();
+    },
+    geocodeLocation: function geocodeLocation(query) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var response, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(query), "&limit=1"));
+            case 3:
+              response = _context2.sent;
+              _context2.next = 6;
+              return response.json();
+            case 6:
+              data = _context2.sent;
+              return _context2.abrupt("return", data.length > 0 ? {
+                lat: parseFloat(data[0].lat),
+                lon: parseFloat(data[0].lon)
+              } : null);
+            case 10:
+              _context2.prev = 10;
+              _context2.t0 = _context2["catch"](0);
+              console.error("Geocoding error:", _context2.t0);
+              return _context2.abrupt("return", null);
+            case 14:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[0, 10]]);
+      }))();
+    },
+    fetchMosquesFromOverpass: function fetchMosquesFromOverpass(lat, lon, radius) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var radiusInDegrees, south, north, west, east, query, response, data;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              // Convert meters to degrees (approximate)
+              radiusInDegrees = radius / 111320; // Calculate bounding box ensuring correct coordinate order
+              south = Math.min(lat - radiusInDegrees, lat + radiusInDegrees);
+              north = Math.max(lat - radiusInDegrees, lat + radiusInDegrees);
+              west = Math.min(lon - radiusInDegrees, lon + radiusInDegrees);
+              east = Math.max(lon - radiusInDegrees, lon + radiusInDegrees);
+              query = "\n        [out:json];\n        (\n          node[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](".concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          relation[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n        );\n        out body;\n        >;\n        out skel qt;\n      ");
+              _context3.prev = 6;
+              _context3.next = 9;
+              return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(query)), {
+                headers: {
+                  'Accept': 'application/json'
+                }
+              });
+            case 9:
+              response = _context3.sent;
+              _context3.next = 12;
+              return response.json();
+            case 12:
+              data = _context3.sent;
+              return _context3.abrupt("return", data.elements || []);
+            case 16:
+              _context3.prev = 16;
+              _context3.t0 = _context3["catch"](6);
+              console.error("Overpass API error:", _context3.t0);
+              return _context3.abrupt("return", []);
+            case 20:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[6, 16]]);
+      }))();
+    },
+    processMosqueData: function processMosqueData(mosque, coords) {
+      var _mosque$tags, _mosque$tags2, _mosque$tags3, _mosque$center, _mosque$center2;
+      return {
+        id: mosque.id,
+        name: ((_mosque$tags = mosque.tags) === null || _mosque$tags === void 0 ? void 0 : _mosque$tags.name) || "Unnamed Mosque",
+        address: this.getAddress(mosque.tags),
+        city: ((_mosque$tags2 = mosque.tags) === null || _mosque$tags2 === void 0 ? void 0 : _mosque$tags2["addr:city"]) || this.lastSearchLocation,
+        country: ((_mosque$tags3 = mosque.tags) === null || _mosque$tags3 === void 0 ? void 0 : _mosque$tags3["addr:country"]) || "",
+        lat: mosque.lat || ((_mosque$center = mosque.center) === null || _mosque$center === void 0 ? void 0 : _mosque$center.lat) || coords.lat,
+        lon: mosque.lon || ((_mosque$center2 = mosque.center) === null || _mosque$center2 === void 0 ? void 0 : _mosque$center2.lon) || coords.lon,
+        capacity: this.estimateCapacity(mosque),
+        facilities: this.detectFacilities(mosque),
+        rating: this.generateRandomRating()
+      };
+    },
+    getAddress: function getAddress(tags) {
+      if (!tags) return "Address not specified";
+      var parts = [];
+      if (tags["addr:housenumber"]) parts.push(tags["addr:housenumber"]);
+      if (tags["addr:street"]) parts.push(tags["addr:street"]);
+      return parts.length > 0 ? parts.join(" ") : "Address not specified";
+    },
+    estimateCapacity: function estimateCapacity(mosque) {
+      var _mosque$tags4, _mosque$tags5, _mosque$tags6;
+      if ((_mosque$tags4 = mosque.tags) !== null && _mosque$tags4 !== void 0 && _mosque$tags4.capacity) return parseInt(mosque.tags.capacity);
+      // Estimate based on mosque type if available
+      if (((_mosque$tags5 = mosque.tags) === null || _mosque$tags5 === void 0 ? void 0 : _mosque$tags5.building) === "mosque") return Math.floor(100 + Math.random() * 400);
+      if (((_mosque$tags6 = mosque.tags) === null || _mosque$tags6 === void 0 ? void 0 : _mosque$tags6.building) === "yes") return Math.floor(50 + Math.random() * 150);
+      return Math.floor(50 + Math.random() * 300); // Default estimate
+    },
+    detectFacilities: function detectFacilities(mosque) {
+      var facilities = [];
+      var tags = mosque.tags || {};
+
+      // Core facilities
+      if (tags["prayer:jummah"] === "yes") facilities.push("Jummah Prayer");
+      if (tags["toilets"] === "yes") facilities.push("Toilets");
+      if (tags["wudu"] === "yes") facilities.push("Wudu Area");
+
+      // Additional amenities
+      if (tags["parking"] === "yes") facilities.push("Parking");
+      if (tags["female"] === "yes" || tags["amenity"] === "toilets:female") facilities.push("Women's Section");
+      if (tags["wheelchair"] === "yes") facilities.push("Wheelchair Access");
+      if (tags["internet_access"] === "yes") facilities.push("WiFi");
+      return facilities.length > 0 ? facilities : ["Basic Facilities"];
+    },
+    generateRandomRating: function generateRandomRating() {
+      // Base rating with some randomness
+      var rating = 3; // Default
+      if (Math.random() > 0.7) rating += 1; // 30% chance for 4 stars
+      if (Math.random() > 0.9) rating += 1; // 10% chance for 5 stars
+      return Math.min(5, Math.max(1, rating)); // Ensure 1-5 range
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PricingComponent.vue?vue&type=script&lang=js":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PricingComponent.vue?vue&type=script&lang=js ***!
@@ -50800,6 +51017,235 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     _: 1 /* STABLE */
   })]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2 ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+var _hoisted_1 = {
+  "class": "container my-5"
+};
+var _hoisted_2 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_3 = {
+  "class": "col-lg-10"
+};
+var _hoisted_4 = {
+  "class": "card shadow"
+};
+var _hoisted_5 = {
+  "class": "card-body"
+};
+var _hoisted_6 = {
+  "class": "row mb-4 g-3 align-items-end"
+};
+var _hoisted_7 = {
+  "class": "col-md-8"
+};
+var _hoisted_8 = {
+  "class": "input-group"
+};
+var _hoisted_9 = ["disabled"];
+var _hoisted_10 = {
+  key: 0
+};
+var _hoisted_11 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_12 = {
+  "class": "col-md-4"
+};
+var _hoisted_13 = ["disabled"];
+var _hoisted_14 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_15 = {
+  "class": "mt-3"
+};
+var _hoisted_16 = {
+  key: 1
+};
+var _hoisted_17 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_18 = {
+  "class": "row row-cols-1 row-cols-md-2 g-4"
+};
+var _hoisted_19 = {
+  "class": "card h-100 border-0 shadow-sm mosque-card"
+};
+var _hoisted_20 = {
+  "class": "card-body"
+};
+var _hoisted_21 = {
+  "class": "d-flex justify-content-between align-items-start mb-3"
+};
+var _hoisted_22 = {
+  "class": "h5 card-title mb-0 text-primary"
+};
+var _hoisted_23 = {
+  "class": "badge bg-success"
+};
+var _hoisted_24 = {
+  "class": "mb-3"
+};
+var _hoisted_25 = {
+  "class": "card-text text-muted mb-2"
+};
+var _hoisted_26 = {
+  "class": "card-text text-muted mb-2"
+};
+var _hoisted_27 = {
+  "class": "mb-3"
+};
+var _hoisted_28 = {
+  "class": "d-flex align-items-center mb-2"
+};
+var _hoisted_29 = {
+  "class": "text-warning me-2"
+};
+var _hoisted_30 = {
+  "class": "text-muted"
+};
+var _hoisted_31 = {
+  "class": "facilities"
+};
+var _hoisted_32 = {
+  "class": "d-flex justify-content-between align-items-center"
+};
+var _hoisted_33 = {
+  "class": "text-muted"
+};
+var _hoisted_34 = ["href"];
+var _hoisted_35 = {
+  "class": "card-footer bg-light"
+};
+var _hoisted_36 = {
+  "class": "d-flex justify-content-between align-items-center"
+};
+var _hoisted_37 = {
+  "class": "text-muted"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header bg-primary text-white\"><div class=\"d-flex justify-content-between align-items-center\"><div><h1 class=\"h4 mb-0\">🌍 Global Mosque Finder</h1><p class=\"mb-0 small\">Powered by OpenStreetMap</p></div><div class=\"attribution\"><small>Map data © OpenStreetMap contributors</small></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "searchInput",
+    "class": "form-label"
+  }, "Search location", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "searchInput",
+    type: "text",
+    "class": "form-control",
+    placeholder: "Enter city or country...",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.searchMosques && $options.searchMosques.apply($options, arguments);
+    }, ["enter"]))
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-primary",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.searchMosques && $options.searchMosques.apply($options, arguments);
+    }),
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11))], 8 /* PROPS */, _hoisted_9)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "radiusSelect",
+    "class": "form-label"
+  }, "Search radius", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "radiusSelect",
+    "class": "form-select",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.radius = $event;
+    }),
+    disabled: $data.loading
+  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1000"
+  }, "1 km", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "5000"
+  }, "5 km", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "10000"
+  }, "10 km", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "20000"
+  }, "20 km", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_13), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.radius]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-compass display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "Search for mosques worldwide", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Enter a city or country name to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-binoculars display-4 text-muted mb-3"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "No mosques found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Try adjusting your search or increasing the radius")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 2
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, function (mosque) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: mosque.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.city), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.address), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo me-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.lon.toFixed(4)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.rating, function (n) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star-fill",
+        key: 'star-' + n
+      });
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - mosque.rating, function (n) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star",
+        key: 'empty-' + n
+      });
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, "Estimated capacity: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.capacity.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.facilities, function (facility) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        "class": "badge bg-light text-dark me-1 mb-1",
+        key: facility
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.country), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "https://www.google.com/maps?q=".concat(mosque.lat, ",").concat(mosque.lon),
+      target: "_blank",
+      rel: "noopener noreferrer",
+      "class": "btn btn-sm btn-outline-primary"
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-map me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View on Google Maps ")])), 8 /* PROPS */, _hoisted_34)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_37, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])])])])])]);
 }
 
 /***/ }),
@@ -152302,6 +152748,31 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n@media (max-width: 767px) {\n#settin
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody {\n  background-color: #f8f9fa;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.card-header {\n  padding: 1.25rem 1.5rem;\n  background-color: #2c3e50 !important;\n}\n.card-header .attribution small {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 0.7rem;\n}\n.mosque-card {\n  transition: all 0.3s ease;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n}\n.mosque-card:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1) !important;\n}\n.form-control,\n.form-select {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill {\n  color: #f39c12;\n}\n.bi-star {\n  color: #ddd;\n}\n.badge {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success {\n  background-color: #27ae60 !important;\n}\n.facilities {\n  min-height: 2.5rem;\n}\n.spinner-border {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.card-header {\n    flex-direction: column;\n    text-align: center;\n}\n.attribution {\n    margin-top: 0.5rem;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PricingComponent.vue?vue&type=style&index=0&id=d4146a7c&scoped=true&lang=css":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/PricingComponent.vue?vue&type=style&index=0&id=d4146a7c&scoped=true&lang=css ***!
@@ -219295,6 +219766,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MissionComponent_vue_vue_type_style_index_0_id_39610a88_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_style_index_0_id_0d1002b2_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_style_index_0_id_0d1002b2_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_style_index_0_id_0d1002b2_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -299596,17 +300097,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./components/VideoComponent.vue */ "./resources/js/components/VideoComponent.vue");
 /* harmony import */ var _components_BlogComponent_vue__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./components/BlogComponent.vue */ "./resources/js/components/BlogComponent.vue");
 /* harmony import */ var _components_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./components/QiblaComponent.vue */ "./resources/js/components/QiblaComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_MosqueComponent_vue__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./components/MosqueComponent.vue */ "./resources/js/components/MosqueComponent.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -299722,7 +300225,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_67__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -299749,11 +300252,11 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_63__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_63__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_66__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_64__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_64__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
@@ -299764,6 +300267,7 @@ app.component('toolkit-component', _components_ToolkitComponent_vue__WEBPACK_IMP
 app.component('video-component', _components_VideoComponent_vue__WEBPACK_IMPORTED_MODULE_59__["default"]);
 app.component('blog-component', _components_BlogComponent_vue__WEBPACK_IMPORTED_MODULE_60__["default"]);
 app.component('qibla-component', _components_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_61__["default"]);
+app.component('mosque-component', _components_MosqueComponent_vue__WEBPACK_IMPORTED_MODULE_62__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -300915,6 +301419,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MissionComponent_vue_vue_type_template_id_39610a88_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MissionComponent_vue_vue_type_template_id_39610a88_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MissionComponent.vue?vue&type=template&id=39610a88&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MissionComponent.vue?vue&type=template&id=39610a88&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/MosqueComponent.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/MosqueComponent.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MosqueComponent_vue_vue_type_template_id_0d1002b2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MosqueComponent.vue?vue&type=template&id=0d1002b2 */ "./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2");
+/* harmony import */ var _MosqueComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MosqueComponent.vue?vue&type=script&lang=js */ "./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _MosqueComponent_vue_vue_type_style_index_0_id_0d1002b2_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css */ "./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_MosqueComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_MosqueComponent_vue_vue_type_template_id_0d1002b2__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/MosqueComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MosqueComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_style_index_0_id_0d1002b2_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=style&index=0&id=0d1002b2&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2 ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_template_id_0d1002b2__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_MosqueComponent_vue_vue_type_template_id_0d1002b2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./MosqueComponent.vue?vue&type=template&id=0d1002b2 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/MosqueComponent.vue?vue&type=template&id=0d1002b2");
 
 
 /***/ }),

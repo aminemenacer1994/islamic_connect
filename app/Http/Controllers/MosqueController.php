@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MissionController extends Controller
+class MosqueController extends Controller
 {
     public function index()
     {
-        return view('mission');
+        return view('mosque');
     }
 }

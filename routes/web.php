@@ -43,6 +43,7 @@ use App\Http\Controllers\ToolkitController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\QiblaController;
+use App\Http\Controllers\MosqueController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -320,3 +321,5 @@ Route::get('/video', [VideoController::class, 'index'])->name('video');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 // qibla
 Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
+// qibla
+Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
