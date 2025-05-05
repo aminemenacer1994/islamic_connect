@@ -90,8 +90,7 @@
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Radio Stations</h5>
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,
-                and spiritual reminders—streamed 24/7 in multiple languages.</p>
+                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.</p>
               <button class="form-control" onclick="window.location.href='/radio'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
                 type="submit">
@@ -111,7 +110,7 @@
                 Find nearby mosques around you based on your location with directions, prayer times, and contact
                 details.
               </p>
-              <button class="form-control" onclick="window.location.href='/mosques'"
+              <button class="form-control" onclick="window.location.href='/mosque'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
                 type="submit">
                 <b>Find a Mosque</b>

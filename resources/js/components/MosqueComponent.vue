@@ -1,43 +1,39 @@
 <template>
-  <div class="container my-5">
+  <div class="container-fluid my-5">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <div class="card shadow">
-          <div class="card-header bg-primary text-white">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <h1 class="h4 mb-0">🌍 Global Mosque Finder</h1>
-                <p class="mb-0 small">Powered by OpenStreetMap</p>
-              </div>
-              <div class="attribution">
-                <small>Map data © OpenStreetMap contributors</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-body">
+        <h1 class="display-5 fw-bold text-center">Mosque Locater</h1>
+        <p class="text-center container mb-4 lead">
+          Find nearby mosques around you based on your location with directions, prayer times, and contact details.
+        </p>
+        <div class="shadow" style="border-radius: 20px; padding: 10px;">
+          <div class="card-body container-fluid" style="padding: 5px;">
             <!-- Search Section -->
-            <div class="row mb-4 g-3 align-items-end">
-              <div class="col-md-8">
-                <label for="searchInput" class="form-label">Search location</label>
-                <div class="input-group">
-                  <input id="searchInput" type="text" class="form-control" placeholder="Enter city or country..."
-                    v-model="searchQuery" @keyup.enter="searchMosques">
-                  <button class="btn btn-primary" @click="searchMosques" :disabled="loading">
+            <div class="row mb-4">
+              <div class="col-md-12" >
+                <!-- Inline Search Bar with Label, Input, and Button -->
+                <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchMosques"
+                  style="gap: 0.5rem;">
+                  <!-- <label for="searchInput" class="form-label fw-bold mb-0"></label> -->
+                  <h4 class="card-title pr-2 fw-bold">Search location:</h4>
+                  <input id="searchInput" type="search" class="form-control" placeholder="Enter city or country..."
+                    aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                    style="max-width: 300px;" />
+                  <button class="btn btn-outline-success" type="submit" :disabled="loading">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
                   </button>
-                </div>
+                </form>
               </div>
-              <div class="col-md-4">
-                <label for="radiusSelect" class="form-label">Search radius</label>
+              <!-- <div class="col-md-4">
+                <h4 class="card-title pr-2 fw-bold">Search radius:</h4>
                 <select id="radiusSelect" class="form-select" v-model="radius" :disabled="loading">
                   <option value="1000">1 km</option>
                   <option value="5000">5 km</option>
                   <option value="10000">10 km</option>
                   <option value="20000">20 km</option>
                 </select>
-              </div>
+              </div> -->
             </div>
 
             <!-- Loading State -->
@@ -54,7 +50,7 @@
               <div v-if="!searchQuery && mosques.length === 0" class="text-center py-5">
                 <i class="bi bi-compass display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for mosques worldwide</h3>
-                <p class="text-muted">Enter a city or country name to begin</p>
+                <p class="text-muted">Enter a city or town name to begin</p>
               </div>
 
               <!-- No Results State -->
@@ -65,18 +61,23 @@
               </div>
 
               <!-- Results Grid -->
-              <div v-else class="row row-cols-1 row-cols-md-2 g-4">
+              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="mosque in mosques" :key="mosque.id">
-                  <div class="card h-100 border-0 shadow-sm mosque-card">
-                    <div class="card-body">
+                  <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden">
+                    <div class="card-body p-4">
                       <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h3 class="h5 card-title mb-0 text-primary">{{ mosque.name }}</h3>
-                        <span class="badge bg-success">{{ mosque.city }}</span>
+                        <h3 class="h5 card-title mb-0 fw-bold text-dark">{{ mosque.name }}</h3>
+                        <span class="badge rounded-pill" style="background-color: #00bfa6; color: white">{{ mosque.city
+                          }}</span>
                       </div>
 
                       <div class="mb-3">
                         <p class="card-text text-muted mb-2">
-                          <i class="bi bi-geo-alt-fill me-2"></i>{{ mosque.address }}
+                          <i class="bi bi-geo-alt-fill me-2"></i>
+                          <span
+                            style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                            {{ mosque.address }}
+                          </span>
                         </p>
                         <p class="card-text text-muted mb-2">
                           <i class="bi bi-geo me-2"></i>
@@ -85,27 +86,28 @@
                       </div>
 
                       <div class="mb-3">
-                        <div class="d-flex align-items-center mb-2">
+                        <div class="d-flex align-items-center mb-3">
                           <span class="text-warning me-2">
                             <i class="bi bi-star-fill" v-for="n in mosque.rating" :key="'star-' + n"></i>
                             <i class="bi bi-star" v-for="n in (5 - mosque.rating)" :key="'empty-' + n"></i>
                           </span>
-                          <small class="text-muted">Estimated capacity: {{ mosque.capacity.toLocaleString() }}</small>
+                          <small class="text-muted">Capacity: {{ mosque.capacity.toLocaleString() }}</small>
                         </div>
 
-                        <div class="facilities">
-                          <span class="badge bg-light text-dark me-1 mb-1" v-for="facility in mosque.facilities"
-                            :key="facility">
+                        <div class="facilities mb-3" style="min-height: 2.5rem;">
+                          <span class="badge rounded-pill me-1 mb-1" style="background-color: #f0f0f0; color: #333;"
+                            v-for="facility in mosque.facilities" :key="facility">
                             {{ facility }}
                           </span>
                         </div>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center">
+                      <div class="d-flex justify-content-between align-items-center mt-3">
                         <small class="text-muted">{{ mosque.country }}</small>
                         <a :href="`https://www.google.com/maps?q=${mosque.lat},${mosque.lon}`" target="_blank"
-                          rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">
-                          <i class="bi bi-map me-1"></i> View on Google Maps
+                          rel="noopener noreferrer" class="btn btn-sm rounded-pill"
+                          style="background: #00bfa6; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+                          <i class="bi bi-map me-1"></i> View Map
                         </a>
                       </div>
                     </div>
@@ -115,8 +117,8 @@
             </div>
           </div>
 
-          <div class="card-footer bg-light">
-            <div class="d-flex justify-content-between align-items-center">
+          <div class="card-footer bg-light" style="border-radius: 20px;">
+            <div class="d-flex justify-content-between align-items-center" style="padding: 10px;">
               <small class="text-muted">
                 Showing {{ mosques.length }} mosques
               </small>
@@ -294,7 +296,6 @@ export default {
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css');
 
 body {
-  background-color: #f8f9fa;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
