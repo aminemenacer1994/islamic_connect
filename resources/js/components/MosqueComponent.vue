@@ -107,7 +107,7 @@
             </div>
           </div>
 
-          <div class="card-footer bg-light" style="border-radius: 20px;">
+          <div class="card-footer" style="border-radius: 20px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
             <div class="d-flex justify-content-between align-items-center" style="padding: 10px;">
               <small class="text-muted">
                 Showing {{ mosques.length }} mosques

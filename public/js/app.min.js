@@ -51151,9 +51151,10 @@ var _hoisted_28 = {
 };
 var _hoisted_29 = ["onClick"];
 var _hoisted_30 = {
-  "class": "card-footer bg-light",
+  "class": "card-footer",
   style: {
-    "border-radius": "20px"
+    "border-radius": "20px",
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
   }
 };
 var _hoisted_31 = {
