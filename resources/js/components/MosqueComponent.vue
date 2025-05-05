@@ -6,16 +6,15 @@
         <p class="text-center container mb-4 lead">
           Find nearby mosques around you based on your location with directions, prayer times, and contact details.
         </p>
-        <div class="shadow" style="border-radius: 20px; padding: 10px;">
-          <div class="card-body container-fluid" style="padding: 5px;">
+        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
             <!-- Search Section -->
-            <div class="row mb-4">
-              <div class="col-md-12" >
+          <div class="card-body container-fluid" style="padding: 5px;">
+            <div class="row mb-4 justify-content-center">
+              <div>
                 <!-- Inline Search Bar with Label, Input, and Button -->
                 <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchMosques"
                   style="gap: 0.5rem;">
-                  <!-- <label for="searchInput" class="form-label fw-bold mb-0"></label> -->
-                  <h4 class="card-title pr-2 fw-bold">Search location:</h4>
+                  <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
                   <input id="searchInput" type="search" class="form-control" placeholder="Enter city or country..."
                     aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
@@ -25,15 +24,6 @@
                   </button>
                 </form>
               </div>
-              <!-- <div class="col-md-4">
-                <h4 class="card-title pr-2 fw-bold">Search radius:</h4>
-                <select id="radiusSelect" class="form-select" v-model="radius" :disabled="loading">
-                  <option value="1000">1 km</option>
-                  <option value="5000">5 km</option>
-                  <option value="10000">10 km</option>
-                  <option value="20000">20 km</option>
-                </select>
-              </div> -->
             </div>
 
             <!-- Loading State -->
@@ -63,52 +53,52 @@
               <!-- Results Grid -->
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="mosque in mosques" :key="mosque.id">
-                  <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden">
-                    <div class="card-body p-4">
-                      <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h3 class="h5 card-title mb-0 fw-bold text-dark">{{ mosque.name }}</h3>
-                        <span class="badge rounded-pill" style="background-color: #00bfa6; color: white">{{ mosque.city
-                          }}</span>
-                      </div>
-
-                      <div class="mb-3">
-                        <p class="card-text text-muted mb-2">
-                          <i class="bi bi-geo-alt-fill me-2"></i>
-                          <span
-                            style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                  <div class="card">
+                    <div style="padding: 15px 15px 0 15px;">
+                      <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">{{ mosque.name }}</h1>
+                    </div>
+                    <div class="card-body pt-0">
+                      <div class="mb-2">
+                        <div class="d-flex align-items-start">
+                          <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
+                          <span class="text-truncate"
+                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
                             {{ mosque.address }}
                           </span>
-                        </p>
-                        <p class="card-text text-muted mb-2">
+                        </div>
+                      </div>
+
+                      <div class="mb-2">
+                        <p class="text-muted mb-0">
                           <i class="bi bi-geo me-2"></i>
                           <small>{{ mosque.lat.toFixed(4) }}, {{ mosque.lon.toFixed(4) }}</small>
                         </p>
                       </div>
 
-                      <div class="mb-3">
-                        <div class="d-flex align-items-center mb-3">
-                          <span class="text-warning me-2">
-                            <i class="bi bi-star-fill" v-for="n in mosque.rating" :key="'star-' + n"></i>
-                            <i class="bi bi-star" v-for="n in (5 - mosque.rating)" :key="'empty-' + n"></i>
-                          </span>
-                          <small class="text-muted">Capacity: {{ mosque.capacity.toLocaleString() }}</small>
-                        </div>
-
-                        <div class="facilities mb-3" style="min-height: 2.5rem;">
-                          <span class="badge rounded-pill me-1 mb-1" style="background-color: #f0f0f0; color: #333;"
-                            v-for="facility in mosque.facilities" :key="facility">
-                            {{ facility }}
-                          </span>
-                        </div>
+                      <div class="mb-2 d-flex align-items-center">
+                        <span class="text-warning me-2">
+                          <i class="bi bi-star-fill" v-for="n in mosque.rating" :key="'star-' + n"></i>
+                          <i class="bi bi-star" v-for="n in (5 - mosque.rating)" :key="'empty-' + n"></i>
+                        </span>
+                        <h6 class="mb-0">Capacity: {{ mosque.capacity.toLocaleString() }}</h6>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center mt-3">
-                        <small class="text-muted">{{ mosque.country }}</small>
-                        <a :href="`https://www.google.com/maps?q=${mosque.lat},${mosque.lon}`" target="_blank"
-                          rel="noopener noreferrer" class="btn btn-sm rounded-pill"
-                          style="background: #00bfa6; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-                          <i class="bi bi-map me-1"></i> View Map
-                        </a>
+                      <div class="mb-2 facilities" style="min-height: 2.5rem;">
+                        <span class="badge rounded-pill me-1 mb-1" style="background-color: #f0f0f0; color: #333;"
+                          v-for="facility in mosque.facilities" :key="facility">
+                          {{ facility }}
+                        </span>
+                      </div>
+
+                      <div class="d-flex justify-content-between align-items-center">
+                        <button class="form-control d-flex align-items-center justify-content-center"
+                          @click="openGoogleMaps(mosque.lat, mosque.lon)"
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; min-width: 150px; height: 38px"
+                          type="button">
+                          <span class="text-center w-100">
+                            <b>Get Direction</b>
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -151,6 +141,9 @@ export default {
     }
   },
   methods: {
+    openGoogleMaps(lat, lon) {
+      window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank', 'noopener,noreferrer');
+    },
     async searchMosques() {
       if (!this.searchQuery.trim()) return;
 

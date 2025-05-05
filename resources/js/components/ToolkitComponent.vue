@@ -75,9 +75,9 @@
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Watch Islamic TV channels and live
                 lectures—stream events, khutbahs, educational programs, and spiritual content anytime.</p>
               <button class="form-control" onclick="window.location.href='/streaming'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
-                type="submit">
-                <b>Watch Live</b>
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100">Watch Live</span>
               </button>
             </div>
           </div>
@@ -90,11 +90,17 @@
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Radio Stations</h5>
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.</p>
-              <button class="form-control" onclick="window.location.href='/radio'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
-                type="submit">
-                <b>Explore Radio</b>
+                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,
+                and spiritual reminders—streamed 24/7 in multiple languages.</p>
+              <button class="form-control d-flex align-items-center justify-content-center"
+                onclick="window.location.href='/radio'" style="background: #00bfa6; 
+         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
+         color: white;
+         height: 38px; /* Fixed height for consistent alignment */
+         padding: 0.375rem 0.75rem;" type="submit">
+                <span class="text-center w-100"> <!-- Ensures perfect centering -->
+                  <b>Explore Radio</b>
+                </span>
               </button>
             </div>
           </div>
@@ -111,9 +117,9 @@
                 details.
               </p>
               <button class="form-control" onclick="window.location.href='/mosque'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Find a Mosque</b>
+                <span class="text-center w-100">Find a Mosque</span>
               </button>
             </div>
           </div>
