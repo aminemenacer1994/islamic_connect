@@ -135,7 +135,8 @@
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5>
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.</p>
+                Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic
+                faith, history, and daily life.</p>
               <button class="form-control" onclick="window.location.href='/content'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
@@ -147,18 +148,20 @@
 
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/name_allah1.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
+            <img src="/images/dates.png" alt="Date Converter" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Names of Allah</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Date Converter</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;"> Discover the 99 beautiful names
-                of Allah (Asma’ul Husna) with meanings, benefits, and audio pronunciation.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">An Islamic Date Converter lets you
+                switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj.
               </p>
-              <button class="form-control" onclick="window.location.href='/blog'"
+
+              <button class="form-control" onclick="window.location.href='/date'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>Explore Names</b></span>
+                <span class="text-center w-100"><b>Convert Date</b></span>
               </button>
+
             </div>
           </div>
         </div>
@@ -208,7 +211,8 @@
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Image Gallery</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.</p>
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a beautiful collection of
+                high-quality Islamic images capturing the essence of faith, culture, and tradition.</p>
 
               <button class="form-control" onclick="window.location.href='/gallery'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -226,7 +230,9 @@
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Video Gallery</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to deepen your understanding of Islam.</p>
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a curated collection of
+                short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to
+                deepen your understanding of Islam.</p>
 
               <button class="form-control" onclick="window.location.href='/video'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -234,6 +240,26 @@
                 <span class="text-center w-100"><b>Watch Videos</b></span>
               </button>
 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row pt-3 g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/name_allah1.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Names of Allah</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;"> Discover the 99 beautiful names
+                of Allah (Asma’ul Husna) with meanings, benefits, and audio pronunciation.
+              </p>
+              <button class="form-control" onclick="window.location.href='/blog'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Explore Names</b></span>
+              </button>
             </div>
           </div>
         </div>

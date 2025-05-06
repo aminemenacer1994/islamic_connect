@@ -1,5 +1,5 @@
 <template>
-  <div class="islamic-calendar-container container-fluid py-4">
+  <div class="islamic-calendar-container container-fluid py-5">
     <!-- Header Section -->
     <div class="calendar-header">
       <h3 class="text-center fw-bold display-5 mb-4">Islamic Hijri Calendar</h3>
@@ -8,7 +8,7 @@
         and Hajj.
       </p>
 
-      <div
+      <div style="border: 1px solid gray; border-radius: 20px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" 
         class="calendar-controls d-flex flex-column flex-md-row justify-content-between align-items-center gap-1 mb-4">
         <!-- Left: Previous Button -->
         <div class="col-md-3 text-center text-md-start">
