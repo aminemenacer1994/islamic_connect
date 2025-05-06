@@ -50546,7 +50546,12 @@ var _hoisted_24 = {
   "class": "col-md-6 mb-2"
 };
 var _hoisted_25 = {
-  "class": "p-3 bg-white rounded border"
+  "class": "p-3 bg-white rounded border",
+  style: {
+    "border": "1px solid gray",
+    "border-radius": "20px",
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+  }
 };
 var _hoisted_26 = {
   "class": "h6 text-muted mb-2"
@@ -50555,37 +50560,40 @@ var _hoisted_27 = {
   "class": "mb-1"
 };
 var _hoisted_28 = {
-  "class": "mb-0 text-muted small"
+  "class": "col-md-6 mb-2"
 };
 var _hoisted_29 = {
-  "class": "col-md-6"
+  "class": "p-3 bg-white rounded border",
+  style: {
+    "border": "1px solid gray",
+    "border-radius": "20px",
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+  }
 };
 var _hoisted_30 = {
-  "class": "p-3 bg-white rounded border"
-};
-var _hoisted_31 = {
   "class": "h6 text-muted mb-2"
 };
-var _hoisted_32 = {
+var _hoisted_31 = {
   "class": "mb-1"
 };
-var _hoisted_33 = {
+var _hoisted_32 = {
   "class": "mb-0 text-muted small"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Date Converter", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Date Converter", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " A small Islamic date converter is a lightweight tool that allows users to quickly convert between the Gregorian (solar) calendar and the Hijri (Islamic lunar) calendar. It typically requires a simple input of a Gregorian date and outputs the corresponding Islamic date, or vice versa. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-header",
+  }, " A small Islamic date converter is a lightweight tool that allows users to quickly convert between the Gregorian (solar) calendar and the Hijri (Islamic lunar) calendar. It typically requires a simple input of a Gregorian date and outputs the corresponding Islamic date, or vice versa. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
+      "padding": "0.9rem",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "background": "#00a792"
     }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "h4 mb-0 text-center"
-  }, "Advanced Date Converter")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold text-center"
+  }, "Islamic Date Converter")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "sourceCalendar",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -50594,11 +50602,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[1] || (_cache[1] = function () {
       return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
-  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
   }, "Gregorian", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
-  }, "Hijri", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Hijri", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "sourceCalendar"
   }, "Source Calendar", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
@@ -50609,11 +50617,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[3] || (_cache[3] = function () {
       return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
   }, "Hijri", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
-  }, "Gregorian", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Gregorian", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "targetCalendar"
   }, "Target Calendar", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
@@ -50629,7 +50637,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: d,
       key: d
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(d), 9 /* TEXT, PROPS */, _hoisted_15);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "day"
   }, "Day", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
@@ -50646,7 +50654,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: index + 1,
       key: index
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(m), 9 /* TEXT, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "month"
   }, "Month", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
@@ -50662,37 +50670,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: y,
       key: y
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(y), 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "year"
-  }, "Year", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control d-grid btn-xl",
-    onClick: _cache[10] || (_cache[10] = function () {
-      return $options.useCurrentDate && $options.useCurrentDate.apply($options, arguments);
-    }),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "60px",
-      "padding": "1rem",
-      "font-size": "1.25rem",
-      "border-radius": "8px",
-      "transition": "all 0.3s ease",
-      "border": "none",
-      "cursor": "pointer"
-    }, $data.hover ? 'background: #00a792; box-shadow: rgba(100, 100, 111, 0.3) 0px 10px 36px 0px; transform: translateY(-2px);' : '']),
-    type: "button",
-    onMouseover: _cache[11] || (_cache[11] = function ($event) {
-      return $data.hover = true;
-    }),
-    onMouseleave: _cache[12] || (_cache[12] = function ($event) {
-      return $data.hover = false;
-    })
-  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Use Current Date")], -1 /* HOISTED */)]), 36 /* STYLE, NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "h5 text-center mb-3"
-  }, "Conversion Result", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.sourceDayName), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Year", -1 /* HOISTED */))])])]), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h5 text-center mb-3 fw-bold"
+  }, "Conversion Result", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"mb-0 text-muted small\">{{ sourceDayName }}</p> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-footer text-muted small text-center"
   }, " Date conversion based on astronomical calculations ", -1 /* HOISTED */))])])])])]);
 }
@@ -153895,7 +153877,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.btn-primary[data-v-548c1d14] {\n  background-color: #229761;\n  background-color: #229761;\n  border-radius: 0.5rem;\n  padding: 0.75rem;\n  font-weight: 600;\n}\n.btn-primary[data-v-548c1d14]:hover {\n  background-color: #229761;\n  background-color: #229761;\n}\n.card-header[data-v-548c1d14] {\n  padding: 1.25rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -10,8 +10,8 @@
       <div class="row justify-content-center">
         <div class="col-md-12 col-lg-10">
           <div class="card shadow">
-            <div class="card-header" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;">
-              <h2 class="h4 mb-0 text-center">Advanced Date Converter</h2>
+            <div style="padding: 0.9rem; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; background: #00a792;">
+              <h3 class="fw-bold text-center">Islamic Date Converter</h3>
             </div>
             <div class="card-body">
               <div class="row mb-4">
@@ -62,34 +62,21 @@
                 </div>
               </div>
 
-              <button class="form-control d-grid btn-xl" @click="useCurrentDate" style="background: #00bfa6; 
-                 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
-                 color: white; 
-                 height: 60px; 
-                 padding: 1rem; 
-                 font-size: 1.25rem; 
-                 border-radius: 8px;
-                 transition: all 0.3s ease;
-                 border: none;
-                 cursor: pointer;" type="button" @mouseover="hover = true" @mouseleave="hover = false"
-                :style="hover ? 'background: #00a792; box-shadow: rgba(100, 100, 111, 0.3) 0px 10px 36px 0px; transform: translateY(-2px);' : ''">
-                <span class="text-center w-100"><b>Use Current Date</b></span>
-              </button>
 
               <div v-if="convertedDate" class="mt-4 p-3 bg-light rounded"
                 style="border: 1px solid gray; border-radius: 20px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-                <h3 class="h5 text-center mb-3">Conversion Result</h3>
+                <h3 class="h5 text-center mb-3 fw-bold">Conversion Result</h3>
                 <div class="row">
                   <div class="col-md-6 mb-2">
-                    <div class="p-3 bg-white rounded border">
+                    <div class="p-3 bg-white rounded border" style="border: 1px solid gray; border-radius: 20px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
                       <h4 class="h6 text-muted mb-2"><b>{{ sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri' }}</b>
                       </h4>
                       <p class="mb-1">{{ formattedSourceDate }}</p>
-                      <p class="mb-0 text-muted small">{{ sourceDayName }}</p>
+                      <!-- <p class="mb-0 text-muted small">{{ sourceDayName }}</p> -->
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="p-3 bg-white rounded border">
+                  <div class="col-md-6 mb-2">
+                    <div class="p-3 bg-white rounded border" style="border: 1px solid gray; border-radius: 20px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
                       <h4 class="h6 text-muted mb-2">{{ targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri' }}</h4>
                       <p class="mb-1">{{ formattedTargetDate }}</p>
                       <p class="mb-0 text-muted small">{{ targetDayName }}</p>
@@ -199,7 +186,7 @@ export default {
     },
     useCurrentDate() {
       const today = new Date();
-      
+
       if (this.sourceCalendar === 'gregorian') {
         // Set Gregorian date
         this.day = today.getDate();
@@ -216,10 +203,10 @@ export default {
         this.month = hijriDate.month;
         this.year = hijriDate.year;
       }
-      
+
       // Trigger your conversion
       this.convertDate();
-      
+
       console.log('Current date set:', {
         day: this.day,
         month: this.month,
@@ -305,23 +292,6 @@ export default {
 .form-select,
 .form-control {
   border-radius: 0.5rem;
-}
-
-.btn-primary {
-  background-color: #229761;
-  background-color: #229761;
-  border-radius: 0.5rem;
-  padding: 0.75rem;
-  font-weight: 600;
-}
-
-.btn-primary:hover {
-  background-color: #229761;
-  background-color: #229761;
-}
-
-.card-header {
-  padding: 1.25rem;
 }
 
 .card-body {
