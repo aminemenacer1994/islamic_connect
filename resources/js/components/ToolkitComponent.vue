@@ -13,18 +13,18 @@
         <!-- Prayer Times -->
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
-            <img src="/images/pt1.png" alt="Prayer Times" class="w-100" style="object-fit: contain;" />
+            <img src="/images/quibla1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Prayer Times</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
               <p class="card-text text-muted text-center"
                 style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
-                Accurate daily prayer times based on your location. View Fajr, Dhuhr, Asr, Maghrib, and Isha timings
-                with sunrise and Qibla direction support.
+                Find the Qibla direction from anywhere in the world using compass and map support—essential for your
+                prayers.
               </p>
               <button class="form-control" @click="showPrayerTimes = true"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>View Prayer Times</b></span>
+                <span class="text-center w-100"><b>Find Qibla</b></span>
               </button>
             </div>
           </div>
@@ -130,18 +130,16 @@
       <div class="row pt-3 g-4">
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/quibla1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
+            <img src="/images/ip.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5>
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                Find the Qibla direction from anywhere in the world using compass and map support—essential for your
-                prayers. </p>
-
-              <button class="form-control" onclick="window.location.href='/qibla'"
+                Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.</p>
+              <button class="form-control" onclick="window.location.href='/content'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>Find Qibla</b></span>
+                <span class="text-center w-100"><b>Explore Eodcasts</b></span>
               </button>
             </div>
           </div>
@@ -203,24 +201,45 @@
             </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/img_g.png" alt="Image Gallery" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Image Gallery</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.</p>
 
-    <div class="modal fade" id="prayerModal" tabindex="-1" aria-labelledby="prayerModalLabel" aria-hidden="true"
-      @shown.bs.modal="onPrayerModalOpen">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content p-3">
-          <div class="modal-header">
-            <h5 class="modal-title" id="prayerModalLabel">Prayer Times</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button class="form-control" onclick="window.location.href='/gallery'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>View Gallery</b></span>
+              </button>
+
+            </div>
           </div>
-          <div class="modal-body">
-            <PrayerTimes ref="prayerTimesRef" />
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/vide_g.png" alt="Video Gallery" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Video Gallery</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to deepen your understanding of Islam.</p>
+
+              <button class="form-control" onclick="window.location.href='/video'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Watch Videos</b></span>
+              </button>
+
+            </div>
           </div>
         </div>
       </div>
     </div>
+
 
 
 

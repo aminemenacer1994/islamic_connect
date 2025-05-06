@@ -119,16 +119,16 @@ body{
                         </ul>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/streaming" data-path="/streaming"><b style="color:black">Live Streaming</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/streaming" data-path="/streaming"><b style="color:black">Streaming</b></a></h6>
                     </li> 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah Timeline</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Toolkit</b></a></h6>
                     </li> 
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Duas</b></a></h6>
                     </li>
                     <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
