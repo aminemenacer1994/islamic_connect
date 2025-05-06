@@ -7,7 +7,7 @@
           Find nearby mosques around you based on your location with directions, prayer times, and contact details.
         </p>
         <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
-            <!-- Search Section -->
+          <!-- Search Section -->
           <div class="card-body container-fluid" style="padding: 5px;">
             <div class="row mb-4 justify-content-center">
               <div>
@@ -83,11 +83,20 @@
                         <h6 class="mb-0">Capacity: {{ mosque.capacity.toLocaleString() }}</h6>
                       </div>
 
-                      <div class="mb-2 facilities" style="min-height: 2.5rem;">
-                        <span class="badge rounded-pill me-1 mb-1" style="background-color: #f0f0f0; color: #333;"
-                          v-for="facility in mosque.facilities" :key="facility">
-                          {{ facility }}
-                        </span>
+                      <div class="mb-2 facilities">
+                        <div class="d-flex flex-wrap align-items-center" style="gap: 0.4rem;">
+                          <span class="badge rounded-pill d-flex align-items-center"
+                            v-for="facility in mosque.facilities" :key="facility"
+                            :class="getFacilityBadgeClass(facility)" style="padding: 0.5em 0.8em;">
+                            {{ facility }}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div v-if="mosque.tags?.opening_hours" class="opening-hours mb-2 mt-2">
+                        <small class="text-muted">
+                          <strong>Opening Times:</strong> {{ mosque.tags.opening_hours }}
+                        </small>
                       </div>
 
                       <div class="d-flex justify-content-between align-items-center">
@@ -107,12 +116,11 @@
             </div>
           </div>
 
-          <div class="card-footer" style="border-radius: 20px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-            <div class="d-flex justify-content-between align-items-center" style="padding: 10px;">
-              <small class="text-muted">
-                Showing {{ mosques.length }} mosques
-              </small>
-            </div>
+          <div v-if="!loading && mosques.length > 0" class="d-flex justify-content-between align-items-center"
+            style="padding: 10px;">
+            <small class="text-muted">
+              Showing {{ mosques.length }} mosques
+            </small>
           </div>
         </div>
       </div>
@@ -144,6 +152,7 @@ export default {
     openGoogleMaps(lat, lon) {
       window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank', 'noopener,noreferrer');
     },
+
     async searchMosques() {
       if (!this.searchQuery.trim()) return;
 
@@ -152,18 +161,15 @@ export default {
       this.lastSearchLocation = this.searchQuery;
 
       try {
-        // Step 1: Geocode the location to get coordinates
         const coords = await this.geocodeLocation(this.searchQuery);
         if (!coords) return;
 
-        // Step 2: Fetch mosques from Overpass API
         const mosques = await this.fetchMosquesFromOverpass(
           coords.lat,
           coords.lon,
           parseInt(this.radius)
         );
 
-        // Step 3: Process and store results
         this.mosques = mosques.map(mosque => this.processMosqueData(mosque, coords));
       } catch (error) {
         console.error("Error in mosque search:", error);
@@ -187,10 +193,7 @@ export default {
     },
 
     async fetchMosquesFromOverpass(lat, lon, radius) {
-      // Convert meters to degrees (approximate)
       const radiusInDegrees = radius / 111320;
-
-      // Calculate bounding box ensuring correct coordinate order
       const south = Math.min(lat - radiusInDegrees, lat + radiusInDegrees);
       const north = Math.max(lat - radiusInDegrees, lat + radiusInDegrees);
       const west = Math.min(lon - radiusInDegrees, lon + radiusInDegrees);
@@ -211,11 +214,7 @@ export default {
       try {
         const response = await fetch(
           `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`,
-          {
-            headers: {
-              'Accept': 'application/json'
-            }
-          }
+          { headers: { 'Accept': 'application/json' } }
         );
         const data = await response.json();
         return data.elements || [];
@@ -236,7 +235,8 @@ export default {
         lon: mosque.lon || (mosque.center?.lon || coords.lon),
         capacity: this.estimateCapacity(mosque),
         facilities: this.detectFacilities(mosque),
-        rating: this.generateRandomRating()
+        rating: this.generateRandomRating(),
+        tags: mosque.tags || {}
       };
     },
 
@@ -245,41 +245,82 @@ export default {
       const parts = [];
       if (tags["addr:housenumber"]) parts.push(tags["addr:housenumber"]);
       if (tags["addr:street"]) parts.push(tags["addr:street"]);
-      return parts.length > 0 ? parts.join(" ") : "Address not specified";
+      if (tags["addr:city"]) parts.push(tags["addr:city"]);
+      if (tags["addr:country"]) parts.push(tags["addr:country"]);
+      return parts.length > 0 ? parts.join(", ") : "Address not specified";
     },
 
     estimateCapacity(mosque) {
       if (mosque.tags?.capacity) return parseInt(mosque.tags.capacity);
-      // Estimate based on mosque type if available
       if (mosque.tags?.building === "mosque") return Math.floor(100 + Math.random() * 400);
       if (mosque.tags?.building === "yes") return Math.floor(50 + Math.random() * 150);
-      return Math.floor(50 + Math.random() * 300); // Default estimate
+      return Math.floor(50 + Math.random() * 300);
     },
 
     detectFacilities(mosque) {
-      const facilities = [];
       const tags = mosque.tags || {};
+      const facilities = [];
 
-      // Core facilities
-      if (tags["prayer:jummah"] === "yes") facilities.push("Jummah Prayer");
-      if (tags["toilets"] === "yes") facilities.push("Toilets");
-      if (tags["wudu"] === "yes") facilities.push("Wudu Area");
+      // Basic info
+      if (tags.amenity === 'place_of_worship') facilities.push('Mosque');
+      if (tags.religion === 'muslim') facilities.push('Muslim');
 
-      // Additional amenities
-      if (tags["parking"] === "yes") facilities.push("Parking");
-      if (tags["female"] === "yes" || tags["amenity"] === "toilets:female") facilities.push("Women's Section");
-      if (tags["wheelchair"] === "yes") facilities.push("Wheelchair Access");
-      if (tags["internet_access"] === "yes") facilities.push("WiFi");
+      // Accessibility
+      if (tags.wheelchair === 'yes') facilities.push('♿ Wheelchair Access');
+      else if (tags.wheelchair === 'limited') facilities.push('♿ Limited Access');
 
-      return facilities.length > 0 ? facilities : ["Basic Facilities"];
+      // Prayer spaces
+      if (tags.female_prayer_space === 'yes') facilities.push('♀ Women\'s Area');
+      if (tags.male_prayer_space === 'yes') facilities.push('♂ Men\'s Area');
+      if (tags.prayer_space === 'yes') facilities.push('🕌 Prayer Hall');
+
+      // Services
+      if (tags.toilets === 'yes') facilities.push('🚻 Toilets');
+      if (tags.ablation_space === 'yes' || tags.wudu === 'yes') facilities.push('💦 Ablution Area');
+      if (tags.parking === 'yes') facilities.push('🅿 Parking');
+
+      // Educational
+      if (tags.islamic_school === 'yes') facilities.push('📚 Islamic School');
+      if (tags.quran_classes === 'yes') facilities.push('📖 Quran Classes');
+
+      // Timing
+      if (tags.opening_hours) facilities.push('🕒 Opening Times');
+
+      // Architecture
+      if (tags.minaret === 'yes') facilities.push('🕌 Minaret');
+      if (tags.dome === 'yes') facilities.push('🕌 Dome');
+
+      // Other amenities
+      if (tags.internet_access === 'yes') facilities.push('📶 WiFi');
+      if (tags.air_conditioning === 'yes') facilities.push('❄️ AC');
+      if (tags.carpet === 'yes') facilities.push('🧎 Prayer Carpets');
+
+      return facilities.length > 0 ? facilities : ['Basic Facilities'];
+    },
+
+    getFacilityBadgeClass(facility) {
+      if (facility.includes('Wheelchair')) return 'bg-success text-white';
+      if (facility.includes('Women') || facility.includes('Men')) return 'bg-info text-white';
+      if (facility.includes('Opening Times')) return 'bg-primary text-white';
+      if (facility.includes('Parking') || facility.includes('Toilets')) return 'bg-warning text-dark';
+      if (facility.includes('School') || facility.includes('Classes')) return 'bg-dark text-white';
+      return 'bg-light text-dark';
+    },
+
+    formatOpeningHours(hours) {
+      // Simple formatting - could be enhanced with more complex parsing
+      return hours
+        .replace(/;/g, '; ')
+        .replace(/,/g, ', ')
+        .replace(/\s+/g, ' ')
+        .trim();
     },
 
     generateRandomRating() {
-      // Base rating with some randomness
-      let rating = 3; // Default
-      if (Math.random() > 0.7) rating += 1; // 30% chance for 4 stars
-      if (Math.random() > 0.9) rating += 1; // 10% chance for 5 stars
-      return Math.min(5, Math.max(1, rating)); // Ensure 1-5 range
+      let rating = 3;
+      if (Math.random() > 0.7) rating += 1;
+      if (Math.random() > 0.9) rating += 1;
+      return Math.min(5, Math.max(1, rating));
     }
   }
 };
@@ -287,6 +328,28 @@ export default {
 
 <style>
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css');
+
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.facilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 0.35em 0.65em;
+}
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;

@@ -36521,7 +36521,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return _this.fetchMosquesFromOverpass(coords.lat, coords.lon, parseInt(_this.radius));
             case 13:
               mosques = _context.sent;
-              // Step 3: Process and store results
               _this.mosques = mosques.map(function (mosque) {
                 return _this.processMosqueData(mosque, coords);
               });
@@ -36580,8 +36579,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              // Convert meters to degrees (approximate)
-              radiusInDegrees = radius / 111320; // Calculate bounding box ensuring correct coordinate order
+              radiusInDegrees = radius / 111320;
               south = Math.min(lat - radiusInDegrees, lat + radiusInDegrees);
               north = Math.max(lat - radiusInDegrees, lat + radiusInDegrees);
               west = Math.min(lon - radiusInDegrees, lon + radiusInDegrees);
@@ -36625,7 +36623,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         lon: mosque.lon || ((_mosque$center2 = mosque.center) === null || _mosque$center2 === void 0 ? void 0 : _mosque$center2.lon) || coords.lon,
         capacity: this.estimateCapacity(mosque),
         facilities: this.detectFacilities(mosque),
-        rating: this.generateRandomRating()
+        rating: this.generateRandomRating(),
+        tags: mosque.tags || {}
       };
     },
     getAddress: function getAddress(tags) {
@@ -36633,38 +36632,72 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var parts = [];
       if (tags["addr:housenumber"]) parts.push(tags["addr:housenumber"]);
       if (tags["addr:street"]) parts.push(tags["addr:street"]);
-      return parts.length > 0 ? parts.join(" ") : "Address not specified";
+      if (tags["addr:city"]) parts.push(tags["addr:city"]);
+      if (tags["addr:country"]) parts.push(tags["addr:country"]);
+      return parts.length > 0 ? parts.join(", ") : "Address not specified";
     },
     estimateCapacity: function estimateCapacity(mosque) {
       var _mosque$tags4, _mosque$tags5, _mosque$tags6;
       if ((_mosque$tags4 = mosque.tags) !== null && _mosque$tags4 !== void 0 && _mosque$tags4.capacity) return parseInt(mosque.tags.capacity);
-      // Estimate based on mosque type if available
       if (((_mosque$tags5 = mosque.tags) === null || _mosque$tags5 === void 0 ? void 0 : _mosque$tags5.building) === "mosque") return Math.floor(100 + Math.random() * 400);
       if (((_mosque$tags6 = mosque.tags) === null || _mosque$tags6 === void 0 ? void 0 : _mosque$tags6.building) === "yes") return Math.floor(50 + Math.random() * 150);
-      return Math.floor(50 + Math.random() * 300); // Default estimate
+      return Math.floor(50 + Math.random() * 300);
     },
     detectFacilities: function detectFacilities(mosque) {
-      var facilities = [];
       var tags = mosque.tags || {};
+      var facilities = [];
 
-      // Core facilities
-      if (tags["prayer:jummah"] === "yes") facilities.push("Jummah Prayer");
-      if (tags["toilets"] === "yes") facilities.push("Toilets");
-      if (tags["wudu"] === "yes") facilities.push("Wudu Area");
+      // Basic info
+      if (tags.amenity === 'place_of_worship') facilities.push('Mosque');
+      if (tags.religion === 'muslim') facilities.push('Muslim');
 
-      // Additional amenities
-      if (tags["parking"] === "yes") facilities.push("Parking");
-      if (tags["female"] === "yes" || tags["amenity"] === "toilets:female") facilities.push("Women's Section");
-      if (tags["wheelchair"] === "yes") facilities.push("Wheelchair Access");
-      if (tags["internet_access"] === "yes") facilities.push("WiFi");
-      return facilities.length > 0 ? facilities : ["Basic Facilities"];
+      // Accessibility
+      if (tags.wheelchair === 'yes') facilities.push('♿ Wheelchair Access');else if (tags.wheelchair === 'limited') facilities.push('♿ Limited Access');
+
+      // Prayer spaces
+      if (tags.female_prayer_space === 'yes') facilities.push('♀ Women\'s Area');
+      if (tags.male_prayer_space === 'yes') facilities.push('♂ Men\'s Area');
+      if (tags.prayer_space === 'yes') facilities.push('🕌 Prayer Hall');
+
+      // Services
+      if (tags.toilets === 'yes') facilities.push('🚻 Toilets');
+      if (tags.ablation_space === 'yes' || tags.wudu === 'yes') facilities.push('💦 Ablution Area');
+      if (tags.parking === 'yes') facilities.push('🅿 Parking');
+
+      // Educational
+      if (tags.islamic_school === 'yes') facilities.push('📚 Islamic School');
+      if (tags.quran_classes === 'yes') facilities.push('📖 Quran Classes');
+
+      // Timing
+      if (tags.opening_hours) facilities.push('🕒 Opening Times');
+
+      // Architecture
+      if (tags.minaret === 'yes') facilities.push('🕌 Minaret');
+      if (tags.dome === 'yes') facilities.push('🕌 Dome');
+
+      // Other amenities
+      if (tags.internet_access === 'yes') facilities.push('📶 WiFi');
+      if (tags.air_conditioning === 'yes') facilities.push('❄️ AC');
+      if (tags.carpet === 'yes') facilities.push('🧎 Prayer Carpets');
+      return facilities.length > 0 ? facilities : ['Basic Facilities'];
+    },
+    getFacilityBadgeClass: function getFacilityBadgeClass(facility) {
+      if (facility.includes('Wheelchair')) return 'bg-success text-white';
+      if (facility.includes('Women') || facility.includes('Men')) return 'bg-info text-white';
+      if (facility.includes('Opening Times')) return 'bg-primary text-white';
+      if (facility.includes('Parking') || facility.includes('Toilets')) return 'bg-warning text-dark';
+      if (facility.includes('School') || facility.includes('Classes')) return 'bg-dark text-white';
+      return 'bg-light text-dark';
+    },
+    formatOpeningHours: function formatOpeningHours(hours) {
+      // Simple formatting - could be enhanced with more complex parsing
+      return hours.replace(/;/g, '; ').replace(/,/g, ', ').replace(/\s+/g, ' ').trim();
     },
     generateRandomRating: function generateRandomRating() {
-      // Base rating with some randomness
-      var rating = 3; // Default
-      if (Math.random() > 0.7) rating += 1; // 30% chance for 4 stars
-      if (Math.random() > 0.9) rating += 1; // 10% chance for 5 stars
-      return Math.min(5, Math.max(1, rating)); // Ensure 1-5 range
+      var rating = 3;
+      if (Math.random() > 0.7) rating += 1;
+      if (Math.random() > 0.9) rating += 1;
+      return Math.min(5, Math.max(1, rating));
     }
   }
 });
@@ -51141,35 +51174,39 @@ var _hoisted_26 = {
   "class": "mb-0"
 };
 var _hoisted_27 = {
-  "class": "mb-2 facilities",
-  style: {
-    "min-height": "2.5rem"
-  }
+  "class": "mb-2 facilities"
 };
 var _hoisted_28 = {
-  "class": "d-flex justify-content-between align-items-center"
-};
-var _hoisted_29 = ["onClick"];
-var _hoisted_30 = {
-  "class": "card-footer",
+  "class": "d-flex flex-wrap align-items-center",
   style: {
-    "border-radius": "20px",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+    "gap": "0.4rem"
   }
 };
+var _hoisted_29 = {
+  key: 0,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_30 = {
+  "class": "text-muted"
+};
 var _hoisted_31 = {
+  "class": "d-flex justify-content-between align-items-center"
+};
+var _hoisted_32 = ["onClick"];
+var _hoisted_33 = {
+  key: 0,
   "class": "d-flex justify-content-between align-items-center",
   style: {
     "padding": "10px"
   }
 };
-var _hoisted_32 = {
+var _hoisted_34 = {
   "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Mosque Locater", -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Mosque Locater", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Inline Search Bar with Label, Input, and Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
@@ -51233,6 +51270,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Try adjusting your search or increasing the radius")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, function (mosque) {
+    var _mosque$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: mosque.id
@@ -51250,16 +51288,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bi bi-star",
         key: 'empty-' + n
       });
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_26, "Capacity: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.capacity.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.facilities, function (facility) {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_26, "Capacity: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.capacity.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(mosque.facilities, function (facility) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        "class": "badge rounded-pill me-1 mb-1",
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill d-flex align-items-center", $options.getFacilityBadgeClass(facility)]),
+        key: facility,
         style: {
-          "background-color": "#f0f0f0",
-          "color": "#333"
-        },
-        key: facility
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          "padding": "0.5em 0.8em"
+        }
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 3 /* TEXT, CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))])]), (_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "form-control d-flex align-items-center justify-content-center",
       onClick: function onClick($event) {
         return $options.openGoogleMaps(mosque.lat, mosque.lon);
@@ -51272,10 +51309,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "height": "38px"
       },
       type: "button"
-    }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_32, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])])])])])]);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -53830,7 +53867,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Eodcasts")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Podcasts")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
@@ -152885,7 +152922,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.card-header {\n  padding: 1.25rem 1.5rem;\n  background-color: #2c3e50 !important;\n}\n.card-header .attribution small {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 0.7rem;\n}\n.mosque-card {\n  transition: all 0.3s ease;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n}\n.mosque-card:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1) !important;\n}\n.form-control,\n.form-select {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill {\n  color: #f39c12;\n}\n.bi-star {\n  color: #ddd;\n}\n.badge {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success {\n  background-color: #27ae60 !important;\n}\n.facilities {\n  min-height: 2.5rem;\n}\n.spinner-border {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.card-header {\n    flex-direction: column;\n    text-align: center;\n}\n.attribution {\n    margin-top: 0.5rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card {\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.card:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.facilities {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.badge {\n  font-size: 0.8rem;\n  padding: 0.35em 0.65em;\n}\nbody {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.card-header {\n  padding: 1.25rem 1.5rem;\n  background-color: #2c3e50 !important;\n}\n.card-header .attribution small {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 0.7rem;\n}\n.mosque-card {\n  transition: all 0.3s ease;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n}\n.mosque-card:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1) !important;\n}\n.form-control,\n.form-select {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill {\n  color: #f39c12;\n}\n.bi-star {\n  color: #ddd;\n}\n.badge {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success {\n  background-color: #27ae60 !important;\n}\n.facilities {\n  min-height: 2.5rem;\n}\n.spinner-border {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.card-header {\n    flex-direction: column;\n    text-align: center;\n}\n.attribution {\n    margin-top: 0.5rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
