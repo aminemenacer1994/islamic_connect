@@ -4,7 +4,7 @@
       <h3 class="text-center fw-bold display-4 mb-4">
         Qibla Finder
       </h3>
-      <p class="text-center container mb-3 lead">The Advanced Qibla Finder is a high-precision tool that uses GPS,
+      <p class="text-center container-fluid mb-3 lead">The Advanced Qibla Finder is a high-precision tool that uses GPS,
         digital compass, maps, and optional AR to accurately determine the direction of the Kaaba from any location. It
         features real-time orientation, offline support, visual and voice guidance.</p>
     </div>
@@ -15,7 +15,7 @@
         <input type="text" class="form-control form-control-lg" placeholder="Enter country, city or town"
           v-model="searchLocation" @keyup.enter="searchQibla">
         <div class="d-flex justify-content-center gap-2 mt-2">
-          <button class="btn btn-lg btn-primary" @click="searchQibla" :disabled="loading">
+          <button class="btn btn-lg" style="background: #00bfa6;color: white;" @click="searchQibla" :disabled="loading">
             {{ loading ? 'Searching...' : 'Search Qibla' }}
           </button>
           <button class="btn btn-lg btn-outline-secondary" @click="resetData" :disabled="!hasData">
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Compass UI with Metadata -->
-    <div class="d-flex justify-content-center my-4" v-if="qiblaDirection !== null">
+    <div class="d-flex justify-content-center my-4" >
       <div class="position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3" role="img"
         aria-label="Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North"
         tabindex="0" :data-latitude="userLatitude" :data-longitude="userLongitude" :data-qibla-angle="qiblaDirection"

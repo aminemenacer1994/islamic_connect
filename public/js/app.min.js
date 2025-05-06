@@ -51545,7 +51545,6 @@ var _hoisted_11 = {
   "class": "text-center container mb-3 lead"
 };
 var _hoisted_12 = {
-  key: 0,
   "class": "d-flex justify-content-center my-4"
 };
 var _hoisted_13 = ["data-latitude", "data-longitude", "data-qibla-angle", "data-distance-to-kaaba", "data-compass-rotation", "data-is-calibrated", "data-sensor-supported", "data-accuracy", "data-last-updated", "data-device-type", "data-user-agent"];
@@ -51556,7 +51555,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 mb-4"
   }, " Qibla Finder "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-3 lead"
+    "class": "text-center container-fluid mb-3 lead"
   }, "The Advanced Qibla Finder is a high-precision tool that uses GPS, digital compass, maps, and optional AR to accurately determine the direction of the Kaaba from any location. It features real-time orientation, offline support, visual and voice guidance.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control form-control-lg",
@@ -51568,7 +51567,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }, ["enter"]))
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-lg btn-primary",
+    "class": "btn btn-lg",
+    style: {
+      "background": "#00bfa6",
+      "color": "white"
+    },
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }),
@@ -51585,7 +51588,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "fw-bold"
   }, "Qibla Direction: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(2)) + "°", 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" from North "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "fw-bold"
-  }, "Distance to Kaaba: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(1)) + " km", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass UI with Metadata "), $data.qiblaDirection !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Distance to Kaaba: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(1)) + " km", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass UI with Metadata "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3",
     role: "img",
     "aria-label": "Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North",
@@ -51631,7 +51634,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "border-radius": "8px"
     }]),
     "aria-hidden": "true"
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_13)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_13)])]);
 }
 
 /***/ }),
