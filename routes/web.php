@@ -44,6 +44,7 @@ use App\Http\Controllers\VideoController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\QiblaController;
 use App\Http\Controllers\MosqueController;
+use App\Http\Controllers\CalendarController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -323,3 +324,5 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
 // qibla
 Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
+// calendar
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
