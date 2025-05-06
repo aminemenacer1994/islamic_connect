@@ -22,8 +22,9 @@
                 with sunrise and Qibla direction support.
               </p>
               <button class="form-control" @click="showPrayerTimes = true"
-                style="background: #00bfa6; color: white; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px;">
-                <b>View Prayer Times</b>
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>View Prayer Times</b></span>
               </button>
             </div>
           </div>
@@ -38,9 +39,9 @@
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore essential Islamic
                 teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam.</p>
               <button class="form-control" onclick="window.location.href='/guide'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Read Guides</b>
+                <span class="text-center w-100"><b>Read Guides</b></span>
               </button>
             </div>
           </div>
@@ -56,9 +57,9 @@
                 Sunnah for every occasion—complete with Arabic, translation and audio to help you
                 reflect and connect.</p>
               <button class="form-control" onclick="window.location.href='/dua'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Explore Duas</b>
+                <span class="text-center w-100"><b>Explore Duas</b></span>
               </button>
             </div>
           </div>
@@ -74,10 +75,11 @@
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Watch Islamic TV channels and live
                 lectures—stream events, khutbahs, educational programs, and spiritual content anytime.</p>
+
               <button class="form-control" onclick="window.location.href='/streaming'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
-              <span class="text-center w-100">Watch Live</span>
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Watch Live</b></span>
               </button>
             </div>
           </div>
@@ -92,16 +94,12 @@
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                 Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,
                 and spiritual reminders—streamed 24/7 in multiple languages.</p>
-              <button class="form-control d-flex align-items-center justify-content-center"
-                onclick="window.location.href='/radio'" style="background: #00bfa6; 
-         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; 
-         color: white;
-         height: 38px; /* Fixed height for consistent alignment */
-         padding: 0.375rem 0.75rem;" type="submit">
-                <span class="text-center w-100"> <!-- Ensures perfect centering -->
-                  <b>Explore Radio</b>
-                </span>
+              <button class="form-control" onclick="window.location.href='/radio'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Explore Radio</b></span>
               </button>
+
             </div>
           </div>
         </div>
@@ -116,11 +114,14 @@
                 Find nearby mosques around you based on your location with directions, prayer times, and contact
                 details.
               </p>
+
               <button class="form-control" onclick="window.location.href='/mosque'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100">Find a Mosque</span>
+                <span class="text-center w-100"><b>Find a Mosque</b></span>
               </button>
+
+
             </div>
           </div>
         </div>
@@ -136,10 +137,11 @@
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
                 Find the Qibla direction from anywhere in the world using compass and map support—essential for your
                 prayers. </p>
+
               <button class="form-control" onclick="window.location.href='/qibla'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Find Qibla</b>
+                <span class="text-center w-100"><b>Find Qibla</b></span>
               </button>
             </div>
           </div>
@@ -155,9 +157,9 @@
                 of Allah (Asma’ul Husna) with meanings, benefits, and audio pronunciation.
               </p>
               <button class="form-control" onclick="window.location.href='/blog'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Explore Names</b>
+                <span class="text-center w-100"><b>Explore Names</b></span>
               </button>
             </div>
           </div>
@@ -171,10 +173,11 @@
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">View today’s Hijri date alongside
                 the Gregorian calendar, with key Islamic dates and fasting reminders.</p>
-              <button class="form-control" onclick="window.location.href='/dua'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+
+              <button class="form-control" onclick="window.location.href='/calendar'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Open Calendar</b>
+                <span class="text-center w-100"><b>Open Calendar</b></span>
               </button>
             </div>
           </div>
@@ -190,11 +193,13 @@
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Easily calculate your zakat based
                 on your assets and liabilities with up-to-date nisab values and simplified guidance.</p>
-              <button class="form-control" onclick="window.location.href='/blog'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+
+              <button class="form-control" onclick="window.location.href='/mosque'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <b>Calculate Zakat</b>
+                <span class="text-center w-100"><b>Calculate Zakat</b></span>
               </button>
+
             </div>
           </div>
         </div>

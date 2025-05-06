@@ -16,7 +16,7 @@
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
               style="object-fit: contain; height: 250px;">
             <div class="card-body p-4 text-center">
-              <h5 class="card-title fw-bold display-6 text-dark text-truncate" style="max-width: 100%;">
+              <h5 class="card-title fw-bold display-6 text-dark text-truncate" style="max-width: 100%;text-align: center;">
                 {{ channel.name }}
               </h5>
               <p class="card-text text-muted text-wrap"
@@ -24,10 +24,11 @@
                 {{ channel.description }}
               </p>
               <button class="form-control" @click.stop="playChannel(channel)"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
-                type="submit">
-                <b class="pt-3 pb-3">Display Channel</b>
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+                <b class="text-center w-100">Display Channel</b>
               </button>
+          
             </div>
           </div>
         </div>
