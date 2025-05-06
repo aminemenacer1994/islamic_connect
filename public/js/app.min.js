@@ -36487,6 +36487,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: {
+    shareViaWhatsApp: function shareViaWhatsApp(mosque) {
+      var _mosque$tags;
+      // Format the mosque details
+      var message = "Mosque name: *".concat(mosque.name, "*\n\n") + "Address: ".concat(mosque.address, "\n") + "Lat & Long: ".concat(mosque.lat.toFixed(4), ", ").concat(mosque.lon.toFixed(4), "\n") + "Rating: ".concat('★'.repeat(mosque.rating)).concat('☆'.repeat(5 - mosque.rating), "\n") + "Capacity: ".concat(mosque.capacity.toLocaleString(), "\n\n") + ((_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? "Opening Hours: ".concat(mosque.tags.opening_hours, "\n\n") : '') + "Google Maps: https://www.google.com/maps?q=".concat(mosque.lat, ",").concat(mosque.lon);
+
+      // Encode the message for URL
+      var encodedMessage = encodeURIComponent(message);
+
+      // Open WhatsApp with the message
+      window.open("https://wa.me/?text=".concat(encodedMessage), '_blank');
+    },
     openGoogleMaps: function openGoogleMaps(lat, lon) {
       window.open("https://www.google.com/maps?q=".concat(lat, ",").concat(lon), '_blank', 'noopener,noreferrer');
     },
@@ -36612,13 +36623,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     processMosqueData: function processMosqueData(mosque, coords) {
-      var _mosque$tags, _mosque$tags2, _mosque$tags3, _mosque$center, _mosque$center2;
+      var _mosque$tags2, _mosque$tags3, _mosque$tags4, _mosque$center, _mosque$center2;
       return {
         id: mosque.id,
-        name: ((_mosque$tags = mosque.tags) === null || _mosque$tags === void 0 ? void 0 : _mosque$tags.name) || "Unnamed Mosque",
+        name: ((_mosque$tags2 = mosque.tags) === null || _mosque$tags2 === void 0 ? void 0 : _mosque$tags2.name) || "Unnamed Mosque",
         address: this.getAddress(mosque.tags),
-        city: ((_mosque$tags2 = mosque.tags) === null || _mosque$tags2 === void 0 ? void 0 : _mosque$tags2["addr:city"]) || this.lastSearchLocation,
-        country: ((_mosque$tags3 = mosque.tags) === null || _mosque$tags3 === void 0 ? void 0 : _mosque$tags3["addr:country"]) || "",
+        city: ((_mosque$tags3 = mosque.tags) === null || _mosque$tags3 === void 0 ? void 0 : _mosque$tags3["addr:city"]) || this.lastSearchLocation,
+        country: ((_mosque$tags4 = mosque.tags) === null || _mosque$tags4 === void 0 ? void 0 : _mosque$tags4["addr:country"]) || "",
         lat: mosque.lat || ((_mosque$center = mosque.center) === null || _mosque$center === void 0 ? void 0 : _mosque$center.lat) || coords.lat,
         lon: mosque.lon || ((_mosque$center2 = mosque.center) === null || _mosque$center2 === void 0 ? void 0 : _mosque$center2.lon) || coords.lon,
         capacity: this.estimateCapacity(mosque),
@@ -36637,10 +36648,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return parts.length > 0 ? parts.join(", ") : "Address not specified";
     },
     estimateCapacity: function estimateCapacity(mosque) {
-      var _mosque$tags4, _mosque$tags5, _mosque$tags6;
-      if ((_mosque$tags4 = mosque.tags) !== null && _mosque$tags4 !== void 0 && _mosque$tags4.capacity) return parseInt(mosque.tags.capacity);
-      if (((_mosque$tags5 = mosque.tags) === null || _mosque$tags5 === void 0 ? void 0 : _mosque$tags5.building) === "mosque") return Math.floor(100 + Math.random() * 400);
-      if (((_mosque$tags6 = mosque.tags) === null || _mosque$tags6 === void 0 ? void 0 : _mosque$tags6.building) === "yes") return Math.floor(50 + Math.random() * 150);
+      var _mosque$tags5, _mosque$tags6, _mosque$tags7;
+      if ((_mosque$tags5 = mosque.tags) !== null && _mosque$tags5 !== void 0 && _mosque$tags5.capacity) return parseInt(mosque.tags.capacity);
+      if (((_mosque$tags6 = mosque.tags) === null || _mosque$tags6 === void 0 ? void 0 : _mosque$tags6.building) === "mosque") return Math.floor(100 + Math.random() * 400);
+      if (((_mosque$tags7 = mosque.tags) === null || _mosque$tags7 === void 0 ? void 0 : _mosque$tags7.building) === "yes") return Math.floor(50 + Math.random() * 150);
       return Math.floor(50 + Math.random() * 300);
     },
     detectFacilities: function detectFacilities(mosque) {
@@ -51190,23 +51201,24 @@ var _hoisted_30 = {
   "class": "text-muted"
 };
 var _hoisted_31 = {
-  "class": "d-flex justify-content-between align-items-center"
+  "class": "d-flex justify-content-between align-items-center gap-2"
 };
 var _hoisted_32 = ["onClick"];
-var _hoisted_33 = {
+var _hoisted_33 = ["onClick"];
+var _hoisted_34 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
   style: {
     "padding": "10px"
   }
 };
-var _hoisted_34 = {
+var _hoisted_35 = {
   "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Mosque Locater", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Mosque Locater", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Inline Search Bar with Label, Input, and Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
@@ -51296,8 +51308,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "padding": "0.5em 0.8em"
         }
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 3 /* TEXT, CLASS */);
-    }), 128 /* KEYED_FRAGMENT */))])]), (_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "form-control d-flex align-items-center justify-content-center",
+    }), 128 /* KEYED_FRAGMENT */))])]), (_mosque$tags = mosque.tags) !== null && _mosque$tags !== void 0 && _mosque$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mosque.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
         return $options.openGoogleMaps(mosque.lat, mosque.lon);
       },
@@ -51305,14 +51317,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "background": "#00bfa6",
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
-        "min-width": "150px",
         "height": "38px"
-      },
-      type: "button"
+      }
     }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.shareViaWhatsApp(mosque);
+      },
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.mosques.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.mosques.length) + " mosques ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),

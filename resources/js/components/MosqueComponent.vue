@@ -99,14 +99,21 @@
                         </small>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center">
-                        <button class="form-control d-flex align-items-center justify-content-center"
+                      <div class="d-flex justify-content-between align-items-center gap-2">
+                        <!-- Get Directions Button -->
+                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(mosque.lat, mosque.lon)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; min-width: 150px; height: 38px"
-                          type="button">
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
                           <span class="text-center w-100">
                             <b>Get Direction</b>
                           </span>
+                        </button>
+
+                        <!-- WhatsApp Share Button -->
+                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                          @click="shareViaWhatsApp(mosque)"
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          <b>Share Details</b>
                         </button>
                       </div>
                     </div>
@@ -149,6 +156,22 @@ export default {
     }
   },
   methods: {
+    shareViaWhatsApp(mosque) {
+      // Format the mosque details
+      const message = `Mosque name: *${mosque.name}*\n\n` +
+        `Address: ${mosque.address}\n` +
+        `Lat & Long: ${mosque.lat.toFixed(4)}, ${mosque.lon.toFixed(4)}\n` +
+        `Rating: ${'★'.repeat(mosque.rating)}${'☆'.repeat(5 - mosque.rating)}\n` +
+        `Capacity: ${mosque.capacity.toLocaleString()}\n\n` +
+        (mosque.tags?.opening_hours ? `Opening Hours: ${mosque.tags.opening_hours}\n\n` : '') +
+        `Google Maps: https://www.google.com/maps?q=${mosque.lat},${mosque.lon}`;
+
+      // Encode the message for URL
+      const encodedMessage = encodeURIComponent(message);
+
+      // Open WhatsApp with the message
+      window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+    },
     openGoogleMaps(lat, lon) {
       window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank', 'noopener,noreferrer');
     },
