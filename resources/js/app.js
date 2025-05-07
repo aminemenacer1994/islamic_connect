@@ -70,6 +70,8 @@ import QiblaComponent from "./components/QiblaComponent.vue";
 import MosqueComponent from "./components/MosqueComponent.vue";
 import CalendarComponent from "./components/CalendarComponent.vue";
 import DateComponent from "./components/DateComponent.vue";
+import HadithComponent from "./components/HadithComponent.vue";
+import ShopComponent from "./components/ShopComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -185,6 +187,8 @@ app.component('qibla-component', QiblaComponent);
 app.component('mosque-component', MosqueComponent);
 app.component('calendar-component', CalendarComponent);
 app.component('date-component', DateComponent);
+app.component('hadith-component', HadithComponent);
+app.component('shop-component', ShopComponent);
 
 
 app.mount("#app");

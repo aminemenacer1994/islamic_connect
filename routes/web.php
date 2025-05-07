@@ -46,6 +46,8 @@ use App\Http\Controllers\QiblaController;
 use App\Http\Controllers\MosqueController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DateController;
+use App\Http\Controllers\HadithController;
+use App\Http\Controllers\ShopController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -100,21 +102,21 @@ Route::post('/notes/{noteId}/unlike', [LikeController::class, 'unlike']);
 
 
 // Route::get('/notes', [NotesController::class, 'index']);
-    // Route::get('api/fetch-notes', [NotesController::class, 'getNotes']);
-    Route::post('api/submit-note', [NotesController::class, 'store']);
-    Route::post('/submit-note', [NotesController::class, 'store']);
+// Route::get('api/fetch-notes', [NotesController::class, 'getNotes']);
+Route::post('api/submit-note', [NotesController::class, 'store']);
+Route::post('/submit-note', [NotesController::class, 'store']);
 
-    Route::post('api/update-notes/{id}',  [NotesController::class, 'updateNotes']);
-    Route::delete('api/delete-notes/{id}',  [NotesController::class, 'deleteNotes']);
-    Route::get('/fetch-notes/{userId}', [NotesController::class, 'getNotes']);
+Route::post('api/update-notes/{id}',  [NotesController::class, 'updateNotes']);
+Route::delete('api/delete-notes/{id}',  [NotesController::class, 'deleteNotes']);
+Route::get('/fetch-notes/{userId}', [NotesController::class, 'getNotes']);
 
-    Route::get('/notes', [NotesController::class, 'index']);
-    Route::get('/api/notes/{userId}', [NotesController::class, 'getNotes']);
-    Route::post('/api/submit-note', [NotesController::class, 'store']);
-    Route::put('/api/update-note/{id}', [NotesController::class, 'updateNotes']);
-    Route::delete('/api/delete-note/{id}', [NotesController::class, 'deleteNotes']);
-    Route::post('/search', [NotesController::class, 'search'])->name('search');
-    Route::get('/search-translations', [SurahController::class, 'searchTranslations']);
+Route::get('/notes', [NotesController::class, 'index']);
+Route::get('/api/notes/{userId}', [NotesController::class, 'getNotes']);
+Route::post('/api/submit-note', [NotesController::class, 'store']);
+Route::put('/api/update-note/{id}', [NotesController::class, 'updateNotes']);
+Route::delete('/api/delete-note/{id}', [NotesController::class, 'deleteNotes']);
+Route::post('/search', [NotesController::class, 'search'])->name('search');
+Route::get('/search-translations', [SurahController::class, 'searchTranslations']);
 
 // routes/web.php
 Route::get('/api/fetch-notes/{userId}', [NotesController::class, 'fetchNotes']);
@@ -329,3 +331,7 @@ Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
 Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
 // date
 Route::get('/date', [DateController::class, 'index'])->name('date');
+// hadith
+Route::get('/hadith', [HadithController::class, 'index'])->name('hadith');
+// shop
+Route::get('/shop', [ShopController::class, 'index'])->name('shop');

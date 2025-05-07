@@ -10,10 +10,9 @@
     <div class="pb-2">
 
       <div class="row g-4">
-        <!-- Prayer Times -->
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
-            <img src="/images/quibla1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
+            <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
               <p class="card-text text-muted text-center"
@@ -32,16 +31,17 @@
 
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/guides1.png" alt="Islamic guides" class="w-100" style="object-fit: contain;" />
+            <img src="/images/quran_1.png" alt="Quran Eplorer" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Guides</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran Eplorer</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore essential Islamic
-                teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam.</p>
-              <button class="form-control" onclick="window.location.href='/guide'"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Browse by surah or verse, listen
+                to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah.
+              </p>
+              <button class="form-control" onclick="window.location.href='/surat'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>Read Guides</b></span>
+                <span class="text-center w-100"><b>Read & Listen</b></span>
               </button>
             </div>
           </div>
@@ -263,6 +263,41 @@
             </div>
           </div>
         </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/guides1.png" alt="Islamic guides" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Guides</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore essential Islamic
+                teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam.</p>
+              <button class="form-control" onclick="window.location.href='/guide'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Read Guides</b></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/ishopi.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Shops</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find modest fashion, Islamic books, prayer essentials, and more — all from trusted local shops. Our Islamic Shop Finder helps you explore verified businesses that align with your values.</p>
+              <button class="form-control" onclick="window.location.href='/shop'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Search Shops</b></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
