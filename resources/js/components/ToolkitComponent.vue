@@ -283,15 +283,15 @@
 
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/ishopi.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
+            <img src="/images/food.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Shops</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Halal Restaurants</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Find modest fashion, Islamic books, prayer essentials, and more — all from trusted local shops. Our Islamic Shop Finder helps you explore verified businesses that align with your values.</p>
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified halal restaurants at your fingertips. Whether you're traveling, new in town.</p>
               <button class="form-control" onclick="window.location.href='/shop'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>Search Shops</b></span>
+                <span class="text-center w-100"><b>Search Restaurants</b></span>
               </button>
             </div>
           </div>

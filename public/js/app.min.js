@@ -39284,257 +39284,272 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'IslamicShopsLocator',
+  name: 'HalalFoodLocator',
   data: function data() {
     return {
+      domElementsLoaded: false,
       searchQuery: '',
       activeType: 'all',
-      radius: 3000,
-      currentLocation: null,
+      loading: false,
       shops: [],
-      isLoading: false,
-      zoomLevel: 15,
-      highlightedShop: null,
-      shopTypes: [{
+      currentLocation: null,
+      searchRadius: 5000,
+      debounceTimeout: null,
+      foodTypes: [{
         value: 'all',
         label: 'All',
         icon: 'bi bi-shop'
       }, {
-        value: 'halal',
-        label: 'Halal',
+        value: 'restaurant',
+        label: 'Restaurants',
         icon: 'bi bi-egg-fried'
       }, {
-        value: 'bookstore',
-        label: 'Books',
-        icon: 'bi bi-book'
+        value: 'grocery',
+        label: 'Grocery',
+        icon: 'bi bi-basket'
       }, {
-        value: 'clothing',
-        label: 'Clothing',
-        icon: 'bi bi-person'
+        value: 'butcher',
+        label: 'Butchers',
+        icon: 'bi bi-droplet'
       }]
     };
   },
+  mounted: function mounted() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.domElementsLoaded = true;
+    });
+  },
   computed: {
     filteredShops: function filteredShops() {
-      var _this = this;
-      return this.shops.filter(function (shop) {
-        if (_this.activeType === 'all') return true;
-        return _this.getShopType(shop) === _this.activeType;
-      }).filter(function (shop) {
-        return shop.distance <= _this.radius;
-      }).sort(function (a, b) {
-        return a.distance - b.distance;
-      });
+      var _this2 = this;
+      var results = this.shops;
+      if (this.activeType !== 'all') {
+        results = results.filter(function (shop) {
+          return shop.type === _this2.activeType;
+        });
+      }
+      return results;
     },
-    osmIframeUrl: function osmIframeUrl() {
-      if (!this.currentLocation) return '';
-      var _this$currentLocation = this.currentLocation,
-        lat = _this$currentLocation.lat,
-        lon = _this$currentLocation.lon;
-      return "https://www.openstreetmap.org/export/embed.html?bbox=".concat(lon - 0.01, ",").concat(lat - 0.01, ",").concat(lon + 0.01, ",").concat(lat + 0.01, "&layer=mapnik&marker=").concat(lat, ",").concat(lon);
+    labeledShops: function labeledShops() {
+      var _this3 = this;
+      return this.filteredShops.map(function (shop) {
+        return _objectSpread(_objectSpread({}, shop), {}, {
+          typeLabel: _this3.getShopTypeLabel(shop.type)
+        });
+      });
     }
   },
   methods: {
+    safeFocusInput: function safeFocusInput() {
+      var _this4 = this;
+      this.$nextTick(function () {
+        var input = _this4.$refs.searchInput;
+        if (input !== null && input !== void 0 && input.focus) input.focus();
+      });
+    },
+    setActiveType: function setActiveType(type) {
+      this.activeType = type;
+    },
+    // getShopTypeLabel(type) {
+    //   return shopTypeLabels[type] || 'Halal Food Place';
+    // },
+    validateSearchQuery: function validateSearchQuery() {
+      if (!this.searchQuery || typeof this.searchQuery !== 'string') {
+        throw new Error("Invalid search query");
+      }
+      return this.searchQuery.trim();
+    },
+    debounceSearch: function debounceSearch() {
+      var _this5 = this;
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(function () {
+        return _this5.searchLocation();
+      }, 800);
+    },
     searchLocation: function searchLocation() {
-      var _this2 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var response, data;
+        var query, headers, geocodeRes, data, location;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (_this2.searchQuery.trim()) {
-                _context.next = 2;
+              query = _this6.searchQuery.trim();
+              if (query) {
+                _context.next = 3;
                 break;
               }
               return _context.abrupt("return");
-            case 2:
-              _this2.isLoading = true;
-              _context.prev = 3;
-              _context.next = 6;
-              return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(_this2.searchQuery), "&format=json&addressdetails=1&limit=1"));
-            case 6:
-              response = _context.sent;
-              if (response.ok) {
-                _context.next = 9;
-                break;
-              }
-              throw new Error('Location search failed');
+            case 3:
+              _this6.loading = true;
+              _this6.shops = [];
+              _context.prev = 5;
+              headers = new Headers({
+                'User-Agent': 'HalalFoodLocator/1.0'
+              });
+              _context.next = 9;
+              return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1"), {
+                headers: headers
+              });
             case 9:
-              _context.next = 11;
-              return response.json();
-            case 11:
-              data = _context.sent;
-              if (!(data.length === 0)) {
-                _context.next = 14;
+              geocodeRes = _context.sent;
+              if (geocodeRes.ok) {
+                _context.next = 12;
                 break;
               }
-              throw new Error('Location not found');
+              throw new Error("Location search failed");
+            case 12:
+              _context.next = 14;
+              return geocodeRes.json();
             case 14:
-              _this2.currentLocation = {
-                lat: parseFloat(data[0].lat),
-                lon: parseFloat(data[0].lon),
-                display_name: data[0].display_name.split(',').slice(0, 3).join(',')
+              data = _context.sent;
+              if (data.length) {
+                _context.next = 17;
+                break;
+              }
+              throw new Error("Location not found");
+            case 17:
+              location = data[0];
+              _this6.currentLocation = {
+                lat: parseFloat(location.lat),
+                lon: parseFloat(location.lon),
+                display_name: location.display_name
               };
-              _this2.findNearbyShops();
               _context.next = 21;
-              break;
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](3);
-              console.error("Search error:", _context.t0);
+              return _this6.fetchNearbyShops();
             case 21:
-              _context.prev = 21;
-              _this2.isLoading = false;
-              return _context.finish(21);
-            case 24:
+              _context.next = 27;
+              break;
+            case 23:
+              _context.prev = 23;
+              _context.t0 = _context["catch"](5);
+              console.error("Search error:", _context.t0);
+              alert(_context.t0.message || 'Could not find location');
+            case 27:
+              _context.prev = 27;
+              _this6.loading = false;
+              return _context.finish(27);
+            case 30:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[3, 18, 21, 24]]);
+        }, _callee, null, [[5, 23, 27, 30]]);
       }))();
     },
-    findNearbyShops: function findNearbyShops() {
-      var _this3 = this;
+    fetchNearbyShops: function fetchNearbyShops() {
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _this3$currentLocatio, lat, lon, radius, overpassQuery, response, data;
+        var _this7$currentLocatio, lat, lon, radius, query, res, json;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              if (_this3.currentLocation) {
+              if (_this7.currentLocation) {
                 _context2.next = 2;
                 break;
               }
               return _context2.abrupt("return");
             case 2:
-              _this3.isLoading = true;
-              _context2.prev = 3;
-              // Use Overpass API to find Islamic shops (free, no API key needed)
-              _this3$currentLocatio = _this3.currentLocation, lat = _this3$currentLocatio.lat, lon = _this3$currentLocatio.lon;
-              radius = _this3.radius;
-              overpassQuery = "\n          [out:json];\n          (\n            node[\"shop\"=\"halal\"](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n            node[\"shop\"=\"books\"][\"religion\"=\"muslim\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n            node[\"shop\"=\"clothing\"][\"religion\"=\"muslim\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n            node[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          );\n          out body;\n          >;\n          out skel qt;\n        ");
-              _context2.next = 9;
-              return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(overpassQuery)));
-            case 9:
-              response = _context2.sent;
-              if (response.ok) {
-                _context2.next = 12;
+              _this7$currentLocatio = _this7.currentLocation, lat = _this7$currentLocatio.lat, lon = _this7$currentLocatio.lon;
+              radius = _this7.searchRadius;
+              query = "\n        [out:json][timeout:25];\n        (\n          node[\"diet:halal\"=\"yes\"](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          node[\"cuisine\"~\"halal|muslim\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          node[\"shop\"~\"halal|butcher\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"cuisine\"~\"halal|muslim\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"~\"halal|butcher\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        );\n        out center;\n      ");
+              _context2.prev = 5;
+              _context2.next = 8;
+              return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(query)));
+            case 8:
+              res = _context2.sent;
+              if (res.ok) {
+                _context2.next = 11;
                 break;
               }
-              throw new Error('Shop search failed');
-            case 12:
-              _context2.next = 14;
-              return response.json();
-            case 14:
-              data = _context2.sent;
-              _this3.processShopData(data.elements);
-              _context2.next = 21;
+              throw new Error("Failed to fetch food places");
+            case 11:
+              _context2.next = 13;
+              return res.json();
+            case 13:
+              json = _context2.sent;
+              _this7.processShopData(json.elements || []);
+              _context2.next = 22;
               break;
-            case 18:
-              _context2.prev = 18;
-              _context2.t0 = _context2["catch"](3);
-              console.error("Shop search error:", _context2.t0);
-            case 21:
-              _context2.prev = 21;
-              _this3.isLoading = false;
-              return _context2.finish(21);
-            case 24:
+            case 17:
+              _context2.prev = 17;
+              _context2.t0 = _context2["catch"](5);
+              console.error("Fetch error:", _context2.t0);
+              alert(_context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places');
+              _this7.shops = [];
+            case 22:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[3, 18, 21, 24]]);
+        }, _callee2, null, [[5, 17]]);
       }))();
     },
     processShopData: function processShopData(elements) {
-      var _this4 = this;
+      var _this8 = this;
+      var seen = new Set();
       var shops = [];
-      var seenIds = new Set();
-      var _this$currentLocation2 = this.currentLocation,
-        centerLat = _this$currentLocation2.lat,
-        centerLon = _this$currentLocation2.lon;
       elements.forEach(function (element) {
-        if (!element.tags || seenIds.has(element.id)) return;
-        var shop = {
-          id: element.id,
-          lat: element.lat,
-          lon: element.lon,
-          name: element.tags.name || '',
-          address: _this4.getAddress(element),
-          distance: _this4.calculateDistance(centerLat, centerLon, element.lat, element.lon)
-        };
-        shops.push(shop);
-        seenIds.add(element.id);
+        try {
+          var _tags$cuisine, _tags$cuisine2;
+          if (!element.tags || seen.has(element.id)) return;
+          var coords = element.lat ? element : element.center || {};
+          if (!coords.lat || !coords.lon) return;
+          var type = 'other';
+          var tags = element.tags;
+          if (tags.shop === 'halal') type = 'grocery';else if (tags.shop === 'butcher') type = 'butcher';else if ((_tags$cuisine = tags.cuisine) !== null && _tags$cuisine !== void 0 && _tags$cuisine.includes('halal') || (_tags$cuisine2 = tags.cuisine) !== null && _tags$cuisine2 !== void 0 && _tags$cuisine2.includes('muslim')) type = 'restaurant';
+          var address = [tags['addr:street'], tags['addr:housenumber'], tags['addr:city']].filter(Boolean).join(' ') || tags['addr:full'] || 'Address not specified';
+          var distance = _this8.calculateDistance(_this8.currentLocation.lat, _this8.currentLocation.lon, coords.lat, coords.lon);
+          shops.push({
+            id: element.id,
+            name: tags.name || 'Halal Food Place',
+            type: type,
+            lat: coords.lat,
+            lon: coords.lon,
+            address: address,
+            distance: distance,
+            cuisine: tags.cuisine || 'Halal',
+            phone: tags.phone,
+            tags: tags
+          });
+          seen.add(element.id);
+        } catch (e) {
+          console.warn("Processing error:", e);
+        }
       });
-      this.shops = shops;
+      this.shops = shops.sort(function (a, b) {
+        return a.distance - b.distance;
+      });
     },
-    getAddress: function getAddress(element) {
-      var tags = element.tags;
-      if (tags['addr:street']) {
-        return "".concat(tags['addr:street']).concat(tags['addr:housenumber'] ? ' ' + tags['addr:housenumber'] : '', ", ").concat(tags['addr:city'] || '');
+    expandSearchRadius: function expandSearchRadius() {
+      this.searchRadius += 2000;
+      this.fetchNearbyShops();
+    },
+    openGoogleMaps: function openGoogleMaps(lat, lon) {
+      if (!lat || !lon) return;
+      window.open("https://www.google.com/maps?q=".concat(lat, ",").concat(lon), '_blank');
+    },
+    callShop: function callShop(phone) {
+      if (phone) {
+        window.location.href = "tel:".concat(phone);
       }
-      return tags['addr:full'] || '';
     },
     calculateDistance: function calculateDistance(lat1, lon1, lat2, lon2) {
-      // Haversine formula (meters)
       var R = 6371e3;
       var φ1 = lat1 * Math.PI / 180;
       var φ2 = lat2 * Math.PI / 180;
       var Δφ = (lat2 - lat1) * Math.PI / 180;
       var Δλ = (lon2 - lon1) * Math.PI / 180;
-      var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+      var a = Math.pow(Math.sin(Δφ / 2), 2) + Math.cos(φ1) * Math.cos(φ2) * Math.pow(Math.sin(Δλ / 2), 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return R * c;
-    },
-    getShopType: function getShopType(shop) {
-      // Determine type based on OSM tags (would be implemented with real data)
-      return 'halal'; // Simplified for example
-    },
-    getShopIcon: function getShopIcon(shop) {
-      switch (this.getShopType(shop)) {
-        case 'halal':
-          return 'bi bi-egg-fried';
-        case 'bookstore':
-          return 'bi bi-book';
-        case 'clothing':
-          return 'bi bi-person';
-        default:
-          return 'bi bi-shop';
-      }
-    },
-    setActiveType: function setActiveType(type) {
-      this.activeType = type;
-    },
-    focusOnShop: function focusOnShop(shop) {
-      this.highlightedShop = shop.id;
-      // Center map on this shop
-      this.currentLocation = _objectSpread(_objectSpread({}, this.currentLocation), {}, {
-        lat: shop.lat,
-        lon: shop.lon
-      });
-    },
-    recenterMap: function recenterMap() {
-      if (this.currentLocation) {
-        // Reset to original search location
-        this.searchLocation();
-      }
-    },
-    zoomIn: function zoomIn() {
-      this.zoomLevel = Math.min(this.zoomLevel + 1, 18);
-    },
-    zoomOut: function zoomOut() {
-      this.zoomLevel = Math.max(this.zoomLevel - 1, 12);
-    },
-    expandSearch: function expandSearch() {
-      this.radius = parseInt(this.radius) + 2000;
-      this.findNearbyShops();
     }
   }
 });
@@ -54647,201 +54662,244 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "islamic-locator"
+  "class": "container-fluid my-5"
 };
 var _hoisted_2 = {
-  "class": "locator-header"
+  "class": "row justify-content-center"
 };
 var _hoisted_3 = {
-  "class": "header-content"
+  "class": "col-lg-10"
 };
 var _hoisted_4 = {
-  "class": "search-container"
+  "class": "shadow",
+  style: {
+    "border-radius": "20px",
+    "padding": "10px",
+    "border": "1px solid #eee"
+  }
 };
 var _hoisted_5 = {
-  "class": "search-box"
+  "class": "card-body container-fluid",
+  style: {
+    "padding": "5px"
+  }
 };
 var _hoisted_6 = {
-  "class": "quick-filters"
+  "class": "row mb-4 justify-content-center"
 };
-var _hoisted_7 = ["onClick"];
+var _hoisted_7 = ["disabled"];
 var _hoisted_8 = {
-  "class": "locator-main"
-};
-var _hoisted_9 = {
-  key: 0,
-  "class": "map-view"
-};
-var _hoisted_10 = ["src"];
-var _hoisted_11 = {
-  "class": "map-controls"
-};
-var _hoisted_12 = {
-  key: 1,
-  "class": "map-placeholder"
-};
-var _hoisted_13 = {
-  "class": "results-panel"
-};
-var _hoisted_14 = {
-  "class": "results-header"
-};
-var _hoisted_15 = {
   key: 0
 };
+var _hoisted_9 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_10 = {
+  "class": "row mb-3 justify-content-center"
+};
+var _hoisted_11 = ["onClick"];
+var _hoisted_12 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_13 = {
+  "class": "mt-3"
+};
+var _hoisted_14 = {
+  key: 1
+};
+var _hoisted_15 = {
+  key: 0,
+  "class": "text-center py-5"
+};
 var _hoisted_16 = {
-  "class": "results-filter"
+  "class": "text-center py-5"
 };
 var _hoisted_17 = {
-  "class": "results-count"
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
 var _hoisted_18 = {
-  key: 0,
-  "class": "loading-state"
+  "class": "card h-100"
 };
 var _hoisted_19 = {
-  key: 1,
-  "class": "empty-state"
+  style: {
+    "padding": "15px 15px 0 15px"
+  }
 };
 var _hoisted_20 = {
-  key: 2,
-  "class": "empty-state"
+  "class": "card-title fw-bold text-dark mb-3",
+  style: {
+    "font-size": "25px"
+  }
 };
 var _hoisted_21 = {
-  key: 3,
-  "class": "shop-list"
+  "class": "card-body pt-0"
 };
-var _hoisted_22 = ["onClick"];
+var _hoisted_22 = {
+  "class": "mb-2"
+};
 var _hoisted_23 = {
-  "class": "shop-icon"
+  "class": "d-flex align-items-start"
 };
 var _hoisted_24 = {
-  "class": "shop-details"
+  "class": "text-truncate",
+  style: {
+    "display": "-webkit-box",
+    "-webkit-line-clamp": "2",
+    "-webkit-box-orient": "vertical"
+  }
 };
 var _hoisted_25 = {
-  "class": "shop-address"
+  "class": "mb-2 d-flex align-items-center"
 };
 var _hoisted_26 = {
-  "class": "shop-distance"
+  "class": "mb-0"
 };
 var _hoisted_27 = {
-  "class": "shop-actions"
+  key: 0,
+  "class": "mb-2"
 };
-var _hoisted_28 = ["href"];
-var _hoisted_29 = ["href"];
+var _hoisted_28 = {
+  "class": "text-muted"
+};
+var _hoisted_29 = {
+  key: 1,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_30 = {
+  "class": "text-muted"
+};
+var _hoisted_31 = {
+  "class": "d-flex justify-content-between align-items-center gap-2 mt-3"
+};
+var _hoisted_32 = ["onClick"];
+var _hoisted_33 = ["onClick"];
+var _hoisted_34 = {
+  key: 0,
+  "class": "d-flex justify-content-between align-items-center",
+  style: {
+    "padding": "10px"
+  }
+};
+var _hoisted_35 = {
+  "class": "text-muted"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header with Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-shop"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Islamic Shops Finder ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold text-center"
+  }, "Halal Food Locator", -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 lead"
+  }, " Find halal restaurants, grocery stores, and food shops near you ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center mb-3",
+    role: "search",
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
+    }, ["prevent"])),
+    style: {
+      "gap": "0.5rem"
+    }
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "card-title pr-2 fw-bold",
+    style: {
+      "font-size": "25px"
+    }
+  }, "Search location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "search",
+    "class": "form-control",
+    placeholder: "Enter city or address...",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
-    placeholder: "Enter city, address or postal code",
-    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }, ["enter"]))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }),
-    "class": "search-btn"
-  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search"
-  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.shopTypes, function (type) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: type.value,
+    style: {
+      "max-width": "300px"
+    }
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-primary",
+    type: "submit",
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Food Type Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.foodTypes, function (type) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col-auto",
+      key: type.value
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       onClick: function onClick($event) {
         return $options.setActiveType(type.value);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        active: $data.activeType === type.value
-      })
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-primary", {
+        'active': $data.activeType === type.value
+      }])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(type.icon)
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(type.label), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Map View "), $data.currentLocation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-    width: "100%",
-    height: "100%",
-    frameborder: "0",
-    src: $options.osmIframeUrl,
-    allowfullscreen: ""
-  }, null, 8 /* PROPS */, _hoisted_10), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.recenterMap && $options.recenterMap.apply($options, arguments);
-    }),
-    "class": "control-btn"
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-geo-alt"
-  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.zoomIn && $options.zoomIn.apply($options, arguments);
-    }),
-    "class": "control-btn"
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-plus-lg"
-  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.zoomOut && $options.zoomOut.apply($options, arguments);
-    }),
-    "class": "control-btn"
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-dash-lg"
-  }, null, -1 /* HOISTED */)]))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-map"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Search for a location to view the map", -1 /* HOISTED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results List "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.currentLocation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h3", _hoisted_15, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-geo-fill"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentLocation.display_name), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
-      return $data.radius = $event;
-    }),
-    "class": "radius-select"
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "1000"
-  }, "Within 1 km", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "3000"
-  }, "Within 3 km", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "5000"
-  }, "Within 5 km", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.radius]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " shops", 1 /* TEXT */)])]), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Finding Islamic shops...", -1 /* HOISTED */)]))) : !$data.currentLocation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-compass"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Enter a location to find nearby Islamic shops", -1 /* HOISTED */)]))) : $options.filteredShops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-shop"
-  }, null, -1 /* HOISTED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "No Islamic shops found in this area", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function () {
-      return $options.expandSearch && $options.expandSearch.apply($options, arguments);
-    }),
-    "class": "expand-btn"
-  }, " Expand search radius ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: shop.id,
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(type.label), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_11)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, "Searching for halal food in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-shop display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "Search for halal food", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Enter a city or address to find nearby halal restaurants and shops", -1 /* HOISTED */)]))) : $data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-binoculars display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "No halal food places found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.expandSearchRadius && $options.expandSearchRadius.apply($options, arguments);
+    })
+  }, " Try expanding search radius ")])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 2
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
+    var _shop$tags;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: shop.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name || 'Halal Food Place'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge bg-success\">\n                        <i class=\"bi bi-check-circle-fill me-1\"></i> Halal Certified\n                      </span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      "class": "text-muted mb-0"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-tag me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <small>{{ getShopTypeLabel(shop.type) }}</small> ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-2cbbc6cc><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_28, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
-        return $options.focusOnShop(shop);
+        return $options.openGoogleMaps(shop.lat, shop.lon);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        highlighted: $data.highlightedShop === shop.id
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getShopIcon(shop))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name || 'Islamic Shop'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-geo-alt"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "https://www.openstreetmap.org/?mlat=".concat(shop.lat, "&mlon=").concat(shop.lon, "&#map=18/").concat(shop.lat, "/").concat(shop.lon),
-      target: "_blank",
-      "class": "action-btn",
-      title: "View on Map"
-    }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-map"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: "https://www.google.com/maps?q=".concat(shop.lat, ",").concat(shop.lon),
-      target: "_blank",
-      "class": "action-btn primary",
-      title: "Get Directions"
-    }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-signpost"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29)])], 10 /* CLASS, PROPS */, _hoisted_22);
-  }), 128 /* KEYED_FRAGMENT */))]))])])]);
+      style: {
+        "background": "#2c5fa8",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Directions", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call Button "), shop.phone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.callShop(shop.phone);
+      },
+      style: {
+        "background": "#28a745",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-telephone me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_35, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -56333,7 +56391,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "background-color": "#fff"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/ishopi.png",
+    src: "/images/food.png",
     alt: "Islamic Shops",
     "class": "w-100",
     style: {
@@ -56343,14 +56401,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Islamic Shops"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Halal Restaurants"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Find modest fashion, Islamic books, prayer essentials, and more — all from trusted local shops. Our Islamic Shop Finder helps you explore verified businesses that align with your values."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Discover delicious and certified halal restaurants at your fingertips. Whether you're traveling, new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/shop'",
     style: {
@@ -56363,7 +56421,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Shops")])])])])])])], -1 /* HOISTED */))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Restaurants")])])])])])])], -1 /* HOISTED */))]);
 }
 
 /***/ }),
@@ -155394,7 +155452,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.islamic-locator[data-v-2cbbc6cc] {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  background: #f8f9fa;\n}\n.locator-header[data-v-2cbbc6cc] {\n  background: #2c5fa8;\n  color: white;\n  padding: 1.5rem;\n  box-shadow: 0 2px 10px rgba(0,0,0,0.1);\n}\n.header-content[data-v-2cbbc6cc] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.header-content h1[data-v-2cbbc6cc] {\n  margin: 0 0 1rem 0;\n  font-size: 1.8rem;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.search-container[data-v-2cbbc6cc] {\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n}\n.search-box[data-v-2cbbc6cc] {\n  display: flex;\n  background: white;\n  border-radius: 50px;\n  overflow: hidden;\n  box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n}\n.search-box input[data-v-2cbbc6cc] {\n  flex: 1;\n  padding: 0.8rem 1.2rem;\n  border: none;\n  font-size: 1rem;\n}\n.search-box input[data-v-2cbbc6cc]:focus {\n  outline: none;\n}\n.search-btn[data-v-2cbbc6cc] {\n  background: #234a87;\n  color: white;\n  border: none;\n  padding: 0 1.2rem;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.search-btn[data-v-2cbbc6cc]:hover {\n  background: #1a3a6e;\n}\n.quick-filters[data-v-2cbbc6cc] {\n  display: flex;\n  gap: 0.5rem;\n  overflow-x: auto;\n  padding-bottom: 0.5rem;\n}\n.quick-filters button[data-v-2cbbc6cc] {\n  background: rgba(255,255,255,0.1);\n  color: white;\n  border: none;\n  border-radius: 50px;\n  padding: 0.5rem 1rem;\n  font-size: 0.9rem;\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  cursor: pointer;\n  white-space: nowrap;\n  transition: all 0.2s;\n}\n.quick-filters button[data-v-2cbbc6cc]:hover {\n  background: rgba(255,255,255,0.2);\n}\n.quick-filters button.active[data-v-2cbbc6cc] {\n  background: white;\n  color: #2c5fa8;\n  font-weight: 500;\n}\n.locator-main[data-v-2cbbc6cc] {\n  display: flex;\n  flex: 1;\n  max-width: 1200px;\n  margin: 0 auto;\n  width: 100%;\n  overflow: hidden;\n}\n.map-view[data-v-2cbbc6cc], .map-placeholder[data-v-2cbbc6cc] {\n  flex: 1;\n  position: relative;\n}\n.map-view iframe[data-v-2cbbc6cc] {\n  width: 100%;\n  height: 100%;\n  border: none;\n}\n.map-placeholder[data-v-2cbbc6cc] {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  color: #999;\n  background: #f0f0f0;\n}\n.map-placeholder i[data-v-2cbbc6cc] {\n  font-size: 3rem;\n  margin-bottom: 1rem;\n}\n.map-placeholder p[data-v-2cbbc6cc] {\n  margin: 0;\n  font-size: 1.1rem;\n}\n.map-controls[data-v-2cbbc6cc] {\n  position: absolute;\n  bottom: 1rem;\n  right: 1rem;\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.control-btn[data-v-2cbbc6cc] {\n  background: white;\n  border: none;\n  width: 2.5rem;\n  height: 2.5rem;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 2px 5px rgba(0,0,0,0.2);\n  cursor: pointer;\n  color: #2c5fa8;\n  font-size: 1.1rem;\n}\n.results-panel[data-v-2cbbc6cc] {\n  width: 350px;\n  background: white;\n  border-left: 1px solid #eee;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.results-header[data-v-2cbbc6cc] {\n  padding: 1rem;\n  border-bottom: 1px solid #eee;\n}\n.results-header h3[data-v-2cbbc6cc] {\n  margin: 0 0 0.5rem 0;\n  font-size: 1.1rem;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  color: #333;\n}\n.results-filter[data-v-2cbbc6cc] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n.radius-select[data-v-2cbbc6cc] {\n  padding: 0.3rem 0.5rem;\n  border: 1px solid #ddd;\n  border-radius: 4px;\n  font-size: 0.9rem;\n}\n.results-count[data-v-2cbbc6cc] {\n  font-size: 0.9rem;\n  color: #666;\n}\n.loading-state[data-v-2cbbc6cc], .empty-state[data-v-2cbbc6cc] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  padding: 2rem;\n  color: #666;\n  text-align: center;\n}\n.loading-state .spinner[data-v-2cbbc6cc] {\n  width: 3rem;\n  height: 3rem;\n  border: 3px solid rgba(44, 95, 168, 0.2);\n  border-top: 3px solid #2c5fa8;\n  border-radius: 50%;\n  animation: spin-2cbbc6cc 1s linear infinite;\n  margin-bottom: 1rem;\n}\n.empty-state i[data-v-2cbbc6cc] {\n  font-size: 2.5rem;\n  margin-bottom: 1rem;\n  color: #999;\n}\n.empty-state p[data-v-2cbbc6cc] {\n  margin: 0 0 1rem 0;\n}\n.expand-btn[data-v-2cbbc6cc] {\n  background: #2c5fa8;\n  color: white;\n  border: none;\n  padding: 0.5rem 1rem;\n  border-radius: 4px;\n  cursor: pointer;\n  font-size: 0.9rem;\n}\n.shop-list[data-v-2cbbc6cc] {\n  flex: 1;\n  overflow-y: auto;\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.shop-list li[data-v-2cbbc6cc] {\n  padding: 1rem;\n  border-bottom: 1px solid #eee;\n  display: flex;\n  gap: 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n}\n.shop-list li[data-v-2cbbc6cc]:hover {\n  background: #f8f9fa;\n}\n.shop-list li.highlighted[data-v-2cbbc6cc] {\n  background: #e8f0fe;\n}\n.shop-icon[data-v-2cbbc6cc] {\n  width: 2.5rem;\n  height: 2.5rem;\n  background: #e8f0fe;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: #2c5fa8;\n  font-size: 1.2rem;\n  flex-shrink: 0;\n}\n.shop-details[data-v-2cbbc6cc] {\n  flex: 1;\n  min-width: 0;\n}\n.shop-details h4[data-v-2cbbc6cc] {\n  margin: 0 0 0.3rem 0;\n  font-size: 1rem;\n  color: #2c5fa8;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.shop-address[data-v-2cbbc6cc] {\n  margin: 0 0 0.3rem 0;\n  font-size: 0.85rem;\n  color: #666;\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n}\n.shop-distance[data-v-2cbbc6cc] {\n  margin: 0;\n  font-size: 0.8rem;\n  color: #2c5fa8;\n  font-weight: 500;\n}\n.shop-actions[data-v-2cbbc6cc] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.action-btn[data-v-2cbbc6cc] {\n  width: 2rem;\n  height: 2rem;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f0f0f0;\n  color: #666;\n  text-decoration: none;\n  transition: all 0.2s;\n}\n.action-btn[data-v-2cbbc6cc]:hover {\n  background: #e0e0e0;\n}\n.action-btn.primary[data-v-2cbbc6cc] {\n  background: #2c5fa8;\n  color: white;\n}\n.action-btn.primary[data-v-2cbbc6cc]:hover {\n  background: #234a87;\n}\n@keyframes spin-2cbbc6cc {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n@media (max-width: 768px) {\n.locator-main[data-v-2cbbc6cc] {\n    flex-direction: column;\n}\n.results-panel[data-v-2cbbc6cc] {\n    width: 100%;\n    height: 300px;\n}\n.map-view[data-v-2cbbc6cc] {\n    height: 300px;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-2cbbc6cc] {\n  border-radius: 15px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.card[data-v-2cbbc6cc]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.btn-outline-primary.active[data-v-2cbbc6cc] {\n  background-color: #2c5fa8;\n  color: white;\n}\n.badge.bg-success[data-v-2cbbc6cc] {\n  background-color: #28a745 !important;\n}\n@media (max-width: 768px) {\n.d-flex.align-items-center[data-v-2cbbc6cc] {\n    flex-direction: column;\n    gap: 0.5rem;\n}\n.btn[data-v-2cbbc6cc] {\n    width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
