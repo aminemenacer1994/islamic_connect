@@ -16,21 +16,23 @@
                   <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
                   <input type="search" class="form-control" placeholder="Enter city or address..." v-model="searchQuery"
                     style="max-width: 300px;" />
-                  <button class="btn btn-primary" type="submit" :disabled="loading">
+                  
+
+                  <button class="btn btn-outline-success" type="submit" :disabled="loading">
                     <span v-if="!loading">Search</span>
                     <span v-else class="spinner-border spinner-border-sm"></span>
                   </button>
                 </form>
 
               </div><!-- Food Type Filters -->
-              <div class="row mb-3 justify-content-center">
+              <!-- <div class="row mb-3 justify-content-center">
                 <div class="col-auto" v-for="type in foodTypes" :key="type.value">
                   <button @click="setActiveType(type.value)" class="btn btn-outline-primary"
                     :class="{ 'active': activeType === type.value }">
                     <i :class="type.icon"></i> {{ type.label }}
                   </button>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             <!-- Loading State -->
@@ -82,12 +84,12 @@
                         </div>
                       </div>
 
-                      <div class="mb-2">
+                      <!-- <div class="mb-2">
                         <p class="text-muted mb-0">
                           <i class="bi bi-tag me-2"></i>
-                          <!-- <small>{{ getShopTypeLabel(shop.type) }}</small> -->
+                          <small>{{ getShopTypeLabel(shop.type) }}</small>
                         </p>
-                      </div>
+                      </div> -->
 
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
@@ -113,19 +115,22 @@
                       </div>
 
                       <div class="d-flex justify-content-between align-items-center gap-2 mt-3">
-                        <!-- Get Directions Button -->
+
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(shop.lat, shop.lon)"
-                          style="background: #2c5fa8; color: white; height: 38px">
-                          <i class="bi bi-geo-alt me-1"></i><b>Directions</b>
+                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          <span class="text-center w-100">
+                            <i class="bi bi-geo-alt me-1"></i><b>Get Direction</b>
+                          </span>
                         </button>
 
                         <!-- Call Button -->
                         <button v-if="shop.phone"
                           class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)" style="background: #28a745; color: white; height: 38px">
+                          @click="callShop(shop.phone)" style="background: #2c5fa8; color: white; height: 38px">
                           <i class="bi bi-telephone me-1"></i><b>Call</b>
                         </button>
+                        
                       </div>
                     </div>
                   </div>
