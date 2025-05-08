@@ -72,6 +72,7 @@ import CalendarComponent from "./components/CalendarComponent.vue";
 import DateComponent from "./components/DateComponent.vue";
 import HadithComponent from "./components/HadithComponent.vue";
 import ShopComponent from "./components/ShopComponent.vue";
+import TasbeehComponent from "./components/TasbeehComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -189,6 +190,7 @@ app.component('calendar-component', CalendarComponent);
 app.component('date-component', DateComponent);
 app.component('hadith-component', HadithComponent);
 app.component('shop-component', ShopComponent);
+app.component('tasbeeh-component', TasbeehComponent);
 
 
 app.mount("#app");

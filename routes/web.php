@@ -48,6 +48,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DateController;
 use App\Http\Controllers\HadithController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\TasbeehController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -335,3 +336,5 @@ Route::get('/date', [DateController::class, 'index'])->name('date');
 Route::get('/hadith', [HadithController::class, 'index'])->name('hadith');
 // shop
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+// tasbeeh
+Route::get('/tasbeeh', [TasbeehController::class, 'index'])->name('tasbeeh');
