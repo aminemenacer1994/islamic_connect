@@ -73,6 +73,7 @@ import DateComponent from "./components/DateComponent.vue";
 import HadithComponent from "./components/HadithComponent.vue";
 import ShopComponent from "./components/ShopComponent.vue";
 import TasbeehComponent from "./components/TasbeehComponent.vue";
+import EventsComponent from "./components/EventsComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -82,6 +83,7 @@ import TinymceEditor from './components/tinymce/TinymceEditor.vue';
 import SurahList from "./components/search/SurahList.vue";
 import SearchForm from "./components/search/SearchForm.vue";
 import DarkModeToggle from "./components/DarkModeToggle.vue";
+import AthkarComponenet from "./components/AthkarComponenet.vue";
 
 
 const app = createApp({
@@ -191,6 +193,8 @@ app.component('date-component', DateComponent);
 app.component('hadith-component', HadithComponent);
 app.component('shop-component', ShopComponent);
 app.component('tasbeeh-component', TasbeehComponent);
+app.component('athkar-component', AthkarComponenet);
+app.component('events-component', EventsComponent);
 
 
 app.mount("#app");

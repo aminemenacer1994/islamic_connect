@@ -1,0 +1,104 @@
+{
+  "categories": [
+    { "id": 1, "name": "General Principles" },
+    { "id": 2, "name": "Business Ethics" },
+    { "id": 3, "name": "Investment" },
+    { "id": 4, "name": "Banking" },
+    { "id": 5, "name": "Charity & Zakat" },
+    { "id": 6, "name": "Employment" },
+    { "id": 7, "name": "Contracts" },
+    { "id": 8, "name": "Partnerships" }
+  ],
+  "tips": [
+    {
+      "id": 1,
+      "title": "Avoid Riba (Interest) in all transactions",
+      "description": "Islamic finance strictly prohibits any form of interest (riba). This includes both giving and receiving interest. Instead of conventional loans, consider profit-sharing arrangements (Mudarabah), joint ventures (Musharakah), or asset-based financing (Murabaha) where risks and rewards are shared between parties according to Islamic principles.",
+      "category": 4,
+      "importance": 5,
+      "date": "2023-05-15",
+      "example": "Instead of taking a loan with interest to buy equipment, enter into a Murabaha agreement where the bank purchases the equipment and sells it to you at a profit margin, with clear terms and payment schedule.",
+      "benefits": [
+        "Earns Allah's pleasure by avoiding a major sin",
+        "Promotes risk-sharing rather than guaranteed returns",
+        "Encourages productive investment in real assets"
+      ],
+      "references": [
+        "Quran 2:275-280 - 'Those who consume interest cannot stand [on the Day of Resurrection] except as one stands who is being beaten by Satan into insanity...'",
+        "Sahih Bukhari, Book 34, Hadith 264 - The Prophet (PBUH) cursed the one who consumes riba, the one who pays it, the one who writes the contract, and the two witnesses to it"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Ensure business transactions are clear and transparent",
+      "description": "All terms and conditions of business dealings should be clearly stated, documented, and understood by all parties to avoid disputes, deception, and unethical practices.",
+      "category": 2,
+      "importance": 4,
+      "date": "2023-06-22",
+      "example": "When selling a product, clearly specify the exact model, features, warranty terms, delivery date, and price. Avoid vague descriptions that could lead to misunderstandings.",
+      "benefits": [
+        "Builds trust with customers and partners",
+        "Reduces disputes and conflicts",
+        "Fulfills Islamic requirement of clear contracts"
+      ],
+      "references": [
+        "Quran 2:282 - 'O you who have believed, when you contract a debt for a specified term, write it down...'",
+        "Sunan Ibn Majah, Book 12, Hadith 51 - 'The two parties to a transaction have the option (to cancel) until they part. If they are truthful and disclose (any defects), their transaction will be blessed.'"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Invest in Halal industries only",
+      "description": "Muslims must avoid investing in businesses involved in haram activities such as alcohol, gambling, pork, conventional banking/insurance, adult entertainment, weapons manufacturing, or other prohibited activities according to Islamic law.",
+      "category": 3,
+      "importance": 5,
+      "date": "2023-04-10",
+      "example": "Instead of investing in a conventional mutual fund, choose a Sharia-compliant fund that screens companies for halal business activities and avoids interest-based transactions.",
+      "benefits": [
+        "Ensures your wealth grows through halal means",
+        "Avoids supporting harmful industries",
+        "Promotes ethical economic development"
+      ],
+      "references": [
+        "Quran 5:90 - 'O you who have believed, indeed, intoxicants, gambling, [sacrificing on] stone alters [to other than Allah], and divining arrows are but defilement from the work of Satan...'",
+        "Quran 2:219 - 'They ask you about wine and gambling. Say, 'In them is great sin and [yet, some] benefit for people. But their sin is greater than their benefit...'"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Pay Zakat on your wealth",
+      "description": "Calculate and distribute 2.5% of your savings and investments that have been held for one lunar year to eligible recipients. Zakat is obligatory on cash, gold, silver, business inventory, and investments that meet the nisab threshold.",
+      "category": 5,
+      "importance": 5,
+      "date": "2023-03-18",
+      "example": "If you have $10,000 in savings that has been in your account for over one year (above the nisab threshold), you would calculate 2.5% ($250) and distribute it to the poor, needy, zakat collectors, those whose hearts are to be reconciled, freeing slaves, debtors, in Allah's cause, and travelers.",
+      "benefits": [
+        "Purifies wealth and increases barakah",
+        "Fulfills a pillar of Islam",
+        "Helps redistribute wealth in society"
+      ],
+      "references": [
+        "Quran 9:60 - 'Zakat expenditures are only for the poor and for the needy and for those employed to collect [zakat] and for bringing hearts together and for freeing captives [or slaves] and for those in debt and for the cause of Allah and for the [stranded] traveler...'",
+        "Sahih Bukhari, Book 24, Hadith 486 - 'The Prophet (PBUH) sent Mu'adh to Yemen and said: 'Inform them that Allah has made zakat obligatory on their wealth...''"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Avoid Gharar (Excessive uncertainty)",
+      "description": "Business contracts should avoid excessive uncertainty, ambiguity, or deception about the essential elements of the transaction. This includes selling goods you don't own or can't deliver, unclear pricing terms, or vague product descriptions.",
+      "category": 1,
+      "importance": 4,
+      "date": "2023-07-05",
+      "example": "Don't sell fish that are still in the sea or crops not yet harvested, as there's uncertainty about whether you'll actually be able to deliver them. Similarly, avoid contracts with open-ended terms that could lead to disputes.",
+      "benefits": [
+        "Reduces disputes and litigation",
+        "Creates fair and just transactions",
+        "Follows the Sunnah of clear business dealings"
+      ],
+      "references": [
+        "Sahih Muslim, Book 10, Hadith 3882 - The Prophet (PBUH) prohibited the sale of what is not in your possession",
+        "Sunan Ibn Majah, Book 12, Hadith 2267 - 'The Messenger of Allah (PBUH) forbade the sale of fruits until they are clearly in good condition'"
+      ]
+    }
+  ]
+}
