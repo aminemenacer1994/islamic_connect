@@ -326,10 +326,27 @@
               <p class="card-text text-muted text-wrap text-center"
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles.
               </p>
-              <button class="form-control" onclick="window.location.href='/events'"
+              <button class="form-control" onclick="window.location.href='/finance'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
                 <span class="text-center w-100"><b>Read More</b></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+            <img src="/images/dkir.png" alt="Athkar Collection" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Athkar Collection</h5>
+              <p class="card-text text-muted text-wrap text-center"
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Our Athkar Collection offers a rich library of authentic daily supplications and remembrances (adhkar) from the Qur'an and Sunnah, organized for ease of access.
+              </p>
+              <button class="form-control" onclick="window.location.href='/athkar'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>View Athkar</b></span>
               </button>
             </div>
           </div>

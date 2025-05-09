@@ -36414,10 +36414,25 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=script&defer=true&lang=js":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=script&defer=true&lang=js ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -36453,6 +36468,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: {
+    getCategoryColor: function getCategoryColor(categoryId) {
+      var shades = {
+        "default": '#0db691'
+      };
+      return shades[categoryId] || shades["default"];
+    },
     loadData: function loadData() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -36490,25 +36511,22 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return icons[categoryId - 1] || 'bi-info-circle';
     },
     getCategoryName: function getCategoryName(categoryId) {
-      var _this$categories;
-      var category = (_this$categories = this.categories) === null || _this$categories === void 0 ? void 0 : _this$categories.find(function (c) {
+      var category = this.categories.find(function (c) {
         return c.id === categoryId;
       });
       return (category === null || category === void 0 ? void 0 : category.name) || 'Uncategorized';
     },
     getActiveCategoryName: function getActiveCategoryName() {
-      var _this$categories2,
-        _this3 = this;
-      var category = (_this$categories2 = this.categories) === null || _this$categories2 === void 0 ? void 0 : _this$categories2.find(function (c) {
+      var _this3 = this;
+      var category = this.categories.find(function (c) {
         return c.id === _this3.activeCategory;
       });
       return (category === null || category === void 0 ? void 0 : category.name) || 'All Categories';
     },
     getCategoryTipCount: function getCategoryTipCount(categoryId) {
-      var _this$tips;
-      return ((_this$tips = this.tips) === null || _this$tips === void 0 ? void 0 : _this$tips.filter(function (tip) {
+      return this.tips.filter(function (tip) {
         return tip.category === categoryId;
-      }).length) || 0;
+      }).length || 0;
     },
     getCategoryBadgeClass: function getCategoryBadgeClass(categoryId) {
       var colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-secondary', 'bg-dark', 'bg-purple'];
@@ -36525,21 +36543,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   }
 });
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=script&defer=true&lang=js":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=script&defer=true&lang=js ***!
-  \*****************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -52472,143 +52475,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* binding */ render)
-/* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
-var _hoisted_1 = {
-  "class": "halal-finance-app"
-};
-var _hoisted_2 = {
-  "class": "app-container container"
-};
-var _hoisted_3 = {
-  "class": "row g-4"
-};
-var _hoisted_4 = {
-  "class": "col-md-3"
-};
-var _hoisted_5 = {
-  "class": "sidebar-card"
-};
-var _hoisted_6 = {
-  "class": "card-body"
-};
-var _hoisted_7 = {
-  "class": "categories-list"
-};
-var _hoisted_8 = ["onClick"];
-var _hoisted_9 = {
-  "class": "badge"
-};
-var _hoisted_10 = {
-  "class": "col-md-9"
-};
-var _hoisted_11 = {
-  "class": "main-card"
-};
-var _hoisted_12 = {
-  "class": "card-header"
-};
-var _hoisted_13 = {
-  "class": "card-body"
-};
-var _hoisted_14 = {
-  key: 0,
-  "class": "empty-state"
-};
-var _hoisted_15 = {
-  key: 1,
-  "class": "tips-list"
-};
-var _hoisted_16 = {
-  "class": "tip-title"
-};
-var _hoisted_17 = {
-  "class": "tip-description"
-};
-var _hoisted_18 = {
-  key: 0,
-  "class": "tip-section"
-};
-var _hoisted_19 = {
-  key: 1,
-  "class": "tip-section"
-};
-var _hoisted_20 = {
-  key: 2,
-  "class": "tip-section"
-};
-var _hoisted_21 = {
-  "class": "tip-meta"
-};
-var _hoisted_22 = {
-  "class": "date"
-};
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row justify-content-center text-center py-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-lg-8 col-xl-7"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "display-5 fw-bold"
-  }, "Islamic Finance"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
-  }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law). It is rooted in ethical principles and aims to promote fairness, transparency, and social justice in financial transactions.")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Categories "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-filter-circle"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Categories")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: category.id,
-      onClick: function onClick($event) {
-        return $options.setActiveCategory(category.id);
-      },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['category-btn', $data.activeCategory === category.id ? 'active' : ''])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getCategoryIcon(category.id))
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCategoryTipCount(category.id)), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tips Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getCategoryIcon($data.activeCategory))
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getActiveCategoryName()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [$options.filteredTips.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "No content available for this category.", -1 /* HOISTED */)]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredTips, function (tip) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "tip-item",
-      key: tip.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tip-badge", $options.getCategoryBadgeClass(tip.category)])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCategoryName(tip.category)), 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.description), 1 /* TEXT */), tip.example ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-lightbulb"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Example")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.example), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), tip.benefits ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-check-circle"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Benefits")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(tip.benefits, function (benefit, i) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: i
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(benefit), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), tip.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-book"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" References")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(tip.references, function (ref, i) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: i
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getImportanceClass(tip.importance))
-    }, " Importance: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.importance) + "/5 ", 3 /* TEXT, CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-calendar"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(tip.date)), 1 /* TEXT */)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]))])])])])])]);
-}
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=template&id=c16eba1c":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=template&id=c16eba1c ***!
@@ -52745,6 +52611,189 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "mb-2 mb-lg-4 fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Does Islamic Connect offer content in languages other than English ?")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Currently, we focus on providing content in English, but we are working on expanding our resources to other languages in the future.")])])])])])])], -1 /* HOISTED */)]));
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "container"
+};
+var _hoisted_2 = {
+  "class": "container mb-4"
+};
+var _hoisted_3 = {
+  "class": "row g-4"
+};
+var _hoisted_4 = {
+  "class": "col-md-4 col-lg-3"
+};
+var _hoisted_5 = {
+  "class": "card shadow-sm h-80"
+};
+var _hoisted_6 = {
+  "class": "card-body"
+};
+var _hoisted_7 = {
+  "class": "d-grid gap-2"
+};
+var _hoisted_8 = ["onClick"];
+var _hoisted_9 = {
+  "class": "badge bg-white text-dark float-end"
+};
+var _hoisted_10 = {
+  "class": "col-md-8 col-lg-9"
+};
+var _hoisted_11 = {
+  "class": "card shadow-sm"
+};
+var _hoisted_12 = {
+  "class": "card-header text-white",
+  style: {
+    "background-color": "#0db691"
+  }
+};
+var _hoisted_13 = {
+  "class": "mb-0 d-flex align-items-center"
+};
+var _hoisted_14 = {
+  "class": "card-body"
+};
+var _hoisted_15 = {
+  key: 0,
+  "class": "alert alert-warning text-center"
+};
+var _hoisted_16 = {
+  key: 1,
+  "class": "row g-4"
+};
+var _hoisted_17 = {
+  "class": "card h-100 border-0 shadow-sm"
+};
+var _hoisted_18 = {
+  "class": "mb-0"
+};
+var _hoisted_19 = {
+  "class": "card-body"
+};
+var _hoisted_20 = {
+  "class": "mb-2 d-flex align-items-center justify-content-between small"
+};
+var _hoisted_21 = {
+  "class": "text-muted"
+};
+var _hoisted_22 = {
+  "class": "small text-muted"
+};
+var _hoisted_23 = {
+  key: 0,
+  "class": "p-2 rounded mb-2",
+  style: {
+    "background-color": "#e6f9f4"
+  }
+};
+var _hoisted_24 = {
+  "class": "mb-0 small"
+};
+var _hoisted_25 = {
+  key: 1,
+  "class": "p-2 rounded mb-2",
+  style: {
+    "background-color": "#e6f9f4"
+  }
+};
+var _hoisted_26 = {
+  "class": "mb-0 small ps-3"
+};
+var _hoisted_27 = {
+  key: 0,
+  "class": "card-footer bg-white border-top small"
+};
+var _hoisted_28 = {
+  "class": "mb-0 ps-3"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "fw-bold display-5 text-center py-3"
+  }, "Islamic Finance", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container lead"
+  }, " Rooted in ethical principles, Islamic finance ensures fairness and transparency in financial transactions in accordance with Shariah.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar Categories "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header text-white",
+    style: {
+      "background-color": "#0db691"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-filter-circle me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Categories")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: category.id,
+      onClick: function onClick($event) {
+        return $options.setActiveCategory(category.id);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['btn text-start', $data.activeCategory === category.id ? 'text-white' : 'btn-outline-light']),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.activeCategory === category.id ? 'background-color: #0db691;' : 'border-color: #0db691; color: #0db691;')
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getCategoryIcon(category.id), "me-2"])
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCategoryTipCount(category.id)), 1 /* TEXT */)], 14 /* CLASS, STYLE, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getCategoryIcon($data.activeCategory), "me-2"])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getActiveCategoryName()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$options.filteredTips.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, " No content available for this category. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredTips, function (tip) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col-md-6",
+      key: tip.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card-header text-white",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)("background-color: ".concat($options.getCategoryColor(tip.category)))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.title), 1 /* TEXT */)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "badge text-white",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)("background-color: ".concat($options.getCategoryColor(tip.category)))
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getCategoryName(tip.category)), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-star-fill me-1"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.importance) + "/5 ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.description), 1 /* TEXT */), tip.example ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "mb-1",
+      style: {
+        "color": "#0db691"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-lightbulb me-1"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Practical Example")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip.example), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), tip.benefits ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "mb-1",
+      style: {
+        "color": "#0db691"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check-circle me-1"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Key Benefits")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(tip.benefits, function (benefit, i) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: i
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(benefit), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), tip.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "mb-1",
+      style: {
+        "color": "#0db691"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-book me-1"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Islamic References")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(tip.references, function (ref, i) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: i
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" end col ")]))])])])])])]);
 }
 
 /***/ }),
@@ -57621,7 +57670,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onclick: "window.location.href='/events'",
+    onclick: "window.location.href='/finance'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -57632,7 +57681,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])])])], -1 /* HOISTED */))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
+    style: {
+      "background-color": "#fff"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/dkir.png",
+    alt: "Athkar Collection",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Athkar Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Our Athkar Collection offers a rich library of authentic daily supplications and remembrances (adhkar) from the Qur'an and Sunnah, organized for ease of access. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/athkar'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Athkar")])])])])])])], -1 /* HOISTED */))]);
 }
 
 /***/ }),
@@ -156428,10 +156515,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n  /* Default font size for mobile de
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -156445,7 +156532,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Color Scheme */\n[data-v-1bfffb6e]:root {\n  --primary-color: #2c5e92;\n  --secondary-color: #6c8ebf;\n  --accent-color: #d6b161;\n  --dark-color: #1a3a5a;\n  --light-color: #f5f8fa;\n}\n/* Base Styles */\n.halal-finance-app[data-v-1bfffb6e] {\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  color: #333;\n  line-height: 1.6;\n}\n.app-header[data-v-1bfffb6e] {\n  background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);\n  color: white;\n  padding: 3rem 0;\n  margin-bottom: 2rem;\n}\n.header-content[data-v-1bfffb6e] {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 0 1.5rem;\n  text-align: center;\n}\n.app-title[data-v-1bfffb6e] {\n  font-size: 2.5rem;\n  margin-bottom: 0.5rem;\n}\n.app-subtitle[data-v-1bfffb6e] {\n  font-size: 1.4rem;\n  opacity: 0.9;\n}\n/* Cards */\n.sidebar-card[data-v-1bfffb6e],\n.main-card[data-v-1bfffb6e] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);\n  margin-bottom: 2rem;\n}\n.card-header[data-v-1bfffb6e] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 1.25rem 1.75rem;\n  border-radius: 12px 12px 0 0;\n}\n.card-header h2[data-v-1bfffb6e] {\n  margin: 0;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n}\n.card-body[data-v-1bfffb6e] {\n  padding: 1.75rem;\n}\n/* Categories */\n.categories-list[data-v-1bfffb6e] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.category-btn[data-v-1bfffb6e] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1.25rem;\n  border: none;\n  background-color: var(--light-color);\n  color: #333;\n  border-radius: 8px;\n  font-size: 1.1rem;\n  text-align: left;\n  transition: all 0.2s ease;\n}\n.category-btn[data-v-1bfffb6e]:hover {\n  background-color: #e1e8ed;\n}\n.category-btn.active[data-v-1bfffb6e] {\n  background-color: var(--primary-color);\n  color: white;\n}\n.category-btn i[data-v-1bfffb6e] {\n  font-size: 1.2rem;\n}\n.category-btn.active i[data-v-1bfffb6e] {\n  color: white;\n}\n.category-btn .badge[data-v-1bfffb6e] {\n  margin-left: auto;\n  background-color: white;\n  color: var(--primary-color);\n  font-weight: 600;\n  padding: 0.25rem 0.5rem;\n  border-radius: 50px;\n  font-size: 0.8rem;\n}\n.category-btn.active .badge[data-v-1bfffb6e] {\n  background-color: rgba(255, 255, 255, 0.2);\n  color: white;\n}\n/* Tips Content */\n.tips-list[data-v-1bfffb6e] {\n  display: flex;\n  flex-direction: column;\n  gap: 2rem;\n}\n.tip-item[data-v-1bfffb6e] {\n  background: white;\n  border-radius: 10px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.tip-title[data-v-1bfffb6e] {\n  font-size: 1.5rem;\n  color: var(--dark-color);\n  margin-bottom: 0.5rem;\n}\n.tip-badge[data-v-1bfffb6e] {\n  display: inline-block;\n  padding: 0.35rem 0.75rem;\n  border-radius: 50px;\n  font-size: 0.85rem;\n  font-weight: 600;\n  color: white;\n  margin-bottom: 1rem;\n}\n.tip-description[data-v-1bfffb6e] {\n  font-size: 1.1rem;\n  margin-bottom: 1.5rem;\n}\n.tip-section[data-v-1bfffb6e] {\n  margin: 1.5rem 0;\n  padding: 1.25rem;\n  background-color: var(--light-color);\n  border-radius: 8px;\n}\n.tip-section h4[data-v-1bfffb6e] {\n  margin-top: 0;\n  color: var(--primary-color);\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n.tip-meta[data-v-1bfffb6e] {\n  display: flex;\n  justify-content: space-between;\n  margin-top: 1.5rem;\n  padding-top: 1rem;\n  border-top: 1px solid #eee;\n  font-size: 0.9rem;\n  color: #666;\n}\n.importance[data-v-1bfffb6e] {\n  font-weight: 500;\n}\n/* Responsive Design */\n@media (max-width: 768px) {\n.app-title[data-v-1bfffb6e] {\n    font-size: 2rem;\n}\n.app-subtitle[data-v-1bfffb6e] {\n    font-size: 1.1rem;\n}\n.card-header h2[data-v-1bfffb6e] {\n    font-size: 1.25rem;\n}\n.category-btn[data-v-1bfffb6e] {\n    font-size: 1rem;\n    padding: 0.75rem 1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-4bdbdb2e] {\n  font-size: 1rem; /* Increased slightly from 1rem (base) */\n  line-height: 1.8;\n}\n.card[data-v-4bdbdb2e],\n.btn[data-v-4bdbdb2e],\n.card-body[data-v-4bdbdb2e],\n.card-header[data-v-4bdbdb2e],\n.card-footer[data-v-4bdbdb2e],\n.alert[data-v-4bdbdb2e] {\n  font-size: 1.05rem; /* Make content slightly larger */\n}\nh2[data-v-4bdbdb2e],\nh5[data-v-4bdbdb2e],\nh6[data-v-4bdbdb2e] {\n  font-size: 1.5rem;\n}\n.lead[data-v-4bdbdb2e] {\n  font-size: 1.25rem;\n}\n.category-btn[data-v-4bdbdb2e],\n.tip-title[data-v-4bdbdb2e],\n.tip-description[data-v-4bdbdb2e] {\n  font-size: 1.2rem;\n}\n.card-header h2[data-v-4bdbdb2e] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n}\n\n/* Cards */\n.sidebar-card[data-v-4bdbdb2e],\n.main-card[data-v-4bdbdb2e] {\n  background: white;\n  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);\n}\n\n/* Categories */\n.categories-list[data-v-4bdbdb2e] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.category-btn[data-v-4bdbdb2e] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.9rem 1.25rem;\n  border: none;\n  background-color: #f7f7f7;\n  color: #333;\n  font-size: 1.1rem;\n  transition: all 0.2s ease;\n}\n.category-btn[data-v-4bdbdb2e]:hover {\n  background-color: #e1e8ed;\n}\n.category-btn.active[data-v-4bdbdb2e] {\n  background-color: #0db691; /* green */\n  color: white;\n}\n.category-btn .badge[data-v-4bdbdb2e] {\n  margin-left: auto;\n  background-color: white;\n  color: #0db691;\n  font-weight: 600;\n  padding: 0.25rem 0.5rem;\n  border-radius: 50px;\n  font-size: 0.8rem;\n}\n.category-btn.active .badge[data-v-4bdbdb2e] {\n  background-color: rgba(255, 255, 255, 0.2);\n  color: white;\n}\n\n/* Tips */\n.tip-title[data-v-4bdbdb2e] {\n  font-size: 1.3rem;\n}\n.tip-description[data-v-4bdbdb2e] {\n  font-size: 1.1rem;\n  margin: 1rem 0;\n}\n.tip-section[data-v-4bdbdb2e] {\n  background-color: #f8f9fa;\n  border-radius: 0.5rem;\n}\n.importance[data-v-4bdbdb2e] {\n  font-weight: 500;\n}\n\n/* Responsive */\n@media (max-width: 768px) {\n.tip-title[data-v-4bdbdb2e] {\n    font-size: 1.15rem;\n}\n.category-btn[data-v-4bdbdb2e] {\n    font-size: 1.1rem;\n}\n.lead[data-v-4bdbdb2e] {\n    font-size: 1.1rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -223606,10 +223693,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -223619,7 +223706,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_style_index_0_id_1bfffb6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_style_index_0_id_4bdbdb2e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css");
 
             
 
@@ -223628,11 +223715,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_style_index_0_id_1bfffb6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_style_index_0_id_4bdbdb2e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_style_index_0_id_1bfffb6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_style_index_0_id_4bdbdb2e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -304210,14 +304297,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./components/HadithComponent.vue */ "./resources/js/components/HadithComponent.vue");
 /* harmony import */ var _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/ShopComponent.vue */ "./resources/js/components/ShopComponent.vue");
 /* harmony import */ var _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/TasbeehComponent.vue */ "./resources/js/components/TasbeehComponent.vue");
-/* harmony import */ var _components_EventsComponent_vue__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/EventsComponent.vue */ "./resources/js/components/EventsComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
-/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
+/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
@@ -304346,7 +304433,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_74__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_73__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -304373,11 +304460,11 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_72__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_70__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_71__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_71__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_70__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
@@ -304394,8 +304481,8 @@ app.component('date-component', _components_DateComponent_vue__WEBPACK_IMPORTED_
 app.component('hadith-component', _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component('shop-component', _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_66__["default"]);
 app.component('tasbeeh-component', _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_67__["default"]);
-app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
-app.component('events-component', _components_EventsComponent_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
+app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_74__["default"]);
+app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -305339,82 +305426,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/EventsComponent.vue":
-/*!*****************************************************!*\
-  !*** ./resources/js/components/EventsComponent.vue ***!
-  \*****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _EventsComponent_vue_vue_type_template_id_1bfffb6e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true */ "./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true");
-/* harmony import */ var _EventsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EventsComponent.vue?vue&type=script&lang=js */ "./resources/js/components/EventsComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _EventsComponent_vue_vue_type_style_index_0_id_1bfffb6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css */ "./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
-
-
-
-;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_EventsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_EventsComponent_vue_vue_type_template_id_1bfffb6e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-1bfffb6e"],['__file',"resources/js/components/EventsComponent.vue"]])
-/* hot reload */
-if (false) {}
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
-
-/***/ }),
-
-/***/ "./resources/js/components/EventsComponent.vue?vue&type=script&lang=js":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/EventsComponent.vue?vue&type=script&lang=js ***!
-  \*****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EventsComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=script&lang=js");
- 
-
-/***/ }),
-
-/***/ "./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css":
-/*!*************************************************************************************************************!*\
-  !*** ./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css ***!
-  \*************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_style_index_0_id_1bfffb6e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=style&index=0&id=1bfffb6e&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true ***!
-  \***********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_template_id_1bfffb6e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EventsComponent_vue_vue_type_template_id_1bfffb6e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/EventsComponent.vue?vue&type=template&id=1bfffb6e&scoped=true");
-
-
-/***/ }),
-
 /***/ "./resources/js/components/FaqComponent.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/FaqComponent.vue ***!
@@ -305471,6 +305482,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FaqComponent_vue_vue_type_template_id_c16eba1c__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FaqComponent_vue_vue_type_template_id_c16eba1c__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FaqComponent.vue?vue&type=template&id=c16eba1c */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FaqComponent.vue?vue&type=template&id=c16eba1c");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FinanceComponent.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/components/FinanceComponent.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FinanceComponent_vue_vue_type_template_id_4bdbdb2e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true */ "./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true");
+/* harmony import */ var _FinanceComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FinanceComponent.vue?vue&type=script&lang=js */ "./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _FinanceComponent_vue_vue_type_style_index_0_id_4bdbdb2e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css */ "./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_FinanceComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_FinanceComponent_vue_vue_type_template_id_4bdbdb2e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-4bdbdb2e"],['__file',"resources/js/components/FinanceComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FinanceComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css":
+/*!**************************************************************************************************************!*\
+  !*** ./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css ***!
+  \**************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_style_index_0_id_4bdbdb2e_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=style&index=0&id=4bdbdb2e&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_template_id_4bdbdb2e_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_FinanceComponent_vue_vue_type_template_id_4bdbdb2e_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/FinanceComponent.vue?vue&type=template&id=4bdbdb2e&scoped=true");
 
 
 /***/ }),
@@ -308540,7 +308627,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"categories":[{"id":1,"name":"General Principles"},{"id":2,"name":"Business Ethics"},{"id":3,"name":"Investment"},{"id":4,"name":"Banking"},{"id":5,"name":"Charity & Zakat"},{"id":6,"name":"Employment"},{"id":7,"name":"Contracts"},{"id":8,"name":"Partnerships"}],"tips":[{"id":1,"title":"Avoid Riba (Interest) in all transactions","description":"Islamic finance strictly prohibits any form of interest (riba). This includes both giving and receiving interest. Instead of conventional loans, consider profit-sharing arrangements (Mudarabah), joint ventures (Musharakah), or asset-based financing (Murabaha) where risks and rewards are shared between parties according to Islamic principles.","category":4,"importance":5,"date":"2023-05-15","example":"Instead of taking a loan with interest to buy equipment, enter into a Murabaha agreement where the bank purchases the equipment and sells it to you at a profit margin, with clear terms and payment schedule.","benefits":["Earns Allah\'s pleasure by avoiding a major sin","Promotes risk-sharing rather than guaranteed returns","Encourages productive investment in real assets"],"references":["Quran 2:275-280 - \'Those who consume interest cannot stand [on the Day of Resurrection] except as one stands who is being beaten by Satan into insanity...\'","Sahih Bukhari, Book 34, Hadith 264 - The Prophet (PBUH) cursed the one who consumes riba, the one who pays it, the one who writes the contract, and the two witnesses to it"]},{"id":2,"title":"Ensure business transactions are clear and transparent","description":"All terms and conditions of business dealings should be clearly stated, documented, and understood by all parties to avoid disputes, deception, and unethical practices.","category":2,"importance":4,"date":"2023-06-22","example":"When selling a product, clearly specify the exact model, features, warranty terms, delivery date, and price. Avoid vague descriptions that could lead to misunderstandings.","benefits":["Builds trust with customers and partners","Reduces disputes and conflicts","Fulfills Islamic requirement of clear contracts"],"references":["Quran 2:282 - \'O you who have believed, when you contract a debt for a specified term, write it down...\'","Sunan Ibn Majah, Book 12, Hadith 51 - \'The two parties to a transaction have the option (to cancel) until they part. If they are truthful and disclose (any defects), their transaction will be blessed.\'"]},{"id":3,"title":"Invest in Halal industries only","description":"Muslims must avoid investing in businesses involved in haram activities such as alcohol, gambling, pork, conventional banking/insurance, adult entertainment, weapons manufacturing, or other prohibited activities according to Islamic law.","category":3,"importance":5,"date":"2023-04-10","example":"Instead of investing in a conventional mutual fund, choose a Sharia-compliant fund that screens companies for halal business activities and avoids interest-based transactions.","benefits":["Ensures your wealth grows through halal means","Avoids supporting harmful industries","Promotes ethical economic development"],"references":["Quran 5:90 - \'O you who have believed, indeed, intoxicants, gambling, [sacrificing on] stone alters [to other than Allah], and divining arrows are but defilement from the work of Satan...\'","Quran 2:219 - \'They ask you about wine and gambling. Say, \'In them is great sin and [yet, some] benefit for people. But their sin is greater than their benefit...\'"]},{"id":4,"title":"Pay Zakat on your wealth","description":"Calculate and distribute 2.5% of your savings and investments that have been held for one lunar year to eligible recipients. Zakat is obligatory on cash, gold, silver, business inventory, and investments that meet the nisab threshold.","category":5,"importance":5,"date":"2023-03-18","example":"If you have $10,000 in savings that has been in your account for over one year (above the nisab threshold), you would calculate 2.5% ($250) and distribute it to the poor, needy, zakat collectors, those whose hearts are to be reconciled, freeing slaves, debtors, in Allah\'s cause, and travelers.","benefits":["Purifies wealth and increases barakah","Fulfills a pillar of Islam","Helps redistribute wealth in society"],"references":["Quran 9:60 - \'Zakat expenditures are only for the poor and for the needy and for those employed to collect [zakat] and for bringing hearts together and for freeing captives [or slaves] and for those in debt and for the cause of Allah and for the [stranded] traveler...\'","Sahih Bukhari, Book 24, Hadith 486 - \'The Prophet (PBUH) sent Mu\'adh to Yemen and said: \'Inform them that Allah has made zakat obligatory on their wealth...\'\'"]},{"id":5,"title":"Avoid Gharar (Excessive uncertainty)","description":"Business contracts should avoid excessive uncertainty, ambiguity, or deception about the essential elements of the transaction. This includes selling goods you don\'t own or can\'t deliver, unclear pricing terms, or vague product descriptions.","category":1,"importance":4,"date":"2023-07-05","example":"Don\'t sell fish that are still in the sea or crops not yet harvested, as there\'s uncertainty about whether you\'ll actually be able to deliver them. Similarly, avoid contracts with open-ended terms that could lead to disputes.","benefits":["Reduces disputes and litigation","Creates fair and just transactions","Follows the Sunnah of clear business dealings"],"references":["Sahih Muslim, Book 10, Hadith 3882 - The Prophet (PBUH) prohibited the sale of what is not in your possession","Sunan Ibn Majah, Book 12, Hadith 2267 - \'The Messenger of Allah (PBUH) forbade the sale of fruits until they are clearly in good condition\'"]}]}');
+module.exports = /*#__PURE__*/JSON.parse('{"categories":[{"id":1,"name":"General Principles"},{"id":2,"name":"Business Ethics"},{"id":3,"name":"Investment"},{"id":4,"name":"Banking"},{"id":5,"name":"Charity & Zakat"},{"id":6,"name":"Employment"},{"id":7,"name":"Contracts"},{"id":8,"name":"Partnerships"},{"id":9,"name":"E-Commerce"},{"id":10,"name":"Takaful"},{"id":11,"name":"Real Estate"},{"id":12,"name":"Agriculture"},{"id":13,"name":"Manufacturing"}],"tips":[{"id":1,"title":"Avoid Riba (Interest) in all transactions","description":"Islamic finance strictly prohibits any form of interest (riba). This includes both giving and receiving interest. Instead of conventional loans, consider profit-sharing arrangements (Mudarabah), joint ventures (Musharakah), or asset-based financing (Murabaha) where risks and rewards are shared between parties according to Islamic principles.","category":4,"importance":5,"date":"2023-05-15","example":"Instead of taking a loan with interest to buy equipment, enter into a Murabaha agreement where the bank purchases the equipment and sells it to you at a profit margin, with clear terms and payment schedule.","benefits":["Earns Allah\'s pleasure by avoiding a major sin","Promotes risk-sharing rather than guaranteed returns","Encourages productive investment in real assets"],"references":["Quran 2:275-280 - \'Those who consume interest cannot stand [on the Day of Resurrection] except as one stands who is being beaten by Satan into insanity...\'","Sahih Bukhari, Book 34, Hadith 264 - The Prophet (PBUH) cursed the one who consumes riba, the one who pays it, the one who writes the contract, and the two witnesses to it"]},{"id":2,"title":"Ensure business transactions are clear and transparent","description":"All terms and conditions of business dealings should be clearly stated, documented, and understood by all parties to avoid disputes, deception, and unethical practices.","category":2,"importance":4,"date":"2023-06-22","example":"When selling a product, clearly specify the exact model, features, warranty terms, delivery date, and price. Avoid vague descriptions that could lead to misunderstandings.","benefits":["Builds trust with customers and partners","Reduces disputes and conflicts","Fulfills Islamic requirement of clear contracts"],"references":["Quran 2:282 - \'O you who have believed, when you contract a debt for a specified term, write it down...\'","Sunan Ibn Majah, Book 12, Hadith 51 - \'The two parties to a transaction have the option (to cancel) until they part. If they are truthful and disclose (any defects), their transaction will be blessed.\'"]},{"id":3,"title":"Invest in Halal industries only","description":"Muslims must avoid investing in businesses involved in haram activities such as alcohol, gambling, pork, conventional banking/insurance, adult entertainment, weapons manufacturing, or other prohibited activities according to Islamic law.","category":3,"importance":5,"date":"2023-04-10","example":"Instead of investing in a conventional mutual fund, choose a Sharia-compliant fund that screens companies for halal business activities and avoids interest-based transactions.","benefits":["Ensures your wealth grows through halal means","Avoids supporting harmful industries","Promotes ethical economic development"],"references":["Quran 5:90 - \'O you who have believed, indeed, intoxicants, gambling, [sacrificing on] stone alters [to other than Allah], and divining arrows are but defilement from the work of Satan...\'","Quran 2:219 - \'They ask you about wine and gambling. Say, \'In them is great sin and [yet, some] benefit for people. But their sin is greater than their benefit...\'"]},{"id":4,"title":"Pay Zakat on your wealth","description":"Calculate and distribute 2.5% of your savings and investments that have been held for one lunar year to eligible recipients. Zakat is obligatory on cash, gold, silver, business inventory, and investments that meet the nisab threshold.","category":5,"importance":5,"date":"2023-03-18","example":"If you have $10,000 in savings that has been in your account for over one year (above the nisab threshold), you would calculate 2.5% ($250) and distribute it to the poor, needy, zakat collectors, those whose hearts are to be reconciled, freeing slaves, debtors, in Allah\'s cause, and travelers.","benefits":["Purifies wealth and increases barakah","Fulfills a pillar of Islam","Helps redistribute wealth in society"],"references":["Quran 9:60 - \'Zakat expenditures are only for the poor and for the needy and for those employed to collect [zakat] and for bringing hearts together and for freeing captives [or slaves] and for those in debt and for the cause of Allah and for the [stranded] traveler...\'","Sahih Bukhari, Book 24, Hadith 486 - \'The Prophet (PBUH) sent Mu\'adh to Yemen and said: \'Inform them that Allah has made zakat obligatory on their wealth...\'\'"]},{"id":5,"title":"Avoid Gharar (Excessive uncertainty)","description":"Business contracts should avoid excessive uncertainty, ambiguity, or deception about the essential elements of the transaction. This includes selling goods you don\'t own or can\'t deliver, unclear pricing terms, or vague product descriptions.","category":1,"importance":4,"date":"2023-07-05","example":"Don\'t sell fish that are still in the sea or crops not yet harvested, as there\'s uncertainty about whether you\'ll actually be able to deliver them. Similarly, avoid contracts with open-ended terms that could lead to disputes.","benefits":["Reduces disputes and litigation","Creates fair and just transactions","Follows the Sunnah of clear business dealings"],"references":["Sahih Muslim, Book 10, Hadith 3882 - The Prophet (PBUH) prohibited the sale of what is not in your possession","Sunan Ibn Majah, Book 12, Hadith 2267 - \'The Messenger of Allah (PBUH) forbade the sale of fruits until they are clearly in good condition\'"]},{"id":6,"title":"Practice fair pricing","description":"Avoid price manipulation, hoarding, and other practices that exploit customers or create artificial scarcity. While Islam allows for profit, it must be reasonable and not take advantage of people\'s needs.","category":2,"importance":4,"date":"2023-01-30","example":"During a food shortage, don\'t stockpile essential goods to sell at inflated prices. Maintain reasonable profit margins that allow you to earn a living without exploiting others.","benefits":["Earns Allah\'s pleasure through fair dealings","Builds customer loyalty and trust","Contributes to economic stability"],"references":["Sunan Abu Dawood, Book 23, Hadith 3446 - \'The Prophet (PBUH) said: \'Sellers and buyers have the option (to cancel) as long as they have not separated. If they speak the truth and make clear (the defects), their transaction will be blessed. If they conceal and lie, the blessing of their transaction will be blotted out.\'\'","Sahih Bukhari, Book 34, Hadith 315 - The Prophet (PBUH) refused to fix prices, saying \'Allah is the One Who fixes prices...\'"]},{"id":7,"title":"Use Islamic banking products","description":"Opt for Sharia-compliant financial products like Murabaha (cost-plus financing), Musharakah (partnership), or Ijara (leasing) instead of conventional loans. Islamic banks operate without interest, instead using trade-based, asset-backed, or profit-sharing models that comply with Islamic law.","category":4,"importance":4,"date":"2023-08-12","example":"Instead of a conventional mortgage, use Diminishing Musharakah where you and the bank jointly purchase a property, with you gradually buying the bank\'s share over time while paying rent for the portion you don\'t yet own.","benefits":["Keeps your finances halal","Supports the Islamic finance industry","Often includes more ethical terms"],"references":["Fatwas from major Islamic scholars on permissibility of modern Islamic banking structures","AAOIFI Sharia Standards for Islamic Financial Institutions"]},{"id":8,"title":"Honor contracts and promises","description":"Fulfill all business agreements and promises as breaking them is considered a major sin in Islam. This includes honoring payment terms, delivery commitments, quality standards, and all other contractual obligations.","category":1,"importance":5,"date":"2023-09-01","example":"If you agree to deliver goods by a certain date but encounter delays, communicate immediately with the buyer to renegotiate rather than simply failing to deliver.","benefits":["Builds strong business reputation","Fulfills Islamic ethical requirements","Reduces legal disputes"],"references":["Quran 5:1 - \'O you who have believed, fulfill [all] contracts...\'","Sahih Muslim, Book 1, Hadith 324 - \'The signs of a hypocrite are three: when he speaks he lies, when he promises he breaks it, and when he is entrusted he betrays\'"]},{"id":9,"title":"Distribute wealth fairly","description":"Ensure fair wages and profit distribution among all stakeholders in your business ventures. Employees should be paid promptly and adequately for their work. Partners should receive their fair share according to agreement.","category":6,"importance":4,"date":"2023-07-20","example":"If your business has a profitable year, consider giving employees bonuses or profit-sharing beyond their regular wages in recognition of their contribution to the success.","benefits":["Creates motivated workforce","Fulfills Islamic labor rights requirements","Promotes social justice"],"references":["Quran 4:32 - \'And do not wish for that by which Allah has made some of you exceed others...\'","Sunan Ibn Majah, Book 12, Hadith 2443 - \'Give the worker his wages before his sweat dries\'"]},{"id":10,"title":"Avoid monopoly practices","description":"Islamic economics discourages monopolies and hoarding of essential goods to manipulate prices. While specialization and market leadership are permitted, using dominant position to unfairly restrict supply or charge excessive prices is prohibited.","category":2,"importance":3,"date":"2023-10-05","example":"If you\'re the only supplier of a basic necessity in an area, maintain reasonable prices rather than exploiting your position to charge whatever the market will bear.","benefits":["Promotes fair competition","Ensures market accessibility","Follows Prophetic economic principles"],"references":["Sunan Ibn Majah, Book 12, Hadith 2156 - \'Whoever withholds food (to raise prices), Allah will afflict him with bankruptcy and disease\'","Musnad Ahmad - The Prophet (PBUH) said: \'No one hoards but the sinner\'"]},{"id":11,"title":"Use proper accounting methods","description":"Maintain accurate financial records and transparent accounting practices. This includes proper documentation of transactions, clear separation of personal and business finances, and honest reporting for zakat calculation and tax purposes.","category":1,"importance":4,"date":"2023-11-15","example":"Keep separate bank accounts for business and personal use, maintain receipts for all transactions, and record income and expenses regularly to accurately calculate zakat and taxes.","benefits":["Ensures accurate zakat calculation","Provides business clarity","Reduces disputes with partners"],"references":["Quran 2:282 - \'O you who have believed, when you contract a debt for a specified term, write it down...\'","Sunan Abu Dawood, Book 23, Hadith 3640 - \'The truthful, trustworthy merchant will be with the prophets, the truthful and the martyrs\'"]},{"id":12,"title":"Ensure halal supply chains","description":"Verify that all components of your products and services comply with Islamic requirements throughout your supply chain. This includes materials, ingredients, production processes, and transportation methods.","category":2,"importance":4,"date":"2023-09-28","example":"A restaurant should not only serve halal meat but ensure all ingredients (including oils, flavorings, etc.) are halal, and that cross-contamination with haram items doesn\'t occur during preparation.","benefits":["Maintains complete halal integrity","Builds customer trust","Avoids involvement with haram elements"],"references":["Quran 5:88 - \'And eat of what Allah has provided for you [which is] lawful and good...\'","Sahih Muslim, Book 21, Hadith 101 - \'The Prophet (PBUH) prohibited every intoxicant and everything that weakens the mind\'"]},{"id":13,"title":"Consider Takaful (Islamic Insurance)","description":"Instead of conventional insurance based on uncertainty and interest, consider Takaful which operates on principles of mutual cooperation, shared responsibility, and donations.","category":10,"importance":4,"date":"2023-12-10","example":"Rather than buying car insurance from a conventional company, join a Takaful program where members contribute to a fund that covers accidents, with professional management and Sharia supervision.","benefits":["Provides halal risk protection","Operates on cooperative principles","Avoids gharar and riba"],"references":["Fatwas from Islamic Fiqh Academy on cooperative insurance models","Quran 5:2 - \'And cooperate in righteousness and piety\'"]},{"id":14,"title":"Maintain good relationships with competitors","description":"Islam encourages healthy competition but prohibits malicious practices against competitors. Avoid slander, spreading rumors, or unethical tactics to gain advantage.","category":2,"importance":3,"date":"2024-01-15","example":"If a competitor opens nearby, focus on improving your own offerings rather than spreading negative information about them.","benefits":["Maintains ethical standards","Promotes industry improvement","Earns Allah\'s pleasure"],"references":["Quran 49:12 - \'O you who have believed, avoid much [negative] assumption... And do not spy or backbite each other...\'","Sahih Muslim, Book 32, Hadith 6264 - \'The Muslim is the one from whose tongue and hand the Muslims are safe\'"]},{"id":15,"title":"Balance business and worship","description":"While earning halal income is praiseworthy, don\'t let business pursuits interfere with obligatory worship. Schedule work around prayer times and remember the hereafter is eternal.","category":1,"importance":5,"date":"2024-02-20","example":"Close your shop during prayer times or arrange staff coverage so you can pray on time. Avoid scheduling important meetings during Friday prayers.","benefits":["Maintains spiritual balance","Sets good example for employees","Brings barakah to business"],"references":["Quran 62:9 - \'O you who have believed, when [the adhan] is called for the prayer on the day of Jumu\'ah [Friday], then proceed to the remembrance of Allah and leave trade...\'","Sahih Bukhari, Book 8, Hadith 419 - \'The covenant between us and them is prayer\'"]},{"id":16,"title":"Choose ethical business partners","description":"Select business partners who share your Islamic values and ethical standards. Partnering with those who engage in haram practices may compromise your business\'s halal integrity.","category":8,"importance":4,"date":"2024-03-05","example":"When starting a restaurant, choose partners committed to halal standards rather than those who might suggest cutting corners to increase profits.","benefits":["Maintains business integrity","Reduces conflicts over ethics","Ensures halal income"],"references":["Quran 4:29 - \'O you who have believed, do not consume one another\'s wealth unjustly but only [in lawful] business by mutual consent...\'","Sunan Abu Dawood, Book 23, Hadith 3385 - \'Muslims are bound by their conditions\'"]},{"id":17,"title":"Implement halal e-commerce practices","description":"When selling online, ensure your e-commerce practices comply with Islamic principles including transparent pricing, honest product descriptions, and halal payment methods.","category":9,"importance":4,"date":"2024-01-30","example":"Clearly state all costs upfront (no hidden fees), provide accurate product photos/descriptions, and avoid interest-based payment plans.","benefits":["Expands market to Muslim consumers","Builds trust with customers","Ensures transactions are blessed"],"references":["Quran 17:35 - \'Give full measure when you measure, and weigh with an even balance\'","Sunan Ibn Majah, Book 12, Hadith 2240 - \'The truthful merchant will be with the prophets\'"]},{"id":18,"title":"Avoid excessive debt","description":"While Islam permits debt for genuine needs, it discourages excessive borrowing that could lead to financial difficulty or inability to repay.","category":4,"importance":4,"date":"2024-02-15","example":"Instead of taking loans for luxury items, save up and pay cash. For business needs, consider profit-sharing arrangements rather than interest-bearing loans.","benefits":["Reduces financial stress","Avoids riba-based financing","Promotes financial responsibility"],"references":["Quran 2:280 - \'And if someone is in hardship, then [let there be] postponement until [a time of] ease...\'","Sunan Ibn Majah, Book 12, Hadith 2287 - \'The Prophet (PBUH) used to seek refuge from debt in his prayers\'"]},{"id":19,"title":"Document business agreements","description":"While verbal agreements are binding in Islam, written contracts are strongly recommended to prevent disputes. Contracts should clearly state terms and obligations.","category":7,"importance":4,"date":"2024-03-01","example":"When entering a business partnership, draft a written agreement specifying capital contributions, profit/loss sharing ratios, management responsibilities, and exit procedures.","benefits":["Reduces misunderstandings","Provides legal protection","Follows Quranic injunction"],"references":["Quran 2:282 - \'O you who have believed, when you contract a debt for a specified term, write it down...\'","Sunan Abu Dawood, Book 23, Hadith 3385 - \'Muslims are bound by their conditions\'"]},{"id":20,"title":"Practice ethical marketing","description":"Ensure your marketing practices are truthful and avoid exaggeration, deception, or manipulation of customers\' emotions or needs.","category":2,"importance":3,"date":"2024-03-10","example":"Don\'t use false scarcity tactics (\'Only 2 left!\') or make claims about products you can\'t substantiate. Be honest about product capabilities and limitations.","benefits":["Builds long-term customer trust","Avoids sinful business practices","Creates sustainable business growth"],"references":["Quran 83:1-3 - \'Woe to those who give less [than due]\'","Sahih Muslim, Book 1, Hadith 155 - \'The truthful and honest businessman will be in the company of Prophets\'"]},{"id":21,"title":"Consider Waqf for long-term impact","description":"Waqf (Islamic endowment) allows you to dedicate assets for ongoing charitable purposes, creating sustainable benefit for the community.","category":5,"importance":4,"date":"2024-03-15","example":"Establish a waqf by donating a property where the rental income continuously supports an Islamic school, mosque, or charity organization.","benefits":["Creates ongoing charity (sadaqah jariyah)","Preserves wealth for good causes","Benefits multiple generations"],"references":["Sahih Bukhari, Book 55, Hadith 600 - \'When a man dies, his deeds come to an end except for three things: ongoing charity, knowledge that is benefited from, and a righteous child who prays for him\'","Numerous historical examples of Islamic waqfs supporting education and social services"]},{"id":22,"title":"Implement fair employment practices","description":"Treat employees with justice and kindness, providing fair wages, good working conditions, and respecting their rights as outlined in Islam.","category":6,"importance":5,"date":"2024-03-20","example":"Pay employees before their sweat dries, provide reasonable breaks for prayers, and never delay salaries without mutual agreement.","benefits":["Fulfills Islamic labor rights","Creates loyal workforce","Earns Allah\'s pleasure"],"references":["Quran 4:58 - \'Indeed, Allah commands you to render trusts to whom they are due\'","Sunan Ibn Majah, Book 12, Hadith 2443 - \'Give the worker his wages before his sweat dries\'"]},{"id":23,"title":"Apply Islamic real estate principles","description":"Real estate transactions must avoid riba, gharar, and haram elements. Use musharaka (partnership) or ijara (leasing) models instead of conventional mortgages.","category":11,"importance":4,"date":"2024-04-05","example":"For home financing, use diminishing partnership where the bank and buyer jointly purchase the property, with the buyer gradually acquiring the bank\'s shares through monthly payments.","benefits":["Eliminates interest-based financing","Aligns with Shariah property ownership principles","Provides transparent cost structure"],"references":["Fiqh contemporary real estate fatwas from Islamic Fiqh Academy","AAOIFI Sharia Standard on Ijara"]},{"id":24,"title":"Follow halal agricultural practices","description":"Ensure farming methods comply with Islamic principles including humane treatment of animals, avoidance of harmful chemicals, and proper zakat calculation on crops.","category":12,"importance":4,"date":"2024-04-10","example":"When raising livestock, provide adequate space, natural feed, and humane slaughter methods. For crops, calculate zakat at 5% or 10% depending on irrigation method.","benefits":["Produces truly halal food products","Fulfills environmental stewardship (khalifa)","Ensures proper zakat calculation"],"references":["Quran 6:141 - \'Eat of their fruits when they bear fruit and pay its due on the day of its harvest\'","Sunan Abu Dawood, Book 16, Hadith 2829 - On humane animal treatment"]},{"id":25,"title":"Implement halal manufacturing standards","description":"Manufacturing processes must avoid haram ingredients, cross-contamination, and unethical labor practices while maintaining product purity.","category":13,"importance":4,"date":"2024-04-15","example":"A food manufacturer should have separate production lines for halal products, regular audits by Islamic certifiers, and transparent ingredient sourcing.","benefits":["Guarantees product halal status","Builds consumer confidence","Creates export opportunities to Muslim markets"],"references":["Quran 5:88 - \'Eat of what is lawful and good\'","MS1500:2019 Malaysian Halal Food Standard"]},{"id":26,"title":"Structure halal import/export deals","description":"International trade must comply with Islamic principles including proper documentation, transparent pricing, and halal payment methods.","category":2,"importance":4,"date":"2024-04-20","example":"Use letters of credit with Islamic banks that don\'t charge interest, ensure shipped goods are properly certified halal, and avoid currency speculation.","benefits":["Expands business globally while maintaining compliance","Avoids riba in international transactions","Builds trust with Muslim trade partners"],"references":["Quran 2:275 - \'Allah has permitted trade and forbidden riba\'","Islamic Fiqh Academy resolutions on international trade"]},{"id":27,"title":"Establish proper business inheritance","description":"Plan business succession according to Islamic inheritance laws (mirath) while ensuring business continuity and fair treatment of all heirs.","category":1,"importance":4,"date":"2024-04-25","example":"Create a will specifying how business assets should be distributed according to Shariah, while establishing mechanisms for smooth management transition.","benefits":["Fulfills Islamic inheritance obligations","Prevents family disputes","Ensures business sustainability"],"references":["Quran 4:11-12 - Detailed inheritance verses","Sahih Bukhari, Book 85, Hadith 82 - On the importance of wills"]},{"id":28,"title":"Apply Islamic microfinance models","description":"Support small entrepreneurs through qard hasan (benevolent loans) or profit-sharing models rather than interest-based microcredit.","category":4,"importance":3,"date":"2024-05-01","example":"Establish a community fund providing interest-free loans to small businesses, with optional voluntary repayment of extra amounts as charity.","benefits":["Empowers communities Islamically","Avoids exploiting the poor","Creates sustainable development"],"references":["Quran 2:245 - \'Who will lend Allah a good loan?\'","Numerous Islamic microfinance case studies worldwide"]},{"id":29,"title":"Develop halal tourism services","description":"Cater to Muslim travelers by providing prayer facilities, halal food, and modesty accommodations while avoiding haram activities.","category":2,"importance":3,"date":"2024-05-05","example":"A hotel can designate prayer rooms, serve certified halal meals, provide Quran copies and prayer timetables, and avoid alcohol/mini-bars.","benefits":["Taps into growing halal tourism market","Provides valuable service to Muslim travelers","Creates wholesome family environment"],"references":["Quran 5:5 - \'Today the good things are made lawful for you\'","Hadith about facilitating good for others"]},{"id":30,"title":"Implement Islamic corporate governance","description":"Establish Shariah-compliant governance structures including Shariah boards, ethical audits, and stakeholder accountability.","category":1,"importance":5,"date":"2024-05-10","example":"Form a Shariah supervisory board to review all business activities, conduct annual Shariah compliance audits, and publish transparency reports.","benefits":["Ensures ongoing Shariah compliance","Builds investor confidence","Creates ethical organizational culture"],"references":["Quran 4:58 - \'Indeed, Allah commands you to render trusts to whom they are due\'","AAOIFI Governance Standards for Islamic Financial Institutions"]},{"id":31,"title":"Structure halal retirement plans","description":"Develop retirement savings plans using Shariah-compliant investments and profit-sharing models rather than interest-based funds.","category":3,"importance":4,"date":"2024-05-15","example":"Create an employee retirement program investing solely in Islamic equities, sukuk, and halal mutual funds with transparent profit distribution.","benefits":["Provides halal retirement income","Avoids riba in pension funds","Aligns retirement planning with Islamic values"],"references":["Quran 28:77 - \'But seek, through what Allah has given you, the home of the Hereafter\'","Contemporary fatwas on Islamic pension plans"]},{"id":32,"title":"Apply Islamic crisis management","description":"Handle business crises according to Islamic principles of patience, consultation (shura), and trust in Allah while taking practical steps.","category":1,"importance":4,"date":"2024-05-20","example":"During financial difficulties, first consult knowledgeable Muslims, maintain employee rights, avoid haram solutions, and make sincere dua for relief.","benefits":["Maintains barakah in difficult times","Preserves ethical standards under pressure","Leads to halal solutions"],"references":["Quran 65:2-3 - \'Whoever fears Allah, He will make a way out for him\'","Prophetic examples of crisis management"]},{"id":33,"title":"Develop halal franchising models","description":"Expand businesses through franchising while ensuring all operations remain Shariah-compliant across locations.","category":8,"importance":3,"date":"2024-05-25","example":"Create franchise agreements requiring halal certification, Islamic financing for franchisees, and Shariah-compliant marketing practices.","benefits":["Scales halal businesses effectively","Maintains brand Shariah compliance","Creates halal entrepreneurship opportunities"],"references":["Quran 5:1 - \'Fulfill all contracts\'","Islamic business partnership principles"]},{"id":34,"title":"Establish halal certification processes","description":"Obtain proper halal certification for products/services through accredited Islamic organizations with rigorous standards.","category":1,"importance":5,"date":"2024-06-01","example":"For a food business, implement full traceability from farm to table, undergo regular audits by recognized halal certifiers, and train staff on halal requirements.","benefits":["Gives consumers confidence in halal status","Opens Muslim markets globally","Fulfills Islamic due diligence obligation"],"references":["Quran 5:88 - \'Eat of what is lawful and good\'","Various national and international halal standards"]},{"id":35,"title":"Create Islamic endowment (waqf) businesses","description":"Establish revenue-generating businesses where profits support charitable causes in perpetuity according to waqf principles.","category":5,"importance":4,"date":"2024-06-05","example":"Start a shopping center where rental income permanently funds Islamic education, or a farm whose produce continuously feeds the poor.","benefits":["Creates ongoing charity (sadaqah jariyah)","Builds sustainable social impact","Preserves wealth for good causes"],"references":["Sahih Muslim, Book 13, Hadith 4005 - On perpetual charity","Historical Islamic waqf models supporting mosques and schools"]}]}');
 
 /***/ }),
 
