@@ -300,19 +300,19 @@
       </div>
 
       <div class="row pt-3 g-4">
+
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/name_allah1.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
+            <img src="/images/donate111.png" alt="Donation" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Names of Allah</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;"> Discover the 99 beautiful names
-                of Allah (Asma’ul Husna) with meanings, benefits, and audio pronunciation.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global audience.
               </p>
-              <button class="form-control" onclick="window.location.href='/blog'"
+              <button class="form-control" onclick="window.location.href='/support'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>Explore Names</b></span>
+                <span class="text-center w-100"><b>Support Us</b></span>
               </button>
             </div>
           </div>

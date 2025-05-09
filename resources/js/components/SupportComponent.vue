@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container pt-3">
+    <div class="container pt-5">
       <div class="row gx-4 align-items-center justify-content-between">
         <div class="col-md-8 order-2 order-md-1 pb-3">
           <div class="mt-3 mt-md-0">
@@ -28,9 +28,10 @@
             </p>
 
             <!-- Donate Button -->
-            <button class="container form-control " style="background:#00BFA6; color:white"
-              onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-              <h5>Support Islamic Knowledge</h5>
+            <button class="form-control" onclick="window.location.href='/support'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Donate Here</b></span>
             </button>
           </div>
         </div>
