@@ -38,7 +38,8 @@
               </ul>
 
               <div class="col-md-8">
-                <button class="container form-control" style="background:#00BFA6; color:white"
+                <button class="container form-control"
+                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                   onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
                   <b>Donate today</b>
                 </button>

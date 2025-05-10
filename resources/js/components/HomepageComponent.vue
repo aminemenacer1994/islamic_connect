@@ -85,7 +85,7 @@
                     instantly, making your spiritual journey easier.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/surat'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                       type="submit">
                       <b>View more</b>
                     </button>
@@ -106,7 +106,7 @@
                   </p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/content'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                       type="submit">
                       <b>View more</b>
                     </button>
@@ -125,7 +125,7 @@
                     everyone regardless of ability to engage with content comfortably.</p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/quran'"
-                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                       type="submit">
                       <b>View more</b>
                     </button>
@@ -210,7 +210,7 @@
             </strong>
           <div class="d-grid pt-2">
             <button class="form-control" onclick="window.location.href='/quran'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
               type="submit">
               <b>Learn more</b>
             </button>
@@ -240,7 +240,7 @@
             </strong>
             <div class="d-grid pt-2">
               <button class="form-control" onclick="window.location.href='/content'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                 type="submit">
                 <b>Learn more</b>
               </button>
@@ -263,7 +263,7 @@
             </strong>
             <div class="d-grid pt-2">
               <button class="form-control" onclick="window.location.href='/surat'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                 type="submit">
                 <b>Learn more</b>
               </button>
@@ -462,8 +462,8 @@
                 </div>
                 <div class="col-md-12">
                   <div class="d-grid">
-                    <button class="form-control" style="background: #00bfa6; color: white" type="submit">
-                      Send message
+                    <button class="form-control" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px" type="submit" >
+                      <b>Send message</b>
                     </button>
                   </div>
                 </div>

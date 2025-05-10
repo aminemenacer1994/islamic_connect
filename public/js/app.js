@@ -54416,7 +54416,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -54445,7 +54446,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Column "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -54474,7 +54476,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])])])])])], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>Features</h1></div><p class=\"lead\" data-v-2ba25654>Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize your journey with personalized notes &amp; bookmarks, and enjoy accessibility features like text-to-speech and voice search.</p></div><div class=\"row g-4 g-md-5\" data-v-2ba25654><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3 container\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/agenda.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Notes &amp; Reflections </h3><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Save personal notes, reflections, and insights while studying Quran and Islamic content. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/pray.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Duas </h3><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Browse and recite authentic duas for daily life, protection, gratitude, and special occasions. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/praying-hands.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Prayer Times </h3><p class=\"lead container-fluid pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Access precise prayer timings based on your location, with alerts to never miss a prayer. </strong></p></div></div></div></section>", 1)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
@@ -54498,7 +54501,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -54532,7 +54536,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Third row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -54554,7 +54559,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn more")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -54634,10 +54640,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control",
     style: {
       "background": "#00bfa6",
-      "color": "white"
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "48px"
     },
     type: "submit"
-  }, " Send message ")])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -55389,8 +55397,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "container form-control",
     style: {
-      "background": "#00BFA6",
-      "color": "white"
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "48px"
     },
     onclick: "window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Donate today")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
