@@ -1,0 +1,480 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Quranic Studies",
+      "icon": "📖",
+      "lessons": [
+        {
+          "id": 101,
+          "title": "Surah Al-Fatihah (The Opening)",
+          "content": "<div class='arabic-text'>بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div><p>The opening chapter recited in every rak'ah of prayer. Contains 7 verses summarizing the Quran's message.</p>",
+          "arabicText": "بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ٱلْحَمْدُ لِلَّٰهِ رَبِّ ٱلْعَٰلَمِينَ"
+        },
+        {
+          "id": 102,
+          "title": "Surah Al-Baqarah: Ayatul Kursi",
+          "content": "<div class='arabic-text'>ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ</div><p>The Throne Verse describing Allah's supreme authority and knowledge.</p>",
+          "arabicText": "ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌۭ وَلَا نَوْمٌۭ"
+        },
+        {
+          "id": 103,
+          "title": "Surah Yasin (Heart of Quran)",
+          "content": "<div class='arabic-text'>يس وَٱلْقُرْءَانِ ٱلْحَكِيمِ</div><p>Called the 'heart of Quran' with profound messages about resurrection.</p>",
+          "arabicText": "يس وَٱلْقُرْءَانِ ٱلْحَكِيمِ إِنَّكَ لَمِنَ ٱلْمُرْسَلِينَ"
+        },
+        {
+          "id": 104,
+          "title": "Surah Al-Kahf (The Cave)",
+          "content": "<p>Recommended for Fridays, contains four stories with moral lessons.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 1001,
+          "title": "Quran Basics",
+          "questions": [
+            {
+              "question": "How many verses in Surah Al-Fatihah?",
+              "options": ["5", "7", "9", "11"],
+              "correctAnswer": 1,
+              "explanation": "Contains 7 verses, recited in every rak'ah"
+            },
+            {
+              "question": "Which surah is called 'heart of Quran'?",
+              "options": ["Al-Baqarah", "Yasin", "Al-Ikhlas", "Al-Falaq"],
+              "correctAnswer": 1,
+              "explanation": "Surah Yasin (36) holds this special status"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Pillars of Islam",
+      "icon": "🕌",
+      "lessons": [
+        {
+          "id": 201,
+          "title": "Shahada (Declaration of Faith)",
+          "content": "<div class='arabic-text'>أشهد أن لا إله إلا الله وأشهد أن محمداً رسول الله</div><p>The testimony establishing Islamic monotheism.</p>",
+          "arabicText": "أشهد أن لا إله إلا الله وأشهد أن محمداً رسول الله"
+        },
+        {
+          "id": 202,
+          "title": "Salah (Daily Prayers)",
+          "content": "<p>The five daily prayers: Fajr, Dhuhr, Asr, Maghrib, Isha with their rak'ahs.</p>"
+        },
+        {
+          "id": 203,
+          "title": "Zakat (Obligatory Charity)",
+          "content": "<p>2.5% of savings given annually to specified recipients.</p>"
+        },
+        {
+          "id": 204,
+          "title": "Hajj (Pilgrimage)",
+          "content": "<p>The journey to Makkah required once in lifetime for those able.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 2001,
+          "title": "Pillars Quiz",
+          "questions": [
+            {
+              "question": "Which pillar comes first?",
+              "options": ["Salah", "Shahada", "Zakat", "Hajj"],
+              "correctAnswer": 1,
+              "explanation": "Shahada is the foundation of faith"
+            },
+            {
+              "question": "Zakat percentage on savings?",
+              "options": ["1%", "2.5%", "5%", "10%"],
+              "correctAnswer": 1,
+              "explanation": "2.5% of wealth above nisab held for one year"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Islamic Law (Fiqh)",
+      "icon": "⚖️",
+      "lessons": [
+        {
+          "id": 301,
+          "title": "Purification (Taharah)",
+          "content": "<p>Wudu, ghusl, and tayammum - the states of ritual purity.</p>"
+        },
+        {
+          "id": 302,
+          "title": "Halal Dietary Laws",
+          "content": "<p>Permitted/prohibited foods and slaughter requirements.</p>"
+        },
+        {
+          "id": 303,
+          "title": "Islamic Inheritance",
+          "content": "<p>Detailed shares for heirs according to Quran 4:11-12.</p>"
+        },
+        {
+          "id": 304,
+          "title": "Business Transactions",
+          "content": "<p>Rules against riba (interest) and gharar (uncertainty).</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 3001,
+          "title": "Fiqh Basics",
+          "questions": [
+            {
+              "question": "What nullifies wudu?",
+              "options": ["Sleeping", "Eating", "Using restroom", "All above"],
+              "correctAnswer": 2,
+              "explanation": "Using restroom definitively breaks wudu"
+            },
+            {
+              "question": "Prohibited in Islamic finance?",
+              "options": ["Interest", "Gambling", "Uncertainty", "All above"],
+              "correctAnswer": 3,
+              "explanation": "All prohibited due to injustice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Prophetic Traditions",
+      "icon": "🕋",
+      "lessons": [
+        {
+          "id": 401,
+          "title": "Hadith Jibril",
+          "content": "<div class='arabic-text'>قَالَ يَا مُحَمَّدُ أَخْبِرْنِي عَنِ الإِسْلاَمِ</div><p>Defines Islam, Iman, and Ihsan in comprehensive narration.</p>",
+          "arabicText": "قَالَ يَا مُحَمَّدُ أَخْبِرْنِي عَنِ الإِسْلاَمِ"
+        },
+        {
+          "id": 402,
+          "title": "40 Hadith Nawawi",
+          "content": "<p>Essential collection covering belief, manners, and worship.</p>"
+        },
+        {
+          "id": 403,
+          "title": "Medicine of the Prophet",
+          "content": "<p>Guidance on honey, black seed, cupping, and spiritual remedies.</p>"
+        },
+        {
+          "id": 404,
+          "title": "Last Sermon",
+          "content": "<p>Final teachings on equality, rights, and Quran/Sunnah.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 4001,
+          "title": "Hadith Knowledge",
+          "questions": [
+            {
+              "question": "Most authentic hadith collection?",
+              "options": ["Bukhari", "Muslim", "Abu Dawud", "Tirmidhi"],
+              "correctAnswer": 0,
+              "explanation": "Sahih Bukhari is most rigorously authenticated"
+            },
+            {
+              "question": "Prophet's recommended cure?",
+              "options": ["Honey", "Coffee", "Chocolate", "Tea"],
+              "correctAnswer": 0,
+              "explanation": "Honey was specifically mentioned as medicine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Islamic History",
+      "icon": "🏛️",
+      "lessons": [
+        {
+          "id": 501,
+          "title": "The Hijrah",
+          "content": "<p>Migration to Medina (622 CE) marking Islamic calendar start.</p>"
+        },
+        {
+          "id": 502,
+          "title": "Conquest of Makkah",
+          "content": "<p>Peaceful takeover in 630 CE establishing Islamic rule.</p>"
+        },
+        {
+          "id": 503,
+          "title": "Rightly Guided Caliphs",
+          "content": "<p>Abu Bakr, Umar, Uthman, Ali - their contributions and challenges.</p>"
+        },
+        {
+          "id": 504,
+          "title": "Islamic Golden Age",
+          "content": "<p>Scientific advancements during Abbasid era (8th-14th century).</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 5001,
+          "title": "History Quiz",
+          "questions": [
+            {
+              "question": "Year of Hijrah?",
+              "options": ["610 CE", "622 CE", "630 CE", "632 CE"],
+              "correctAnswer": 1,
+              "explanation": "622 CE marks start of Islamic calendar"
+            },
+            {
+              "question": "First caliph after Prophet?",
+              "options": ["Abu Bakr", "Umar", "Uthman", "Ali"],
+              "correctAnswer": 0,
+              "explanation": "Abu Bakr (RA) was first Khalifa"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Islamic Beliefs (Aqeedah)",
+      "icon": "🕋",
+      "lessons": [
+        {
+          "id": 601,
+          "title": "Six Articles of Faith",
+          "content": "<ol><li>Belief in Allah</li><li>His Angels</li><li>His Books</li><li>His Messengers</li><li>Day of Judgment</li><li>Divine Decree</li></ol>"
+        },
+        {
+          "id": 602,
+          "title": "99 Names of Allah",
+          "content": "<p>Asma-ul-Husna describing divine attributes like Ar-Rahman, Al-Malik.</p>"
+        },
+        {
+          "id": 603,
+          "title": "Angels and Their Duties",
+          "content": "<p>Jibril (revelation), Mikail (sustenance), Israfil (trumpet), etc.</p>"
+        },
+        {
+          "id": 604,
+          "title": "Signs of Judgment Day",
+          "content": "<p>Minor and major signs preceding the end times.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 6001,
+          "title": "Aqeedah Quiz",
+          "questions": [
+            {
+              "question": "How many articles of faith?",
+              "options": ["5", "6", "7", "8"],
+              "correctAnswer": 1,
+              "explanation": "Six core beliefs in Islamic creed"
+            },
+            {
+              "question": "Angel of revelation?",
+              "options": ["Jibril", "Mikail", "Israfil", "Izrail"],
+              "correctAnswer": 0,
+              "explanation": "Jibril delivered Quran to Prophet (PBUH)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Islamic Ethics",
+      "icon": "🤲",
+      "lessons": [
+        {
+          "id": 701,
+          "title": "Manners of Speech",
+          "content": "<p>Speaking good or remaining silent, avoiding backbiting.</p>"
+        },
+        {
+          "id": 702,
+          "title": "Honoring Parents",
+          "content": "<p>Their rights and status in Islam after Allah's worship.</p>"
+        },
+        {
+          "id": 703,
+          "title": "Neighbors' Rights",
+          "content": "<p>Kind treatment regardless of faith background.</p>"
+        },
+        {
+          "id": 704,
+          "title": "Honesty in Trade",
+          "content": "<p>Prohibition of deception and false advertising.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 7001,
+          "title": "Ethics Quiz",
+          "questions": [
+            {
+              "question": "Islamic greeting?",
+              "options": ["Hello", "As-salamu alaykum", "Good morning", "Marhaba"],
+              "correctAnswer": 1,
+              "explanation": "Standard greeting meaning 'peace be upon you'"
+            },
+            {
+              "question": "Best characteristic?",
+              "options": ["Wealth", "Good manners", "Knowledge", "Beauty"],
+              "correctAnswer": 1,
+              "explanation": "Hadith emphasizes good character"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Worship Practices",
+      "icon": "🛐",
+      "lessons": [
+        {
+          "id": 801,
+          "title": "Sunnah Prayers",
+          "content": "<p>Tahajjud, Duha, Rawatib - their virtues and times.</p>"
+        },
+        {
+          "id": 802,
+          "title": "Dhikr and Duas",
+          "content": "<div class='arabic-text'>سُبْحَانَ ٱللَّٰهِ وَبِحَمْدِهِ</div><p>Remembrance phrases and their rewards.</p>",
+          "arabicText": "سُبْحَانَ ٱللَّٰهِ وَبِحَمْدِهِ سُبْحَانَ ٱللَّٰهِ ٱلْعَظِيمِ"
+        },
+        {
+          "id": 803,
+          "title": "Friday Prayer",
+          "content": "<p>Special requirements and etiquette for Jumu'ah.</p>"
+        },
+        {
+          "id": 804,
+          "title": "Eid Celebrations",
+          "content": "<p>Rulings for Eid al-Fitr and Eid al-Adha prayers.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 8001,
+          "title": "Worship Quiz",
+          "questions": [
+            {
+              "question": "How many rak'ahs in Fajr?",
+              "options": ["2", "3", "4", "5"],
+              "correctAnswer": 0,
+              "explanation": "Fajr has 2 sunnah + 2 fard (only fard required)"
+            },
+            {
+              "question": "Best time for dua?",
+              "options": ["Last third of night", "After azan", "During sujood", "All above"],
+              "correctAnswer": 3,
+              "explanation": "All these are prime times for acceptance"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Family in Islam",
+      "icon": "👨‍👩‍👧‍👦",
+      "lessons": [
+        {
+          "id": 901,
+          "title": "Marriage Contract",
+          "content": "<p>Requirements for nikah: consent, mahr, witnesses.</p>"
+        },
+        {
+          "id": 902,
+          "title": "Rights of Spouses",
+          "content": "<p>Mutual obligations between husband and wife.</p>"
+        },
+        {
+          "id": 903,
+          "title": "Raising Children",
+          "content": "<p>Teaching salah at 7, enforcing at 10 (Hadith).</p>"
+        },
+        {
+          "id": 904,
+          "title": "Divorce Procedures",
+          "content": "<p>Islamic guidelines for talaq and reconciliation.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 9001,
+          "title": "Family Quiz",
+          "questions": [
+            {
+              "question": "What is mahr?",
+              "options": ["Divorce settlement", "Wedding gift", "Bride price", "Dowry"],
+              "correctAnswer": 1,
+              "explanation": "Mandatory gift from groom to bride"
+            },
+            {
+              "question": "When to teach prayer?",
+              "options": ["Age 5", "Age 7", "Age 10", "Puberty"],
+              "correctAnswer": 1,
+              "explanation": "Hadith says teach at 7, enforce at 10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Contemporary Issues",
+      "icon": "🌍",
+      "lessons": [
+        {
+          "id": 1001,
+          "title": "Islamic Finance",
+          "content": "<p>Principles of halal banking and investments.</p>"
+        },
+        {
+          "id": 1002,
+          "title": "Social Media Ethics",
+          "content": "<p>Avoiding gossip and spreading truth online.</p>"
+        },
+        {
+          "id": 1003,
+          "title": "Environmental Stewardship",
+          "content": "<p>Islamic teachings on conservation and avoiding waste.</p>"
+        },
+        {
+          "id": 1004,
+          "title": "Interfaith Relations",
+          "content": "<p>Quranic guidelines for interacting with non-Muslims.</p>"
+        }
+      ],
+      "quizzes": [
+        {
+          "id": 10001,
+          "title": "Modern Issues Quiz",
+          "questions": [
+            {
+              "question": "Prohibited in finance?",
+              "options": ["Interest", "Gambling", "Uncertainty", "All above"],
+              "correctAnswer": 3,
+              "explanation": "All prohibited due to injustice"
+            },
+            {
+              "question": "Islamic view on environment?",
+              "options": ["Exploit resources", "Balanced use", "No position", "Worship nature"],
+              "correctAnswer": 1,
+              "explanation": "Islam teaches responsible stewardship"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

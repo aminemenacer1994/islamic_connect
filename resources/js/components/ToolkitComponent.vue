@@ -9,7 +9,58 @@
     <!-- Grid Wrapper -->
     <div class="pb-2">
 
-      <div class="row g-4">
+      <!-- Dropdown (mobile only) -->
+      <!-- Dropdown for Mobile Devices -->
+      <!-- Dropdown Menu -->
+      <div class="dropdown d-md-none mb-3">
+        <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="sectionDropdown"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Select Section
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="sectionDropdown">
+          <li><a class="dropdown-item" href="#" data-section="featured">Most Featured</a></li>
+          <li><a class="dropdown-item" href="#" data-section="tools">Tools</a></li>
+          <li><a class="dropdown-item" href="#" data-section="media">Media</a></li>
+        </ul>
+      </div>
+
+      <!-- Card Sections -->
+      <div class="card-sections">
+        <div class="card-section" data-section="featured">
+          <!-- Featured Cards -->
+          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+            <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
+            <div class="p-3">
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
+              <p class="card-text text-muted text-center"
+                style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
+                Find the Qibla direction from anywhere in the world using compass and map support—essential for your
+                prayers.
+              </p>
+              <button class="form-control" onclick="window.location.href='/qibla'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;"
+                type="submit">
+                <span class="text-center w-100"><b>Find Qibla</b></span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-section d-none" data-section="tools">
+          <!-- Tools Cards -->
+          <!-- Add your Tools cards here -->
+        </div>
+
+        <div class="card-section d-none" data-section="media">
+          <!-- Media Cards -->
+          <!-- Add your Media cards here -->
+        </div>
+      </div>
+
+
+
+
+      <!-- <div class="row g-4">
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
             <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
@@ -253,7 +304,8 @@
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Tasbeeh Counter</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Count your dhikr effortlessly with our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Count your dhikr effortlessly with
+                our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.
               </p>
               <button class="form-control" onclick="window.location.href='/tasbeeh'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -307,7 +359,10 @@
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global audience.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep
+                Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver
+                Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global
+                audience.
               </p>
               <button class="form-control" onclick="window.location.href='/support'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -324,7 +379,9 @@
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Finance</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Islamic finance refers to a
+                financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical
+                principles.
               </p>
               <button class="form-control" onclick="window.location.href='/finance'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -337,27 +394,31 @@
 
         <div class="col-md-6 col-lg-4">
           <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
-            <img src="/images/dkir.png" alt="Athkar Collection" class="w-100" style="object-fit: contain;" />
+            <img src="/images/sr.png" alt="Seerah Timeline" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Athkar Collection</h5>
+              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Seerah Timeline</h5>
               <p class="card-text text-muted text-wrap text-center"
-                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Our Athkar Collection offers a rich library of authentic daily supplications and remembrances (adhkar) from the Qur'an and Sunnah, organized for ease of access.
+                style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Seerah is the life story of
+                Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in
+                establishing Islam and more.
               </p>
-              <button class="form-control" onclick="window.location.href='/athkar'"
+              <button class="form-control" onclick="window.location.href='/mission'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
-                <span class="text-center w-100"><b>View Athkar</b></span>
+                <span class="text-center w-100"><b>View Seerah</b></span>
               </button>
             </div>
           </div>
         </div>
 
-      </div>
+      </div> -->
 
     </div>
 
   </div>
 </template>
+
+
 
 <script>
 import PrayerTimes from "./translation/PrayerTimes.vue";
@@ -401,8 +462,27 @@ export default {
     }
   }
 }
+
+
 </script>
 <style>
+.card-section {
+  display: none;
+}
+
+/* Show the card section that matches the selected radio button */
+input[name="section"]:checked~.card-sections .card-section[data-section="featured"] {
+  display: block;
+}
+
+input[name="section"]:checked[value="tools"]~.card-sections .card-section[data-section="tools"] {
+  display: block;
+}
+
+input[name="section"]:checked[value="media"]~.card-sections .card-section[data-section="media"] {
+  display: block;
+}
+
 .custom-card {
   height: 100%;
 }

@@ -1,189 +1,221 @@
 <template>
-  <div class="container mt-3 p-3">
-    <div class="fw-bold display-5 text-center mb-2">Zakat Calculator</div>
-    <p class="text-center container mb-4 lead ">
-      Easily calculate your annual Zakat with our simple, accurate tool based on your assets and liabilities. This
-      calculator helps you determine if you meet the Nisab threshold and how much Zakat (2.5%) you owe on savings, gold,
-      silver, business assets, and more.
-    </p>
-    <hr />
-
-    <!-- Currency and Nisab Selection -->
-    <div class="row mb-4">
-      <div class="col-lg-8">
-        <div class="col-lg-8">
-          <div>
-            <label class="form-label fw-regular">Currency</label>
-            <select class="form-select" v-model="selectedCurrency">
-              <option v-for="(symbol, currency) in currencySymbols" :key="currency" :value="currency">
-                {{ currency }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label fw-bold">Nisab Standard</label>
-            <select class="form-select" v-model="nisabType">
-              <option value="gold">Gold (85g)</option>
-              <option value="silver">Silver (595g)</option>
-            </select>
-          </div>
-
-
-          <form @submit.prevent class="pt-2 g-4">
-            <!-- Gold Grams -->
-            <div class="col-12 col-md-12">
-              <label class="form-label pt-2 fw-bold">Gold (grams)</label>
-              <input type="number" class="form-control mb-3" v-model.number="goldGrams"
-                placeholder="Enter gold in grams" />
-            </div>
-
-            <!-- Gold Price -->
-            <div class="col-12 col-md-12">
-              <label class="form-label pt-2 fw-bold">Gold Price (per gram)</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="goldPrice" placeholder="Price per gram" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Silver Grams -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold">Silver (grams)</label>
-              <input type="number" class="form-control mb-3" v-model.number="silverGrams"
-                placeholder="Enter silver in grams" />
-            </div>
-
-            <!-- Silver Price -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold">Silver Price (per gram)</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="silverPrice" placeholder="Price per gram" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Cash -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold">Cash</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="cash" placeholder="Enter your cash" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Investments -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold">Investments</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="investments"
-                  placeholder="Investment amount" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Business Assets -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold">Business Assets</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="businessAssets"
-                  placeholder="Business assets value" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Liabilities -->
-            <div class="col-12 col-md-12">
-              <label class="form-label fw-bold text-danger">Liabilities</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text">£</span>
-                <input type="number" class="form-control" v-model.number="liabilities"
-                  placeholder="Enter liabilities" />
-                <span class="input-group-text">.00</span>
-              </div>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="col-12 text-center">
-              <button type="submit" class="btn btn-primary w-100 w-md-50">Calculate Zakat</button>
-            </div>
-          </form>
-
-
-
-
-          <!--
-          <div class="container pt-3 text-center">
-            <div class="row">
-              <div class="col">
-                <div class="mt-3 text-center">
-                  <button class="btn btn-outline-danger" @click="resetCalculator">
-                    Reset Calculator
-                  </button>
-                </div>
-              </div>
-              <div class="col">
-                <div class="mt-3 text-center">
-                  <button class="btn btn-outline-primary" @click="printSummary">
-                    Download Summary (PDF)
-                  </button>
-                </div>
-              </div>
-              <div class="col">
-                <div class="mt-3 col-12 text-center">
-                  <button type="submit" class="btn btn-outline-success w-50">Calculate Zakat</button>
-                </div>
-              </div>
-            </div>
-          </div> 
-          -->
-
-        </div>
-      </div>
-
-
-
-      <!-- Zakat Summary -->
-      <div class="col-4 col-lg-4">
-        <div id="zakat-summary" class="mt-5 p-4 bg-light rounded shadow-sm">
-          <h4 class="text-success mb-4">Zakat Summary</h4>
-
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Total Assets</span>
-              <strong class="text-success">{{ currencySymbol }}{{ totalAssets.toFixed(2) }}</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Liabilities</span>
-              <strong class="text-danger">-{{ currencySymbol }}{{ liabilities.toFixed(2) }}</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Zakatable Amount</span>
-              <strong class="text-info">{{ currencySymbol }}{{ zakatableAmount.toFixed(2) }}</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Zakat Due (2.5%)</span>
-              <strong class="text-primary">{{ currencySymbol }}{{ zakatDue.toFixed(2) }}</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Nisab Threshold ({{ nisabTypeLabel }})</span>
-              <strong>{{ currencySymbol }}{{ nisabThreshold.toFixed(2) }}</strong>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
-              <span>Obligatory?</span>
-              <strong :class="isEligible ? 'text-success' : 'text-muted'">
-                <i :class="isEligible ? 'bi bi-check-circle' : 'bi bi-x-circle'"></i>
-                {{ isEligible ? 'Yes, Zakat is due' : 'No, below Nisab' }}
-              </strong>
-            </li>
-          </ul>
-        </div>
-      </div>
+  <div>
+    <div class="text-center py-3">
+      <h1 class="display-4 fw-bold mb-3">Zakat Calculator</h1>
+      <p class="lead text-muted mx-auto" style="max-width: 700px;">
+        Calculate your annual Zakat obligation with our simple, accurate tool. Determine if you meet the Nisab threshold
+        and how much Zakat (2.5%) you owe on your assets.
+      </p>
     </div>
+
+    <div class="container-fluid px-0 px-md-3">
+      <div class="row g-4">
+        <!-- Main Calculator Form -->
+        <div class="col-lg-8">
+          <div class="calculator-card card shadow-sm border-0">
+            <div class="card-body p-4">
+              <!-- Currency and Nisab Selection -->
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label for="currency" class="form-label fw-semibold">Currency</label>
+                  <select id="currency" class="form-select" v-model="selectedCurrency">
+                    <option v-for="(symbol, currency) in currencySymbols" :key="currency" :value="currency">
+                      {{ currency }} ({{ symbol }})
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="nisab" class="form-label fw-semibold">Nisab Standard</label>
+                  <select id="nisab" class="form-select" v-model="nisabType">
+                    <option value="gold">Gold (85g)</option>
+                    <option value="silver">Silver (595g)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Asset Inputs -->
+              <h5 class="mb-3 fw-semibold text-primary">
+                <i class="bi bi-coin me-2"></i>Your Assets
+              </h5>
+
+              <!-- Gold Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-gem text-warning me-2"></i>Gold
+                </label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams">
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="goldPrice" placeholder="Price per gram">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Silver Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-gem text-secondary me-2"></i>Silver
+                </label>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" v-model.number="silverGrams" placeholder="Grams">
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="silverPrice" placeholder="Price per gram">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cash Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-cash-coin text-success me-2"></i>Cash
+                </label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="cash" placeholder="Amount">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Investments Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-graph-up text-info me-2"></i>Investments
+                </label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="investments" placeholder="Amount">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Business Assets Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-briefcase text-primary me-2"></i>Business Assets
+                </label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="businessAssets" placeholder="Amount">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Liabilities Input -->
+              <div class="row mb-4 align-items-center">
+                <label class="col-md-3 col-form-label">
+                  <i class="bi bi-credit-card text-danger me-2"></i>Liabilities
+                </label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="liabilities" placeholder="Amount">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex flex-column flex-md-row gap-3">
+                <button class="btn flex-fill" style="background: rgb(13, 182, 145); color: #fff;" @click="calculateZakat">
+                  <i class="bi bi-calculator me-2"></i><strong>Calculate Zakat</strong>
+                </button>
+                <button class="btn btn-outline-secondary flex-fill" @click="resetCalculator">
+                  <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Results Panel -->
+        <div class="col-lg-4">
+          <div class="results-card card shadow-sm border-0 sticky-top" style="top: 20px;">
+            <div class="card-body p-4">
+              <h3 class="card-title text-center mb-4" >
+                <i class="bi bi-file-text me-2"></i>Zakat Summary
+              </h3>
+
+              <!-- Summary Items -->
+              <div class="summary-item">
+                <div class="d-flex justify-content-between mb-2"><br /><br />
+                  <span class="text-muted">Total Assets</span>
+                  <strong class="text-success">{{ currencySymbol }}{{ totalAssets.toLocaleString() }}</strong>
+                </div>
+                <div class="progress mb-3" style="height: 6px;">
+                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: '100%' }"></div>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Liabilities</span>
+                  <strong class="text-danger">-{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
+                </div>
+                <div class="progress mb-3" style="height: 6px;">
+                  <div class="progress-bar bg-danger" role="progressbar" :style="{ width: '100%' }"></div>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Zakatable Amount</span>
+                  <strong class="text-primary">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
+                </div>
+                <div class="progress mb-3" style="height: 6px;">
+                  <div class="progress-bar bg-primary" role="progressbar" :style="{ width: '100%' }"></div>
+                </div>
+              </div>
+
+              <div class="summary-item bg-light p-3 rounded mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="mb-1">Zakat Due (2.5%)</h6>
+                    <small class="text-muted">Your annual obligation</small>
+                  </div>
+                  <h4 class="text-success mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString() }}</h4>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Nisab Threshold</span>
+                  <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
+                </div>
+                <small class="text-muted d-block mb-3">{{ nisabTypeLabel }}</small>
+              </div>
+
+              <div class="eligibility-badge text-center p-3 rounded mt-4"
+                :class="isEligible ? 'bg-success-light' : 'bg-light'">
+                <h5 :class="isEligible ? 'text-success' : 'text-muted'">
+                  <i :class="isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'" class="me-2"></i>
+                  {{ isEligible ? 'Zakat is Obligatory' : 'Below Nisab' }}
+                </h5>
+                <p class="small mb-0" v-if="isEligible">
+                  Your assets meet the Nisab threshold
+                </p>
+                <p class="small mb-0" v-else>
+                  Your assets don't meet the Nisab threshold
+                </p>
+              </div>
+
+              <button class="btn w-100 mt-4" style="background: rgb(13, 182, 145); color: #fff;" @click="printSummary">
+                <i class="bi bi-download me-2"></i><b>Download Summary</b>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
   </div>
 </template>
 
@@ -206,6 +238,9 @@ export default {
         USD: "$",
         GBP: "£",
         EUR: "€",
+        SAR: "﷼",
+        AED: "د.إ",
+        PKR: "₨",
       },
     };
   },
@@ -235,30 +270,37 @@ export default {
         : 595 * this.silverPrice;
     },
     nisabTypeLabel() {
-      return this.nisabType === "gold" ? "Gold (85g)" : "Silver (595g)";
+      return this.nisabType === "gold" ? "Based on Gold (85g)" : "Based on Silver (595g)";
     },
     isEligible() {
       return this.zakatableAmount >= this.nisabThreshold;
     },
   },
   methods: {
+    calculateZakat() {
+      // Calculation happens automatically through computed properties
+      // This method can be used for additional actions if needed
+      this.saveToLocalStorage();
+    },
     printSummary() {
-      const content = document.getElementById("zakat-summary").innerHTML;
+      const content = document.querySelector(".results-card").innerHTML;
       const printWindow = window.open("", "", "width=800,height=700");
       printWindow.document.write(`
-    <html>
-      <head>
-        <title>Zakat Summary</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-          body { padding: 20px; font-family: Arial, sans-serif; }
-        </style>
-      </head>
-      <body>
-        ${content}
-      </body>
-    </html>
-  `);
+        <html>
+          <head>
+            <title>Zakat Summary</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+            <style>
+              body { padding: 20px; font-family: Arial, sans-serif; }
+              .results-card { box-shadow: none !important; }
+            </style>
+          </head>
+          <body>
+            <div class="results-card">${content}</div>
+          </body>
+        </html>
+      `);
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
@@ -273,7 +315,7 @@ export default {
       this.investments = 0;
       this.businessAssets = 0;
       this.liabilities = 0;
-      this.selectedCurrency = "USD";
+      this.selectedCurrency = "GBP";
       this.nisabType = "gold";
       localStorage.removeItem("zakatData");
     },
@@ -319,67 +361,130 @@ export default {
 </script>
 
 <style scoped>
-#zakat-summary {
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.zakat-calculator {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 3rem;
 }
 
-#zakat-summary .list-group-item {
-  border: none;
-  padding: 15px;
-  font-size: 1.1rem;
+.hero-section {
+  background: linear-gradient(135deg, #f0f7ff 0%, #e1f0ff 100%);
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 2rem;
 }
 
-#zakat-summary .list-group-item:hover {
-  background-color: #f1f1f1;
-  cursor: pointer;
+.calculator-card,
+.results-card {
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#zakat-summary .list-group-item span {
+.calculator-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.section-title {
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: rgb(13, 182, 145);
+  border-radius: 3px;
+}
+
+.input-group-text {
+  min-width: 120px;
+  justify-content: flex-start;
   font-weight: 500;
 }
 
-#zakat-summary .list-group-item strong {
-  font-weight: 600;
+.summary-item {
+  margin-bottom: 1.5rem;
 }
 
-#zakat-summary .text-success {
-  color: #28a745;
+.eligibility-badge {
+  transition: all 0.3s ease;
 }
 
-#zakat-summary .text-info {
-  color: #17a2b8;
+.bg-success-light {
+  background-color: rgba(25, 135, 84, 0.1);
 }
 
-#zakat-summary .text-primary {
-  color: #007bff;
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .results-card {
+    position: static !important;
+    margin-top: 2rem;
+  }
+
+  .input-group-text {
+    min-width: 100px;
+  }
 }
 
-#zakat-summary .text-danger {
-  color: #dc3545;
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .input-group-text {
+    min-width: 90px;
+    font-size: 0.9rem;
+  }
+
+  .form-control,
+  .form-select {
+    font-size: 0.9rem;
+  }
 }
 
-#zakat-summary .text-muted {
-  color: #6c757d;
+/* Animation for results */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-#zakat-summary .bi {
-  margin-right: 8px;
+.summary-item {
+  animation: fadeIn 0.5s ease forwards;
 }
 
-h4.text-success {
-  font-size: 1.5rem;
-  font-weight: bold;
-  border-bottom: 2px solid #28a745;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+.summary-item:nth-child(1) {
+  animation-delay: 0.1s;
 }
 
-input,
-select {
-  border-radius: 0.375rem;
+.summary-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.summary-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.summary-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.summary-item:nth-child(5) {
+  animation-delay: 0.5s;
 }
 </style>

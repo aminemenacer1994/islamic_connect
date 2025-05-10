@@ -426,9 +426,6 @@ export default {
       }
     },
 
-
-
-
     // Stop TTS immediately
     stopTTS() {
       if (speechSynthesis.speaking || speechSynthesis.stop) {

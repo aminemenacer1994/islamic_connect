@@ -34281,107 +34281,309 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'AthkarList',
+  name: 'IslamicLearning',
   data: function data() {
     return {
-      activeTab: 0,
-      categories: [{
-        id: 1,
-        name: 'Morning',
-        athkar: [{
-          id: 101,
-          title: 'Awakening',
-          text: 'الحَمْـدُ لِلّهِ الّذي أَحْـيانا بَعْـدَ ما أَماتَـنا وَإليه النُّـشور.',
-          reference: 'Al-Bukhari 1/152, Muslim 4/2083',
-          count: 0
-        }, {
-          id: 102,
-          title: 'Entering the bathroom',
-          text: 'اللّهُـمَّ إِنّـي أَعـوذُ بِـكَ مِـنَ الْخُـبْثِ وَالْخَبائِث.',
-          reference: 'Al-Bukhari 1/45, Muslim 1/283',
-          count: 0
-        }, {
-          id: 103,
-          title: 'After finishing from the bathroom',
-          text: 'غُفْـرانَك.',
-          reference: 'Abu Dawud 1/23, At-Tirmidhi 1/7',
-          count: 0
-        }]
-      }, {
-        id: 2,
-        name: 'Evening',
-        athkar: [{
-          id: 201,
-          title: 'Evening remembrance',
-          text: 'أَمْسَيْـنا وَأَمْسـى المـلكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وَهوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذهِ اللَّـيْلَةِ وَخَـيرَ ما بَعْـدَها ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذهِ اللَّـيْلَةِ وَشَرِّ ما بَعْـدَها، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.',
-          reference: 'Muslim 4/2088',
-          count: 0
-        }, {
-          id: 202,
-          title: 'Surah Al-Ikhlas, Al-Falaq, An-Nas',
-          text: 'قُلْ هُوَ اللَّهُ أَحَدٌ (3 times), قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ (3 times), قُلْ أَعُوذُ بِرَبِّ النَّاسِ (3 times)',
-          reference: 'Abu Dawud 4/322, At-Tirmidhi 5/142',
-          count: 0
-        }]
-      }, {
-        id: 3,
-        name: 'Prayer',
-        athkar: [{
-          id: 301,
-          title: 'Before starting prayer',
-          text: 'اللهُ أَكْبَر',
-          count: 0
-        }, {
-          id: 302,
-          title: 'Ruku',
-          text: 'سُبْحَانَ رَبِّيَ الْعَظِيمِ',
-          count: 0
-        }, {
-          id: 303,
-          title: 'Sujood',
-          text: 'سُبْحَانَ رَبِّيَ الْأَعْلَى',
-          count: 0
-        }, {
-          id: 304,
-          title: 'Tashahhud',
-          text: 'التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ',
-          count: 0
-        }]
-      }, {
-        id: 4,
-        name: 'General',
-        athkar: [{
-          id: 401,
-          title: 'Before eating',
-          text: 'بِسْمِ اللَّهِ',
-          reference: 'Al-Bukhari 7/88, Muslim 2/207',
-          count: 0
-        }, {
-          id: 402,
-          title: 'After eating',
-          text: 'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ',
-          reference: 'Abu Dawud 4/80, At-Tirmidhi 5/185',
-          count: 0
-        }, {
-          id: 403,
-          title: 'Entering the home',
-          text: 'بِسْـمِ اللهِ وَلَجْنـا، وَبِسْـمِ اللهِ خَـرَجْنـا، وَعَلـى رَبِّنـا تَوَكّلْـنا.',
-          reference: 'Abu Dawud 4/325',
-          count: 0
-        }]
-      }]
+      categories: [],
+      activeCategory: null,
+      currentLessonIndex: null,
+      currentQuizIndex: null,
+      completedLessons: [],
+      quizScores: {},
+      userAnswers: [],
+      quizSubmitted: false,
+      loading: true,
+      error: null
+    };
+  },
+  computed: {
+    completedLessonsInCategory: function completedLessonsInCategory() {
+      var _this = this;
+      if (!this.activeCategory) return [];
+      return this.activeCategory.lessons.filter(function (lesson) {
+        return _this.completedLessons.includes(lesson.id);
+      });
+    },
+    totalLessons: function totalLessons() {
+      return this.categories.reduce(function (total, category) {
+        return total + category.lessons.length;
+      }, 0);
+    },
+    progressPercentage: function progressPercentage() {
+      if (this.totalLessons === 0) return 0;
+      return Math.round(this.completedLessons.length / this.totalLessons * 100);
+    },
+    overallQuizScore: function overallQuizScore() {
+      var scores = Object.values(this.quizScores);
+      if (scores.length === 0) return 0;
+      return Math.round(scores.reduce(function (a, b) {
+        return a + b;
+      }, 0) / scores.length);
+    },
+    quizScore: function quizScore() {
+      if (!this.quizSubmitted || this.currentQuizIndex === null || !this.activeCategory) return 0;
+      var quiz = this.activeCategory.quizzes[this.currentQuizIndex];
+      var correct = 0;
+      for (var i = 0; i < quiz.questions.length; i++) {
+        if (this.userAnswers[i] === quiz.questions[i].correctAnswer) {
+          correct++;
+        }
+      }
+      return Math.round(correct / quiz.questions.length * 100);
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return _this2.fetchContent();
+          case 2:
+            _this2.loadUserProgress();
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }))();
+  },
+  methods: {
+    fetchContent: function fetchContent() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var response, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this3.loading = true;
+              _this3.error = null;
+              _context2.prev = 2;
+              _context2.next = 5;
+              return fetch('/islamic-content.json');
+            case 5:
+              response = _context2.sent;
+              if (response.ok) {
+                _context2.next = 8;
+                break;
+              }
+              throw new Error('Failed to load content');
+            case 8:
+              _context2.next = 10;
+              return response.json();
+            case 10:
+              data = _context2.sent;
+              _this3.categories = data.categories;
+
+              // Set first category as default if none selected
+              if (_this3.categories.length > 0 && !_this3.activeCategory) {
+                _this3.activeCategory = _this3.categories[0];
+              }
+              _context2.next = 19;
+              break;
+            case 15:
+              _context2.prev = 15;
+              _context2.t0 = _context2["catch"](2);
+              console.error('Error loading Islamic content:', _context2.t0);
+              _this3.error = 'Failed to load content. Please try again later.';
+            case 19:
+              _context2.prev = 19;
+              _this3.loading = false;
+              return _context2.finish(19);
+            case 22:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[2, 15, 19, 22]]);
+      }))();
+    },
+    loadUserProgress: function loadUserProgress() {
+      var savedCompleted = localStorage.getItem('islamicCompletedLessons');
+      if (savedCompleted) this.completedLessons = JSON.parse(savedCompleted);
+      var savedScores = localStorage.getItem('islamicQuizScores');
+      if (savedScores) this.quizScores = JSON.parse(savedScores);
+    },
+    selectCategory: function selectCategory(category) {
+      this.activeCategory = category;
+      this.currentLessonIndex = null;
+      this.currentQuizIndex = null;
+      this.quizSubmitted = false;
+    },
+    selectLesson: function selectLesson(index) {
+      this.currentLessonIndex = index;
+      this.currentQuizIndex = null;
+      this.quizSubmitted = false;
+    },
+    selectQuiz: function selectQuiz(index) {
+      this.currentQuizIndex = index;
+      this.currentLessonIndex = null;
+      this.quizSubmitted = false;
+      this.userAnswers = Array(this.activeCategory.quizzes[index].questions.length).fill(null);
+    },
+    prevLesson: function prevLesson() {
+      if (this.currentLessonIndex > 0) {
+        this.currentLessonIndex--;
+      }
+    },
+    nextLesson: function nextLesson() {
+      if (this.currentLessonIndex < this.activeCategory.lessons.length - 1) {
+        this.currentLessonIndex++;
+      }
+    },
+    markLessonComplete: function markLessonComplete(lessonId) {
+      if (!this.completedLessons.includes(lessonId)) {
+        this.completedLessons.push(lessonId);
+        localStorage.setItem('islamicCompletedLessons', JSON.stringify(this.completedLessons));
+      }
+    },
+    submitQuiz: function submitQuiz() {
+      this.quizSubmitted = true;
+      var quizId = this.activeCategory.quizzes[this.currentQuizIndex].id;
+      this.quizScores[quizId] = this.quizScore;
+      localStorage.setItem('islamicQuizScores', JSON.stringify(this.quizScores));
+    },
+    resetQuiz: function resetQuiz() {
+      this.quizSubmitted = false;
+      this.userAnswers = Array(this.activeCategory.quizzes[this.currentQuizIndex].questions.length).fill(null);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      userInput: "",
+      chatMessages: [],
+      loading: false,
+      error: null,
+      modelAPI: "https://api-inference.huggingface.co/models/gpt2",
+      // ✅ You can change to a different model
+      apiToken: "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" // ✅ Set your Hugging Face API token
     };
   },
   methods: {
-    incrementCount: function incrementCount(catIndex, thikrIndex) {
-      if (!this.categories[catIndex].athkar[thikrIndex].count) {
-        this.$set(this.categories[catIndex].athkar[thikrIndex], 'count', 0);
-      }
-      this.categories[catIndex].athkar[thikrIndex].count++;
+    sendMessage: function sendMessage() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var userQuestion, _data$, response, data, output;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              if (_this.userInput.trim()) {
+                _context.next = 2;
+                break;
+              }
+              return _context.abrupt("return");
+            case 2:
+              _this.addMessage("user", _this.userInput);
+              userQuestion = _this.userInput;
+              _this.userInput = "";
+              _this.loading = true;
+              _context.prev = 6;
+              _context.next = 9;
+              return fetch(_this.modelAPI, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer ".concat(_this.apiToken)
+                },
+                body: JSON.stringify({
+                  inputs: userQuestion,
+                  parameters: {
+                    max_new_tokens: 200
+                  }
+                })
+              });
+            case 9:
+              response = _context.sent;
+              if (response.ok) {
+                _context.next = 12;
+                break;
+              }
+              throw new Error("API Error: ".concat(response.status, " - ").concat(response.statusText));
+            case 12:
+              _context.next = 14;
+              return response.json();
+            case 14:
+              data = _context.sent;
+              output = Array.isArray(data) && (_data$ = data[0]) !== null && _data$ !== void 0 && _data$.generated_text ? data[0].generated_text : (data === null || data === void 0 ? void 0 : data.generated_text) || "Sorry, I couldn't generate a response.";
+              _this.addMessage("bot", output.trim());
+              _context.next = 23;
+              break;
+            case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](6);
+              console.error("Fetch Error:", _context.t0);
+              _this.addMessage("bot", "An error occurred while fetching the answer. Please try again later.");
+            case 23:
+              _context.prev = 23;
+              _this.loading = false;
+              _this.scrollToBottom();
+              return _context.finish(23);
+            case 27:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[6, 19, 23, 27]]);
+      }))();
     },
-    resetCount: function resetCount(catIndex, thikrIndex) {
-      this.categories[catIndex].athkar[thikrIndex].count = 0;
+    addMessage: function addMessage(sender, text) {
+      this.chatMessages.push({
+        sender: sender,
+        text: text
+      });
+    },
+    clearChat: function clearChat() {
+      this.chatMessages = [];
+      this.error = null;
+    },
+    scrollToBottom: function scrollToBottom() {
+      var _this2 = this;
+      this.$nextTick(function () {
+        var chatBox = _this2.$refs.chatBox;
+        if (chatBox) {
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+      });
+    },
+    getErrorMessage: function getErrorMessage(error) {
+      if (error.response) {
+        switch (error.response.status) {
+          case 429:
+            return "Rate limit exceeded. Please wait a minute and try again.";
+          case 503:
+            return "Model is currently loading. Please try again in a moment.";
+          default:
+            return "Sorry, there was an error processing your request.";
+        }
+      } else if (error.request) {
+        return "Network error. Please check your connection.";
+      } else {
+        return "An unexpected error occurred.";
+      }
     }
   }
 });
@@ -34980,7 +35182,10 @@ __webpack_require__.r(__webpack_exports__);
       currencySymbols: {
         USD: "$",
         GBP: "£",
-        EUR: "€"
+        EUR: "€",
+        SAR: "﷼",
+        AED: "د.إ",
+        PKR: "₨"
       }
     };
   },
@@ -35002,17 +35207,22 @@ __webpack_require__.r(__webpack_exports__);
       return this.nisabType === "gold" ? 85 * this.goldPrice : 595 * this.silverPrice;
     },
     nisabTypeLabel: function nisabTypeLabel() {
-      return this.nisabType === "gold" ? "Gold (85g)" : "Silver (595g)";
+      return this.nisabType === "gold" ? "Based on Gold (85g)" : "Based on Silver (595g)";
     },
     isEligible: function isEligible() {
       return this.zakatableAmount >= this.nisabThreshold;
     }
   },
   methods: {
+    calculateZakat: function calculateZakat() {
+      // Calculation happens automatically through computed properties
+      // This method can be used for additional actions if needed
+      this.saveToLocalStorage();
+    },
     printSummary: function printSummary() {
-      var content = document.getElementById("zakat-summary").innerHTML;
+      var content = document.querySelector(".results-card").innerHTML;
       var printWindow = window.open("", "", "width=800,height=700");
-      printWindow.document.write("\n    <html>\n      <head>\n        <title>Zakat Summary</title>\n        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n        <style>\n          body { padding: 20px; font-family: Arial, sans-serif; }\n        </style>\n      </head>\n      <body>\n        ".concat(content, "\n      </body>\n    </html>\n  "));
+      printWindow.document.write("\n        <html>\n          <head>\n            <title>Zakat Summary</title>\n            <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n            <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css\">\n            <style>\n              body { padding: 20px; font-family: Arial, sans-serif; }\n              .results-card { box-shadow: none !important; }\n            </style>\n          </head>\n          <body>\n            <div class=\"results-card\">".concat(content, "</div>\n          </body>\n        </html>\n      "));
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
@@ -35027,7 +35237,7 @@ __webpack_require__.r(__webpack_exports__);
       this.investments = 0;
       this.businessAssets = 0;
       this.liabilities = 0;
-      this.selectedCurrency = "USD";
+      this.selectedCurrency = "GBP";
       this.nisabType = "gold";
       localStorage.removeItem("zakatData");
     },
@@ -50137,98 +50347,449 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "athkar-container container py-4"
+  "class": "container py-3 py-md-4 islamic-app"
 };
 var _hoisted_2 = {
-  "class": "nav nav-tabs mb-4",
-  id: "athkarTabs",
-  role: "tablist"
+  key: 0,
+  "class": "text-center py-5"
 };
-var _hoisted_3 = ["onClick"];
+var _hoisted_3 = {
+  key: 1,
+  "class": "alert alert-danger mb-4 d-flex align-items-center"
+};
 var _hoisted_4 = {
-  "class": "tab-content"
+  "class": "flex-grow-1"
 };
 var _hoisted_5 = {
-  "class": "row"
+  key: 2
 };
 var _hoisted_6 = {
-  "class": "card h-100 border-0 shadow-sm"
+  "class": "card shadow-sm mb-4 border-0"
 };
 var _hoisted_7 = {
-  "class": "card-body"
+  "class": "card-body p-3 p-md-4"
 };
 var _hoisted_8 = {
-  "class": "card-title text-primary"
+  "class": "d-flex justify-content-between align-items-center mb-2"
 };
 var _hoisted_9 = {
-  "class": "card-text"
+  "class": "badge bg-primary bg-opacity-10 text-primary"
 };
 var _hoisted_10 = {
-  key: 0,
-  "class": "text-muted small mb-2"
+  "class": "progress mb-3",
+  style: {
+    "height": "12px"
+  }
 };
-var _hoisted_11 = {
-  "class": "card-footer bg-transparent border-top-0"
-};
+var _hoisted_11 = ["aria-valuenow"];
 var _hoisted_12 = {
-  "class": "d-flex justify-content-between align-items-center"
+  "class": "d-flex justify-content-between small"
 };
-var _hoisted_13 = ["onClick"];
+var _hoisted_13 = {
+  "class": "text-muted"
+};
 var _hoisted_14 = {
-  "class": "badge bg-secondary rounded-pill"
+  "class": "text-muted"
 };
-var _hoisted_15 = ["onClick"];
+var _hoisted_15 = {
+  "class": "category-nav mb-4 pb-2"
+};
+var _hoisted_16 = {
+  "class": "d-flex overflow-x-auto pe-3",
+  style: {
+    "scrollbar-width": "thin"
+  }
+};
+var _hoisted_17 = ["onClick"];
+var _hoisted_18 = {
+  "class": "icon me-1 me-md-2"
+};
+var _hoisted_19 = {
+  key: 0,
+  "class": "mb-5"
+};
+var _hoisted_20 = {
+  "class": "card shadow-sm mb-4 border-0"
+};
+var _hoisted_21 = {
+  "class": "card-header bg-primary bg-opacity-10 border-0 d-flex justify-content-between align-items-center p-3"
+};
+var _hoisted_22 = {
+  "class": "mb-0 fw-semibold text-primary"
+};
+var _hoisted_23 = {
+  "class": "badge bg-primary text-white rounded-pill"
+};
+var _hoisted_24 = {
+  "class": "card-body p-0"
+};
+var _hoisted_25 = {
+  "class": "list-group list-group-flush"
+};
+var _hoisted_26 = ["onClick"];
+var _hoisted_27 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_28 = {
+  "class": "lesson-number d-flex align-items-center justify-content-center rounded-circle me-3"
+};
+var _hoisted_29 = {
+  "class": "lesson-title"
+};
+var _hoisted_30 = {
+  key: 0,
+  "class": "badge bg-success rounded-circle p-2"
+};
+var _hoisted_31 = {
+  key: 1,
+  "class": "badge bg-light text-muted rounded-circle p-2"
+};
+var _hoisted_32 = {
+  key: 0,
+  "class": "card shadow-lg mb-4 border-0"
+};
+var _hoisted_33 = {
+  "class": "card-header bg-primary text-white d-flex justify-content-between align-items-center p-3"
+};
+var _hoisted_34 = {
+  "class": "mb-1 fw-semibold"
+};
+var _hoisted_35 = {
+  "class": "mb-0 small opacity-75"
+};
+var _hoisted_36 = {
+  key: 1,
+  "class": "badge bg-success rounded-pill px-3 py-2"
+};
+var _hoisted_37 = {
+  "class": "card-body p-3 p-md-4"
+};
+var _hoisted_38 = ["innerHTML"];
+var _hoisted_39 = {
+  key: 0,
+  "class": "mt-4 p-3 bg-light rounded"
+};
+var _hoisted_40 = {
+  "class": "arabic-text mb-0"
+};
+var _hoisted_41 = {
+  "class": "card-footer bg-light border-0 d-flex justify-content-between p-3"
+};
+var _hoisted_42 = ["disabled"];
+var _hoisted_43 = ["disabled"];
+var _hoisted_44 = {
+  key: 0,
+  "class": "badge bg-info text-white rounded-pill"
+};
+var _hoisted_45 = {
+  key: 0,
+  "class": "card-body text-center p-4"
+};
+var _hoisted_46 = {
+  key: 1,
+  "class": "card-body text-center p-4"
+};
+var _hoisted_47 = {
+  "class": "text-muted mb-0"
+};
+var _hoisted_48 = {
+  "class": "d-block mt-1"
+};
+var _hoisted_49 = {
+  "class": "badge bg-primary bg-opacity-10 text-primary"
+};
+var _hoisted_50 = {
+  key: 1,
+  "class": "card shadow-lg border-0"
+};
+var _hoisted_51 = {
+  "class": "card-header bg-info text-white d-flex align-items-center p-3"
+};
+var _hoisted_52 = {
+  "class": "mb-0 fw-semibold"
+};
+var _hoisted_53 = {
+  "class": "card-body p-3 p-md-4"
+};
+var _hoisted_54 = {
+  key: 0
+};
+var _hoisted_55 = {
+  "class": "mb-3 d-flex align-items-center"
+};
+var _hoisted_56 = {
+  "class": "question-number d-flex align-items-center justify-content-center rounded-circle me-2"
+};
+var _hoisted_57 = ["name", "id", "value", "onUpdate:modelValue"];
+var _hoisted_58 = ["for"];
+var _hoisted_59 = ["disabled"];
+var _hoisted_60 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_61 = {
+  "class": "alert-heading mb-1"
+};
+var _hoisted_62 = {
+  key: 0
+};
+var _hoisted_63 = {
+  key: 1
+};
+var _hoisted_64 = {
+  "class": "mb-0 small"
+};
+var _hoisted_65 = {
+  "class": "quiz-results"
+};
+var _hoisted_66 = {
+  "class": "d-flex align-items-center mb-3"
+};
+var _hoisted_67 = {
+  "class": "question-number d-flex align-items-center justify-content-center rounded-circle me-2"
+};
+var _hoisted_68 = {
+  key: 0,
+  "class": "badge bg-success ms-auto"
+};
+var _hoisted_69 = {
+  key: 1,
+  "class": "badge bg-danger ms-auto"
+};
+var _hoisted_70 = {
+  "class": "ps-4"
+};
+var _hoisted_71 = {
+  "class": "mb-2"
+};
+var _hoisted_72 = {
+  key: 0,
+  "class": "mb-2"
+};
+var _hoisted_73 = {
+  "class": "text-success fw-bold"
+};
+var _hoisted_74 = {
+  key: 1,
+  "class": "small text-muted mb-0"
+};
+var _hoisted_75 = {
+  "class": "d-flex gap-3 mt-4"
+};
+var _hoisted_76 = {
+  key: 1,
+  "class": "card shadow-sm border-0"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "text-center mb-4"
-  }, "Daily Athkar", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Tabs "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_2, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      "class": "nav-item",
-      key: category.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
-        'active': $data.activeTab === index
-      }]),
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-4 mb-md-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold"
+  }, "Islamic Learning Platform"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted"
+  }, "Learn key Islamic topics through simple, structured lessons covering faith, worship, Seerah, Quran, and character. Reinforce your understanding with interactive quizzes designed for all ages. Ideal for both beginners and regular learners to grow their Islamic knowledge step by step.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
+    role: "status"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mt-3 fs-5"
+  }, "Loading Islamic content...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error State "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-exclamation-triangle-fill me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.fetchContent && $options.fetchContent.apply($options, arguments);
+    }),
+    "class": "btn btn-sm btn-outline-danger"
+  }, "Retry")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracking "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "card-title mb-0 fw-semibold"
+  }, "Your Progress", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.progressPercentage) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar bg-primary progress-bar-striped progress-bar-animated",
+    role: "progressbar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: $options.progressPercentage + '%'
+    }),
+    "aria-valuenow": $options.progressPercentage
+  }, null, 12 /* STYLE, PROPS */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.completedLessons.length) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalLessons) + " lessons ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-star me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.overallQuizScore) + "% avg score ", 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Navigation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category) {
+    var _$data$activeCategory;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       onClick: function onClick($event) {
-        return $data.activeTab = index;
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 11 /* TEXT, CLASS, PROPS */, _hoisted_3)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Athkar Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (category, catIndex) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: category.id,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tab-pane fade", {
-        'show active': $data.activeTab === catIndex
+        return $options.selectCategory(category);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-category flex-shrink-0 rounded-pill px-3 px-md-4 me-2", {
+        active: ((_$data$activeCategory = $data.activeCategory) === null || _$data$activeCategory === void 0 ? void 0 : _$data$activeCategory.id) === category.id
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(category.athkar, function (thikr, thikrIndex) {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_17);
+  }), 256 /* UNKEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Content "), $data.activeCategory ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lessons Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-journal-text me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.name) + " Lessons ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.completedLessonsInCategory.length) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.lessons.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.activeCategory.lessons, function (lesson, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 'lesson-' + lesson.id,
+      onClick: function onClick($event) {
+        return $options.selectLesson(index);
+      },
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item list-group-item-action border-0 p-3 d-flex justify-content-between align-items-center", {
+        'active-lesson': $data.currentLessonIndex === index,
+        'completed-lesson': $data.completedLessons.includes(lesson.id)
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lesson.title), 1 /* TEXT */)]), $data.completedLessons.includes(lesson.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check"
+    }, null, -1 /* HOISTED */)])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-lock"
+    }, null, -1 /* HOISTED */)]))))], 10 /* CLASS, PROPS */, _hoisted_26);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Content "), $data.currentLessonIndex !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_34, "Lesson " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentLessonIndex + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.lessons[$data.currentLessonIndex].title), 1 /* TEXT */)]), !$data.completedLessons.includes($data.activeCategory.lessons[$data.currentLessonIndex].id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.markLessonComplete($data.activeCategory.lessons[$data.currentLessonIndex].id);
+    }),
+    "class": "btn btn-sm btn-light rounded-pill px-3"
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-check-circle me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Complete ")]))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_36, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-check-circle-fill me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Completed ")])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "lesson-content fs-6",
+    innerHTML: $data.activeCategory.lessons[$data.currentLessonIndex].content
+  }, null, 8 /* PROPS */, _hoisted_38), $data.activeCategory.lessons[$data.currentLessonIndex].arabicText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    "class": "d-flex align-items-center text-muted mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-translate me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Arabic Text ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.lessons[$data.currentLessonIndex].arabicText), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.prevLesson && $options.prevLesson.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-primary rounded-pill px-3",
+    disabled: $data.currentLessonIndex === 0
+  }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-left me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ")]), 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.nextLesson && $options.nextLesson.apply($options, arguments);
+    }),
+    "class": "btn btn-primary rounded-pill px-4",
+    disabled: $data.currentLessonIndex === $data.activeCategory.lessons.length - 1
+  }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-right ms-1"
+  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_43)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Access Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card mb-4 border-0", $options.completedLessonsInCategory.length === $data.activeCategory.lessons.length ? 'shadow-sm' : 'shadow-sm bg-light'])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-header border-0 d-flex justify-content-between align-items-center p-3", $options.completedLessonsInCategory.length === $data.activeCategory.lessons.length ? 'bg-info bg-opacity-10' : 'bg-light'])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mb-0 fw-semibold", $options.completedLessonsInCategory.length === $data.activeCategory.lessons.length ? 'text-info' : 'text-muted'])
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-patch-question me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.name) + " Quiz ", 1 /* TEXT */)], 2 /* CLASS */), $data.quizScores[$data.activeCategory.quizzes[0].id] !== undefined ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizScores[$data.activeCategory.quizzes[0].id]) + "% ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $options.completedLessonsInCategory.length === $data.activeCategory.lessons.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-trophy-fill display-4 text-warning"
+  })], -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2"
+  }, "Ready for the Quiz!", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mb-4"
+  }, " Test your knowledge after completing all lessons. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
+      return $options.selectQuiz(0);
+    }),
+    "class": "btn btn-info rounded-pill px-4 py-2 shadow-sm"
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-play-fill me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Start Quiz ")]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-lock-fill display-4 text-muted opacity-50"
+  })], -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 text-muted"
+  }, "Quiz Locked", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Complete all " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.lessons.length) + " lessons to unlock ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.completedLessonsInCategory.length) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.lessons.length) + " completed ", 1 /* TEXT */)])])]))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Content "), $data.currentQuizIndex !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-patch-question-fill me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.activeCategory.quizzes[$data.currentQuizIndex].title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Questions "), !$data.quizSubmitted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.activeCategory.quizzes[$data.currentQuizIndex].questions, function (question, qIndex) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 'question-' + qIndex,
+      "class": "mb-4 p-3 bg-light rounded"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qIndex + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.question), 1 /* TEXT */)]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(question.options, function (option, oIndex) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: thikr.id,
-        "class": "col-md-6 col-lg-4 mb-4"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(thikr.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(thikr.text), 1 /* TEXT */), thikr.reference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(thikr.reference), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "btn btn-sm btn-outline-primary",
-        onClick: function onClick($event) {
-          return $options.incrementCount(catIndex, thikrIndex);
+        "class": "form-check mb-3",
+        key: 'option-' + oIndex
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        "class": "form-check-input",
+        type: "radio",
+        name: 'question-' + qIndex,
+        id: 'q' + qIndex + '-o' + oIndex,
+        value: oIndex,
+        "onUpdate:modelValue": function onUpdateModelValue($event) {
+          return $data.userAnswers[qIndex] = $event;
         }
-      }, _toConsumableArray(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-plus-circle"
-      }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Count ")])), 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(thikr.count || 0), 1 /* TEXT */), thikr.count > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-        key: 0,
-        "class": "btn btn-sm btn-outline-success",
-        onClick: function onClick($event) {
-          return $options.resetCount(catIndex, thikrIndex);
-        }
-      }, _toConsumableArray(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-arrow-counterclockwise"
-      }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset ")])), 8 /* PROPS */, _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
-    }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])]);
+      }, null, 8 /* PROPS */, _hoisted_57), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.userAnswers[qIndex]]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-check-label",
+        "for": 'q' + qIndex + '-o' + oIndex
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 9 /* TEXT, PROPS */, _hoisted_58)]);
+    }), 128 /* KEYED_FRAGMENT */))]);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.submitQuiz && $options.submitQuiz.apply($options, arguments);
+    }),
+    "class": "btn btn-info w-100 rounded-pill py-2 shadow-sm",
+    disabled: $data.userAnswers.includes(null) && $data.userAnswers.length !== $data.activeCategory.quizzes[$data.currentQuizIndex].questions.length
+  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-send-fill me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Submit Quiz ")]), 8 /* PROPS */, _hoisted_59)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["alert rounded-4 mb-4 border-0 shadow-sm", $options.quizScore >= 70 ? 'alert-success' : 'alert-warning'])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1 me-3", $options.quizScore >= 70 ? 'bi-emoji-smile-fill' : 'bi-emoji-frown-fill'])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quizScore) + "% Score ", 1 /* TEXT */), $options.quizScore >= 70 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_62, "- Masha'Allah!")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_63, "- Keep Learning!"))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.quizScore >= 70 ? 'Excellent understanding!' : 'Review the lessons to improve.'), 1 /* TEXT */)])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.activeCategory.quizzes[$data.currentQuizIndex].questions, function (question, qIndex) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 'result-' + qIndex,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mb-3 p-3 rounded-3 border", $data.userAnswers[qIndex] === question.correctAnswer ? 'border-success bg-success bg-opacity-5' : 'border-danger bg-danger bg-opacity-5'])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qIndex + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.question) + " ", 1 /* TEXT */), $data.userAnswers[qIndex] === question.correctAnswer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_68, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check-lg me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Correct ")])))) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_69, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-x-lg me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Incorrect ")]))))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_71, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-muted"
+    }, "Your answer:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.userAnswers[qIndex] === question.correctAnswer ? 'text-success fw-bold' : 'text-danger')
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.options[$data.userAnswers[qIndex]]), 3 /* TEXT, CLASS */)]), $data.userAnswers[qIndex] !== question.correctAnswer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_72, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-muted"
+    }, "Correct answer:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.options[question.correctAnswer]), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), question.explanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_74, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-info-circle me-1"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question.explanation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.resetQuiz && $options.resetQuiz.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-info flex-grow-1 rounded-pill py-2"
+  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-repeat me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Retake ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function ($event) {
+      return $data.currentQuizIndex = null;
+    }),
+    "class": "btn btn-info flex-grow-1 rounded-pill py-2 shadow-sm"
+  }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-check-circle me-1"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Finish ")]))])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty State "), !$data.activeCategory ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_76, _cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-body text-center p-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-journal-text display-4 text-muted opacity-25 mb-4"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "text-muted mb-3"
+  }, "Select a Category"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted mb-0"
+  }, "Choose from the Islamic knowledge categories above to begin learning")], -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -50239,10 +50800,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "py-5"
+  "class": "chat-container"
 };
-function render(_ctx, _cache) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container\"><h2 class=\"display-5 fw-bold\">Creating an Inclusive Experience</h2><div class=\"row pt-3 gx-4 align-items-center justify-content-between\"><div class=\"col-md-6 order-md-1\"><div class=\"mt-3 mt-md-0\"><p class=\"lead\">At Islamic Connect, we are dedicated to ensuring that our platform is inclusive and accessible to all users, regardless of ability. We have implemented a range of features designed to provide an enhanced experience for users with disabilities, including those who are visually impaired, hard of hearing, or have other access needs.</p><p class=\"lead\">Our website supports screen readers, voice recognition, keyboard navigation, and text-to-speech functionalities to ensure seamless access to Quranic and Islamic resources. We continuously work to improve our accessibility features, keeping user feedback and the latest advancements in mind.</p><p class=\"lead\">Islamic Connect is committed to creating an inclusive environment where everyone can learn and explore Islamic teachings with ease. If you encounter any barriers while using our site or have suggestions for improvement, please reach out to us. Your feedback is invaluable as we strive to provide a platform that serves all members of our community.</p></div></div><div class=\"col-md-6 order-2\"><img src=\"/images/access1.png\" width=\"110%\" loading=\"lazy\"></div></div></div>", 1)]));
+var _hoisted_2 = {
+  "class": "chat-header"
+};
+var _hoisted_3 = {
+  "class": "chat-box",
+  ref: "chatBox"
+};
+var _hoisted_4 = {
+  key: 0,
+  "class": "loading"
+};
+var _hoisted_5 = {
+  "class": "input-container"
+};
+var _hoisted_6 = ["disabled"];
+var _hoisted_7 = ["disabled"];
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbot Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, "Islamic AI Assistant", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.clearChat && $options.clearChat.apply($options, arguments);
+    }),
+    "class": "clear-btn"
+  }, "Clear")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chatbox Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatMessages, function (message, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index,
+      "class": "message"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(message.sender === 'user' ? 'user-message' : 'ai-message')
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(message.text), 1 /* TEXT */)], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "loader"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "loading-text"
+  }, "Typing...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.userInput = $event;
+    }),
+    onKeydown: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.sendMessage && $options.sendMessage.apply($options, arguments);
+    }, ["enter"])),
+    type: "text",
+    "class": "input-field",
+    placeholder: "Ask a question...",
+    disabled: $data.loading
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.userInput]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.sendMessage && $options.sendMessage.apply($options, arguments);
+    }),
+    "class": "send-btn",
+    disabled: $data.loading
+  }, "Send", 8 /* PROPS */, _hoisted_7)])]);
 }
 
 /***/ }),
@@ -51190,108 +51800,191 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container mt-3 p-3"
+  "class": "container-fluid px-0 px-md-3"
 };
 var _hoisted_2 = {
-  "class": "row mb-4"
+  "class": "row g-4"
 };
 var _hoisted_3 = {
   "class": "col-lg-8"
 };
 var _hoisted_4 = {
-  "class": "col-lg-8"
+  "class": "calculator-card card shadow-sm border-0"
 };
-var _hoisted_5 = ["value"];
+var _hoisted_5 = {
+  "class": "card-body p-4"
+};
 var _hoisted_6 = {
-  "class": "col-12 col-md-12"
+  "class": "row g-3 mb-4"
 };
 var _hoisted_7 = {
-  "class": "col-12 col-md-12"
+  "class": "col-md-6"
 };
-var _hoisted_8 = {
-  "class": "input-group mb-3"
-};
+var _hoisted_8 = ["value"];
 var _hoisted_9 = {
-  "class": "col-12 col-md-12"
+  "class": "col-md-6"
 };
 var _hoisted_10 = {
-  "class": "col-12 col-md-12"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_11 = {
-  "class": "input-group mb-3"
+  "class": "col-md-4"
 };
 var _hoisted_12 = {
-  "class": "col-12 col-md-12"
+  "class": "col-md-4"
 };
 var _hoisted_13 = {
-  "class": "input-group mb-3"
+  "class": "input-group"
 };
 var _hoisted_14 = {
-  "class": "col-12 col-md-12"
+  "class": "input-group-text"
 };
 var _hoisted_15 = {
-  "class": "input-group mb-3"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_16 = {
-  "class": "col-12 col-md-12"
+  "class": "col-md-4"
 };
 var _hoisted_17 = {
-  "class": "input-group mb-3"
+  "class": "col-md-4"
 };
 var _hoisted_18 = {
-  "class": "col-12 col-md-12"
+  "class": "input-group"
 };
 var _hoisted_19 = {
-  "class": "input-group mb-3"
+  "class": "input-group-text"
 };
 var _hoisted_20 = {
-  "class": "col-4 col-lg-4"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_21 = {
-  id: "zakat-summary",
-  "class": "mt-5 p-4 bg-light rounded shadow-sm"
+  "class": "col-md-9"
 };
 var _hoisted_22 = {
-  "class": "list-group list-group-flush"
+  "class": "input-group"
 };
 var _hoisted_23 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "input-group-text"
 };
 var _hoisted_24 = {
-  "class": "text-success"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_25 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "col-md-9"
 };
 var _hoisted_26 = {
-  "class": "text-danger"
+  "class": "input-group"
 };
 var _hoisted_27 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "input-group-text"
 };
 var _hoisted_28 = {
-  "class": "text-info"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_29 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "col-md-9"
 };
 var _hoisted_30 = {
-  "class": "text-primary"
+  "class": "input-group"
 };
 var _hoisted_31 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "input-group-text"
 };
 var _hoisted_32 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center border-0"
+  "class": "row mb-4 align-items-center"
+};
+var _hoisted_33 = {
+  "class": "col-md-9"
+};
+var _hoisted_34 = {
+  "class": "input-group"
+};
+var _hoisted_35 = {
+  "class": "input-group-text"
+};
+var _hoisted_36 = {
+  "class": "d-flex flex-column flex-md-row gap-3"
+};
+var _hoisted_37 = {
+  "class": "col-lg-4"
+};
+var _hoisted_38 = {
+  "class": "results-card card shadow-sm border-0 sticky-top",
+  style: {
+    "top": "20px"
+  }
+};
+var _hoisted_39 = {
+  "class": "card-body p-4"
+};
+var _hoisted_40 = {
+  "class": "summary-item"
+};
+var _hoisted_41 = {
+  "class": "d-flex justify-content-between mb-2"
+};
+var _hoisted_42 = {
+  "class": "text-success"
+};
+var _hoisted_43 = {
+  "class": "summary-item"
+};
+var _hoisted_44 = {
+  "class": "d-flex justify-content-between mb-2"
+};
+var _hoisted_45 = {
+  "class": "text-danger"
+};
+var _hoisted_46 = {
+  "class": "summary-item"
+};
+var _hoisted_47 = {
+  "class": "d-flex justify-content-between mb-2"
+};
+var _hoisted_48 = {
+  "class": "text-primary"
+};
+var _hoisted_49 = {
+  "class": "summary-item bg-light p-3 rounded mb-3"
+};
+var _hoisted_50 = {
+  "class": "d-flex justify-content-between align-items-center"
+};
+var _hoisted_51 = {
+  "class": "text-success mb-0"
+};
+var _hoisted_52 = {
+  "class": "summary-item"
+};
+var _hoisted_53 = {
+  "class": "d-flex justify-content-between mb-2"
+};
+var _hoisted_54 = {
+  "class": "text-muted d-block mb-3"
+};
+var _hoisted_55 = {
+  key: 0,
+  "class": "small mb-0"
+};
+var _hoisted_56 = {
+  key: 1,
+  "class": "small mb-0"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "fw-bold display-5 text-center mb-2"
-  }, "Zakat Calculator", -1 /* HOISTED */)), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead"
-  }, " Easily calculate your annual Zakat with our simple, accurate tool based on your assets and liabilities. This calculator helps you determine if you meet the Nisab threshold and how much Zakat (2.5%) you owe on savings, gold, silver, business assets, and more. ", -1 /* HOISTED */)), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-regular"
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold mb-3"
+  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted mx-auto",
+    style: {
+      "max-width": "700px"
+    }
+  }, " Calculate your annual Zakat obligation with our simple, accurate tool. Determine if you meet the Nisab threshold and how much Zakat (2.5%) you owe on your assets. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Calculator Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "currency",
+    "class": "form-label fw-semibold"
   }, "Currency", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "currency",
     "class": "form-select",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedCurrency = $event;
@@ -51300,37 +51993,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: currency,
       value: currency
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(currency), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(currency) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(symbol) + ") ", 9 /* TEXT, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "nisab",
+    "class": "form-label fw-semibold"
   }, "Nisab Standard", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "nisab",
     "class": "form-select",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.nisabType = $event;
     })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gold"
   }, "Gold (85g)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "silver"
-  }, "Silver (595g)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["prevent"])),
-    "class": "pt-2 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Grams "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label pt-2 fw-bold"
-  }, "Gold (grams)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, "Silver (595g)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Inputs "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-3 fw-semibold text-primary"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-coin me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gem text-warning me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Gold ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control mb-3",
+    "class": "form-control",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.goldGrams = $event;
     }),
-    placeholder: "Enter gold in grams"
+    placeholder: "Grams"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldGrams, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Price "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label pt-2 fw-bold"
-  }, "Gold Price (per gram)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
@@ -51339,24 +52033,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Price per gram"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldPrice, void 0, {
     number: true
-  }]]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Grams "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
-  }, "Silver (grams)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gem text-secondary me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Silver ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control mb-3",
+    "class": "form-control",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.silverGrams = $event;
     }),
-    placeholder: "Enter silver in grams"
+    placeholder: "Grams"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverGrams, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Price "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
-  }, "Silver Price (per gram)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
@@ -51365,80 +52055,143 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Price per gram"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverPrice, void 0, {
     number: true
-  }]]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
-  }, "Cash", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-cash-coin text-success me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cash ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.cash = $event;
     }),
-    placeholder: "Enter your cash"
+    placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.cash, void 0, {
     number: true
-  }]]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
-  }, "Investments", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-graph-up text-info me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Investments ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.investments = $event;
     }),
-    placeholder: "Investment amount"
+    placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.investments, void 0, {
     number: true
-  }]]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold"
-  }, "Business Assets", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-briefcase text-primary me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Business Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.businessAssets = $event;
     }),
-    placeholder: "Business assets value"
+    placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.businessAssets, void 0, {
     number: true
-  }]]), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label fw-bold text-danger"
-  }, "Liabilities", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, "£", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-credit-card text-danger me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liabilities ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
     "class": "form-control",
     "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
       return $data.liabilities = $event;
     }),
-    placeholder: "Enter liabilities"
+    placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.liabilities, void 0, {
     number: true
-  }]]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text"
-  }, ".00", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-12 text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    "class": "btn btn-primary w-100 w-md-50"
-  }, "Calculate Zakat")], -1 /* HOISTED */))], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n          <div class=\"container pt-3 text-center\">\n            <div class=\"row\">\n              <div class=\"col\">\n                <div class=\"mt-3 text-center\">\n                  <button class=\"btn btn-outline-danger\" @click=\"resetCalculator\">\n                    Reset Calculator\n                  </button>\n                </div>\n              </div>\n              <div class=\"col\">\n                <div class=\"mt-3 text-center\">\n                  <button class=\"btn btn-outline-primary\" @click=\"printSummary\">\n                    Download Summary (PDF)\n                  </button>\n                </div>\n              </div>\n              <div class=\"col\">\n                <div class=\"mt-3 col-12 text-center\">\n                  <button type=\"submit\" class=\"btn btn-outline-success w-50\">Calculate Zakat</button>\n                </div>\n              </div>\n            </div>\n          </div> \n          ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "text-success mb-4"
-  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_23, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Total Assets", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toFixed(2)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_25, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Liabilities", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_26, "-" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toFixed(2)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_27, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Zakatable Amount", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toFixed(2)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_29, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Zakat Due (2.5%)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toFixed(2)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + ")", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toFixed(2)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_32, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Obligatory?", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn flex-fill",
+    style: {
+      "background": "rgb(13, 182, 145)",
+      "color": "#fff"
+    },
+    onClick: _cache[10] || (_cache[10] = function () {
+      return $options.calculateZakat && $options.calculateZakat.apply($options, arguments);
+    })
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-calculator me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary flex-fill",
+    onClick: _cache[11] || (_cache[11] = function () {
+      return $options.resetCalculator && $options.resetCalculator.apply($options, arguments);
+    })
+  }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-counterclockwise me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "card-title text-center mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-text me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Zakat Summary ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary Items "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Total Assets", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress mb-3",
+    style: {
+      "height": "6px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar bg-success",
+    role: "progressbar",
+    style: {
+      width: '100%'
+    }
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Liabilities", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_45, "-" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress mb-3",
+    style: {
+      "height": "6px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar bg-danger",
+    role: "progressbar",
+    style: {
+      width: '100%'
+    }
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Zakatable Amount", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress mb-3",
+    style: {
+      "height": "6px"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar bg-primary",
+    role: "progressbar",
+    style: {
+      width: '100%'
+    }
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    "class": "mb-1"
+  }, "Zakat Due (2.5%)"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    "class": "text-muted"
+  }, "Your annual obligation")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Nisab Threshold", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isEligible ? 'text-success' : 'text-muted')
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isEligible ? 'bi bi-check-circle' : 'bi bi-x-circle')
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Yes, Zakat is due' : 'No, below Nisab'), 1 /* TEXT */)], 2 /* CLASS */)])])])])])]);
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, " Your assets meet the Nisab threshold ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_56, " Your assets don't meet the Nisab threshold "))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn w-100 mt-4",
+    style: {
+      "background": "rgb(13, 182, 145)",
+      "color": "#fff"
+    },
+    onClick: _cache[12] || (_cache[12] = function () {
+      return $options.printSummary && $options.printSummary.apply($options, arguments);
+    })
+  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-download me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* HOISTED */)]))])])])])])]);
 }
 
 /***/ }),
@@ -57236,11 +57989,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-center container mb-3 lead"
   }, " The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious, educational, and spiritual needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "pb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown (mobile only) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown for Mobile Devices "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown Menu "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "dropdown d-md-none mb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary dropdown-toggle w-100",
+    type: "button",
+    id: "sectionDropdown",
+    "data-bs-toggle": "dropdown",
+    "aria-expanded": "false"
+  }, " Select Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+    "class": "dropdown-menu w-100",
+    "aria-labelledby": "sectionDropdown"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "dropdown-item",
+    href: "#",
+    "data-section": "featured"
+  }, "Most Featured")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "dropdown-item",
+    href: "#",
+    "data-section": "tools"
+  }, "Tools")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "dropdown-item",
+    href: "#",
+    "data-section": "media"
+  }, "Media")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Sections "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-sections"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-section",
+    "data-section": "featured"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Featured Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qf1.png",
@@ -57274,662 +58051,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/quran_1.png",
-    alt: "Quran Eplorer",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Quran Eplorer"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Browse by surah or verse, listen to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/surat'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read & Listen")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/duaa1.png",
-    alt: "Explore Duas",
-    "class": "w-100 pt-3",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/dua'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/mtv2.png",
-    alt: "Watch Live",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Live Streaming"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/streaming'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/radio1.png",
-    alt: "Radio stations",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Radio Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, " Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/radio'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Radio")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/ml.webp",
-    alt: "Mosque Locator",
-    "class": "w-100 pt-3",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/mosque'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/ip.png",
-    alt: "Qibla finder",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/content'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/dates.png",
-    alt: "Date Converter",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Date Converter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "An Islamic Date Converter lets you switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/date'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Convert Date")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/calendar2.png",
-    alt: "Hijri Calendar",
-    "class": "w-100 pt-3",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Hijri Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "View today’s Hijri date alongside the Gregorian calendar, with key Islamic dates and fasting reminders."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/calendar'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/calc.png",
-    alt: "Zakat Calculator",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/mosque'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/img_g.png",
-    alt: "Image Gallery",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Image Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/gallery'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/vide_g.png",
-    alt: "Video Gallery",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to deepen your understanding of Islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/video'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/tb.png",
-    alt: "Names of Allah",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Tasbeeh Counter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Count your dhikr effortlessly with our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/tasbeeh'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Start Counting")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/guides1.png",
-    alt: "Islamic guides",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Explore essential Islamic teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/guide'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/food.png",
-    alt: "Islamic Shops",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Halal Restaurants"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Discover delicious and certified halal restaurants at your fingertips. Whether you're traveling, new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/shop'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Restaurants")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "row pt-3 g-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/donate111.png",
-    alt: "Donation",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Donation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global audience. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/support'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/fn.png",
-    alt: "Islamic Finance",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Islamic Finance"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/finance'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden",
-    style: {
-      "background-color": "#fff"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/dkir.png",
-    alt: "Athkar Collection",
-    "class": "w-100",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Athkar Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Our Athkar Collection offers a rich library of authentic daily supplications and remembrances (adhkar) from the Qur'an and Sunnah, organized for ease of access. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/athkar'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Athkar")])])])])])])], -1 /* HOISTED */))]);
+    "class": "card-section d-none",
+    "data-section": "tools"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tools Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your Tools cards here ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-section d-none",
+    "data-section": "media"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Media Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your Media cards here ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white\">\n            <img src=\"/images/qf1.png\" alt=\"Qibla finder\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Qibla finder</h5>\n              <p class=\"card-text text-muted text-center\"\n                style=\"max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;\">\n                Find the Qibla direction from anywhere in the world using compass and map support—essential for your\n                prayers.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/qibla'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Find Qibla</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/quran_1.png\" alt=\"Quran Eplorer\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Quran Eplorer</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Browse by surah or verse, listen\n                to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/surat'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read & Listen</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/duaa1.png\" alt=\"Explore Duas\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Dua Collection</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Authentic Duas from the Qur’an and\n                Sunnah for every occasion—complete with Arabic, translation and audio to help you\n                reflect and connect.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/dua'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Explore Duas</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/mtv2.png\" alt=\"Watch Live\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Live Streaming</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Watch Islamic TV channels and live\n                lectures—stream events, khutbahs, educational programs, and spiritual content anytime.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/streaming'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Watch Live</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/radio1.png\" alt=\"Radio stations\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Radio Stations</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,\n                and spiritual reminders—streamed 24/7 in multiple languages.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/radio'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Explore Radio</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/ml.webp\" alt=\"Mosque Locator\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Mosque Locator</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Find nearby mosques around you based on your location with directions, prayer times, and contact\n                details.\n              </p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/mosque'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Find a Mosque</b></span>\n              </button>\n\n\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/ip.png\" alt=\"Qibla finder\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Audio Podcasts</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic\n                faith, history, and daily life.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/content'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/dates.png\" alt=\"Date Converter\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Date Converter</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">An Islamic Date Converter lets you\n                switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj.\n              </p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/date'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Convert Date</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/calendar2.png\" alt=\"Hijri Calendar\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Hijri Calendar</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">View today’s Hijri date alongside\n                the Gregorian calendar, with key Islamic dates and fasting reminders.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/calendar'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Open Calendar</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/calc.png\" alt=\"Zakat Calculator\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Zakat Calculator</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Easily calculate your zakat based\n                on your assets and liabilities with up-to-date nisab values and simplified guidance.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/mosque'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Calculate Zakat</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/img_g.png\" alt=\"Image Gallery\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Image Gallery</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore a beautiful collection of\n                high-quality Islamic images capturing the essence of faith, culture, and tradition.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/gallery'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>View Gallery</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/vide_g.png\" alt=\"Video Gallery\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Video Gallery</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore a curated collection of\n                short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to\n                deepen your understanding of Islam.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/video'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Watch Videos</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/tb.png\" alt=\"Names of Allah\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Tasbeeh Counter</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Count your dhikr effortlessly with\n                our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/tasbeeh'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Start Counting</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/guides1.png\" alt=\"Islamic guides\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Islamic Guides</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore essential Islamic\n                teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/guide'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read Guides</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/food.png\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Restaurants</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n                halal restaurants at your fingertips. Whether you're traveling, new in town.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/shop'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Search Restaurants</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/donate111.png\" alt=\"Donation\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Donation</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Your donation helps us keep\n                Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver\n                Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global\n                audience.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/support'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Support Us</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/fn.png\" alt=\"Islamic Finance\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Islamic Finance</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Islamic finance refers to a\n                financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical\n                principles.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/finance'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read More</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/sr.png\" alt=\"Seerah Timeline\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Seerah Timeline</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Seerah is the life story of\n                Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in\n                establishing Islam and more.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/mission'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>View Seerah</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n      </div> ")], -1 /* HOISTED */))]);
 }
 
 /***/ }),
@@ -156502,7 +156629,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.athkar-container[data-v-5049bb1b] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n.nav-tabs[data-v-5049bb1b] {\n  border-bottom: 2px solid #dee2e6;\n}\n.nav-tabs .nav-link[data-v-5049bb1b] {\n  color: #495057;\n  font-weight: 500;\n  border: none;\n  padding: 0.75rem 1.5rem;\n  margin-right: 0.5rem;\n  border-radius: 0.25rem 0.25rem 0 0;\n  transition: all 0.3s ease;\n}\n.nav-tabs .nav-link[data-v-5049bb1b]:hover {\n  color: #0d6efd;\n  background-color: rgba(13, 110, 253, 0.1);\n}\n.nav-tabs .nav-link.active[data-v-5049bb1b] {\n  color: #0d6efd;\n  background-color: rgba(13, 110, 253, 0.1);\n  border-bottom: 2px solid #0d6efd;\n}\n.card[data-v-5049bb1b] {\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n  border-radius: 0.5rem;\n}\n.card[data-v-5049bb1b]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);\n}\n.card-title[data-v-5049bb1b] {\n  font-weight: 600;\n}\n.card-text[data-v-5049bb1b] {\n  line-height: 1.8;\n  margin-bottom: 1rem;\n}\n.btn-sm[data-v-5049bb1b] {\n  padding: 0.25rem 0.5rem;\n  font-size: 0.875rem;\n}\n.badge[data-v-5049bb1b] {\n  font-size: 0.875rem;\n  padding: 0.35em 0.65em;\n}\n@media (max-width: 767.98px) {\n.nav-tabs .nav-link[data-v-5049bb1b] {\n    padding: 0.5rem 1rem;\n    font-size: 0.875rem;\n}\n.card-text[data-v-5049bb1b] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Improved mobile-first styling */\n.islamic-app[data-v-5049bb1b] {\n  max-width: 1200px;\n  margin: 0 auto;\n}\n/* Category Navigation */\n.btn-category[data-v-5049bb1b] {\n  border: 1px solid #e0e0e0;\n  transition: all 0.2s ease;\n  white-space: nowrap;\n}\n.btn-category.active[data-v-5049bb1b] {\n  background-color: var(--bs-primary);\n  color: white;\n  border-color: var(--bs-primary);\n  box-shadow: 0 2px 8px rgba(var(--bs-primary-rgb), 0.2);\n}\n/* Lesson Items */\n.list-group-item[data-v-5049bb1b] {\n  transition: all 0.2s ease;\n  border-left: 0;\n  border-right: 0;\n}\n.list-group-item[data-v-5049bb1b]:first-child {\n  border-top: 0;\n}\n.active-lesson[data-v-5049bb1b] {\n  background-color: rgba(var(--bs-primary-rgb), 0.05);\n  border-left: 3px solid var(--bs-primary) !important;\n}\n.completed-lesson[data-v-5049bb1b] {\n  background-color: rgba(var(--bs-success-rgb), 0.05);\n}\n.lesson-number[data-v-5049bb1b] {\n  width: 28px;\n  height: 28px;\n  font-size: 0.8rem;\n  background-color: rgba(var(--bs-primary-rgb), 0.1);\n  color: var(--bs-primary);\n}\n.completed-lesson .lesson-number[data-v-5049bb1b] {\n  background-color: rgba(var(--bs-success-rgb), 0.2);\n  color: var(--bs-success);\n}\n/* Quiz Questions */\n.question-number[data-v-5049bb1b] {\n  width: 24px;\n  height: 24px;\n  font-size: 0.7rem;\n  background-color: rgba(var(--bs-info-rgb), 0.2);\n  color: var(--bs-info);\n}\n/* Arabic Text */\n.arabic-text[data-v-5049bb1b] {\n  font-size: 1.5rem;\n  text-align: right;\n  direction: rtl;\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.8;\n}\n/* Cards */\n.card[data-v-5049bb1b] {\n  border-radius: 12px;\n  overflow: hidden;\n}\n.card-header[data-v-5049bb1b] {\n  border-radius: 12px 12px 0 0 !important;\n}\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.display-5[data-v-5049bb1b] {\n    font-size: 2rem;\n}\n.card-body[data-v-5049bb1b] {\n    padding: 1rem;\n}\n.arabic-text[data-v-5049bb1b] {\n    font-size: 1.2rem;\n}\n}\n/* Smooth transitions */\n.fade-enter-active[data-v-5049bb1b], .fade-leave-active[data-v-5049bb1b] {\n  transition: opacity 0.3s ease;\n}\n.fade-enter-from[data-v-5049bb1b], .fade-leave-to[data-v-5049bb1b] {\n  opacity: 0;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Global styles */\n[data-v-3b32bfde] {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\nbody[data-v-3b32bfde] {\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  background-color: #f0f4f8;\n  color: #333;\n  line-height: 1.6;\n}\n/* Chat Container */\n.chat-container[data-v-3b32bfde] {\n  max-width: 1200px;\n  margin: 50px auto;\n  background-color: #fff;\n  border-radius: 15px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);\n  display: flex;\n  flex-direction: column;\n  height: 80vh;\n  overflow: hidden;\n}\n/* Header */\n.chat-header[data-v-3b32bfde] {\n  background-color: #00796b;\n  color: #fff;\n  padding: 20px;\n  text-align: center;\n  font-size: 18px;\n  font-weight: bold;\n  position: relative;\n}\n.clear-btn[data-v-3b32bfde] {\n  position: absolute;\n  right: 20px;\n  top: 15px;\n  background-color: #ff5722;\n  color: white;\n  border: none;\n  padding: 8px 16px;\n  border-radius: 5px;\n  font-size: 14px;\n  cursor: pointer;\n}\n.clear-btn[data-v-3b32bfde]:hover {\n  background-color: #e64a19;\n}\n/* Chatbox Area */\n.chat-box[data-v-3b32bfde] {\n  flex-grow: 1;\n  padding: 20px;\n  background-color: #fafafa;\n  overflow-y: auto;\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n  transition: all 0.3s ease;\n}\n.message[data-v-3b32bfde] {\n  word-wrap: break-word;\n  display: flex;\n  flex-direction: column;\n}\n.user-message[data-v-3b32bfde] {\n  align-self: flex-end;\n  background-color: #00796b;\n  color: white;\n  padding: 12px;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  max-width: 80%;\n  transition: transform 0.2s ease-in-out;\n}\n.ai-message[data-v-3b32bfde] {\n  align-self: flex-start;\n  background-color: #eceff1;\n  color: #00796b;\n  padding: 12px;\n  border-radius: 12px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n  max-width: 80%;\n  transition: transform 0.2s ease-in-out;\n}\n.message[data-v-3b32bfde]:hover {\n  transform: translateY(-5px);\n}\n.loading[data-v-3b32bfde] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-top: 20px;\n  font-size: 16px;\n  color: #00796b;\n}\n.loader[data-v-3b32bfde] {\n  border: 4px solid #f3f3f3;\n  border-top: 4px solid #00796b;\n  border-radius: 50%;\n  width: 24px;\n  height: 24px;\n  animation: spin-3b32bfde 1s linear infinite;\n}\n@keyframes spin-3b32bfde {\n0% {\n    transform: rotate(0deg);\n}\n100% {\n    transform: rotate(360deg);\n}\n}\n.loading-text[data-v-3b32bfde] {\n  margin-left: 10px;\n}\n/* Input and Button */\n.input-container[data-v-3b32bfde] {\n  display: flex;\n  padding: 20px;\n  background-color: #fff;\n  border-top: 1px solid #ddd;\n  gap: 10px;\n}\n.input-field[data-v-3b32bfde] {\n  flex-grow: 1;\n  padding: 12px;\n  font-size: 16px;\n  border: 2px solid #ddd;\n  border-radius: 25px;\n  background-color: #f5f5f5;\n  transition: border-color 0.3s ease;\n}\n.input-field[data-v-3b32bfde]:focus {\n  border-color: #00796b;\n  outline: none;\n}\n.input-field[data-v-3b32bfde]:disabled {\n  background-color: #f0f0f0;\n}\n.send-btn[data-v-3b32bfde] {\n  background-color: #00796b;\n  color: white;\n  padding: 12px 18px;\n  font-size: 16px;\n  border: none;\n  border-radius: 25px;\n  cursor: pointer;\n  width: 80px;\n  transition: background-color 0.3s ease;\n}\n.send-btn[data-v-3b32bfde]:disabled {\n  background-color: #bbb;\n}\n.send-btn[data-v-3b32bfde]:hover {\n  background-color: #004d40;\n}\n/* Responsive Design */\n@media (max-width: 600px) {\n.chat-container[data-v-3b32bfde] {\n    width: 98%;\n    height: 80vh;\n}\n.clear-btn[data-v-3b32bfde] {\n    top: 10px;\n    right: 10px;\n}\n.input-container[data-v-3b32bfde] {\n    padding: 15px;\n}\n.input-field[data-v-3b32bfde] {\n    font-size: 14px;\n}\n.send-btn[data-v-3b32bfde] {\n    font-size: 14px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -156598,7 +156749,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#zakat-summary[data-v-66ef69a0] {\n  max-width: 600px;\n  margin: 0 auto;\n  background-color: #f8f9fa;\n  border-radius: 10px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n#zakat-summary .list-group-item[data-v-66ef69a0] {\n  border: none;\n  padding: 15px;\n  font-size: 1.1rem;\n}\n#zakat-summary .list-group-item[data-v-66ef69a0]:hover {\n  background-color: #f1f1f1;\n  cursor: pointer;\n}\n#zakat-summary .list-group-item span[data-v-66ef69a0] {\n  font-weight: 500;\n}\n#zakat-summary .list-group-item strong[data-v-66ef69a0] {\n  font-weight: 600;\n}\n#zakat-summary .text-success[data-v-66ef69a0] {\n  color: #28a745;\n}\n#zakat-summary .text-info[data-v-66ef69a0] {\n  color: #17a2b8;\n}\n#zakat-summary .text-primary[data-v-66ef69a0] {\n  color: #007bff;\n}\n#zakat-summary .text-danger[data-v-66ef69a0] {\n  color: #dc3545;\n}\n#zakat-summary .text-muted[data-v-66ef69a0] {\n  color: #6c757d;\n}\n#zakat-summary .bi[data-v-66ef69a0] {\n  margin-right: 8px;\n}\nh4.text-success[data-v-66ef69a0] {\n  font-size: 1.5rem;\n  font-weight: bold;\n  border-bottom: 2px solid #28a745;\n  padding-bottom: 10px;\n  margin-bottom: 20px;\n}\ninput[data-v-66ef69a0],\nselect[data-v-66ef69a0] {\n  border-radius: 0.375rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-66ef69a0] {\n  background-color: #f8fafc;\n  min-height: 100vh;\n  padding-bottom: 3rem;\n}\n.hero-section[data-v-66ef69a0] {\n  background: linear-gradient(135deg, #f0f7ff 0%, #e1f0ff 100%);\n  border-bottom: 1px solid #e2e8f0;\n  margin-bottom: 2rem;\n}\n.calculator-card[data-v-66ef69a0],\n.results-card[data-v-66ef69a0] {\n  border-radius: 16px;\n  overflow: hidden;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.calculator-card[data-v-66ef69a0]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;\n}\n.section-title[data-v-66ef69a0] {\n  position: relative;\n  padding-bottom: 0.5rem;\n}\n.section-title[data-v-66ef69a0]::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 50px;\n  height: 3px;\n  background-color: rgb(13, 182, 145);\n  border-radius: 3px;\n}\n.input-group-text[data-v-66ef69a0] {\n  min-width: 120px;\n  justify-content: flex-start;\n  font-weight: 500;\n}\n.summary-item[data-v-66ef69a0] {\n  margin-bottom: 1.5rem;\n}\n.eligibility-badge[data-v-66ef69a0] {\n  transition: all 0.3s ease;\n}\n.bg-success-light[data-v-66ef69a0] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n\n/* Responsive adjustments */\n@media (max-width: 992px) {\n.results-card[data-v-66ef69a0] {\n    position: static !important;\n    margin-top: 2rem;\n}\n.input-group-text[data-v-66ef69a0] {\n    min-width: 100px;\n}\n}\n@media (max-width: 768px) {\n.hero-section[data-v-66ef69a0] {\n    padding: 2rem 1rem;\n}\n.hero-section h1[data-v-66ef69a0] {\n    font-size: 2rem;\n}\n.input-group-text[data-v-66ef69a0] {\n    min-width: 90px;\n    font-size: 0.9rem;\n}\n.form-control[data-v-66ef69a0],\n  .form-select[data-v-66ef69a0] {\n    font-size: 0.9rem;\n}\n}\n\n/* Animation for results */\n@keyframes fadeIn-66ef69a0 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.summary-item[data-v-66ef69a0] {\n  animation: fadeIn-66ef69a0 0.5s ease forwards;\n}\n.summary-item[data-v-66ef69a0]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.summary-item[data-v-66ef69a0]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.summary-item[data-v-66ef69a0]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.summary-item[data-v-66ef69a0]:nth-child(4) {\n  animation-delay: 0.4s;\n}\n.summary-item[data-v-66ef69a0]:nth-child(5) {\n  animation-delay: 0.5s;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -157176,7 +157327,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-card {\n  height: 100%;\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-section {\n  display: none;\n}\n\n/* Show the card section that matches the selected radio button */\ninput[name=\"section\"]:checked~.card-sections .card-section[data-section=\"featured\"] {\n  display: block;\n}\ninput[name=\"section\"]:checked[value=\"tools\"]~.card-sections .card-section[data-section=\"tools\"] {\n  display: block;\n}\ninput[name=\"section\"]:checked[value=\"media\"]~.card-sections .card-section[data-section=\"media\"] {\n  display: block;\n}\n.custom-card {\n  height: 100%;\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -223654,6 +223805,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_style_index_0_id_3b32bfde_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_style_index_0_id_3b32bfde_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_style_index_0_id_3b32bfde_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -304873,13 +305054,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AccessComponent_vue_vue_type_template_id_3b32bfde__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccessComponent.vue?vue&type=template&id=3b32bfde */ "./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _AccessComponent_vue_vue_type_template_id_3b32bfde_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true */ "./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true");
+/* harmony import */ var _AccessComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AccessComponent.vue?vue&type=script&lang=js */ "./resources/js/components/AccessComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _AccessComponent_vue_vue_type_style_index_0_id_3b32bfde_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css */ "./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
-const script = {}
+
+
 
 ;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['render',_AccessComponent_vue_vue_type_template_id_3b32bfde__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AccessComponent.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AccessComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AccessComponent_vue_vue_type_template_id_3b32bfde_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-3b32bfde"],['__file',"resources/js/components/AccessComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -304888,18 +305074,47 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/AccessComponent.vue?vue&type=script&lang=js":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/AccessComponent.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_template_id_3b32bfde__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_template_id_3b32bfde__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AccessComponent.vue?vue&type=template&id=3b32bfde */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AccessComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_style_index_0_id_3b32bfde_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=style&index=0&id=3b32bfde&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_template_id_3b32bfde_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AccessComponent_vue_vue_type_template_id_3b32bfde_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AccessComponent.vue?vue&type=template&id=3b32bfde&scoped=true");
 
 
 /***/ }),
