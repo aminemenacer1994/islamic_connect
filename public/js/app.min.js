@@ -42281,6 +42281,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      selectedCategory: 'Select a Category',
       showPrayerTimes: false,
       city: ""
     };
@@ -42295,6 +42296,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    selectCategory: function selectCategory(category) {
+      this.selectedCategory = category;
+    },
+    navigateTo: function navigateTo(link) {
+      window.location.href = link;
+    },
     setCurrentDate: function setCurrentDate() {
       var now = moment__WEBPACK_IMPORTED_MODULE_1___default()().format('YYYY-MM-DD');
       console.log("Current date:", now);
@@ -51808,7 +51815,11 @@ var _hoisted_3 = {
   "class": "col-lg-8"
 };
 var _hoisted_4 = {
-  "class": "calculator-card card shadow-sm border-0"
+  "class": "calculator-card card shadow-sm border-0",
+  style: {
+    "border": "1px solid gray",
+    "border-radius": "20px"
+  }
 };
 var _hoisted_5 = {
   "class": "card-body p-4"
@@ -51908,9 +51919,10 @@ var _hoisted_37 = {
   "class": "col-lg-4"
 };
 var _hoisted_38 = {
-  "class": "results-card card shadow-sm border-0 sticky-top",
+  "class": "results-card card shadow-sm border-0 sticky-top container",
   style: {
-    "top": "20px"
+    "border": "1px solid gray",
+    "border-radius": "20px"
   }
 };
 var _hoisted_39 = {
@@ -57995,39 +58007,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 mb-4"
   }, "Islamic Utility Toolkit", -1 /* HOISTED */)), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-3 lead"
+    "class": "text-center mb-3 lead"
   }, " The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious, educational, and spiritual needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid Wrapper "), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "pb-2"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown (mobile only) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown for Mobile Devices "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dropdown Menu "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "dropdown d-md-none mb-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-secondary dropdown-toggle w-100",
-    type: "button",
-    id: "sectionDropdown",
-    "data-bs-toggle": "dropdown",
-    "aria-expanded": "false"
-  }, " Select Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-    "class": "dropdown-menu w-100",
-    "aria-labelledby": "sectionDropdown"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    "data-section": "featured"
-  }, "Most Featured")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    "data-section": "tools"
-  }, "Tools")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    "data-section": "media"
-  }, "Media")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Sections "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-sections"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-left pt-3 container"
+  }, "Worship & Prayer Essentials:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4 flex-nowrap overflow-x-auto",
+    style: {
+      "scroll-snap-type": "x mandatory",
+      "-webkit-overflow-scrolling": "touch"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-section",
-    "data-section": "featured"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Featured Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white"
+    "class": "col-md-6 col-lg-4 d-flex pb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card rounded-4 overflow-hidden bg-white",
+    style: {
+      "border": "1px solid grey"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/qf1.png",
     alt: "Qibla finder",
@@ -58060,12 +58057,686 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Qibla")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-section d-none",
-    "data-section": "tools"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tools Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your Tools cards here ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-section d-none",
-    "data-section": "media"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Media Cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your Media cards here ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white\">\n            <img src=\"/images/qf1.png\" alt=\"Qibla finder\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Qibla finder</h5>\n              <p class=\"card-text text-muted text-center\"\n                style=\"max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;\">\n                Find the Qibla direction from anywhere in the world using compass and map support—essential for your\n                prayers.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/qibla'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Find Qibla</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/quran_1.png\" alt=\"Quran Eplorer\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Quran Eplorer</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Browse by surah or verse, listen\n                to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/surat'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read & Listen</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/duaa1.png\" alt=\"Explore Duas\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Dua Collection</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Authentic Duas from the Qur’an and\n                Sunnah for every occasion—complete with Arabic, translation and audio to help you\n                reflect and connect.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/dua'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Explore Duas</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/mtv2.png\" alt=\"Watch Live\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Live Streaming</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Watch Islamic TV channels and live\n                lectures—stream events, khutbahs, educational programs, and spiritual content anytime.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/streaming'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Watch Live</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/radio1.png\" alt=\"Radio stations\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Radio Stations</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds,\n                and spiritual reminders—streamed 24/7 in multiple languages.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/radio'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Explore Radio</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/ml.webp\" alt=\"Mosque Locator\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Mosque Locator</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Find nearby mosques around you based on your location with directions, prayer times, and contact\n                details.\n              </p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/mosque'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Find a Mosque</b></span>\n              </button>\n\n\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/ip.png\" alt=\"Qibla finder\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Audio Podcasts</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">\n                Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic\n                faith, history, and daily life.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/content'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/dates.png\" alt=\"Date Converter\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Date Converter</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">An Islamic Date Converter lets you\n                switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj.\n              </p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/date'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Convert Date</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/calendar2.png\" alt=\"Hijri Calendar\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Hijri Calendar</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">View today’s Hijri date alongside\n                the Gregorian calendar, with key Islamic dates and fasting reminders.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/calendar'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Open Calendar</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/calc.png\" alt=\"Zakat Calculator\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Zakat Calculator</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Easily calculate your zakat based\n                on your assets and liabilities with up-to-date nisab values and simplified guidance.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/mosque'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Calculate Zakat</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/img_g.png\" alt=\"Image Gallery\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Image Gallery</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore a beautiful collection of\n                high-quality Islamic images capturing the essence of faith, culture, and tradition.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/gallery'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>View Gallery</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/vide_g.png\" alt=\"Video Gallery\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Video Gallery</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore a curated collection of\n                short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to\n                deepen your understanding of Islam.</p>\n\n              <button class=\"form-control\" onclick=\"window.location.href='/video'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Watch Videos</b></span>\n              </button>\n\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/tb.png\" alt=\"Names of Allah\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Tasbeeh Counter</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Count your dhikr effortlessly with\n                our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/tasbeeh'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Start Counting</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/guides1.png\" alt=\"Islamic guides\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Islamic Guides</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Explore essential Islamic\n                teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/guide'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read Guides</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/food.png\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Restaurants</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n                halal restaurants at your fingertips. Whether you're traveling, new in town.</p>\n              <button class=\"form-control\" onclick=\"window.location.href='/shop'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Search Restaurants</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n\n      <div class=\"row pt-3 g-4\">\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/donate111.png\" alt=\"Donation\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Donation</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Your donation helps us keep\n                Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver\n                Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global\n                audience.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/support'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Support Us</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/fn.png\" alt=\"Islamic Finance\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Islamic Finance</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Islamic finance refers to a\n                financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical\n                principles.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/finance'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>Read More</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n        <div class=\"col-md-6 col-lg-4\">\n          <div class=\"card custom-card shadow-sm border-0 rounded-4 overflow-hidden\" style=\" background-color: #fff;\">\n            <img src=\"/images/sr.png\" alt=\"Seerah Timeline\" class=\"w-100\" style=\"object-fit: contain;\" />\n            <div class=\"p-3\">\n              <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Seerah Timeline</h5>\n              <p class=\"card-text text-muted text-wrap text-center\"\n                style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Seerah is the life story of\n                Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in\n                establishing Islam and more.\n              </p>\n              <button class=\"form-control\" onclick=\"window.location.href='/mission'\"\n                style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n                type=\"submit\">\n                <span class=\"text-center w-100\"><b>View Seerah</b></span>\n              </button>\n            </div>\n          </div>\n        </div>\n\n      </div> ")], -1 /* HOISTED */))]);
+    "class": "col-md-6 col-lg-4 d-flex pb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/quran_1.png",
+    alt: "Quran Eplorer",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Quran Eplorer"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Browse by surah or verse, listen to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/surat'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read & Listen")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/duaa1.png",
+    alt: "Explore Duas",
+    "class": "w-100 pt-3",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/dua'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-left pt-4 container"
+  }, "Quran & Islamic Knowledge:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4 flex-nowrap overflow-x-auto",
+    style: {
+      "scroll-snap-type": "x mandatory",
+      "-webkit-overflow-scrolling": "touch"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/mtv2.png",
+    alt: "Watch Live",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Live Streaming"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Watch Islamic TV channels and live lectures—stream events, khutbahs, educational programs, and spiritual content anytime."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/streaming'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Live")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/radio1.png",
+    alt: "Radio stations",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Radio Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, " Tune in to live Islamic radio from around the world, featuring Qur’an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/radio'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Radio")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/ml.webp",
+    alt: "Mosque Locator",
+    "class": "w-100 pt-3",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/mosque'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-left pt-4 container"
+  }, "Media & Live Content:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4 flex-nowrap overflow-x-auto",
+    style: {
+      "scroll-snap-type": "x mandatory",
+      "-webkit-overflow-scrolling": "touch"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/ip.png",
+    alt: "Qibla finder",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/content'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/dates.png",
+    alt: "Date Converter",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Date Converter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "An Islamic Date Converter lets you switch between Gregorian and Hijri dates, helping track important events like Ramadan, Eid, and Hajj. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/date'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Convert Date")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/calendar2.png",
+    alt: "Hijri Calendar",
+    "class": "w-100 pt-3",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Hijri Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "View today’s Hijri date alongside the Gregorian calendar, with key Islamic dates and fasting reminders."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/calendar'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Open Calendar")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-left pt-4 container"
+  }, "Lifestyle & Halal Living:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4 flex-nowrap overflow-x-auto",
+    style: {
+      "scroll-snap-type": "x mandatory",
+      "-webkit-overflow-scrolling": "touch"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/calc.png",
+    alt: "Zakat Calculator",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Easily calculate your zakat based on your assets and liabilities with up-to-date nisab values and simplified guidance."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/blog'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Calculate Zakat")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/img_g.png",
+    alt: "Image Gallery",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Image Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/gallery'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/vide_g.png",
+    alt: "Video Gallery",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Video Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to deepen your understanding of Islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/video'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold text-left pt-4 container"
+  }, "Tools & Utilities:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row g-4 flex-nowrap overflow-x-auto",
+    style: {
+      "scroll-snap-type": "x mandatory",
+      "-webkit-overflow-scrolling": "touch"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/tb.png",
+    alt: "Names of Allah",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Tasbeeh Counter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Count your dhikr effortlessly with our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/tasbeeh'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Start Counting")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/guides1.png",
+    alt: "Islamic guides",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Explore essential Islamic teachings covering beliefs, practices, and morals—ideal for both Muslims and those new to Islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/guide'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/food.png",
+    alt: "Islamic Shops",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Halal Restaurants"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Discover delicious and certified halal restaurants at your fingertips. Whether you're traveling, new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/shop'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Restaurants")])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row pt-4 g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/donate111.png",
+    alt: "Donation",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Donation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global audience. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/support'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/fn.png",
+    alt: "Islamic Finance",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Islamic Finance"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/finance'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/sr.png",
+    alt: "Seerah Timeline",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Seerah Timeline"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Seerah is the life story of Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in establishing Islam and more. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/mission'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])])])], -1 /* HOISTED */))]);
 }
 
 /***/ }),
@@ -157336,7 +158007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-section {\n  display: none;\n}\n\n/* Show the card section that matches the selected radio button */\ninput[name=\"section\"]:checked~.card-sections .card-section[data-section=\"featured\"] {\n  display: block;\n}\ninput[name=\"section\"]:checked[value=\"tools\"]~.card-sections .card-section[data-section=\"tools\"] {\n  display: block;\n}\ninput[name=\"section\"]:checked[value=\"media\"]~.card-sections .card-section[data-section=\"media\"] {\n  display: block;\n}\n.custom-card {\n  height: 100%;\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Hide scrollbar but keep functionality */\n.row::-webkit-scrollbar {\n  height: 8px;\n}\n.row::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 10px;\n}\n.row::-webkit-scrollbar-thumb {\n  background: #888;\n  border-radius: 10px;\n}\n.row::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n/* Card hover effect */\n/* .custom-card {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n} */\n.custom-card:hover {\n  /* transform: translateY(-5px); */\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.custom-card {\n  height: 100%;\n}\n.custom-card img {\n  height: 180px;\n  /* Fixed image height */\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

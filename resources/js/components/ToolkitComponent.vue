@@ -1,68 +1,22 @@
 <template>
   <div class="container py-4">
     <h3 class="text-center fw-bold display-4 mb-4">Islamic Utility Toolkit</h3>
-    <p class="text-center container mb-3 lead ">
+    <p class="text-center mb-3 lead ">
       The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious,
       educational, and spiritual needs.
     </p>
 
+
+
     <!-- Grid Wrapper -->
     <div class="pb-2">
+      <h1 class="fw-bold text-left pt-3 container">Worship & Prayer Essentials:</h1>
 
-      <!-- Dropdown (mobile only) -->
-      <!-- Dropdown for Mobile Devices -->
-      <!-- Dropdown Menu -->
-      <div class="dropdown d-md-none mb-3">
-        <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="sectionDropdown"
-          data-bs-toggle="dropdown" aria-expanded="false">
-          Select Section
-        </button>
-        <ul class="dropdown-menu w-100" aria-labelledby="sectionDropdown">
-          <li><a class="dropdown-item" href="#" data-section="featured">Most Featured</a></li>
-          <li><a class="dropdown-item" href="#" data-section="tools">Tools</a></li>
-          <li><a class="dropdown-item" href="#" data-section="media">Media</a></li>
-        </ul>
-      </div>
+      <div class="row g-4 flex-nowrap overflow-x-auto"
+        style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
 
-      <!-- Card Sections -->
-      <div class="card-sections">
-        <div class="card-section" data-section="featured">
-          <!-- Featured Cards -->
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
-            <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
-            <div class="p-3">
-              <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
-              <p class="card-text text-muted text-center"
-                style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
-                Find the Qibla direction from anywhere in the world using compass and map support—essential for your
-                prayers.
-              </p>
-              <button class="form-control" onclick="window.location.href='/qibla'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;"
-                type="submit">
-                <span class="text-center w-100"><b>Find Qibla</b></span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-section d-none" data-section="tools">
-          <!-- Tools Cards -->
-          <!-- Add your Tools cards here -->
-        </div>
-
-        <div class="card-section d-none" data-section="media">
-          <!-- Media Cards -->
-          <!-- Add your Media cards here -->
-        </div>
-      </div>
-
-
-
-
-      <!-- <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden bg-white">
+        <div class="col-md-6 col-lg-4 d-flex pb-3">
+          <div class="card custom-card  rounded-4 overflow-hidden bg-white" style="border: 1px solid grey;">
             <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
@@ -80,8 +34,8 @@
           </div>
         </div>
 
-        <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+        <div class="col-md-6 col-lg-4 d-flex pb-3">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/quran_1.png" alt="Quran Eplorer" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran Eplorer</h5>
@@ -99,7 +53,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/duaa1.png" alt="Explore Duas" class="w-100 pt-3" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Dua Collection</h5>
@@ -117,9 +71,11 @@
         </div>
       </div>
 
-      <div class="row pt-3 g-4">
+      <h1 class="fw-bold text-left pt-4 container">Quran & Islamic Knowledge:</h1>
+      <div class="row g-4 flex-nowrap overflow-x-auto"
+        style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Live Streaming</h5>
@@ -137,7 +93,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/radio1.png" alt="Radio stations" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Radio Stations</h5>
@@ -156,7 +112,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/ml.webp" alt="Mosque Locator" class="w-100 pt-3" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Mosque Locator</h5>
@@ -178,9 +134,12 @@
         </div>
       </div>
 
-      <div class="row pt-3 g-4">
+      <h1 class="fw-bold text-left pt-4 container">Media & Live Content:</h1>
+      <div class="row g-4 flex-nowrap overflow-x-auto"
+        style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/ip.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5>
@@ -198,7 +157,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/dates.png" alt="Date Converter" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Date Converter</h5>
@@ -218,7 +177,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/calendar2.png" alt="Hijri Calendar" class="w-100 pt-3" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Hijri Calendar</h5>
@@ -236,9 +195,13 @@
         </div>
       </div>
 
-      <div class="row pt-3 g-4">
+
+      <h1 class="fw-bold text-left pt-4 container">Lifestyle & Halal Living:</h1>
+      <div class="row g-4 flex-nowrap overflow-x-auto"
+        style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/calc.png" alt="Zakat Calculator" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Zakat Calculator</h5>
@@ -246,7 +209,7 @@
                 style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Easily calculate your zakat based
                 on your assets and liabilities with up-to-date nisab values and simplified guidance.</p>
 
-              <button class="form-control" onclick="window.location.href='/mosque'"
+              <button class="form-control" onclick="window.location.href='/blog'"
                 style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                 type="submit">
                 <span class="text-center w-100"><b>Calculate Zakat</b></span>
@@ -257,7 +220,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/img_g.png" alt="Image Gallery" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Image Gallery</h5>
@@ -276,7 +239,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/vide_g.png" alt="Video Gallery" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Video Gallery</h5>
@@ -296,10 +259,11 @@
         </div>
       </div>
 
-      <div class="row pt-3 g-4">
+      <h1 class="fw-bold text-left pt-4 container">Tools & Utilities:</h1>
+      <div class="row g-4 flex-nowrap overflow-x-auto" style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/tb.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Tasbeeh Counter</h5>
@@ -317,7 +281,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/guides1.png" alt="Islamic guides" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Guides</h5>
@@ -334,7 +298,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/food.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Halal Restaurants</h5>
@@ -351,10 +315,9 @@
         </div>
       </div>
 
-      <div class="row pt-3 g-4">
-
+      <div class="row pt-4 g-4">
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/donate111.png" alt="Donation" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>
@@ -374,7 +337,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/fn.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Finance</h5>
@@ -393,7 +356,7 @@
         </div>
 
         <div class="col-md-6 col-lg-4">
-          <div class="card custom-card shadow-sm border-0 rounded-4 overflow-hidden" style=" background-color: #fff;">
+          <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
             <img src="/images/sr.png" alt="Seerah Timeline" class="w-100" style="object-fit: contain;" />
             <div class="p-3">
               <h5 class="mb-2 fw-bold display-6 text-dark text-center">Seerah Timeline</h5>
@@ -411,14 +374,12 @@
           </div>
         </div>
 
-      </div> -->
+      </div>
 
     </div>
 
   </div>
 </template>
-
-
 
 <script>
 import PrayerTimes from "./translation/PrayerTimes.vue";
@@ -431,6 +392,7 @@ export default {
   },
   data() {
     return {
+      selectedCategory: 'Select a Category',
       showPrayerTimes: false,
       city: "",
     }
@@ -445,6 +407,12 @@ export default {
     }
   },
   methods: {
+    selectCategory(category) {
+      this.selectedCategory = category;
+    },
+    navigateTo(link) {
+      window.location.href = link;
+    },
     setCurrentDate() {
       const now = moment().format('YYYY-MM-DD');
       console.log("Current date:", now);
@@ -462,25 +430,35 @@ export default {
     }
   }
 }
-
-
 </script>
 <style>
-.card-section {
-  display: none;
+/* Hide scrollbar but keep functionality */
+.row::-webkit-scrollbar {
+  height: 8px;
 }
 
-/* Show the card section that matches the selected radio button */
-input[name="section"]:checked~.card-sections .card-section[data-section="featured"] {
-  display: block;
+.row::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
 }
 
-input[name="section"]:checked[value="tools"]~.card-sections .card-section[data-section="tools"] {
-  display: block;
+.row::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
 }
 
-input[name="section"]:checked[value="media"]~.card-sections .card-section[data-section="media"] {
-  display: block;
+.row::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Card hover effect */
+/* .custom-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+} */
+
+.custom-card:hover {
+  /* transform: translateY(-5px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .custom-card {
