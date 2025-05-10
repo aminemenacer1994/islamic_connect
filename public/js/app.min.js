@@ -34478,10 +34478,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       userInput: "",
       chatMessages: [],
       loading: false,
-      error: null,
-      modelAPI: "https://api-inference.huggingface.co/models/gpt2",
-      // ✅ You can change to a different model
-      apiToken: "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" // ✅ Set your Hugging Face API token
+      error: null
+      //   modelAPI: "https://api-inference.huggingface.co/models/gpt2", // ✅ You can change to a different model
+      //   apiToken: "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", // ✅ Set your Hugging Face API token
     };
   },
   methods: {

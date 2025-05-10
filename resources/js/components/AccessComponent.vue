@@ -45,8 +45,8 @@ export default {
       chatMessages: [],
       loading: false,
       error: null,
-      modelAPI: "https://api-inference.huggingface.co/models/gpt2", // ✅ You can change to a different model
-      apiToken: "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", // ✅ Set your Hugging Face API token
+    //   modelAPI: "https://api-inference.huggingface.co/models/gpt2", // ✅ You can change to a different model
+    //   apiToken: "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", // ✅ Set your Hugging Face API token
     };
   },
   methods: {
