@@ -1,14 +1,12 @@
 <template>
   <div>
     <!-- header -->
-    <div class="jumbotron" style="
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      ">
+    <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative; z-index: 2">
         <div class="container-fluid text-center">
-          <div class="row mb-2 py-5">
+          <div class="row mb-2 ">
             <div class="col-md-6">
               <h1 class="display-4 mt-1 fw-bold text-left container">
                 Connecting You to Islamic Knowledge Seamlessly and Accessibly

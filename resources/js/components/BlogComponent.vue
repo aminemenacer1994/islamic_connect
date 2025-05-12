@@ -12,7 +12,7 @@
       <div class="row g-4">
         <!-- Main Calculator Form -->
         <div class="col-lg-8" >
-          <div class="calculator-card card shadow-sm border-0" style="border: 1px solid gray; border-radius: 20px;">
+          <div class="calculator-card card shadow-sm " style="border: 2px solid lightgray; border-radius: 20px;">
             <div class="card-body p-4">
               <!-- Currency and Nisab Selection -->
               <div class="row g-3 mb-4">
@@ -136,7 +136,7 @@
         </div>
         <!-- Results Panel -->
         <div class="col-lg-4" >
-          <div class="results-card card shadow-sm border-0 sticky-top container" style="border: 1px solid gray; border-radius: 20px; ">
+          <div class="results-card card shadow-sm sticky-top container" style="border: 2px solid lightgray; border-radius: 20px; ">
             <div class="card-body p-4">
               <h3 class="card-title text-center mb-4" >
                 <i class="bi bi-file-text me-2"></i>Zakat Summary

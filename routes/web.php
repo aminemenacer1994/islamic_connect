@@ -51,6 +51,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\TasbeehController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AthkarController;
+use App\Http\Controllers\UmrahController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -344,3 +345,5 @@ Route::get('/tasbeeh', [TasbeehController::class, 'index'])->name('tasbeeh');
 Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
 // tasbeeh
 Route::get('/athkar', [AthkarController::class, 'index'])->name('athkar');
+// umrah
+Route::get('/umrah', [UmrahController::class, 'index'])->name('umrah');
