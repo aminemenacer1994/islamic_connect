@@ -2,9 +2,12 @@
   <div class="container py-5">
     <div class="text-center mb-3">
       <h1 class="display-4 fw-bold mb-3">Hajj & Umrah Guides</h1>
+      <p class="lead mx-auto mb-3 description">
+        These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
+      </p>
       <ul class="nav nav-pills justify-content-center gap-3 fw-semibold" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link custom-tab px-4 py-2 rounded-pill active" :class="{ active: currentTab === 'hajj' }"
+          <button class="nav-link custom-tab px-4 py-2 rounded-pill " :class="{ active: currentTab === 'hajj' }"
             @click="currentTab = 'hajj'" :aria-selected="currentTab === 'hajj'" aria-controls="hajj-tab">
             🕋 Hajj
           </button>
@@ -21,9 +24,9 @@
     </div>
 
     <div class="row align-items-center">
-      <div class="col-md-6 " >
-        <img :src="currentContent.image" :alt="currentContent.alt" style="border: 3px solid lightgray; border-radius: 20px;" class="img-fluid shadow-sm w-100"
-          loading="lazy" />
+      <div class="col-md-6 ">
+        <img :src="currentContent.image" :alt="currentContent.alt"
+          style="border: 3px solid lightgray; border-radius: 20px;" class="img-fluid shadow-sm w-100" loading="lazy" />
       </div>
 
       <div class="col-md-6 mt-2">
