@@ -43873,10 +43873,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      utterance: null,
+      isSpeaking: false,
+      isPaused: false,
       currentTab: "hajj",
       copySuccess: false,
       guides: {
         hajj: {
+          title: "Hajj Guide",
           text1: "Hajj is the annual pilgrimage to Makkah that every Muslim must perform at least once in their lifetime if they are able. It takes place during Dhul Hijjah, the 12th month of the Islamic calendar, and involves a series of sacred rituals performed over several days. These include wearing Ihram, performing Tawaf around the Kaaba, standing at Arafat, stoning the pillars at Mina, and sacrificing an animal in remembrance of Prophet Ibrahim's devotion.",
           text2: "Pilgrims also trim or shave their hair, drink Zamzam water, and follow a specific route that symbolizes humility, unity, and devotion to Allah. The journey fosters spiritual renewal, repentance, and brotherhood among Muslims from around the world. It's essential to prepare spiritually, financially, and physically before undertaking this profound act of worship.",
           text3: "Modern logistics and guides make Hajj more accessible, but it is vital to approach it with sincerity, knowledge of the rites, and an understanding of its deeper spiritual significance. The Hajj experience is life-changing, instilling patience, humility, and immense gratitude in those who complete it.",
@@ -43884,13 +43888,17 @@ __webpack_require__.r(__webpack_exports__);
           alt: "Pilgrims performing Hajj rituals in Makkah"
         },
         umrah: {
+          title: "Umrah Guide",
           text1: "Umrah is a non-mandatory pilgrimage to Makkah that can be performed at any time of the year. Although it is shorter than Hajj, it holds immense spiritual value and involves specific rites including entering the state of Ihram, performing Tawaf around the Kaaba, praying at Maqam Ibrahim, and walking between the hills of Safa and Marwah (Sa’i).",
           text2: "Pilgrims also shave or trim their hair at the end of Umrah to mark the completion of the ritual. It is an act of devotion and purification, offering a deeply personal and spiritual experience. Many Muslims perform Umrah multiple times in their lives, especially during the holy month of Ramadan for added blessings.",
           text3: "Umrah encourages reflection, self-discipline, and a break from worldly distractions. It's a chance to renew one's faith, seek forgiveness, and strengthen the bond with Allah. With fewer logistical challenges than Hajj, it serves as a beautiful introduction to the sacred journey.",
           image: "/images/umra.jpg",
           alt: "Muslims performing Umrah rituals at the Grand Mosque"
         }
-      }
+      },
+      readTime: 0,
+      listeningTime: 0,
+      wordCount: 0
     };
   },
   computed: {
@@ -43898,21 +43906,88 @@ __webpack_require__.r(__webpack_exports__);
       return this.guides[this.currentTab];
     }
   },
+  mounted: function mounted() {
+    window.addEventListener('beforeunload', this.stopSpeech);
+    window.addEventListener('visibilitychange', this.handleTabChange);
+    this.calculateReadTimeAndWordCount();
+  },
+  beforeUnmount: function beforeUnmount() {
+    window.removeEventListener('beforeunload', this.stopSpeech);
+    window.removeEventListener('visibilitychange', this.handleTabChange);
+  },
   methods: {
-    speak: function speak(text) {
-      var utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US";
-      speechSynthesis.speak(utterance);
+    switchTab: function switchTab(tab) {
+      var _this = this;
+      if (this.currentTab !== tab) {
+        this.stopSpeech(); // Stop current speech
+        this.currentTab = tab; // Switch tab
+        this.$nextTick(function () {
+          _this.calculateReadTimeAndWordCount(); // Recalculate read time and word count
+        });
+      }
+    },
+    toggleSpeech: function toggleSpeech() {
+      var _this2 = this;
+      var _this$currentContent = this.currentContent,
+        title = _this$currentContent.title,
+        text1 = _this$currentContent.text1,
+        text2 = _this$currentContent.text2,
+        text3 = _this$currentContent.text3;
+      if (!text1 && !text2) {
+        alert("No content available to read.");
+        return;
+      }
+      var text = (title || '') + ' ' + (text1 || '') + ' ' + (text2 || '') + ' ' + (text3 || '');
+
+      // If currently speaking and not paused
+      if (this.isSpeaking && !this.isPaused) {
+        window.speechSynthesis.pause();
+        this.isPaused = true;
+
+        // If paused
+      } else if (this.isSpeaking && this.isPaused) {
+        window.speechSynthesis.resume();
+        this.isPaused = false;
+
+        // Not speaking
+      } else {
+        this.stopSpeech();
+        this.utterance = new SpeechSynthesisUtterance(text);
+        this.utterance.lang = 'en-US';
+        this.utterance.onend = function () {
+          _this2.isSpeaking = false;
+          _this2.isPaused = false;
+        };
+        window.speechSynthesis.speak(this.utterance);
+        this.isSpeaking = true;
+        this.isPaused = false;
+      }
+    },
+    stopSpeech: function stopSpeech() {
+      window.speechSynthesis.cancel();
+      this.isSpeaking = false;
+      this.isPaused = false;
+    },
+    handleTabChange: function handleTabChange() {
+      if (document.hidden) {
+        this.stopSpeech();
+      }
     },
     copyText: function copyText() {
-      var _this = this;
+      var _this3 = this;
       var textToCopy = this.currentContent.text1 + "\n\n" + this.currentContent.text2 + "\n\n" + this.currentContent.text3;
       navigator.clipboard.writeText(textToCopy).then(function () {
-        _this.copySuccess = true;
+        _this3.copySuccess = true;
         setTimeout(function () {
-          _this.copySuccess = false;
+          _this3.copySuccess = false;
         }, 2000);
       });
+    },
+    calculateReadTimeAndWordCount: function calculateReadTimeAndWordCount() {
+      var text = (this.currentContent.text1 || '') + ' ' + (this.currentContent.text2 || '') + ' ' + (this.currentContent.text3 || '');
+      this.wordCount = text.split(' ').length;
+      this.readTime = Math.ceil(this.wordCount / 200); // Assuming an average reading speed of 200 words per minute
+      this.listeningTime = Math.ceil(this.wordCount / 150); // Assuming an average speaking rate of 150 words per minute
     }
   }
 });
@@ -59359,24 +59434,45 @@ var _hoisted_11 = {
   "class": "col-md-6 mt-2"
 };
 var _hoisted_12 = {
-  "class": ""
+  "class": "container"
 };
 var _hoisted_13 = {
-  "class": "lead text-justify"
+  "class": "display-4 fw-bold pb-2 pt-2 text-center"
 };
 var _hoisted_14 = {
-  "class": "lead text-justify"
+  "class": "container",
+  style: {
+    "overflow-x": "auto",
+    "white-space": "nowrap",
+    "-webkit-overflow-scrolling": "touch"
+  }
 };
 var _hoisted_15 = {
-  "class": "lead text-justify"
+  style: {
+    "display": "inline-block",
+    "min-width": "max-content"
+  }
 };
 var _hoisted_16 = {
+  "class": "lead text-justify"
+};
+var _hoisted_17 = {
+  "class": "lead text-justify"
+};
+var _hoisted_18 = {
+  "class": "lead text-justify"
+};
+var _hoisted_19 = {
   "class": "btn-group btn-group-lg w-100",
   role: "group",
   "aria-label": "Large button group"
 };
-var _hoisted_17 = ["href"];
-var _hoisted_18 = {
+var _hoisted_20 = ["href"];
+var _hoisted_21 = {
+  "class": "fab-container"
+};
+var _hoisted_22 = ["title"];
+var _hoisted_23 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x",
   role: "alert",
@@ -59393,24 +59489,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Hajj & Umrah Guides", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead mx-auto mb-3 description"
   }, " These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 rounded-pill", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 text-decoration-none", {
       active: $data.currentTab === 'hajj'
     }]),
     onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $data.currentTab = 'hajj';
+      return $options.switchTab('hajj');
     }),
     "aria-selected": $data.currentTab === 'hajj',
-    "aria-controls": "hajj-tab"
-  }, " 🕋 Hajj ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 rounded-pill", {
+    "aria-controls": "hajj-tab",
+    role: "tab"
+  }, " Hajj ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 text-decoration-none", {
       active: $data.currentTab === 'umrah'
     }]),
     onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $data.currentTab = 'umrah';
+      return $options.switchTab('umrah');
     }),
     "aria-selected": $data.currentTab === 'umrah',
-    "aria-controls": "umrah-tab"
-  }, " 🤲 Umrah ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    "aria-controls": "umrah-tab",
+    role: "tab"
+  }, " Umrah ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $options.currentContent.image,
     alt: $options.currentContent.alt,
     style: {
@@ -59419,28 +59517,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "img-fluid shadow-sm w-100",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book pr-2 pt-3",
+    style: {
+      "font-size": "20px",
+      "cursor": "pointer"
+    }
+  }, null, -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " minutes ", 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-headphones pl-3 pr-2 pt-3",
+    style: {
+      "font-size": "20px",
+      "cursor": "pointer"
+    }
+  }, null, -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " minutes ", 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-earmark-word pl-3 pr-2 pt-3",
+    style: {
+      "font-size": "20px",
+      "cursor": "pointer"
+    }
+  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return $options.speak($options.currentContent.text1 + ' ' + $options.currentContent.text2);
-    }),
-    "class": "btn btn-outline-success"
-  }, "Listen Aloud"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.copyText && $options.copyText.apply($options, arguments);
     }),
     "class": "btn btn-outline-success"
   }, "Copy to Clipboard"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.text1 + '\n\n' + $options.currentContent.text2)),
+    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
     target: "_blank",
     "class": "btn btn-outline-success"
-  }, "Share via WhatsApp", 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, "Share via WhatsApp", 8 /* PROPS */, _hoisted_20)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fab-single",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
+    }),
+    title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close position-absolute top-50 end-0 translate-middle-y me-3",
         onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -59450,7 +59568,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
-  })])])]);
+  })])]);
 }
 
 /***/ }),
@@ -158176,7 +158294,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: rgb(200, 245, 234);\n  color: rgb(0, 105, 92);\n  font-size: 1.3rem;\n  /* Increased font size */\n  padding: 0.8rem 2rem;\n  /* Bigger padding for chunkier pills */\n  border-radius: 50px;\n  /* Fully rounded */\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: rgb(183, 240, 226);\n  color: rgb(0, 85, 74);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  color: #fff;\n  border-color: rgb(0, 122, 102);\n  box-shadow: 0 0 10px rgba(13, 182, 145, 0.3);\n}\n.fade-enter-active[data-v-2c27c8a7],\n.fade-leave-active[data-v-2c27c8a7] {\n  transition: opacity 0.5s;\n}\n.fade-enter-from[data-v-2c27c8a7],\n.fade-leave-to[data-v-2c27c8a7] {\n  opacity: 0;\n}\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\nimg[data-v-2c27c8a7] {\n  max-height: 570px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n\n/* Custom tab styles */\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #f8f9fa;\n  color: #000;\n  border-radius: 0.5rem;\n  transition: all 0.3s ease;\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  color: #fff;\n  font-weight: bold;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.4);\n}\n\n/* Custom button */\n.custom-btn-green[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  border: none;\n  color: white;\n}\n.custom-btn-green[data-v-2c27c8a7]:hover {\n  background-color: rgb(11, 160, 128);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-single[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  font-size: 1.8rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 1050;\n  transition: background-color 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: rgb(11, 160, 128);\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1050;\n}\n.fab[data-v-2c27c8a7] {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  font-size: 1.4rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n/* General link styles */\na[data-v-2c27c8a7] {\n  text-decoration: none;\n  color: #006958;\n  transition: color 0.3s ease;\n}\na[data-v-2c27c8a7]:hover {\n  color: rgb(13, 182, 145);\n  text-decoration: none;\n}\n\n/* Nav-link buttons */\nbutton.nav-link[data-v-2c27c8a7] {\n  color: #006958;\n  text-decoration: none;\n  background-color: transparent;\n}\nbutton.nav-link[data-v-2c27c8a7]:hover,\nbutton.nav-link[data-v-2c27c8a7]:focus,\nbutton.nav-link[data-v-2c27c8a7]:active {\n  color: #00997a;\n  text-decoration: none;\n  background-color: rgba(0, 153, 122, 0.1);\n}\n\n/* Custom tab styles */\n.custom-tab[data-v-2c27c8a7] {\n  background-color: rgb(200, 245, 234);\n  color: rgb(0, 105, 92);\n  font-size: 1.3rem;\n  padding: 0.8rem 2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: rgb(183, 240, 226);\n  color: rgb(0, 85, 74);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  color: #fff;\n  font-weight: bold;\n  border-color: rgb(0, 122, 102);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.4);\n}\n\n/* Custom button */\n.custom-btn-green[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  border: none;\n  color: white;\n  transition: background-color 0.3s ease;\n}\n.custom-btn-green[data-v-2c27c8a7]:hover {\n  background-color: rgb(11, 160, 128);\n}\n\n/* Transitions */\n.fade-enter-active[data-v-2c27c8a7],\n.fade-leave-active[data-v-2c27c8a7] {\n  transition: opacity 0.5s;\n}\n.fade-enter-from[data-v-2c27c8a7],\n.fade-leave-to[data-v-2c27c8a7] {\n  opacity: 0;\n}\n\n/* Utilities */\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\nimg[data-v-2c27c8a7] {\n  max-height: 570px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
