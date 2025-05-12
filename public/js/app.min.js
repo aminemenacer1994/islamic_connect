@@ -34786,6 +34786,690 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'NamesOfAllah',
+  data: function data() {
+    return {
+      names: [{
+        number: 1,
+        name: "Ar-Rahman",
+        arabic: "الرَّحْمَنُ",
+        translation: "The Beneficent",
+        description: "He who wills goodness and mercy for all His creatures."
+      }, {
+        number: 2,
+        name: "Ar-Raheem",
+        arabic: "الرَّحِيمُ",
+        translation: "The Merciful",
+        description: "He who acts with extreme kindness and bestows His mercy."
+      }, {
+        number: 3,
+        name: "Al-Malik",
+        arabic: "الْمَلِكُ",
+        translation: "The King",
+        description: "The Sovereign Lord, The One with the complete Dominion."
+      }, {
+        number: 4,
+        name: "Al-Quddus",
+        arabic: "الْقُدُّوسُ",
+        translation: "The Holy",
+        description: "The One who is pure from any imperfection and clear from children and adversaries."
+      }, {
+        number: 5,
+        name: "As-Salam",
+        arabic: "السَّلاَمُ",
+        translation: "The Source of Peace",
+        description: "The One who is free from every imperfection and grants peace and security."
+      }, {
+        number: 6,
+        name: "Al-Mu'min",
+        arabic: "الْمُؤْمِنُ",
+        translation: "The Inspirer of Faith",
+        description: "The One who witnessed for Himself that no one is God but Him."
+      }, {
+        number: 7,
+        name: "Al-Muhaymin",
+        arabic: "الْمُهَيْمِنُ",
+        translation: "The Guardian",
+        description: "The One who witnesses the saying and deeds of His creatures."
+      }, {
+        number: 8,
+        name: "Al-Aziz",
+        arabic: "الْعَزِيزُ",
+        translation: "The Mighty",
+        description: "The Strong, The Defeater who is not defeated."
+      }, {
+        number: 9,
+        name: "Al-Jabbar",
+        arabic: "الْجَبَّارُ",
+        translation: "The Compeller",
+        description: "The One that nothing happens in His Dominion except that which He willed."
+      }, {
+        number: 10,
+        name: "Al-Mutakabbir",
+        arabic: "الْمُتَكَبِّرُ",
+        translation: "The Supreme",
+        description: "The One who is clear from the attributes of the creatures and from resembling them."
+      }, {
+        number: 11,
+        name: "Al-Khaliq",
+        arabic: "الْخَالِقُ",
+        translation: "The Creator",
+        description: "The One who brings everything from non-existence to existence."
+      }, {
+        number: 12,
+        name: "Al-Bari'",
+        arabic: "الْبَارِئُ",
+        translation: "The Maker",
+        description: "The Creator who has the Power to turn the entities."
+      }, {
+        number: 13,
+        name: "Al-Musawwir",
+        arabic: "الْمُصَوِّرُ",
+        translation: "The Fashioner",
+        description: "The One who forms His creatures in different pictures."
+      }, {
+        number: 14,
+        name: "Al-Ghaffar",
+        arabic: "الْغَفَّارُ",
+        translation: "The Forgiver",
+        description: "The One who forgives the sins of His slaves time and time again."
+      }, {
+        number: 15,
+        name: "Al-Qahhar",
+        arabic: "الْقَهَّارُ",
+        translation: "The Subduer",
+        description: "The Dominant, The One who has the perfect Power and is not unable over anything."
+      }, {
+        number: 16,
+        name: "Al-Wahhab",
+        arabic: "الْوَهَّابُ",
+        translation: "The Bestower",
+        description: "The One who is Generous in giving plenty without any return."
+      }, {
+        number: 17,
+        name: "Ar-Razzaq",
+        arabic: "الرَّزَّاقُ",
+        translation: "The Provider",
+        description: "The One who gives everything that benefits His slaves."
+      }, {
+        number: 18,
+        name: "Al-Fattah",
+        arabic: "الْفَتَّاحُ",
+        translation: "The Opener",
+        description: "The One who opens for His slaves the closed worldly and religious matters."
+      }, {
+        number: 19,
+        name: "Al-Alim",
+        arabic: "الْعَلِيمُ",
+        translation: "The All-Knowing",
+        description: "The Knowledgeable; The One nothing is absent from His knowledge."
+      }, {
+        number: 20,
+        name: "Al-Qabid",
+        arabic: "الْقَابِضُ",
+        translation: "The Constrictor",
+        description: "The One who constricts the sustenance by His wisdom and expands and widens it."
+      }, {
+        number: 21,
+        name: "Al-Basit",
+        arabic: "الْبَاسِطُ",
+        translation: "The Expander",
+        description: "The One who expands and widens the sustenance."
+      }, {
+        number: 22,
+        name: "Al-Khafid",
+        arabic: "الْخَافِضُ",
+        translation: "The Abaser",
+        description: "The One who lowers whoever He willed by His Destruction."
+      }, {
+        number: 23,
+        name: "Ar-Rafi'",
+        arabic: "الرَّافِعُ",
+        translation: "The Exalter",
+        description: "The One who raises whoever He willed by His Endowment."
+      }, {
+        number: 24,
+        name: "Al-Mu'izz",
+        arabic: "الْمُعِزُّ",
+        translation: "The Honorer",
+        description: "He gives esteem to whoever He willed, hence there is no one to degrade Him."
+      }, {
+        number: 25,
+        name: "Al-Mudhill",
+        arabic: "الْمُذِلُّ",
+        translation: "The Dishonorer",
+        description: "He gives dishonor to whoever He willed, hence there is no one to give him honor."
+      }, {
+        number: 26,
+        name: "As-Sami'",
+        arabic: "السَّمِيعُ",
+        translation: "The All-Hearing",
+        description: "The One who Hears all things that are heard by His Eternal Hearing without an ear, instrument or organ."
+      }, {
+        number: 27,
+        name: "Al-Basir",
+        arabic: "الْبَصِيرُ",
+        translation: "The All-Seeing",
+        description: "The One who Sees all things that are seen by His Eternal Seeing without a pupil or any other instrument."
+      }, {
+        number: 28,
+        name: "Al-Hakam",
+        arabic: "الْحَكَمُ",
+        translation: "The Judge",
+        description: "He is the Ruler and His judgment is His Word."
+      }, {
+        number: 29,
+        name: "Al-Adl",
+        arabic: "الْعَدْلُ",
+        translation: "The Just",
+        description: "The One who is entitled to do what He does."
+      }, {
+        number: 30,
+        name: "Al-Lateef",
+        arabic: "اللَّطِيفُ",
+        translation: "The Subtle One",
+        description: "The One who is kind to His slaves and endows upon them."
+      }, {
+        number: 31,
+        name: "Al-Khabeer",
+        arabic: "الْخَبِيرُ",
+        translation: "The All-Aware",
+        description: "The One who knows the truth of things."
+      }, {
+        number: 32,
+        name: "Al-Haleem",
+        arabic: "الْحَلِيمُ",
+        translation: "The Forbearing",
+        description: "The One who delays the punishment for those who deserve it."
+      }, {
+        number: 33,
+        name: "Al-Azeem",
+        arabic: "الْعَظِيمُ",
+        translation: "The Magnificent",
+        description: "The One deserving the attributes of Exaltment, Glory, Extolment, and Purity from all imperfection."
+      }, {
+        number: 34,
+        name: "Al-Ghafoor",
+        arabic: "الْغَفُورُ",
+        translation: "The All-Forgiving",
+        description: "The One who forgives a lot."
+      }, {
+        number: 35,
+        name: "Ash-Shakoor",
+        arabic: "الشَّكُورُ",
+        translation: "The Grateful",
+        description: "The One who gives a lot of reward for a little obedience."
+      }, {
+        number: 36,
+        name: "Al-Aliyy",
+        arabic: "الْعَلِيُّ",
+        translation: "The Most High",
+        description: "The One who is clear from the attributes of the creatures."
+      }, {
+        number: 37,
+        name: "Al-Kabeer",
+        arabic: "الْكَبِيرُ",
+        translation: "The Greatest",
+        description: "The One who is greater than everything in status."
+      }, {
+        number: 38,
+        name: "Al-Hafeez",
+        arabic: "الْحَفِيظُ",
+        translation: "The Preserver",
+        description: "The One who protects whatever and whoever He willed to protect."
+      }, {
+        number: 39,
+        name: "Al-Muqeet",
+        arabic: "الْمُقِيتُ",
+        translation: "The Maintainer",
+        description: "The One who has the Power."
+      }, {
+        number: 40,
+        name: "Al-Haseeb",
+        arabic: "الْحَسِيبُ",
+        translation: "The Reckoner",
+        description: "The One who gives the satisfaction."
+      }, {
+        number: 41,
+        name: "Al-Jaleel",
+        arabic: "الْجَلِيلُ",
+        translation: "The Majestic",
+        description: "The One who is attributed with greatness of Power and Glory of status."
+      }, {
+        number: 42,
+        name: "Al-Kareem",
+        arabic: "الْكَرِيمُ",
+        translation: "The Generous",
+        description: "The One who is clear from abjectness."
+      }, {
+        number: 43,
+        name: "Ar-Raqeeb",
+        arabic: "الرَّقِيبُ",
+        translation: "The Watchful",
+        description: "The One that nothing is absent from Him."
+      }, {
+        number: 44,
+        name: "Al-Mujeeb",
+        arabic: "الْمُجِيبُ",
+        translation: "The Responsive",
+        description: "The One who answers the one in need if he asks Him and rescues the yearned if he calls on Him."
+      }, {
+        number: 45,
+        name: "Al-Wasi'",
+        arabic: "الْوَاسِعُ",
+        translation: "The All-Encompassing",
+        description: "The Knowledgeable."
+      }, {
+        number: 46,
+        name: "Al-Hakeem",
+        arabic: "الْحَكِيمُ",
+        translation: "The Wise",
+        description: "The One who is correct in His doings."
+      }, {
+        number: 47,
+        name: "Al-Wadood",
+        arabic: "الْوَدُودُ",
+        translation: "The Loving",
+        description: "The One who loves His believing slaves and His believing slaves love Him."
+      }, {
+        number: 48,
+        name: "Al-Majeed",
+        arabic: "الْمَجِيدُ",
+        translation: "The Glorious",
+        description: "The One who is with perfect Power, High Status, Compassion, Generosity and Kindness."
+      }, {
+        number: 49,
+        name: "Al-Ba'ith",
+        arabic: "الْبَاعِثُ",
+        translation: "The Resurrector",
+        description: "The One who resurrects His slaves after death for reward and/or punishment."
+      }, {
+        number: 50,
+        name: "Ash-Shaheed",
+        arabic: "الشَّهِيدُ",
+        translation: "The Witness",
+        description: "The One who nothing is absent from Him."
+      }, {
+        number: 51,
+        name: "Al-Haqq",
+        arabic: "الْحَقُّ",
+        translation: "The Truth",
+        description: "The One who truly exists."
+      }, {
+        number: 52,
+        name: "Al-Wakeel",
+        arabic: "الْوَكِيلُ",
+        translation: "The Trustee",
+        description: "The One who gives the satisfaction and is relied upon."
+      }, {
+        number: 53,
+        name: "Al-Qawiyy",
+        arabic: "الْقَوِيُّ",
+        translation: "The Strong",
+        description: "The One with the complete Power."
+      }, {
+        number: 54,
+        name: "Al-Mateen",
+        arabic: "الْمَتِينُ",
+        translation: "The Firm",
+        description: "The One with extreme Power which is un-interrupted and He does not get tired."
+      }, {
+        number: 55,
+        name: "Al-Waliyy",
+        arabic: "الْوَلِيُّ",
+        translation: "The Protecting Friend",
+        description: "The Supporter."
+      }, {
+        number: 56,
+        name: "Al-Hameed",
+        arabic: "الْحَمِيدُ",
+        translation: "The Praiseworthy",
+        description: "The praised One who deserves to be praised."
+      }, {
+        number: 57,
+        name: "Al-Muhsee",
+        arabic: "الْمُحْصِي",
+        translation: "The Accounter",
+        description: "The One who the count of things are known to him."
+      }, {
+        number: 58,
+        name: "Al-Mubdi'",
+        arabic: "الْمُبْدِئُ",
+        translation: "The Originator",
+        description: "The One who started the human being."
+      }, {
+        number: 59,
+        name: "Al-Mu'eed",
+        arabic: "الْمُعِيدُ",
+        translation: "The Restorer",
+        description: "The One who brings back the creatures after death."
+      }, {
+        number: 60,
+        name: "Al-Muhyi",
+        arabic: "الْمُحْيِي",
+        translation: "The Giver of Life",
+        description: "The One who took out a living human from semen that does not have a soul."
+      }, {
+        number: 61,
+        name: "Al-Mumeet",
+        arabic: "الْمُمِيتُ",
+        translation: "The Taker of Life",
+        description: "The One who renders the living dead."
+      }, {
+        number: 62,
+        name: "Al-Hayy",
+        arabic: "الْحَيُّ",
+        translation: "The Ever-Living",
+        description: "The One attributed with a life that is unlike our life and is not that of a combination of soul, flesh or blood."
+      }, {
+        number: 63,
+        name: "Al-Qayyum",
+        arabic: "الْقَيُّومُ",
+        translation: "The Self-Sustaining",
+        description: "The One who remains and does not end."
+      }, {
+        number: 64,
+        name: "Al-Waajid",
+        arabic: "الْوَاجِدُ",
+        translation: "The Finder",
+        description: "The One who does not lose anything."
+      }, {
+        number: 65,
+        name: "Al-Maajid",
+        arabic: "الْمَاجِدُ",
+        translation: "The Noble",
+        description: "The One who is Majid."
+      }, {
+        number: 66,
+        name: "Al-Waahid",
+        arabic: "الْوَاحِدُ",
+        translation: "The Unique",
+        description: "The One without a partner."
+      }, {
+        number: 67,
+        name: "Al-Ahad",
+        arabic: "الْأَحَدُ",
+        translation: "The One",
+        description: "The One without a partner."
+      }, {
+        number: 68,
+        name: "As-Samad",
+        arabic: "الصَّمَدُ",
+        translation: "The Eternal",
+        description: "The Master who is relied upon in matters and reverted to in ones needs."
+      }, {
+        number: 69,
+        name: "Al-Qaadir",
+        arabic: "الْقَادِرُ",
+        translation: "The Able",
+        description: "The One attributed with Power."
+      }, {
+        number: 70,
+        name: "Al-Muqtadir",
+        arabic: "الْمُقْتَدِرُ",
+        translation: "The Powerful",
+        description: "The One with the perfect Power that nothing is withheld from Him."
+      }, {
+        number: 71,
+        name: "Al-Muqaddim",
+        arabic: "الْمُقَدِّمُ",
+        translation: "The Expediter",
+        description: "The One who puts things in their right places."
+      }, {
+        number: 72,
+        name: "Al-Mu'akhkhir",
+        arabic: "الْمُؤَخِّرُ",
+        translation: "The Delayer",
+        description: "The One who puts things in their right places."
+      }, {
+        number: 73,
+        name: "Al-Awwal",
+        arabic: "الأَوَّلُ",
+        translation: "The First",
+        description: "The One whose Existence is without a beginning."
+      }, {
+        number: 74,
+        name: "Al-Akhir",
+        arabic: "الآخِرُ",
+        translation: "The Last",
+        description: "The One whose Existence is without an end."
+      }, {
+        number: 75,
+        name: "Az-Zaahir",
+        arabic: "الظَّاهِرُ",
+        translation: "The Manifest",
+        description: "The One above everything."
+      }, {
+        number: 76,
+        name: "Al-Baatin",
+        arabic: "الْبَاطِنُ",
+        translation: "The Hidden",
+        description: "The One who is clear from the delusions of bodily characteristics."
+      }, {
+        number: 77,
+        name: "Al-Waali",
+        arabic: "الْوَالِي",
+        translation: "The Governor",
+        description: "The One who owns things and manages them."
+      }, {
+        number: 78,
+        name: "Al-Muta'ali",
+        arabic: "الْمُتَعَالِي",
+        translation: "The Exalted",
+        description: "The One who is clear from the attributes of the creation."
+      }, {
+        number: 79,
+        name: "Al-Barr",
+        arabic: "الْبَرُّ",
+        translation: "The Source of Goodness",
+        description: "The One who is kind to His creatures."
+      }, {
+        number: 80,
+        name: "At-Tawwaab",
+        arabic: "التَّوَّابُ",
+        translation: "The Accepter of Repentance",
+        description: "The One who grants repentance to whoever He willed among His creatures and accepts his repentance."
+      }, {
+        number: 81,
+        name: "Al-Muntaqim",
+        arabic: "الْمُنْتَقِمُ",
+        translation: "The Avenger",
+        description: "The One who victoriously prevails over His enemies and punishes them for their sins."
+      }, {
+        number: 82,
+        name: "Al-Afuww",
+        arabic: "الْعَفُوُّ",
+        translation: "The Pardoner",
+        description: "The One with wide forgiveness."
+      }, {
+        number: 83,
+        name: "Ar-Ra'uf",
+        arabic: "الرَّؤُوفُ",
+        translation: "The Compassionate",
+        description: "The One with extreme Mercy."
+      }, {
+        number: 84,
+        name: "Malik-ul-Mulk",
+        arabic: "مَالِكُ الْمُلْكِ",
+        translation: "The Owner of All",
+        description: "The One who controls the Dominion and gives dominion to whoever He willed."
+      }, {
+        number: 85,
+        name: "Dhul-Jalali wal-Ikram",
+        arabic: "ذُو الْجَلالِ وَالإكْرَامِ",
+        translation: "The Lord of Majesty and Bounty",
+        description: "The One who deserves to be Exalted and not denied."
+      }, {
+        number: 86,
+        name: "Al-Muqsit",
+        arabic: "الْمُقْسِطُ",
+        translation: "The Equitable",
+        description: "The One who is Just in His judgment."
+      }, {
+        number: 87,
+        name: "Al-Jaami'",
+        arabic: "الْجَامِعُ",
+        translation: "The Gatherer",
+        description: "The One who gathers the creatures on a day that there is no doubt about."
+      }, {
+        number: 88,
+        name: "Al-Ghaniyy",
+        arabic: "الْغَنِيُّ",
+        translation: "The Self-Sufficient",
+        description: "The One who does not need the creation."
+      }, {
+        number: 89,
+        name: "Al-Mughni",
+        arabic: "الْمُغْنِي",
+        translation: "The Enricher",
+        description: "The One who satisfies the necessities of the creatures."
+      }, {
+        number: 90,
+        name: "Al-Mani'",
+        arabic: "الْمَانِعُ",
+        translation: "The Preventer",
+        description: "The One who prevents whatever He wills."
+      }, {
+        number: 91,
+        name: "Ad-Darr",
+        arabic: "الضَّارُّ",
+        translation: "The Distresser",
+        description: "The One who makes harm reach to whoever He wills."
+      }, {
+        number: 92,
+        name: "An-Nafi'",
+        arabic: "النَّافِعُ",
+        translation: "The Propitious",
+        description: "The One who makes things reach whoever He wills."
+      }, {
+        number: 93,
+        name: "An-Nur",
+        arabic: "النُّورُ",
+        translation: "The Light",
+        description: "The One who guides."
+      }, {
+        number: 94,
+        name: "Al-Hadi",
+        arabic: "الْهَادِي",
+        translation: "The Guide",
+        description: "The One whom with His Guidance His believers were guided."
+      }, {
+        number: 95,
+        name: "Al-Badi'",
+        arabic: "الْبَدِيعُ",
+        translation: "The Incomparable",
+        description: "The One who created the creation and formed it without any preceding example."
+      }, {
+        number: 96,
+        name: "Al-Baqi",
+        arabic: "الْبَاقِي",
+        translation: "The Everlasting",
+        description: "The One that the state of non-existence is impossible for Him."
+      }, {
+        number: 97,
+        name: "Al-Warith",
+        arabic: "الْوَارِثُ",
+        translation: "The Inheritor",
+        description: "The One whose Existence remains."
+      }, {
+        number: 98,
+        name: "Ar-Rasheed",
+        arabic: "الرَّشِيدُ",
+        translation: "The Guide to the Right Path",
+        description: "The One who guides."
+      }, {
+        number: 99,
+        name: "As-Saboor",
+        arabic: "الصَّبُورُ",
+        translation: "The Patient",
+        description: "The One who does not quickly punish the sinners."
+      }],
+      searchQuery: '',
+      activeLetter: '',
+      showArabic: true,
+      showTranslation: true,
+      showDescription: true,
+      favoriteNames: [],
+      alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+      filteredNames: []
+    };
+  },
+  created: function created() {
+    // Initialize filteredNames with all names
+    this.filteredNames = _toConsumableArray(this.names);
+
+    // Load favorites from localStorage if available
+    var savedFavorites = localStorage.getItem('favoriteNames');
+    if (savedFavorites) {
+      this.favoriteNames = JSON.parse(savedFavorites);
+    }
+  },
+  methods: {
+    filterNames: function filterNames() {
+      var _this = this;
+      if (!this.searchQuery && !this.activeLetter) {
+        this.filteredNames = _toConsumableArray(this.names);
+        return;
+      }
+      var query = this.searchQuery.toLowerCase();
+      this.filteredNames = this.names.filter(function (name) {
+        var matchesSearch = !query || name.name.toLowerCase().includes(query) || name.translation.toLowerCase().includes(query) || name.description.toLowerCase().includes(query);
+        var matchesLetter = !_this.activeLetter || name.name.startsWith(_this.activeLetter);
+        return matchesSearch && matchesLetter;
+      });
+    },
+    filterByLetter: function filterByLetter(letter) {
+      this.activeLetter = this.activeLetter === letter ? '' : letter;
+      this.filterNames();
+    },
+    resetFilters: function resetFilters() {
+      this.searchQuery = '';
+      this.activeLetter = '';
+      this.filteredNames = _toConsumableArray(this.names);
+    },
+    toggleFavorite: function toggleFavorite(number) {
+      var index = this.favoriteNames.indexOf(number);
+      if (index === -1) {
+        this.favoriteNames.push(number);
+      } else {
+        this.favoriteNames.splice(index, 1);
+      }
+
+      // Save to localStorage
+      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    },
+    isFavorited: function isFavorited(number) {
+      return this.favoriteNames.includes(number);
+    },
+    scrollToTop: function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=script&lang=js":
 /*!**********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=script&lang=js ***!
@@ -51421,6 +52105,204 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+var _hoisted_1 = {
+  "class": "names-container container py-5"
+};
+var _hoisted_2 = {
+  "class": "row text-center"
+};
+var _hoisted_3 = {
+  "class": "container col-12 col-lg-6 mb-3"
+};
+var _hoisted_4 = {
+  "class": "d-flex gap-4 justify-content-center"
+};
+var _hoisted_5 = {
+  "class": "form-check form-switch fs-5"
+};
+var _hoisted_6 = {
+  "class": "form-check form-switch fs-5"
+};
+var _hoisted_7 = {
+  "class": "form-check form-switch fs-5"
+};
+var _hoisted_8 = {
+  "class": "col-12 col-lg-6 mb-3"
+};
+var _hoisted_9 = {
+  "class": "input-group input-group-lg",
+  style: {
+    "border-radius": "25px"
+  }
+};
+var _hoisted_10 = {
+  "class": "row g-4"
+};
+var _hoisted_11 = {
+  "class": "card h-100 shadow-md",
+  style: {
+    "border-radius": "20px",
+    "border": "2px solid lightgray"
+  }
+};
+var _hoisted_12 = {
+  "class": "card-body"
+};
+var _hoisted_13 = {
+  "class": "d-flex justify-content-between align-items-start"
+};
+var _hoisted_14 = {
+  "class": "badge bg-secondary fs-6"
+};
+var _hoisted_15 = {
+  "class": "mt-3 mb-2",
+  style: {
+    "font-size": "1.8rem",
+    "color": "rgb(13, 182, 145)"
+  }
+};
+var _hoisted_16 = {
+  key: 0,
+  "class": "display-5 text-end",
+  dir: "rtl"
+};
+var _hoisted_17 = {
+  "class": "medium text-muted",
+  style: {
+    "font-size": "2.4rem"
+  }
+};
+var _hoisted_18 = {
+  key: 1,
+  "class": "mt-3"
+};
+var _hoisted_19 = {
+  "class": "small text-muted",
+  style: {
+    "font-size": "1.2rem"
+  }
+};
+var _hoisted_20 = {
+  key: 2,
+  "class": "mt-2"
+};
+var _hoisted_21 = {
+  "class": "small text-muted",
+  style: {
+    "font-size": "1.2rem"
+  }
+};
+var _hoisted_22 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "display-5 fw-bold text-dark"
+  }, "99 Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead"
+  }, " The 99 Names of Allah, also known as Asma’ul Husna (أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ), represent the beautiful attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of Allah’s nature and actions. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle switches (left column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    id: "arabicToggle",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.showArabic = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-check-label",
+    "for": "arabicToggle"
+  }, "Arabic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    id: "translationToggle",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.showTranslation = $event;
+    }),
+    checked: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-check-label",
+    "for": "translationToggle"
+  }, "Translation", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    id: "descToggle",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $data.showDescription = $event;
+    }),
+    checked: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-check-label",
+    "for": "descToggle"
+  }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "input-group-text bg-white border-end-0"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control border-start-0",
+    placeholder: "Search names...",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    onInput: _cache[4] || (_cache[4] = function () {
+      return $options.filterNames && $options.filterNames.apply($options, arguments);
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: name.number,
+      "class": "col-12 col-md-6 col-lg-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      style: {
+        "font-size": "1.4rem"
+      }
+    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      style: {
+        "font-size": "1.4rem"
+      }
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "text-muted"
+  }, "No names found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.resetFilters && $options.resetFilters.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-dark mt-3"
+  }, "Reset Filters")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
+    }),
+    "class": "btn position-fixed rounded-circle shadow d-flex align-items-center justify-content-center",
+    style: {
+      "bottom": "1.5rem",
+      "right": "1.5rem",
+      "width": "3.5rem",
+      "height": "3.5rem",
+      "background": "rgb(13, 182, 145)",
+      "color": "white"
+    },
+    title: "Back to Top"
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-double-up fs-5"
+  }, null, -1 /* HOISTED */)]))])]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true":
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true ***!
@@ -59498,7 +60380,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-selected": $data.currentTab === 'hajj',
     "aria-controls": "hajj-tab",
     role: "tab"
-  }, " Hajj ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Hajj Guides ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 text-decoration-none", {
       active: $data.currentTab === 'umrah'
     }]),
@@ -59508,7 +60390,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-selected": $data.currentTab === 'umrah',
     "aria-controls": "umrah-tab",
     role: "tab"
-  }, " Umrah ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, " Umrah Guides ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $options.currentContent.image,
     alt: $options.currentContent.alt,
     style: {
@@ -157603,6 +158485,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.img-fluid[data-v-300b761a] {\n  wid
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-fe318174] {\n  scroll-behavior: smooth;\n}\n\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-fe318174]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-fe318174] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-fe318174] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-fe318174] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-fe318174],\nh2[data-v-fe318174],\nh3[data-v-fe318174],\nh4[data-v-fe318174],\nh5[data-v-fe318174],\nh6[data-v-fe318174] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-fe318174] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-fe318174] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-fe318174] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-fe318174]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-fe318174] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-fe318174] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-fe318174] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-fe318174] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-fe318174] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-fe318174] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-fe318174] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-fe318174] {\n    font-size: 2.5rem;\n}\n}\n\n/* Animation for cards */\n@keyframes fadeIn-fe318174 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-fe318174] {\n  animation: fadeIn-fe318174 0.5s ease forwards;\n  opacity: 0;\n}\n\n/* Delay animations for each card */\n.name-card[data-v-fe318174]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-fe318174]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-fe318174]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n\n/* ... and so on for all cards ... */\n\n/* Larger font sizes */\n.card-title[data-v-fe318174] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-fe318174] {\n  font-size: 3rem;\n}\n.translation[data-v-fe318174],\n.description[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n.badge[data-v-fe318174] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 10px;\n}\n.form-check[data-v-fe318174] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 12px;\n}\n.form-check[data-v-fe318174] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
@@ -224816,6 +225722,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_style_index_0_id_300b761a_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_style_index_0_id_fe318174_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_style_index_0_id_fe318174_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_style_index_0_id_fe318174_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -305694,19 +306630,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./components/ShopComponent.vue */ "./resources/js/components/ShopComponent.vue");
 /* harmony import */ var _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! ./components/TasbeehComponent.vue */ "./resources/js/components/TasbeehComponent.vue");
 /* harmony import */ var _components_UmrahComponent_vue__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! ./components/UmrahComponent.vue */ "./resources/js/components/UmrahComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
-/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
-/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
+/* harmony import */ var _components_AthanComponent_vue__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! ./components/AthanComponent.vue */ "./resources/js/components/AthanComponent.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
+/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_77__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -305831,7 +306769,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_74__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -305858,11 +306796,11 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_72__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_70__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_70__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_73__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_71__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_71__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_72__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
@@ -305879,9 +306817,10 @@ app.component('date-component', _components_DateComponent_vue__WEBPACK_IMPORTED_
 app.component('hadith-component', _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component('shop-component', _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_66__["default"]);
 app.component('tasbeeh-component', _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_67__["default"]);
-app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
-app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_76__["default"]);
+app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_76__["default"]);
+app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_77__["default"]);
 app.component('umrah-component', _components_UmrahComponent_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
+app.component('athan-component', _components_AthanComponent_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -306221,6 +307160,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AiComponent_vue_vue_type_template_id_300b761a_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AiComponent.vue?vue&type=template&id=300b761a&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AiComponent.vue?vue&type=template&id=300b761a&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/AthanComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/AthanComponent.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AthanComponent_vue_vue_type_template_id_fe318174_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AthanComponent.vue?vue&type=template&id=fe318174&scoped=true */ "./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true");
+/* harmony import */ var _AthanComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AthanComponent.vue?vue&type=script&lang=js */ "./resources/js/components/AthanComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _AthanComponent_vue_vue_type_style_index_0_id_fe318174_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css */ "./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AthanComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AthanComponent_vue_vue_type_template_id_fe318174_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-fe318174"],['__file',"resources/js/components/AthanComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/AthanComponent.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/AthanComponent.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthanComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_style_index_0_id_fe318174_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=style&index=0&id=fe318174&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_template_id_fe318174_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthanComponent_vue_vue_type_template_id_fe318174_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthanComponent.vue?vue&type=template&id=fe318174&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthanComponent.vue?vue&type=template&id=fe318174&scoped=true");
 
 
 /***/ }),

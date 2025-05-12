@@ -10,13 +10,13 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'hajj' }"
             @click="switchTab('hajj')" :aria-selected="currentTab === 'hajj'" aria-controls="hajj-tab" role="tab">
-            Hajj
+            Hajj Guides
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'umrah' }"
             @click="switchTab('umrah')" :aria-selected="currentTab === 'umrah'" aria-controls="umrah-tab" role="tab">
-            Umrah
+            Umrah Guides
           </button>
         </li>
       </ul>

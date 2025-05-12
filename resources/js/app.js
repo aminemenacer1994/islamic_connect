@@ -74,6 +74,7 @@ import HadithComponent from "./components/HadithComponent.vue";
 import ShopComponent from "./components/ShopComponent.vue";
 import TasbeehComponent from "./components/TasbeehComponent.vue";
 import UmrahComponent from "./components/UmrahComponent.vue";
+import AthanComponent from "./components/AthanComponent.vue";
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
 import Donation from "./components/intro/Donation.vue";
@@ -196,6 +197,7 @@ app.component('tasbeeh-component', TasbeehComponent);
 app.component('athkar-component', AthkarComponenet);
 app.component('finance-component', FinanceComponent);
 app.component('umrah-component', UmrahComponent);
+app.component('athan-component', AthanComponent);
 
 
 app.mount("#app");

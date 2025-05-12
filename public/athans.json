@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "name": "Makkah",
+    "audio": "https://download.quranicaudio.com/adhan/makkah.mp3",
+    "style": "Classic"
+  },
+  {
+    "id": 2,
+    "name": "Madina",
+    "audio": "https://download.quranicaudio.com/adhan/madina.mp3",
+    "style": "Classic"
+  },
+  {
+    "id": 3,
+    "name": "Egypt",
+    "audio": "https://download.quranicaudio.com/adhan/egypt.mp3",
+    "style": "Melodic"
+  },
+  {
+    "id": 4,
+    "name": "Turkey",
+    "audio": "https://download.quranicaudio.com/adhan/turkey.mp3",
+    "style": "Melodic"
+  },
+  {
+    "id": 5,
+    "name": "Indonesia",
+    "audio": "https://download.quranicaudio.com/adhan/indonesia.mp3",
+    "style": "Soft"
+  },
+  {
+    "id": 6,
+    "name": "India",
+    "audio": "https://download.quranicaudio.com/adhan/india.mp3",
+    "style": "Soft"
+  },
+  {
+    "id": 7,
+    "name": "Morocco",
+    "audio": "https://download.quranicaudio.com/adhan/morocco.mp3",
+    "style": "Melodic"
+  },
+  {
+    "id": 8,
+    "name": "Pakistan",
+    "audio": "https://download.quranicaudio.com/adhan/pakistan.mp3",
+    "style": "Classic"
+  },
+  {
+    "id": 9,
+    "name": "Malaysia",
+    "audio": "https://download.quranicaudio.com/adhan/malaysia.mp3",
+    "style": "Soft"
+  },
+  {
+    "id": 10,
+    "name": "Bosnia",
+    "audio": "https://download.quranicaudio.com/adhan/bosnia.mp3",
+    "style": "Melodic"
+  },
+  {
+    "id": 11,
+    "name": "Qatar",
+    "audio": "https://download.quranicaudio.com/adhan/qatar.mp3",
+    "style": "Classic"
+  },
+  {
+    "id": 12,
+    "name": "UAE",
+    "audio": "https://download.quranicaudio.com/adhan/uae.mp3",
+    "style": "Soft"
+  },
+  {
+    "id": 13,
+    "name": "Jordan",
+    "audio": "https://download.quranicaudio.com/adhan/jordan.mp3",
+    "style": "Melodic"
+  },
+  {
+    "id": 14,
+    "name": "Yemen",
+    "audio": "https://download.quranicaudio.com/adhan/yemen.mp3",
+    "style": "Classic"
+  },
+  {
+    "id": 15,
+    "name": "Sudan",
+    "audio": "https://download.quranicaudio.com/adhan/sudan.mp3",
+    "style": "Melodic"
+  }
+]
