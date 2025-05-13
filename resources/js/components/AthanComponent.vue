@@ -5,7 +5,7 @@
     <div class="text-center mb-5">
       <h2 class="display-5 fw-bold text-dark">99 Names of Allah</h2>
       <p class="lead">
-        The 99 Names of Allah, also known as Asma’ul Husna (أَسْمَاءُ ٱللَّٰهِ ٱلْحُسْنَىٰ), represent the beautiful
+        The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful
         attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of
         Allah’s nature and actions.
       </p>
@@ -13,9 +13,6 @@
 
     <!-- Search & Filters -->
     <div>
-
-
-
 
       <div class="row text-center">
         <!-- Toggle switches (left column) -->

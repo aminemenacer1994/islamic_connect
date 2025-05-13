@@ -1,23 +1,23 @@
 <template>
   <div>
-    <div class="text-center py-3">
-      <h1 class="display-4 fw-bold mb-3">Zakat Calculator</h1>
-      <p class="lead text-muted mx-auto" style="max-width: 700px;">
+    <div class="text-center py-4">
+      <h1 class="display-4 fw-bold mb-4">Zakat Calculator</h1>
+      <p class="lead text-muted mx-auto">
         Calculate your annual Zakat obligation with our simple, accurate tool. Determine if you meet the Nisab threshold
         and how much Zakat (2.5%) you owe on your assets.
       </p>
     </div>
 
-    <div class="container-fluid px-0 px-md-3">
+    <div class="container-fluid">
       <div class="row g-4">
         <!-- Main Calculator Form -->
-        <div class="col-lg-8" >
-          <div class="calculator-card card shadow-sm " style="border: 2px solid lightgray; border-radius: 20px;">
+        <div class="col-lg-8">
+          <div class="calculator-card card shadow-md " style="border: 2px solid lightgray; border-radius: 20px;">
             <div class="card-body p-4">
               <!-- Currency and Nisab Selection -->
               <div class="row g-3 mb-4">
                 <div class="col-md-6">
-                  <label for="currency" class="form-label fw-semibold">Currency</label>
+                  <label for="currency" class="form-label fw-semibold"><b>Currency</b></label>
                   <select id="currency" class="form-select" v-model="selectedCurrency">
                     <option v-for="(symbol, currency) in currencySymbols" :key="currency" :value="currency">
                       {{ currency }} ({{ symbol }})
@@ -25,7 +25,7 @@
                   </select>
                 </div>
                 <div class="col-md-6">
-                  <label for="nisab" class="form-label fw-semibold">Nisab Standard</label>
+                  <label for="nisab" class="form-label fw-semibold"><b>Nisab Standard</b></label>
                   <select id="nisab" class="form-select" v-model="nisabType">
                     <option value="gold">Gold (85g)</option>
                     <option value="silver">Silver (595g)</option>
@@ -124,7 +124,8 @@
 
               <!-- Action Buttons -->
               <div class="d-flex flex-column flex-md-row gap-3">
-                <button class="btn flex-fill" style="background: rgb(13, 182, 145); color: #fff;" @click="calculateZakat">
+                <button class="btn flex-fill" style="background: rgb(13, 182, 145); color: #fff;"
+                  @click="calculateZakat">
                   <i class="bi bi-calculator me-2"></i><strong>Calculate Zakat</strong>
                 </button>
                 <button class="btn btn-outline-secondary flex-fill" @click="resetCalculator">
@@ -135,17 +136,15 @@
           </div>
         </div>
         <!-- Results Panel -->
-        <div class="col-lg-4" >
-          <div class="results-card card shadow-sm sticky-top container" style="border: 2px solid lightgray; border-radius: 20px; ">
-            <div class="card-body p-4">
-              <h3 class="card-title text-center mb-4" >
-                <i class="bi bi-file-text me-2"></i>Zakat Summary
-              </h3>
-
+        <div class="col-lg-4">
+          <div class="results-card card shadow-md sticky-top container" style="border: 2px solid lightgray; border-radius: 20px; ">
+              <h3 style="font-weight: bold;" class="pt-3 pl-3">Zakat Summary</h3>
+            <div class="card-body">
+              
               <!-- Summary Items -->
               <div class="summary-item">
-                <div class="d-flex justify-content-between mb-2"><br /><br />
-                  <span class="text-muted">Total Assets</span>
+                <div class="d-flex justify-content-between mb-2">
+                  <span class="text-muted">Total Assets: </span>
                   <strong class="text-success">{{ currencySymbol }}{{ totalAssets.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -153,10 +152,12 @@
                 </div>
               </div>
 
+          
+
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Liabilities</span>
-                  <strong class="text-danger">-{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
+                  <span class="text-muted">Liabilities: </span>
+                  <strong class="text-danger">{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
                   <div class="progress-bar bg-danger" role="progressbar" :style="{ width: '100%' }"></div>
@@ -165,7 +166,7 @@
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Zakatable Amount</span>
+                  <span class="text-muted">Zakatable Amount: </span>
                   <strong class="text-primary">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -176,19 +177,19 @@
               <div class="summary-item bg-light p-3 rounded mb-3">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <h6 class="mb-1">Zakat Due (2.5%)</h6>
-                    <small class="text-muted">Your annual obligation</small>
+                    <b class="mb-1">Zakat Due (2.5%)</b><br />
+                    <small class="text-muted">Your annual obligation</small>                  
+                    <h4 class="text-success mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString() }}</h4>
                   </div>
-                  <h4 class="text-success mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString() }}</h4>
                 </div>
               </div>
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Nisab Threshold</span>
+                  <span class="text-muted">Nisab Threshold: </span>
                   <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
                 </div>
-                <small class="text-muted d-block mb-3">{{ nisabTypeLabel }}</small>
+                <!-- <small class="text-muted d-block mb-3">{{ nisabTypeLabel }}</small> -->
               </div>
 
               <div class="eligibility-badge text-center p-3 rounded mt-4"
@@ -225,7 +226,7 @@ export default {
   data() {
     return {
       goldGrams: 0,
-      goldPrice: 80,
+      goldPrice: 0,
       silverGrams: 0,
       silverPrice: 1,
       cash: 0,
@@ -284,23 +285,77 @@ export default {
     },
     printSummary() {
       const content = document.querySelector(".results-card").innerHTML;
-      const printWindow = window.open("", "", "width=800,height=700");
+      const printWindow = window.open("", "", "");
+
       printWindow.document.write(`
-        <html>
-          <head>
-            <title>Zakat Summary</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-            <style>
-              body { padding: 20px; font-family: Arial, sans-serif; }
-              .results-card { box-shadow: none !important; }
-            </style>
-          </head>
-          <body>
-            <div class="results-card">${content}</div>
-          </body>
-        </html>
-      `);
+    <html>
+      <head>
+        <title>Zakat Summary</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+        <style>
+          body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+          }
+          .results-card {
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+          }
+          .results-card h1, .results-card h2, .results-card h3, .results-card h4 {
+            margin-bottom: 10px;
+            font-weight: 600;
+          }
+          .results-card p, .results-card .content-row {
+            margin-bottom: 15px;
+          }
+          .content-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+          }
+          .label {
+            font-weight: 500;
+            color: #555;
+          }
+          .value {
+            text-align: right;
+            color: #000;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+          table th, table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+          }
+          @media print {
+            body {
+              padding: 0;
+              background: white;
+            }
+            .results-card {
+              border: none;
+              box-shadow: none !important;
+              background-color: white;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="results-card">${content}</div>
+      </body>
+    </html>
+  `);
+
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
@@ -308,7 +363,7 @@ export default {
     },
     resetCalculator() {
       this.goldGrams = 0;
-      this.goldPrice = 80;
+      this.goldPrice = 0;
       this.silverGrams = 0;
       this.silverPrice = 1;
       this.cash = 0;

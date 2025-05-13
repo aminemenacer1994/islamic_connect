@@ -120,15 +120,15 @@
                           @click="openGoogleMaps(shop.lat, shop.lon)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
                           <span class="text-center w-100">
-                            <i class="bi bi-geo-alt me-1"></i><b>Get Direction</b>
+                            <b>Get Direction</b>
                           </span>
                         </button>
 
                         <!-- Call Button -->
                         <button v-if="shop.phone"
                           class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)" style="background: #2c5fa8; color: white; height: 38px">
-                          <i class="bi bi-telephone me-1"></i><b>Call</b>
+                          @click="callShop(shop.phone)" style="background: #00bfa6; color: white; height: 38px">
+                          <b>Call</b>
                         </button>
                         
                       </div>
