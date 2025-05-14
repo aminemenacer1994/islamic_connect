@@ -36955,8 +36955,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // TODO: Implement RSS parsing logic
     console.log("Processing RSS Feed...");
   }), "selectPodcast", function selectPodcast(podcast) {
+    var _this6 = this;
     this.selectedPodcast = podcast;
     this.fetchPodcasts();
+    this.$nextTick(function () {
+      var section = _this6.$refs.podcastDetailSection;
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
   }), "onSearch", function onSearch() {
     this.currentPage = 1;
     var query = this.searchQuery.toLowerCase();
@@ -36997,10 +37006,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.paginatedPodcasts = this.podcasts.slice(start, end);
   }))
 }, "mounted", function mounted() {
-  var _this6 = this;
+  var _this7 = this;
   this.fetchPodcasts().then(function () {
-    _this6.applyFilters(); // Apply filters once podcasts are loaded
-    _this6.fetchEpisodeCounts();
+    _this7.applyFilters(); // Apply filters once podcasts are loaded
+    _this7.fetchEpisodeCounts();
   });
 }), "watch", {
   currentlyPlaying: function currentlyPlaying(newValue) {
@@ -53614,7 +53623,8 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = {
   key: 0,
-  "class": "pt-3"
+  "class": "pt-3",
+  ref: "podcastDetailSection"
 };
 var _hoisted_8 = {
   "class": "fw-bold display-5"
@@ -53699,7 +53709,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Select a Podcast:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: podcast.rssUrl,
-      "class": "col-12 col-sm-2 col-md-2 mb-4 text-center",
+      "class": "col-6 col-md-2 mb-4 text-center",
       onClick: function onClick($event) {
         return $options.selectPodcast(podcast);
       },
@@ -53729,7 +53739,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     alt: $data.selectedPodcast.name
   }, null, 8 /* PROPS */, _hoisted_9), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-flex justify-content-between align-items-start"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, " Amount of Episodes: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available'), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [$data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, " Amount of Episodes: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available'), 1 /* TEXT */)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [$data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "for": "sortPodcasts",
     "class": "form-label fw-bold"
   }, "Views:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {

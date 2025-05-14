@@ -11,7 +11,7 @@
       <h2 class="fw-bold text-left pt-2 pb-4">Select a Podcast:</h2>
 
       <div class="row">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="col-12 col-sm-2 col-md-2 mb-4 text-center"
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="col-6 col-md-2 mb-4 text-center"
           @click="selectPodcast(podcast)" style="cursor: pointer;">
           <img :src="podcast.image" alt="Podcast Logo" class="img-fluid"
             style="height: 180px; width: 100%; object-fit: cover; border-radius: 18px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
@@ -20,12 +20,14 @@
           </h5>
         </div>
       </div>
+
+
     </div>
 
 
 
 
-    <div class="pt-3" v-if="selectedPodcast">
+    <div class="pt-3" v-if="selectedPodcast" ref="podcastDetailSection">
       <hr class="container" />
       <p class="fw-bold display-5 ">{{ selectedPodcast.name }}</p>
       <img style=" border-radius: 15px;" class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
@@ -714,7 +716,15 @@ export default {
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
       this.fetchPodcasts();
+      this.$nextTick(() => {
+        const section = this.$refs.podcastDetailSection;
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     },
+
+
 
     onSearch() {
       this.currentPage = 1;
