@@ -11,8 +11,8 @@
       <!-- Bootstrap Grid Row -->
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
         <div class="col" v-for="(channel, index) in filteredChannels" :key="index">
-          <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden" @click="playChannel(channel)"
-            style="cursor: pointer; border: 2px solid gray; background-color: #fff;">
+          <div class="card h-100 shadow-lg rounded-4 overflow-hidden" @click="playChannel(channel)"
+            style="cursor: pointer; border: 1px solid gray; background-color: #fff;">
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
               style="object-fit: contain; height: 250px;">
             <div class="card-body p-4 text-center">

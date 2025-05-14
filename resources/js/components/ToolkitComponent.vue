@@ -17,7 +17,7 @@
           style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
 
           <div class="col-md-6 col-lg-4">
-            <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+            <div class="card custom-card  rounded-4 overflow-hidden" style="border: 1px solid grey; ">
               <img src="/images/qf1.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
               <div class="p-3">
                 <h5 class="mb-2 fw-bold display-6 text-dark text-center">Qibla finder</h5>
@@ -332,7 +332,7 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 2px solid grey;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
           <img src="/images/donate111.png" alt="Donation" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>

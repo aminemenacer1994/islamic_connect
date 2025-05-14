@@ -36943,17 +36943,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // TODO: Implement RSS parsing logic
     console.log("Processing RSS Feed...");
   }), "selectPodcast", function selectPodcast(podcast) {
-    var _this6 = this;
     this.selectedPodcast = podcast;
     this.fetchPodcasts();
-    this.$nextTick(function () {
-      var section = _this6.$refs.podcastDetailSection;
-      if (section) {
-        section.scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    });
   }), "onSearch", function onSearch() {
     this.currentPage = 1;
     var query = this.searchQuery.toLowerCase();
@@ -36994,10 +36985,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.paginatedPodcasts = this.podcasts.slice(start, end);
   }))
 }, "mounted", function mounted() {
-  var _this7 = this;
+  var _this6 = this;
   this.fetchPodcasts().then(function () {
-    _this7.applyFilters(); // Apply filters once podcasts are loaded
-    _this7.fetchEpisodeCounts();
+    _this6.applyFilters(); // Apply filters once podcasts are loaded
+    _this6.fetchEpisodeCounts();
   });
 }), "watch", {
   currentlyPlaying: function currentlyPlaying(newValue) {
@@ -51913,7 +51904,8 @@ var _hoisted_9 = {
 var _hoisted_10 = {
   "class": "card d-flex flex-column shadow-md p-1 w-100 h-100",
   style: {
-    "transition": "box-shadow 0.3s"
+    "transition": "box-shadow 0.3s",
+    "border": "2px solid lightgray"
   }
 };
 var _hoisted_11 = ["src", "alt", "onClick"];
@@ -57712,13 +57704,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "col",
       key: index
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "card h-100 shadow-sm border-0 rounded-4 overflow-hidden",
+      "class": "card h-100 shadow-lg rounded-4 overflow-hidden",
       onClick: function onClick($event) {
         return $options.playChannel(channel);
       },
       style: {
         "cursor": "pointer",
-        "border": "2px solid gray",
+        "border": "1px solid gray",
         "background-color": "#fff"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -58666,7 +58658,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    "class": "card custom-card rounded-4 overflow-hidden",
     style: {
       "border": "1px solid grey"
     }
@@ -59300,7 +59292,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
     style: {
-      "border": "1px solid grey"
+      "border": "2px solid grey",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/donate111.png",
@@ -60319,7 +60312,10 @@ var _hoisted_9 = {
   "class": "row g-3"
 };
 var _hoisted_10 = {
-  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm"
+  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video",
+  style: {
+    "border": "2px solid lightgray"
+  }
 };
 var _hoisted_11 = ["src", "poster", "onLoadedmetadata"];
 var _hoisted_12 = {

@@ -46,7 +46,7 @@
     <div class="row g-3" v-if="!loading">
       <div v-for="(image, index) in paginatedImages" :key="image.id || index"
         class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
-        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s;">
+        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s; border: 2px solid lightgray;">
           <!-- Image -->
           <img :src="image.src.large" :alt="image.alt" class="img-fluid" loading="lazy"
             style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"

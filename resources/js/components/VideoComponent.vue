@@ -40,7 +40,7 @@
     <!-- Video Grid -->
     <div class="row g-3" v-if="!loading && videos.length">
       <div v-for="video in videos" :key="video.id" class="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
-        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video shadow-sm">
+        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100 card-video" style="border: 2px solid lightgray;">
           <div class="ratio ratio-16x9 video-container"
             style="height: 500px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
             @mouseenter="playOnHover($event)" @mouseleave="pauseOnLeave($event)">
