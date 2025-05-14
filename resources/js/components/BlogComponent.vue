@@ -12,7 +12,7 @@
       <div class="row g-4">
         <!-- Main Calculator Form -->
         <div class="col-lg-8">
-          <div class="calculator-card card shadow-md " style="border: 2px solid lightgray; border-radius: 20px;">
+          <div class="calculator-card card shadow-md" style="border: 2px solid lightgray; border-radius: 20px;">
             <div class="card-body p-4">
               <!-- Currency and Nisab Selection -->
               <div class="row g-3 mb-4">
@@ -38,7 +38,6 @@
                 <i class="bi bi-coin me-2"></i>Your Assets
               </h5>
 
-              <!-- Gold Input -->
               <div class="row mb-3 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-warning me-2"></i>Gold
@@ -54,7 +53,6 @@
                 </div>
               </div>
 
-              <!-- Silver Input -->
               <div class="row mb-3 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-secondary me-2"></i>Silver
@@ -70,7 +68,6 @@
                 </div>
               </div>
 
-              <!-- Cash Input -->
               <div class="row mb-3 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-cash-coin text-success me-2"></i>Cash
@@ -83,7 +80,6 @@
                 </div>
               </div>
 
-              <!-- Investments Input -->
               <div class="row mb-3 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-graph-up text-info me-2"></i>Investments
@@ -96,7 +92,6 @@
                 </div>
               </div>
 
-              <!-- Business Assets Input -->
               <div class="row mb-3 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-briefcase text-primary me-2"></i>Business Assets
@@ -109,7 +104,6 @@
                 </div>
               </div>
 
-              <!-- Liabilities Input -->
               <div class="row mb-4 align-items-center">
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-credit-card text-danger me-2"></i>Liabilities
@@ -122,7 +116,6 @@
                 </div>
               </div>
 
-              <!-- Action Buttons -->
               <div class="d-flex flex-column flex-md-row gap-3">
                 <button class="btn flex-fill" style="background: rgb(13, 182, 145); color: #fff;"
                   @click="calculateZakat">
@@ -135,17 +128,16 @@
             </div>
           </div>
         </div>
+
         <!-- Results Panel -->
         <div class="col-lg-4">
           <div class="results-card card shadow-md sticky-top container"
-            style="border: 2px solid lightgray; border-radius: 20px; ">
+            style="border: 2px solid lightgray; border-radius: 20px;">
             <h3 style="font-weight: bold;" class="pt-3 pl-3">Zakat Summary</h3>
             <div class="card-body">
-
-              <!-- Summary Items -->
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Total Assets: </span>
+                  <span class="text-muted">Total Assets:</span>
                   <strong class="text-success">{{ currencySymbol }}{{ totalAssets.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -153,11 +145,9 @@
                 </div>
               </div>
 
-
-
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Liabilities: </span>
+                  <span class="text-muted">Liabilities:</span>
                   <strong class="text-danger">{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -167,7 +157,7 @@
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Zakatable Amount: </span>
+                  <span class="text-muted">Zakatable Amount:</span>
                   <strong class="text-primary">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -187,10 +177,9 @@
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Nisab Threshold: </span>
+                  <span class="text-muted">Nisab Threshold:</span>
                   <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
                 </div>
-                <!-- <small class="text-muted d-block mb-3">{{ nisabTypeLabel }}</small> -->
               </div>
 
               <div class="eligibility-badge text-center p-3 rounded mt-4"
@@ -199,12 +188,8 @@
                   <i :class="isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'" class="me-2"></i>
                   {{ isEligible ? 'Zakat is Obligatory' : 'Below Nisab' }}
                 </h5>
-                <p class="small mb-0" v-if="isEligible">
-                  Your assets meet the Nisab threshold
-                </p>
-                <p class="small mb-0" v-else>
-                  Your assets don't meet the Nisab threshold
-                </p>
+                <p class="small mb-0" v-if="isEligible">Your assets meet the Nisab threshold</p>
+                <p class="small mb-0" v-else>Your assets don't meet the Nisab threshold</p>
               </div>
 
               <button class="btn w-100 mt-4" style="background: rgb(13, 182, 145); color: #fff;" @click="printSummary">
@@ -380,28 +365,7 @@ export default {
       this.nisabType = "gold";
       localStorage.removeItem("zakatData");
     },
-    saveToLocalStorage() {
-      const data = {
-        goldGrams: this.goldGrams,
-        goldPrice: this.goldPrice,
-        silverGrams: this.silverGrams,
-        silverPrice: this.silverPrice,
-        cash: this.cash,
-        investments: this.investments,
-        businessAssets: this.businessAssets,
-        liabilities: this.liabilities,
-        selectedCurrency: this.selectedCurrency,
-        nisabType: this.nisabType,
-      };
-      localStorage.setItem("zakatData", JSON.stringify(data));
-    },
-    loadFromLocalStorage() {
-      const data = localStorage.getItem("zakatData");
-      if (data) {
-        const parsed = JSON.parse(data);
-        Object.assign(this, parsed);
-      }
-    },
+    
   },
   watch: {
     goldGrams: "saveToLocalStorage",
@@ -416,7 +380,6 @@ export default {
     nisabType: "saveToLocalStorage",
   },
   mounted() {
-    this.loadFromLocalStorage();
   },
 };
 </script>

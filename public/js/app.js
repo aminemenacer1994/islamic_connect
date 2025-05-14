@@ -35423,6 +35423,18 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   },
   methods: {
+    copyToClipboard: function copyToClipboard(name) {
+      var text = "Name: ".concat(name.name, "\nArabic: ").concat(name.arabic, "\nMeaning: ").concat(name.translation, "\nDescription: ").concat(name.description);
+      navigator.clipboard.writeText(text).then(function () {
+        return alert('Copied to clipboard!');
+      })["catch"](function (err) {
+        return alert('Failed to copy text: ' + err);
+      });
+    },
+    generateWhatsAppLink: function generateWhatsAppLink(name) {
+      var text = "*".concat(name.name, "*\n\n\uD83D\uDD4B Arabic: ").concat(name.arabic, "\n\uD83D\uDCDD Meaning: ").concat(name.translation, "\n\uD83D\uDCD6 Description: ").concat(name.description);
+      return "https://web.whatsapp.com/send?text=".concat(encodeURIComponent(text));
+    },
     filterNames: function filterNames() {
       var _this = this;
       if (!this.searchQuery && !this.activeLetter) {
@@ -35892,28 +35904,6 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedCurrency = "GBP";
       this.nisabType = "gold";
       localStorage.removeItem("zakatData");
-    },
-    saveToLocalStorage: function saveToLocalStorage() {
-      var data = {
-        goldGrams: this.goldGrams,
-        goldPrice: this.goldPrice,
-        silverGrams: this.silverGrams,
-        silverPrice: this.silverPrice,
-        cash: this.cash,
-        investments: this.investments,
-        businessAssets: this.businessAssets,
-        liabilities: this.liabilities,
-        selectedCurrency: this.selectedCurrency,
-        nisabType: this.nisabType
-      };
-      localStorage.setItem("zakatData", JSON.stringify(data));
-    },
-    loadFromLocalStorage: function loadFromLocalStorage() {
-      var data = localStorage.getItem("zakatData");
-      if (data) {
-        var parsed = JSON.parse(data);
-        Object.assign(this, parsed);
-      }
     }
   },
   watch: {
@@ -35928,9 +35918,7 @@ __webpack_require__.r(__webpack_exports__);
     selectedCurrency: "saveToLocalStorage",
     nisabType: "saveToLocalStorage"
   },
-  mounted: function mounted() {
-    this.loadFromLocalStorage();
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -52129,6 +52117,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
   "class": "names-container container py-5"
@@ -52140,16 +52134,16 @@ var _hoisted_3 = {
   "class": "container col-12 col-lg-6 mb-3"
 };
 var _hoisted_4 = {
-  "class": "d-flex gap-4 justify-content-center"
+  "class": "d-flex gap-4 justify-content-center p-3 rounded"
 };
 var _hoisted_5 = {
-  "class": "form-check form-switch fs-5"
+  "class": "form-check form-switch fs-5 text-white"
 };
 var _hoisted_6 = {
-  "class": "form-check form-switch fs-5"
+  "class": "form-check form-switch fs-5 text-white"
 };
 var _hoisted_7 = {
-  "class": "form-check form-switch fs-5"
+  "class": "form-check form-switch fs-5 text-white"
 };
 var _hoisted_8 = {
   "class": "col-12 col-lg-6 mb-3"
@@ -52218,28 +52212,33 @@ var _hoisted_21 = {
   }
 };
 var _hoisted_22 = {
+  "class": "d-flex sticky-bottom justify-content-between align-items-center gap-2"
+};
+var _hoisted_23 = ["onClick"];
+var _hoisted_24 = ["href"];
+var _hoisted_25 = {
   key: 0,
   "class": "text-center py-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-dark"
   }, "99 Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead"
   }, " The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of Allah’s nature and actions. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle switches (left column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
+    "class": "form-check-input custom-success",
     type: "checkbox",
     id: "arabicToggle",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.showArabic = $event;
     })
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
+    "class": "form-check-label text-dark",
     "for": "arabicToggle"
   }, "Arabic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
+    "class": "form-check-input custom-success",
     type: "checkbox",
     id: "translationToggle",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
@@ -52247,10 +52246,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     checked: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
+    "class": "form-check-label text-dark",
     "for": "translationToggle"
-  }, "Translation", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
+  }, "Meaning", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input custom-success",
     type: "checkbox",
     id: "descToggle",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
@@ -52258,7 +52257,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     checked: ""
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
+    "class": "form-check-label text-dark",
     "for": "descToggle"
   }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
@@ -52286,8 +52285,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.4rem"
       }
-    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mt-3 d-flex justify-content-end gap-2\">\n                <button class=\"btn btn-outline-secondary btn-sm\" @click=\"copyToClipboard(name)\">\n                  <i class=\"bi bi-clipboard\"></i> Copy\n                </button>\n\n                <a class=\"btn btn-outline-success btn-sm\" :href=\"generateWhatsAppLink(name)\" target=\"_blank\"\n                  rel=\"noopener\">\n                  <i class=\"bi bi-whatsapp\"></i> WhatsApp\n                </a>\n              </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.copyToClipboard(name);
+      },
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-center w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      href: $options.generateWhatsAppLink(name),
+      target: "_blank",
+      rel: "noopener",
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_24)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-muted"
   }, "No names found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[5] || (_cache[5] = function () {
@@ -52308,7 +52331,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     title: "Back to Top"
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-double-up fs-5"
   }, null, -1 /* HOISTED */)]))])]);
 }
@@ -52929,7 +52952,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "mb-3 fw-semibold text-primary"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-coin me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-gem text-warning me-2"
@@ -52951,7 +52974,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Price per gram"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-gem text-secondary me-2"
@@ -52973,7 +52996,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Price per gram"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-cash-coin text-success me-2"
@@ -52986,7 +53009,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.cash, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-graph-up text-info me-2"
@@ -52999,7 +53022,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.investments, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-briefcase text-primary me-2"
@@ -53012,7 +53035,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.businessAssets, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-credit-card text-danger me-2"
@@ -53025,7 +53048,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Amount"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.liabilities, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn flex-fill",
     style: {
       "background": "rgb(13, 182, 145)",
@@ -53048,9 +53071,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-weight": "bold"
     },
     "class": "pt-3 pl-3"
-  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Summary Items "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Total Assets: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Total Assets:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -53063,7 +53086,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Liabilities: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Liabilities:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -53076,7 +53099,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Zakatable Amount: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Zakatable Amount:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -53093,13 +53116,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted"
   }, "Your annual obligation", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Nisab Threshold: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <small class=\"text-muted d-block mb-3\">{{ nisabTypeLabel }}</small> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Nisab Threshold:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isEligible ? 'text-success' : 'text-muted')
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_54, " Your assets meet the Nisab threshold ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, " Your assets don't meet the Nisab threshold "))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_54, "Your assets meet the Nisab threshold")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, "Your assets don't meet the Nisab threshold"))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn w-100 mt-4",
     style: {
       "background": "rgb(13, 182, 145)",
@@ -158258,7 +158281,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-fe318174] {\n  scroll-behavior: smooth;\n}\n\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-fe318174]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-fe318174] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-fe318174] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-fe318174] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-fe318174],\nh2[data-v-fe318174],\nh3[data-v-fe318174],\nh4[data-v-fe318174],\nh5[data-v-fe318174],\nh6[data-v-fe318174] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-fe318174] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-fe318174] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-fe318174] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-fe318174]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-fe318174] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-fe318174] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-fe318174] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-fe318174] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-fe318174] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-fe318174] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-fe318174] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-fe318174] {\n    font-size: 2.5rem;\n}\n}\n\n/* Animation for cards */\n@keyframes fadeIn-fe318174 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-fe318174] {\n  animation: fadeIn-fe318174 0.5s ease forwards;\n  opacity: 0;\n}\n\n/* Delay animations for each card */\n.name-card[data-v-fe318174]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-fe318174]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-fe318174]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n\n/* ... and so on for all cards ... */\n\n/* Larger font sizes */\n.card-title[data-v-fe318174] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-fe318174] {\n  font-size: 3rem;\n}\n.translation[data-v-fe318174],\n.description[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n.badge[data-v-fe318174] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 10px;\n}\n.form-check[data-v-fe318174] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 12px;\n}\n.form-check[data-v-fe318174] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-fe318174]:checked {\n  background-color: #198754 !important; /* Bootstrap bg-success */\n  border-color: #198754 !important;\n}\nhtml[data-v-fe318174] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-fe318174]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-fe318174] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-fe318174] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-fe318174] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-fe318174],\nh2[data-v-fe318174],\nh3[data-v-fe318174],\nh4[data-v-fe318174],\nh5[data-v-fe318174],\nh6[data-v-fe318174] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-fe318174] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-fe318174]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-fe318174] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-fe318174] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-fe318174]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-fe318174] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-fe318174] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-fe318174] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-fe318174] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-fe318174]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-fe318174] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-fe318174] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-fe318174] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-fe318174] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-fe318174 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-fe318174] {\n  animation: fadeIn-fe318174 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-fe318174]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-fe318174]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-fe318174]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-fe318174] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-fe318174] {\n  font-size: 3rem;\n}\n.translation[data-v-fe318174],\n.description[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n.badge[data-v-fe318174] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-fe318174] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 10px;\n}\n.form-check[data-v-fe318174] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-fe318174] {\n    padding: 12px;\n}\n.form-check[data-v-fe318174] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

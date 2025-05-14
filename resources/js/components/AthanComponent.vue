@@ -17,21 +17,22 @@
       <div class="row text-center">
         <!-- Toggle switches (left column) -->
         <div class="container col-12 col-lg-6 mb-3">
-          <div class="d-flex gap-4 justify-content-center">
-            <div class="form-check form-switch fs-5">
-              <input class="form-check-input" type="checkbox" id="arabicToggle" v-model="showArabic">
-              <label class="form-check-label" for="arabicToggle">Arabic</label>
+          <div class="d-flex gap-4 justify-content-center p-3 rounded">
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
+              <label class="form-check-label text-dark" for="arabicToggle">Arabic</label>
             </div>
-            <div class="form-check form-switch fs-5">
-              <input class="form-check-input" type="checkbox" id="translationToggle" v-model="showTranslation" checked>
-              <label class="form-check-label" for="translationToggle">Translation</label>
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="translationToggle" v-model="showTranslation" checked>
+              <label class="form-check-label text-dark" for="translationToggle">Meaning</label>
             </div>
-            <div class="form-check form-switch fs-5">
-              <input class="form-check-input" type="checkbox" id="descToggle" v-model="showDescription" checked>
-              <label class="form-check-label" for="descToggle">Description</label>
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription" checked>
+              <label class="form-check-label text-dark" for="descToggle">Description</label>
             </div>
           </div>
         </div>
+
 
         <!-- Search bar (right column) -->
         <div class="col-12 col-lg-6 mb-3">
@@ -70,6 +71,36 @@
                 <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
               </div>
 
+              <!-- <div class="mt-3 d-flex justify-content-end gap-2">
+                <button class="btn btn-outline-secondary btn-sm" @click="copyToClipboard(name)">
+                  <i class="bi bi-clipboard"></i> Copy
+                </button>
+
+                <a class="btn btn-outline-success btn-sm" :href="generateWhatsAppLink(name)" target="_blank"
+                  rel="noopener">
+                  <i class="bi bi-whatsapp"></i> WhatsApp
+                </a>
+              </div> -->
+
+              <div class="d-flex sticky-bottom justify-content-between align-items-center gap-2">
+                <!-- Get Directions Button -->
+                <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                  @click="copyToClipboard(name)"
+                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                  <span class="text-center w-100">
+                    <b>Copy to Clipboard</b>
+                  </span>
+                </button>
+
+                <!-- WhatsApp Share Button -->
+                <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                  :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
+                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                  <b>Share on WhatsApp</b>
+                </a>
+
+              </div>
+
             </div>
           </div>
         </div>
@@ -84,7 +115,8 @@
       <!-- Floating Action Button -->
       <button @click="scrollToTop"
         class="btn  position-fixed rounded-circle shadow d-flex align-items-center justify-content-center"
-        style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;" title="Back to Top">
+        style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
+        title="Back to Top">
         <i class="bi bi-chevron-double-up fs-5"></i>
       </button>
 
@@ -815,6 +847,16 @@ export default {
     }
   },
   methods: {
+    copyToClipboard(name) {
+      const text = `Name: ${name.name}\nArabic: ${name.arabic}\nMeaning: ${name.translation}\nDescription: ${name.description}`;
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(err => alert('Failed to copy text: ' + err));
+    },
+    generateWhatsAppLink(name) {
+      const text = `*${name.name}*\n\n🕋 Arabic: ${name.arabic}\n📝 Meaning: ${name.translation}\n📖 Description: ${name.description}`;
+      return `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    },
     filterNames() {
       if (!this.searchQuery && !this.activeLetter) {
         this.filteredNames = [...this.names];
@@ -868,6 +910,10 @@ export default {
 </script>
 
 <style scoped>
+.custom-success:checked {
+  background-color: #198754 !important; /* Bootstrap bg-success */
+  border-color: #198754 !important;
+}
 html {
   scroll-behavior: smooth;
 }
