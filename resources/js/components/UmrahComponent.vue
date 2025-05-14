@@ -32,28 +32,42 @@
         <div class="container">
           <p class="display-4 fw-bold pb-2 pt-2 text-center">{{ currentContent.title }}</p>
           <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
-          <p style="display: inline-block; min-width: max-content;">
-            <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Read Time:</strong> {{ readTime }} minutes
+            <p style="display: inline-block; min-width: max-content;">
+              <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+              <strong>Read Time:</strong> {{ readTime }} minutes
 
-            <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Listen Time:</strong> {{ listeningTime }} minutes
+              <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+              <strong>Listen Time:</strong> {{ listeningTime }} minutes
 
-            <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Word Count:</strong> {{ wordCount }} words
+              <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+              <strong>Word Count:</strong> {{ wordCount }} words
 
-          </p>
-        </div>
+            </p>
+          </div>
           <p class="lead text-justify ">{{ currentContent.text1 }}</p>
           <p class="lead text-justify">{{ currentContent.text2 }}</p>
           <p class="lead text-justify">{{ currentContent.text3 }}</p>
 
+          <div v-if="copySuccess" class="alert alert-success mt-3" role="alert">
+            Text copied to clipboard successfully!
+          </div>
 
-          <div class="btn-group btn-group-lg w-100" role="group" aria-label="Large button group">
-            <button type="button" @click="copyText" class="btn btn-outline-success">Copy to Clipboard</button>
-            <button type="button"
-              :href="`https://wa.me/?text=${encodeURIComponent(currentContent.title + '\n\n' + currentContent.text1 + '\n\n' + currentContent.text2 + '\n\n' + currentContent.text3)}`"
-              target="_blank" class="btn btn-outline-success">Share via WhatsApp</button>
+          <div class="d-flex justify-content-between align-items-center gap-2">
+            <!-- Get Directions Button -->
+            <button class="btn d-flex align-items-center justify-content-center flex-grow-1" @click="copyText"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+              <span class="text-center w-100">
+                <b>Copy to Clipboard</b>
+              </span>
+            </button>
+
+            <!-- WhatsApp Share Button -->
+            <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+              :href="`https://wa.me/?text=${encodeURIComponent(currentContent.title + '\n\n\n' + currentContent.text1 + '\n\n' + currentContent.text2 + '\n\n' + currentContent.text3)}`"
+              target="_blank" rel="noopener"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+              <b>Share on WhatsApp</b>
+            </a>
           </div>
         </div>
       </div>
@@ -136,7 +150,7 @@ export default {
         });
       }
     },
-    
+
     toggleSpeech() {
       const { title, text1, text2, text3 } = this.currentContent;
 
@@ -182,12 +196,18 @@ export default {
       }
     },
     copyText() {
-      const textToCopy = this.currentContent.text1 + "\n\n" + this.currentContent.text2 + "\n\n" + this.currentContent.text3;
+      const textToCopy =
+        this.currentContent.text1 +
+        "\n\n" +
+        this.currentContent.text2 +
+        "\n\n" +
+        this.currentContent.text3;
+
       navigator.clipboard.writeText(textToCopy).then(() => {
         this.copySuccess = true;
         setTimeout(() => {
           this.copySuccess = false;
-        }, 2000);
+        }, 3000); // 3 seconds
       });
     },
     calculateReadTimeAndWordCount() {

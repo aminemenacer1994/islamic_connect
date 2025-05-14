@@ -44664,7 +44664,7 @@ __webpack_require__.r(__webpack_exports__);
         _this3.copySuccess = true;
         setTimeout(function () {
           _this3.copySuccess = false;
-        }, 2000);
+        }, 3000); // 3 seconds
       });
     },
     calculateReadTimeAndWordCount: function calculateReadTimeAndWordCount() {
@@ -57286,10 +57286,11 @@ var _hoisted_4 = {
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
 var _hoisted_5 = {
-  "class": "card-body",
+  "class": "card-body shadow-lg",
   style: {
-    "background-color": "lightgray",
-    "border-radius": "10px"
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    "background-color": "rgba(13, 182, 145, 0.528)",
+    "border-radius": "15px"
   }
 };
 var _hoisted_6 = ["innerHTML"];
@@ -57327,7 +57328,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: station.id,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 border-0 shadow-sm", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 border-0 shadow-lg", {
         'bg-success-subtle text-success-emphasis border border-success': $data.currentAudio && $data.currentAudio.src === station.url,
         'bg-light': !($data.currentAudio && $data.currentAudio.src === station.url)
       }]),
@@ -60123,16 +60124,19 @@ var _hoisted_18 = {
   "class": "lead text-justify"
 };
 var _hoisted_19 = {
-  "class": "btn-group btn-group-lg w-100",
-  role: "group",
-  "aria-label": "Large button group"
+  key: 0,
+  "class": "alert alert-success mt-3",
+  role: "alert"
 };
-var _hoisted_20 = ["href"];
-var _hoisted_21 = {
+var _hoisted_20 = {
+  "class": "d-flex justify-content-between align-items-center gap-2"
+};
+var _hoisted_21 = ["href"];
+var _hoisted_22 = {
   "class": "fab-container"
 };
-var _hoisted_22 = ["title"];
-var _hoisted_23 = {
+var _hoisted_23 = ["title"];
+var _hoisted_24 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x",
   role: "alert",
@@ -60195,18 +60199,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "20px",
       "cursor": "pointer"
     }
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
+  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Text copied to clipboard successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.copyText && $options.copyText.apply($options, arguments);
     }),
-    "class": "btn btn-outline-success"
-  }, "Copy to Clipboard"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px"
+    }
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
     target: "_blank",
-    "class": "btn btn-outline-success"
-  }, "Share via WhatsApp", 8 /* PROPS */, _hoisted_20)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    rel: "noopener",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px"
+    }
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_21)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "fab-single",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
@@ -60214,11 +60231,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close position-absolute top-50 end-0 translate-middle-y me-3",
         onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -158739,7 +158756,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nmark[data-v-87252526] {\n  background-color: rgb(13, 182, 145);\n  color: #fff;\n  padding: 0 2px;\n  border-radius: 3px;\n}\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  background: rgba(13, 182, 145, 0.09);\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nmark[data-v-87252526] {\n  background-color: rgba(13, 182, 145, 0.528);\n  color: #fff;\n  padding: 0 2px;\n  border-radius: 3px;\n}\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
