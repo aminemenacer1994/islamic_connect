@@ -893,18 +893,18 @@ export default {
 }
 
 /* Arabic Text */
-.arabic-text {
+/* .arabic-text {
   font-size: 1.5rem;
   text-align: right;
   direction: rtl;
   font-family: 'Amiri', serif;
-}
+} */
 
 /* LTR Text (Translation) */
 .ltr-text {
   text-align: left !important;
   direction: ltr !important;
-  font-family: 'Arial', sans-serif;
+  /* font-family: 'Arial', sans-serif; */
   padding: 10px;
 }
 

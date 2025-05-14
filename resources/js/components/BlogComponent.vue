@@ -137,10 +137,11 @@
         </div>
         <!-- Results Panel -->
         <div class="col-lg-4">
-          <div class="results-card card shadow-md sticky-top container" style="border: 2px solid lightgray; border-radius: 20px; ">
-              <h3 style="font-weight: bold;" class="pt-3 pl-3">Zakat Summary</h3>
+          <div class="results-card card shadow-md sticky-top container"
+            style="border: 2px solid lightgray; border-radius: 20px; ">
+            <h3 style="font-weight: bold;" class="pt-3 pl-3">Zakat Summary</h3>
             <div class="card-body">
-              
+
               <!-- Summary Items -->
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
@@ -152,7 +153,7 @@
                 </div>
               </div>
 
-          
+
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
@@ -178,7 +179,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
                     <b class="mb-1">Zakat Due (2.5%)</b><br />
-                    <small class="text-muted">Your annual obligation</small>                  
+                    <small class="text-muted">Your annual obligation</small>
                     <h4 class="text-success mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString() }}</h4>
                   </div>
                 </div>
@@ -279,9 +280,14 @@ export default {
   },
   methods: {
     calculateZakat() {
-      // Calculation happens automatically through computed properties
-      // This method can be used for additional actions if needed
-      this.saveToLocalStorage();
+      const goldValue = this.goldGrams * this.goldPrice;
+      const silverValue = this.silverGrams * this.silverPrice;
+
+      const totalAssets = goldValue + silverValue + this.cash + this.investments + this.businessAssets;
+      const netAssets = totalAssets - this.liabilities;
+
+      this.zakatPayable = (netAssets * 0.025).toFixed(2);
+      this.zakatCalculated = true;
     },
     printSummary() {
       const content = document.querySelector(".results-card").innerHTML;

@@ -25,7 +25,7 @@
     <div class="mb-4 text-center">
       <div class="filter-scroll-wrapper position-relative">
         <div class="filter-scroll d-flex justify-content-start gap-2 px-2 py-2"
-          style="overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
+          style="overflow-x: auto; cursor: pointer; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
           <span class="badge flex-shrink-0 px-3 py-2" v-for="filter in filters" :key="filter"
             @click="applyFilter(filter)" :class="{
               'bg-dark text-white': activeFilter === filter,

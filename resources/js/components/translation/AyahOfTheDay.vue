@@ -114,11 +114,11 @@ export default {
 
 <style scoped>
 /* Styles for the Ayah of the Day box */
-.arabic {
+/* .arabic {
   font-family: "Amiri", "Scheherazade", "Arial", sans-serif;
   direction: rtl;
   text-align: right;
-}
+} */
 
 .text-center {
   text-align: center;
