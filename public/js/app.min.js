@@ -44860,13 +44860,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       city: '',
-      // City input
-      country: 'UK',
-      // Default country fallback
+      country: '',
       method: '',
-      // Calculation method
       methods: {},
-      // Available methods from API
       prayerData: [],
       monthName: '',
       year: '',
@@ -44876,35 +44872,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var _this = this;
-    // Load methods from API
     fetch('https://api.aladhan.com/v1/methods').then(function (res) {
       return res.json();
     }).then(function (data) {
       if (data.code === 200) {
-        _this.methods = {};
         for (var key in data.data) {
           _this.methods[key] = data.data[key].name;
         }
-        // Set default method to the first one
         _this.method = Object.keys(_this.methods)[0] || '';
       }
-    })["catch"](function () {
-      _this.methods = {};
     });
-
-    // Try to get location city and country on load
     this.getCityFromGeolocation();
   },
   methods: {
     getCityFromGeolocation: function getCityFromGeolocation() {
       var _this2 = this;
-      if (!navigator.geolocation) {
-        // Geolocation unsupported fallback
-        this.city = 'Nottingham';
-        this.country = 'UK';
-        this.getPrayerTimes();
-        return;
-      }
+      if (!navigator.geolocation) return;
       navigator.geolocation.getCurrentPosition(function (position) {
         var _position$coords = position.coords,
           latitude = _position$coords.latitude,
@@ -44912,17 +44895,9 @@ __webpack_require__.r(__webpack_exports__);
         fetch("https://nominatim.openstreetmap.org/reverse?lat=".concat(latitude, "&lon=").concat(longitude, "&format=json")).then(function (res) {
           return res.json();
         }).then(function (data) {
-          if (data.address) {
-            _this2.city = data.address.city || data.address.town || data.address.village || 'Nottingham';
-            _this2.country = data.address.country_code ? data.address.country_code.toUpperCase() : 'UK';
-          } else {
-            _this2.city = 'Nottingham';
-            _this2.country = 'UK';
-          }
-          _this2.getPrayerTimes();
-        })["catch"](function () {
-          _this2.city = 'Nottingham';
-          _this2.country = 'UK';
+          var _data$address$country;
+          _this2.city = data.address.city || data.address.town || data.address.village || 'Nottingham';
+          _this2.country = ((_data$address$country = data.address.country_code) === null || _data$address$country === void 0 ? void 0 : _data$address$country.toUpperCase()) || 'UK';
           _this2.getPrayerTimes();
         });
       }, function () {
@@ -44942,18 +44917,11 @@ __webpack_require__.r(__webpack_exports__);
         month: 'long'
       });
       this.year = today.getFullYear();
-      var city = encodeURIComponent(this.city.trim());
-      var country = encodeURIComponent(this.country.trim());
-      var method = this.method;
-      var url = "https://api.aladhan.com/v1/calendarByCity/".concat(this.year, "/").concat(month, "?city=").concat(city, "&country=").concat(country, "&method=").concat(method);
+      var url = "https://api.aladhan.com/v1/calendarByCity/".concat(this.year, "/").concat(month, "?city=").concat(encodeURIComponent(this.city), "&country=").concat(encodeURIComponent(this.country), "&method=").concat(this.method);
       fetch(url).then(function (res) {
         return res.json();
       }).then(function (data) {
-        if (data.code === 200) {
-          _this3.prayerData = data.data;
-        } else {
-          _this3.prayerData = [];
-        }
+        _this3.prayerData = data.code === 200 ? data.data : [];
       })["catch"](function () {
         _this3.prayerData = [];
       })["finally"](function () {
@@ -44961,8 +44929,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     formatTime: function formatTime(time) {
-      // Remove timezone info e.g. "05:00 (BST)" → "05:00"
       return time.split(' ')[0];
+    },
+    resetFields: function resetFields() {
+      this.city = '';
+      this.country = '';
+      this.method = '';
+      this.prayerData = [];
+      this.submitted = false;
     }
   }
 });
@@ -59979,55 +59953,45 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "my-5 d-flex justify-content-center"
+  "class": "container-fluid my-5 d-flex justify-content-center"
 };
 var _hoisted_2 = {
   "class": "card shadow p-4 w-100",
   style: {
-    "max-width": "900px",
-    "border-radius": "1rem",
-    "background": "#ffffffdd"
+    "max-width": "1500px"
   }
 };
 var _hoisted_3 = {
-  "class": "col-md-6 mx-auto"
+  "class": "flex-grow-1"
 };
 var _hoisted_4 = {
-  "class": "input-group"
+  "class": "flex-grow-1"
 };
-var _hoisted_5 = {
-  "class": "col-md-6 mx-auto"
+var _hoisted_5 = ["value"];
+var _hoisted_6 = {
+  "class": "d-flex gap-2"
 };
-var _hoisted_6 = ["value"];
-var _hoisted_7 = {
-  "class": "col-12 d-flex justify-content-center mt-3"
-};
-var _hoisted_8 = ["disabled"];
-var _hoisted_9 = {
+var _hoisted_7 = ["disabled"];
+var _hoisted_8 = {
   key: 0
 };
-var _hoisted_10 = {
+var _hoisted_9 = {
   key: 1,
-  "class": "spinner-border spinner-border-sm",
-  role: "status",
-  "aria-hidden": "true"
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_10 = {
+  key: 0,
+  "class": "alert alert-light text-center py-2"
 };
 var _hoisted_11 = {
   key: 0,
-  "class": "table-responsive",
-  style: {
-    "max-height": "500px",
-    "overflow-y": "auto"
-  }
+  "class": "table-responsive table-scroll mt-3"
 };
 var _hoisted_12 = {
-  "class": "text-center mb-3 fw-semibold",
-  style: {
-    "font-family": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-  }
+  "class": "text-center fw-semibold mb-3"
 };
 var _hoisted_13 = {
-  "class": "table table-striped table-hover table-bordered align-middle text-center"
+  "class": "table table-hover table-bordered text-center align-middle"
 };
 var _hoisted_14 = {
   "class": "fw-semibold"
@@ -60037,25 +60001,19 @@ var _hoisted_15 = {
   "class": "alert alert-warning text-center mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "text-center mb-4 fw-bold",
-    style: {
-      "font-family": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-    }
-  }, " 🕌 Prayer Times Calendar ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "text-center fw-bold display-4 py-3 mb-4"
+  }, "🕌 Prayer Times Calendar", -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center mb-4 lead container"
+  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.getPrayerTimes && $options.getPrayerTimes.apply($options, arguments);
     }, ["prevent"])),
-    "class": "row g-3 align-items-center mb-4"
+    "class": "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" City Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "city",
-    "class": "form-label fw-semibold"
-  }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text bg-primary text-white"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-geo-alt-fill"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+    "class": "form-label fw-bold"
+  }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.city = $event;
@@ -60063,18 +60021,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control",
     placeholder: "Enter city",
     required: "",
-    "aria-label": "City"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Method Selector "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "aria-label": "City",
+    autofocus: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Method Selector "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "method",
-    "class": "form-label fw-semibold"
+    "class": "form-label fw-bold"
   }, "Calculation Method", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "method",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.method = $event;
     }),
     "class": "form-select",
-    required: "",
-    "aria-label": "Calculation Method"
+    required: ""
   }, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     disabled: "",
     value: ""
@@ -60082,50 +60040,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: id,
       value: id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Submit Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": "btn btn-primary btn-lg px-5 shadow",
-    disabled: $data.loading,
-    "aria-label": "Get Prayer Times"
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Get Prayer Times")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10))], 8 /* PROPS */, _hoisted_8)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Result Table "), $data.prayerData.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_12, " 📅 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.country), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
-    "class": "table-primary sticky-top"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "100px"
-    }
-  }, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "80px"
-    }
-  }, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "80px"
-    }
-  }, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "80px"
-    }
-  }, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "80px"
-    }
-  }, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    style: {
-      "min-width": "80px"
-    }
-  }, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
+    "class": "btn btn-success px-4 shadow",
+    disabled: $data.loading
+  }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-2"
+  }, null, -1 /* HOISTED */)), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Get Times")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7), $data.submitted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-outline-secondary px-4",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.resetFields && $options.resetFields.apply($options, arguments);
+    })
+  }, " Clear All ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Toast "), $data.prayerData.length && $data.submitted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Table "), $data.prayerData.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_12, " 📅 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_13, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+    "class": "table-secondary sticky-top"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: day.date.gregorian.date,
-      "class": "align-middle"
+      key: day.date.gregorian.date
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.gregorian.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results / Error Message "), $data.prayerData.length === 0 && $data.submitted && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, " ⚠️ No prayer times found. Please double-check your city and method. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.prayerData.length === 0 && $data.submitted && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, " ⚠️ No prayer times found. Please double-check your city or try another method. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -158519,7 +158454,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-5e1604be], html[data-v-5e1604be] {\n  height: 100%;\n  margin: 0;\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);\n}\n.card[data-v-5e1604be] {\n  background: rgba(255, 255, 255, 0.95);\n  border-radius: 1rem;\n  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);\n  padding: 2rem;\n}\nthead.sticky-top[data-v-5e1604be] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-5e1604be]:hover {\n  background-color: #d1e7fd;\n  cursor: default;\n}\n.input-group-text i[data-v-5e1604be] {\n  font-size: 1.25rem;\n}\n.btn-primary[data-v-5e1604be]:hover {\n  background-color: #004085;\n  border-color: #004085;\n}\n@media (max-width: 575.98px) {\ntable thead th[data-v-5e1604be],\n  table tbody td[data-v-5e1604be] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.4rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-5e1604be] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-5e1604be] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-5e1604be]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-5e1604be]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-5e1604be] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-5e1604be]:hover {\n  background-color: #e8f4ff;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-5e1604be],\n  table tbody td[data-v-5e1604be] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-5e1604be] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
