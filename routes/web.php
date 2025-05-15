@@ -53,6 +53,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AthkarController;
 use App\Http\Controllers\UmrahController;
 use App\Http\Controllers\AthanController;
+use App\Http\Controllers\PrayerController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -350,3 +351,5 @@ Route::get('/athkar', [AthkarController::class, 'index'])->name('athkar');
 Route::get('/umrah', [UmrahController::class, 'index'])->name('umrah');
 // athan
 Route::get('/athan', [AthanController::class, 'index'])->name('athan');
+// prayer
+Route::get('/prayer', [PrayerController::class, 'index'])->name('prayer');
