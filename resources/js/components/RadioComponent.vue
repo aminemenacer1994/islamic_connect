@@ -43,6 +43,32 @@
           </div>
         </div>
       </div>
+
+
+      <div class="row">
+  <div v-for="station in paginatedStations" :key="station.id" class="col-4 mb-4">
+    <div
+      class="card h-100 border-0 shadow-lg"
+      :class="{
+        'bg-success-subtle text-success-emphasis border border-success': currentAudio && currentAudio.src === station.url,
+        'bg-light': !(currentAudio && currentAudio.src === station.url)
+      }" style="border-radius: 10px;"
+    >
+      <div class="card-body shadow-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; background-color: rgba(13, 182, 145, 0.528); border-radius: 15px;">
+        <h5 class="card-title" style="font-weight: bold;" v-html="highlightSearch(station.name)"></h5>
+        <audio
+          ref="audioPlayer"
+          :src="station.url"
+          controls
+          class="w-100 mt-3"
+          style="border-radius: 10px;"
+          @play="handlePlay(station.id, $event)"
+          @pause="handlePause"
+        ></audio>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
 
     <!-- Pagination -->

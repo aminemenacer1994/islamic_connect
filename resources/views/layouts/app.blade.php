@@ -125,12 +125,15 @@ body{
                         <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah Timeline</b></a></h6>
                     </li>
                     <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/mosque" data-path="/mosque"><b style="color:black">Mosque Finder</b></a></h6>
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/mosque" data-path="/mosque"><b style="color:black">Mosque Locator</b></a></h6>
                     </li> 
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
                     </li>
-                    <li class="nav-item dropdown pt-3 pl-3">
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/qibla" data-path="/qibla"><b style="color:black">Qibla Finder</b></a></h6>
+                    </li>
+                    <!-- <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
                             <b style="color:black">Islamic Gallery</b>
                         </a>
@@ -138,11 +141,8 @@ body{
                             <li><a class="dropdown-item" href="/gallery">Images</a></li>
                             <li><a class="dropdown-item" href="/video">Short Video</a></li>
                         </ul>
-                    </li>
-                    
-                    <!-- <li class="nav-item mt-3">
-                        <h6><a class="nav-link  ml-3 pl-3" href="/group_notes" data-path="/group_notes"><b>Community Board</b></a></h6>
                     </li> -->
+                    
                     <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
                     </li> -->

@@ -79,13 +79,14 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2">
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
             <div :class="['card h-100', { 'highlighted': playingIndex === index }]"
-              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; bottom: 0px; border-radius: 20px;">
+              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;">
 
-              <div class="card-body ">
+              <div class="card-body">
                 <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
                 <h6>Views: {{ podcast.views }}</h6>
                 <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
                 <hr>
+
                 <div class="container-fluid text-center d-flex justify-content-between align-items-center">
                   <!-- Rewind -->
                   <div class="icon-container">
@@ -118,18 +119,16 @@
               </div>
 
               <!-- Audio Player -->
-              <audio ref="audioPlayer" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio" :key="index"
+              <audio ref="audioPlayers" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
+                class="w-100 audio"
                 style="height: 60px; font-size: 20px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
-                @play="onPlay(index)" @pause="onPause(index)" @ended="onEnded(index)" @timeupdate="onTimeUpdate(index)"
-                @loadedmetadata="onLoaded(index)">
+                @play="onPlay(index)" @pause="onPause(index)" @ended="onEnded(index)">
                 Your browser does not support the audio element.
               </audio>
 
-
             </div>
-
           </div>
+
         </div>
 
       </div>
@@ -177,6 +176,7 @@ export default {
   data() {
     return {
       repeatStates: {},
+      playingIndex: null,
       showProgress: {}, // Tracks which progress bars should be shown
       progress: {}, // To track the progress of each audio
       playedPercentage: {}, // To track the played percentage for each audio
@@ -335,6 +335,25 @@ export default {
   },
 
   methods: {
+    onPlay(index) {
+      this.$refs.audioPlayers.forEach((audio, i) => {
+        if (i !== index && !audio.paused) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+      this.playingIndex = index;
+    },
+    onPause(index) {
+      if (this.playingIndex === index) {
+        this.playingIndex = null;
+      }
+    },
+    onEnded(index) {
+      if (this.playingIndex === index) {
+        this.playingIndex = null;
+      }
+    },
     replayAudio(index) {
       const audio = this.$refs.audioPlayer[index];
       if (audio) {

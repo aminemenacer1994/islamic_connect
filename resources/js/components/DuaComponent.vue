@@ -23,27 +23,8 @@
           </div>
         </div>
 
-        <!-- <div class="mb-3">
-          <h4 class="fw-bold text-left pt-2 pb-2 container">Select a Category:</h4>
-          <div class="row">
-            <div class="col-4" v-for="category in duaCollection" :key="category.id">
-              <div class="card" style="cursor: pointer;" @click="selectedCategory = category.id">
-                <div class="card-body text-center">
-                  <h5 class="card-title">{{ category.name }}</h5>
-                  <p class="card-text">{{ category.duas.length }} Duas</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-
-        <!-- Search Input -->
-        <!-- <div class="col-md-6">
-          <div class="mb-3">
-            <h4 class="fw-bold text-left pt-2 pb-2 container">Search for a Dua word:</h4>
-            <input v-model="searchQuery" type="text" placeholder="Search for a keyword..." class="form-control" />
-          </div>
-        </div> -->
+        
+        
 
       </div>
     </div>

@@ -105,7 +105,7 @@
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
           <img src="/images/quran_1.png" alt="Quran Eplorer" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran Eplorer</h5>
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Quran Explorer</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Browse by surah or verse, listen
               to beautiful recitations, read translations and tafsir, and discover the meaning behind every ayah.
