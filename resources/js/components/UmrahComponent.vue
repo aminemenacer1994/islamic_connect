@@ -9,13 +9,13 @@
       <ul class="nav nav-pills justify-content-center gap-3 fw-semibold" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'hajj' }"
-            @click="switchTab('hajj')" :aria-selected="currentTab === 'hajj'" aria-controls="hajj-tab" role="tab">
+            @click="switchTab('hajj')" aria-controls="hajj-tab" role="tab">
             Hajj Guides
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'umrah' }"
-            @click="switchTab('umrah')" :aria-selected="currentTab === 'umrah'" aria-controls="umrah-tab" role="tab">
+            @click="switchTab('umrah')" aria-controls="umrah-tab" role="tab">
             Umrah Guides
           </button>
         </li>
@@ -101,7 +101,7 @@ export default {
       utterance: null,
       isSpeaking: false,
       isPaused: false,
-      currentTab: "hajj",
+      currentTab: 'hajj',
       copySuccess: false,
       guides: {
         hajj: {
@@ -142,14 +142,13 @@ export default {
   },
   methods: {
     switchTab(tab) {
-      if (this.currentTab !== tab) {
-        this.stopSpeech();          // Stop current speech
-        this.currentTab = tab;      // Switch tab
+      this.currentTab = tab;
+        this.stopSpeech();          
+        this.currentTab !== tab
         this.$nextTick(() => {
-          this.calculateReadTimeAndWordCount(); // Recalculate read time and word count
+          this.calculateReadTimeAndWordCount(); 
         });
-      }
-    },
+      },
 
     toggleSpeech() {
       const { title, text1, text2, text3 } = this.currentContent;

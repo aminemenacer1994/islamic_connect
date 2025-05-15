@@ -716,9 +716,15 @@ export default {
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
       this.fetchPodcasts();
+      this.$nextTick(() => {
+        const section = this.$refs.podcastDetailSection;
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     },
 
-    
+
 
     onSearch() {
       this.currentPage = 1;

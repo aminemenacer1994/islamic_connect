@@ -36943,8 +36943,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     // TODO: Implement RSS parsing logic
     console.log("Processing RSS Feed...");
   }), "selectPodcast", function selectPodcast(podcast) {
+    var _this6 = this;
     this.selectedPodcast = podcast;
     this.fetchPodcasts();
+    this.$nextTick(function () {
+      var section = _this6.$refs.podcastDetailSection;
+      if (section) {
+        section.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
+    });
   }), "onSearch", function onSearch() {
     this.currentPage = 1;
     var query = this.searchQuery.toLowerCase();
@@ -36985,10 +36994,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.paginatedPodcasts = this.podcasts.slice(start, end);
   }))
 }, "mounted", function mounted() {
-  var _this6 = this;
+  var _this7 = this;
   this.fetchPodcasts().then(function () {
-    _this6.applyFilters(); // Apply filters once podcasts are loaded
-    _this6.fetchEpisodeCounts();
+    _this7.applyFilters(); // Apply filters once podcasts are loaded
+    _this7.fetchEpisodeCounts();
   });
 }), "watch", {
   currentlyPlaying: function currentlyPlaying(newValue) {
@@ -44551,7 +44560,7 @@ __webpack_require__.r(__webpack_exports__);
       utterance: null,
       isSpeaking: false,
       isPaused: false,
-      currentTab: "hajj",
+      currentTab: 'hajj',
       copySuccess: false,
       guides: {
         hajj: {
@@ -44593,13 +44602,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     switchTab: function switchTab(tab) {
       var _this = this;
-      if (this.currentTab !== tab) {
-        this.stopSpeech(); // Stop current speech
-        this.currentTab = tab; // Switch tab
-        this.$nextTick(function () {
-          _this.calculateReadTimeAndWordCount(); // Recalculate read time and word count
-        });
-      }
+      this.currentTab = tab;
+      this.stopSpeech();
+      this.currentTab !== tab;
+      this.$nextTick(function () {
+        _this.calculateReadTimeAndWordCount();
+      });
     },
     toggleSpeech: function toggleSpeech() {
       var _this2 = this;
@@ -56771,7 +56779,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onFetchAyat: $options.getAyat
   }, null, 8 /* PROPS */, ["selectedSurah", "filteredSurah", "surat", "onUpdate:selectedSurah", "onFetchAyat"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FilteredSurahList :filteredSurah=\"filteredSurah\" @select-surah=\"selectSurahFromResults\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div style=\"display: flex\" class=\"row\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AyahOfTheDay /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <AddBookmark /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" </div> "), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_7, "Select a Verse:")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("form", {
     key: 1,
-    "class": "d-flex pb-2 hide-on-mobile-tablet",
+    "class": "d-flex pb-2 container hide-on-mobile-tablet",
     role: "search",
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.scrollToAyah && $options.scrollToAyah.apply($options, arguments);
@@ -56801,7 +56809,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     dropdownHidden: $data.dropdownHidden,
     onUpdateInformation: $options.updateInformation,
     onUpdateTafseer: $options.updateTafseer,
-    "class": "ayah-dropdown-hidden-on-desktop d-block d-md-none container-fluid"
+    "class": "ayah-dropdown-hidden-on-desktop d-block d-md-none container"
   }, null, 8 /* PROPS */, ["selectedSurahId", "dropdownHidden", "onUpdateInformation", "onUpdateTafseer"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" List of Ayat for Surah (desktop) "), _ctx.ayah == null && !$data.dropdownHidden ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [_ctx.ayah == null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error alert "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ErrorAlert, {
     showError: $data.showError,
     onDismissError: _ctx.dismissError
@@ -60071,29 +60079,27 @@ var _hoisted_4 = {
   "class": "nav-item",
   role: "presentation"
 };
-var _hoisted_5 = ["aria-selected"];
-var _hoisted_6 = {
+var _hoisted_5 = {
   "class": "nav-item",
   role: "presentation"
 };
-var _hoisted_7 = ["aria-selected"];
-var _hoisted_8 = {
+var _hoisted_6 = {
   "class": "row align-items-center"
 };
-var _hoisted_9 = {
+var _hoisted_7 = {
   "class": "col-md-6"
 };
-var _hoisted_10 = ["src", "alt"];
-var _hoisted_11 = {
+var _hoisted_8 = ["src", "alt"];
+var _hoisted_9 = {
   "class": "col-md-6 mt-2"
 };
-var _hoisted_12 = {
+var _hoisted_10 = {
   "class": "container"
 };
-var _hoisted_13 = {
+var _hoisted_11 = {
   "class": "display-4 fw-bold pb-2 pt-2 text-center"
 };
-var _hoisted_14 = {
+var _hoisted_12 = {
   "class": "container",
   style: {
     "overflow-x": "auto",
@@ -60101,35 +60107,35 @@ var _hoisted_14 = {
     "-webkit-overflow-scrolling": "touch"
   }
 };
-var _hoisted_15 = {
+var _hoisted_13 = {
   style: {
     "display": "inline-block",
     "min-width": "max-content"
   }
 };
+var _hoisted_14 = {
+  "class": "lead text-justify"
+};
+var _hoisted_15 = {
+  "class": "lead text-justify"
+};
 var _hoisted_16 = {
   "class": "lead text-justify"
 };
 var _hoisted_17 = {
-  "class": "lead text-justify"
-};
-var _hoisted_18 = {
-  "class": "lead text-justify"
-};
-var _hoisted_19 = {
   key: 0,
   "class": "alert alert-success mt-3",
   role: "alert"
 };
-var _hoisted_20 = {
+var _hoisted_18 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_21 = ["href"];
-var _hoisted_22 = {
+var _hoisted_19 = ["href"];
+var _hoisted_20 = {
   "class": "fab-container"
 };
-var _hoisted_23 = ["title"];
-var _hoisted_24 = {
+var _hoisted_21 = ["title"];
+var _hoisted_22 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x",
   role: "alert",
@@ -60152,20 +60158,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $options.switchTab('hajj');
     }),
-    "aria-selected": $data.currentTab === 'hajj',
     "aria-controls": "hajj-tab",
     role: "tab"
-  }, " Hajj Guides ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Hajj Guides ", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2 text-decoration-none", {
       active: $data.currentTab === 'umrah'
     }]),
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $options.switchTab('umrah');
     }),
-    "aria-selected": $data.currentTab === 'umrah',
     "aria-controls": "umrah-tab",
     role: "tab"
-  }, " Umrah Guides ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, " Umrah Guides ", 2 /* CLASS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $options.currentContent.image,
     alt: $options.currentContent.alt,
     style: {
@@ -60174,7 +60178,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     "class": "img-fluid shadow-sm w-100",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 8 /* PROPS */, _hoisted_8)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-book pr-2 pt-3",
     style: {
       "font-size": "20px",
@@ -60192,7 +60196,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "font-size": "20px",
       "cursor": "pointer"
     }
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Text copied to clipboard successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, " Text copied to clipboard successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.copyText && $options.copyText.apply($options, arguments);
@@ -60216,7 +60220,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white",
       "height": "38px"
     }
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_21)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_19)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "fab-single",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
@@ -60224,11 +60228,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close position-absolute top-50 end-0 translate-middle-y me-3",
         onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -64930,7 +64934,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "30px",
     alt: "lamp",
     loading: "lazy"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah.name_en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah_id) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.ayah_id) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah.name_ar), 1 /* TEXT */)])])]);
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah.name_en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah_id) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.ayah_id) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.information.ayah.surah.name_ar), 1 /* TEXT */)])])]);
 }
 
 /***/ }),

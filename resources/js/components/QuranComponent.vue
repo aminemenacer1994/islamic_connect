@@ -40,7 +40,7 @@
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
-                    <form class="d-flex pb-2  hide-on-mobile-tablet" v-if="information != null" role="search"
+                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
@@ -52,7 +52,7 @@
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
-                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container-fluid" />
+                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container" />
 
                     <!-- List of Ayat for Surah (desktop) -->
                     <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
