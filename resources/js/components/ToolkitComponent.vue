@@ -144,12 +144,28 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Seerah is the life story of
               Prophet Muhammad ﷺ, covering his birth, prophethood, teachings, events like battles, and his role in
-              establishing Islam and more.
+              establishing Islam.
             </p>
             <button class="form-control" onclick="window.location.href='/mission'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>View Seerah</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 d-flex pb-3">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/rug.png" alt="Seerah Timeline" class="w-100 mt-3" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Salat Teachings</h5>
+            <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover the beauty of Islamic prayer with our Salat Guide. This easy-to-follow resource walks you through each of the five daily prayers
+            </p>
+            <button class="form-control" onclick="window.location.href='/athkar'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Learn Salat</b></span>
             </button>
           </div>
         </div>
@@ -161,7 +177,7 @@
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Hajj & Umrah guides</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Hajj and Umrah are two important Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime for those who are able, and Umrah being a recommended but non-obligatory act of worship</p>
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Hajj and Umrah are two important Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime</p>
 
             <button class="form-control" onclick="window.location.href='/umrah'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -258,8 +274,7 @@
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Video Gallery</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore a curated collection of
-              short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections to
-              deepen your understanding of Islam.</p>
+              short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections</p>
 
             <button class="form-control" onclick="window.location.href='/video'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -338,9 +353,7 @@
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep
-              Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts to deliver
-              Quranic recitation, learning tools, accessibility features, and authentic Islamic content to a global
-              audience.
+              Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts
             </p>
             <button class="form-control" onclick="window.location.href='/support'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"

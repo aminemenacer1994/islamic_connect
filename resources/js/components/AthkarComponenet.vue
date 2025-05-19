@@ -1,13 +1,17 @@
 <template>
   <div class="container mt-4">
-    <h2 class="mb-4 text-center">Steps of Salah (Prayer)</h2>
+    <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2">Salat Teachings</h3>
+    <p class="text-center mb-4 lead container">
+      Discover the beauty of Islamic prayer with our comprehensive Salat Guide. This easy-to-follow resource walks you
+      through each of the five daily prayers
+    </p>
 
 
     <div v-for="step in salatSteps" :key="step.id" class="card mb-5 shadow rounded-4 border-0"
       style="overflow: hidden;border: 1px solid darkgrey; background-color: #fdfdfd;">
       <!-- Header -->
-      <div class="card-header fw-bold fs-5 py-3 px-3"
-        style=" background: linear-gradient(to right, #f3f4f6, #e2e8f0); color: #1a202c; border-bottom: 1px solid #e5e7eb;">
+      <div class="card-header fw-bold"
+        style=" background: linear-gradient(to right, #f3f4f6, #e2e8f0); color: #1a202c; font-size: 2rem; border-bottom: 1px solid #e5e7eb;">
         {{ step.id }}. {{ step.name }}
       </div>
 
@@ -20,23 +24,23 @@
         <!-- Text Content -->
         <div class="flex-grow-1 text-dark" style="font-size: 1.15rem;">
           <p>
-            <h5 class="fw-bold text-muted">Arabic:</h5>
-            {{ step.arabic }}
+          <h4 class="fw-bold text-muted">Arabic:</h4>
+          {{ step.arabic }}
           </p>
 
           <p>
-            <h5 class="fw-bold text-muted">Transliteration:</h5>
-            {{ step.transliteration }}
+          <h4 class="fw-bold text-muted">Transliteration:</h4>
+          {{ step.transliteration }}
           </p>
 
           <p>
-            <h5 class="fw-bold text-muted">Translation:</h5>
-            {{ step.translation }}
+          <h4 class="fw-bold text-muted">Translation:</h4>
+          {{ step.translation }}
           </p>
 
           <p>
-            <h5 class="fw-bold text-muted">Description:</h5>
-            {{ step.description }}
+          <h4 class="fw-bold text-muted">Description:</h4>
+          {{ step.description }}
           </p>
 
           <!-- Details Section -->
@@ -239,7 +243,7 @@ img {
     <div class="card shadow mb-3">
       <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <button class="btn btn-sm btn-outline-secondary" @click="prevPeriod">«</button>
-        <h5 class="mb-0">{{ displayTitle }}</h5>
+        <h4 class="mb-0">{{ displayTitle }}</h4>
         <button class="btn btn-sm btn-outline-secondary" @click="nextPeriod">»</button>
       </div>
 
