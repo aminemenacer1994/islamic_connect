@@ -117,8 +117,9 @@
               </div>
 
               <div class="d-flex flex-column flex-md-row gap-3">
-                <button class="btn flex-fill" style="background: rgb(13, 182, 145); color: #fff;"
-                  @click="calculateZakat">
+                <button class="btn flex-fill" :disabled="isFormEmpty"
+                  :style="{ opacity: isFormEmpty ? 0.5 : 1, cursor: isFormEmpty ? 'not-allowed' : 'pointer' }"
+                  style="background: rgb(13, 182, 145); color: #fff;" @click="calculateZakat">
                   <i class="bi bi-calculator me-2"></i><strong>Calculate Zakat</strong>
                 </button>
                 <button class="btn btn-outline-secondary flex-fill" @click="resetCalculator">
@@ -175,6 +176,8 @@
                 </div>
               </div>
 
+              <canvas id="zakatChart" width="100%" height="100"></canvas>
+
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
                   <span class="text-muted">Nisab Threshold:</span>
@@ -192,6 +195,7 @@
                 <p class="small mb-0" v-else>Your assets don't meet the Nisab threshold</p>
               </div>
 
+
               <button class="btn w-100 mt-4" style="background: rgb(13, 182, 145); color: #fff;" @click="printSummary">
                 <i class="bi bi-download me-2"></i><b>Download Summary</b>
               </button>
@@ -207,10 +211,14 @@
 </template>
 
 <script>
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 export default {
+
   name: "ZakatCalculator",
   data() {
     return {
+      chartInstance: null,
       zakatCalculated: false,
       goldGrams: 0,
       goldPrice: 0,
@@ -245,6 +253,20 @@ export default {
         this.businessAssets
       );
     },
+    isFormEmpty() {
+      const isEmpty = (val) =>
+        val === null || val === undefined || val === '' || parseFloat(val) === 0;
+      return (
+        this.goldGrams === 0 &&
+      this.goldPrice === 0 &&
+      this.silverGrams === 0 &&
+      this.silverPrice === 0 &&
+      this.cash === 0 &&
+      this.investments === 0 &&
+      this.businessAssets === 0 &&
+      this.liabilities === 0
+      );
+    },
     zakatableAmount() {
       const amount = this.totalAssets - this.liabilities;
       return amount > 0 ? amount : 0;
@@ -266,7 +288,7 @@ export default {
   },
   methods: {
     calculateZakat() {
-      // Your Zakat calculation logic
+      // your existing logic...
       this.totalAssets = this.goldGrams * this.goldPrice +
         this.silverGrams * this.silverPrice +
         this.cash + this.investments + this.businessAssets;
@@ -277,10 +299,44 @@ export default {
       this.isEligible = this.zakatableAmount >= this.nisabThreshold;
       this.zakatCalculated = true;
 
-      // Scroll to Zakat Summary if on mobile screen
       this.$nextTick(() => {
         if (window.innerWidth <= 768 && this.$refs.zakatSummary) {
           this.$refs.zakatSummary.scrollIntoView({ behavior: 'smooth' });
+        }
+        this.renderChart(); // draw the chart
+      });
+    },
+    renderChart() {
+      if (this.chartInstance) {
+        this.chartInstance.destroy(); // cleanup old chart if it exists
+      }
+
+      const ctx = document.getElementById('zakatChart').getContext('2d');
+      this.chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Zakat Due', 'Remaining Wealth'],
+          datasets: [{
+            data: [this.zakatDue, this.zakatableAmount - this.zakatDue],
+            backgroundColor: ['#f6b93b', '#4a69bd'],
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  let label = context.label || '';
+                  let value = context.parsed || 0;
+                  return `${label}: ${value.toFixed(2)}`;
+                }
+              }
+            }
+          }
         }
       });
     },
@@ -364,6 +420,10 @@ export default {
     },
     resetCalculator() {
       // Your reset logic
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+        this.chartInstance = null;
+      }
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;

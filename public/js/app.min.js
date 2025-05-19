@@ -45406,10 +45406,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.mjs");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart, _toConsumableArray(chart_js__WEBPACK_IMPORTED_MODULE_0__.registerables));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ZakatCalculator",
   data: function data() {
     return {
+      chartInstance: null,
       zakatCalculated: false,
       goldGrams: 0,
       goldPrice: 0,
@@ -45438,6 +45448,12 @@ __webpack_require__.r(__webpack_exports__);
     totalAssets: function totalAssets() {
       return this.goldGrams * this.goldPrice + this.silverGrams * this.silverPrice + this.cash + this.investments + this.businessAssets;
     },
+    isFormEmpty: function isFormEmpty() {
+      var isEmpty = function isEmpty(val) {
+        return val === null || val === undefined || val === '' || parseFloat(val) === 0;
+      };
+      return this.goldGrams === 0 && this.goldPrice === 0 && this.silverGrams === 0 && this.silverPrice === 0 && this.cash === 0 && this.investments === 0 && this.businessAssets === 0 && this.liabilities === 0;
+    },
     zakatableAmount: function zakatableAmount() {
       var amount = this.totalAssets - this.liabilities;
       return amount > 0 ? amount : 0;
@@ -45458,19 +45474,51 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     calculateZakat: function calculateZakat() {
       var _this = this;
-      // Your Zakat calculation logic
+      // your existing logic...
       this.totalAssets = this.goldGrams * this.goldPrice + this.silverGrams * this.silverPrice + this.cash + this.investments + this.businessAssets;
       this.zakatableAmount = this.totalAssets - this.liabilities;
       this.zakatDue = this.zakatableAmount * 0.025;
       this.isEligible = this.zakatableAmount >= this.nisabThreshold;
       this.zakatCalculated = true;
-
-      // Scroll to Zakat Summary if on mobile screen
       this.$nextTick(function () {
         if (window.innerWidth <= 768 && _this.$refs.zakatSummary) {
           _this.$refs.zakatSummary.scrollIntoView({
             behavior: 'smooth'
           });
+        }
+        _this.renderChart(); // draw the chart
+      });
+    },
+    renderChart: function renderChart() {
+      if (this.chartInstance) {
+        this.chartInstance.destroy(); // cleanup old chart if it exists
+      }
+      var ctx = document.getElementById('zakatChart').getContext('2d');
+      this.chartInstance = new chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Zakat Due', 'Remaining Wealth'],
+          datasets: [{
+            data: [this.zakatDue, this.zakatableAmount - this.zakatDue],
+            backgroundColor: ['#f6b93b', '#4a69bd']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            tooltip: {
+              callbacks: {
+                label: function label(context) {
+                  var label = context.label || '';
+                  var value = context.parsed || 0;
+                  return "".concat(label, ": ").concat(value.toFixed(2));
+                }
+              }
+            }
+          }
         }
       });
     },
@@ -45485,6 +45533,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     resetCalculator: function resetCalculator() {
       // Your reset logic
+      if (this.chartInstance) {
+        this.chartInstance.destroy();
+        this.chartInstance = null;
+      }
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;
@@ -56885,9 +56937,7 @@ var _hoisted_4 = {
 var _hoisted_5 = {
   "class": "card-body shadow-lg",
   style: {
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    "background-color": "rgba(13, 182, 145, 0.528)",
-    "border-radius": "15px"
+    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
   }
 };
 var _hoisted_6 = ["innerHTML"];
@@ -56925,12 +56975,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: station.id,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 border-0 shadow-md", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 border-lg shadow-md", {
         'bg-success-subtle text-success-emphasis border border-success': $data.currentAudio && $data.currentAudio.src === station.url,
         'bg-light': !($data.currentAudio && $data.currentAudio.src === station.url)
       }]),
       style: {
-        "border-radius": "10px"
+        "border-radius": "15px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title",
@@ -56944,9 +56994,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       src: station.url,
       controls: "",
       "class": "w-100 mt-3",
-      style: {
-        "border-radius": "10px"
-      },
       onPlay: function onPlay($event) {
         return $options.handlePlay(station.id, $event);
       },
@@ -60450,73 +60497,74 @@ var _hoisted_35 = {
 var _hoisted_36 = {
   "class": "d-flex flex-column flex-md-row gap-3"
 };
-var _hoisted_37 = {
+var _hoisted_37 = ["disabled"];
+var _hoisted_38 = {
   key: 0,
   "class": "col-lg-4",
   ref: "zakatSummary"
 };
-var _hoisted_38 = {
+var _hoisted_39 = {
   "class": "results-card card shadow-md sticky-top container",
   style: {
     "border": "2px solid lightgray",
     "border-radius": "20px"
   }
 };
-var _hoisted_39 = {
+var _hoisted_40 = {
   "class": "card-body"
 };
-var _hoisted_40 = {
-  "class": "summary-item"
-};
 var _hoisted_41 = {
-  "class": "d-flex justify-content-between mb-2"
+  "class": "summary-item"
 };
 var _hoisted_42 = {
-  "class": "text-success"
+  "class": "d-flex justify-content-between mb-2"
 };
 var _hoisted_43 = {
-  "class": "summary-item"
+  "class": "text-success"
 };
 var _hoisted_44 = {
-  "class": "d-flex justify-content-between mb-2"
+  "class": "summary-item"
 };
 var _hoisted_45 = {
-  "class": "text-danger"
+  "class": "d-flex justify-content-between mb-2"
 };
 var _hoisted_46 = {
-  "class": "summary-item"
+  "class": "text-danger"
 };
 var _hoisted_47 = {
-  "class": "d-flex justify-content-between mb-2"
-};
-var _hoisted_48 = {
-  "class": "text-primary"
-};
-var _hoisted_49 = {
-  "class": "summary-item bg-light p-3 rounded mb-3"
-};
-var _hoisted_50 = {
-  "class": "d-flex justify-content-between align-items-center"
-};
-var _hoisted_51 = {
-  "class": "text-success mb-0"
-};
-var _hoisted_52 = {
   "class": "summary-item"
 };
-var _hoisted_53 = {
+var _hoisted_48 = {
   "class": "d-flex justify-content-between mb-2"
 };
+var _hoisted_49 = {
+  "class": "text-primary"
+};
+var _hoisted_50 = {
+  "class": "summary-item bg-light p-3 rounded mb-3"
+};
+var _hoisted_51 = {
+  "class": "d-flex justify-content-between align-items-center"
+};
+var _hoisted_52 = {
+  "class": "text-success mb-0"
+};
+var _hoisted_53 = {
+  "class": "summary-item"
+};
 var _hoisted_54 = {
+  "class": "d-flex justify-content-between mb-2"
+};
+var _hoisted_55 = {
   key: 0,
   "class": "small mb-0"
 };
-var _hoisted_55 = {
+var _hoisted_56 = {
   key: 1,
   "class": "small mb-0"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold mb-4"
@@ -60651,30 +60699,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     number: true
   }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn flex-fill",
-    style: {
+    disabled: $options.isFormEmpty,
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+      opacity: $options.isFormEmpty ? 0.5 : 1,
+      cursor: $options.isFormEmpty ? 'not-allowed' : 'pointer'
+    }, {
       "background": "rgb(13, 182, 145)",
       "color": "#fff"
-    },
+    }]),
     onClick: _cache[10] || (_cache[10] = function () {
       return $options.calculateZakat && $options.calculateZakat.apply($options, arguments);
     })
   }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-calculator me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* HOISTED */)]), 12 /* STYLE, PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-outline-secondary flex-fill",
     onClick: _cache[11] || (_cache[11] = function () {
       return $options.resetCalculator && $options.resetCalculator.apply($options, arguments);
     })
   }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), $data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), $data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     style: {
       "font-weight": "bold"
     },
     "class": "pt-3 pl-3"
-  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Total Assets:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Total Assets:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -60685,9 +60737,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Liabilities:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Liabilities:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -60698,9 +60750,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Zakatable Amount:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Zakatable Amount:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
       "height": "6px"
@@ -60711,11 +60763,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "mb-1"
   }, "Zakat Due (2.5%)", -1 /* HOISTED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     "class": "text-muted"
-  }, "Your annual obligation", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Your annual obligation", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])])]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", {
+    id: "zakatChart",
+    width: "100%",
+    height: "100"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
   }, "Nisab Threshold:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
@@ -60723,7 +60779,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isEligible ? 'text-success' : 'text-muted')
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_54, "Your assets meet the Nisab threshold")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, "Your assets don't meet the Nisab threshold"))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, "Your assets meet the Nisab threshold")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_56, "Your assets don't meet the Nisab threshold"))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn w-100 mt-4",
     style: {
       "background": "rgb(13, 182, 145)",
@@ -158865,7 +158921,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nmark[data-v-87252526] {\n  background-color: rgba(13, 182, 145, 0.528);\n  color: #fff;\n  padding: 0 2px;\n  border-radius: 3px;\n}\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nmark[data-v-87252526] {\n  background-color: rgba(13, 182, 145, 0.528);\n  color: #fff;\n  padding: 0 2px;\n}\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -22,20 +22,19 @@
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div v-for="station in paginatedStations" :key="station.id" class="col">
           <div
-            class="card h-100 border-0 shadow-md"
+            class="card h-100 border-lg shadow-md" style="border-radius: 15px;"
             :class="{
               'bg-success-subtle text-success-emphasis border border-success': currentAudio && currentAudio.src === station.url,
               'bg-light': !(currentAudio && currentAudio.src === station.url)
-            }" style="border-radius: 10px;"
+            }" 
           >
-            <div class="card-body shadow-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; background-color: rgba(13, 182, 145, 0.528); border-radius: 15px;">
+            <div class="card-body shadow-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
               <h5 class="card-title" style="font-weight: bold;" v-html="highlightSearch(station.name)"></h5>
               <audio
                 ref="audioPlayer"
                 :src="station.url"
                 controls
                 class="w-100 mt-3"
-                style="border-radius: 10px;"
                 @play="handlePlay(station.id, $event)"
                 @pause="handlePause"
               ></audio>
@@ -149,7 +148,6 @@ mark {
   background-color: rgba(13, 182, 145, 0.528);
   color: #fff;
   padding: 0 2px;
-  border-radius: 3px;
 }
 
 audio::-webkit-media-controls-current-time-display,
