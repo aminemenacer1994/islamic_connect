@@ -70,7 +70,7 @@ export default {
         {
           id: 1,
           name: "Takbiratul Ihram",
-          image: "images/tasleem.jpg",
+          image: "images/takbir_1.jpg",
           arabic: "الله أكبر",
           transliteration: "Allahu Akbar",
           translation: "Allah is the Greatest",
@@ -86,9 +86,9 @@ export default {
         {
           id: 2,
           name: "Qiyam (Standing)",
-          image: "images/tasleem.jpg",
-          arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ",
-          transliteration: "Subhana Rabbiyal Adheem wa bihamdihi",
+          image: "images/standing_2.jpg",
+          arabic: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِیْنَۙ(۱) الرَّحْمٰنِ الرَّحِیْمِۙ(۲) مٰلِكِ یَوْمِ الدِّیْنِؕ(۳) اِیَّاكَ نَعْبُدُ وَ اِیَّاكَ نَسْتَعِیْنُؕ(۴) اِهْدِنَا الصِّرَاطَ الْمُسْتَقِیْمَۙ(۵) صِرَاطَ الَّذِیْنَ اَنْعَمْتَ عَلَیْهِمْ غَیْرِ الْمَغْضُوْبِ عَلَیْهِمْ وَ لَا الضَّآلِّیْنَ۠ ۷)",
+          transliteration: "Alhamdu lillaahi Rabbil ‘aalameen Ar-Rahmaanir-Raheem Maaliki Yawmid-Deen Iyyaaka na’budu wa lyyaaka nasta’een Ihdinas-Siraatal-Mustaqeem Siraatal-lazeena an’amta ‘alaihim ghayril-maghdoobi ‘alaihim wa lad-daaalleen",
           translation: "Glory to my Lord the Great, and praise to Him",
           description:
             "After Takbir, place your right hand over your left on your chest. Begin by reciting the opening supplication (Thana), then Surah Al-Fatihah followed by another Surah or verses from the Quran.",
@@ -102,7 +102,7 @@ export default {
         {
           id: 3,
           name: "Ruku (Bowing)",
-          image: "images/tasleem.jpg",
+          image: "images/bowing_3.jpg",
           arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
           transliteration: "Subhana Rabbiyal Adheem",
           translation: "Glory to my Lord the Most Great",
@@ -118,7 +118,7 @@ export default {
         {
           id: 4,
           name: "Standing from Ruku",
-          image: "images/tasleem.jpg",
+          image: "images/waiting_4.jpg",
           arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
           transliteration: "Sami Allahu liman hamidah",
           translation: "Allah hears those who praise Him",
@@ -134,7 +134,7 @@ export default {
         {
           id: 5,
           name: "Sujood (Prostration)",
-          image: "images/tasleem.jpg",
+          image: "images/sujud_5.jpg",
           arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
           transliteration: "Subhana Rabbiyal A'la",
           translation: "Glory to my Lord the Most High",
@@ -150,7 +150,7 @@ export default {
         {
           id: 6,
           name: "Sitting Between Prostrations",
-          image: "images/tasleem.jpg",
+          image: "images/tashahud_7.jpg",
           arabic: "رَبِّ اغْفِرْ لِي",
           transliteration: "Rabbighfir li",
           translation: "O Lord, forgive me",
@@ -165,9 +165,9 @@ export default {
         },
         {
           id: 7,
-          name: "Tashahhud (First Sitting)",
-          image: "images/tasleem.jpg",
-          arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ...",
+          name: "Tashahhud",
+          image: "images/sitting_6.jpg",
+          arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلاَمُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلاَمُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
           transliteration: "At-tahiyyatu lillahi was-salawatu wat-tayyibatu...",
           translation: "All compliments, prayers and pure words are due to Allah...",
           description:
@@ -181,22 +181,6 @@ export default {
         },
         {
           id: 8,
-          name: "Final Tashahhud",
-          image: "images/tasleem.jpg",
-          arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ...",
-          transliteration: "Allahumma salli 'ala Muhammadin wa 'ala ali Muhammadin...",
-          translation: "O Allah, send prayers upon Muhammad and the family of Muhammad...",
-          description:
-            "In the final sitting, recite the complete Tashahhud followed by sending blessings upon the Prophet (Salawat) and any preferred supplications before ending the prayer. This is your final opportunity for dua in the salah.",
-          details: {
-            supplication: "Can add personal duas in this position",
-            posture: "Same as first Tashahhud",
-            duration: "Take time for sincere dua",
-            conclusion: "Prepares for ending the prayer"
-          }
-        },
-        {
-          id: 9,
           name: "Tasleem (Ending the Prayer)",
           image: "images/tasleem.jpg",
           arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
