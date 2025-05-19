@@ -563,7 +563,7 @@
     </section>
   </div>
 </template>
-<style scoped>
+<style>
 .controls {
   margin-top: 20px;
 }

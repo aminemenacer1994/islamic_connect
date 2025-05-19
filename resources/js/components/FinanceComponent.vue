@@ -57,9 +57,7 @@
                         <span class="badge text-white" :style="`background-color: ${getCategoryColor(tip.category)}`">
                           {{ getCategoryName(tip.category) }}
                         </span>
-                        <span class="text-muted">
-                          <i class="bi bi-star-fill me-1"></i>{{ tip.importance }}/5
-                        </span>
+                        
                       </div>
 
                       <h6 class="small text-muted">{{ tip.description }}</h6>
