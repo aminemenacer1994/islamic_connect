@@ -130,7 +130,7 @@
         </div>
 
         <!-- Results Panel -->
-        <div class="col-lg-4">
+        <div class="col-lg-4" ref="zakatSummary" v-if="zakatCalculated">
           <div class="results-card card shadow-md sticky-top container"
             style="border: 2px solid lightgray; border-radius: 20px;">
             <h3 style="font-weight: bold;" class="pt-3 pl-3">Zakat Summary</h3>
@@ -211,6 +211,7 @@ export default {
   name: "ZakatCalculator",
   data() {
     return {
+      zakatCalculated: false,
       goldGrams: 0,
       goldPrice: 0,
       silverGrams: 0,
@@ -265,14 +266,23 @@ export default {
   },
   methods: {
     calculateZakat() {
-      const goldValue = this.goldGrams * this.goldPrice;
-      const silverValue = this.silverGrams * this.silverPrice;
+      // Your Zakat calculation logic
+      this.totalAssets = this.goldGrams * this.goldPrice +
+        this.silverGrams * this.silverPrice +
+        this.cash + this.investments + this.businessAssets;
 
-      const totalAssets = goldValue + silverValue + this.cash + this.investments + this.businessAssets;
-      const netAssets = totalAssets - this.liabilities;
+      this.zakatableAmount = this.totalAssets - this.liabilities;
+      this.zakatDue = this.zakatableAmount * 0.025;
 
-      this.zakatPayable = (netAssets * 0.025).toFixed(2);
+      this.isEligible = this.zakatableAmount >= this.nisabThreshold;
       this.zakatCalculated = true;
+
+      // Scroll to Zakat Summary if on mobile screen
+      this.$nextTick(() => {
+        if (window.innerWidth <= 768 && this.$refs.zakatSummary) {
+          this.$refs.zakatSummary.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     },
     printSummary() {
       const content = document.querySelector(".results-card").innerHTML;
@@ -353,19 +363,20 @@ export default {
       printWindow.close();
     },
     resetCalculator() {
+      // Your reset logic
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;
-      this.silverPrice = 1;
+      this.silverPrice = 0;
       this.cash = 0;
       this.investments = 0;
       this.businessAssets = 0;
       this.liabilities = 0;
-      this.selectedCurrency = "GBP";
-      this.nisabType = "gold";
-      localStorage.removeItem("zakatData");
-    },
-    
+      this.totalAssets = 0;
+      this.zakatableAmount = 0;
+      this.zakatDue = 0;
+      this.zakatCalculated = false;
+    }
   },
   watch: {
     goldGrams: "saveToLocalStorage",

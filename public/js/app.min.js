@@ -45410,6 +45410,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "ZakatCalculator",
   data: function data() {
     return {
+      zakatCalculated: false,
       goldGrams: 0,
       goldPrice: 0,
       silverGrams: 0,
@@ -45456,12 +45457,22 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     calculateZakat: function calculateZakat() {
-      var goldValue = this.goldGrams * this.goldPrice;
-      var silverValue = this.silverGrams * this.silverPrice;
-      var totalAssets = goldValue + silverValue + this.cash + this.investments + this.businessAssets;
-      var netAssets = totalAssets - this.liabilities;
-      this.zakatPayable = (netAssets * 0.025).toFixed(2);
+      var _this = this;
+      // Your Zakat calculation logic
+      this.totalAssets = this.goldGrams * this.goldPrice + this.silverGrams * this.silverPrice + this.cash + this.investments + this.businessAssets;
+      this.zakatableAmount = this.totalAssets - this.liabilities;
+      this.zakatDue = this.zakatableAmount * 0.025;
+      this.isEligible = this.zakatableAmount >= this.nisabThreshold;
       this.zakatCalculated = true;
+
+      // Scroll to Zakat Summary if on mobile screen
+      this.$nextTick(function () {
+        if (window.innerWidth <= 768 && _this.$refs.zakatSummary) {
+          _this.$refs.zakatSummary.scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
     },
     printSummary: function printSummary() {
       var content = document.querySelector(".results-card").innerHTML;
@@ -45473,17 +45484,19 @@ __webpack_require__.r(__webpack_exports__);
       printWindow.close();
     },
     resetCalculator: function resetCalculator() {
+      // Your reset logic
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;
-      this.silverPrice = 1;
+      this.silverPrice = 0;
       this.cash = 0;
       this.investments = 0;
       this.businessAssets = 0;
       this.liabilities = 0;
-      this.selectedCurrency = "GBP";
-      this.nisabType = "gold";
-      localStorage.removeItem("zakatData");
+      this.totalAssets = 0;
+      this.zakatableAmount = 0;
+      this.zakatDue = 0;
+      this.zakatCalculated = false;
     }
   },
   watch: {
@@ -60438,7 +60451,9 @@ var _hoisted_36 = {
   "class": "d-flex flex-column flex-md-row gap-3"
 };
 var _hoisted_37 = {
-  "class": "col-lg-4"
+  key: 0,
+  "class": "col-lg-4",
+  ref: "zakatSummary"
 };
 var _hoisted_38 = {
   "class": "results-card card shadow-md sticky-top container",
@@ -60652,7 +60667,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), $data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     style: {
       "font-weight": "bold"
     },
@@ -60719,7 +60734,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-download me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* HOISTED */)]))])])])])])]);
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* HOISTED */)]))])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
