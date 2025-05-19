@@ -1,25 +1,20 @@
 <template>
   <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2">Prayer Times Calendar</h3>
   <p class="text-center mb-4 lead container">
-    Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose.
+    Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location
+    or lets you manually choose.
   </p>
 
   <div class="container-fluid my-3 d-flex justify-content-center">
     <div class="card shadow p-4 w-100" style="max-width: 1500px;">
       <!-- Input Form -->
-      <form @submit.prevent="getPrayerTimes" class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
+      <form @submit.prevent="getPrayerTimes"
+        class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
         <!-- City Input -->
         <div class="flex-grow-1">
           <label for="city" class="form-label fw-bold">City</label>
-          <input
-            id="city"
-            v-model="city"
-            class="form-control"
-            placeholder="Enter city"
-            required
-            aria-label="City"
-            autofocus
-          />
+          <input id="city" v-model="city" class="form-control" placeholder="Enter city" required aria-label="City"
+            autofocus />
         </div>
 
         <!-- Method Selector -->
@@ -33,7 +28,8 @@
 
         <!-- Buttons -->
         <div class="d-flex gap-2">
-          <button type="submit" style="background-color: rgb(13, 182, 145);color: white;" class="btn px-4 shadow" :disabled="loading">
+          <button type="submit" style="background-color: rgb(13, 182, 145);color: white;" class="btn px-4 shadow"
+            :disabled="loading">
             <i class="bi bi-search me-2"></i>
             <span v-if="!loading">Get Times</span>
             <span v-else class="spinner-border spinner-border-sm"></span>
@@ -47,41 +43,41 @@
       <!-- Success Toast -->
       <div v-if="prayerData.length && submitted" class="alert alert-light text-center py-2 shadow-sm border-lg">
         <!-- ✅ <b>Timings for {{ city }} ({{ monthName }} {{ year }})</b> -->
-
-      <!-- Results Table -->
-      <div v-if="prayerData.length" class="table-responsive table-scroll mt-3">
-        <h5 class="text-center fw-semibold mb-3">
+        <h5 class="text-center fw-semibold stick-top mb-3">
           📅 Timings for {{ monthName }} {{ year }} – {{ city }}
         </h5>
-        <table class="table table-hover table-bordered text-center align-middle">
-          <thead class="table-secondary sticky-top">
-            <tr>
-              <th>Date</th>
-              <th>Fajr</th>
-              <th>Dhuhr</th>
-              <th>Asr</th>
-              <th>Maghrib</th>
-              <th>Isha</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="day in prayerData" :key="day.date.gregorian.date">
-              <td class="fw-semibold">{{ day.date.gregorian.date }}</td>
-              <td>{{ formatTime(day.timings.Fajr) }}</td>
-              <td>{{ formatTime(day.timings.Dhuhr) }}</td>
-              <td>{{ formatTime(day.timings.Asr) }}</td>
-              <td>{{ formatTime(day.timings.Maghrib) }}</td>
-              <td>{{ formatTime(day.timings.Isha) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <!-- Results Table -->
+        <div v-if="prayerData.length" class="table-responsive table-scroll mt-3">
 
-      <!-- No Results -->
-      <div v-if="prayerData.length === 0 && submitted && !loading" class="alert alert-warning text-center mt-4">
-        ⚠️ No prayer times found. Please double-check your city or try another method.
+          <table class="table table-hover table-bordered text-center align-middle">
+            <thead class="table-secondary sticky-top">
+              <tr>
+                <th>Date</th>
+                <th>Fajr</th>
+                <th>Dhuhr</th>
+                <th>Asr</th>
+                <th>Maghrib</th>
+                <th>Isha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="day in prayerData" :key="day.date.gregorian.date">
+                <td class="fw-semibold">{{ day.date.gregorian.date }}</td>
+                <td>{{ formatTime(day.timings.Fajr) }}</td>
+                <td>{{ formatTime(day.timings.Dhuhr) }}</td>
+                <td>{{ formatTime(day.timings.Asr) }}</td>
+                <td>{{ formatTime(day.timings.Maghrib) }}</td>
+                <td>{{ formatTime(day.timings.Isha) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- No Results -->
+        <div v-if="prayerData.length === 0 && submitted && !loading" class="alert alert-warning text-center mt-4">
+          ⚠️ No prayer times found. Please double-check your city or try another method.
+        </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -207,6 +203,7 @@ tbody tr:hover {
 }
 
 @media (max-width: 576px) {
+
   table thead th,
   table tbody td {
     font-size: 0.85rem;

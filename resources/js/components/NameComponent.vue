@@ -63,26 +63,15 @@
 
               <div v-if="showTranslation" class="mt-3 ">
                 <strong style="font-size: 1.4rem;">Meaning:</strong>
-                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
+                <p class="small text-muted" style="font-size: 1.4rem;">{{ name.translation }}</p>
               </div>
 
               <div v-if="showDescription" class="mt-2">
-                <strong style="font-size: 1.4rem;">Description:</strong>
+                <strong style="font-size: 1.6rem;">Description:</strong>
                 <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
               </div>
 
-              <!-- <div class="mt-3 d-flex justify-content-end gap-2">
-                <button class="btn btn-outline-secondary btn-sm" @click="copyToClipboard(name)">
-                  <i class="bi bi-clipboard"></i> Copy
-                </button>
-
-                <a class="btn btn-outline-success btn-sm" :href="generateWhatsAppLink(name)" target="_blank"
-                  rel="noopener">
-                  <i class="bi bi-whatsapp"></i> WhatsApp
-                </a>
-              </div> -->
-
-              <div class="d-flex sticky-bottom justify-content-between align-items-center gap-2">
+              <div class="d-flex justify-content-between align-items-center gap-2">
                 <!-- Get Directions Button -->
                 <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                   @click="copyToClipboard(name)"

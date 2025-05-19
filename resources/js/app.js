@@ -65,7 +65,7 @@ import GuideComponent from "./components/GuideComponent.vue";
 import StreamingComponent from "./components/StreamingComponent.vue";
 import ToolkitComponent from "./components/ToolkitComponent.vue";
 import VideoComponent from "./components/VideoComponent.vue";
-import BlogComponent from "./components/BlogComponent.vue";
+import BlogComponent from "./components/ZakatComponent.vue";
 import QiblaComponent from "./components/QiblaComponent.vue";
 import MosqueComponent from "./components/MosqueComponent.vue";
 import CalendarComponent from "./components/CalendarComponent.vue";
@@ -74,7 +74,7 @@ import HadithComponent from "./components/HadithComponent.vue";
 import ShopComponent from "./components/ShopComponent.vue";
 import TasbeehComponent from "./components/TasbeehComponent.vue";
 import UmrahComponent from "./components/UmrahComponent.vue";
-import AthanComponent from "./components/AthanComponent.vue";
+import NameComponent from "./components/NameComponent.vue";
 import PrayerComponent from "./components/PrayerComponent.vue";
 
 
@@ -87,6 +87,7 @@ import SearchForm from "./components/search/SearchForm.vue";
 import DarkModeToggle from "./components/DarkModeToggle.vue";
 import AthkarComponenet from "./components/AthkarComponenet.vue";
 import FinanceComponent from "./components/FinanceComponent.vue";
+import ZakatComponent from "./components/ZakatComponent.vue";
 
 
 const app = createApp({
@@ -188,7 +189,7 @@ app.component('guide-component', GuideComponent);
 app.component('streaming-component', StreamingComponent);
 app.component('toolkit-component', ToolkitComponent);
 app.component('video-component', VideoComponent);
-app.component('blog-component', BlogComponent);
+app.component('zakat-component', ZakatComponent);
 app.component('qibla-component', QiblaComponent);
 app.component('mosque-component', MosqueComponent);
 app.component('calendar-component', CalendarComponent);
@@ -199,8 +200,7 @@ app.component('tasbeeh-component', TasbeehComponent);
 app.component('athkar-component', AthkarComponenet);
 app.component('finance-component', FinanceComponent);
 app.component('umrah-component', UmrahComponent);
-app.component('athan-component', AthanComponent);
+app.component('name-component', NameComponent);
 app.component('prayer-component', PrayerComponent);
-
 
 app.mount("#app");

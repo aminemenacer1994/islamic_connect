@@ -5,8 +5,21 @@
       A Tasbeeh Counter is a digital tool or application designed to help users keep track of their Dhikr during their
       spiritual practices, such as reciting specific supplications or praises
     </p>
-    <strong class=" text-muted">Tap to recite:</strong>
-    <div class="fw-bold display-6 text-success mb-3">{{ currentDhikr }}</div>
+    <h3 class="text-muted mb-3">Tap to recite:</h3>
+    <div class="d-flex flex-column justify-content-center align-items-center text-center">
+      <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
+        <div class="fw-bold display-6 text-success">{{ currentDhikr }} - </div>
+        <div class="fw-bold display-6 text-success">{{ currentDhikrAr }}</div>
+      </div>
+
+      <div class="fw-bold display-4 text-success mb-3">
+        {{ animatedCounter }}
+      </div>
+    </div>
+
+
+
+
 
     <!-- Bead String -->
     <div class="bead-string mb-4">
@@ -29,8 +42,12 @@
 
     <!-- Buttons -->
     <div class="d-flex justify-content-between align-items-center gap-2">
-      <button class="btn d-flex align-items-center justify-content-center flex-grow-1" style="background: lightgray; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px" @click="undoClick"><b>Undo Tap -1</b></button>
-      <button class="btn d-flex align-items-center justify-content-center flex-grow-1" style="background: lightgrey; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px" @click="resetAll"><b>Reset counter</b></button>
+      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+        style="background: lightgray; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px"
+        @click="undoClick"><b>Undo Tap -1</b></button>
+      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+        style="background: lightgrey; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px"
+        @click="resetAll"><b>Reset counter</b></button>
     </div>
   </div>
 </template>
@@ -40,9 +57,12 @@ export default {
   name: "TasbeehBeadsCounter",
   data() {
     return {
+      animatedCounter: 0,
       counter: 0,
       goal: 33,
       dhikrList: ["SubhanAllah", "Alhamdulillah", "Allahu Akbar"],
+      dhikrListAr: ["سبحان الله", "الحمد لله", "الله أكبر"],
+
       rippleBead: null,
       showMilestone: false,
       milestoneMessage: "",
@@ -53,11 +73,18 @@ export default {
     currentDhikr() {
       const round = Math.floor(this.counter / this.goal) % this.dhikrList.length;
       return this.dhikrList[round];
+    },
+    currentDhikrAr() {
+      const round = Math.floor(this.counter / this.goal) % this.dhikrListAr.length;
+      return this.dhikrListAr[round];
     }
   },
   mounted() {
     const saved = localStorage.getItem("tasbeehCounter");
-    if (saved) this.counter = parseInt(saved);
+    if (saved) {
+      this.counter = parseInt(saved);
+      this.animatedCounter = this.counter;
+    }
     this.audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
     this.audio.load();
   },
@@ -67,9 +94,19 @@ export default {
     }
   },
   methods: {
+    animateCounter(target) {
+      const step = () => {
+        if (this.animatedCounter === target) return;
+        const direction = target > this.animatedCounter ? 1 : -1;
+        this.animatedCounter += direction;
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    },
     handleClick() {
       this.playSound();
       this.counter++;
+      this.animatedCounter = this.counter;
       this.playRipple();
       this.checkMilestone();
     },
@@ -77,11 +114,13 @@ export default {
       if (this.counter > 0) {
         this.playSound();
         this.counter--;
+        this.animatedCounter = this.counter;
         this.playRipple();
       }
     },
     resetAll() {
       this.counter = 0;
+      this.animatedCounter = 0;
     },
     playSound() {
       this.audio.currentTime = 0;
@@ -107,6 +146,14 @@ export default {
 </script>
 
 <style scoped>
+.digital-counter {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #00bfa6;
+  text-shadow: 0 0 10px #00bfa6;
+  transition: all 0.3s ease;
+}
+
 .bead-string {
   display: flex;
   flex-wrap: nowrap;

@@ -206,18 +206,17 @@
               to screen reader support and voice search it's your accessible, intelligent way to
               connect with the Divine.
             </strong>
-          <div class="d-grid pt-2">
-            <button class="form-control" onclick="window.location.href='/quran'"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-              type="submit">
-              <b>Learn more</b>
-            </button>
-          </div>
+            <div class="d-grid pt-2">
+              <button class="form-control" onclick="window.location.href='/quran'"
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
+                type="submit">
+                <b>Learn more</b>
+              </button>
+            </div>
           </p>
         </div>
         <div class="col-md-6 mt-4 order-1 order-md-1">
           <img src="/images/quran.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
-
         </div>
       </div>
 

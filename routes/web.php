@@ -41,7 +41,7 @@ use App\Http\Controllers\GuideController;
 use App\Http\Controllers\StreamingController;
 use App\Http\Controllers\ToolkitController;
 use App\Http\Controllers\VideoController;
-use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ZakatController;
 use App\Http\Controllers\QiblaController;
 use App\Http\Controllers\MosqueController;
 use App\Http\Controllers\CalendarController;
@@ -52,7 +52,7 @@ use App\Http\Controllers\TasbeehController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\AthkarController;
 use App\Http\Controllers\UmrahController;
-use App\Http\Controllers\AthanController;
+use App\Http\Controllers\NameController;
 use App\Http\Controllers\PrayerController;
 
 use Illuminate\Support\Facades\Http;
@@ -327,8 +327,8 @@ Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming
 Route::get('/toolkit', [ToolkitController::class, 'index'])->name('toolkit');
 // video
 Route::get('/video', [VideoController::class, 'index'])->name('video');
-// blog
-Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+// zakat
+Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
 // qibla
 Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
 // qibla
@@ -349,7 +349,7 @@ Route::get('/finance', [FinanceController::class, 'index'])->name('finance');
 Route::get('/athkar', [AthkarController::class, 'index'])->name('athkar');
 // umrah
 Route::get('/umrah', [UmrahController::class, 'index'])->name('umrah');
-// athan
-Route::get('/athan', [AthanController::class, 'index'])->name('athan');
+// names
+Route::get('/name', [NameController::class, 'index'])->name('name');
 // prayer
 Route::get('/prayer', [PrayerController::class, 'index'])->name('prayer');

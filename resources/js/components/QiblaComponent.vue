@@ -24,7 +24,7 @@
         </div>
       </div>
 
-     
+
       <!-- Location Info -->
       <div v-if="userLatitude !== null && userLongitude !== null" class="text-dark mb-3">
         <p class="text-center container mb-3 lead">
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Compass UI with Metadata -->
-    <div class="d-flex justify-content-center my-4" >
+    <div class="d-flex justify-content-center my-4">
       <div class="position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3" role="img"
         aria-label="Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North"
         tabindex="0" :data-latitude="userLatitude" :data-longitude="userLongitude" :data-qibla-angle="qiblaDirection"
@@ -68,7 +68,7 @@
 
         <!-- Qibla Needle -->
         <div class="arrow bg-danger position-absolute top-50 start-50" :style="{
-          transform: 'translate(-50%, -100%) rotate(' + (compassRotation + (qiblaDirection || 0)) + 'deg)'
+          transform: 'translate(-50%, -100%) rotate(' + ((qiblaDirection - compassRotation + 360) % 360) + 'deg)'
         }" style="
             width: 8px;
             height: 36%;
@@ -109,20 +109,19 @@ export default {
     };
   },
   mounted() {
-    if (typeof navigator !== "undefined") {
-      this.isOnline = navigator.onLine;
-      window.addEventListener("online", () => (this.isOnline = true));
-      window.addEventListener("offline", () => (this.isOnline = false));
-    }
-
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener("deviceorientationabsolute", this.handleOrientation, true);
+    if (typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function") {
+      DeviceOrientationEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === "granted") {
+            window.addEventListener("deviceorientation", this.handleOrientation, true);
+          }
+        })
+        .catch(console.error);
+    } else {
+      // Non-iOS
       window.addEventListener("deviceorientation", this.handleOrientation, true);
     }
-
-    this.sensorSupported = !!window.DeviceOrientationEvent;
-    this.deviceType = /Mobile|Android|iP(hone|od|ad)/.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
-    this.userAgent = navigator.userAgent;
   },
   computed: {
     hasData() {
@@ -225,8 +224,10 @@ export default {
       this.lastUpdated = new Date().toISOString();
     },
     handleOrientation(event) {
-      if (event.alpha !== null) {
-        this.compassRotation = 360 - event.alpha;
+      if (event.webkitCompassHeading !== undefined) {
+        this.compassRotation = event.webkitCompassHeading;
+      } else if (event.alpha !== null) {
+        this.compassRotation = 360 - event.alpha; // subtract to rotate clockwise
       }
     },
     toRadians(deg) {

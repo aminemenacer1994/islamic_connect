@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div id="app">
-    <athan-component></athan-component>
+    <name-component></name-component>
     {{-- @include('layouts.footer') --}}
 
 <div>

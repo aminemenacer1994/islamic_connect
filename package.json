@@ -70,7 +70,7 @@
         "stream-http": "^3.2.0",
         "stripe": "^14.15.0",
         "sweetalert2": "^11.9.0",
-        "tesseract.js": "^6.0.0",
+        "tesseract.js": "^6.0.1",
         "timers-browserify": "^2.0.12",
         "tinymce": "^7.2.1",
         "transformers": "^3.1.0",
