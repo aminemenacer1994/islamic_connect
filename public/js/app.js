@@ -34996,161 +34996,137 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'PrayerHabitTracker',
   data: function data() {
     return {
-      viewMode: 'month',
-      prayers: ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
-      selectedDate: new Date(),
-      currentMonth: new Date().getMonth(),
-      currentYear: new Date().getFullYear(),
-      prayerData: {},
-      personalNotes: {},
-      weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      salatSteps: [{
+        id: 1,
+        name: "Takbiratul Ihram",
+        image: "images/tasleem.jpg",
+        arabic: "الله أكبر",
+        transliteration: "Allahu Akbar",
+        translation: "Allah is the Greatest",
+        description: "Begin the prayer by raising both hands up to the ears with palms facing forward while saying 'Allahu Akbar'. This marks the official start of your salah and means all worldly matters should now be disregarded.",
+        details: {
+          hands: "Raised to ear level, thumbs aligned with earlobes",
+          posture: "Standing straight, facing Qibla",
+          eyes: "Looking at the place of prostration",
+          timing: "Say 'Allahu Akbar' as you raise your hands"
+        }
+      }, {
+        id: 2,
+        name: "Qiyam (Standing)",
+        image: "images/tasleem.jpg",
+        arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ",
+        transliteration: "Subhana Rabbiyal Adheem wa bihamdihi",
+        translation: "Glory to my Lord the Great, and praise to Him",
+        description: "After Takbir, place your right hand over your left on your chest. Begin by reciting the opening supplication (Thana), then Surah Al-Fatihah followed by another Surah or verses from the Quran.",
+        details: {
+          hands: "Right over left, placed below the chest",
+          recitation: "Must recite Al-Fatihah in every rak'ah",
+          duration: "Stand until fully reciting required verses",
+          focus: "Maintain concentration on the meaning"
+        }
+      }, {
+        id: 3,
+        name: "Ruku (Bowing)",
+        image: "images/tasleem.jpg",
+        arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+        transliteration: "Subhana Rabbiyal Adheem",
+        translation: "Glory to my Lord the Most Great",
+        description: "While saying 'Allahu Akbar', bow down with your back straight parallel to the ground, hands gripping the knees with fingers spread apart. Maintain this position while reciting the tasbih at least three times.",
+        details: {
+          back: "Flat and parallel to the ground",
+          hands: "Firmly gripping knees with fingers spread",
+          head: "In line with the back, not lowered or raised",
+          feet: "Shoulder-width apart, knees slightly bent"
+        }
+      }, {
+        id: 4,
+        name: "Standing from Ruku",
+        image: "images/tasleem.jpg",
+        arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+        transliteration: "Sami Allahu liman hamidah",
+        translation: "Allah hears those who praise Him",
+        description: "Rise from bowing while saying 'Sami Allahu liman hamidah'. When fully standing upright, say 'Rabbana lakal hamd' (Our Lord, to You is all praise). Ensure you stand completely straight before proceeding.",
+        details: {
+          rising: "Come up smoothly without jerking",
+          posture: "Stand completely straight before moving",
+          hands: "Return to sides naturally while rising",
+          duration: "Pause briefly in standing position"
+        }
+      }, {
+        id: 5,
+        name: "Sujood (Prostration)",
+        image: "images/tasleem.jpg",
+        arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+        transliteration: "Subhana Rabbiyal A'la",
+        translation: "Glory to my Lord the Most High",
+        description: "While saying 'Allahu Akbar', go down into prostration with seven body parts touching the ground: forehead, nose, both palms, both knees, and toes of both feet. Recite the tasbih at least three times.",
+        details: {
+          contact: "Seven points must touch the ground",
+          arms: "Elbows raised, not touching the ground",
+          feet: "Toes pointing towards Qibla",
+          position: "Forehead and nose firmly on ground"
+        }
+      }, {
+        id: 6,
+        name: "Sitting Between Prostrations",
+        image: "images/tasleem.jpg",
+        arabic: "رَبِّ اغْفِرْ لِي",
+        transliteration: "Rabbighfir li",
+        translation: "O Lord, forgive me",
+        description: "After first prostration, sit up completely while saying 'Allahu Akbar'. Sit on your left foot which is flat on the ground while your right foot is upright with toes pointing toward Qibla. Make the supplication before second prostration.",
+        details: {
+          sitting: "On left foot, right foot upright",
+          hands: "Resting on thighs near knees",
+          duration: "Long enough to say the dua",
+          posture: "Back straight during sitting"
+        }
+      }, {
+        id: 7,
+        name: "Tashahhud (First Sitting)",
+        image: "images/tasleem.jpg",
+        arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ...",
+        transliteration: "At-tahiyyatu lillahi was-salawatu wat-tayyibatu...",
+        translation: "All compliments, prayers and pure words are due to Allah...",
+        description: "After completing the required prostrations, sit for the Tashahhud. Raise your right index finger when reciting 'Ash-hadu an la ilaha illallah' to testify to Allah's oneness. Maintain this position until completion.",
+        details: {
+          finger: "Raised during Shahada portion",
+          sitting: "Same as between prostrations",
+          recitation: "Must be said in Arabic correctly",
+          focus: "On meaning of the words"
+        }
+      }, {
+        id: 8,
+        name: "Final Tashahhud",
+        image: "images/tasleem.jpg",
+        arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ...",
+        transliteration: "Allahumma salli 'ala Muhammadin wa 'ala ali Muhammadin...",
+        translation: "O Allah, send prayers upon Muhammad and the family of Muhammad...",
+        description: "In the final sitting, recite the complete Tashahhud followed by sending blessings upon the Prophet (Salawat) and any preferred supplications before ending the prayer. This is your final opportunity for dua in the salah.",
+        details: {
+          supplication: "Can add personal duas in this position",
+          posture: "Same as first Tashahhud",
+          duration: "Take time for sincere dua",
+          conclusion: "Prepares for ending the prayer"
+        }
+      }, {
+        id: 9,
+        name: "Tasleem (Ending the Prayer)",
+        image: "images/tasleem.jpg",
+        arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+        transliteration: "Assalamu alaykum wa rahmatullah",
+        translation: "Peace and mercy of Allah be upon you",
+        description: "Turn your head to the right and say 'Assalamu alaykum wa rahmatullah' then to the left repeating the same. This officially ends the prayer. Remain seated briefly to complete recommended dhikr and supplications.",
+        details: {
+          turn: "First to right, then to left",
+          angle: "Turn until cheeks are visible from behind",
+          intention: "Greeting angels and worshippers",
+          completion: "Prayer is now complete"
+        }
+      }]
     };
-  },
-  computed: {
-    dateKey: function dateKey() {
-      return this.selectedDate.toISOString().split('T')[0];
-    },
-    displayTitle: function displayTitle() {
-      if (this.viewMode === 'month') {
-        return new Date(this.currentYear, this.currentMonth).toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'long'
-        });
-      }
-      if (this.viewMode === 'week') {
-        var start = this.currentWeek[0].toLocaleDateString();
-        var end = this.currentWeek[6].toLocaleDateString();
-        return "Week: ".concat(start, " - ").concat(end);
-      }
-      return this.selectedDate.toDateString();
-    },
-    calendarGrid: function calendarGrid() {
-      var first = new Date(this.currentYear, this.currentMonth, 1);
-      var last = new Date(this.currentYear, this.currentMonth + 1, 0);
-      var weeks = [];
-      var week = Array(first.getDay()).fill(null);
-      for (var day = 1; day <= last.getDate(); day++) {
-        week.push(new Date(this.currentYear, this.currentMonth, day));
-        if (week.length === 7) {
-          weeks.push(week);
-          week = [];
-        }
-      }
-      if (week.length) {
-        while (week.length < 7) week.push(null);
-        weeks.push(week);
-      }
-      return weeks;
-    },
-    currentWeek: function currentWeek() {
-      var selected = new Date(this.selectedDate);
-      var start = new Date(selected.setDate(selected.getDate() - selected.getDay()));
-      return Array.from({
-        length: 7
-      }, function (_, i) {
-        return new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
-      });
-    },
-    totalMarked: function totalMarked() {
-      var _this = this;
-      var keys = Object.keys(this.prayerData);
-      return keys.filter(function (k) {
-        return k.startsWith(_this.currentYear + '-') && _this.prayerData[k];
-      }).length;
-    },
-    completionRate: function completionRate() {
-      var _this2 = this;
-      var daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-      var totalPossible = daysInMonth * this.prayers.length;
-      var completed = Object.entries(this.prayerData).filter(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-          k = _ref2[0],
-          v = _ref2[1];
-        var date = new Date(k.split('_')[1]);
-        return date.getMonth() === _this2.currentMonth && date.getFullYear() === _this2.currentYear && v === true;
-      }).length;
-      return Math.round(completed / totalPossible * 100);
-    }
-  },
-  methods: {
-    getKey: function getKey(prayer) {
-      return "".concat(prayer, "_").concat(this.dateKey);
-    },
-    isChecked: function isChecked(prayer) {
-      return !!this.prayerData[this.getKey(prayer)];
-    },
-    togglePrayer: function togglePrayer(prayer) {
-      var key = this.getKey(prayer);
-      this.prayerData[key] = !this.prayerData[key];
-      this.saveData();
-    },
-    selectDate: function selectDate(day) {
-      if (day) this.selectedDate = new Date(day);
-    },
-    isToday: function isToday(day) {
-      var today = new Date();
-      return day && day.getDate() === today.getDate() && day.getMonth() === today.getMonth() && day.getFullYear() === today.getFullYear();
-    },
-    isSelected: function isSelected(day) {
-      return day && day.getDate() === this.selectedDate.getDate() && day.getMonth() === this.selectedDate.getMonth() && day.getFullYear() === this.selectedDate.getFullYear();
-    },
-    prevPeriod: function prevPeriod() {
-      if (this.viewMode === 'month') {
-        this.currentMonth--;
-        if (this.currentMonth < 0) {
-          this.currentMonth = 11;
-          this.currentYear--;
-        }
-      } else if (this.viewMode === 'week') {
-        this.selectedDate.setDate(this.selectedDate.getDate() - 7);
-      } else {
-        this.selectedDate.setDate(this.selectedDate.getDate() - 1);
-      }
-    },
-    nextPeriod: function nextPeriod() {
-      if (this.viewMode === 'month') {
-        this.currentMonth++;
-        if (this.currentMonth > 11) {
-          this.currentMonth = 0;
-          this.currentYear++;
-        }
-      } else if (this.viewMode === 'week') {
-        this.selectedDate.setDate(this.selectedDate.getDate() + 7);
-      } else {
-        this.selectedDate.setDate(this.selectedDate.getDate() + 1);
-      }
-    },
-    goToPreviousDay: function goToPreviousDay() {
-      this.selectedDate.setDate(this.selectedDate.getDate() - 1);
-    },
-    goToNextDay: function goToNextDay() {
-      this.selectedDate.setDate(this.selectedDate.getDate() + 1);
-    },
-    saveData: function saveData() {
-      localStorage.setItem('prayerData', JSON.stringify(this.prayerData));
-    },
-    saveNotes: function saveNotes() {
-      localStorage.setItem('personalNotes', JSON.stringify(this.personalNotes));
-    },
-    loadData: function loadData() {
-      var prayer = localStorage.getItem('prayerData');
-      if (prayer) this.prayerData = JSON.parse(prayer);
-      var notes = localStorage.getItem('personalNotes');
-      if (notes) this.personalNotes = JSON.parse(notes);
-    }
-  },
-  mounted: function mounted() {
-    this.loadData();
   }
 });
 
@@ -52289,10 +52265,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8 ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -52303,195 +52279,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "container mt-4"
 };
 var _hoisted_2 = {
-  "class": "d-flex justify-content-center mb-3"
-};
-var _hoisted_3 = {
-  "class": "card shadow mb-3"
-};
-var _hoisted_4 = {
-  "class": "card-header bg-white d-flex justify-content-between align-items-center"
-};
-var _hoisted_5 = {
-  "class": "mb-0"
-};
-var _hoisted_6 = {
-  "class": "card-body px-1"
-};
-var _hoisted_7 = {
-  key: 0
-};
-var _hoisted_8 = {
-  "class": "row text-center fw-bold border-bottom pb-2"
-};
-var _hoisted_9 = ["onClick"];
-var _hoisted_10 = {
-  key: 0
-};
-var _hoisted_11 = {
-  key: 1,
-  "class": "row text-center"
-};
-var _hoisted_12 = ["onClick"];
-var _hoisted_13 = {
-  key: 2,
-  "class": "text-center"
-};
-var _hoisted_14 = {
-  "class": "mx-3"
-};
-var _hoisted_15 = {
-  key: 0,
-  "class": "row g-3"
-};
-var _hoisted_16 = {
-  "class": "col-md-6"
-};
-var _hoisted_17 = {
-  "class": "card shadow"
-};
-var _hoisted_18 = {
-  "class": "card-header bg-primary text-white"
-};
-var _hoisted_19 = {
-  "class": "card-body"
-};
-var _hoisted_20 = ["onClick"];
-var _hoisted_21 = {
-  "class": "col-md-6"
-};
-var _hoisted_22 = {
-  "class": "card shadow mb-3"
-};
-var _hoisted_23 = {
-  "class": "card-body"
-};
-var _hoisted_24 = {
-  "class": "card shadow"
-};
-var _hoisted_25 = {
-  "class": "card-body"
-};
-var _hoisted_26 = {
-  "class": "progress",
+  "class": "card-header fw-bold fs-5 py-3 px-3",
   style: {
-    "height": "20px"
+    "background": "linear-gradient(to right, #f3f4f6, #e2e8f0)",
+    "color": "#1a202c",
+    "border-bottom": "1px solid #e5e7eb"
   }
 };
+var _hoisted_3 = {
+  "class": "card-body d-flex flex-column flex-md-row align-items-start gap-4 px-4 py-4"
+};
+var _hoisted_4 = ["src", "alt"];
+var _hoisted_5 = {
+  "class": "flex-grow-1 text-dark",
+  style: {
+    "font-size": "1.15rem"
+  }
+};
+var _hoisted_6 = {
+  key: 0
+};
+var _hoisted_7 = {
+  "class": "list-group list-group-flush"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-bold text-primary"
-  }, "🕌 Islamic Prayer & Habit Tracker"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted"
-  }, "Track your daily prayers, habits, and reflections.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-primary me-2", {
-      active: $data.viewMode === 'month'
-    }]),
-    onClick: _cache[0] || (_cache[0] = function ($event) {
-      return $data.viewMode = 'month';
-    })
-  }, "Monthly", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-primary me-2", {
-      active: $data.viewMode === 'week'
-    }]),
-    onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $data.viewMode = 'week';
-    })
-  }, "Weekly", 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-primary", {
-      active: $data.viewMode === 'day'
-    }]),
-    onClick: _cache[2] || (_cache[2] = function ($event) {
-      return $data.viewMode = 'day';
-    })
-  }, "Daily", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Calendar Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-secondary",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.prevPeriod && $options.prevPeriod.apply($options, arguments);
-    })
-  }, "«"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.displayTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-secondary",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.nextPeriod && $options.nextPeriod.apply($options, arguments);
-    })
-  }, "»")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Calendar Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [$data.viewMode === 'month' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Weekdays "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekDays, function (day) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "mb-4 text-center"
+  }, "Steps of Salah (Prayer)", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.salatSteps, function (step) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "col",
-      key: day
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.calendarGrid, function (week, wIndex) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "row text-center",
-      key: wIndex
-    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, function (day, dIndex) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col calendar-cell p-2 border", {
-          'bg-light': $options.isToday(day),
-          'bg-success text-white': $options.isSelected(day)
-        }]),
-        key: dIndex,
-        onClick: function onClick($event) {
-          return $options.selectDate(day);
+      key: step.id,
+      "class": "card mb-5 shadow rounded-4 border-0",
+      style: {
+        "overflow": "hidden",
+        "border": "1px solid darkgrey",
+        "background-color": "#fdfdfd"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: step.image,
+      alt: step.name,
+      "class": "img-fluid rounded-3 shadow-sm",
+      style: {
+        "max-width": "200%",
+        "max-height": "260px",
+        "object-fit": "contain",
+        "background-color": "#fff",
+        "padding": "0.5rem"
+      }
+    }, null, 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Text Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "fw-bold text-muted"
+    }, "Arabic:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.arabic), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "fw-bold text-muted"
+    }, "Transliteration:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.transliteration), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "fw-bold text-muted"
+    }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.translation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "fw-bold text-muted"
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Details Section "), step.details && Object.keys(step.details).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      "class": "fw-bold text-muted"
+    }, "Details:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.details, function (detail, key) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: key,
+        "class": "list-group-item px-0 py-1 border-0 text-muted",
+        style: {
+          "background-color": "transparent"
         }
-      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.getDate()), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_9);
-    }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.viewMode === 'week' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentWeek, function (day) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col calendar-cell p-2 border", {
-        'bg-light': $options.isToday(day),
-        'bg-success text-white': $options.isSelected(day)
-      }]),
-      key: day,
-      onClick: function onClick($event) {
-        return $options.selectDate(day);
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.weekDays[day.getDay()]), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.getDate()), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.viewMode === 'day' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-secondary",
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.goToPreviousDay && $options.goToPreviousDay.apply($options, arguments);
-    })
-  }, "Previous"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDate.toDateString()), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-secondary",
-    onClick: _cache[6] || (_cache[6] = function () {
-      return $options.goToNextDay && $options.goToNextDay.apply($options, arguments);
-    })
-  }, "Next")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Tracker "), $data.selectedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Checkboxes "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Prayers on " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDate.toDateString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayers, function (prayer) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: prayer,
-      "class": "d-flex justify-content-between align-items-center mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-success btn-sm", {
-        active: $options.isChecked(prayer)
-      }]),
-      onClick: function onClick($event) {
-        return $options.togglePrayer(prayer);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isChecked(prayer) ? '✓ Completed' : 'Mark'), 11 /* TEXT, CLASS, PROPS */, _hoisted_20)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes and Stats "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-header bg-info text-white"
-  }, "Daily Reflection / Notes", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.personalNotes[$options.dateKey] = $event;
-    }),
-    "class": "form-control",
-    rows: "4",
-    placeholder: "Write your thoughts, goals or intentions...",
-    onInput: _cache[8] || (_cache[8] = function () {
-      return $options.saveNotes && $options.saveNotes.apply($options, arguments);
-    })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.personalNotes[$options.dateKey]]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-header bg-warning text-dark"
-  }, "Monthly Stats", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Total Prayers Marked: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalMarked), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Completion Rate: ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.completionRate) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "progress-bar bg-success",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: $options.completionRate + '%'
-    })
-  }, null, 4 /* STYLE */)])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key.charAt(0).toUpperCase() + key.slice(1)) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(detail), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]);
 }
 
 /***/ }),
@@ -158417,10 +158273,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.img-fluid[data-v-300b761a] {\n  wid
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -158434,7 +158290,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.calendar-cell[data-v-424e5bb8] {\n  min-height: 60px;\n  cursor: pointer;\n  border-radius: 6px;\n  transition: background 0.3s;\n}\n.calendar-cell[data-v-424e5bb8]:hover {\n  background-color: #f0f0f0;\n}\ntextarea[data-v-424e5bb8] {\n  resize: vertical;\n}\nbutton.active[data-v-424e5bb8] {\n  background-color: #0d6efd !important;\n  color: white !important;\n  border-color: #0d6efd !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nimg {\n  max-width: 100%;\n  height: auto;\n}\n.card {\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -225703,10 +225559,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -225716,7 +225572,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css");
 
             
 
@@ -225725,11 +225581,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -307217,9 +307073,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true */ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true");
+/* harmony import */ var _AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=template&id=424e5bb8 */ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8");
 /* harmony import */ var _AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=script&lang=js */ "./resources/js/components/AthkarComponenet.vue?vue&type=script&lang=js");
-/* harmony import */ var _AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
+/* harmony import */ var _AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css */ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css");
 /* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
@@ -307228,7 +307084,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-424e5bb8"],['__file',"resources/js/components/AthkarComponenet.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AthkarComponenet_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AthkarComponenet.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -307253,31 +307109,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css":
-/*!**************************************************************************************************************!*\
-  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css ***!
-  \**************************************************************************************************************/
+/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css ***!
+  \**************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&scoped=true&lang=css");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_style_index_0_id_424e5bb8_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=style&index=0&id=424e5bb8&lang=css");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true":
-/*!************************************************************************************************!*\
-  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true ***!
-  \************************************************************************************************/
+/***/ "./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8 ***!
+  \************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AthkarComponenet_vue_vue_type_template_id_424e5bb8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AthkarComponenet.vue?vue&type=template&id=424e5bb8 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AthkarComponenet.vue?vue&type=template&id=424e5bb8");
 
 
 /***/ }),

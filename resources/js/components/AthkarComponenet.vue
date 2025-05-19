@@ -1,42 +1,59 @@
-<!-- <template>
+<template>
   <div class="container mt-4">
     <h2 class="mb-4 text-center">Steps of Salah (Prayer)</h2>
 
-    <div class="card container-fluid mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="/images/salat1.jpg" style="padding: 5px; border-radius: 10px;" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
-            <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+
+    <div v-for="step in salatSteps" :key="step.id" class="card mb-5 shadow rounded-4 border-0"
+      style="overflow: hidden;border: 1px solid darkgrey; background-color: #fdfdfd;">
+      <!-- Header -->
+      <div class="card-header fw-bold fs-5 py-3 px-3"
+        style=" background: linear-gradient(to right, #f3f4f6, #e2e8f0); color: #1a202c; border-bottom: 1px solid #e5e7eb;">
+        {{ step.id }}. {{ step.name }}
+      </div>
+
+      <!-- Body -->
+      <div class="card-body d-flex flex-column flex-md-row align-items-start gap-4 px-4 py-4">
+        <!-- Image -->
+        <img :src="step.image" :alt="step.name" class="img-fluid rounded-3 shadow-sm"
+          style="max-width: 200%; max-height: 260px; object-fit: contain; background-color: #fff; padding: 0.5rem;" />
+
+        <!-- Text Content -->
+        <div class="flex-grow-1 text-dark" style="font-size: 1.15rem;">
+          <p>
+            <h5 class="fw-bold text-muted">Arabic:</h5>
+            {{ step.arabic }}
+          </p>
+
+          <p>
+            <h5 class="fw-bold text-muted">Transliteration:</h5>
+            {{ step.transliteration }}
+          </p>
+
+          <p>
+            <h5 class="fw-bold text-muted">Translation:</h5>
+            {{ step.translation }}
+          </p>
+
+          <p>
+            <h5 class="fw-bold text-muted">Description:</h5>
+            {{ step.description }}
+          </p>
+
+          <!-- Details Section -->
+          <div v-if="step.details && Object.keys(step.details).length">
+            <h4 class="fw-bold text-muted">Details:</h4>
+            <ul class="list-group list-group-flush">
+              <li v-for="(detail, key) in step.details" :key="key" class="list-group-item px-0 py-1 border-0 text-muted"
+                style="background-color: transparent;">
+                <strong>{{ key.charAt(0).toUpperCase() + key.slice(1) }}:</strong> {{ detail }}
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-    <div v-for="step in salatSteps" :key="step.id" class="card mb-4">
-      <div class="card-header fw-bold">
-        {{ step.id }}. {{ step.name }}
-      </div>
 
 
-      <div class="card-body">
-        <img :src="step.image" :alt="step.name" class="img-fluid mb-3" />
-        <p><strong>Arabic:</strong> {{ step.arabic }}</p>
-        <p><strong>Transliteration:</strong> {{ step.transliteration }}</p>
-        <p><strong>Translation:</strong> {{ step.translation }}</p>
-        <p>{{ step.description }}</p>
-        <ul>
-          <li v-for="(detail, key) in step.details" :key="key">
-            <strong>{{ key }}:</strong> {{ detail }}
-          </li>
-        </ul>
-      </div>
-      
-    </div>
 
   </div>
 </template>
@@ -49,7 +66,7 @@ export default {
         {
           id: 1,
           name: "Takbiratul Ihram",
-          image: "takbir-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "الله أكبر",
           transliteration: "Allahu Akbar",
           translation: "Allah is the Greatest",
@@ -65,7 +82,7 @@ export default {
         {
           id: 2,
           name: "Qiyam (Standing)",
-          image: "standing-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ",
           transliteration: "Subhana Rabbiyal Adheem wa bihamdihi",
           translation: "Glory to my Lord the Great, and praise to Him",
@@ -81,7 +98,7 @@ export default {
         {
           id: 3,
           name: "Ruku (Bowing)",
-          image: "ruku-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
           transliteration: "Subhana Rabbiyal Adheem",
           translation: "Glory to my Lord the Most Great",
@@ -97,7 +114,7 @@ export default {
         {
           id: 4,
           name: "Standing from Ruku",
-          image: "rising-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
           transliteration: "Sami Allahu liman hamidah",
           translation: "Allah hears those who praise Him",
@@ -113,7 +130,7 @@ export default {
         {
           id: 5,
           name: "Sujood (Prostration)",
-          image: "sujood-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
           transliteration: "Subhana Rabbiyal A'la",
           translation: "Glory to my Lord the Most High",
@@ -129,7 +146,7 @@ export default {
         {
           id: 6,
           name: "Sitting Between Prostrations",
-          image: "jalsa-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "رَبِّ اغْفِرْ لِي",
           transliteration: "Rabbighfir li",
           translation: "O Lord, forgive me",
@@ -145,7 +162,7 @@ export default {
         {
           id: 7,
           name: "Tashahhud (First Sitting)",
-          image: "tashahhud-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ...",
           transliteration: "At-tahiyyatu lillahi was-salawatu wat-tayyibatu...",
           translation: "All compliments, prayers and pure words are due to Allah...",
@@ -161,7 +178,7 @@ export default {
         {
           id: 8,
           name: "Final Tashahhud",
-          image: "final-tashahhud-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ...",
           transliteration: "Allahumma salli 'ala Muhammadin wa 'ala ali Muhammadin...",
           translation: "O Allah, send prayers upon Muhammad and the family of Muhammad...",
@@ -177,7 +194,7 @@ export default {
         {
           id: 9,
           name: "Tasleem (Ending the Prayer)",
-          image: "salam-position.jpg",
+          image: "images/tasleem.jpg",
           arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
           transliteration: "Assalamu alaykum wa rahmatullah",
           translation: "Peace and mercy of Allah be upon you",
@@ -205,23 +222,20 @@ img {
 .card {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-</style> -->
-<!-- App.vue -->
-<template>
+</style>
+<!-- <template>
   <div class="container py-4">
     <div class="text-center mb-4">
       <h2 class="fw-bold text-primary">🕌 Islamic Prayer & Habit Tracker</h2>
       <p class="text-muted">Track your daily prayers, habits, and reflections.</p>
     </div>
 
-    <!-- View Toggle -->
     <div class="d-flex justify-content-center mb-3">
       <button class="btn btn-outline-primary me-2" :class="{ active: viewMode === 'month' }" @click="viewMode = 'month'">Monthly</button>
       <button class="btn btn-outline-primary me-2" :class="{ active: viewMode === 'week' }" @click="viewMode = 'week'">Weekly</button>
       <button class="btn btn-outline-primary" :class="{ active: viewMode === 'day' }" @click="viewMode = 'day'">Daily</button>
     </div>
 
-    <!-- Calendar Header -->
     <div class="card shadow mb-3">
       <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <button class="btn btn-sm btn-outline-secondary" @click="prevPeriod">«</button>
@@ -229,14 +243,11 @@ img {
         <button class="btn btn-sm btn-outline-secondary" @click="nextPeriod">»</button>
       </div>
 
-      <!-- Calendar Body -->
       <div class="card-body px-1">
         <div v-if="viewMode === 'month'">
-          <!-- Weekdays -->
           <div class="row text-center fw-bold border-bottom pb-2">
             <div class="col" v-for="day in weekDays" :key="day">{{ day }}</div>
           </div>
-          <!-- Grid -->
           <div class="row text-center" v-for="(week, wIndex) in calendarGrid" :key="wIndex">
             <div
               class="col calendar-cell p-2 border"
@@ -265,9 +276,7 @@ img {
       </div>
     </div>
 
-    <!-- Prayer Tracker -->
     <div v-if="selectedDate" class="row g-3">
-      <!-- Prayer Checkboxes -->
       <div class="col-md-6">
         <div class="card shadow">
           <div class="card-header bg-primary text-white">
@@ -288,7 +297,6 @@ img {
         </div>
       </div>
 
-      <!-- Notes and Stats -->
       <div class="col-md-6">
         <div class="card shadow mb-3">
           <div class="card-header bg-info text-white">Daily Reflection / Notes</div>
@@ -493,4 +501,4 @@ button.active {
   color: white !important;
   border-color: #0d6efd !important;
 }
-</style>
+</style> -->
