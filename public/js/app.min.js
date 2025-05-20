@@ -54643,7 +54643,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold mb-3"
   }, "Contact Us"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
     "class": "lead"
@@ -58443,7 +58443,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/rug.png",
     alt: "Seerah Timeline",
-    "class": "w-100 mt-3",
+    "class": "w-100 mt-1",
     style: {
       "object-fit": "contain"
     }
@@ -58458,7 +58458,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Discover the beauty of Islamic prayer with our Salat Guide. This easy-to-follow resource walks you through each of the five daily prayers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Discover the beauty of Islamic prayer with our Salat Guide. This walks you through each of the five daily prayers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
     onclick: "window.location.href='/athkar'",
     style: {

@@ -157,10 +157,10 @@
 
       <div class="col-md-6 col-lg-4 d-flex pb-3">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
-          <img src="/images/rug.png" alt="Seerah Timeline" class="w-100 mt-3" style="object-fit: contain;" />
+          <img src="/images/rug.png" alt="Seerah Timeline" class="w-100 mt-1" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Salat Teachings</h5>
-            <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover the beauty of Islamic prayer with our Salat Guide. This easy-to-follow resource walks you through each of the five daily prayers
+            <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover the beauty of Islamic prayer with our Salat Guide. This walks you through each of the five daily prayers
             </p>
             <button class="form-control" onclick="window.location.href='/athkar'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
