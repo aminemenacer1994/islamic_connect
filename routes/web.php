@@ -54,6 +54,7 @@ use App\Http\Controllers\AthkarController;
 use App\Http\Controllers\UmrahController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PrayerController;
+use App\Http\Controllers\TravelController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -353,3 +354,5 @@ Route::get('/umrah', [UmrahController::class, 'index'])->name('umrah');
 Route::get('/name', [NameController::class, 'index'])->name('name');
 // prayer
 Route::get('/prayer', [PrayerController::class, 'index'])->name('prayer');
+// travel
+Route::get('/travel', [TravelController::class, 'index'])->name('travel');

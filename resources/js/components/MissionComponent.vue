@@ -774,7 +774,7 @@ mark {
 }
 
 .controls button:disabled {
-  background-color: #bdc3c7;
+  /* background-color: #bdc3c7; */
   cursor: not-allowed;
 }
 

@@ -296,7 +296,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/podcasting.png" width="50px" />
+                <img src="images/podcasting.png" width="100px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -314,7 +314,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/voice-recognition.png" width="60px" />
+                <img src="images/voice-recognition.png" width="100px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -331,7 +331,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/elearning.png" width="50px" />
+                <img src="images/elearning.png" width="100px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -349,7 +349,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/attached-file.png" width="50px" />
+                <img src="images/attached-file.png" width="100px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -366,7 +366,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/highlighter.png" width="50px" />
+                <img src="images/highlighter.png" width="100px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -384,7 +384,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/chat.png" width="50px" />
+                <img src="images/chat.png" width="140px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -563,12 +563,12 @@
     </section>
   </div>
 </template>
-<style>
+<style scoped>
 .controls {
   margin-top: 20px;
 }
 
-.controls button {
+/* .controls button {
   margin: 5px;
   padding: 10px 20px;
   border: none;
@@ -583,7 +583,7 @@
 .controls button:disabled {
   background-color: #bdc3c7;
   cursor: not-allowed;
-}
+} */
 
 .controls button:hover:not(:disabled) {
   background-color: #0db691;

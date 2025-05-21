@@ -193,7 +193,17 @@ export default {
           parseInt(this.radius)
         );
 
-        this.mosques = mosques.map(mosque => this.processMosqueData(mosque, coords));
+        // Filter out mosques with "unnamed" or "prayer room" in their name
+        const filteredMosques = mosques.filter(mosque => {
+          const name = (mosque.tags?.name || '').toLowerCase();
+          return !name.includes('unnamed') &&
+            !name.includes('prayer room') &&
+            !name.includes('musallah') &&  // common alternative for prayer room
+            !name.includes('salaah') &&   // common misspelling
+            name.trim().length > 0;        // ensure name isn't empty
+        });
+
+        this.mosques = filteredMosques.map(mosque => this.processMosqueData(mosque, coords));
       } catch (error) {
         console.error("Error in mosque search:", error);
         this.mosques = [];

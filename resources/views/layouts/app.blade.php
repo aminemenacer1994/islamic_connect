@@ -111,16 +111,17 @@ body{
                     
                     <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Audio Center</b>
+                            <b style="color:black">Media Center</b>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/content">Audio Podcasts</a></li>
-                            <li><a class="dropdown-item" href="/radio">Radio Stations</a></li>
+                            <li><a class="dropdown-item" href="/radio">Reciters Stations</a></li>
+                            <li><a class="dropdown-item" href="/streaming">Live TV streaming</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item mt-3">
+                    <!-- <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-2" href="/streaming" data-path="/streaming"><b style="color:black">Live Streaming</b></a></h6>
-                    </li> 
+                    </li>  -->
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah Timeline</b></a></h6>
                     </li>

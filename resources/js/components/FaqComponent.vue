@@ -145,14 +145,14 @@ h1 {
   margin-bottom: 20px;
 }
 
-.controls {
+/* .controls {
   background: #f5f5f5;
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
   display: flex;
   gap: 15px;
-}
+} */
 
 .controls label {
   display: flex;

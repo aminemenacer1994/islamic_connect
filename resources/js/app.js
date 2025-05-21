@@ -76,6 +76,7 @@ import TasbeehComponent from "./components/TasbeehComponent.vue";
 import UmrahComponent from "./components/UmrahComponent.vue";
 import NameComponent from "./components/NameComponent.vue";
 import PrayerComponent from "./components/PrayerComponent.vue";
+import TravelComponent from "./components/TravelComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -202,5 +203,6 @@ app.component('finance-component', FinanceComponent);
 app.component('umrah-component', UmrahComponent);
 app.component('name-component', NameComponent);
 app.component('prayer-component', PrayerComponent);
+app.component('travel-component', TravelComponent);
 
 app.mount("#app");
