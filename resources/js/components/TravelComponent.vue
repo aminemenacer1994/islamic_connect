@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid islamic-travel-locator">
+  <div class="container-fluid travel-agency-locator">
     <header class="text-center py-4 bg-primary text-white">
-      <h1>Worldwide Islamic Travel Agency Locator</h1>
-      <p class="lead">Find Halal-friendly travel services around the world</p>
+      <h1>Islamic Travel Agency Finder</h1>
+      <p class="lead">Locate halal-friendly travel services worldwide</p>
     </header>
 
     <main class="my-4">
@@ -32,14 +32,19 @@
                 </select>
               </div>
               <div class="mb-3">
-                <label for="businessType" class="form-label">Business Type</label>
-                <select class="form-select" id="businessType" v-model="businessType">
-                  <option value="travel_agency">Travel Agencies</option>
-                  <option value="restaurant">Halal Restaurants</option>
-                  <option value="hotel">Halal Hotels</option>
-                  <option value="mosque">Mosques</option>
-                  <option value="all">All Islamic Services</option>
-                </select>
+                <label class="form-label">Search Type</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" v-model="searchPreference" id="islamicOnly" value="islamic">
+                  <label class="form-check-label" for="islamicOnly">
+                    Islamic Agencies Only
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" v-model="searchPreference" id="allAgencies" value="all" checked>
+                  <label class="form-check-label" for="allAgencies">
+                    All Travel Agencies
+                  </label>
+                </div>
               </div>
               <button 
                 class="btn btn-primary w-100" 
@@ -47,14 +52,14 @@
                 :disabled="isLoading"
               >
                 <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                {{ isLoading ? 'Searching...' : 'Search' }}
+                {{ isLoading ? 'Searching...' : 'Find Travel Agencies' }}
               </button>
             </div>
           </div>
 
           <div class="card mt-3 results-card" v-if="results.length > 0">
             <div class="card-header bg-secondary text-white">
-              <h5 class="mb-0">Search Results ({{ results.length }})</h5>
+              <h5 class="mb-0">Found Agencies ({{ results.length }})</h5>
             </div>
             <div class="card-body p-0">
               <ul class="list-group list-group-flush result-list">
@@ -62,11 +67,14 @@
                   v-for="(result, index) in results" 
                   :key="index"
                   class="list-group-item result-item"
-                  :class="{ active: activeResultIndex === index }"
+                  :class="{ 
+                    active: activeResultIndex === index,
+                    'islamic-agency': isIslamicAgency(result.tags)
+                  }"
                   @click="setActiveResult(index)"
                 >
-                  <h6 class="mb-1">{{ result.tags.name || 'Unnamed Location' }}</h6>
-                  <p class="mb-1 text-muted small">{{ getBusinessType(result.tags) }}</p>
+                  <h6 class="mb-1">{{ result.tags.name || 'Unnamed Travel Agency' }}</h6>
+                  <span v-if="isIslamicAgency(result.tags)" class="badge bg-success mb-2">Islamic</span>
                   <p class="mb-1 small">{{ result.tags['addr:street'] || '' }} {{ result.tags['addr:housenumber'] || '' }}</p>
                   <p class="mb-0 small">{{ result.tags['addr:city'] || '' }} {{ result.tags['addr:postcode'] || '' }}</p>
                 </li>
@@ -88,7 +96,7 @@
               </div>
               <div v-if="noResults" class="no-results-overlay">
                 <div class="alert alert-warning m-3">
-                  No results found for your search. Try a different location or wider radius.
+                  No travel agencies found in this area. Try a different location or wider radius.
                 </div>
               </div>
             </div>
@@ -96,21 +104,17 @@
         </div>
       </div>
     </main>
-
-    <footer class="text-center py-3 bg-light mt-4">
-      <p class="mb-0">© {{ currentYear }} Islamic Travel Locator - Find Halal-friendly travel services worldwide</p>
-    </footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'IslamicTravelLocator',
+  name: 'TravelAgencyLocator',
   data() {
     return {
       searchQuery: '',
       searchRadius: '10',
-      businessType: 'travel_agency',
+      searchPreference: 'all',
       isLoading: false,
       isLoadingMap: false,
       noResults: false,
@@ -118,7 +122,8 @@ export default {
       activeResultIndex: null,
       map: null,
       markers: [],
-      currentYear: new Date().getFullYear()
+      currentSource: 'Overpass',
+      currentLocation: { lat: 21.3891, lng: 39.8579 }
     };
   },
   mounted() {
@@ -128,33 +133,27 @@ export default {
     initMap() {
       this.isLoadingMap = true;
       
-      // Load Leaflet CSS and JS dynamically
       const leafletCSS = document.createElement('link');
       leafletCSS.rel = 'stylesheet';
       leafletCSS.href = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css';
-      leafletCSS.integrity = 'sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==';
-      leafletCSS.crossOrigin = '';
       document.head.appendChild(leafletCSS);
       
       const leafletJS = document.createElement('script');
       leafletJS.src = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js';
-      leafletJS.integrity = 'sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==';
-      leafletJS.crossOrigin = '';
       leafletJS.onload = () => {
         this.setupMap();
       };
       document.head.appendChild(leafletJS);
     },
     setupMap() {
-      // Create map centered on Mecca by default
-      this.map = L.map(this.$refs.mapElement).setView([21.3891, 39.8579], 3);
-      
-      // Add OpenStreetMap tiles
+      // Use the currentLocation data property
+      this.map = L.map(this.$refs.mapElement).setView(
+        [this.currentLocation.lat, this.currentLocation.lng], 
+        3
+      );
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map);
-      
       this.isLoadingMap = false;
     },
     async searchLocation() {
@@ -168,7 +167,6 @@ export default {
       this.clearMarkers();
       
       try {
-        // First geocode the search query to get coordinates
         const geocodeResponse = await this.geocodeLocation(this.searchQuery);
         
         if (geocodeResponse.length === 0) {
@@ -177,18 +175,27 @@ export default {
           return;
         }
         
-        const { lat, lon } = geocodeResponse[0];
+        // Store the current location
+        this.currentLocation = {
+          lat: parseFloat(geocodeResponse[0].lat),
+          lng: parseFloat(geocodeResponse[0].lon)
+        };
         
-        // Center map on the searched location
-        this.map.setView([lat, lon], 13);
+        // Safely set map view
+        if (this.map) {
+          this.map.setView(
+            [this.currentLocation.lat, this.currentLocation.lng], 
+            13
+          );
+          
+          // Add center marker
+          const marker = L.marker([this.currentLocation.lat, this.currentLocation.lng])
+            .addTo(this.map)
+            .bindPopup(`<b>Search Center:</b><br>${this.searchQuery}`);
+          this.markers.push(marker);
+        }
         
-        // Add marker for searched location
-        const marker = L.marker([lat, lon]).addTo(this.map)
-          .bindPopup(`<b>Search Location:</b><br>${this.searchQuery}`);
-        this.markers.push(marker);
-        
-        // Now search for Islamic businesses around this location
-        await this.searchIslamicBusinesses(lat, lon);
+        await this.searchAllSources(this.currentLocation.lat, this.currentLocation.lng);
         
       } catch (error) {
         console.error('Search error:', error);
@@ -197,91 +204,196 @@ export default {
         this.isLoading = false;
       }
     },
+    
+     // Modified to ensure valid coordinates
+     async searchAllSources(lat, lng) {
+      const radius = this.searchRadius * 1000;
+      
+      // Validate coordinates
+      if (isNaN(lat)) lat = this.currentLocation.lat;
+      if (isNaN(lng)) lng = this.currentLocation.lng;
+      
+      // 1. First try Overpass API
+      this.currentSource = 'Overpass';
+      this.results = await this.searchOverpass(lat, lng, radius);
+      
+      // 2. If no results, try Wikidata
+      if (this.results.length === 0) {
+        this.currentSource = 'Wikidata';
+        this.results = await this.searchWikidata(lat, lng, radius);
+      }
+      
+      // 3. If still no results, try GeoNames
+      if (this.results.length === 0) {
+        this.currentSource = 'GeoNames';
+        const nearbyCities = await this.getNearbyCities(lat, lng);
+        if (nearbyCities.length > 0) {
+          for (const city of nearbyCities.slice(0, 3)) {
+            const cityLat = parseFloat(city.lat);
+            const cityLng = parseFloat(city.lng);
+            if (!isNaN(cityLat) && !isNaN(cityLng)) {
+              this.results = await this.searchOverpass(cityLat, cityLng, radius);
+              if (this.results.length > 0) break;
+            }
+          }
+        }
+      }
+      
+      if (this.results.length === 0) {
+        this.noResults = true;
+        this.suggestAlternativeLocations();
+      } else {
+        this.plotResultsOnMap();
+        this.setActiveResult(0);
+      }
+    },
+    
     async geocodeLocation(query) {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`
       );
       return await response.json();
     },
-    async searchIslamicBusinesses(lat, lon) {
-      const radius = this.searchRadius * 1000; // Convert km to meters
-      
-      let overpassQuery = `
+    
+    async searchOverpass(lat, lon, radius) {
+      let query = `
         [out:json];
         (
+          node["tourism"~"travel_agency|tour_operator"](around:${radius},${lat},${lon});
+          way["tourism"~"travel_agency|tour_operator"](around:${radius},${lat},${lon});
       `;
       
-      // Build query based on selected business type
-      if (this.businessType === 'travel_agency' || this.businessType === 'all') {
-        overpassQuery += `
-          node["tourism"="travel_agency"](around:${radius},${lat},${lon});
-          way["tourism"="travel_agency"](around:${radius},${lat},${lon});
-          relation["tourism"="travel_agency"](around:${radius},${lat},${lon});
+      if (this.searchPreference === 'islamic') {
+        query += `
+          node["tourism"~"travel_agency|tour_operator"]["name"~"islamic|muslim|halal|hajj|umrah",i](around:${radius},${lat},${lon});
+          node["tourism"~"travel_agency|tour_operator"]["description"~"islamic|muslim|halal|hajj|umrah",i](around:${radius},${lat},${lon});
         `;
       }
       
-      if (this.businessType === 'restaurant' || this.businessType === 'all') {
-        overpassQuery += `
-          node["cuisine"="halal"](around:${radius},${lat},${lon});
-          way["cuisine"="halal"](around:${radius},${lat},${lon});
-          relation["cuisine"="halal"](around:${radius},${lat},${lon});
-          node["diet:halal"="yes"](around:${radius},${lat},${lon});
-          way["diet:halal"="yes"](around:${radius},${lat},${lon});
-          relation["diet:halal"="yes"](around:${radius},${lat},${lon});
-        `;
-      }
+      query += `); out center;`;
       
-      if (this.businessType === 'hotel' || this.businessType === 'all') {
-        overpassQuery += `
-          node["tourism"="hotel"]["diet:halal"="yes"](around:${radius},${lat},${lon});
-          way["tourism"="hotel"]["diet:halal"="yes"](around:${radius},${lat},${lon});
-          relation["tourism"="hotel"]["diet:halal"="yes"](around:${radius},${lat},${lon});
-        `;
-      }
-      
-      if (this.businessType === 'mosque' || this.businessType === 'all') {
-        overpassQuery += `
-          node["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lon});
-          way["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lon});
-          relation["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lon});
-        `;
-      }
-      
-      overpassQuery += `
+      try {
+        const response = await fetch(
+          `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
         );
-        out center;
-      `;
+        const data = await response.json();
+        return data.elements || [];
+      } catch (error) {
+        console.error('Overpass error:', error);
+        return [];
+      }
+    },
+    
+    async searchWikidata(lat, lon, radius) {
+      // Convert radius to degrees (approximate)
+      const radiusDeg = radius / 111000;
       
-      const response = await fetch(
-        `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`
+      try {
+        const query = `
+          SELECT ?item ?itemLabel ?location WHERE {
+            SERVICE wikibase:around {
+              ?item wdt:P625 ?location.
+              bd:serviceParam wikibase:center "Point(${lon} ${lat})"^^geo:wktLiteral.
+              bd:serviceParam wikibase:radius "${radiusDeg}".
+            }
+            ?item wdt:P31 wd:Q16334295.  # Travel agency
+            OPTIONAL { ?item wdt:P17 ?country. }
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+          }
+        `;
+        
+        const response = await fetch(
+          `https://query.wikidata.org/sparql?query=${encodeURIComponent(query)}`,
+          { headers: { Accept: 'application/json' } }
+        );
+        
+        const data = await response.json();
+        return data.results.bindings.map(item => {
+          const coords = item.location.value.match(/Point\(([^ ]+) ([^ ]+)\)/);
+          return {
+            type: 'node',
+            lat: parseFloat(coords[2]),
+            lon: parseFloat(coords[1]),
+            tags: {
+              name: item.itemLabel.value,
+              wikidata: item.item.value.split('/').pop()
+            }
+          };
+        });
+      } catch (error) {
+        console.error('Wikidata error:', error);
+        return [];
+      }
+    },
+    
+    async getNearbyCities(lat, lon) {
+      try {
+        const response = await fetch(
+          `http://api.geonames.org/findNearbyPlaceNameJSON?lat=${lat}&lng=${lon}&radius=${this.searchRadius}&maxRows=5&username=demo`
+        );
+        const data = await response.json();
+        return data.geonames || [];
+      } catch (error) {
+        console.error('GeoNames error:', error);
+        return [];
+      }
+    },
+    
+    suggestAlternativeLocations() {
+      const suggestions = {
+        'London': ['Whitechapel', 'Edgware Road', 'Brick Lane'],
+        'Dubai': ['Deira', 'Bur Dubai', 'Al Barsha'],
+        'Kuala Lumpur': ['Ampang', 'Bangsar', 'Putrajaya']
+      };
+      
+      const cityMatch = Object.keys(suggestions).find(city => 
+        this.searchQuery.toLowerCase().includes(city.toLowerCase())
       );
       
-      const data = await response.json();
-      this.results = data.elements || [];
-      
-      if (this.results.length === 0) {
-        this.noResults = true;
-      } else {
-        this.plotResultsOnMap();
-        this.setActiveResult(0); // Auto-select first result
+      if (cityMatch) {
+        this.results = suggestions[cityMatch].map(area => ({
+          type: 'suggestion',
+          tags: {
+            name: `Try searching in ${area}, ${cityMatch}`,
+            suggestion: true
+          }
+        }));
       }
     },
     plotResultsOnMap() {
       this.clearMarkers();
       
       this.results.forEach((result, index) => {
-        let lat, lon;
+        let lat, lng;
         
         if (result.center) {
-          lat = result.center.lat;
-          lon = result.center.lon;
+          lat = parseFloat(result.center.lat);
+          lng = parseFloat(result.center.lon);
+        } else if (result.lat && result.lon) {
+          lat = parseFloat(result.lat);
+          lng = parseFloat(result.lon);
+        } else if (result.lat && result.lng) {
+          lat = parseFloat(result.lat);
+          lng = parseFloat(result.lng);
         } else {
-          lat = result.lat;
-          lon = result.lon;
+          console.warn('Invalid coordinates for result:', result);
+          return; // Skip this result
         }
         
-        const marker = L.marker([lat, lon]).addTo(this.map)
-          .bindPopup(`<b>${result.tags.name || 'Unnamed Location'}</b><br>${this.getBusinessType(result.tags)}`);
+        if (isNaN(lat) || isNaN(lng)) {
+          console.warn('Invalid coordinates for result:', result);
+          return;
+        }
+        
+        const isIslamic = this.isIslamicAgency(result.tags);
+        const icon = L.divIcon({
+          className: `custom-marker ${isIslamic ? 'islamic-marker' : 'regular-marker'}`,
+          html: isIslamic ? '🕋' : '✈️',
+          iconSize: [30, 30]
+        });
+        
+        const marker = L.marker([lat, lng], {icon}).addTo(this.map)
+          .bindPopup(this.createAgencyPopup(result));
         
         marker.on('click', () => {
           this.setActiveResult(index);
@@ -290,52 +402,76 @@ export default {
         this.markers.push(marker);
       });
       
-      // Create a feature group and fit bounds to show all markers
       if (this.markers.length > 0) {
         const group = new L.featureGroup(this.markers);
         this.map.fitBounds(group.getBounds().pad(0.1));
       }
+    },
+    createAgencyPopup(result) {
+      const name = result.tags.name || 'Unnamed Travel Agency';
+      const isIslamic = this.isIslamicAgency(result.tags);
+      const address = [
+        result.tags['addr:street'],
+        result.tags['addr:housenumber'],
+        result.tags['addr:city'],
+        result.tags['addr:postcode']
+      ].filter(Boolean).join(' ');
+      
+      return `
+        <div class="map-popup">
+          <h6 class="popup-title">${name}</h6>
+          ${isIslamic ? '<span class="badge bg-success mb-1">Islamic Travel Agency</span>' : ''}
+          ${address ? `<p class="popup-address">${address}</p>` : ''}
+          ${result.tags.phone ? `<p class="popup-phone">📞 ${result.tags.phone}</p>` : ''}
+          ${result.tags.website ? `<a href="${this.ensureHttp(result.tags.website)}" target="_blank">🌐 Visit Website</a>` : ''}
+        </div>
+      `;
+    },
+    ensureHttp(url) {
+      return url.startsWith('http') ? url : `https://${url}`;
     },
     clearMarkers() {
       this.markers.forEach(marker => this.map.removeLayer(marker));
       this.markers = [];
     },
     setActiveResult(index) {
+      if (index < 0 || index >= this.results.length) return;
+      
       this.activeResultIndex = index;
       const result = this.results[index];
       
-      let lat, lon;
+      let lat, lng;
       if (result.center) {
-        lat = result.center.lat;
-        lon = result.center.lon;
-      } else {
-        lat = result.lat;
-        lon = result.lon;
+        lat = parseFloat(result.center.lat);
+        lng = parseFloat(result.center.lon);
+      } else if (result.lat && result.lon) {
+        lat = parseFloat(result.lat);
+        lng = parseFloat(result.lon);
+      } else if (result.lat && result.lng) {
+        lat = parseFloat(result.lat);
+        lng = parseFloat(result.lng);
       }
       
-      // Center on the selected result
-      this.map.setView([lat, lon], 15);
-      
-      // Open the marker's popup
-      this.markers[index].openPopup();
+      if (!isNaN(lat) && !isNaN(lng) && this.map) {
+        this.map.setView([lat, lng], 15);
+        if (this.markers[index]) {
+          this.markers[index].openPopup();
+        }
+      }
     },
-    getBusinessType(tags) {
-      if (tags['tourism'] === 'travel_agency') return 'Travel Agency';
-      if (tags['amenity'] === 'place_of_worship' && tags['religion'] === 'muslim') return 'Mosque';
-      if (tags['cuisine'] === 'halal' || tags['diet:halal'] === 'yes') {
-        if (tags['amenity'] === 'restaurant') return 'Halal Restaurant';
-        return 'Halal Food Service';
-      }
-      if (tags['tourism'] === 'hotel' && tags['diet:halal'] === 'yes') return 'Halal Hotel';
-      
-      return 'Islamic Service';
+    isIslamicAgency(tags) {
+      return (
+        tags['tourism'] === 'travel_agency' && 
+        (tags['name']?.match(/islamic|muslim|halal|hajj|umrah/i) || 
+         tags['description']?.match(/islamic|muslim|halal|hajj|umrah/i))
+      );
     }
   }
 };
 </script>
 
 <style scoped>
-.islamic-travel-locator {
+.travel-agency-locator {
   min-height: 100vh;
   background-color: #f8f9fa;
 }
@@ -350,10 +486,6 @@ header {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 8px;
-}
-
-.search-card .card-body {
-  padding: 1.5rem;
 }
 
 .map-container {
@@ -384,12 +516,6 @@ header {
   border-radius: 8px;
 }
 
-.spinner-container {
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-}
-
 .result-list {
   max-height: 60vh;
   overflow-y: auto;
@@ -411,9 +537,57 @@ header {
   border-left: 3px solid #0d6efd;
 }
 
-footer {
-  border-radius: 10px 10px 0 0;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+.result-item.islamic-agency {
+  border-left: 3px solid #198754;
+}
+
+.result-item.islamic-agency:hover {
+  background-color: #e8f7f0;
+}
+
+.result-item.islamic-agency.active {
+  background-color: #d1f0e0;
+}
+
+.custom-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.regular-marker {
+  color: #0d6efd;
+  border: 2px solid #0d6efd;
+}
+
+.islamic-marker {
+  color: #198754;
+  border: 2px solid #198754;
+}
+
+.map-popup {
+  min-width: 200px;
+}
+
+.popup-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #0d6efd;
+}
+
+.popup-address {
+  font-size: 0.9em;
+  margin-bottom: 5px;
+}
+
+.popup-phone {
+  font-size: 0.9em;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 768px) {

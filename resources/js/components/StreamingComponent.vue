@@ -52,7 +52,7 @@
 
       <!-- Filter Controls Row -->
       <div class="row mb-4 g-3" v-if="showFilters">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label for="qualitySelect" class="form-label fw-semibold">Stream Quality:</label>
           <select id="qualitySelect" v-model="manualQuality" class="form-select shadow-sm rounded-pill">
             <option value="auto">Auto</option>
@@ -60,7 +60,7 @@
             <option value="sd">SD</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <label for="ratioSelect" class="form-label fw-semibold">Video Ratio:</label>
           <select id="ratioSelect" v-model="videoRatio" class="form-select shadow-sm rounded-pill">
             <option value="16x9">16:9 (Widescreen)</option>
@@ -69,7 +69,7 @@
             <option value="1x1">1:1 (Square)</option>
           </select>
         </div>
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
           <label for="languageSelect" class="form-label fw-semibold">Language:</label>
           <select id="languageSelect" v-model="selectedLanguage" class="form-select shadow-sm rounded-pill">
             <option value="all">All Languages</option>
@@ -78,7 +78,7 @@
             <option value="urdu">Urdu</option>
             <option value="french">French</option>
           </select>
-        </div>
+        </div> -->
       </div>
 
 

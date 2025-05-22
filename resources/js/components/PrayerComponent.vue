@@ -8,30 +8,27 @@
   <div class="container-fluid my-3 d-flex justify-content-center">
     <div class="card shadow p-4 w-100" style="max-width: 1500px;">
       <!-- Input Form -->
-      <form @submit.prevent="useCurrentLocation = false; getPrayerTimes()"
+      <form @submit.prevent="submitSearch"
         class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
-
-        <!-- City Input -->
         <div class="flex-grow-1">
           <label for="city" class="form-label fw-bold">City</label>
           <input id="city" v-model="city" class="form-control" required />
         </div>
 
-        <!-- Country Input -->
         <div class="flex-grow-1">
           <label for="country" class="form-label fw-bold">Country Code</label>
           <input id="country" v-model="country" class="form-control" required maxlength="2" />
         </div>
 
-        <!-- Method Selector -->
         <div class="flex-grow-1">
-          <label for="method" class="form-label fw-bold">Method</label>
-          <select id="method" v-model="method" class="form-select" required>
-            <option v-for="(name, id) in methods" :key="id" :value="id">{{ name }}</option>
+          <label for="methodSelect">Select Calculation Method:</label>
+          <select id="methodSelect" v-model="method" class="form-select">
+            <option v-for="(name, id) in methodOptions" :key="id" :value="id">
+              {{ name }}
+            </option>
           </select>
         </div>
 
-        <!-- Action Buttons -->
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-primary px-4">
             <i class="bi bi-search me-2"></i> Search
@@ -42,12 +39,18 @@
         </div>
       </form>
 
+      <div v-if="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Fetching prayer times for your location...</p>
+      </div>
 
-      <div v-if="prayerData.length" class="alert alert-light text-center py-2 shadow-sm border-lg">
+      <div v-if="prayerData.length && !loading" class="alert alert-light text-center py-2 shadow-sm border-lg">
         <h5 class="text-center fw-semibold stick-top mb-3">
-          📅 Timings for {{ monthName }} {{ year }} – {{ city }}
+          📅 Timings for {{ monthName }} {{ year }} – {{ city }}, {{ country }}
+          {{ useCurrentLocation ? ' (Current Location)' : ' (Search Results)' }}:
         </h5>
-        <!-- Results Table -->
         <div class="table-responsive table-scroll mt-3">
           <table class="table table-hover table-bordered text-center align-middle">
             <thead class="table-secondary sticky-top">
@@ -74,23 +77,16 @@
             </tbody>
           </table>
         </div>
+      </div>
 
-        <div v-if="loading" class="text-center my-5">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="mt-2">Fetching prayer times for your location...</p>
-        </div>
-
-        <!-- Error State -->
-        <div v-if="prayerData.length === 0 && submitted && !loading" class="alert alert-warning text-center mt-4">
-          <i class="bi bi-exclamation-triangle-fill me-2"></i>
-          No prayer times found. Please check your city/country or try another method.
-        </div>
+      <div v-if="prayerData.length === 0 && submitted && !loading" class="alert alert-warning text-center mt-4">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        No prayer times found. Please check your city/country or try another method.
       </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'PrayerTimes',
@@ -98,127 +94,141 @@ export default {
     return {
       city: '',
       country: '',
-      method: '',
-      methods: {},
+      latitude: null,
+      longitude: null,
+      method: '2',
+      methodOptions: {
+        '0': 'Shia Ithna-Ashari (Jafari)',
+        '1': 'University of Islamic Sciences, Karachi',
+        '2': 'Islamic Society of North America (ISNA)',
+        '3': 'Muslim World League (MWL)',
+        '4': 'Umm Al-Qura University, Makkah',
+        '5': 'Egyptian General Authority of Survey',
+        '7': 'Institute of Geophysics, University of Tehran',
+        '8': 'Gulf Region',
+        '9': 'Kuwait',
+        '10': 'Qatar',
+        '11': 'Majlis Ugama Islam Singapura, Singapore',
+        '12': 'Union Organization Islamic de France',
+        '13': 'Diyanet İşleri Başkanlığı, Turkey',
+        '14': 'Spiritual Administration of Muslims of Russia'
+      },
       prayerData: [],
-      monthName: '',
-      year: '',
-      submitted: false,
       loading: false,
-      useCurrentLocation: true, // New flag to track location source
-      geolocationAttempted: false
+      submitted: false,
+      useCurrentLocation: true,
+      monthName: '',
+      year: ''
     };
   },
   mounted() {
-    this.fetchMethods().then(() => {
-      if (this.useCurrentLocation) {
-        this.getCurrentLocation();
-      }
-    });
+    this.getCurrentLocation();
   },
   methods: {
-    async fetchMethods() {
-      try {
-        const res = await fetch('https://api.aladhan.com/v1/methods');
-        const data = await res.json();
-        if (data.code === 200) {
-          this.methods = Object.fromEntries(
-            Object.entries(data.data).map(([key, value]) => [key, value.name])
-          );
-          this.method = Object.keys(this.methods)[0] || '';
-        }
-      } catch (error) {
-        console.error('Failed to load methods:', error);
-        this.methods = { 2: 'Islamic Society of North America (ISNA)' };
-        this.method = '2';
-      }
+    formatTime(time) {
+      return time ? time.split(' ')[0] : '--:--';
     },
-
     async getCurrentLocation() {
       if (!navigator.geolocation) {
         this.setDefaultLocation();
         return;
       }
-
-      this.geolocationAttempted = true;
       this.loading = true;
-
       try {
         const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 10000
-          });
+          navigator.geolocation.getCurrentPosition(resolve, reject);
         });
-
         const { latitude, longitude } = position.coords;
         const location = await this.reverseGeocode(latitude, longitude);
         this.city = location.city;
         this.country = location.country;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.useCurrentLocation = true;
-        this.getPrayerTimes();
-      } catch (error) {
-        console.error('Location error:', error);
+        await this.fetchPrayerTimes();
+      } catch (err) {
+        console.error('Geolocation failed:', err);
         this.setDefaultLocation();
       }
     },
-
     async reverseGeocode(lat, lon) {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
-      );
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
       const data = await res.json();
       return {
         city: data.address.city || data.address.town || data.address.village || 'Unknown',
         country: (data.address.country_code || 'us').toUpperCase()
       };
     },
-
-    setDefaultLocation() {
-      this.city = '';
-      this.country = '';
-      this.useCurrentLocation = false;
-      this.getPrayerTimes();
-    },
-
-    async getPrayerTimes() {
-      if (!this.city || !this.country || !this.method) return;
-
-      this.submitted = true;
+    async fetchPrayerTimes() {
       this.loading = true;
-      this.prayerData = [];
+      const date = new Date();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      this.monthName = date.toLocaleString('default', { month: 'long' });
+      this.year = year;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${this.method}&month=${month}&year=${year}&timezonestring=${encodeURIComponent(timezone)}&school=0`;
 
       try {
-        const today = new Date();
-        const month = today.getMonth() + 1;
-        this.monthName = today.toLocaleString('default', { month: 'long' });
-        this.year = today.getFullYear();
-
-        const url = `https://api.aladhan.com/v1/calendarByCity/${this.year}/${month}?city=${encodeURIComponent(this.city)}&country=${encodeURIComponent(this.country)}&method=${this.method}`;
-
-        const res = await fetch(url);
-        const data = await res.json();
-
-        this.prayerData = data.code === 200 ? data.data : [];
-      } catch (error) {
-        console.error('Error:', error);
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.code === 200 && data.data) {
+          this.prayerData = data.data;
+        } else {
+          this.prayerData = [];
+        }
+      } catch (err) {
+        console.error('Failed to fetch prayer times:', err);
         this.prayerData = [];
       } finally {
         this.loading = false;
+        this.submitted = true;
       }
     },
-
+    async submitSearch() {
+      try {
+        this.useCurrentLocation = false;
+        const geo = await this.geocodeCityCountry(this.city, this.country);
+        this.latitude = geo.lat;
+        this.longitude = geo.lon;
+        await this.fetchPrayerTimes();
+      } catch (err) {
+        console.error('Geocoding error:', err);
+        this.prayerData = [];
+        this.submitted = true;
+      }
+    },
+    async geocodeCityCountry(city, country) {
+      const query = `${city}, ${country}`;
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.length) throw new Error('Invalid location');
+      return {
+        lat: parseFloat(data[0].lat),
+        lon: parseFloat(data[0].lon)
+      };
+    },
+    formatTime(time) {
+      if (!time) return '--:--';
+      return time.split(' ')[0].trim(); 
+    },
     resetFields() {
       this.useCurrentLocation = true;
       this.getCurrentLocation();
     },
-
-    formatTime(time) {
-      return time ? time.split(' ')[0] : '--:--';
+    setDefaultLocation() {
+      this.city = 'Nottingham';
+      this.country = 'UK';
+      this.latitude = 52.9548;
+      this.longitude = -1.1581;
+      this.useCurrentLocation = false;
+      this.fetchPrayerTimes();
     }
   }
 };
 </script>
+
 <style scoped>
 .card {
   border-radius: 1rem;

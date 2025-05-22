@@ -84,7 +84,7 @@
                                         style="cursor: pointer" @click="goToLastAyah" title="Last verse"></i>
                                 </div> -->
                                 <div class="custom-scrollbar pb-3 w-100" style="
-                                    overflow-y: auto;                                
+                                    overflow-y: auto; cursor: pointer;                             
                                     border: 3px solid #31464338; border-radius: 15px;
                                     max-height: 600px;
                                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
