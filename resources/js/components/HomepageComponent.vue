@@ -568,7 +568,7 @@
   margin-top: 20px;
 }
 
-/* .controls button {
+.controls button {
   margin: 5px;
   padding: 10px 20px;
   border: none;
@@ -583,7 +583,7 @@
 .controls button:disabled {
   background-color: #bdc3c7;
   cursor: not-allowed;
-} */
+}
 
 .controls button:hover:not(:disabled) {
   background-color: #0db691;

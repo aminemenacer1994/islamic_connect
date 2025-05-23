@@ -15,16 +15,25 @@
 
         <div class="row text-left mt-2">
           <div class="col-md-11 col-10">
-            <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Tafseer:</h4>
+            <h3 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Tafseer:</h3>
+
 
             <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
 
-            <div class="d-flex align-items-center mt-2">
+            <div class="d-flex align-items-center mt-3">
+              <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
+              <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Tafseer:</h4>
+
+              <h5 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">Ibn
+                Katheer</h5>
+            </div>
+
+            <!-- <div class="d-flex align-items-center mt-2">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <h5 class="fw-bold mb-0 ms-2" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">Tafseer: Ibn
                 Katheer</h5>
-            </div>
+            </div> -->
 
 
             <hr />

@@ -51,7 +51,7 @@
         </select>
       </div>
 
-      <div class="col-md-6 px-2 px-md-3 pb-2" v-if="selectedPodcast">
+      <!-- <div class="col-md-6 px-2 px-md-3 pb-2" v-if="selectedPodcast">
         <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
         <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterPodcasts">
           <option value="">All Durations</option>
@@ -62,7 +62,7 @@
           <option value="30-60">30 - 60 min</option>
           <option value="more-than-60">More than 1 hour</option>
         </select>
-      </div>
+      </div> -->
 
     </div>
 

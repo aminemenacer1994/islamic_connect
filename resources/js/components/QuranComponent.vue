@@ -245,7 +245,7 @@
                                             </div>
                                         </div>
                                         <!-- desktop top features -->
-                                        <!-- <div v-if="!isVisible" :style="iconStyle">
+                                        <div v-if="!isVisible" :style="iconStyle">
                                             <div class="col pb-2">
                                                 <i :class="isOpen
                                                     ? 'bi bi-x-circle-fill'
@@ -292,7 +292,7 @@
                                                 </div>
                                                 <hr style="border: 2px solid #333" />
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                         <!-- mobile navigation  -->
                                         <div class="dropdown mobile-only pb-2">
@@ -328,7 +328,7 @@
                                                     " />
                                             </div>
 
-                                            <!-- <div v-if="!isVisible" class="container-fluid text-center mobile-only">
+                                            <div v-if="!isVisible" class="container-fluid text-center mobile-only">
                                                 <div class="row">
                                                     <div class="col">
                                                         <i :class="isOpen
@@ -338,7 +338,7 @@
                                                             @click="toggleContent"></i>
                                                     </div>
                                                 </div>
-                                            </div> -->
+                                            </div>
 
                                             <!-- toolbar mobile -->
                                             <div v-if="isOpen" class="collapse-content mobile-only">
@@ -979,7 +979,7 @@ export default {
             },
             // Initial styles
             fontFamily: "Arial, sans-serif",
-            fontSize: 16,
+            fontSize: 18,
             fontSpacing: 0,
             selectedShadow: "none",
             // Font style options

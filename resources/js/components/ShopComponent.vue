@@ -4,36 +4,26 @@
       <div class="col-lg-10">
         <h1 class="display-5 fw-bold text-center">Halal Food Locator</h1>
         <p class="text-center container mb-4 lead">
-          Find halal restaurants, grocery stores, and food shops near you
+          Find halal Butchers near you
         </p>
-        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid #eee;">
+        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
           <!-- Search Section -->
-          <div class="card-body container-fluid" style="padding: 5px;">
-            <div class="row mb-4 justify-content-center">
-              <div>
-                <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
-                  style="gap: 0.5rem;">
-                  <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
-                  <input type="search" class="form-control" placeholder="Enter city or address..." v-model="searchQuery"
-                    style="max-width: 300px;" />
-                  
-
-                  <button class="btn btn-outline-success" type="submit" :disabled="loading">
-                    <span v-if="!loading">Search</span>
-                    <span v-else class="spinner-border spinner-border-sm"></span>
-                  </button>
-                </form>
-
-              </div><!-- Food Type Filters -->
-              <!-- <div class="row mb-3 justify-content-center">
-                <div class="col-auto" v-for="type in foodTypes" :key="type.value">
-                  <button @click="setActiveType(type.value)" class="btn btn-outline-primary"
-                    :class="{ 'active': activeType === type.value }">
-                    <i :class="type.icon"></i> {{ type.label }}
-                  </button>
-                </div>
-              </div> -->
+          <div class="card-body" style="padding: 5px;">
+            <div class=" flex-wrap align-items-center justify-content-center gap-3 mb-4">
+              <!-- Search form -->
+              <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
+                style="gap: 0.5rem;">
+                <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
+                <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
+                  aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                  style="max-width: 300px;" />
+                <button class="btn btn-outline-success" type="submit" :disabled="loading">
+                  <span v-if="!loading">Search</span>
+                  <span v-else class="spinner-border spinner-border-sm"></span>
+                </button>
+              </form>
             </div>
+
 
             <!-- Loading State -->
             <div v-if="loading" class="text-center py-5">
@@ -67,7 +57,7 @@
                   <div class="card h-100">
                     <div style="padding: 15px 15px 0 15px;">
                       <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">
-                        {{ shop.name || 'Halal Food Place' }}
+                        {{ shop.name }}
                       </h1>
                       <!-- <span class="badge bg-success">
                         <i class="bi bi-check-circle-fill me-1"></i> Halal Certified
@@ -83,13 +73,6 @@
                           </span>
                         </div>
                       </div>
-
-                      <!-- <div class="mb-2">
-                        <p class="text-muted mb-0">
-                          <i class="bi bi-tag me-2"></i>
-                          <small>{{ getShopTypeLabel(shop.type) }}</small>
-                        </p>
-                      </div> -->
 
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
@@ -114,8 +97,8 @@
                         </small>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center gap-2 mt-3">
-
+                      <div class="d-flex justify-content-between align-items-center gap-2">
+                        <!-- Get Directions Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(shop.lat, shop.lon)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
@@ -124,13 +107,12 @@
                           </span>
                         </button>
 
-                        <!-- Call Button -->
-                        <button v-if="shop.phone"
-                          class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)" style="background: #00bfa6; color: white; height: 38px">
-                          <b>Call</b>
+                        <!-- WhatsApp Share Button -->
+                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                          @click="callShop(shop.phone)"
+                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          <b>Call Shop</b>
                         </button>
-                        
                       </div>
                     </div>
                   </div>
@@ -169,8 +151,8 @@ export default {
       debounceTimeout: null,
       foodTypes: [
         { value: 'all', label: 'All', icon: 'bi bi-shop' },
-        { value: 'restaurant', label: 'Restaurants', icon: 'bi bi-egg-fried' },
-        { value: 'grocery', label: 'Grocery', icon: 'bi bi-basket' },
+        { value: 'food', label: 'Restaurants', icon: 'bi bi-egg-fried' },
+        { value: 'supermarket', label: 'Grocery', icon: 'bi bi-basket' },
         { value: 'butcher', label: 'Butchers', icon: 'bi bi-droplet' }
       ]
     }
@@ -192,12 +174,6 @@ export default {
       }
       return results;
     },
-    labeledShops() {
-      return this.filteredShops.map(shop => ({
-        ...shop,
-        typeLabel: this.getShopTypeLabel(shop.type)
-      }));
-    }
   },
 
   methods: {
@@ -212,10 +188,6 @@ export default {
     setActiveType(type) {
       this.activeType = type;
     },
-
-    // getShopTypeLabel(type) {
-    //   return shopTypeLabels[type] || 'Halal Food Place';
-    // },
 
     validateSearchQuery() {
       if (!this.searchQuery || typeof this.searchQuery !== 'string') {
@@ -274,12 +246,9 @@ export default {
       const query = `
         [out:json][timeout:25];
         (
-          node["diet:halal"="yes"](around:${radius},${lat},${lon});
-          node["cuisine"~"halal|muslim"](around:${radius},${lat},${lon});
-          node["shop"~"halal|butcher"](around:${radius},${lat},${lon});
-          way["diet:halal"="yes"](around:${radius},${lat},${lon});
-          way["cuisine"~"halal|muslim"](around:${radius},${lat},${lon});
-          way["shop"~"halal|butcher"](around:${radius},${lat},${lon});
+          node["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
+          way["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
+          relation["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
         );
         out center;
       `;
@@ -289,7 +258,21 @@ export default {
         if (!res.ok) throw new Error("Failed to fetch food places");
 
         const json = await res.json();
-        this.processShopData(json.elements || []);
+
+        const filteredShops = (json.elements || []).filter(item => {
+          const tags = item.tags || {};
+          const name = (tags.name || '').toLowerCase();
+
+          return (
+            tags.shop === 'butcher' &&
+            tags['diet:halal'] === 'yes' &&
+            name !== 'halal food place' &&
+            !name.includes('restaurant') &&
+            !name.includes('grocery')
+          );
+        });
+
+        this.processShopData(filteredShops);
       } catch (err) {
         console.error("Fetch error:", err);
         alert(err.message.includes('Too Many Requests')
@@ -298,6 +281,7 @@ export default {
         this.shops = [];
       }
     },
+
 
     processShopData(elements) {
       const seen = new Set();
@@ -314,8 +298,8 @@ export default {
           const tags = element.tags;
 
           if (tags.shop === 'halal') type = 'grocery';
-          else if (tags.shop === 'butcher') type = 'butcher';
-          else if (tags.cuisine?.includes('halal') || tags.cuisine?.includes('muslim')) type = 'restaurant';
+          if (tags.shop === 'butcher') type = 'butcher';
+          else if (tags.cuisine?.includes('halal'));
 
           const address = [
             tags['addr:street'],

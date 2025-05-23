@@ -900,8 +900,8 @@ export default {
 
 <style scoped>
 .custom-success:checked {
-  background-color: #198754 !important; /* Bootstrap bg-success */
-  border-color: #198754 !important;
+  background-color: grey !important; /* Bootstrap bg-success */
+  border-color: grey !important;
 }
 html {
   scroll-behavior: smooth;

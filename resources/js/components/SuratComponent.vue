@@ -66,7 +66,8 @@
     <div class="row rtl-text">
       <!-- Reading Progress Bar -->
 
-      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
+        class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           border-top-left-radius: 25px; 
           border-top-right-radius: 25px; 
@@ -109,14 +110,16 @@
             </div>
           </div>
           <!-- Arabic Text (RTL) -->
-          <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" style="padding: 12px;" v-html="highlightedText(ayah)"
-            :style="{ fontSize: arabicFontSize + 'px' }">
-          </p>
+          <div style="padding: 11px;">
+            <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" 
+              v-html="highlightedText(ayah)" :style="{ fontSize: arabicFontSize + 'px' }">
+            </p>
 
-          <!-- Translation (LTR) -->
-          <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
-          <p  class=" fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
-            :style="{ fontSize: translationFontSize + 'px' }"></p>
+            <!-- Translation (LTR) -->
+            <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
+            <p class=" fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+              :style="{ fontSize: translationFontSize + 'px' }"></p>
+          </div>
 
           <!-- Stick to bottom container -->
           <div class="mt-auto">

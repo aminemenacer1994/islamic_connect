@@ -34,9 +34,9 @@
             </div>
             <div class="d-flex align-items-center mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-              <h5 class="fw-bold mb-0 ms-2" :style="{ fontSize: fontSize + 'em', lineHeight: '1.4em' }">
-                Transliteration: Saheeh International
-              </h5>
+              <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Transliteration:</h4>
+
+              <h5 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">Saheeh International</h5>
             </div>
           </div>
           <!-- Icons Column (Stacked Vertically) -->

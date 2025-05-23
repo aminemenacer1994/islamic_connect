@@ -16,11 +16,6 @@
         </div>
 
         <div class="flex-grow-1">
-          <label for="country" class="form-label fw-bold">Country Code</label>
-          <input id="country" v-model="country" class="form-control" required maxlength="2" />
-        </div>
-
-        <div class="flex-grow-1">
           <label for="methodSelect">Select Calculation Method:</label>
           <select id="methodSelect" v-model="method" class="form-select">
             <option v-for="(name, id) in methodOptions" :key="id" :value="id">
@@ -39,6 +34,7 @@
         </div>
       </form>
 
+
       <div v-if="loading" class="text-center my-5">
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -47,10 +43,8 @@
       </div>
 
       <div v-if="prayerData.length && !loading" class="alert alert-light text-center py-2 shadow-sm border-lg">
-        <h5 class="text-center fw-semibold stick-top mb-3">
-          📅 Timings for {{ monthName }} {{ year }} – {{ city }}, {{ country }}
-          {{ useCurrentLocation ? ' (Current Location)' : ' (Search Results)' }}:
-        </h5>
+        📅 Timings for {{ monthName }} {{ year }} – {{ city }}
+        {{ useCurrentLocation ? ' (Current Location)' : ' (Search Results)' }}
         <div class="table-responsive table-scroll mt-3">
           <table class="table table-hover table-bordered text-center align-middle">
             <thead class="table-secondary sticky-top">
@@ -98,20 +92,20 @@ export default {
       longitude: null,
       method: '2',
       methodOptions: {
-        '0': 'Shia Ithna-Ashari (Jafari)',
-        '1': 'University of Islamic Sciences, Karachi',
-        '2': 'Islamic Society of North America (ISNA)',
-        '3': 'Muslim World League (MWL)',
-        '4': 'Umm Al-Qura University, Makkah',
-        '5': 'Egyptian General Authority of Survey',
-        '7': 'Institute of Geophysics, University of Tehran',
-        '8': 'Gulf Region',
-        '9': 'Kuwait',
-        '10': 'Qatar',
-        '11': 'Majlis Ugama Islam Singapura, Singapore',
-        '12': 'Union Organization Islamic de France',
-        '13': 'Diyanet İşleri Başkanlığı, Turkey',
-        '14': 'Spiritual Administration of Muslims of Russia'
+        0: 'Shia Ithna-Ashari (Jafari)',
+        1: 'University of Islamic Sciences, Karachi',
+        2: 'Islamic Society of North America (ISNA)',
+        3: 'Muslim World League (MWL)',
+        4: 'Umm Al-Qura University, Makkah',
+        5: 'Egyptian General Authority of Survey',
+        7: 'Institute of Geophysics, University of Tehran',
+        8: 'Gulf Region',
+        9: 'Kuwait',
+        10: 'Qatar',
+        11: 'Majlis Ugama Islam Singapura, Singapore',
+        12: 'Union Organization Islamic de France',
+        13: 'Diyanet İşleri Başkanlığı, Turkey',
+        14: 'Spiritual Administration of Muslims of Russia'
       },
       prayerData: [],
       loading: false,
@@ -164,14 +158,14 @@ export default {
       const date = new Date();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-      this.monthName = date.toLocaleString('default', { month: 'long' });
-      this.year = year;
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const timezone = 'Europe/London'; // Explicitly set timezone
+
       const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${this.method}&month=${month}&year=${year}&timezonestring=${encodeURIComponent(timezone)}&school=0`;
 
       try {
         const response = await fetch(url);
         const data = await response.json();
+        console.log('API Response:', data); // Log the response
         if (data.code === 200 && data.data) {
           this.prayerData = data.data;
         } else {
@@ -185,10 +179,36 @@ export default {
         this.submitted = true;
       }
     },
+    isDST(date = new Date()) {
+      const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+      const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+      return Math.max(jan, jul) !== date.getTimezoneOffset();
+    },
+    formatTime(time) {
+      if (!time) return '--:--';
+
+      const [hourStr, minuteStr] = time.split(' ')[0].split(':');
+      let hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+
+      // ✅ FIXED HERE
+      if (this.isDST()) {
+        hour += 1;
+      }
+
+      const period = hour >= 12 ? 'PM' : 'AM';
+      if (hour === 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour -= 12;
+      }
+
+      return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
+    },
     async submitSearch() {
       try {
         this.useCurrentLocation = false;
-        const geo = await this.geocodeCityCountry(this.city, this.country);
+        const geo = await this.geocodeCity(this.city);
         this.latitude = geo.lat;
         this.longitude = geo.lon;
         await this.fetchPrayerTimes();
@@ -198,9 +218,8 @@ export default {
         this.submitted = true;
       }
     },
-    async geocodeCityCountry(city, country) {
-      const query = `${city}, ${country}`;
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`;
+    async geocodeCity(city) {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`;
       const res = await fetch(url);
       const data = await res.json();
       if (!data.length) throw new Error('Invalid location');
@@ -208,10 +227,6 @@ export default {
         lat: parseFloat(data[0].lat),
         lon: parseFloat(data[0].lon)
       };
-    },
-    formatTime(time) {
-      if (!time) return '--:--';
-      return time.split(' ')[0].trim(); 
     },
     resetFields() {
       this.useCurrentLocation = true;

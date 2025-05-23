@@ -112,7 +112,7 @@
                         <!-- WhatsApp Share Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="shareViaWhatsApp(mosque)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
                           <b>Share Details</b>
                         </button>
                       </div>
