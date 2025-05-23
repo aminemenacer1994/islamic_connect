@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid my-5">
+  <div class="container-fluid py-4">
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <h1 class="display-4 fw-bold text-center">Mosque Locater</h1>

@@ -3,7 +3,7 @@
         <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
-            <h1 class="text-center container mb-4 lead">
+            <h1 class="text-center container mb-4 lead" style="line-height: 1.6em;">
                 The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting to support
                 memorization, recitation, and comprehension.
@@ -441,14 +441,14 @@
                                                                     <div class="icon-text pt-2 mb-2">Feedback</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                                 <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
                                                                 " title="Full screen" aria-expanded="false"
                                                                     data-bs-placement="top"></i>
                                                                 <div class="col desktop-icon">
                                                                     <div class="icon-text pt-2 mb-2">Full Screen</div>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                     <hr style="

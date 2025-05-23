@@ -1,13 +1,12 @@
 <template>
-  <div class="container-fluid py-5">
-    <h1 class="display-5 fw-bold text-center mb-4 mt-4">Dua Collection</h1>
-    <p class="text-center container mb-4 dua-description">
+  <div class="container-fluid py-4">
+    <h1 class="display-4 fw-bold text-center mb-4">Dua Collection</h1>
+    <p class="text-center container lead">
       The Dua Collection presents a thoughtfully curated selection of authentic Islamic supplications (duas), carefully
       organized into meaningful categories such as forgiveness, protection, healing, gratitude, and many more. Each dua
       is sourced from reliable traditional texts to help you connect spiritually and seek guidance in various aspects of
       life.
     </p>
-
 
     <div class="container">
       <div class="row mb-4">
@@ -25,9 +24,6 @@
             </select>
           </div>
         </div>
-
-
-
 
       </div>
     </div>
