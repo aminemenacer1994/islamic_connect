@@ -103,11 +103,9 @@ body{
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/quran">Companion</a></li>
                             <li><a class="dropdown-item" href="/surat">Explorer</a></li>
+                            <li><a class="dropdown-item" href="/name">Names of Allah</a></li>
                         </ul>
                     </li>
-                    <!-- <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/quran" data-path="/quran"><b style="color:black">Quran Companion</b></a></h6>
-                    </li>-->
                     
                     <li class="nav-item dropdown pt-3 pl-3">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
@@ -117,36 +115,41 @@ body{
                             <li><a class="dropdown-item" href="/content">Audio Podcasts</a></li>
                             <li><a class="dropdown-item" href="/radio">Reciters Stations</a></li>
                             <li><a class="dropdown-item" href="/streaming">Live TV streaming</a></li>
+                            <li><a class="dropdown-item" href="/gallery">Image Gallery</a></li>
+                            <li><a class="dropdown-item" href="/video">Video Gallery</a></li>
                         </ul>
                     </li>
-                    <!-- <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/streaming" data-path="/streaming"><b style="color:black">Live Streaming</b></a></h6>
-                    </li>  -->
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-2" href="/mission" data-path="/mission"><b style="color:black">Seerah Timeline</b></a></h6>
+
+                    <li class="nav-item dropdown pt-3 pl-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                            <b style="color:black">Islamic Knowledge</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/mission">Seerah Timeline</a></li>
+                            <li><a class="dropdown-item" href="/dua">Dua Collection</a></li>
+                            <li><a class="dropdown-item" href="/guides">Islamic Guides</a></li>
+                            <li><a class="dropdown-item" href="/umrah">Hajj & Umrah Guides</a></li>
+                            <li><a class="dropdown-item" href="/athkar">Salat Teachings</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/mosque" data-path="/mosque"><b style="color:black">Mosque Locator</b></a></h6>
-                    </li> 
-                    <li class="nav-item mt-3">
-                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/dua" data-path="/dua"><b style="color:black">Dua Collection</b></a></h6>
+
+                    <li class="nav-item dropdown pt-3 pl-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
+                            <b style="color:black">Services</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/mosque">Mosque Locator</a></li>
+                            <li><a class="dropdown-item" href="/shop">Halal Butchers</a></li>
+                            <li><a class="dropdown-item" href="/shop">Halal Restaurants</a></li>
+                            <li><a class="dropdown-item" href="/date">Hajj & Umrar Travel Agencies</a></li>
+                            <li><a class="dropdown-item" href="/calendar">Current Islamic Events</a></li>
+                        </ul>
                     </li>
+
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/toolkit" data-path="/toolkit"><b style="color:black">Utility Toolkit</b></a></h6>
                     </li>
-                    <!-- <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Islamic Gallery</b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/gallery">Images</a></li>
-                            <li><a class="dropdown-item" href="/video">Short Video</a></li>
-                        </ul>
-                    </li> -->
-                    
-                    <!-- <li class="nav-item mt-3">
-                        <h6><a class="nav-link ml-3 pl-3" href="/mission" data-path="/mission"><b>About Us</b></a></h6>
-                    </li> -->
+                          
                     <li class="nav-item mt-3">
                         <h6><a class="nav-link pt-2 ml-3 pl-3" href="/pricing" data-path="/pricing"><b style="color:black">Donations</b></a></h6>
                     </li>
@@ -157,11 +160,11 @@ body{
                         <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
-                    <!-- @if (Route::has('register'))
+                    @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
-                        <h6><a class="nav-link " href="{{ route('register') }}" data-path="/register"><b>{{ __('Register') }}</b></a></h6>
+                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
-                    @endif -->
+                    @endif
                     @else
                     <li class="nav-item dropdown pl-3">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
