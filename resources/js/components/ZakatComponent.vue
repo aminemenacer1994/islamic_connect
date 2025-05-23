@@ -138,7 +138,7 @@
             <div class="card-body">
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Total Assets:</span>
+                  <span class="text-muted">Total Assets: </span>
                   <strong class="text-success">{{ currencySymbol }}{{ totalAssets.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -148,7 +148,7 @@
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Liabilities:</span>
+                  <span class="text-muted">Liabilities: </span>
                   <strong class="text-danger">{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -158,7 +158,7 @@
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Zakatable Amount:</span>
+                  <span class="text-muted">Zakatable Amount: </span>
                   <strong class="text-primary">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
                 </div>
                 <div class="progress mb-3" style="height: 6px;">
@@ -176,11 +176,12 @@
                 </div>
               </div>
 
-              <canvas id="zakatChart" width="100%" height="100"></canvas>
+              <canvas ref="zakatChart" id="zakatChart"></canvas>
+
 
               <div class="summary-item">
                 <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Nisab Threshold:</span>
+                  <span class="text-muted">Nisab Threshold: </span>
                   <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
                 </div>
               </div>
@@ -213,8 +214,8 @@
 <script>
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
-export default {
 
+export default {
   name: "ZakatCalculator",
   data() {
     return {
@@ -253,20 +254,6 @@ export default {
         this.businessAssets
       );
     },
-    isFormEmpty() {
-      const isEmpty = (val) =>
-        val === null || val === undefined || val === '' || parseFloat(val) === 0;
-      return (
-        this.goldGrams === 0 &&
-      this.goldPrice === 0 &&
-      this.silverGrams === 0 &&
-      this.silverPrice === 0 &&
-      this.cash === 0 &&
-      this.investments === 0 &&
-      this.businessAssets === 0 &&
-      this.liabilities === 0
-      );
-    },
     zakatableAmount() {
       const amount = this.totalAssets - this.liabilities;
       return amount > 0 ? amount : 0;
@@ -285,33 +272,38 @@ export default {
     isEligible() {
       return this.zakatableAmount >= this.nisabThreshold;
     },
+    isFormEmpty() {
+      return (
+        this.goldGrams === 0 &&
+        this.goldPrice === 0 &&
+        this.silverGrams === 0 &&
+        this.silverPrice === 0 &&
+        this.cash === 0 &&
+        this.investments === 0 &&
+        this.businessAssets === 0 &&
+        this.liabilities === 0
+      );
+    }
   },
   methods: {
     calculateZakat() {
-      // your existing logic...
-      this.totalAssets = this.goldGrams * this.goldPrice +
-        this.silverGrams * this.silverPrice +
-        this.cash + this.investments + this.businessAssets;
-
-      this.zakatableAmount = this.totalAssets - this.liabilities;
-      this.zakatDue = this.zakatableAmount * 0.025;
-
-      this.isEligible = this.zakatableAmount >= this.nisabThreshold;
       this.zakatCalculated = true;
 
       this.$nextTick(() => {
         if (window.innerWidth <= 768 && this.$refs.zakatSummary) {
           this.$refs.zakatSummary.scrollIntoView({ behavior: 'smooth' });
         }
-        this.renderChart(); // draw the chart
+        this.renderChart();
       });
     },
     renderChart() {
       if (this.chartInstance) {
-        this.chartInstance.destroy(); // cleanup old chart if it exists
+        this.chartInstance.destroy();
       }
 
-      const ctx = document.getElementById('zakatChart').getContext('2d');
+      const ctx = this.$refs.zakatChart?.getContext("2d");
+      if (!ctx) return;
+
       this.chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -345,73 +337,45 @@ export default {
       const printWindow = window.open("", "", "");
 
       printWindow.document.write(`
-    <html>
-      <head>
-        <title>Zakat Summary</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-        <style>
-          body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-          }
-          .results-card {
-            margin: 0 auto;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-          }
-          .results-card h1, .results-card h2, .results-card h3, .results-card h4 {
-            margin-bottom: 10px;
-            font-weight: 600;
-          }
-          .results-card p, .results-card .content-row {
-            margin-bottom: 15px;
-          }
-          .content-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
-          }
-          .label {
-            font-weight: 500;
-            color: #555;
-          }
-          .value {
-            text-align: right;
-            color: #000;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-          }
-          table th, table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-          }
-          @media print {
+      <html>
+        <head>
+          <title>Zakat Summary</title>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+          <style>
             body {
-              padding: 0;
-              background: white;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              background-color: #ffffff;
+              color: #333;
+              line-height: 1.6;
             }
             .results-card {
-              border: none;
-              box-shadow: none !important;
-              background-color: white;
+              margin: 0 auto;
+              border: 1px solid #ccc;
+              border-radius: 8px;
+              background-color: #f9f9f9;
             }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="results-card">${content}</div>
-      </body>
-    </html>
-  `);
+            .content-row {
+              display: flex;
+              justify-content: space-between;
+              padding: 8px 0;
+              border-bottom: 1px solid #ddd;
+            }
+            .label { font-weight: 500; color: #555; }
+            .value { text-align: right; color: #000; }
+            @media print {
+              .results-card {
+                border: none;
+                box-shadow: none;
+                background-color: white;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="results-card">${content}</div>
+        </body>
+      </html>`);
 
       printWindow.document.close();
       printWindow.focus();
@@ -419,11 +383,11 @@ export default {
       printWindow.close();
     },
     resetCalculator() {
-      // Your reset logic
       if (this.chartInstance) {
         this.chartInstance.destroy();
         this.chartInstance = null;
       }
+
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;
@@ -432,10 +396,10 @@ export default {
       this.investments = 0;
       this.businessAssets = 0;
       this.liabilities = 0;
-      this.totalAssets = 0;
-      this.zakatableAmount = 0;
-      this.zakatDue = 0;
       this.zakatCalculated = false;
+    },
+    saveToLocalStorage() {
+      // Placeholder for your local storage logic if needed
     }
   },
   watch: {
@@ -451,6 +415,7 @@ export default {
     nisabType: "saveToLocalStorage",
   },
   mounted() {
+    this.chartInstance = null;
   },
 };
 </script>

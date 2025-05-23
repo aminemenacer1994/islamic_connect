@@ -2,10 +2,11 @@
   <div class="container-fluid my-5">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Mosque Locater</h1>
+        <h1 class="display-4 fw-bold text-center">Mosque Locater</h1>
         <p class="text-center container mb-4 lead">
-          Find nearby mosques around you based on your location with directions, prayer times, and contact details.
+          Easily find nearby mosques based on your current location, complete with detailed directions to help you connect with your local community.
         </p>
+
         <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
           <!-- Search Section -->
           <div class="card-body container-fluid" style="padding: 5px;">

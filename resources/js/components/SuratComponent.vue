@@ -2,10 +2,11 @@
   <div class="container py-4">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
-        <h2 class="display-5 fw-bold">Quran Explorer</h2>
-        <p class="lead">Explore the Quran in Arabic with translations and recitations from world-renowned Qaris.
-          Listen to beautiful recitations to enhance your understanding. Select a Surah, Juz, or specific verse, and
-          immerse yourself in the wisdom of the Quran.
+        <h1 class="display-5 fw-bold">Quran Explorer</h1>
+        <p class="lead">
+          Explore the Quran in Arabic, accompanied by translations and recitations from world-renowned Qaris.
+          Listen to beautiful recitations to deepen your understanding. Select a Surah, choose an audio reciter, or view
+          the translation of a specific verse, and immerse yourself in the wisdom of the Quran.
         </p>
       </div>
     </div>
@@ -110,9 +111,9 @@
             </div>
           </div>
           <!-- Arabic Text (RTL) -->
-          <div style="padding: 11px;">
-            <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" 
-              v-html="highlightedText(ayah)" :style="{ fontSize: arabicFontSize + 'px' }">
+          <div style="padding: 10px;">
+            <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+              :style="{ fontSize: arabicFontSize + 'px' }">
             </p>
 
             <!-- Translation (LTR) -->

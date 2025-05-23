@@ -1,10 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container-fluid py-5">
     <h1 class="display-5 fw-bold text-center mb-4 mt-4">Dua Collection</h1>
     <p class="text-center container mb-4 dua-description">
-      The Dua Collection offers a selection of authentic Islamic supplications (duas) organized by categories like
-      forgiveness, protection, healing and more.
+      The Dua Collection presents a thoughtfully curated selection of authentic Islamic supplications (duas), carefully
+      organized into meaningful categories such as forgiveness, protection, healing, gratitude, and many more. Each dua
+      is sourced from reliable traditional texts to help you connect spiritually and seek guidance in various aspects of
+      life.
     </p>
+
 
     <div class="container">
       <div class="row mb-4">
@@ -23,8 +26,8 @@
           </div>
         </div>
 
-        
-        
+
+
 
       </div>
     </div>
@@ -253,24 +256,27 @@ export default {
 </script>
 
 <style scoped>
-  /* Default font size for mobile devices */
+/* Default font size for mobile devices */
+.dua-card-content {
+  font-size: 18px;
+  /* Increased mobile default font size */
+}
+
+/* Increase font size for tablets (768px and above) */
+@media (min-width: 768px) {
   .dua-card-content {
-    font-size: 18px; /* Increased mobile default font size */
+    font-size: 22px;
+    /* Increased tablet font size */
   }
+}
 
-  /* Increase font size for tablets (768px and above) */
-  @media (min-width: 768px) {
-    .dua-card-content {
-      font-size: 22px; /* Increased tablet font size */
-    }
+/* Increase font size further for desktop screens (1024px and above) */
+@media (min-width: 1024px) {
+  .dua-card-content {
+    font-size: 26px;
+    /* Increased desktop font size */
   }
-
-  /* Increase font size further for desktop screens (1024px and above) */
-  @media (min-width: 1024px) {
-    .dua-card-content {
-      font-size: 26px; /* Increased desktop font size */
-    }
-  }
+}
 
 .dua-card {
   border: 2px solid rgb(13, 182, 145);

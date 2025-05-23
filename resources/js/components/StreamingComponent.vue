@@ -1,10 +1,12 @@
 <template>
   <div class="container py-4">
-    <h3 class="text-center fw-bold display-4 mb-4">Live Islamic TV Channels</h3>
+    <h1 class="text-center fw-bold display-4 mb-4">Live Islamic TV Channels</h1>
     <p class="text-center container mb-4 lead d-none d-md-block">
-      Watch live broadcasts from the holy cities of Makkah and Madinah. Experience continuous Quran recitation, live
-      prayers, and spiritual reflections from the heart of Islam.
+      The Seerah Timeline provides an insightful journey through the life of Prophet Muhammad (PBUH). It offers users an
+      accessible and interactive way to explore key moments in Islamic history, helping them better understand the
+      significance of each event.
     </p>
+
 
     <!-- Grid Wrapper -->
     <div class="pb-2 ">
@@ -16,7 +18,8 @@
             <img :src="channel.thumbnail" :alt="`${channel.name} thumbnail`" class="w-100"
               style="object-fit: contain; height: 250px;">
             <div class="card-body p-4 text-center">
-              <h5 class="card-title fw-bold display-6 text-dark text-truncate" style="max-width: 100%;text-align: center;">
+              <h5 class="card-title fw-bold display-6 text-dark text-truncate"
+                style="max-width: 100%;text-align: center;">
                 {{ channel.name }}
               </h5>
               <p class="card-text text-muted text-wrap"
@@ -24,11 +27,11 @@
                 {{ channel.description }}
               </p>
               <button class="form-control" @click.stop="playChannel(channel)"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
-              type="submit">
+                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+                type="submit">
                 <b class="text-center w-100">Display Channel</b>
               </button>
-          
+
             </div>
           </div>
         </div>
@@ -317,7 +320,7 @@ body {
 
   .card-title {
     font-size: 2rem !important;
-    
+
   }
 
   .card-body {

@@ -1,9 +1,13 @@
 <template>
     <div id="app">
-        <div class="pt-3 text-center ">
+        <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
-            <p class="text-center container mb-4 lead">The Quran Companion page leverages AI tools and accessibility features to enhance the learning experience. It includes text-to-speech, speech-to-text, and synchronized highlighting to assist with memorization, recitation, and understanding.</p>
+            <h1 class="text-center container mb-4 lead">
+                The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
+                experience. It offers text-to-speech, speech-to-text, and synchronized highlighting to support
+                memorization, recitation, and comprehension.
+            </h1>
             <div v-if="!isVisible">
                 <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4>
@@ -217,7 +221,7 @@
                                         <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
                                             @update-information="updateInformation" :style="{
 
-                                                
+
                                             }" class="icon-container hide-on-mobile mb-3">
                                             <div class="text-center icon-text">
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
@@ -282,11 +286,11 @@
                                                                 aria-expanded="false" data-bs-placement="top"></i>
                                                             <div class="icon-text pt-2">Feedback</div>
                                                         </div>
-                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                        <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-arrows-fullscreen h4"
                                                                 @click="toggleFullScreen" title="Full screen"></i>
                                                             <div class="icon-text pt-2 mb-2">Full Screen</div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
 
                                                 </div>
@@ -358,8 +362,7 @@
                                         v-if="information != null">
                                         <div>
                                             <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                                @update-information="updateInformation" 
-                                                
+                                                @update-information="updateInformation"
                                                 class="icon-container hide-on-mobile mb-3">
                                                 <div class="text-center">
                                                     <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah"
@@ -387,7 +390,7 @@
                                                 </div>
                                             </div>
                                             <!-- desktop top features -->
-                                            <!-- <div v-if="!isVisible" :style="iconStyle">
+                                            <div v-if="!isVisible" :style="iconStyle">
                                                 <div class="col pb-2">
                                                     <i :class="isOpen
                                                         ? 'bi bi-x-circle-fill'
@@ -452,7 +455,7 @@
                                                         border: 2px solid #333;
                                                     " />
                                                 </div>
-                                            </div> -->
+                                            </div>
 
                                             <!-- mobile navigation  -->
                                             <div class="dropdown mobile-only">
@@ -520,8 +523,7 @@
                                             <!-- Ayah Controls -->
                                             <div class="pb-3">
                                                 <div :selectedSurahId="selectedSurah" @update-tafseer="updateTafseer"
-                                                    @update-information="updateInformation" 
-                                                    
+                                                    @update-information="updateInformation"
                                                     class="icon-container hide-on-mobile mb-3">
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah"
@@ -549,7 +551,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- desktop top features -->
-                                                <!-- <div :style="iconStyle">
+                                                <div :style="iconStyle">
                                                     <div v-if="!isVisible" class="col pb-2">
                                                         <i :class="isOpen
                                                             ? 'bi bi-x-circle-fill'
@@ -605,14 +607,14 @@
                                                                         <div class="icon-text pt-2 mb-2">Feedback</div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col desktop-icon" style="cursor: pointer;">
+                                                                <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                                     <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
                                                                     " title="Full screen"></i>
                                                                     <div class="col desktop-icon">
                                                                         <div class="icon-text pt-2 mb-2">Full Screen
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                             </div>
                                                         </div>
                                                         <hr style="
@@ -620,7 +622,7 @@
                                                                 #333;
                                                         " />
                                                     </div>
-                                                </div> -->
+                                                </div>
 
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">

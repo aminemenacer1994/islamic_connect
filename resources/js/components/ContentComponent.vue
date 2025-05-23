@@ -1,12 +1,13 @@
 <template>
-  <div class="container mt-4">
+  <div class="container py-4">
     <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
     <!-- <ChatBot /> -->
     <p class="text-center container mb-4 lead">
-      Explore and discover the latest Islamic podcasts that offer a diverse range of insightful discussions,
-      thought-provoking reflections, and inspiring content. These podcasts delve into a variety of topics that aim to
-      deepen your understanding of Islam.
+      Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
+      thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your
+      understanding of Islam.
     </p>
+
     <div class="container">
       <h2 class="fw-bold text-left pt-2 pb-4">Select a Podcast:</h2>
 

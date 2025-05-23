@@ -1,18 +1,17 @@
 <template>
   <div class="container py-4">
     <h1 class="display-5 fw-bold text-center">Islamic Radio Stations</h1>
-    <p class="text-center container-fluid mb-4 lead">This page provides a seamless and user-friendly experience for listening to live Quranic radio stations from various renowned reciters around the world. Users can browse all available stations, search by reciter name, and play audio streams directly on the page. </p>
+    <p class="text-center container-fluid mb-4 lead">
+      This page offers a seamless, user-friendly experience for listening to live Quranic radio stations featuring
+      renowned reciters from around the world. Users can browse all available stations, search by reciter name, and play
+      audio streams directly on the page.
+    </p>
     <!-- Search Bar -->
     <div class="row justify-content-center mb-4">
       <div class="col-md-10 col-lg-8 text-center">
         <h4 class="fw-semibold mt-3 mb-3">Search for Reciter's Station</h4>
-        <input
-          v-model="searchQuery"
-          @input="handleSearch"
-          type="text"
-          class="form-control rounded-pill px-4 py-2 shadow-sm"
-          placeholder="Search by name..."
-        />
+        <input v-model="searchQuery" @input="handleSearch" type="text"
+          class="form-control rounded-pill px-4 py-2 shadow-sm" placeholder="Search by name..." />
       </div>
     </div>
 
@@ -21,23 +20,14 @@
       <h4 class="fw-bold mb-4">Reciter's Radio Stations:</h4>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div v-for="station in paginatedStations" :key="station.id" class="col">
-          <div
-            class="card h-100 border-lg shadow-md" style="border-radius: 15px;"
-            :class="{
-              'bg-success-subtle text-success-emphasis border border-success': currentAudio && currentAudio.src === station.url,
-              'bg-light': !(currentAudio && currentAudio.src === station.url)
-            }" 
-          >
+          <div class="card h-100 border-lg shadow-md" style="border-radius: 15px;" :class="{
+            'bg-success-subtle text-success-emphasis border border-success': currentAudio && currentAudio.src === station.url,
+            'bg-light': !(currentAudio && currentAudio.src === station.url)
+          }">
             <div class="card-body shadow-lg" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
               <h5 class="card-title" style="font-weight: bold;" v-html="highlightSearch(station.name)"></h5>
-              <audio
-                ref="audioPlayer"
-                :src="station.url"
-                controls
-                class="w-100 mt-3"
-                @play="handlePlay(station.id, $event)"
-                @pause="handlePause"
-              ></audio>
+              <audio ref="audioPlayer" :src="station.url" controls class="w-100 mt-3"
+                @play="handlePlay(station.id, $event)" @pause="handlePause"></audio>
             </div>
           </div>
         </div>
@@ -46,19 +36,12 @@
 
     <!-- Pagination -->
     <div v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-5">
-      <button
-        @click="previousPage"
-        :disabled="currentPage === 1"
-        class="btn btn-outline-dark rounded-pill px-4 me-3"
-      >
+      <button @click="previousPage" :disabled="currentPage === 1" class="btn btn-outline-dark rounded-pill px-4 me-3">
         Previous
       </button>
       <span class="fw-semibold">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button
-        @click="nextPage"
-        :disabled="currentPage === totalPages"
-        class="btn btn-outline-dark rounded-pill px-4 ms-3"
-      >
+      <button @click="nextPage" :disabled="currentPage === totalPages"
+        class="btn btn-outline-dark rounded-pill px-4 ms-3">
         Next
       </button>
     </div>
@@ -143,7 +126,6 @@ export default {
 
 
 <style scoped>
-
 mark {
   background-color: rgba(13, 182, 145, 0.528);
   color: #fff;

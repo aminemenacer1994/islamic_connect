@@ -1,11 +1,11 @@
 <template>
   <div class="container py-4">
-    <h3 class="text-center fw-bold display-4 mb-4">Islamic Utility Toolkit</h3>
-    <p class="text-center mb-3 lead ">
-      The Islamic Utility Toolkit is a comprehensive digital suite designed to support Muslims in their daily religious,
-      educational, and spiritual needs.
+    <h1 class="text-center fw-bold display-4 mb-4">Islamic Utility Toolkit</h1>
+    <p class="text-center mb-4 lead">
+      The Islamic Utility Toolkit is an all-encompassing digital platform thoughtfully designed to assist Muslims in
+      fulfilling their daily religious obligations, advancing their educational pursuits, and nurturing their spiritual
+      growth.
     </p>
-
 
 
     <!-- Grid Wrapper -->
@@ -160,7 +160,9 @@
           <img src="/images/rug.png" alt="Seerah Timeline" class="w-100 mt-1" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Salat Teachings</h5>
-            <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover the beauty of Islamic prayer with our Salat Guide. This walks you through each of the five daily prayers
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover the beauty of Islamic
+              prayer with our Salat Guide. This walks you through each of the five daily prayers
             </p>
             <button class="form-control" onclick="window.location.href='/athkar'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -177,7 +179,8 @@
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Hajj & Umrah guides</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Hajj and Umrah are two important Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime</p>
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Hajj and Umrah are two important
+              Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime</p>
 
             <button class="form-control" onclick="window.location.href='/umrah'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
@@ -415,7 +418,8 @@
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Names of Allah</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">The Names of Allah (Asma’ul Husna) are 99 beautiful names that describe Allah’s attributes, such as mercy, wisdom, power, and justice.</p>
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">The Names of Allah (Asma’ul Husna)
+              are 99 beautiful names that describe Allah’s attributes, such as mercy, wisdom, power, and justice.</p>
 
             <button class="form-control" onclick="window.location.href='/name'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
