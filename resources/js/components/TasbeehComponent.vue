@@ -1,60 +1,73 @@
 <template>
-  <div class="container py-4 text-center">
-    <h3 class="fw-bold display-5 mb-3">Tasbeeh Counter</h3>
-    <p class="lead mx-auto mb-3 description">
-      A Tasbeeh Counter is a digital tool or application designed to help users keep track of their Dhikr during their
-      spiritual practices, such as reciting specific supplications or praises
-    </p>
-    <h3 class="text-muted mb-3">Tap to recite:</h3>
-    <div class="d-flex flex-column justify-content-center align-items-center text-center">
-      <div class="d-flex align-items-center justify-content-center gap-4 mb-3">
-        <div class="fw-bold display-6 text-success">{{ currentDhikr }} - </div>
-        <div class="fw-bold display-6 text-success">{{ currentDhikrAr }}</div>
-      </div>
+  <div class="tasbeeh-container">
+    <h1 class="title">Digital Tasbeeh Counter</h1>
+    <h3 class="subtitle">Tap, swipe right, or say "SubhanAllah" to count</h3>
 
-      <div class="fw-bold display-4 text-success mb-3">
-        {{ animatedCounter }}
+    <!-- Counter and Dhikr Display -->
+    <div class="counter-container">
+      <div class="dhikr-display">
+        <span class="dhikr-text">{{ currentDhikr }}</span>
+        <span class="dhikr-text-arabic">{{ currentDhikrAr }}</span>
       </div>
+      <div class="counter" aria-live="polite">{{ animatedCounter }}</div>
     </div>
 
-
-
-
-
     <!-- Bead String -->
-    <div class="bead-string mb-4">
-      <span v-for="n in goal" :key="n" class="bead" :class="{ filled: n <= counter % goal, ripple: rippleBead === n }"
-        @animationend="clearRipple(n)"></span>
+    <div class="bead-string">
+      <span v-for="n in goal" :key="n" class="bead"
+            :class="{ filled: n <= counter % goal }"></span>
     </div>
 
     <!-- Milestone Message -->
     <transition name="fade">
-      <div v-if="showMilestone" class="milestone text-warning fw-bold mb-3">
+      <div v-if="showMilestone" class="milestone">
         {{ milestoneMessage }}
       </div>
     </transition>
 
-    <!-- Tap Gesture Area -->
-    <div style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;"
-      class="tap-area mb-3 container" @touchstart.prevent="handleClick" @click="handleClick">
-      <b>Tap Bead +1</b>
+    <!-- Voice Feedback -->
+    <transition name="fade">
+      <div v-if="voiceStatus" class="voice-status" :class="{ error: voiceStatus.includes('Error') }">
+        {{ voiceStatus }}
+      </div>
+    </transition>
+
+    <!-- Tap and Swipe Area -->
+    <div class="tap-area-wrapper">
+      <button class="tap-area" :class="{ 'swipe-right': swipeDirection === 'right', 'swipe-left': swipeDirection === 'left' }"
+              @click="handleClick" @touchstart.passive="handleTouchStart"
+              @touchmove.passive="handleTouchMove" @touchend="handleTouchEnd"
+              role="button" aria-label="Tap or swipe to increment/decrement counter" tabindex="0"
+              @keydown.enter="handleClick">
+        Tap or swipe right to count
+        <span v-if="swipeDirection === 'right'" class="arrow-right">➡️</span>
+        <span v-if="swipeDirection === 'left'" class="arrow-left">⬅️</span>
+      </button>
     </div>
 
-    <!-- Buttons -->
-    <div class="d-flex justify-content-between align-items-center gap-2">
-      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-        style="background: lightgray; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px"
-        @click="undoClick"><b>Undo Tap -1</b></button>
-      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-        style="background: lightgrey; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: black; height: 38px"
-        @click="resetAll"><b>Reset counter</b></button>
+    <!-- Control Buttons -->
+    <div class="controls">
+      <button class="voice-btn" :class="{ active: isListening }" :disabled="!recognitionAvailable"
+              @click="toggleVoiceControls" role="button" aria-label="Toggle voice" tabindex="0"
+              @keydown.enter="toggleVoiceControls">
+        <i class="fas fa-microphone" :class="{ 'fa-microphone-slash disabled': !isListening }"></i>
+        {{ isListening ? "Stop Listening" : "Start Voice Commands" }}
+      </button>
+      <button @click="undoClick" role="button" aria-label="Undo last count"
+              tabindex="0" @keydown.enter="undoClick">
+        <i class="fas fa-undo"></i> Undo
+      </button>
+      <button @click="resetAll" role="button" aria-label="Reset counter"
+              tabindex="0" @keydown.enter="resetAll">
+        <i class="fas fa-redo"></i> Reset
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TasbeehBeadsCounter",
+  name: "TasbeehCounter",
   data() {
     return {
       animatedCounter: 0,
@@ -62,39 +75,155 @@ export default {
       goal: 33,
       dhikrList: ["SubhanAllah", "Alhamdulillah", "Allahu Akbar"],
       dhikrListAr: ["سبحان الله", "الحمد لله", "الله أكبر"],
-
-      rippleBead: null,
       showMilestone: false,
       milestoneMessage: "",
-      audio: null
+      audio: null,
+      isListening: false,
+      recognition: null,
+      recognitionAvailable: false,
+      voiceStatus: "",
+      touchStartX: null,
+      touchEndX: null,
+      swipeDirection: null
     };
   },
   computed: {
     currentDhikr() {
       const round = Math.floor(this.counter / this.goal) % this.dhikrList.length;
+      console.log('Computed currentDhikr:', this.dhikrList[round]);
       return this.dhikrList[round];
     },
     currentDhikrAr() {
       const round = Math.floor(this.counter / this.goal) % this.dhikrListAr.length;
+      console.log('Computed currentDhikrAr:', this.dhikrListAr[round]);
       return this.dhikrListAr[round];
     }
   },
-  mounted() {
-    const saved = localStorage.getItem("tasbeehCounter");
-    if (saved) {
-      this.counter = parseInt(saved);
-      this.animatedCounter = this.counter;
+  async mounted() {
+    console.log('Component mounted at', new Date().toISOString());
+    
+    // Load saved counter
+    try {
+      const saved = localStorage.getItem("tasbeehCounter");
+      if (saved) {
+        this.counter = parseInt(saved, 10) || 0;
+        this.animatedCounter = this.counter;
+        console.log('Loaded counter from localStorage:', this.counter);
+      }
+    } catch (error) {
+      console.error('Failed to load from localStorage:', error);
     }
-    this.audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
-    this.audio.load();
+
+    // Initialize audio with offline fallback
+    try {
+      const audioUrl = "https://www.fesliyanstudios.com/play-mp3/387";
+      const cachedAudio = localStorage.getItem("tasbeehAudio");
+      if (cachedAudio) {
+        this.audio = new Audio(cachedAudio);
+        console.log('Loaded audio from cache');
+      } else {
+        this.audio = new Audio(audioUrl);
+        this.audio.load();
+        const response = await fetch(audioUrl);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          localStorage.setItem("tasbeehAudio", reader.result);
+          console.log('Audio cached in localStorage');
+        };
+        reader.readAsDataURL(blob);
+      }
+      console.log('Audio initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize audio:', error);
+    }
+
+    // Initialize SpeechRecognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      try {
+        this.setupRecognition();
+        this.recognitionAvailable = true;
+        console.log('SpeechRecognition initialized');
+      } catch (error) {
+        console.error('Failed to initialize SpeechRecognition:', error);
+        this.recognitionAvailable = false;
+        this.voiceStatus = 'Error: Voice commands not supported.';
+        setTimeout(() => { this.voiceStatus = ""; }, 2000);
+      }
+    } else {
+      console.warn('SpeechRecognition API not supported in this browser.');
+      this.recognitionAvailable = false;
+      this.voiceStatus = 'Error: Voice commands not supported.';
+      setTimeout(() => { this.voiceStatus = ""; }, 2000);
+    }
   },
   watch: {
     counter(newVal) {
-      localStorage.setItem("tasbeehCounter", newVal);
+      console.log('Counter updated:', newVal);
+      try {
+        localStorage.setItem("tasbeehCounter", newVal);
+      } catch (error) {
+        console.error('Failed to save to localStorage:', error);
+      }
     }
   },
   methods: {
+    setupRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'ar-SA';
+      this.recognition.maxAlternatives = 10;
+
+      this.recognition.onresult = (event) => {
+        const results = event.results[event.results.length - 1];
+        const transcript = results[0].transcript.trim();
+        const confidence = results[0].confidence;
+        if (confidence >= 0.6) {
+          this.voiceStatus = `Heard: "${transcript}" (${(confidence * 100).toFixed(0)}%)`;
+          this.handleVoiceCommand(transcript);
+          console.log('Voice command received:', transcript, 'Confidence:', confidence);
+        } else {
+          this.voiceStatus = `Heard: "${transcript}" (Low confidence: ${(confidence * 100).toFixed(0)}%)`;
+          console.log('Low confidence voice command:', transcript, 'Confidence:', confidence);
+        }
+        setTimeout(() => { this.voiceStatus = ""; }, 2000);
+      };
+      this.recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        this.isListening = false;
+        let errorMessage = `Error: ${event.error}`;
+        if (event.error === 'no-speech') {
+          errorMessage = 'Error: No speech detected. Speak louder or move closer.';
+        } else if (event.error === 'not-allowed') {
+          errorMessage = 'Error: Microphone access denied. Please allow access.';
+        } else if (event.error === 'network') {
+          errorMessage = 'Error: Network issue. Check your connection.';
+        }
+        this.voiceStatus = errorMessage;
+        setTimeout(() => { this.voiceStatus = ""; }, 2000);
+      };
+      this.recognition.onend = () => {
+        console.log('Speech recognition ended');
+        if (this.isListening) {
+          setTimeout(() => {
+            try {
+              this.recognition.start();
+              console.log('Speech recognition restarted');
+            } catch (error) {
+              console.error('Failed to restart recognition:', error);
+              this.isListening = false;
+              this.voiceStatus = 'Error: Voice recognition stopped.';
+              setTimeout(() => { this.voiceStatus = ""; }, 2000);
+            }
+          }, 100);
+        }
+      };
+    },
     animateCounter(target) {
+      console.log('Animating counter to:', target);
       const step = () => {
         if (this.animatedCounter === target) return;
         const direction = target > this.animatedCounter ? 1 : -1;
@@ -103,168 +232,354 @@ export default {
       };
       requestAnimationFrame(step);
     },
-    handleClick() {
+    handleClick(event) {
+      console.log('Handle click triggered', event.type);
       this.playSound();
       this.counter++;
       this.animatedCounter = this.counter;
-      this.playRipple();
       this.checkMilestone();
     },
     undoClick() {
+      console.log('Undo click triggered');
       if (this.counter > 0) {
         this.playSound();
         this.counter--;
         this.animatedCounter = this.counter;
-        this.playRipple();
       }
     },
     resetAll() {
+      console.log('Reset all triggered');
+      this.playSound();
       this.counter = 0;
       this.animatedCounter = 0;
     },
     playSound() {
-      this.audio.currentTime = 0;
-      this.audio.play();
-    },
-    playRipple() {
-      const current = (this.counter % this.goal) || this.goal;
-      this.rippleBead = current;
-    },
-    clearRipple(index) {
-      if (this.rippleBead === index) this.rippleBead = null;
+      try {
+        if (this.audio) {
+          this.audio.currentTime = 0;
+          this.audio.play();
+          console.log('Sound played');
+        }
+      } catch (error) {
+        console.error('Failed to play sound:', error);
+      }
     },
     checkMilestone() {
       const milestones = [33, 66, 99];
       if (milestones.includes(this.counter)) {
-        this.milestoneMessage = `You reached ${this.counter}! Keep going 🤲`;
+        this.milestoneMessage = `You reached ${this.counter}! Keep going!`;
         this.showMilestone = true;
-        setTimeout(() => (this.showMilestone = false), 3000);
+        console.log('Milestone reached:', this.counter);
+        setTimeout(() => {
+          this.showMilestone = false;
+          console.log('Milestone message hidden');
+        }, 3000);
       }
+    },
+    toggleVoiceControls() {
+      console.log('Toggle voice controls triggered');
+      if (!this.recognitionAvailable) {
+        this.voiceStatus = 'Error: Voice controls not supported.';
+        setTimeout(() => { this.voiceStatus = ""; }, 2000);
+        return;
+      }
+      if (this.isListening) {
+        try {
+          this.recognition.stop();
+          this.isListening = false;
+          this.voiceStatus = 'Voice recognition stopped.';
+          setTimeout(() => { this.voiceStatus = ""; }, 2000);
+          console.log('Voice recognition stopped');
+        } catch (error) {
+          console.error('Failed to stop recognition:', error);
+          this.voiceStatus = 'Error: Failed to stop voice controls.';
+          setTimeout(() => { this.voiceStatus = ""; }, 2000);
+        }
+      } else {
+        try {
+          this.recognition.start();
+          this.isListening = true;
+          this.voiceStatus = 'Listening...';
+          console.log('Voice recognition started');
+        } catch (error) {
+          console.error('Failed to start recognition:', error);
+          this.voiceStatus = 'Error: Failed to start voice controls.';
+          setTimeout(() => { this.voiceStatus = ""; }, 2000);
+          this.isListening = false;
+        }
+      }
+    },
+    handleVoiceCommand(transcript) {
+      console.log('Processing voice command:', transcript);
+      const subhanAllahVariationsAr = [
+        'سبحان الله', 'سبحانالله', 'سبحان', 'سوبحان الله', 'سبحان اللہ',
+        'سبحاناللہ', 'سوبحان', 'سبحانا', 'سبحانا الله', 'سبحان اللاه',
+        'سبحان اللة', 'سبحانا اللہ', 'سوبحانالله', 'سبحان اللله',
+        'سبحانا اللة', 'سبحاناله', 'سوبحان اللہ', 'سبحان الل'
+      ];
+
+      const levenshteinDistance = (a, b) => {
+        const matrix = Array(b.length + 1).fill().map(() => Array(a.length + 1).fill(0));
+        for (let i = 0; i <= a.length; i++) matrix[0][i] = i;
+        for (let j = 0; j <= b.length; j++) matrix[j][0] = j;
+        for (let j = 1; j <= b.length; j++) {
+          for (let i = 1; i <= a.length; i++) {
+            const indicator = a[i - 1] === b[j - 1] ? 0 : 1;
+            matrix[j][i] = Math.min(
+              matrix[j][i - 1] + 1,
+              matrix[j - 1][i] + 1,
+              matrix[j - 1][i - 1] + indicator
+            );
+          }
+        }
+        return matrix[b.length][a.length];
+      };
+
+      const isSubhanAllah = subhanAllahVariationsAr.some(variation => 
+        transcript.includes(variation) || levenshteinDistance(transcript, variation) <= 3
+      );
+
+      if (isSubhanAllah) {
+        this.handleClick({ type: 'voice' });
+        console.log('Voice command: SubhanAllah detected');
+      } else if (transcript.includes('رجوع') || transcript.includes('تراجع') || transcript.includes('الغاء')) {
+        this.undoClick();
+        console.log('Voice command: Undo detected');
+      } else if (transcript.includes('إعادة') || transcript.includes('تصفير') || transcript.includes('بدء من جديد')) {
+        this.resetAll();
+        console.log('Voice command: Reset detected');
+      } else {
+        console.log('No matching voice command');
+      }
+    },
+    handleTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX;
+      this.swipeDirection = null;
+      console.log('Touch start:', this.touchStartX);
+    },
+    handleTouchMove(event) {
+      this.touchEndX = event.touches[0].clientX;
+      console.log('Touch move:', this.touchEndX);
+    },
+    handleTouchEnd() {
+      if (this.touchStartX !== null && this.touchEndX !== null) {
+        const deltaX = this.touchEndX - this.touchStartX;
+        const minSwipeDistance = 50;
+        if (deltaX > minSwipeDistance) {
+          this.swipeDirection = 'right';
+          this.handleClick({ type: 'swipe-right' });
+          console.log('Swipe right detected');
+        } else if (deltaX < -minSwipeDistance) {
+          this.swipeDirection = 'left';
+          this.undoClick();
+          console.log('Swipe left detected');
+        }
+        setTimeout(() => { this.swipeDirection = null; }, 300);
+      }
+      this.touchStartX = null;
+      this.touchEndX = null;
     }
   }
 };
 </script>
 
 <style scoped>
-.digital-counter {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #00bfa6;
-  text-shadow: 0 0 10px #00bfa6;
-  transition: all 0.3s ease;
+:root {
+  --primary-color: #198754;
+  --secondary-color: #ffc107;
+  --background-color: #f8f9fa;
+  --text-color: #333;
 }
 
-.bead-string {
+.tasbeeh-container {
+  min-height: 100vh;
+  background: var(--background-color);
+  padding: 16px;
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 8px;
-  justify-content: flex-start;
+  flex-direction: column;
   align-items: center;
-  scrollbar-width: none;
-  /* Firefox */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
-.bead-string::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Edge */
+.title {
+  font-size: clamp(1.5rem, 5vw, 1.8rem);
+  color: var(--primary-color);
+  margin-bottom: 8px;
 }
 
-.bead {
-  min-width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #dee2e6;
-  border: 2px solid #00bfa6;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  transition: background 0.3s;
+.subtitle {
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.counter-container {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.dhikr-display {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.dhikr-text {
+  font-size: clamp(1.4rem, 4vw, 1.6rem);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.dhikr-text-arabic {
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: var(--text-color);
+  opacity: 0.8;
+  font-family: 'Amiri', serif;
+}
+
+.counter {
+  font-size: clamp(2.5rem, 6vw, 2.8rem);
+  font-weight: bold;
+  color: var(--primary-color);
 }
 
 .bead-string {
   display: flex;
   flex-wrap: wrap;
+  gap: 6px;
   justify-content: center;
-  gap: 8px;
-  padding: 8px;
+  margin-bottom: 16px;
 }
 
 .bead {
-  width: 40px;
-  height: 40px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #dee2e6;
-  border: 2px solid #00bfa6;
-  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
-  position: relative;
-  transition: background 0.3s;
+  background: #e0e0e0;
+  border: 2px solid var(--primary-color);
 }
 
 .bead.filled {
-  background: #198754;
-  box-shadow: 0 0 8px #198754;
+  background: var(--primary-color);
 }
 
-.bead.ripple::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(25, 135, 84, 0.5);
-  transform: translate(-50%, -50%);
-  animation: ripple 0.4s ease-out forwards;
-}
-
-@keyframes ripple {
-  to {
-    width: 35px;
-    height: 35px;
-    opacity: 0;
-  }
+.tap-area-wrapper {
+  width: 80%;
+  max-width: 300px;
+  margin-bottom: 16px;
 }
 
 .tap-area {
-  font-size: 1.3rem;
-  padding: 14px;
-  background: linear-gradient(135deg, #198754, #28a745);
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  padding: 12px;
+  background: var(--primary-color);
   color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  user-select: none;
-  transition: transform 0.1s;
+  width: 100%;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.tap-area:hover {
+  background: #28a745;
 }
 
 .tap-area:active {
-  transform: scale(0.95);
+  background: #146c43;
+}
+
+.tap-area.swipe-right {
+  transform: translateX(8px);
+}
+
+.tap-area.swipe-left {
+  transform: translateX(-8px);
+}
+
+.arrow-right, .arrow-left {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 80%;
+  max-width: 300px;
+}
+
+.controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+  background: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  color: var(--text-color);
+  cursor: pointer;
+  flex: 1;
+  min-width: 80px;
+  transition: background 0.2s;
+}
+
+.controls button:hover {
+  background: #d0d0d0;
+}
+
+.controls button:active {
+  background: #c0c0c0;
+}
+
+.controls button:disabled {
+  background: #f0f0f0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.voice-btn.active {
+  background: #ff4d4d;
+  color: white;
 }
 
 .milestone {
-  animation: glowText 1s ease-in-out infinite alternate;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  color: var(--secondary-color);
+  margin-bottom: 16px;
 }
 
-@keyframes glowText {
-  from {
-    text-shadow: 0 0 6px #ffc107;
-  }
-
-  to {
-    text-shadow: 0 0 12px #ffc107;
-  }
+.voice-status {
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 8px;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.voice-status.error {
+  color: #dc3545;
+  opacity: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
   transition: opacity 0.4s;
 }
 
-.fade-enter,
-.fade-leave-to {
+.fade-enter, .fade-leave-to {
   opacity: 0;
 }
 </style>

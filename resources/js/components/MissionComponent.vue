@@ -19,220 +19,166 @@
 
 
     <transition name="fade" mode="out-in">
-      <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
+  <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
+    <div v-if="copySuccess" class="alert alert-success" role="alert">
+      Text copied to clipboard!
+    </div>
 
-        <!-- <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div> -->
+    <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
 
-        <!-- Bootstrap message -->
-        <div v-if="copySuccess" class="alert alert-success" role="alert">
-          Text copied to clipboard!
+    <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
+      <p style="display: inline-block; min-width: max-content;">
+        <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+        <strong>Read Time:</strong> {{ readTime }} minutes
+
+        <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+        <strong>Listen Time:</strong> {{ listenTime }} minutes
+
+        <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
+        <strong>Word Count:</strong> {{ wordCount }} words
+      </p>
+    </div>
+
+    <!-- Audio Player Controls -->
+    <div class="audio-player card shadow-sm p-3 mb-3" style="max-width: 500px; margin: 0 auto;">
+      <div class="d-flex align-items-center gap-3">
+        <button @click="handleTTS" class="btn btn-primary rounded-circle" style="width: 50px; height: 50px;">
+          <i v-if="ttsState === 'playing'" class="bi bi-pause-fill fs-4"></i>
+          <i v-else class="bi bi-play-fill fs-4"></i>
+        </button>
+        
+        <div class="flex-grow-1">
+          <label class="form-label fw-bold">Playback Speed</label>
+          <select v-model="ttsSettings.speed" @change="updateTTSSpeed" class="form-select form-select-sm">
+            <option value="0.5">0.5x</option>
+            <option value="0.75">0.75x</option>
+            <option value="1" selected>1x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2x</option>
+          </select>
         </div>
 
-        <!-- <div class="row align-items-center mb-3">
-          <div class="col-md-4 container">
-            <span class="fw-semibold" style="white-space: nowrap;font-size: 1.3em;">Search for a word in the Seerah
-              text:</span>
-          </div>
-          <div class="col-md-6 container">
-            <input type="text" v-model="searchTerm" class="form-control"
-              placeholder="Search for a word in the Seerah text...">
-          </div>
-        </div> -->
+        <div class="flex-grow-1">
+          <label class="form-label fw-bold">Voice</label>
+          <select v-model="ttsSettings.voice" @change="updateTTSVoice" class="form-select form-select-sm">
+            <option v-for="voice in availableVoices" :key="voice.name" :value="voice.name">{{ voice.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
-        <!-- <div class="time-estimates">
+    <!-- Styled Text desc -->
+    <h5 class="fw-medium p-3 rounded" :style="{
+      lineHeight: '1.7em',
+      fontSize: fontSize + 'px',
+      backgroundColor: fontSettings.backgroundColor,
+      color: fontSettings.color,
+      fontStyle: fontSettings.fontStyle,
+      textShadow: fontSettings.textShadow,
+      textDecoration: fontSettings.textDecoration,
+      fontFamily: fontSettings.fontFamily,
+    }" v-html="highlightedDescription">
+    </h5>
 
-          <div class="scroll-container text-center" style="
-              color: black;
-              border-radius: 15px;
-              border: 2px solid rgba(0, 0, 0, 0.1);
-              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-              overflow-x: auto;
-              display: flex;
-              flex-direction: row;
-              gap: 5px;
-              white-space: nowrap;
-              margin-bottom: 15px;
-            ">
+    <!-- Offcanvas Settings Panel -->
+    <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
+      aria-labelledby="settingsOffcanvasLabel" :style="offcanvasStyle">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fs-3" id="settingsOffcanvasLabel">Font Settings</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column gap-3">
+        <form @submit.prevent="saveSettings" class="text-white">
+          <div class="d-flex flex-column gap-3">
+            <div v-if="showSuccess" class="alert alert-success mt-3" role="alert">
+              Changes saved successfully!
+            </div>
 
-            <div class="container">
-              <div class="row text-center">
-                <div class="col">
-                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
-                    style="cursor: pointer;">
-                    <i class="bi bi-plus-circle fs-4 me-2"></i> Increase Font
-                  </div>
-                </div>
-                <div class="col">
-                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
-                    style="cursor: pointer;">
-                    <i class="bi bi-whatsapp fs-4 me-2 text-success"></i> Share
-                  </div>
-                </div>
-                <div class="col">
-                  <div @click="copyToClipboard" class="d-flex align-items-center p-2 rounded action-button"
-                    style="cursor: pointer;">
-                    <i class="bi bi-clipboard fs-4 me-2"></i> Copy Text
-                  </div>
-                </div>
-                <div class="col">
-                  <div @click="shareOnWhatsApp" class="d-flex align-items-center p-2 rounded action-button"
-                    style="cursor: pointer;">
-                    <i class="bi bi-dash-circle fs-4 me-2"></i> Decrease Font
-                  </div>
-                </div>
+            <div>
+              <label class="form-label fw-bold fs-4">Background Color</label>
+              <input type="color" v-model="fontSettings.backgroundColor" class="form-control form-control-color" />
+            </div>
+
+            <div>
+              <label class="form-label fw-bold fs-4">Text Color</label>
+              <input type="color" v-model="fontSettings.color" class="form-control form-control-color" />
+            </div>
+
+            <div>
+              <label class="form-label fw-bold fs-4">Font Size:</label>
+              <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="decreaseFontSize">−</button>
+                <span class="fw-bold fs-5">{{ tempFontSize }}px</span>
+                <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="increaseFontSize">+</button>
               </div>
             </div>
 
+            <div>
+              <label class="form-label fw-bold fs-4">Font Style</label>
+              <select v-model="fontSettings.fontStyle" class="form-select">
+                <option value="normal">Normal</option>
+                <option value="italic">Italic</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label fw-bold fs-4">Text Shadow</label>
+              <select v-model="fontSettings.textShadow" class="form-select">
+                <option value="none">None</option>
+                <option value="1px 1px 2px gray">Soft Shadow</option>
+                <option value="2px 2px 4px black">Dark Shadow</option>
+                <option value="1px 1px 2px red">Red Shadow</option>
+                <option value="1px 1px 2px blue">Blue Shadow</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label fw-bold fs-4">Underline</label>
+              <select v-model="fontSettings.textDecoration" class="form-select">
+                <option value="none">None</option>
+                <option value="underline">Underline</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label fw-bold fs-4">Font Family</label>
+              <select v-model="fontSettings.fontFamily" class="form-select">
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+                <option value="'Courier New', monospace">Courier New</option>
+                <option value="Tahoma, sans-serif">Tahoma</option>
+                <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                <option value="'Open Sans', sans-serif">Open Sans</option>
+                <option value="'Roboto', sans-serif">Roboto</option>
+                <option value="'Lato', sans-serif">Lato</option>
+                <option value="'Merriweather', serif">Merriweather</option>
+                <option value="'Noto Sans', sans-serif">Noto Sans</option>
+                <option value="'Poppins', sans-serif">Poppins</option>
+              </select>
+            </div>
           </div>
-        </div> -->
-        <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
-
-        <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
-          <p style="display: inline-block; min-width: max-content;">
-            <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Read Time:</strong> {{ readTime }} minutes
-
-            <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Listen Time:</strong> {{ listenTime }} minutes
-
-            <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Word Count:</strong> {{ wordCount }} words
-
-            <!-- <i class="bi bi-whatsapp pr-2 pl-3 feature" style="cursor: pointer; font-size: 22px;"
-              @click="shareOnWhatsApp"></i>
-            <strong @click="shareOnWhatsApp" style="cursor: pointer;" class="feature">Share</strong>
-
-            <i class="bi bi-clipboard pl-3 pr-2 feature" style="cursor: pointer; font-size: 22px;"
-              @click="copyToClipboard()"></i>
-            <strong @click="copyToClipboard()" style="cursor: pointer;" class="feature">Copy Text</strong> -->
-          </p>
-        </div>
-
-        <!-- Styled Text desc -->
-        <h5 class="fw-medium p-3 rounded" :style="{
-          lineHeight: '1.7em',
-          fontSize: fontSize + 'px',
-          backgroundColor: fontSettings.backgroundColor,
-          color: fontSettings.color,
-          fontStyle: fontSettings.fontStyle,
-          textShadow: fontSettings.textShadow,
-          textDecoration: fontSettings.textDecoration,
-          fontFamily: fontSettings.fontFamily,
-        }" v-html="highlightedDescription">
-        </h5>
-
-
-        <!-- Offcanvas Settings Panel -->
-        <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
-          aria-labelledby="settingsOffcanvasLabel" :style="offcanvasStyle">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title fs-3" id="settingsOffcanvasLabel">Font Settings</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-              aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body d-flex flex-column gap-3">
-
-            <form @submit.prevent="saveSettings" class="text-white">
-              <div class="d-flex flex-column gap-3">
-
-                <div v-if="showSuccess" class="alert alert-success mt-3" role="alert">
-                  Changes saved successfully!
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Background Color</label>
-                  <input type="color" v-model="fontSettings.backgroundColor" class="form-control form-control-color" />
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Text Color</label>
-                  <input type="color" v-model="fontSettings.color" class="form-control form-control-color" />
-                </div>
-
-                <label class="form-label fw-bold fs-4">Font Size:</label>
-                <div class="d-flex align-items-center gap-3">
-                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="decreaseFontSize">−</button>
-
-                  <span class="fw-bold fs-5">{{ tempFontSize }}px</span>
-
-                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="increaseFontSize">+</button>
-                </div>
-
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Font Style</label>
-                  <select v-model="fontSettings.fontStyle" class="form-select">
-                    <option value="normal">Normal</option>
-                    <option value="italic">Italic</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Text Shadow</label>
-                  <select v-model="fontSettings.textShadow" class="form-select">
-                    <option value="none">None</option>
-                    <option value="1px 1px 2px gray">Soft Shadow</option>
-                    <option value="2px 2px 4px black">Dark Shadow</option>
-                    <option value="1px 1px 2px red">Red Shadow</option>
-                    <option value="1px 1px 2px blue">Blue Shadow</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Underline</label>
-                  <select v-model="fontSettings.textDecoration" class="form-select">
-                    <option value="none">None</option>
-                    <option value="underline">Underline</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label class="form-label fw-bold fs-4">Font Family</label>
-                  <select v-model="fontSettings.fontFamily" class="form-select">
-                    <option value="Arial, sans-serif">Arial</option>
-                    <option value="'Times New Roman', serif">Times New Roman</option>
-                    <option value="'Courier New', monospace">Courier New</option>
-                    <option value="Tahoma, sans-serif">Tahoma</option>
-                    <option value="'Segoe UI', sans-serif">Segoe UI</option>
-                    <option value="'Open Sans', sans-serif">Open Sans</option>
-                    <option value="'Roboto', sans-serif">Roboto</option>
-                    <option value="'Lato', sans-serif">Lato</option>
-                    <option value="'Merriweather', serif">Merriweather</option>
-                    <option value="'Noto Sans', sans-serif">Noto Sans</option>
-                    <option value="'Poppins', sans-serif">Poppins</option>
-                  </select>
-                </div>
-
-
-
-              </div><button class="btn btn-success text-right mt-3" @click="submitFontSize">
-                Submit Changes
-              </button>
-            </form>
-
-          </div>
-        </div>
-
-        <!-- First your new Play/Pause FAB -->
-        <div @click="handleTTS" class="fab btn btn-light rounded-circle shadow container"
-          style="position: fixed; bottom: 100px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;">
-          <i v-if="ttsState === 'playing'" class="bi bi-pause-fill fs-4"></i>
-          <i v-else class="bi bi-play-fill fs-4"></i>
-        </div>
-
-        <div class="fab btn btn-light rounded-circle shadow container"
-          style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;"
-          data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas" aria-controls="settingsOffcanvas">
-          <i class="bi bi-gear-fill fs-4"></i>
-        </div>
-
-        <div class="controls text-center mt-4">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary">Next</button>
-        </div>
-
+          <button class="btn btn-success text-right mt-3" @click="submitFontSize">
+            Submit Changes
+          </button>
+        </form>
       </div>
-    </transition>
+    </div>
+
+    <!-- Settings FAB -->
+    <div class="fab btn btn-light rounded-circle shadow container"
+      style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;"
+      data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas" aria-controls="settingsOffcanvas">
+      <i class="bi bi-gear-fill fs-4"></i>
+    </div>
+
+    <div class="controls text-center mt-4">
+      <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>
+      <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary">Next</button>
+    </div>
+  </div>
+</transition>
 
   </div>
 </template>
@@ -252,6 +198,14 @@ export default {
         textDecoration: "none",
         fontFamily: "Arial, sans-serif",
       },
+      ttsSettings: {
+        speed: 1,
+        voice: null
+      },
+      availableVoices: [],
+      speechSynthesis: null,
+      utterance: null,
+      ttsState: 'stopped',
       events: [],
       showSuccess: false,
       currentIndex: 0,
@@ -284,6 +238,9 @@ export default {
     }
   },
   mounted() {
+    this.speechSynthesis = window.speechSynthesis;
+    this.loadVoices();
+    window.speechSynthesis.onvoiceschanged = this.loadVoices;
     const saved = localStorage.getItem("userFontSettings");
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -343,6 +300,50 @@ export default {
     }
   },
   methods: {
+    loadVoices() {
+      this.availableVoices = this.speechSynthesis.getVoices();
+      if (this.availableVoices.length > 0 && !this.ttsSettings.voice) {
+        this.ttsSettings.voice = this.availableVoices[0].name;
+      }
+    },
+    handleTTS() {
+      if (this.ttsState === 'playing') {
+        this.speechSynthesis.pause();
+        this.ttsState = 'paused';
+      } else {
+        if (this.ttsState === 'paused') {
+          this.speechSynthesis.resume();
+        } else {
+          this.utterance = new SpeechSynthesisUtterance(this.events[this.currentIndex].description);
+          const selectedVoice = this.availableVoices.find(voice => voice.name === this.ttsSettings.voice);
+          if (selectedVoice) {
+            this.utterance.voice = selectedVoice;
+          }
+          this.utterance.rate = parseFloat(this.ttsSettings.speed);
+          this.speechSynthesis.speak(this.utterance);
+        }
+        this.ttsState = 'playing';
+      }
+    },
+    updateTTSSpeed() {
+      if (this.utterance) {
+        this.speechSynthesis.cancel();
+        this.utterance.rate = parseFloat(this.ttsSettings.speed);
+        this.speechSynthesis.speak(this.utterance);
+        this.ttsState = 'playing';
+      }
+    },
+    updateTTSVoice() {
+      if (this.utterance) {
+        this.speechSynthesis.cancel();
+        const selectedVoice = this.availableVoices.find(voice => voice.name === this.ttsSettings.voice);
+        if (selectedVoice) {
+          this.utterance.voice = selectedVoice;
+        }
+        this.speechSynthesis.speak(this.utterance);
+        this.ttsState = 'playing';
+      }
+    },
     prev() {
       if (this.currentIndex > 0) {
         this.currentIndex--;

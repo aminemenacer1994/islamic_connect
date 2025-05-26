@@ -37648,7 +37648,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_defineProperty(_defineProperty(_defineProperty({
   name: 'SeerahTimeline',
   data: function data() {
-    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    var _ref;
+    return _ref = {
       isOffcanvasOpen: true,
       fontSettings: {
         backgroundColor: "#ffffff",
@@ -37658,20 +37659,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         textDecoration: "none",
         fontFamily: "Arial, sans-serif"
       },
+      ttsSettings: {
+        speed: 1,
+        voice: null
+      },
+      availableVoices: [],
+      speechSynthesis: null,
+      utterance: null,
+      ttsState: 'stopped',
       events: [],
       showSuccess: false,
       currentIndex: 0,
-      selectedVoice: null,
-      ttsState: 'stopped',
-      // 'playing' | 'paused' | 'stopped'
-      utterance: null,
-      synth: window.speechSynthesis,
-      copySuccess: false,
-      searchTerm: '',
-      isPlaying: false,
-      textToRead: '',
-      speechInstance: null
-    }, "currentIndex", 0), "events", []), "originalEvents", []), "fontSize", 18), "tempFontSize", 18), "scrollDirection", 'up'), "speech", null), "searchQuery", ''), "currentEvent", null);
+      selectedVoice: null
+    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "ttsState", 'stopped'), "utterance", null), "synth", window.speechSynthesis), "copySuccess", false), "searchTerm", ''), "isPlaying", false), "textToRead", ''), "speechInstance", null), "currentIndex", 0), "events", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "originalEvents", []), "fontSize", 18), "tempFontSize", 18), "scrollDirection", 'up'), "speech", null), "searchQuery", ''), "currentEvent", null);
   },
   computed: {
     offcanvasStyle: function offcanvasStyle() {
@@ -37683,6 +37683,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   },
   mounted: function mounted() {
     var _this$events$this$cur;
+    this.speechSynthesis = window.speechSynthesis;
+    this.loadVoices();
+    window.speechSynthesis.onvoiceschanged = this.loadVoices;
     var saved = localStorage.getItem("userFontSettings");
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -37737,6 +37740,56 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     return Math.ceil(wordCount / wordsPerMinute);
   }
 }), "methods", (_methods = {
+  loadVoices: function loadVoices() {
+    this.availableVoices = this.speechSynthesis.getVoices();
+    if (this.availableVoices.length > 0 && !this.ttsSettings.voice) {
+      this.ttsSettings.voice = this.availableVoices[0].name;
+    }
+  },
+  handleTTS: function handleTTS() {
+    var _this = this;
+    if (this.ttsState === 'playing') {
+      this.speechSynthesis.pause();
+      this.ttsState = 'paused';
+    } else {
+      if (this.ttsState === 'paused') {
+        this.speechSynthesis.resume();
+      } else {
+        this.utterance = new SpeechSynthesisUtterance(this.events[this.currentIndex].description);
+        var selectedVoice = this.availableVoices.find(function (voice) {
+          return voice.name === _this.ttsSettings.voice;
+        });
+        if (selectedVoice) {
+          this.utterance.voice = selectedVoice;
+        }
+        this.utterance.rate = parseFloat(this.ttsSettings.speed);
+        this.speechSynthesis.speak(this.utterance);
+      }
+      this.ttsState = 'playing';
+    }
+  },
+  updateTTSSpeed: function updateTTSSpeed() {
+    if (this.utterance) {
+      this.speechSynthesis.cancel();
+      this.utterance.rate = parseFloat(this.ttsSettings.speed);
+      this.speechSynthesis.speak(this.utterance);
+      this.ttsState = 'playing';
+    }
+  },
+  updateTTSVoice: function updateTTSVoice() {
+    var _this2 = this;
+    if (this.utterance) {
+      this.speechSynthesis.cancel();
+      var selectedVoice = this.availableVoices.find(function (voice) {
+        return voice.name === _this2.ttsSettings.voice;
+      });
+      if (selectedVoice) {
+        this.utterance.voice = selectedVoice;
+      }
+      this.speechSynthesis.speak(this.utterance);
+      this.ttsState = 'playing';
+    }
+  },
   prev: function prev() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
@@ -37756,13 +37809,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   saveSettings: function saveSettings() {
-    var _this = this;
+    var _this3 = this;
     localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
     this.showSuccess = true;
 
     // Hide alert & close offcanvas after 3s
     setTimeout(function () {
-      _this.showSuccess = false;
+      _this3.showSuccess = false;
 
       // Bootstrap Offcanvas API
       var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("settingsOffcanvas"));
@@ -37780,82 +37833,74 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       speechSynthesis.cancel(); // Stop speech immediately
       this.ttsState = 'stopped'; // Update the TTS state
     }
-  },
-  loadVoices: function loadVoices() {
-    var voices = speechSynthesis.getVoices();
-    if (voices.length) {
-      this.selectedVoice = voices.find(function (voice) {
-        return voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'));
-      }) || voices.find(function (voice) {
-        return voice.lang === 'en-US';
-      });
-    }
-  },
-  // Handle TTS play, pause, and resume
-  handleTTS: function handleTTS() {
-    var _this$events$this$cur3,
-      _this2 = this;
-    if (!this.selectedVoice) {
-      this.loadVoices();
-      return;
-    }
-    var description = this.stripHtml(this.highlightedDescription);
-    var title = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.title) || '';
-    var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
-    if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
-      // Start or Resume
-      if (this.ttsState === 'paused') {
-        speechSynthesis.resume();
-      } else {
-        this.utterance = new SpeechSynthesisUtterance(ttsText);
-        this.utterance.voice = this.selectedVoice;
-        this.utterance.rate = 1;
-        this.utterance.pitch = 1;
-        this.utterance.onend = function () {
-          _this2.ttsState = 'stopped'; // When finished
-        };
-        speechSynthesis.speak(this.utterance);
-      }
-      this.ttsState = 'playing';
-    } else if (this.ttsState === 'playing') {
-      // Pause
-      speechSynthesis.pause();
-      this.ttsState = 'paused';
-    }
-  },
-  // Stop TTS immediately
-  stopTTS: function stopTTS() {
-    if (speechSynthesis.speaking || speechSynthesis.stop) {
-      speechSynthesis.cancel(); // Stop speaking or pause immediately
-      this.ttsState = 'stopped'; // Reset the state to stopped
-    }
-  },
-  selectEvent: function selectEvent(index) {
-    this.currentIndex = index;
-    if (speechSynthesis.speaking || speechSynthesis.paused) {
-      speechSynthesis.cancel(); // Cancel speaking immediately
-      this.ttsState = 'stopped';
-    }
-    this.scrollToEvent(index); // Optional if you want scroll effect
-  },
-  countWords: function countWords(text) {
-    if (!text) return 0;
-    return text.split(/\s+/).filter(Boolean).length;
-  },
-  filterEvents: function filterEvents() {
-    var query = this.searchQuery.trim().toLowerCase();
-    if (!query) {
-      this.events = this.originalEvents;
-      this.currentIndex = 0;
-      return;
-    }
-    var filtered = this.originalEvents.filter(function (e) {
-      return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
-    });
-    this.events = filtered;
-    this.currentIndex = 0;
   }
-}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "selectEvent", function selectEvent(index) {
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "loadVoices", function loadVoices() {
+  var voices = speechSynthesis.getVoices();
+  if (voices.length) {
+    this.selectedVoice = voices.find(function (voice) {
+      return voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'));
+    }) || voices.find(function (voice) {
+      return voice.lang === 'en-US';
+    });
+  }
+}), "handleTTS", function handleTTS() {
+  var _this$events$this$cur3,
+    _this4 = this;
+  if (!this.selectedVoice) {
+    this.loadVoices();
+    return;
+  }
+  var description = this.stripHtml(this.highlightedDescription);
+  var title = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.title) || '';
+  var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
+  if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
+    // Start or Resume
+    if (this.ttsState === 'paused') {
+      speechSynthesis.resume();
+    } else {
+      this.utterance = new SpeechSynthesisUtterance(ttsText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.rate = 1;
+      this.utterance.pitch = 1;
+      this.utterance.onend = function () {
+        _this4.ttsState = 'stopped'; // When finished
+      };
+      speechSynthesis.speak(this.utterance);
+    }
+    this.ttsState = 'playing';
+  } else if (this.ttsState === 'playing') {
+    // Pause
+    speechSynthesis.pause();
+    this.ttsState = 'paused';
+  }
+}), "stopTTS", function stopTTS() {
+  if (speechSynthesis.speaking || speechSynthesis.stop) {
+    speechSynthesis.cancel(); // Stop speaking or pause immediately
+    this.ttsState = 'stopped'; // Reset the state to stopped
+  }
+}), "selectEvent", function selectEvent(index) {
+  this.currentIndex = index;
+  if (speechSynthesis.speaking || speechSynthesis.paused) {
+    speechSynthesis.cancel(); // Cancel speaking immediately
+    this.ttsState = 'stopped';
+  }
+  this.scrollToEvent(index); // Optional if you want scroll effect
+}), "countWords", function countWords(text) {
+  if (!text) return 0;
+  return text.split(/\s+/).filter(Boolean).length;
+}), "filterEvents", function filterEvents() {
+  var query = this.searchQuery.trim().toLowerCase();
+  if (!query) {
+    this.events = this.originalEvents;
+    this.currentIndex = 0;
+    return;
+  }
+  var filtered = this.originalEvents.filter(function (e) {
+    return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
+  });
+  this.events = filtered;
+  this.currentIndex = 0;
+}), "selectEvent", function selectEvent(index) {
   if (speechSynthesis.speaking || speechSynthesis.paused) {
     speechSynthesis.cancel(); // Immediately cancel any speaking
     if (this.utterance) {
@@ -37874,11 +37919,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
   }
 }), "scrollToBadge", function scrollToBadge() {
-  var _this3 = this;
+  var _this5 = this;
   this.$nextTick(function () {
-    var badges = _this3.$el.querySelectorAll('.timeline-badge');
-    if (badges[_this3.currentIndex]) {
-      badges[_this3.currentIndex].scrollIntoView({
+    var badges = _this5.$el.querySelectorAll('.timeline-badge');
+    if (badges[_this5.currentIndex]) {
+      badges[_this5.currentIndex].scrollIntoView({
         behavior: 'smooth',
         inline: 'center'
       });
@@ -37886,7 +37931,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   });
 }), "handleKey", function handleKey(e) {
   if (e.key === 'ArrowRight') this.next();else if (e.key === 'ArrowLeft') this.prev();
-}), "toggleScroll", function toggleScroll() {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleScroll", function toggleScroll() {
   if (this.scrollDirection === 'up') {
     window.scrollTo({
       top: 0,
@@ -37905,11 +37950,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "decreaseFontSize", function decreaseFontSize() {
   if (this.tempFontSize > 1) this.tempFontSize -= 1;
 }), "submitFontSize", function submitFontSize() {
-  var _this4 = this;
+  var _this6 = this;
   this.fontSize = this.tempFontSize;
   this.showSuccess = true;
   setTimeout(function () {
-    _this4.showSuccess = false;
+    _this6.showSuccess = false;
   }, 2000);
 }), "togglePlayStop", function togglePlayStop() {
   if (this.isPlaying) {
@@ -37919,7 +37964,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   }
   this.isPlaying = !this.isPlaying;
 }), "startTTS", function startTTS() {
-  var _this5 = this;
+  var _this7 = this;
   if ('speechSynthesis' in window) {
     // Ensure there is no previous speech in progress
     if (this.speechInstance) {
@@ -37930,12 +37975,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
     // Event listener for when speech ends
     this.speechInstance.onend = function () {
-      _this5.isPlaying = false; // Reset state when speech ends
+      _this7.isPlaying = false; // Reset state when speech ends
     };
   } else {
     console.error('TTS not supported in this browser.');
   }
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stopTTS", function stopTTS() {
+}), "stopTTS", function stopTTS() {
   window.speechSynthesis.cancel(); // Stop the speech synthesis
   this.isPlaying = false; // Reset state
 }), "stripHtml", function stripHtml(html) {
@@ -37956,19 +38001,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   });
   this.stopTTS();
   this.currentIndex--;
-}), "stripHtmlTags", function stripHtmlTags(html) {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stripHtmlTags", function stripHtmlTags(html) {
   var div = document.createElement('div');
   div.innerHTML = html;
   return div.textContent || div.innerText || '';
 }), "copyToClipboard", function copyToClipboard() {
   var _this$events$this$cur4,
-    _this6 = this;
+    _this8 = this;
   var rawHtml = ((_this$events$this$cur4 = this.events[this.currentIndex]) === null || _this$events$this$cur4 === void 0 ? void 0 : _this$events$this$cur4.description) || '';
   var plainText = this.stripHtmlTags(rawHtml);
   navigator.clipboard.writeText(plainText).then(function () {
-    _this6.copySuccess = true;
+    _this8.copySuccess = true;
     setTimeout(function () {
-      _this6.copySuccess = false;
+      _this8.copySuccess = false;
     }, 2000);
   });
 }), "stripHTML", function stripHTML(text) {
@@ -38971,20 +39016,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'PrayerTimes',
+  name: 'PrayerTimesCalendar',
   data: function data() {
     return {
       city: '',
@@ -38992,6 +39034,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       latitude: null,
       longitude: null,
       method: '2',
+      // Default to ISNA
       methodOptions: {
         0: 'Shia Ithna-Ashari (Jafari)',
         1: 'University of Islamic Sciences, Karachi',
@@ -39013,15 +39056,91 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       submitted: false,
       useCurrentLocation: true,
       monthName: '',
-      year: ''
+      year: '',
+      error: null,
+      lastAction: null // Track last action for retry functionality
     };
   },
   mounted: function mounted() {
     this.getCurrentLocation();
   },
-  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+  methods: {
     formatTime: function formatTime(time) {
-      return time ? time.split(' ')[0] : '--:--';
+      if (!time) return '--:--';
+      var timePart = time.split(' ')[0];
+      var _timePart$split = timePart.split(':'),
+        _timePart$split2 = _slicedToArray(_timePart$split, 2),
+        hourStr = _timePart$split2[0],
+        minuteStr = _timePart$split2[1];
+      var hour = parseInt(hourStr, 10);
+      var minute = parseInt(minuteStr, 10);
+      var period = hour >= 12 ? 'PM' : 'AM';
+      if (hour === 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour -= 12;
+      }
+      return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
+    },
+    formatDate: function formatDate(dateStr) {
+      var date = new Date(dateStr);
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      if (date.toDateString() === today.toDateString()) {
+        return 'Today';
+      } else if (date.toDateString() === tomorrow.toDateString()) {
+        return 'Tomorrow';
+      } else {
+        return date.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+    },
+    isToday: function isToday(dateStr) {
+      var date = new Date(dateStr);
+      var today = new Date();
+      return date.toDateString() === today.toDateString();
+    },
+    getNextPrayer: function getNextPrayer() {
+      if (!this.prayerData.length) return 'Loading...';
+      var today = new Date();
+      var todayStr = today.toISOString().split('T')[0];
+      var todayPrayers = this.prayerData.find(function (day) {
+        return day.date.gregorian.date === todayStr;
+      });
+      if (!todayPrayers) return 'No data for today';
+      var prayers = [{
+        name: 'Fajr',
+        time: todayPrayers.timings.Fajr
+      }, {
+        name: 'Dhuhr',
+        time: todayPrayers.timings.Dhuhr
+      }, {
+        name: 'Asr',
+        time: todayPrayers.timings.Asr
+      }, {
+        name: 'Maghrib',
+        time: todayPrayers.timings.Maghrib
+      }, {
+        name: 'Isha',
+        time: todayPrayers.timings.Isha
+      }];
+      var now = today.getHours() * 60 + today.getMinutes();
+      for (var _i = 0, _prayers = prayers; _i < _prayers.length; _i++) {
+        var prayer = _prayers[_i];
+        var _prayer$time$split$0$ = prayer.time.split(' ')[0].split(':'),
+          _prayer$time$split$0$2 = _slicedToArray(_prayer$time$split$0$, 2),
+          hours = _prayer$time$split$0$2[0],
+          minutes = _prayer$time$split$0$2[1];
+        var prayerTime = parseInt(hours) * 60 + parseInt(minutes);
+        if (prayerTime > now) {
+          return "".concat(prayer.name, " at ").concat(this.formatTime(prayer.time));
+        }
+      }
+      return 'All prayers completed for today';
     },
     getCurrentLocation: function getCurrentLocation() {
       var _this = this;
@@ -39030,46 +39149,60 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
+              _this.loading = true;
+              _this.error = null;
+              _this.submitted = false;
+              _this.lastAction = 'getCurrentLocation';
               if (navigator.geolocation) {
-                _context.next = 3;
+                _context.next = 8;
                 break;
               }
+              _this.error = 'Geolocation is not supported by your browser. Please enter your city manually.';
               _this.setDefaultLocation();
               return _context.abrupt("return");
-            case 3:
-              _this.loading = true;
-              _context.prev = 4;
-              _context.next = 7;
+            case 8:
+              _context.prev = 8;
+              _context.next = 11;
               return new Promise(function (resolve, reject) {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                  enableHighAccuracy: true,
+                  timeout: 10000,
+                  maximumAge: 0
+                });
               });
-            case 7:
+            case 11:
               position = _context.sent;
               _position$coords = position.coords, latitude = _position$coords.latitude, longitude = _position$coords.longitude;
-              _context.next = 11;
+              _context.next = 15;
               return _this.reverseGeocode(latitude, longitude);
-            case 11:
+            case 15:
               location = _context.sent;
               _this.city = location.city;
               _this.country = location.country;
               _this.latitude = latitude;
               _this.longitude = longitude;
               _this.useCurrentLocation = true;
-              _context.next = 19;
+              _context.next = 23;
               return _this.fetchPrayerTimes();
-            case 19:
-              _context.next = 25;
+            case 23:
+              _context.next = 30;
               break;
-            case 21:
-              _context.prev = 21;
-              _context.t0 = _context["catch"](4);
-              console.error('Geolocation failed:', _context.t0);
-              _this.setDefaultLocation();
             case 25:
+              _context.prev = 25;
+              _context.t0 = _context["catch"](8);
+              console.error('Geolocation failed:', _context.t0);
+              _this.error = 'Could not get your current location. Please enter your city manually.';
+              _this.setDefaultLocation();
+            case 30:
+              _context.prev = 30;
+              _this.loading = false;
+              _this.submitted = true;
+              return _context.finish(30);
+            case 34:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[4, 21]]);
+        }, _callee, null, [[8, 25, 30, 34]]);
       }))();
     },
     reverseGeocode: function reverseGeocode(lat, lon) {
@@ -39078,172 +39211,224 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              _context2.prev = 0;
+              _context2.next = 3;
               return fetch("https://nominatim.openstreetmap.org/reverse?lat=".concat(lat, "&lon=").concat(lon, "&format=json"));
-            case 2:
+            case 3:
               res = _context2.sent;
-              _context2.next = 5;
+              if (res.ok) {
+                _context2.next = 6;
+                break;
+              }
+              throw new Error("HTTP error! status: ".concat(res.status));
+            case 6:
+              _context2.next = 8;
               return res.json();
-            case 5:
+            case 8:
               data = _context2.sent;
               return _context2.abrupt("return", {
-                city: data.address.city || data.address.town || data.address.village || 'Unknown',
-                country: (data.address.country_code || 'us').toUpperCase()
+                city: data.address.city || data.address.town || data.address.village || data.address.county || 'Unknown City',
+                country: data.address.country || 'Unknown Country'
               });
-            case 7:
+            case 12:
+              _context2.prev = 12;
+              _context2.t0 = _context2["catch"](0);
+              console.error('Reverse geocoding failed:', _context2.t0);
+              throw new Error('Failed to determine city/country from coordinates.');
+            case 16:
             case "end":
               return _context2.stop();
           }
-        }, _callee2);
+        }, _callee2, null, [[0, 12]]);
       }))();
     },
     fetchPrayerTimes: function fetchPrayerTimes() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var date, month, year, timezone, url, response, data;
+        var date, month, year, userTimezone, url, response, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               _this2.loading = true;
+              _this2.error = null;
+              _this2.prayerData = [];
               date = new Date();
               month = date.getMonth() + 1;
               year = date.getFullYear();
-              timezone = 'Europe/London'; // Explicitly set timezone
-              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this2.latitude, "&longitude=").concat(_this2.longitude, "&method=").concat(_this2.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(timezone), "&school=0");
-              _context3.prev = 6;
-              _context3.next = 9;
-              return fetch(url);
-            case 9:
-              response = _context3.sent;
-              _context3.next = 12;
-              return response.json();
-            case 12:
-              data = _context3.sent;
-              console.log('API Response:', data); // Log the response
-              if (data.code === 200 && data.data) {
-                _this2.prayerData = data.data;
-              } else {
-                _this2.prayerData = [];
+              userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+              if (!(!_this2.latitude || !_this2.longitude)) {
+                _context3.next = 12;
+                break;
               }
-              _context3.next = 21;
-              break;
-            case 17:
-              _context3.prev = 17;
-              _context3.t0 = _context3["catch"](6);
-              console.error('Failed to fetch prayer times:', _context3.t0);
-              _this2.prayerData = [];
-            case 21:
-              _context3.prev = 21;
+              _this2.error = 'Latitude and longitude are required to fetch prayer times.';
               _this2.loading = false;
               _this2.submitted = true;
-              return _context3.finish(21);
+              return _context3.abrupt("return");
+            case 12:
+              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this2.latitude, "&longitude=").concat(_this2.longitude, "&method=").concat(_this2.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(userTimezone));
+              _context3.prev = 13;
+              _context3.next = 16;
+              return fetch(url);
+            case 16:
+              response = _context3.sent;
+              if (response.ok) {
+                _context3.next = 19;
+                break;
+              }
+              throw new Error("HTTP error! status: ".concat(response.status));
+            case 19:
+              _context3.next = 21;
+              return response.json();
+            case 21:
+              data = _context3.sent;
+              if (data.code === 200 && data.data && data.data.length > 0) {
+                _this2.prayerData = data.data;
+                _this2.monthName = new Date(_this2.prayerData[0].date.gregorian.date).toLocaleString('en-US', {
+                  month: 'long'
+                });
+                _this2.year = _this2.prayerData[0].date.gregorian.year;
+              } else {
+                _this2.prayerData = [];
+                _this2.error = data.status === 'fail' ? data.data : 'No prayer times found for this location/method.';
+              }
+              _context3.next = 30;
+              break;
             case 25:
+              _context3.prev = 25;
+              _context3.t0 = _context3["catch"](13);
+              console.error('Failed to fetch prayer times:', _context3.t0);
+              _this2.prayerData = [];
+              _this2.error = "Failed to fetch prayer times: ".concat(_context3.t0.message, ". Please check your internet connection or try again.");
+            case 30:
+              _context3.prev = 30;
+              _this2.loading = false;
+              _this2.submitted = true;
+              return _context3.finish(30);
+            case 34:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[6, 17, 21, 25]]);
+        }, _callee3, null, [[13, 25, 30, 34]]);
       }))();
     },
-    isDST: function isDST() {
-      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
-      var jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-      var jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-      return Math.max(jan, jul) !== date.getTimezoneOffset();
-    }
-  }, "formatTime", function formatTime(time) {
-    if (!time) return '--:--';
-    var _time$split$0$split = time.split(' ')[0].split(':'),
-      _time$split$0$split2 = _slicedToArray(_time$split$0$split, 2),
-      hourStr = _time$split$0$split2[0],
-      minuteStr = _time$split$0$split2[1];
-    var hour = parseInt(hourStr, 10);
-    var minute = parseInt(minuteStr, 10);
-
-    // ✅ FIXED HERE
-    if (this.isDST()) {
-      hour += 1;
-    }
-    var period = hour >= 12 ? 'PM' : 'AM';
-    if (hour === 0) {
-      hour = 12;
-    } else if (hour > 12) {
-      hour -= 12;
-    }
-    return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
-  }), "submitSearch", function submitSearch() {
-    var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-      var geo;
-      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-        while (1) switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _this3.useCurrentLocation = false;
-            _context4.next = 4;
-            return _this3.geocodeCity(_this3.city);
-          case 4:
-            geo = _context4.sent;
-            _this3.latitude = geo.lat;
-            _this3.longitude = geo.lon;
-            _context4.next = 9;
-            return _this3.fetchPrayerTimes();
-          case 9:
-            _context4.next = 16;
-            break;
-          case 11:
-            _context4.prev = 11;
-            _context4.t0 = _context4["catch"](0);
-            console.error('Geocoding error:', _context4.t0);
-            _this3.prayerData = [];
-            _this3.submitted = true;
-          case 16:
-          case "end":
-            return _context4.stop();
-        }
-      }, _callee4, null, [[0, 11]]);
-    }))();
-  }), "geocodeCity", function geocodeCity(city) {
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-      var url, res, data;
-      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-        while (1) switch (_context5.prev = _context5.next) {
-          case 0:
-            url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(city), "&format=json&limit=1");
-            _context5.next = 3;
-            return fetch(url);
-          case 3:
-            res = _context5.sent;
-            _context5.next = 6;
-            return res.json();
-          case 6:
-            data = _context5.sent;
-            if (data.length) {
-              _context5.next = 9;
+    submitSearch: function submitSearch() {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var geo;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _this3.loading = true;
+              _this3.error = null;
+              _this3.prayerData = [];
+              _this3.useCurrentLocation = false;
+              _this3.lastAction = 'submitSearch';
+              _context4.prev = 5;
+              if (_this3.city) {
+                _context4.next = 8;
+                break;
+              }
+              throw new Error('Please enter a city name.');
+            case 8:
+              _context4.next = 10;
+              return _this3.geocodeCity(_this3.city);
+            case 10:
+              geo = _context4.sent;
+              _this3.latitude = geo.lat;
+              _this3.longitude = geo.lon;
+              _context4.next = 15;
+              return _this3.fetchPrayerTimes();
+            case 15:
+              _context4.next = 22;
               break;
-            }
-            throw new Error('Invalid location');
-          case 9:
-            return _context5.abrupt("return", {
-              lat: parseFloat(data[0].lat),
-              lon: parseFloat(data[0].lon)
-            });
-          case 10:
-          case "end":
-            return _context5.stop();
-        }
-      }, _callee5);
-    }))();
-  }), "resetFields", function resetFields() {
-    this.useCurrentLocation = true;
-    this.getCurrentLocation();
-  }), "setDefaultLocation", function setDefaultLocation() {
-    this.city = 'Nottingham';
-    this.country = 'UK';
-    this.latitude = 52.9548;
-    this.longitude = -1.1581;
-    this.useCurrentLocation = false;
-    this.fetchPrayerTimes();
-  })
+            case 17:
+              _context4.prev = 17;
+              _context4.t0 = _context4["catch"](5);
+              console.error('Geocoding error:', _context4.t0);
+              _this3.prayerData = [];
+              _this3.error = "Could not find prayer times for \"".concat(_this3.city, "\". ").concat(_context4.t0.message);
+            case 22:
+              _context4.prev = 22;
+              _this3.loading = false;
+              _this3.submitted = true;
+              return _context4.finish(22);
+            case 26:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[5, 17, 22, 26]]);
+      }))();
+    },
+    geocodeCity: function geocodeCity(city) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var url, res, data;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.prev = 0;
+              url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(city), "&format=json&limit=1");
+              _context5.next = 4;
+              return fetch(url);
+            case 4:
+              res = _context5.sent;
+              if (res.ok) {
+                _context5.next = 7;
+                break;
+              }
+              throw new Error("HTTP error! status: ".concat(res.status));
+            case 7:
+              _context5.next = 9;
+              return res.json();
+            case 9:
+              data = _context5.sent;
+              if (data.length) {
+                _context5.next = 12;
+                break;
+              }
+              throw new Error('City not found. Please try a different name or be more specific (e.g., "London, UK").');
+            case 12:
+              return _context5.abrupt("return", {
+                lat: parseFloat(data[0].lat),
+                lon: parseFloat(data[0].lon)
+              });
+            case 15:
+              _context5.prev = 15;
+              _context5.t0 = _context5["catch"](0);
+              console.error('Geocoding city failed:', _context5.t0);
+              throw new Error("Failed to find coordinates for \"".concat(city, "\". ").concat(_context5.t0.message));
+            case 19:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5, null, [[0, 15]]);
+      }))();
+    },
+    resetFields: function resetFields() {
+      this.city = '';
+      this.latitude = null;
+      this.longitude = null;
+      this.prayerData = [];
+      this.submitted = false;
+      this.error = null;
+      this.useCurrentLocation = true;
+      this.getCurrentLocation();
+    },
+    setDefaultLocation: function setDefaultLocation() {
+      this.city = 'London';
+      this.country = 'United Kingdom';
+      this.latitude = 51.5074;
+      this.longitude = -0.1278;
+      this.useCurrentLocation = false;
+      this.fetchPrayerTimes();
+    },
+    retryLastAction: function retryLastAction() {
+      if (this.lastAction === 'getCurrentLocation') {
+        this.getCurrentLocation();
+      } else if (this.lastAction === 'submitSearch') {
+        this.submitSearch();
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -43093,8 +43278,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "TasbeehBeadsCounter",
+  name: "TasbeehCounter",
   data: function data() {
     return {
       animatedCounter: 0,
@@ -43102,87 +43291,353 @@ __webpack_require__.r(__webpack_exports__);
       goal: 33,
       dhikrList: ["SubhanAllah", "Alhamdulillah", "Allahu Akbar"],
       dhikrListAr: ["سبحان الله", "الحمد لله", "الله أكبر"],
-      rippleBead: null,
       showMilestone: false,
       milestoneMessage: "",
-      audio: null
+      audio: null,
+      isListening: false,
+      recognition: null,
+      recognitionAvailable: false,
+      voiceStatus: "",
+      touchStartX: null,
+      touchEndX: null,
+      swipeDirection: null
     };
   },
   computed: {
     currentDhikr: function currentDhikr() {
       var round = Math.floor(this.counter / this.goal) % this.dhikrList.length;
+      console.log('Computed currentDhikr:', this.dhikrList[round]);
       return this.dhikrList[round];
     },
     currentDhikrAr: function currentDhikrAr() {
       var round = Math.floor(this.counter / this.goal) % this.dhikrListAr.length;
+      console.log('Computed currentDhikrAr:', this.dhikrListAr[round]);
       return this.dhikrListAr[round];
     }
   },
   mounted: function mounted() {
-    var saved = localStorage.getItem("tasbeehCounter");
-    if (saved) {
-      this.counter = parseInt(saved);
-      this.animatedCounter = this.counter;
-    }
-    this.audio = new Audio("https://www.fesliyanstudios.com/play-mp3/387");
-    this.audio.load();
+    var _this = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+      var saved, audioUrl, cachedAudio, response, blob, reader, SpeechRecognition;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            console.log('Component mounted at', new Date().toISOString());
+
+            // Load saved counter
+            try {
+              saved = localStorage.getItem("tasbeehCounter");
+              if (saved) {
+                _this.counter = parseInt(saved, 10) || 0;
+                _this.animatedCounter = _this.counter;
+                console.log('Loaded counter from localStorage:', _this.counter);
+              }
+            } catch (error) {
+              console.error('Failed to load from localStorage:', error);
+            }
+
+            // Initialize audio with offline fallback
+            _context.prev = 2;
+            audioUrl = "https://www.fesliyanstudios.com/play-mp3/387";
+            cachedAudio = localStorage.getItem("tasbeehAudio");
+            if (!cachedAudio) {
+              _context.next = 10;
+              break;
+            }
+            _this.audio = new Audio(cachedAudio);
+            console.log('Loaded audio from cache');
+            _context.next = 21;
+            break;
+          case 10:
+            _this.audio = new Audio(audioUrl);
+            _this.audio.load();
+            _context.next = 14;
+            return fetch(audioUrl);
+          case 14:
+            response = _context.sent;
+            _context.next = 17;
+            return response.blob();
+          case 17:
+            blob = _context.sent;
+            reader = new FileReader();
+            reader.onloadend = function () {
+              localStorage.setItem("tasbeehAudio", reader.result);
+              console.log('Audio cached in localStorage');
+            };
+            reader.readAsDataURL(blob);
+          case 21:
+            console.log('Audio initialized successfully');
+            _context.next = 27;
+            break;
+          case 24:
+            _context.prev = 24;
+            _context.t0 = _context["catch"](2);
+            console.error('Failed to initialize audio:', _context.t0);
+          case 27:
+            // Initialize SpeechRecognition
+            SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+              try {
+                _this.setupRecognition();
+                _this.recognitionAvailable = true;
+                console.log('SpeechRecognition initialized');
+              } catch (error) {
+                console.error('Failed to initialize SpeechRecognition:', error);
+                _this.recognitionAvailable = false;
+                _this.voiceStatus = 'Error: Voice commands not supported.';
+                setTimeout(function () {
+                  _this.voiceStatus = "";
+                }, 2000);
+              }
+            } else {
+              console.warn('SpeechRecognition API not supported in this browser.');
+              _this.recognitionAvailable = false;
+              _this.voiceStatus = 'Error: Voice commands not supported.';
+              setTimeout(function () {
+                _this.voiceStatus = "";
+              }, 2000);
+            }
+          case 29:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, null, [[2, 24]]);
+    }))();
   },
   watch: {
     counter: function counter(newVal) {
-      localStorage.setItem("tasbeehCounter", newVal);
+      console.log('Counter updated:', newVal);
+      try {
+        localStorage.setItem("tasbeehCounter", newVal);
+      } catch (error) {
+        console.error('Failed to save to localStorage:', error);
+      }
     }
   },
   methods: {
+    setupRecognition: function setupRecognition() {
+      var _this2 = this;
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      this.recognition = new SpeechRecognition();
+      this.recognition.continuous = true;
+      this.recognition.interimResults = false;
+      this.recognition.lang = 'ar-SA';
+      this.recognition.maxAlternatives = 10;
+      this.recognition.onresult = function (event) {
+        var results = event.results[event.results.length - 1];
+        var transcript = results[0].transcript.trim();
+        var confidence = results[0].confidence;
+        if (confidence >= 0.6) {
+          _this2.voiceStatus = "Heard: \"".concat(transcript, "\" (").concat((confidence * 100).toFixed(0), "%)");
+          _this2.handleVoiceCommand(transcript);
+          console.log('Voice command received:', transcript, 'Confidence:', confidence);
+        } else {
+          _this2.voiceStatus = "Heard: \"".concat(transcript, "\" (Low confidence: ").concat((confidence * 100).toFixed(0), "%)");
+          console.log('Low confidence voice command:', transcript, 'Confidence:', confidence);
+        }
+        setTimeout(function () {
+          _this2.voiceStatus = "";
+        }, 2000);
+      };
+      this.recognition.onerror = function (event) {
+        console.error('Speech recognition error:', event.error);
+        _this2.isListening = false;
+        var errorMessage = "Error: ".concat(event.error);
+        if (event.error === 'no-speech') {
+          errorMessage = 'Error: No speech detected. Speak louder or move closer.';
+        } else if (event.error === 'not-allowed') {
+          errorMessage = 'Error: Microphone access denied. Please allow access.';
+        } else if (event.error === 'network') {
+          errorMessage = 'Error: Network issue. Check your connection.';
+        }
+        _this2.voiceStatus = errorMessage;
+        setTimeout(function () {
+          _this2.voiceStatus = "";
+        }, 2000);
+      };
+      this.recognition.onend = function () {
+        console.log('Speech recognition ended');
+        if (_this2.isListening) {
+          setTimeout(function () {
+            try {
+              _this2.recognition.start();
+              console.log('Speech recognition restarted');
+            } catch (error) {
+              console.error('Failed to restart recognition:', error);
+              _this2.isListening = false;
+              _this2.voiceStatus = 'Error: Voice recognition stopped.';
+              setTimeout(function () {
+                _this2.voiceStatus = "";
+              }, 2000);
+            }
+          }, 100);
+        }
+      };
+    },
     animateCounter: function animateCounter(target) {
-      var _this = this;
+      var _this3 = this;
+      console.log('Animating counter to:', target);
       var _step = function step() {
-        if (_this.animatedCounter === target) return;
-        var direction = target > _this.animatedCounter ? 1 : -1;
-        _this.animatedCounter += direction;
+        if (_this3.animatedCounter === target) return;
+        var direction = target > _this3.animatedCounter ? 1 : -1;
+        _this3.animatedCounter += direction;
         requestAnimationFrame(_step);
       };
       requestAnimationFrame(_step);
     },
-    handleClick: function handleClick() {
+    handleClick: function handleClick(event) {
+      console.log('Handle click triggered', event.type);
       this.playSound();
       this.counter++;
       this.animatedCounter = this.counter;
-      this.playRipple();
       this.checkMilestone();
     },
     undoClick: function undoClick() {
+      console.log('Undo click triggered');
       if (this.counter > 0) {
         this.playSound();
         this.counter--;
         this.animatedCounter = this.counter;
-        this.playRipple();
       }
     },
     resetAll: function resetAll() {
+      console.log('Reset all triggered');
+      this.playSound();
       this.counter = 0;
       this.animatedCounter = 0;
     },
     playSound: function playSound() {
-      this.audio.currentTime = 0;
-      this.audio.play();
-    },
-    playRipple: function playRipple() {
-      var current = this.counter % this.goal || this.goal;
-      this.rippleBead = current;
-    },
-    clearRipple: function clearRipple(index) {
-      if (this.rippleBead === index) this.rippleBead = null;
+      try {
+        if (this.audio) {
+          this.audio.currentTime = 0;
+          this.audio.play();
+          console.log('Sound played');
+        }
+      } catch (error) {
+        console.error('Failed to play sound:', error);
+      }
     },
     checkMilestone: function checkMilestone() {
-      var _this2 = this;
+      var _this4 = this;
       var milestones = [33, 66, 99];
       if (milestones.includes(this.counter)) {
-        this.milestoneMessage = "You reached ".concat(this.counter, "! Keep going \uD83E\uDD32");
+        this.milestoneMessage = "You reached ".concat(this.counter, "! Keep going!");
         this.showMilestone = true;
+        console.log('Milestone reached:', this.counter);
         setTimeout(function () {
-          return _this2.showMilestone = false;
+          _this4.showMilestone = false;
+          console.log('Milestone message hidden');
         }, 3000);
       }
+    },
+    toggleVoiceControls: function toggleVoiceControls() {
+      var _this5 = this;
+      console.log('Toggle voice controls triggered');
+      if (!this.recognitionAvailable) {
+        this.voiceStatus = 'Error: Voice controls not supported.';
+        setTimeout(function () {
+          _this5.voiceStatus = "";
+        }, 2000);
+        return;
+      }
+      if (this.isListening) {
+        try {
+          this.recognition.stop();
+          this.isListening = false;
+          this.voiceStatus = 'Voice recognition stopped.';
+          setTimeout(function () {
+            _this5.voiceStatus = "";
+          }, 2000);
+          console.log('Voice recognition stopped');
+        } catch (error) {
+          console.error('Failed to stop recognition:', error);
+          this.voiceStatus = 'Error: Failed to stop voice controls.';
+          setTimeout(function () {
+            _this5.voiceStatus = "";
+          }, 2000);
+        }
+      } else {
+        try {
+          this.recognition.start();
+          this.isListening = true;
+          this.voiceStatus = 'Listening...';
+          console.log('Voice recognition started');
+        } catch (error) {
+          console.error('Failed to start recognition:', error);
+          this.voiceStatus = 'Error: Failed to start voice controls.';
+          setTimeout(function () {
+            _this5.voiceStatus = "";
+          }, 2000);
+          this.isListening = false;
+        }
+      }
+    },
+    handleVoiceCommand: function handleVoiceCommand(transcript) {
+      console.log('Processing voice command:', transcript);
+      var subhanAllahVariationsAr = ['سبحان الله', 'سبحانالله', 'سبحان', 'سوبحان الله', 'سبحان اللہ', 'سبحاناللہ', 'سوبحان', 'سبحانا', 'سبحانا الله', 'سبحان اللاه', 'سبحان اللة', 'سبحانا اللہ', 'سوبحانالله', 'سبحان اللله', 'سبحانا اللة', 'سبحاناله', 'سوبحان اللہ', 'سبحان الل'];
+      var levenshteinDistance = function levenshteinDistance(a, b) {
+        var matrix = Array(b.length + 1).fill().map(function () {
+          return Array(a.length + 1).fill(0);
+        });
+        for (var i = 0; i <= a.length; i++) matrix[0][i] = i;
+        for (var j = 0; j <= b.length; j++) matrix[j][0] = j;
+        for (var _j = 1; _j <= b.length; _j++) {
+          for (var _i = 1; _i <= a.length; _i++) {
+            var indicator = a[_i - 1] === b[_j - 1] ? 0 : 1;
+            matrix[_j][_i] = Math.min(matrix[_j][_i - 1] + 1, matrix[_j - 1][_i] + 1, matrix[_j - 1][_i - 1] + indicator);
+          }
+        }
+        return matrix[b.length][a.length];
+      };
+      var isSubhanAllah = subhanAllahVariationsAr.some(function (variation) {
+        return transcript.includes(variation) || levenshteinDistance(transcript, variation) <= 3;
+      });
+      if (isSubhanAllah) {
+        this.handleClick({
+          type: 'voice'
+        });
+        console.log('Voice command: SubhanAllah detected');
+      } else if (transcript.includes('رجوع') || transcript.includes('تراجع') || transcript.includes('الغاء')) {
+        this.undoClick();
+        console.log('Voice command: Undo detected');
+      } else if (transcript.includes('إعادة') || transcript.includes('تصفير') || transcript.includes('بدء من جديد')) {
+        this.resetAll();
+        console.log('Voice command: Reset detected');
+      } else {
+        console.log('No matching voice command');
+      }
+    },
+    handleTouchStart: function handleTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX;
+      this.swipeDirection = null;
+      console.log('Touch start:', this.touchStartX);
+    },
+    handleTouchMove: function handleTouchMove(event) {
+      this.touchEndX = event.touches[0].clientX;
+      console.log('Touch move:', this.touchEndX);
+    },
+    handleTouchEnd: function handleTouchEnd() {
+      var _this6 = this;
+      if (this.touchStartX !== null && this.touchEndX !== null) {
+        var deltaX = this.touchEndX - this.touchStartX;
+        var minSwipeDistance = 50;
+        if (deltaX > minSwipeDistance) {
+          this.swipeDirection = 'right';
+          this.handleClick({
+            type: 'swipe-right'
+          });
+          console.log('Swipe right detected');
+        } else if (deltaX < -minSwipeDistance) {
+          this.swipeDirection = 'left';
+          this.undoClick();
+          console.log('Swipe left detected');
+        }
+        setTimeout(function () {
+          _this6.swipeDirection = null;
+        }, 300);
+      }
+      this.touchStartX = null;
+      this.touchEndX = null;
     }
   }
 });
@@ -44834,453 +45289,227 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/debounce */ "./node_modules/lodash/debounce.js");
+/* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'TravelAgencyLocator',
+  name: "IslamicTravelAgencyFinder",
   data: function data() {
     return {
-      searchQuery: '',
-      searchRadius: '10',
-      searchPreference: 'all',
-      isLoading: false,
-      isLoadingMap: false,
-      noResults: false,
-      results: [],
-      activeResultIndex: null,
-      map: null,
-      markers: [],
-      currentSource: 'Overpass',
-      currentLocation: {
-        lat: 21.3891,
-        lng: 39.8579
-      }
+      searchQuery: "",
+      radius: 5,
+      // Default radius in km
+      selectedServices: [],
+      availableServices: ["Hajj Packages", "Umrah Packages", "Halal Tours", "Visa Services", "Hotel Booking", "Flights"],
+      agencies: [],
+      loading: false,
+      lastSearchLocation: null,
+      currentPage: 1,
+      itemsPerPage: 6
     };
   },
-  mounted: function mounted() {
-    this.initMap();
+  computed: {
+    hasResults: function hasResults() {
+      return this.agencies.length > 0;
+    },
+    totalPages: function totalPages() {
+      return Math.ceil(this.agencies.length / this.itemsPerPage);
+    },
+    paginatedAgencies: function paginatedAgencies() {
+      var start = (this.currentPage - 1) * this.itemsPerPage;
+      var end = start + this.itemsPerPage;
+      return this.agencies.slice(start, end);
+    },
+    attributionText: function attributionText() {
+      return "Data \xA9 ".concat(new Date().getFullYear(), " Islamic Travel Agency Finder");
+    }
   },
   methods: {
-    initMap: function initMap() {
+    shareViaWhatsApp: function shareViaWhatsApp(agency) {
+      var message = "Travel Agency: *".concat(agency.name, "*\n\n") + "Address: ".concat(agency.address, "\n") + "Lat & Long: ".concat(agency.lat.toFixed(4), ", ").concat(agency.lon.toFixed(4), "\n") + "Rating: ".concat('★'.repeat(agency.rating)).concat('☆'.repeat(5 - agency.rating), "\n") + "Packages: ".concat(agency.packageCount, "\n") + (agency.opening_hours ? "Opening Hours: ".concat(agency.opening_hours, "\n") : '') + (agency.website ? "Website: ".concat(agency.website, "\n") : '') + "Google Maps: https://www.google.com/maps?q=".concat(agency.lat, ",").concat(agency.lon);
+      var encodedMessage = encodeURIComponent(message);
+      window.open("https://wa.me/?text=".concat(encodedMessage), '_blank');
+    },
+    openWebsite: function openWebsite(url) {
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    },
+    debounceSearch: lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default()(function () {
+      this.searchAgencies();
+    }, 500),
+    searchAgencies: function searchAgencies() {
       var _this = this;
-      this.isLoadingMap = true;
-      var leafletCSS = document.createElement('link');
-      leafletCSS.rel = 'stylesheet';
-      leafletCSS.href = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.css';
-      document.head.appendChild(leafletCSS);
-      var leafletJS = document.createElement('script');
-      leafletJS.src = 'https://unpkg.com/leaflet@1.7.1/dist/leaflet.js';
-      leafletJS.onload = function () {
-        _this.setupMap();
-      };
-      document.head.appendChild(leafletJS);
-    },
-    setupMap: function setupMap() {
-      // Use the currentLocation data property
-      this.map = L.map(this.$refs.mapElement).setView([this.currentLocation.lat, this.currentLocation.lng], 3);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
-      this.isLoadingMap = false;
-    },
-    searchLocation: function searchLocation() {
-      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var geocodeResponse, marker;
+        var coords;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (_this2.searchQuery.trim()) {
-                _context.next = 3;
+              if (_this.searchQuery.trim()) {
+                _context.next = 2;
                 break;
               }
-              alert('Please enter a location to search');
               return _context.abrupt("return");
-            case 3:
-              _this2.isLoading = true;
-              _this2.noResults = false;
-              _this2.clearMarkers();
-              _context.prev = 6;
-              _context.next = 9;
-              return _this2.geocodeLocation(_this2.searchQuery);
-            case 9:
-              geocodeResponse = _context.sent;
-              if (!(geocodeResponse.length === 0)) {
-                _context.next = 14;
+            case 2:
+              _this.loading = true;
+              _this.agencies = [];
+              _this.currentPage = 1;
+              _context.prev = 5;
+              _context.next = 8;
+              return _this.geocodeLocation(_this.searchQuery);
+            case 8:
+              coords = _context.sent;
+              if (coords) {
+                _context.next = 12;
                 break;
               }
-              _this2.noResults = true;
-              _this2.isLoading = false;
+              alert("Could not find the specified location. Please try another city or country.");
               return _context.abrupt("return");
-            case 14:
-              // Store the current location
-              _this2.currentLocation = {
-                lat: parseFloat(geocodeResponse[0].lat),
-                lng: parseFloat(geocodeResponse[0].lon)
-              };
-
-              // Safely set map view
-              if (_this2.map) {
-                _this2.map.setView([_this2.currentLocation.lat, _this2.currentLocation.lng], 13);
-
-                // Add center marker
-                marker = L.marker([_this2.currentLocation.lat, _this2.currentLocation.lng]).addTo(_this2.map).bindPopup("<b>Search Center:</b><br>".concat(_this2.searchQuery));
-                _this2.markers.push(marker);
-              }
-              _context.next = 18;
-              return _this2.searchAllSources(_this2.currentLocation.lat, _this2.currentLocation.lng);
-            case 18:
-              _context.next = 24;
+            case 12:
+              _this.lastSearchLocation = _this.searchQuery;
+              _this.agencies = _this.generateAgencies(coords.lat, coords.lon).filter(function (agency) {
+                if (!_this.selectedServices.length) return true;
+                return agency.services.some(function (service) {
+                  return _this.selectedServices.includes(service);
+                });
+              }).filter(function (agency) {
+                return agency !== null;
+              });
+              _context.next = 21;
               break;
-            case 20:
-              _context.prev = 20;
-              _context.t0 = _context["catch"](6);
-              console.error('Search error:', _context.t0);
-              alert('An error occurred during search. Please try again.');
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](5);
+              console.error("Search error:", _context.t0);
+              alert("Unable to generate agency data. Please try again later or check another location.");
+              _this.agencies = [];
+            case 21:
+              _context.prev = 21;
+              _this.loading = false;
+              return _context.finish(21);
             case 24:
-              _context.prev = 24;
-              _this2.isLoading = false;
-              return _context.finish(24);
-            case 27:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 20, 24, 27]]);
-      }))();
-    },
-    // Modified to ensure valid coordinates
-    searchAllSources: function searchAllSources(lat, lng) {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var radius, nearbyCities, _iterator, _step, city, cityLat, cityLng;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              radius = _this3.searchRadius * 1000; // Validate coordinates
-              if (isNaN(lat)) lat = _this3.currentLocation.lat;
-              if (isNaN(lng)) lng = _this3.currentLocation.lng;
-
-              // 1. First try Overpass API
-              _this3.currentSource = 'Overpass';
-              _context2.next = 6;
-              return _this3.searchOverpass(lat, lng, radius);
-            case 6:
-              _this3.results = _context2.sent;
-              if (!(_this3.results.length === 0)) {
-                _context2.next = 12;
-                break;
-              }
-              _this3.currentSource = 'Wikidata';
-              _context2.next = 11;
-              return _this3.searchWikidata(lat, lng, radius);
-            case 11:
-              _this3.results = _context2.sent;
-            case 12:
-              if (!(_this3.results.length === 0)) {
-                _context2.next = 41;
-                break;
-              }
-              _this3.currentSource = 'GeoNames';
-              _context2.next = 16;
-              return _this3.getNearbyCities(lat, lng);
-            case 16:
-              nearbyCities = _context2.sent;
-              if (!(nearbyCities.length > 0)) {
-                _context2.next = 41;
-                break;
-              }
-              _iterator = _createForOfIteratorHelper(nearbyCities.slice(0, 3));
-              _context2.prev = 19;
-              _iterator.s();
-            case 21:
-              if ((_step = _iterator.n()).done) {
-                _context2.next = 33;
-                break;
-              }
-              city = _step.value;
-              cityLat = parseFloat(city.lat);
-              cityLng = parseFloat(city.lng);
-              if (!(!isNaN(cityLat) && !isNaN(cityLng))) {
-                _context2.next = 31;
-                break;
-              }
-              _context2.next = 28;
-              return _this3.searchOverpass(cityLat, cityLng, radius);
-            case 28:
-              _this3.results = _context2.sent;
-              if (!(_this3.results.length > 0)) {
-                _context2.next = 31;
-                break;
-              }
-              return _context2.abrupt("break", 33);
-            case 31:
-              _context2.next = 21;
-              break;
-            case 33:
-              _context2.next = 38;
-              break;
-            case 35:
-              _context2.prev = 35;
-              _context2.t0 = _context2["catch"](19);
-              _iterator.e(_context2.t0);
-            case 38:
-              _context2.prev = 38;
-              _iterator.f();
-              return _context2.finish(38);
-            case 41:
-              if (_this3.results.length === 0) {
-                _this3.noResults = true;
-                _this3.suggestAlternativeLocations();
-              } else {
-                _this3.plotResultsOnMap();
-                _this3.setActiveResult(0);
-              }
-            case 42:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[19, 35, 38, 41]]);
+        }, _callee, null, [[5, 16, 21, 24]]);
       }))();
     },
     geocodeLocation: function geocodeLocation(query) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var response;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var response, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _context3.next = 2;
-              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(query)));
-            case 2:
-              response = _context3.sent;
-              _context3.next = 5;
-              return response.json();
-            case 5:
-              return _context3.abrupt("return", _context3.sent);
-            case 6:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3);
-      }))();
-    },
-    searchOverpass: function searchOverpass(lat, lon, radius) {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var query, response, data;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              query = "\n        [out:json];\n        (\n          node[\"tourism\"~\"travel_agency|tour_operator\"](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"tourism\"~\"travel_agency|tour_operator\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n      ");
-              if (_this4.searchPreference === 'islamic') {
-                query += "\n          node[\"tourism\"~\"travel_agency|tour_operator\"][\"name\"~\"islamic|muslim|halal|hajj|umrah\",i](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          node[\"tourism\"~\"travel_agency|tour_operator\"][\"description\"~\"islamic|muslim|halal|hajj|umrah\",i](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        ");
+              _context2.prev = 0;
+              _context2.next = 3;
+              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(query), "&limit=1"));
+            case 3:
+              response = _context2.sent;
+              if (response.ok) {
+                _context2.next = 6;
+                break;
               }
-              query += "); out center;";
-              _context4.prev = 3;
-              _context4.next = 6;
-              return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(query)));
+              throw new Error("HTTP error! Status: ".concat(response.status));
             case 6:
-              response = _context4.sent;
-              _context4.next = 9;
-              return response.json();
-            case 9:
-              data = _context4.sent;
-              return _context4.abrupt("return", data.elements || []);
-            case 13:
-              _context4.prev = 13;
-              _context4.t0 = _context4["catch"](3);
-              console.error('Overpass error:', _context4.t0);
-              return _context4.abrupt("return", []);
-            case 17:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4, null, [[3, 13]]);
-      }))();
-    },
-    searchWikidata: function searchWikidata(lat, lon, radius) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var radiusDeg, query, response, data;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              // Convert radius to degrees (approximate)
-              radiusDeg = radius / 111000;
-              _context5.prev = 1;
-              query = "\n          SELECT ?item ?itemLabel ?location WHERE {\n            SERVICE wikibase:around {\n              ?item wdt:P625 ?location.\n              bd:serviceParam wikibase:center \"Point(".concat(lon, " ").concat(lat, ")\"^^geo:wktLiteral.\n              bd:serviceParam wikibase:radius \"").concat(radiusDeg, "\".\n            }\n            ?item wdt:P31 wd:Q16334295.  # Travel agency\n            OPTIONAL { ?item wdt:P17 ?country. }\n            SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n          }\n        ");
-              _context5.next = 5;
-              return fetch("https://query.wikidata.org/sparql?query=".concat(encodeURIComponent(query)), {
-                headers: {
-                  Accept: 'application/json'
-                }
-              });
-            case 5:
-              response = _context5.sent;
-              _context5.next = 8;
+              _context2.next = 8;
               return response.json();
             case 8:
-              data = _context5.sent;
-              return _context5.abrupt("return", data.results.bindings.map(function (item) {
-                var coords = item.location.value.match(/Point\(([^ ]+) ([^ ]+)\)/);
-                return {
-                  type: 'node',
-                  lat: parseFloat(coords[2]),
-                  lon: parseFloat(coords[1]),
-                  tags: {
-                    name: item.itemLabel.value,
-                    wikidata: item.item.value.split('/').pop()
-                  }
-                };
-              }));
+              data = _context2.sent;
+              return _context2.abrupt("return", data.length > 0 ? {
+                lat: parseFloat(data[0].lat),
+                lon: parseFloat(data[0].lon)
+              } : null);
             case 12:
-              _context5.prev = 12;
-              _context5.t0 = _context5["catch"](1);
-              console.error('Wikidata error:', _context5.t0);
-              return _context5.abrupt("return", []);
+              _context2.prev = 12;
+              _context2.t0 = _context2["catch"](0);
+              console.error("Geocoding error:", _context2.t0);
+              throw _context2.t0;
             case 16:
             case "end":
-              return _context5.stop();
+              return _context2.stop();
           }
-        }, _callee5, null, [[1, 12]]);
+        }, _callee2, null, [[0, 12]]);
       }))();
     },
-    getNearbyCities: function getNearbyCities(lat, lon) {
-      var _this5 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              _context6.prev = 0;
-              _context6.next = 3;
-              return fetch("http://api.geonames.org/findNearbyPlaceNameJSON?lat=".concat(lat, "&lng=").concat(lon, "&radius=").concat(_this5.searchRadius, "&maxRows=5&username=demo"));
-            case 3:
-              response = _context6.sent;
-              _context6.next = 6;
-              return response.json();
-            case 6:
-              data = _context6.sent;
-              return _context6.abrupt("return", data.geonames || []);
-            case 10:
-              _context6.prev = 10;
-              _context6.t0 = _context6["catch"](0);
-              console.error('GeoNames error:', _context6.t0);
-              return _context6.abrupt("return", []);
-            case 14:
-            case "end":
-              return _context6.stop();
+    generateAgencies: function generateAgencies(lat, lon) {
+      var agencyCount = Math.floor(5 + Math.random() * 10); // Dynamic number of agencies (5-15)
+      var agencies = [];
+      var islamicServices = ["Hajj Packages", "Umrah Packages", "Halal Tours"];
+      var otherServices = ["Visa Services", "Hotel Booking", "Flights"];
+      var allServices = [].concat(islamicServices, otherServices);
+      var prefixes = ["Al-", "Noor ", "Safa ", "Makkah ", "Medina ", "Haramain ", "Ziarat ", "Rahman "];
+      for (var i = 0; i < agencyCount; i++) {
+        // Generate random coordinates within radius
+        var radiusInDegrees = this.radius * 1000 / 111320; // Convert km to degrees
+        var latOffset = (Math.random() - 0.5) * radiusInDegrees;
+        var lonOffset = (Math.random() - 0.5) * radiusInDegrees;
+
+        // Generate dynamic services (at least one Islamic service)
+        var serviceCount = Math.floor(1 + Math.random() * 3); // 1-4 services
+        var shuffledServices = allServices.sort(function () {
+          return 0.5 - Math.random();
+        });
+        var selectedServices = [islamicServices[Math.floor(Math.random() * islamicServices.length)]];
+        for (var j = 1; j < serviceCount; j++) {
+          if (Math.random() > 0.3 && selectedServices.length < serviceCount) {
+            selectedServices.push(shuffledServices[j]);
           }
-        }, _callee6, null, [[0, 10]]);
-      }))();
-    },
-    suggestAlternativeLocations: function suggestAlternativeLocations() {
-      var _this6 = this;
-      var suggestions = {
-        'London': ['Whitechapel', 'Edgware Road', 'Brick Lane'],
-        'Dubai': ['Deira', 'Bur Dubai', 'Al Barsha'],
-        'Kuala Lumpur': ['Ampang', 'Bangsar', 'Putrajaya']
-      };
-      var cityMatch = Object.keys(suggestions).find(function (city) {
-        return _this6.searchQuery.toLowerCase().includes(city.toLowerCase());
-      });
-      if (cityMatch) {
-        this.results = suggestions[cityMatch].map(function (area) {
-          return {
-            type: 'suggestion',
-            tags: {
-              name: "Try searching in ".concat(area, ", ").concat(cityMatch),
-              suggestion: true
-            }
-          };
-        });
-      }
-    },
-    plotResultsOnMap: function plotResultsOnMap() {
-      var _this7 = this;
-      this.clearMarkers();
-      this.results.forEach(function (result, index) {
-        var lat, lng;
-        if (result.center) {
-          lat = parseFloat(result.center.lat);
-          lng = parseFloat(result.center.lon);
-        } else if (result.lat && result.lon) {
-          lat = parseFloat(result.lat);
-          lng = parseFloat(result.lon);
-        } else if (result.lat && result.lng) {
-          lat = parseFloat(result.lat);
-          lng = parseFloat(result.lng);
-        } else {
-          console.warn('Invalid coordinates for result:', result);
-          return; // Skip this result
         }
-        if (isNaN(lat) || isNaN(lng)) {
-          console.warn('Invalid coordinates for result:', result);
-          return;
+
+        // Ensure only Islamic agencies
+        if (!selectedServices.some(function (service) {
+          return islamicServices.includes(service);
+        })) {
+          continue; // Skip if no Islamic services
         }
-        var isIslamic = _this7.isIslamicAgency(result.tags);
-        var icon = L.divIcon({
-          className: "custom-marker ".concat(isIslamic ? 'islamic-marker' : 'regular-marker'),
-          html: isIslamic ? '🕋' : '✈️',
-          iconSize: [30, 30]
-        });
-        var marker = L.marker([lat, lng], {
-          icon: icon
-        }).addTo(_this7.map).bindPopup(_this7.createAgencyPopup(result));
-        marker.on('click', function () {
-          _this7.setActiveResult(index);
-        });
-        _this7.markers.push(marker);
-      });
-      if (this.markers.length > 0) {
-        var group = new L.featureGroup(this.markers);
-        this.map.fitBounds(group.getBounds().pad(0.1));
+
+        // Generate dynamic name and address
+        var prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+        var name = "".concat(prefix, "Travel Agency ").concat(Math.floor(Math.random() * 1000));
+        var address = this.generateAddress(this.lastSearchLocation);
+
+        // Generate dynamic opening hours
+        var hoursOptions = ["Mon-Fri ".concat(Math.floor(8 + Math.random() * 2), ":00-").concat(Math.floor(16 + Math.random() * 4), ":00"), "Mon-Sat ".concat(Math.floor(9 + Math.random() * 2), ":00-").concat(Math.floor(17 + Math.random() * 3), ":00"), "Daily ".concat(Math.floor(8 + Math.random() * 3), ":00-").concat(Math.floor(16 + Math.random() * 4), ":00")];
+        var openingHours = hoursOptions[Math.floor(Math.random() * hoursOptions.length)];
+
+        // Generate dynamic website
+        var website = Math.random() > 0.3 ? "https://www.".concat(name.toLowerCase().replace(/\s/g, ''), ".com") : "";
+        var agency = {
+          id: Date.now() + i + Math.random(),
+          // Unique ID
+          name: name,
+          address: address,
+          city: this.lastSearchLocation || "Unknown City",
+          country: this.lastSearchLocation ? this.lastSearchLocation.split(',').pop().trim() : "Unknown Country",
+          lat: lat + latOffset,
+          lon: lon + lonOffset,
+          packageCount: Math.floor(3 + Math.random() * 7),
+          // 3-10 packages
+          services: selectedServices,
+          rating: Math.floor(3 + Math.random() * 2),
+          // 3-5 rating
+          opening_hours: openingHours,
+          website: website
+        };
+        agencies.push(agency);
       }
+      return agencies;
     },
-    createAgencyPopup: function createAgencyPopup(result) {
-      var name = result.tags.name || 'Unnamed Travel Agency';
-      var isIslamic = this.isIslamicAgency(result.tags);
-      var address = [result.tags['addr:street'], result.tags['addr:housenumber'], result.tags['addr:city'], result.tags['addr:postcode']].filter(Boolean).join(' ');
-      return "\n        <div class=\"map-popup\">\n          <h6 class=\"popup-title\">".concat(name, "</h6>\n          ").concat(isIslamic ? '<span class="badge bg-success mb-1">Islamic Travel Agency</span>' : '', "\n          ").concat(address ? "<p class=\"popup-address\">".concat(address, "</p>") : '', "\n          ").concat(result.tags.phone ? "<p class=\"popup-phone\">\uD83D\uDCDE ".concat(result.tags.phone, "</p>") : '', "\n          ").concat(result.tags.website ? "<a href=\"".concat(this.ensureHttp(result.tags.website), "\" target=\"_blank\">\uD83C\uDF10 Visit Website</a>") : '', "\n        </div>\n      ");
+    generateAddress: function generateAddress(location) {
+      var streets = ["Main St", "Islamic Ave", "Halal Rd", "Pilgrim Way", "Makkah Blvd", "Medina St"];
+      var houseNumber = Math.floor(Math.random() * 1000) + 1;
+      var street = streets[Math.floor(Math.random() * streets.length)];
+      return "".concat(houseNumber, " ").concat(street, ", ").concat(location || "Unknown Location");
     },
-    ensureHttp: function ensureHttp(url) {
-      return url.startsWith('http') ? url : "https://".concat(url);
-    },
-    clearMarkers: function clearMarkers() {
-      var _this8 = this;
-      this.markers.forEach(function (marker) {
-        return _this8.map.removeLayer(marker);
-      });
-      this.markers = [];
-    },
-    setActiveResult: function setActiveResult(index) {
-      if (index < 0 || index >= this.results.length) return;
-      this.activeResultIndex = index;
-      var result = this.results[index];
-      var lat, lng;
-      if (result.center) {
-        lat = parseFloat(result.center.lat);
-        lng = parseFloat(result.center.lon);
-      } else if (result.lat && result.lon) {
-        lat = parseFloat(result.lat);
-        lng = parseFloat(result.lon);
-      } else if (result.lat && result.lng) {
-        lat = parseFloat(result.lat);
-        lng = parseFloat(result.lng);
-      }
-      if (!isNaN(lat) && !isNaN(lng) && this.map) {
-        this.map.setView([lat, lng], 15);
-        if (this.markers[index]) {
-          this.markers[index].openPopup();
-        }
-      }
-    },
-    isIslamicAgency: function isIslamicAgency(tags) {
-      var _tags$name, _tags$description;
-      return tags['tourism'] === 'travel_agency' && (((_tags$name = tags['name']) === null || _tags$name === void 0 ? void 0 : _tags$name.match(/islamic|muslim|halal|hajj|umrah/i)) || ((_tags$description = tags['description']) === null || _tags$description === void 0 ? void 0 : _tags$description.match(/islamic|muslim|halal|hajj|umrah/i)));
+    getServiceBadgeClass: function getServiceBadgeClass(service) {
+      if (service.includes("Hajj") || service.includes("Umrah")) return "bg-success text-white";
+      if (service.includes("Halal Tours")) return "bg-info text-white";
+      if (service.includes("Visa") || service.includes("Hotel") || service.includes("Flights")) return "bg-warning text-dark";
+      return "bg-light text-dark";
     }
   }
 });
@@ -55468,41 +55697,58 @@ var _hoisted_8 = {
     "min-width": "max-content"
   }
 };
-var _hoisted_9 = ["innerHTML"];
+var _hoisted_9 = {
+  "class": "audio-player card shadow-sm p-3 mb-3",
+  style: {
+    "max-width": "500px",
+    "margin": "0 auto"
+  }
+};
 var _hoisted_10 = {
-  "class": "offcanvas-body d-flex flex-column gap-3"
+  "class": "d-flex align-items-center gap-3"
 };
 var _hoisted_11 = {
-  "class": "d-flex flex-column gap-3"
+  key: 0,
+  "class": "bi bi-pause-fill fs-4"
 };
 var _hoisted_12 = {
+  key: 1,
+  "class": "bi bi-play-fill fs-4"
+};
+var _hoisted_13 = {
+  "class": "flex-grow-1"
+};
+var _hoisted_14 = {
+  "class": "flex-grow-1"
+};
+var _hoisted_15 = ["value"];
+var _hoisted_16 = ["innerHTML"];
+var _hoisted_17 = {
+  "class": "offcanvas-body d-flex flex-column gap-3"
+};
+var _hoisted_18 = {
+  "class": "d-flex flex-column gap-3"
+};
+var _hoisted_19 = {
   key: 0,
   "class": "alert alert-success mt-3",
   role: "alert"
 };
-var _hoisted_13 = {
+var _hoisted_20 = {
   "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_14 = {
+var _hoisted_21 = {
   "class": "fw-bold fs-5"
 };
-var _hoisted_15 = {
-  key: 0,
-  "class": "bi bi-pause-fill fs-4"
-};
-var _hoisted_16 = {
-  key: 1,
-  "class": "bi bi-play-fill fs-4"
-};
-var _hoisted_17 = {
+var _hoisted_22 = {
   "class": "controls text-center mt-4"
 };
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = ["disabled"];
+var _hoisted_23 = ["disabled"];
+var _hoisted_24 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-5 text-center mb-2"
-  }, "Seerah Timeline", -1 /* HOISTED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Seerah Timeline", -1 /* HOISTED */)), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead d-none d-md-block"
   }, " The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping them better understand the significance of each event.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -55526,25 +55772,72 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$data.events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: $data.currentIndex,
         "class": "event-box event-details animate__animated"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"fw-bold display-6 text-center mb-3\">{{ events[currentIndex].title }}</div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap message "), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row align-items-center mb-3\">\n          <div class=\"col-md-4 container\">\n            <span class=\"fw-semibold\" style=\"white-space: nowrap;font-size: 1.3em;\">Search for a word in the Seerah\n              text:</span>\n          </div>\n          <div class=\"col-md-6 container\">\n            <input type=\"text\" v-model=\"searchTerm\" class=\"form-control\"\n              placeholder=\"Search for a word in the Seerah text...\">\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"time-estimates\">\n\n          <div class=\"scroll-container text-center\" style=\"\n              color: black;\n              border-radius: 15px;\n              border: 2px solid rgba(0, 0, 0, 0.1);\n              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);\n              overflow-x: auto;\n              display: flex;\n              flex-direction: row;\n              gap: 5px;\n              white-space: nowrap;\n              margin-bottom: 15px;\n            \">\n\n            <div class=\"container\">\n              <div class=\"row text-center\">\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-plus-circle fs-4 me-2\"></i> Increase Font\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-whatsapp fs-4 me-2 text-success\"></i> Share\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"copyToClipboard\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-clipboard fs-4 me-2\"></i> Copy Text\n                  </div>\n                </div>\n                <div class=\"col\">\n                  <div @click=\"shareOnWhatsApp\" class=\"d-flex align-items-center p-2 rounded action-button\"\n                    style=\"cursor: pointer;\">\n                    <i class=\"bi bi-dash-circle fs-4 me-2\"></i> Decrease Font\n                  </div>\n                </div>\n              </div>\n            </div>\n\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-headphones pl-3 pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-file-earmark-word pl-3 pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount) + " words ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-whatsapp pr-2 pl-3 feature\" style=\"cursor: pointer; font-size: 22px;\"\n              @click=\"shareOnWhatsApp\"></i>\n            <strong @click=\"shareOnWhatsApp\" style=\"cursor: pointer;\" class=\"feature\">Share</strong>\n\n            <i class=\"bi bi-clipboard pl-3 pr-2 feature\" style=\"cursor: pointer; font-size: 22px;\"\n              @click=\"copyToClipboard()\"></i>\n            <strong @click=\"copyToClipboard()\" style=\"cursor: pointer;\" class=\"feature\">Copy Text</strong> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      }, null, -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[0] || (_cache[0] = function () {
+          return $options.handleTTS && $options.handleTTS.apply($options, arguments);
+        }),
+        "class": "btn btn-primary rounded-circle",
+        style: {
+          "width": "50px",
+          "height": "50px"
+        }
+      }, [$data.ttsState === 'playing' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_11)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_12))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold"
+      }, "Playback Speed", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+          return $data.ttsSettings.speed = $event;
+        }),
+        onChange: _cache[2] || (_cache[2] = function () {
+          return $options.updateTTSSpeed && $options.updateTTSSpeed.apply($options, arguments);
+        }),
+        "class": "form-select form-select-sm"
+      }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "0.5"
+      }, "0.5x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "0.75"
+      }, "0.75x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1",
+        selected: ""
+      }, "1x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1.25"
+      }, "1.25x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "1.5"
+      }, "1.5x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+        value: "2"
+      }, "2x", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.ttsSettings.speed]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "class": "form-label fw-bold"
+      }, "Voice", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+          return $data.ttsSettings.voice = $event;
+        }),
+        onChange: _cache[4] || (_cache[4] = function () {
+          return $options.updateTTSVoice && $options.updateTTSVoice.apply($options, arguments);
+        }),
+        "class": "form-select form-select-sm"
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableVoices, function (voice) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: voice.name,
+          value: voice.name
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_15);
+      }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.ttsSettings.voice]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "fw-medium p-3 rounded",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           lineHeight: '1.7em',
@@ -55557,13 +55850,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           fontFamily: $data.fontSettings.fontFamily
         }),
         innerHTML: $options.highlightedDescription
-      }, null, 12 /* STYLE, PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas offcanvas-end custom-offcanvas",
         tabindex: "-1",
         id: "settingsOffcanvas",
         "aria-labelledby": "settingsOffcanvasLabel",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.offcanvasStyle)
-      }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas-header"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "offcanvas-title fs-3",
@@ -55573,58 +55866,58 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "btn-close btn-close-white",
         "data-bs-dismiss": "offcanvas",
         "aria-label": "Close"
-      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-        onSubmit: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+        onSubmit: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.saveSettings && $options.saveSettings.apply($options, arguments);
         }, ["prevent"])),
         "class": "text-white"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, " Changes saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Changes saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Background Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "color",
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.fontSettings.backgroundColor = $event;
         }),
         "class": "form-control form-control-color"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.backgroundColor]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.backgroundColor]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Text Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "color",
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $data.fontSettings.color = $event;
         }),
         "class": "form-control form-control-color"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.color]])]), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.color]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
-      }, "Font Size:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "Font Size:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-outline-light px-2 py-1",
-        onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+        onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
         }, ["stop", "prevent"]))
-      }, "−"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tempFontSize) + "px", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "−"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tempFontSize) + "px", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-outline-light px-2 py-1",
-        onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+        onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
         }, ["stop", "prevent"]))
-      }, "+")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "+")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Font Style", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
           return $data.fontSettings.fontStyle = $event;
         }),
         "class": "form-select"
-      }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "normal"
       }, "Normal", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "italic"
-      }, "Italic", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontStyle]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Italic", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontStyle]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Text Shadow", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
           return $data.fontSettings.textShadow = $event;
         }),
         "class": "form-select"
-      }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "none"
       }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "1px 1px 2px gray"
@@ -55634,25 +55927,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         value: "1px 1px 2px red"
       }, "Red Shadow", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "1px 1px 2px blue"
-      }, "Blue Shadow", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textShadow]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Blue Shadow", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textShadow]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Underline", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
           return $data.fontSettings.textDecoration = $event;
         }),
         "class": "form-select"
-      }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "none"
       }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "underline"
-      }, "Underline", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textDecoration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Underline", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textDecoration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Font Family", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
           return $data.fontSettings.fontFamily = $event;
         }),
         "class": "form-select"
-      }, _cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "Arial, sans-serif"
       }, "Arial", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "'Times New Roman', serif"
@@ -55676,27 +55969,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         value: "'Poppins', sans-serif"
       }, "Poppins", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontFamily]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-success text-right mt-3",
-        onClick: _cache[8] || (_cache[8] = function () {
+        onClick: _cache[13] || (_cache[13] = function () {
           return $options.submitFontSize && $options.submitFontSize.apply($options, arguments);
         })
-      }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First your new Play/Pause FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        onClick: _cache[10] || (_cache[10] = function () {
-          return $options.handleTTS && $options.handleTTS.apply($options, arguments);
-        }),
-        "class": "fab btn btn-light rounded-circle shadow container",
-        style: {
-          "position": "fixed",
-          "bottom": "100px",
-          "right": "20px",
-          "width": "60px",
-          "height": "60px",
-          "display": "flex",
-          "align-items": "center",
-          "justify-content": "center",
-          "z-index": "1000",
-          "cursor": "pointer"
-        }
-      }, [$data.ttsState === 'playing' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16))]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Settings FAB "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "fab btn btn-light rounded-circle shadow container",
         style: {
           "position": "fixed",
@@ -55715,19 +55991,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-controls": "settingsOffcanvas"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-gear-fill fs-4"
-      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[11] || (_cache[11] = function () {
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[15] || (_cache[15] = function () {
           return $options.prev && $options.prev.apply($options, arguments);
         }),
         disabled: $data.currentIndex === 0,
         "class": "btn btn-primary me-2"
-      }, "Previous", 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[12] || (_cache[12] = function () {
+      }, "Previous", 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[16] || (_cache[16] = function () {
           return $options.next && $options.next.apply($options, arguments);
         }),
         disabled: $data.currentIndex === $data.events.length - 1,
         "class": "btn btn-primary"
-      }, "Next", 8 /* PROPS */, _hoisted_19)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }, "Next", 8 /* PROPS */, _hoisted_24)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   })]);
@@ -56252,107 +56528,191 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container-fluid my-3 d-flex justify-content-center"
+  "class": "prayer-times-app"
 };
 var _hoisted_2 = {
-  "class": "card shadow p-4 w-100",
+  "class": "container-fluid my-4 d-flex justify-content-center"
+};
+var _hoisted_3 = {
+  "class": "main-card shadow-lg p-4 w-100",
   style: {
     "max-width": "1500px"
   }
 };
-var _hoisted_3 = {
-  "class": "flex-grow-1"
-};
 var _hoisted_4 = {
-  "class": "flex-grow-1"
+  "class": "search-inputs"
 };
-var _hoisted_5 = ["value"];
+var _hoisted_5 = {
+  "class": "input-group"
+};
 var _hoisted_6 = {
-  "class": "d-flex gap-2"
+  "class": "input-group"
 };
-var _hoisted_7 = {
-  key: 0,
-  "class": "text-center my-5"
-};
+var _hoisted_7 = ["value"];
 var _hoisted_8 = {
-  key: 1,
-  "class": "alert alert-light text-center py-2 shadow-sm border-lg"
+  "class": "action-buttons"
 };
-var _hoisted_9 = {
-  "class": "table-responsive table-scroll mt-3"
-};
+var _hoisted_9 = ["disabled"];
 var _hoisted_10 = {
-  "class": "table table-hover table-bordered text-center align-middle"
+  key: 0
 };
 var _hoisted_11 = {
-  "class": "fw-semibold"
+  key: 1
 };
-var _hoisted_12 = {
+var _hoisted_12 = ["disabled"];
+var _hoisted_13 = {
+  key: 0,
+  "class": "loading-container"
+};
+var _hoisted_14 = {
+  "class": "loading-text"
+};
+var _hoisted_15 = {
+  key: 1,
+  "class": "prayer-times-section"
+};
+var _hoisted_16 = {
+  "class": "times-header"
+};
+var _hoisted_17 = {
+  "class": "times-title"
+};
+var _hoisted_18 = {
+  "class": "location-info"
+};
+var _hoisted_19 = {
+  "class": "table-container"
+};
+var _hoisted_20 = {
+  "class": "prayer-table"
+};
+var _hoisted_21 = {
+  "class": "date-cell"
+};
+var _hoisted_22 = {
+  "class": "date-main"
+};
+var _hoisted_23 = {
+  "class": "date-hijri"
+};
+var _hoisted_24 = {
+  "class": "time-cell"
+};
+var _hoisted_25 = {
+  "class": "time-cell sunrise"
+};
+var _hoisted_26 = {
+  "class": "time-cell"
+};
+var _hoisted_27 = {
+  "class": "time-cell"
+};
+var _hoisted_28 = {
+  "class": "time-cell"
+};
+var _hoisted_29 = {
+  "class": "time-cell"
+};
+var _hoisted_30 = {
   key: 2,
-  "class": "alert alert-warning text-center mt-4"
+  "class": "alert alert-warning text-center"
+};
+var _hoisted_31 = {
+  key: 3,
+  "class": "alert alert-danger text-center"
+};
+var _hoisted_32 = {
+  "class": "quick-info mt-4"
+};
+var _hoisted_33 = {
+  "class": "info-cards"
+};
+var _hoisted_34 = {
+  "class": "info-card"
+};
+var _hoisted_35 = {
+  "class": "info-text"
+};
+var _hoisted_36 = {
+  "class": "info-card"
+};
+var _hoisted_37 = {
+  "class": "info-text"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "text-center fw-bold display-4 py-2 mt-4 mb-2"
-  }, "Prayer Times Calendar", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center mb-4 lead container"
-  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "hero-section"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "main-title"
+  }, "🕌 Prayer Times Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "subtitle"
+  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitSearch && $options.submitSearch.apply($options, arguments);
     }, ["prevent"])),
-    "class": "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "search-form mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "city",
-    "class": "form-label fw-bold"
-  }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-label"
+  }, "🏙️ City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.city = $event;
     }),
-    "class": "form-control",
+    "class": "form-control city-input",
+    placeholder: "Enter your city...",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "methodSelect"
-  }, "Select Calculation Method:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, "📖 Calculation Method", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "methodSelect",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.method = $event;
     }),
-    "class": "form-select"
+    "class": "form-select method-select"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.methodOptions, function (name, id) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: id,
       value: id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_7);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": "btn btn-primary px-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-primary search-btn",
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "🔍 Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, "⏳ Searching..."))], 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    "class": "btn btn-outline-secondary px-4",
+    "class": "btn btn-outline-success location-btn",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.resetFields && $options.resetFields.apply($options, arguments);
-    })
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-geo-alt me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" My Location ")]))])], 32 /* NEED_HYDRATION */), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-primary",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "mt-2"
-  }, "Fetching prayer times for your location...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? ' (Current Location)' : ' (Search Results)') + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
-    "class": "table-secondary sticky-top"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
+    }),
+    disabled: $data.loading
+  }, " 📍 Use My Location ", 8 /* PROPS */, _hoisted_12)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "loading-spinner"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, " 🔄 Fetching prayer times for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city || 'your location') + "... ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times Table "), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_17, " 📅 Prayer Times for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📍 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["location-badge", $data.useCurrentLocation ? 'current-location' : 'search-location'])
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? 'Current Location' : 'Search Results'), 3 /* TEXT, CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_20, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "📅 Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌅 Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "☀️ Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌞 Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌤️ Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌅 Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌙 Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: day.date.gregorian.date
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.gregorian.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length === 0 && $data.submitted && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-exclamation-triangle-fill me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No prayer times found. Please check your city/country or try another method. ")]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
+      key: day.date.gregorian.date,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+        'today-row': $options.isToday(day.date.gregorian.date)
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(day.date.gregorian.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.hijri.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.hijri.month.en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.prayerData.length === 0 && $data.submitted && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "alert-icon"
+  }, "⚠️", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "No prayer times found. Please check your city or try another calculation method.", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error State "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "alert-icon"
+  }, "❌", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-danger mt-2",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.retryLastAction && $options.retryLastAction.apply($options, arguments);
+    })
+  }, " 🔄 Try Again ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "info-icon"
+  }, "🕐", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Next Prayer", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getNextPrayer()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "info-icon"
+  }, "🌍", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Method Used", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.methodOptions[$data.method]), 1 /* TEXT */)])])])])])])]);
 }
 
 /***/ }),
@@ -58813,95 +59173,143 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-4 text-center"
+  "class": "tasbeeh-container"
 };
 var _hoisted_2 = {
-  "class": "d-flex flex-column justify-content-center align-items-center text-center"
+  "class": "counter-container"
 };
 var _hoisted_3 = {
-  "class": "d-flex align-items-center justify-content-center gap-4 mb-3"
+  "class": "dhikr-display"
 };
 var _hoisted_4 = {
-  "class": "fw-bold display-6 text-success"
+  "class": "dhikr-text"
 };
 var _hoisted_5 = {
-  "class": "fw-bold display-6 text-success"
+  "class": "dhikr-text-arabic"
 };
 var _hoisted_6 = {
-  "class": "fw-bold display-4 text-success mb-3"
+  "class": "counter",
+  "aria-live": "polite"
 };
 var _hoisted_7 = {
-  "class": "bead-string mb-4"
+  "class": "bead-string"
 };
-var _hoisted_8 = ["onAnimationend"];
-var _hoisted_9 = {
+var _hoisted_8 = {
   key: 0,
-  "class": "milestone text-warning fw-bold mb-3"
+  "class": "milestone"
+};
+var _hoisted_9 = {
+  "class": "tap-area-wrapper"
 };
 var _hoisted_10 = {
-  "class": "d-flex justify-content-between align-items-center gap-2"
+  key: 0,
+  "class": "arrow-right"
 };
+var _hoisted_11 = {
+  key: 1,
+  "class": "arrow-left"
+};
+var _hoisted_12 = {
+  "class": "controls"
+};
+var _hoisted_13 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "fw-bold display-5 mb-3"
-  }, "Tasbeeh Counter", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead mx-auto mb-3 description"
-  }, " A Tasbeeh Counter is a digital tool or application designed to help users keep track of their Dhikr during their spiritual practices, such as reciting specific supplications or praises ", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "text-muted mb-3"
-  }, "Tap to recite:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikr) + " - ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikrAr), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.animatedCounter), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bead String "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.goal, function (n) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "title"
+  }, "Digital Tasbeeh Counter", -1 /* HOISTED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "subtitle"
+  }, "Tap, swipe right, or say \"SubhanAllah\" to count", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Counter and Dhikr Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikrAr), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.animatedCounter), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bead String "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.goal, function (n) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
       key: n,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bead", {
-        filled: n <= $data.counter % $data.goal,
-        ripple: $data.rippleBead === n
-      }]),
-      onAnimationend: function onAnimationend($event) {
-        return $options.clearRipple(n);
-      }
-    }, null, 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_8);
+        filled: n <= $data.counter % $data.goal
+      }])
+    }, null, 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Milestone Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.showMilestone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      return [$data.showMilestone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tap Gesture Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white"
-    },
-    "class": "tap-area mb-3 container",
-    onTouchstart: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice Feedback "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$data.voiceStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: 0,
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["voice-status", {
+          error: $data.voiceStatus.includes('Error')
+        }])
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceStatus), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }),
+    _: 1 /* STABLE */
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tap and Swipe Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tap-area", {
+      'swipe-right': $data.swipeDirection === 'right',
+      'swipe-left': $data.swipeDirection === 'left'
+    }]),
+    onClick: _cache[0] || (_cache[0] = function () {
       return $options.handleClick && $options.handleClick.apply($options, arguments);
-    }, ["prevent"])),
-    onClick: _cache[1] || (_cache[1] = function () {
+    }),
+    onTouchstartPassive: _cache[1] || (_cache[1] = function () {
+      return $options.handleTouchStart && $options.handleTouchStart.apply($options, arguments);
+    }),
+    onTouchmovePassive: _cache[2] || (_cache[2] = function () {
+      return $options.handleTouchMove && $options.handleTouchMove.apply($options, arguments);
+    }),
+    onTouchend: _cache[3] || (_cache[3] = function () {
+      return $options.handleTouchEnd && $options.handleTouchEnd.apply($options, arguments);
+    }),
+    role: "button",
+    "aria-label": "Tap or swipe to increment/decrement counter",
+    tabindex: "0",
+    onKeydown: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
       return $options.handleClick && $options.handleClick.apply($options, arguments);
-    })
-  }, _cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Tap Bead +1", -1 /* HOISTED */)]), 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
-    style: {
-      "background": "lightgray",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "black",
-      "height": "38px"
-    },
-    onClick: _cache[2] || (_cache[2] = function () {
+    }, ["enter"]))
+  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tap or swipe right to count ")), $data.swipeDirection === 'right' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "➡️")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.swipeDirection === 'left' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, "⬅️")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 34 /* CLASS, NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Control Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["voice-btn", {
+      active: $data.isListening
+    }]),
+    disabled: !$data.recognitionAvailable,
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.toggleVoiceControls && $options.toggleVoiceControls.apply($options, arguments);
+    }),
+    role: "button",
+    "aria-label": "Toggle voice",
+    tabindex: "0",
+    onKeydown: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.toggleVoiceControls && $options.toggleVoiceControls.apply($options, arguments);
+    }, ["enter"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-microphone", {
+      'fa-microphone-slash disabled': !$data.isListening
+    }])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isListening ? "Stop Listening" : "Start Voice Commands"), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.undoClick && $options.undoClick.apply($options, arguments);
-    })
-  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Undo Tap -1", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
-    style: {
-      "background": "lightgrey",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "black",
-      "height": "38px"
-    },
-    onClick: _cache[3] || (_cache[3] = function () {
+    }),
+    role: "button",
+    "aria-label": "Undo last count",
+    tabindex: "0",
+    onKeydown: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.undoClick && $options.undoClick.apply($options, arguments);
+    }, ["enter"]))
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-undo"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Undo ")]), 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[9] || (_cache[9] = function () {
       return $options.resetAll && $options.resetAll.apply($options, arguments);
-    })
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Reset counter", -1 /* HOISTED */)]))])]);
+    }),
+    role: "button",
+    "aria-label": "Reset counter",
+    tabindex: "0",
+    onKeydown: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
+      return $options.resetAll && $options.resetAll.apply($options, arguments);
+    }, ["enter"]))
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-redo"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset ")]), 32 /* NEED_HYDRATION */)])]);
 }
 
 /***/ }),
@@ -60383,179 +60791,359 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid travel-agency-locator"
+  "class": "container-fluid py-4"
 };
 var _hoisted_2 = {
-  "class": "my-4"
+  "class": "row justify-content-center"
 };
 var _hoisted_3 = {
-  "class": "row"
+  "class": "col-lg-10"
 };
 var _hoisted_4 = {
-  "class": "col-md-4"
+  "class": "shadow",
+  style: {
+    "border-radius": "20px",
+    "padding": "10px",
+    "border": "1px solid grey"
+  }
 };
 var _hoisted_5 = {
-  "class": "card search-card"
+  "class": "card-body container-fluid",
+  style: {
+    "padding": "5px"
+  }
 };
 var _hoisted_6 = {
-  "class": "card-body"
+  "class": "row mb-4 justify-content-center"
 };
 var _hoisted_7 = {
-  "class": "mb-3"
-};
-var _hoisted_8 = {
-  "class": "mb-3"
-};
-var _hoisted_9 = {
-  "class": "mb-3"
-};
-var _hoisted_10 = {
-  "class": "form-check"
-};
-var _hoisted_11 = {
-  "class": "form-check"
-};
-var _hoisted_12 = ["disabled"];
-var _hoisted_13 = {
-  key: 0,
-  "class": "spinner-border spinner-border-sm",
-  role: "status",
-  "aria-hidden": "true"
-};
-var _hoisted_14 = {
-  key: 0,
-  "class": "card mt-3 results-card"
-};
-var _hoisted_15 = {
-  "class": "card-header bg-secondary text-white"
-};
-var _hoisted_16 = {
-  "class": "mb-0"
-};
-var _hoisted_17 = {
-  "class": "card-body p-0"
-};
-var _hoisted_18 = {
-  "class": "list-group list-group-flush result-list"
-};
-var _hoisted_19 = ["onClick"];
-var _hoisted_20 = {
-  "class": "mb-1"
-};
-var _hoisted_21 = {
-  key: 0,
-  "class": "badge bg-success mb-2"
-};
-var _hoisted_22 = {
-  "class": "mb-1 small"
-};
-var _hoisted_23 = {
-  "class": "mb-0 small"
-};
-var _hoisted_24 = {
   "class": "col-md-8"
 };
+var _hoisted_8 = ["disabled"];
+var _hoisted_9 = {
+  key: 0
+};
+var _hoisted_10 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_11 = {
+  "class": "d-flex flex-wrap align-items-center mb-3",
+  style: {
+    "gap": "1rem"
+  }
+};
+var _hoisted_12 = {
+  key: 0
+};
+var _hoisted_13 = {
+  "class": "d-flex flex-wrap",
+  style: {
+    "gap": "0.5rem"
+  }
+};
+var _hoisted_14 = ["id", "value"];
+var _hoisted_15 = ["for"];
+var _hoisted_16 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_17 = {
+  "class": "mt-3"
+};
+var _hoisted_18 = {
+  key: 1
+};
+var _hoisted_19 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_20 = {
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+};
+var _hoisted_21 = {
+  "class": "card"
+};
+var _hoisted_22 = {
+  style: {
+    "padding": "15px 15px 0 15px"
+  }
+};
+var _hoisted_23 = {
+  "class": "card-title fw-bold text-dark mb-3",
+  style: {
+    "font-size": "25px"
+  }
+};
+var _hoisted_24 = {
+  "class": "card-body pt-0"
+};
 var _hoisted_25 = {
-  "class": "card map-container"
+  "class": "mb-2"
 };
 var _hoisted_26 = {
-  "class": "card-body p-0 position-relative"
+  "class": "d-flex align-items-start"
 };
 var _hoisted_27 = {
-  id: "map",
-  "class": "map",
-  ref: "mapElement"
+  "class": "text-truncate",
+  style: {
+    "display": "-webkit-box",
+    "-webkit-line-clamp": "2",
+    "-webkit-box-orient": "vertical"
+  }
 };
 var _hoisted_28 = {
-  key: 0,
-  "class": "map-loading-overlay"
+  "class": "mb-2"
 };
 var _hoisted_29 = {
-  key: 1,
-  "class": "no-results-overlay"
+  "class": "text-muted mb-0"
+};
+var _hoisted_30 = {
+  "class": "mb-2 d-flex align-items-center"
+};
+var _hoisted_31 = {
+  "class": "text-warning me-2"
+};
+var _hoisted_32 = {
+  "class": "mb-0"
+};
+var _hoisted_33 = {
+  "class": "mb-2 services"
+};
+var _hoisted_34 = {
+  "class": "d-flex flex-wrap align-items-center",
+  style: {
+    "gap": "0.4rem"
+  }
+};
+var _hoisted_35 = {
+  key: 0,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_36 = {
+  "class": "text-muted"
+};
+var _hoisted_37 = {
+  "class": "d-flex justify-content-between align-items-center gap-2"
+};
+var _hoisted_38 = ["onClick", "disabled"];
+var _hoisted_39 = ["onClick"];
+var _hoisted_40 = {
+  key: 3,
+  "class": "d-flex justify-content-center mt-4"
+};
+var _hoisted_41 = {
+  "class": "pagination"
+};
+var _hoisted_42 = ["disabled"];
+var _hoisted_43 = ["onClick"];
+var _hoisted_44 = ["disabled"];
+var _hoisted_45 = {
+  key: 0,
+  "class": "d-flex justify-content-between align-items-center",
+  style: {
+    "padding": "10px"
+  }
+};
+var _hoisted_46 = {
+  "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    "class": "text-center py-4 bg-primary text-white"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Travel Agency Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
-  }, "Locate halal-friendly travel services worldwide")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "locationInput",
-    "class": "form-label"
-  }, "Search Location", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold text-center"
+  }, "Islamic Travel Agency Finder", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 lead"
+  }, " Discover trusted Islamic travel agencies worldwide, offering Hajj, Umrah, and halal travel packages tailored to your needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Filter Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center mb-3",
+    role: "search",
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
+    }, ["prevent"])),
+    style: {
+      "gap": "0.5rem"
+    }
+  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "card-title pr-2 fw-bold",
+    style: {
+      "font-size": "25px"
+    }
+  }, "Search location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "searchInput",
+    type: "search",
     "class": "form-control",
-    id: "locationInput",
+    placeholder: "Enter city or country...",
+    "aria-label": "Search",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
-    placeholder: "City, Country or Address",
-    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }, ["enter"]))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "searchRadius",
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.debounceSearch && $options.debounceSearch.apply($options, arguments);
+    }),
+    autocomplete: "off",
+    style: {
+      "max-width": "300px"
+    }
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-success",
+    type: "submit",
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10))], 8 /* PROPS */, _hoisted_8)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "radiusSlider",
     "class": "form-label"
-  }, "Search Radius (km)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "class": "form-select",
-    id: "searchRadius",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.searchRadius = $event;
-    })
-  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"1\" data-v-45afede8>1 km</option><option value=\"5\" data-v-45afede8>5 km</option><option value=\"10\" selected data-v-45afede8>10 km</option><option value=\"20\" data-v-45afede8>20 km</option><option value=\"50\" data-v-45afede8>50 km</option>", 5)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.searchRadius]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label"
-  }, "Search Type", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
+  }, "Search Radius (km):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "range",
+    "class": "form-range",
+    id: "radiusSlider",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.searchPreference = $event;
+      return $data.radius = $event;
     }),
-    id: "islamicOnly",
-    value: "islamic"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.searchPreference]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "islamicOnly"
-  }, " Islamic Agencies Only ", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input",
-    type: "radio",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.searchPreference = $event;
-    }),
-    id: "allAgencies",
-    value: "all",
-    checked: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.searchPreference]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "allAgencies"
-  }, " All Travel Agencies ", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary w-100",
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }),
-    disabled: $data.isLoading
-  }, [$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_13)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isLoading ? 'Searching...' : 'Find Travel Agencies'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_12)])]), $data.results.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_16, "Found Agencies (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.results.length) + ")", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.results, function (result, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: index,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item result-item", {
-        active: $data.activeResultIndex === index,
-        'islamic-agency': $options.isIslamicAgency(result.tags)
-      }]),
-      onClick: function onClick($event) {
-        return $options.setActiveResult(index);
-      }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.tags.name || 'Unnamed Travel Agency'), 1 /* TEXT */), $options.isIslamicAgency(result.tags) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_21, "Islamic")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.tags['addr:street'] || '') + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.tags['addr:housenumber'] || ''), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.tags['addr:city'] || '') + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(result.tags['addr:postcode'] || ''), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_19);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, null, 512 /* NEED_PATCH */), $data.isLoadingMap ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-container"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    min: "1",
+    max: "50",
+    step: "1",
+    onChange: _cache[4] || (_cache[4] = function () {
+      return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.radius, void 0, {
+    number: true
+  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.radius) + " km", 1 /* TEXT */)]), $data.availableServices.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label"
+  }, "Services:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableServices, function (service) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: service
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "checkbox",
+      id: service,
+      value: service,
+      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        return $data.selectedServices = $event;
+      }),
+      onChange: _cache[6] || (_cache[6] = function () {
+        return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
+      })
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_14), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selectedServices]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": service,
+      "class": "ms-1"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(service), 9 /* TEXT, PROPS */, _hoisted_15)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading map...")])], -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.noResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "alert alert-warning m-3"
-  }, " No travel agencies found in this area. Try a different location or wider radius. ", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]);
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, "Searching for Islamic travel agencies in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-compass display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "Search for Islamic travel agencies worldwide", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Enter a city or country name to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-binoculars display-4 text-muted mb-3"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "No travel agencies found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Try adjusting your search, radius, or services")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 2
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedAgencies, function (agency) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: agency.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_29, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo me-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lon.toFixed(4)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(agency.rating, function (n) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star-fill",
+        key: 'star-' + n
+      });
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - agency.rating, function (n) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star",
+        key: 'empty-' + n
+      });
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_32, "Packages: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.packageCount), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(agency.services, function (service) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill d-flex align-items-center", $options.getServiceBadgeClass(service)]),
+        key: service,
+        style: {
+          "padding": "0.5em 0.8em"
+        }
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(service), 3 /* TEXT, CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))])]), agency.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_36, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.openWebsite(agency.website);
+      },
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      },
+      disabled: !agency.website
+    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-center w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.shareViaWhatsApp(agency);
+      },
+      style: {
+        "background": "#1881b9",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_39)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.hasResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === 1
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[7] || (_cache[7] = function ($event) {
+      return $data.currentPage--;
+    }),
+    disabled: $data.currentPage === 1
+  }, "Previous", 8 /* PROPS */, _hoisted_42)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+        active: $data.currentPage === page
+      }]),
+      key: page
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "page-link",
+      onClick: function onClick($event) {
+        return $data.currentPage = page;
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_43)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
+      disabled: $data.currentPage === $options.totalPages
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "page-link",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $data.currentPage++;
+    }),
+    disabled: $data.currentPage === $options.totalPages
+  }, "Next", 8 /* PROPS */, _hoisted_44)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.agencies.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_46, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paginatedAgencies.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.agencies.length) + " travel agencies ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -159702,7 +160290,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.prayer-times-app[data-v-02228b8a] {\n  min-height: 100vh;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n.hero-section[data-v-02228b8a] {\n  text-align: center;\n  padding: 2rem 1rem;\n  color: white;\n}\n.main-title[data-v-02228b8a] {\n  font-size: 3rem;\n  font-weight: 700;\n  margin-bottom: 1rem;\n  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);\n}\n.subtitle[data-v-02228b8a] {\n  font-size: 1.2rem;\n  opacity: 0.9;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.main-card[data-v-02228b8a] {\n  border-radius: 2rem;\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n.search-form[data-v-02228b8a] {\n  background: linear-gradient(145deg, #f8f9ff, #e8f0ff);\n  padding: 2rem;\n  border-radius: 1.5rem;\n  border: 1px solid rgba(102, 126, 234, 0.1);\n}\n.search-inputs[data-v-02228b8a] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.5rem;\n  margin-bottom: 1.5rem;\n}\n.input-group label[data-v-02228b8a] {\n  font-weight: 600;\n  color: #4a5568;\n  margin-bottom: 0.5rem;\n  display: block;\n}\n.city-input[data-v-02228b8a], .method-select[data-v-02228b8a] {\n  border: 2px solid #e2e8f0;\n  border-radius: 0.75rem;\n  padding: 0.75rem 1rem;\n  font-size: 1rem;\n  transition: all 0.3s ease;\n}\n.city-input[data-v-02228b8a]:focus, .method-select[data-v-02228b8a]:focus {\n  border-color: #667eea;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);\n  outline: none;\n}\n.action-buttons[data-v-02228b8a] {\n  display: flex;\n  gap: 1rem;\n  justify-content: center;\n}\n.search-btn[data-v-02228b8a], .location-btn[data-v-02228b8a] {\n  padding: 0.75rem 2rem;\n  border-radius: 0.75rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n  border: none;\n}\n.search-btn[data-v-02228b8a] {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  color: white;\n}\n.search-btn[data-v-02228b8a]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);\n}\n.location-btn[data-v-02228b8a] {\n  background: transparent;\n  border: 2px solid #48bb78;\n  color: #48bb78;\n}\n.location-btn[data-v-02228b8a]:hover:not(:disabled) {\n  background: #48bb78;\n  color: white;\n  transform: translateY(-2px);\n}\n.loading-container[data-v-02228b8a] {\n  text-align: center;\n  padding: 3rem;\n}\n.loading-spinner[data-v-02228b8a] {\n  margin-bottom: 1rem;\n}\n.spinner[data-v-02228b8a] {\n  width: 50px;\n  height: 50px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #667eea;\n  border-radius: 50%;\n  animation: spin-02228b8a 1s linear infinite;\n  margin: 0 auto;\n}\n@keyframes spin-02228b8a {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n.loading-text[data-v-02228b8a] {\n  color: #667;\n  font-size: 1.1rem;\n}\n.prayer-times-section[data-v-02228b8a] {\n  margin-top: 2rem;\n}\n.times-header[data-v-02228b8a] {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.times-title[data-v-02228b8a] {\n  color: #2d3748;\n  font-size: 1.8rem;\n  margin-bottom: 1rem;\n}\n.location-info[data-v-02228b8a] {\n  color: #4a5568;\n  font-size: 1.1rem;\n}\n.location-badge[data-v-02228b8a] {\n  display: inline-block;\n  padding: 0.25rem 0.75rem;\n  border-radius: 1rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  margin-left: 0.5rem;\n}\n.current-location[data-v-02228b8a] {\n  background: #c6f6d5;\n  color: #22543d;\n}\n.search-location[data-v-02228b8a] {\n  background: #bee3f8;\n  color: #2a4365;\n}\n.table-container[data-v-02228b8a] {\n  overflow-x: auto;\n  border-radius: 1rem;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.prayer-table[data-v-02228b8a] {\n  width: 100%;\n  border-collapse: collapse;\n  background: white;\n  font-size: 0.95rem;\n}\n.prayer-table th[data-v-02228b8a] {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  color: white;\n  padding: 1rem;\n  text-align: center;\n  font-weight: 600;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.prayer-table td[data-v-02228b8a] {\n  padding: 1rem;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n  transition: background-color 0.2s ease;\n}\n.prayer-table tr[data-v-02228b8a]:hover {\n  background-color: #f7fafc;\n}\n.today-row[data-v-02228b8a] {\n  background-color: #fff5f5 !important;\n  border-left: 4px solid #f56565;\n}\n.today-row[data-v-02228b8a]:hover {\n  background-color: #fed7d7 !important;\n}\n.date-cell[data-v-02228b8a] {\n  text-align: left !important;\n}\n.date-main[data-v-02228b8a] {\n  font-weight: 600;\n  color: #2d3748;\n}\n.date-hijri[data-v-02228b8a] {\n  font-size: 0.8rem;\n  color: #718096;\n  margin-top: 0.25rem;\n}\n.time-cell[data-v-02228b8a] {\n  font-weight: 500;\n  font-family: 'Courier New', monospace;\n}\n.time-cell.sunrise[data-v-02228b8a] {\n  color: #d69e2e;\n  font-weight: 600;\n}\n.alert[data-v-02228b8a] {\n  border-radius: 1rem;\n  padding: 1.5rem;\n  margin: 1rem 0;\n}\n.alert-icon[data-v-02228b8a] {\n  font-size: 2rem;\n  margin-bottom: 0.5rem;\n}\n.quick-info[data-v-02228b8a] {\n  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);\n  border-radius: 1rem;\n  padding: 1.5rem;\n}\n.info-cards[data-v-02228b8a] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 1rem;\n}\n.info-card[data-v-02228b8a] {\n  display: flex;\n  align-items: center;\n  background: white;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n}\n.info-icon[data-v-02228b8a] {\n  font-size: 2rem;\n  margin-right: 1rem;\n}\n.info-text h4[data-v-02228b8a] {\n  margin: 0 0 0.25rem 0;\n  color: #2d3748;\n  font-size: 1rem;\n}\n.info-text p[data-v-02228b8a] {\n  margin: 0;\n  color: #4a5568;\n  font-size: 0.9rem;\n}\n\n/* Responsive Design */\n@media (max-width: 768px) {\n.main-title[data-v-02228b8a] {\n    font-size: 2rem;\n}\n.search-inputs[data-v-02228b8a] {\n    grid-template-columns: 1fr;\n    gap: 1rem;\n}\n.action-buttons[data-v-02228b8a] {\n    flex-direction: column;\n    align-items: center;\n}\n.search-btn[data-v-02228b8a], .location-btn[data-v-02228b8a] {\n    width: 100%;\n    max-width: 300px;\n}\n.prayer-table th[data-v-02228b8a],\n  .prayer-table td[data-v-02228b8a] {\n    padding: 0.5rem;\n    font-size: 0.8rem;\n}\n.main-title[data-v-02228b8a] {\n    font-size: 2rem;\n}\n}\n@media (max-width: 480px) {\n.hero-section[data-v-02228b8a] {\n    padding: 1rem;\n}\n.main-title[data-v-02228b8a] {\n    font-size: 1.8rem;\n}\n.subtitle[data-v-02228b8a] {\n    font-size: 1rem;\n}\n.search-form[data-v-02228b8a] {\n    padding: 1rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -159918,7 +160506,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.digital-counter[data-v-1c15337c] {\n  font-size: 4rem;\n  font-weight: bold;\n  color: #00bfa6;\n  text-shadow: 0 0 10px #00bfa6;\n  transition: all 0.3s ease;\n}\n.bead-string[data-v-1c15337c] {\n  display: flex;\n  flex-wrap: nowrap;\n  overflow-x: auto;\n  gap: 10px;\n  padding: 8px;\n  justify-content: flex-start;\n  align-items: center;\n  scrollbar-width: none;\n  /* Firefox */\n}\n.bead-string[data-v-1c15337c]::-webkit-scrollbar {\n  display: none;\n  /* Chrome, Safari, Edge */\n}\n.bead[data-v-1c15337c] {\n  min-width: 40px;\n  height: 40px;\n  flex-shrink: 0;\n  border-radius: 50%;\n  background: #dee2e6;\n  border: 2px solid #00bfa6;\n  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  transition: background 0.3s;\n}\n.bead-string[data-v-1c15337c] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 8px;\n  padding: 8px;\n}\n.bead[data-v-1c15337c] {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background: #dee2e6;\n  border: 2px solid #00bfa6;\n  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);\n  position: relative;\n  transition: background 0.3s;\n}\n.bead.filled[data-v-1c15337c] {\n  background: #198754;\n  box-shadow: 0 0 8px #198754;\n}\n.bead.ripple[data-v-1c15337c]::after {\n  content: \"\";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  width: 0;\n  height: 0;\n  border-radius: 50%;\n  background: rgba(25, 135, 84, 0.5);\n  transform: translate(-50%, -50%);\n  animation: ripple-1c15337c 0.4s ease-out forwards;\n}\n@keyframes ripple-1c15337c {\nto {\n    width: 35px;\n    height: 35px;\n    opacity: 0;\n}\n}\n.tap-area[data-v-1c15337c] {\n  font-size: 1.3rem;\n  padding: 14px;\n  background: linear-gradient(135deg, #198754, #28a745);\n  color: white;\n  border-radius: 12px;\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n  transition: transform 0.1s;\n}\n.tap-area[data-v-1c15337c]:active {\n  transform: scale(0.95);\n}\n.milestone[data-v-1c15337c] {\n  animation: glowText-1c15337c 1s ease-in-out infinite alternate;\n}\n@keyframes glowText-1c15337c {\nfrom {\n    text-shadow: 0 0 6px #ffc107;\n}\nto {\n    text-shadow: 0 0 12px #ffc107;\n}\n}\n.fade-enter-active[data-v-1c15337c],\n.fade-leave-active[data-v-1c15337c] {\n  transition: opacity 0.4s;\n}\n.fade-enter[data-v-1c15337c],\n.fade-leave-to[data-v-1c15337c] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-1c15337c]:root {\n  --primary-color: #198754;\n  --secondary-color: #ffc107;\n  --background-color: #f8f9fa;\n  --text-color: #333;\n}\n.tasbeeh-container[data-v-1c15337c] {\n  min-height: 100vh;\n  background: var(--background-color);\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  max-width: 100vw;\n  overflow-x: hidden;\n}\n.title[data-v-1c15337c] {\n  font-size: clamp(1.5rem, 5vw, 1.8rem);\n  color: var(--primary-color);\n  margin-bottom: 8px;\n}\n.subtitle[data-v-1c15337c] {\n  font-size: clamp(0.9rem, 3vw, 1rem);\n  color: var(--text-color);\n  opacity: 0.7;\n  margin-bottom: 16px;\n}\n.counter-container[data-v-1c15337c] {\n  margin-bottom: 16px;\n  text-align: center;\n}\n.dhikr-display[data-v-1c15337c] {\n  display: flex;\n  gap: 8px;\n  justify-content: center;\n  margin-bottom: 12px;\n}\n.dhikr-text[data-v-1c15337c] {\n  font-size: clamp(1.4rem, 4vw, 1.6rem);\n  font-weight: bold;\n  color: var(--primary-color);\n}\n.dhikr-text-arabic[data-v-1c15337c] {\n  font-size: clamp(1rem, 3vw, 1.1rem);\n  color: var(--text-color);\n  opacity: 0.8;\n  font-family: 'Amiri', serif;\n}\n.counter[data-v-1c15337c] {\n  font-size: clamp(2.5rem, 6vw, 2.8rem);\n  font-weight: bold;\n  color: var(--primary-color);\n}\n.bead-string[data-v-1c15337c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 6px;\n  justify-content: center;\n  margin-bottom: 16px;\n}\n.bead[data-v-1c15337c] {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background: #e0e0e0;\n  border: 2px solid var(--primary-color);\n}\n.bead.filled[data-v-1c15337c] {\n  background: var(--primary-color);\n}\n.tap-area-wrapper[data-v-1c15337c] {\n  width: 80%;\n  max-width: 300px;\n  margin-bottom: 16px;\n}\n.tap-area[data-v-1c15337c] {\n  font-size: clamp(1rem, 3vw, 1.1rem);\n  padding: 12px;\n  background: var(--primary-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  width: 100%;\n  text-align: center;\n  transition: background 0.2s, transform 0.2s;\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.tap-area[data-v-1c15337c]:hover {\n  background: #28a745;\n}\n.tap-area[data-v-1c15337c]:active {\n  background: #146c43;\n}\n.tap-area.swipe-right[data-v-1c15337c] {\n  transform: translateX(8px);\n}\n.tap-area.swipe-left[data-v-1c15337c] {\n  transform: translateX(-8px);\n}\n.arrow-right[data-v-1c15337c], .arrow-left[data-v-1c15337c] {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.controls[data-v-1c15337c] {\n  display: flex;\n  gap: 8px;\n  justify-content: center;\n  flex-wrap: wrap;\n  width: 80%;\n  max-width: 300px;\n}\n.controls button[data-v-1c15337c] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 8px;\n  background: #e0e0e0;\n  border: none;\n  border-radius: 8px;\n  font-size: clamp(0.8rem, 2.5vw, 0.9rem);\n  color: var(--text-color);\n  cursor: pointer;\n  flex: 1;\n  min-width: 80px;\n  transition: background 0.2s;\n}\n.controls button[data-v-1c15337c]:hover {\n  background: #d0d0d0;\n}\n.controls button[data-v-1c15337c]:active {\n  background: #c0c0c0;\n}\n.controls button[data-v-1c15337c]:disabled {\n  background: #f0f0f0;\n  color: #999;\n  cursor: not-allowed;\n}\n.voice-btn.active[data-v-1c15337c] {\n  background: #ff4d4d;\n  color: white;\n}\n.milestone[data-v-1c15337c] {\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  color: var(--secondary-color);\n  margin-bottom: 16px;\n}\n.voice-status[data-v-1c15337c] {\n  font-size: clamp(0.8rem, 2.5vw, 0.9rem);\n  color: var(--text-color);\n  opacity: 0.7;\n  margin-bottom: 8px;\n}\n.voice-status.error[data-v-1c15337c] {\n  color: #dc3545;\n  opacity: 1;\n}\n.fade-enter-active[data-v-1c15337c], .fade-leave-active[data-v-1c15337c] {\n  transition: opacity 0.4s;\n}\n.fade-enter[data-v-1c15337c], .fade-leave-to[data-v-1c15337c] {\n  opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -160013,8 +160601,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.travel-agency-locator[data-v-45afede8] {\n  min-height: 100vh;\n  background-color: #f8f9fa;\n}\nheader[data-v-45afede8] {\n  background: linear-gradient(135deg, #0d6efd 0%, #198754 100%);\n  border-radius: 0 0 10px 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.search-card[data-v-45afede8], .results-card[data-v-45afede8] {\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\n  border: none;\n  border-radius: 8px;\n}\n.map-container[data-v-45afede8] {\n  height: 100%;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\n  border: none;\n  border-radius: 8px;\n}\n.map[data-v-45afede8] {\n  height: 70vh;\n  width: 100%;\n  border-radius: 8px;\n  z-index: 1;\n}\n.map-loading-overlay[data-v-45afede8], .no-results-overlay[data-v-45afede8] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgba(255, 255, 255, 0.7);\n  z-index: 2;\n  border-radius: 8px;\n}\n.result-list[data-v-45afede8] {\n  max-height: 60vh;\n  overflow-y: auto;\n}\n.result-item[data-v-45afede8] {\n  cursor: pointer;\n  transition: all 0.2s;\n  border-left: 3px solid transparent;\n}\n.result-item[data-v-45afede8]:hover {\n  background-color: #f1f1f1;\n  border-left: 3px solid #0d6efd;\n}\n.result-item.active[data-v-45afede8] {\n  background-color: #e7f1ff;\n  border-left: 3px solid #0d6efd;\n}\n.result-item.islamic-agency[data-v-45afede8] {\n  border-left: 3px solid #198754;\n}\n.result-item.islamic-agency[data-v-45afede8]:hover {\n  background-color: #e8f7f0;\n}\n.result-item.islamic-agency.active[data-v-45afede8] {\n  background-color: #d1f0e0;\n}\n.custom-marker[data-v-45afede8] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 18px;\n  background-color: white;\n  border-radius: 50%;\n  padding: 5px;\n  box-shadow: 0 2px 5px rgba(0,0,0,0.2);\n}\n.regular-marker[data-v-45afede8] {\n  color: #0d6efd;\n  border: 2px solid #0d6efd;\n}\n.islamic-marker[data-v-45afede8] {\n  color: #198754;\n  border: 2px solid #198754;\n}\n.map-popup[data-v-45afede8] {\n  min-width: 200px;\n}\n.popup-title[data-v-45afede8] {\n  font-weight: bold;\n  margin-bottom: 5px;\n  color: #0d6efd;\n}\n.popup-address[data-v-45afede8] {\n  font-size: 0.9em;\n  margin-bottom: 5px;\n}\n.popup-phone[data-v-45afede8] {\n  font-size: 0.9em;\n  margin-bottom: 5px;\n}\n@media (max-width: 768px) {\n.map[data-v-45afede8] {\n    height: 50vh;\n}\n.result-list[data-v-45afede8] {\n    max-height: 40vh;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-45afede8] {\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.card[data-v-45afede8]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.services[data-v-45afede8] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.badge[data-v-45afede8] {\n  font-size: 0.8rem;\n  padding: 0.35em 0.65em;\n}\nbody[data-v-45afede8] {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card[data-v-45afede8] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.form-control[data-v-45afede8],\n.form-range[data-v-45afede8] {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary[data-v-45afede8] {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary[data-v-45afede8]:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary[data-v-45afede8] {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary[data-v-45afede8]:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill[data-v-45afede8] {\n  color: #f39c12;\n}\n.bi-star[data-v-45afede8] {\n  color: #ddd;\n}\n.badge[data-v-45afede8] {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success[data-v-45afede8] {\n  background-color: #27ae60 !important;\n}\n.services[data-v-45afede8] {\n  min-height: 2.5rem;\n}\n.spinner-border[data-v-45afede8] {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n.pagination[data-v-45afede8] {\n  margin-bottom: 0;\n}\n.page-link[data-v-45afede8] {\n  cursor: pointer;\n}\n@media (max-width: 768px) {\n.card-header[data-v-45afede8] {\n    flex-direction: column;\n    text-align: center;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -165178,6 +165767,559 @@ function stubFalse() {
 }
 
 module.exports = isEqual;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_Symbol.js":
+/*!****************************************!*\
+  !*** ./node_modules/lodash/_Symbol.js ***!
+  \****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseGetTag.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_baseGetTag.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Symbol = __webpack_require__(/*! ./_Symbol */ "./node_modules/lodash/_Symbol.js"),
+    getRawTag = __webpack_require__(/*! ./_getRawTag */ "./node_modules/lodash/_getRawTag.js"),
+    objectToString = __webpack_require__(/*! ./_objectToString */ "./node_modules/lodash/_objectToString.js");
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_baseTrim.js":
+/*!******************************************!*\
+  !*** ./node_modules/lodash/_baseTrim.js ***!
+  \******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var trimmedEndIndex = __webpack_require__(/*! ./_trimmedEndIndex */ "./node_modules/lodash/_trimmedEndIndex.js");
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+module.exports = baseTrim;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_freeGlobal.js":
+/*!********************************************!*\
+  !*** ./node_modules/lodash/_freeGlobal.js ***!
+  \********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof __webpack_require__.g == 'object' && __webpack_require__.g && __webpack_require__.g.Object === Object && __webpack_require__.g;
+
+module.exports = freeGlobal;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_getRawTag.js":
+/*!*******************************************!*\
+  !*** ./node_modules/lodash/_getRawTag.js ***!
+  \*******************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var Symbol = __webpack_require__(/*! ./_Symbol */ "./node_modules/lodash/_Symbol.js");
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+module.exports = getRawTag;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_objectToString.js":
+/*!************************************************!*\
+  !*** ./node_modules/lodash/_objectToString.js ***!
+  \************************************************/
+/***/ ((module) => {
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+module.exports = objectToString;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_root.js":
+/*!**************************************!*\
+  !*** ./node_modules/lodash/_root.js ***!
+  \**************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var freeGlobal = __webpack_require__(/*! ./_freeGlobal */ "./node_modules/lodash/_freeGlobal.js");
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/_trimmedEndIndex.js":
+/*!*************************************************!*\
+  !*** ./node_modules/lodash/_trimmedEndIndex.js ***!
+  \*************************************************/
+/***/ ((module) => {
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+module.exports = trimmedEndIndex;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/debounce.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/debounce.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js"),
+    now = __webpack_require__(/*! ./now */ "./node_modules/lodash/now.js"),
+    toNumber = __webpack_require__(/*! ./toNumber */ "./node_modules/lodash/toNumber.js");
+
+/** Error message constants. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        timeWaiting = wait - timeSinceLastCall;
+
+    return maxing
+      ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke)
+      : timeWaiting;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        clearTimeout(timerId);
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isObject.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/isObject.js ***!
+  \*****************************************/
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isObjectLike.js":
+/*!*********************************************!*\
+  !*** ./node_modules/lodash/isObjectLike.js ***!
+  \*********************************************/
+/***/ ((module) => {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/isSymbol.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/isSymbol.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseGetTag = __webpack_require__(/*! ./_baseGetTag */ "./node_modules/lodash/_baseGetTag.js"),
+    isObjectLike = __webpack_require__(/*! ./isObjectLike */ "./node_modules/lodash/isObjectLike.js");
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && baseGetTag(value) == symbolTag);
+}
+
+module.exports = isSymbol;
 
 
 /***/ }),
@@ -182390,6 +183532,113 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
   // Check for `exports` after `define` in case a build optimizer adds it.
   else {}
 }.call(this));
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/now.js":
+/*!************************************!*\
+  !*** ./node_modules/lodash/now.js ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var root = __webpack_require__(/*! ./_root */ "./node_modules/lodash/_root.js");
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+module.exports = now;
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash/toNumber.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lodash/toNumber.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var baseTrim = __webpack_require__(/*! ./_baseTrim */ "./node_modules/lodash/_baseTrim.js"),
+    isObject = __webpack_require__(/*! ./isObject */ "./node_modules/lodash/isObject.js"),
+    isSymbol = __webpack_require__(/*! ./isSymbol */ "./node_modules/lodash/isSymbol.js");
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = baseTrim(value);
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
 
 
 /***/ }),
