@@ -62,7 +62,7 @@
               </div>
 
               <div v-if="showTranslation" class="mt-3 ">
-                <strong style="font-size: 1.4rem;">Meaning:</strong>
+                <strong style="font-size: 1.6rem;">Meaning:</strong>
                 <p class="small text-muted" style="font-size: 1.4rem;">{{ name.translation }}</p>
               </div>
 
@@ -900,8 +900,8 @@ export default {
 
 <style scoped>
 .custom-success:checked {
-  background-color: grey !important; /* Bootstrap bg-success */
-  border-color: grey !important;
+  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */
+  border-color: rgb(10, 150, 120) !important;
 }
 html {
   scroll-behavior: smooth;

@@ -140,9 +140,9 @@ body{
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/mosque">Mosque Locator</a></li>
                             <li><a class="dropdown-item" href="/shop">Halal Butchers</a></li>
-                            <li><a class="dropdown-item" href="/shop">Halal Restaurants</a></li>
-                            <li><a class="dropdown-item" href="/date">Hajj & Umrar Travel Agencies</a></li>
-                            <li><a class="dropdown-item" href="/calendar">Current Islamic Events</a></li>
+                            <!-- <li><a class="dropdown-item" href="/shop">Halal Restaurants</a></li> -->
+                            <!-- <li><a class="dropdown-item" href="/date">Hajj & Umrar Travel Agencies</a></li> -->
+                            <!-- <li><a class="dropdown-item" href="/calendar">Current Islamic Events</a></li> -->
                         </ul>
                     </li>
 

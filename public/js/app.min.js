@@ -37648,8 +37648,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_defineProperty(_defineProperty(_defineProperty({
   name: 'SeerahTimeline',
   data: function data() {
-    var _ref;
-    return _ref = {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
       isOffcanvasOpen: true,
       fontSettings: {
         backgroundColor: "#ffffff",
@@ -37659,19 +37658,20 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         textDecoration: "none",
         fontFamily: "Arial, sans-serif"
       },
-      ttsSettings: {
-        speed: 1,
-        voice: null
-      },
-      availableVoices: [],
-      speechSynthesis: null,
-      utterance: null,
-      ttsState: 'stopped',
       events: [],
       showSuccess: false,
       currentIndex: 0,
-      selectedVoice: null
-    }, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "ttsState", 'stopped'), "utterance", null), "synth", window.speechSynthesis), "copySuccess", false), "searchTerm", ''), "isPlaying", false), "textToRead", ''), "speechInstance", null), "currentIndex", 0), "events", []), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_ref, "originalEvents", []), "fontSize", 18), "tempFontSize", 18), "scrollDirection", 'up'), "speech", null), "searchQuery", ''), "currentEvent", null);
+      selectedVoice: null,
+      ttsState: 'stopped',
+      // 'playing' | 'paused' | 'stopped'
+      utterance: null,
+      synth: window.speechSynthesis,
+      copySuccess: false,
+      searchTerm: '',
+      isPlaying: false,
+      textToRead: '',
+      speechInstance: null
+    }, "currentIndex", 0), "events", []), "originalEvents", []), "fontSize", 18), "tempFontSize", 18), "scrollDirection", 'up'), "speech", null), "searchQuery", ''), "currentEvent", null);
   },
   computed: {
     offcanvasStyle: function offcanvasStyle() {
@@ -37683,9 +37683,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   },
   mounted: function mounted() {
     var _this$events$this$cur;
-    this.speechSynthesis = window.speechSynthesis;
-    this.loadVoices();
-    window.speechSynthesis.onvoiceschanged = this.loadVoices;
     var saved = localStorage.getItem("userFontSettings");
     if (saved) {
       this.fontSettings = JSON.parse(saved);
@@ -37740,56 +37737,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     return Math.ceil(wordCount / wordsPerMinute);
   }
 }), "methods", (_methods = {
-  loadVoices: function loadVoices() {
-    this.availableVoices = this.speechSynthesis.getVoices();
-    if (this.availableVoices.length > 0 && !this.ttsSettings.voice) {
-      this.ttsSettings.voice = this.availableVoices[0].name;
-    }
-  },
-  handleTTS: function handleTTS() {
-    var _this = this;
-    if (this.ttsState === 'playing') {
-      this.speechSynthesis.pause();
-      this.ttsState = 'paused';
-    } else {
-      if (this.ttsState === 'paused') {
-        this.speechSynthesis.resume();
-      } else {
-        this.utterance = new SpeechSynthesisUtterance(this.events[this.currentIndex].description);
-        var selectedVoice = this.availableVoices.find(function (voice) {
-          return voice.name === _this.ttsSettings.voice;
-        });
-        if (selectedVoice) {
-          this.utterance.voice = selectedVoice;
-        }
-        this.utterance.rate = parseFloat(this.ttsSettings.speed);
-        this.speechSynthesis.speak(this.utterance);
-      }
-      this.ttsState = 'playing';
-    }
-  },
-  updateTTSSpeed: function updateTTSSpeed() {
-    if (this.utterance) {
-      this.speechSynthesis.cancel();
-      this.utterance.rate = parseFloat(this.ttsSettings.speed);
-      this.speechSynthesis.speak(this.utterance);
-      this.ttsState = 'playing';
-    }
-  },
-  updateTTSVoice: function updateTTSVoice() {
-    var _this2 = this;
-    if (this.utterance) {
-      this.speechSynthesis.cancel();
-      var selectedVoice = this.availableVoices.find(function (voice) {
-        return voice.name === _this2.ttsSettings.voice;
-      });
-      if (selectedVoice) {
-        this.utterance.voice = selectedVoice;
-      }
-      this.speechSynthesis.speak(this.utterance);
-      this.ttsState = 'playing';
-    }
-  },
   prev: function prev() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
@@ -37809,13 +37756,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   saveSettings: function saveSettings() {
-    var _this3 = this;
+    var _this = this;
     localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
     this.showSuccess = true;
 
     // Hide alert & close offcanvas after 3s
     setTimeout(function () {
-      _this3.showSuccess = false;
+      _this.showSuccess = false;
 
       // Bootstrap Offcanvas API
       var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById("settingsOffcanvas"));
@@ -37833,74 +37780,82 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       speechSynthesis.cancel(); // Stop speech immediately
       this.ttsState = 'stopped'; // Update the TTS state
     }
-  }
-}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "loadVoices", function loadVoices() {
-  var voices = speechSynthesis.getVoices();
-  if (voices.length) {
-    this.selectedVoice = voices.find(function (voice) {
-      return voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'));
-    }) || voices.find(function (voice) {
-      return voice.lang === 'en-US';
-    });
-  }
-}), "handleTTS", function handleTTS() {
-  var _this$events$this$cur3,
-    _this4 = this;
-  if (!this.selectedVoice) {
-    this.loadVoices();
-    return;
-  }
-  var description = this.stripHtml(this.highlightedDescription);
-  var title = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.title) || '';
-  var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
-  if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
-    // Start or Resume
-    if (this.ttsState === 'paused') {
-      speechSynthesis.resume();
-    } else {
-      this.utterance = new SpeechSynthesisUtterance(ttsText);
-      this.utterance.voice = this.selectedVoice;
-      this.utterance.rate = 1;
-      this.utterance.pitch = 1;
-      this.utterance.onend = function () {
-        _this4.ttsState = 'stopped'; // When finished
-      };
-      speechSynthesis.speak(this.utterance);
+  },
+  loadVoices: function loadVoices() {
+    var voices = speechSynthesis.getVoices();
+    if (voices.length) {
+      this.selectedVoice = voices.find(function (voice) {
+        return voice.lang === 'en-US' && (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'));
+      }) || voices.find(function (voice) {
+        return voice.lang === 'en-US';
+      });
     }
-    this.ttsState = 'playing';
-  } else if (this.ttsState === 'playing') {
-    // Pause
-    speechSynthesis.pause();
-    this.ttsState = 'paused';
-  }
-}), "stopTTS", function stopTTS() {
-  if (speechSynthesis.speaking || speechSynthesis.stop) {
-    speechSynthesis.cancel(); // Stop speaking or pause immediately
-    this.ttsState = 'stopped'; // Reset the state to stopped
-  }
-}), "selectEvent", function selectEvent(index) {
-  this.currentIndex = index;
-  if (speechSynthesis.speaking || speechSynthesis.paused) {
-    speechSynthesis.cancel(); // Cancel speaking immediately
-    this.ttsState = 'stopped';
-  }
-  this.scrollToEvent(index); // Optional if you want scroll effect
-}), "countWords", function countWords(text) {
-  if (!text) return 0;
-  return text.split(/\s+/).filter(Boolean).length;
-}), "filterEvents", function filterEvents() {
-  var query = this.searchQuery.trim().toLowerCase();
-  if (!query) {
-    this.events = this.originalEvents;
+  },
+  // Handle TTS play, pause, and resume
+  handleTTS: function handleTTS() {
+    var _this$events$this$cur3,
+      _this2 = this;
+    if (!this.selectedVoice) {
+      this.loadVoices();
+      return;
+    }
+    var description = this.stripHtml(this.highlightedDescription);
+    var title = ((_this$events$this$cur3 = this.events[this.currentIndex]) === null || _this$events$this$cur3 === void 0 ? void 0 : _this$events$this$cur3.title) || '';
+    var ttsText = "".concat(title, ". Read time ").concat(this.readTime, " minutes. Listen time ").concat(this.listenTime, " minutes. Word count ").concat(this.wordCount, ". ").concat(description);
+    if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
+      // Start or Resume
+      if (this.ttsState === 'paused') {
+        speechSynthesis.resume();
+      } else {
+        this.utterance = new SpeechSynthesisUtterance(ttsText);
+        this.utterance.voice = this.selectedVoice;
+        this.utterance.rate = 1;
+        this.utterance.pitch = 1;
+        this.utterance.onend = function () {
+          _this2.ttsState = 'stopped'; // When finished
+        };
+        speechSynthesis.speak(this.utterance);
+      }
+      this.ttsState = 'playing';
+    } else if (this.ttsState === 'playing') {
+      // Pause
+      speechSynthesis.pause();
+      this.ttsState = 'paused';
+    }
+  },
+  // Stop TTS immediately
+  stopTTS: function stopTTS() {
+    if (speechSynthesis.speaking || speechSynthesis.stop) {
+      speechSynthesis.cancel(); // Stop speaking or pause immediately
+      this.ttsState = 'stopped'; // Reset the state to stopped
+    }
+  },
+  selectEvent: function selectEvent(index) {
+    this.currentIndex = index;
+    if (speechSynthesis.speaking || speechSynthesis.paused) {
+      speechSynthesis.cancel(); // Cancel speaking immediately
+      this.ttsState = 'stopped';
+    }
+    this.scrollToEvent(index); // Optional if you want scroll effect
+  },
+  countWords: function countWords(text) {
+    if (!text) return 0;
+    return text.split(/\s+/).filter(Boolean).length;
+  },
+  filterEvents: function filterEvents() {
+    var query = this.searchQuery.trim().toLowerCase();
+    if (!query) {
+      this.events = this.originalEvents;
+      this.currentIndex = 0;
+      return;
+    }
+    var filtered = this.originalEvents.filter(function (e) {
+      return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
+    });
+    this.events = filtered;
     this.currentIndex = 0;
-    return;
   }
-  var filtered = this.originalEvents.filter(function (e) {
-    return e.title.toLowerCase().includes(query) || e.description.toLowerCase().includes(query) || e.year.toLowerCase().includes(query);
-  });
-  this.events = filtered;
-  this.currentIndex = 0;
-}), "selectEvent", function selectEvent(index) {
+}, _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "selectEvent", function selectEvent(index) {
   if (speechSynthesis.speaking || speechSynthesis.paused) {
     speechSynthesis.cancel(); // Immediately cancel any speaking
     if (this.utterance) {
@@ -37919,11 +37874,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     });
   }
 }), "scrollToBadge", function scrollToBadge() {
-  var _this5 = this;
+  var _this3 = this;
   this.$nextTick(function () {
-    var badges = _this5.$el.querySelectorAll('.timeline-badge');
-    if (badges[_this5.currentIndex]) {
-      badges[_this5.currentIndex].scrollIntoView({
+    var badges = _this3.$el.querySelectorAll('.timeline-badge');
+    if (badges[_this3.currentIndex]) {
+      badges[_this3.currentIndex].scrollIntoView({
         behavior: 'smooth',
         inline: 'center'
       });
@@ -37931,7 +37886,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   });
 }), "handleKey", function handleKey(e) {
   if (e.key === 'ArrowRight') this.next();else if (e.key === 'ArrowLeft') this.prev();
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "toggleScroll", function toggleScroll() {
+}), "toggleScroll", function toggleScroll() {
   if (this.scrollDirection === 'up') {
     window.scrollTo({
       top: 0,
@@ -37950,11 +37905,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 }), "decreaseFontSize", function decreaseFontSize() {
   if (this.tempFontSize > 1) this.tempFontSize -= 1;
 }), "submitFontSize", function submitFontSize() {
-  var _this6 = this;
+  var _this4 = this;
   this.fontSize = this.tempFontSize;
   this.showSuccess = true;
   setTimeout(function () {
-    _this6.showSuccess = false;
+    _this4.showSuccess = false;
   }, 2000);
 }), "togglePlayStop", function togglePlayStop() {
   if (this.isPlaying) {
@@ -37964,7 +37919,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   }
   this.isPlaying = !this.isPlaying;
 }), "startTTS", function startTTS() {
-  var _this7 = this;
+  var _this5 = this;
   if ('speechSynthesis' in window) {
     // Ensure there is no previous speech in progress
     if (this.speechInstance) {
@@ -37975,12 +37930,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
     // Event listener for when speech ends
     this.speechInstance.onend = function () {
-      _this7.isPlaying = false; // Reset state when speech ends
+      _this5.isPlaying = false; // Reset state when speech ends
     };
   } else {
     console.error('TTS not supported in this browser.');
   }
-}), "stopTTS", function stopTTS() {
+}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stopTTS", function stopTTS() {
   window.speechSynthesis.cancel(); // Stop the speech synthesis
   this.isPlaying = false; // Reset state
 }), "stripHtml", function stripHtml(html) {
@@ -38001,19 +37956,19 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   });
   this.stopTTS();
   this.currentIndex--;
-}), _defineProperty(_defineProperty(_defineProperty(_defineProperty(_methods, "stripHtmlTags", function stripHtmlTags(html) {
+}), "stripHtmlTags", function stripHtmlTags(html) {
   var div = document.createElement('div');
   div.innerHTML = html;
   return div.textContent || div.innerText || '';
 }), "copyToClipboard", function copyToClipboard() {
   var _this$events$this$cur4,
-    _this8 = this;
+    _this6 = this;
   var rawHtml = ((_this$events$this$cur4 = this.events[this.currentIndex]) === null || _this$events$this$cur4 === void 0 ? void 0 : _this$events$this$cur4.description) || '';
   var plainText = this.stripHtmlTags(rawHtml);
   navigator.clipboard.writeText(plainText).then(function () {
-    _this8.copySuccess = true;
+    _this6.copySuccess = true;
     setTimeout(function () {
-      _this8.copySuccess = false;
+      _this6.copySuccess = false;
     }, 2000);
   });
 }), "stripHTML", function stripHTML(text) {
@@ -41052,18 +41007,68 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      searchQuery: "",
+      searchQuery: '',
       currentPage: 1,
       itemsPerPage: 12,
       stations: [],
       filteredStations: [],
-      currentAudio: null
+      currentAudio: null,
+      volume: 50,
+      likedStations: [],
+      recentlyPlayed: [],
+      showLiked: false,
+      showRecentlyPlayed: false,
+      currentTimes: {},
+      durations: {},
+      playingStates: {},
+      popularReciters: [{
+        id: 1,
+        name: 'Mishary Rashid Alafasy',
+        url: 'https://example.com/alafasy.mp3'
+      }, {
+        id: 2,
+        name: 'Abdul Rahman Al-Sudais',
+        url: 'https://example.com/sudais.mp3'
+      }, {
+        id: 3,
+        name: 'Saad Al-Ghamdi',
+        url: 'https://example.com/ghamdi.mp3'
+      }, {
+        id: 4,
+        name: 'Maher Al-Muaiqly',
+        url: 'https://example.com/muaiqly.mp3'
+      }, {
+        id: 5,
+        name: 'Yasser Al-Dosari',
+        url: 'https://example.com/dosari.mp3'
+      }, {
+        id: 6,
+        name: 'Abdul Basit Abdul Samad',
+        url: 'https://example.com/basit.mp3'
+      }, {
+        id: 7,
+        name: 'Hani Ar-Rifai',
+        url: 'https://example.com/rifai.mp3'
+      }, {
+        id: 8,
+        name: 'Saud Al-Shuraim',
+        url: 'https://example.com/shuraim.mp3'
+      }, {
+        id: 9,
+        name: 'Fares Abbad',
+        url: 'https://example.com/abbad.mp3'
+      }]
     };
   },
   computed: {
@@ -41085,7 +41090,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return fetch("https://mp3quran.net/api/v3/radios?language=eng");
+              return fetch('https://mp3quran.net/api/v3/radios?language=eng');
             case 3:
               response = _context.sent;
               _context.next = 6;
@@ -41100,21 +41105,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 };
               });
               _this.filteredStations = _this.stations;
-              _context.next = 14;
+              _this.loadLikedStations();
+              _this.loadRecentlyPlayed();
+              _this.loadVolume();
+              _context.next = 17;
               break;
-            case 11:
-              _context.prev = 11;
-              _context.t0 = _context["catch"](0);
-              console.error("Failed to fetch stations:", _context.t0);
             case 14:
+              _context.prev = 14;
+              _context.t0 = _context["catch"](0);
+              console.error('Failed to fetch stations:', _context.t0);
+            case 17:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 11]]);
+        }, _callee, null, [[0, 14]]);
       }))();
     },
     handleSearch: function handleSearch() {
-      var query = this.searchQuery.toLowerCase();
+      var query = this.searchQuery.toLowerCase().trim();
       this.filteredStations = this.stations.filter(function (station) {
         return station.name.toLowerCase().includes(query);
       });
@@ -41122,27 +41130,199 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     highlightSearch: function highlightSearch(name) {
       if (!this.searchQuery) return name;
-      var regex = new RegExp("(".concat(this.searchQuery, ")"), "gi");
-      return name.replace(regex, "<mark>$1</mark>");
+      var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
+      return name.replace(regex, '<mark>$1</mark>');
     },
     handlePlay: function handlePlay(id, event) {
-      var allAudios = this.$refs.audioPlayer;
+      var _this2 = this;
+      var allAudios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
       var current = event.target;
-      if (Array.isArray(allAudios)) {
-        allAudios.forEach(function (audio) {
-          if (audio !== current) audio.pause();
-        });
-      }
+      allAudios.forEach(function (audio) {
+        if (audio !== current) {
+          var _this2$stations$find;
+          audio.pause();
+          var stationId = (_this2$stations$find = _this2.stations.find(function (s) {
+            return s.url === audio.src;
+          })) === null || _this2$stations$find === void 0 ? void 0 : _this2$stations$find.id;
+          if (stationId) _this2.playingStates[stationId] = false;
+        }
+      });
       this.currentAudio = current;
+      this.playingStates[id] = true;
+      this.addToRecentlyPlayed(id);
+      this.setVolume({
+        target: {
+          value: this.volume
+        }
+      }, id);
     },
     handlePause: function handlePause() {
-      this.currentAudio = null;
+      var _this3 = this;
+      if (this.currentAudio) {
+        var _this$stations$find;
+        var id = (_this$stations$find = this.stations.find(function (s) {
+          return s.url === _this3.currentAudio.src;
+        })) === null || _this$stations$find === void 0 ? void 0 : _this$stations$find.id;
+        if (id) this.playingStates[id] = false;
+        this.currentAudio = null;
+      }
+    },
+    togglePlay: function togglePlay(id) {
+      var audio = this.getAudioForStation(id);
+      if (audio) {
+        if (this.isPlaying(id)) {
+          audio.pause();
+        } else {
+          audio.play()["catch"](function (error) {
+            return console.error('Playback failed:', error);
+          });
+        }
+      }
+    },
+    isPlaying: function isPlaying(id) {
+      return !!this.playingStates[id];
+    },
+    isLive: function isLive(id) {
+      return isNaN(this.durations[id]) || this.durations[id] === Infinity;
+    },
+    updateTime: function updateTime(id) {
+      var audio = this.getAudioForStation(id);
+      if (audio && this.isPlaying(id)) {
+        this.currentTimes = _objectSpread(_objectSpread({}, this.currentTimes), {}, _defineProperty({}, id, audio.currentTime));
+      }
+    },
+    updateDuration: function updateDuration(id) {
+      var audio = this.getAudioForStation(id);
+      if (audio) {
+        this.durations = _objectSpread(_objectSpread({}, this.durations), {}, _defineProperty({}, id, audio.duration || Infinity));
+      }
+    },
+    seek: function seek(event, id) {
+      var audio = this.getAudioForStation(id);
+      if (audio && !this.isLive(id)) {
+        var value = parseFloat(event.target.value);
+        audio.currentTime = value;
+        this.currentTimes = _objectSpread(_objectSpread({}, this.currentTimes), {}, _defineProperty({}, id, value));
+      }
+    },
+    formatTime: function formatTime(seconds) {
+      if (isNaN(seconds) || seconds === Infinity) return 'Live';
+      var minutes = Math.floor(seconds / 60);
+      var secs = Math.floor(seconds % 60);
+      return "".concat(minutes, ":").concat(secs < 10 ? '0' : '').concat(secs);
+    },
+    setVolume: function setVolume(event, id) {
+      var volume = event.target.value / 100;
+      var audio = this.getAudioForStation(id);
+      if (audio) audio.volume = volume;
+      this.volume = event.target.value;
+      localStorage.setItem('playerVolume', this.volume);
+    },
+    toggleMute: function toggleMute(id) {
+      this.volume = this.volume === 0 ? 50 : 0;
+      var audio = this.getAudioForStation(id);
+      if (audio) audio.volume = this.volume / 100;
+      localStorage.setItem('playerVolume', this.volume);
+    },
+    loadVolume: function loadVolume() {
+      var _this4 = this;
+      var savedVolume = localStorage.getItem('playerVolume');
+      if (savedVolume) {
+        this.volume = parseFloat(savedVolume);
+        var audios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
+        audios.forEach(function (audio) {
+          audio.volume = _this4.volume / 100;
+        });
+      }
+    },
+    toggleLike: function toggleLike(station) {
+      var index = this.likedStations.findIndex(function (s) {
+        return s.id === station.id;
+      });
+      if (index === -1) {
+        this.likedStations.push(station);
+      } else {
+        this.likedStations.splice(index, 1);
+      }
+      localStorage.setItem('likedStations', JSON.stringify(this.likedStations));
+    },
+    isLiked: function isLiked(id) {
+      return this.likedStations.some(function (s) {
+        return s.id === id;
+      });
+    },
+    loadLikedStations: function loadLikedStations() {
+      var _this5 = this;
+      var liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
+      this.likedStations = liked.filter(function (s) {
+        return _this5.stations.some(function (station) {
+          return station.id === s.id;
+        });
+      });
+    },
+    addToRecentlyPlayed: function addToRecentlyPlayed(id) {
+      var station = this.stations.find(function (s) {
+        return s.id === id;
+      });
+      if (!station) return;
+      this.recentlyPlayed = this.recentlyPlayed.filter(function (s) {
+        return s.id !== id;
+      });
+      this.recentlyPlayed.unshift(_objectSpread(_objectSpread({}, station), {}, {
+        lastPlayed: new Date().toISOString()
+      }));
+      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
+      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
+    },
+    loadRecentlyPlayed: function loadRecentlyPlayed() {
+      var _this6 = this;
+      var recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
+      this.recentlyPlayed = recent.filter(function (s) {
+        return _this6.stations.some(function (station) {
+          return station.id === s.id;
+        });
+      });
+    },
+    formatDate: function formatDate(isoString) {
+      var date = new Date(isoString);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    },
+    playStation: function playStation(url) {
+      var station = this.stations.find(function (s) {
+        return s.url === url;
+      });
+      if (station) {
+        var audio = this.getAudioForStation(station.id);
+        if (audio) {
+          audio.play()["catch"](function (error) {
+            return console.error('Playback failed:', error);
+          });
+          this.handlePlay(station.id, {
+            target: audio
+          });
+        }
+      }
     },
     nextPage: function nextPage() {
       if (this.currentPage < this.totalPages) this.currentPage++;
     },
     previousPage: function previousPage() {
       if (this.currentPage > 1) this.currentPage--;
+    },
+    getAudioForStation: function getAudioForStation(id) {
+      var station = this.stations.find(function (s) {
+        return s.id === id;
+      });
+      if (!station) return null;
+      var audios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
+      return audios.find(function (a) {
+        return a.src === station.url;
+      }) || null;
     }
   },
   mounted: function mounted() {
@@ -41167,36 +41347,45 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HalalFoodLocator',
   data: function data() {
-    return {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty({
+      searchRadius: 2000,
+      // Default 2km radius
+      maxRadius: 10000,
       domElementsLoaded: false,
       searchQuery: '',
       activeType: 'all',
       loading: false,
       shops: [],
-      currentLocation: null,
-      searchRadius: 5000,
-      debounceTimeout: null,
-      foodTypes: [{
-        value: 'all',
-        label: 'All',
-        icon: 'bi bi-shop'
-      }, {
-        value: 'food',
-        label: 'Restaurants',
-        icon: 'bi bi-egg-fried'
-      }, {
-        value: 'supermarket',
-        label: 'Grocery',
-        icon: 'bi bi-basket'
-      }, {
-        value: 'butcher',
-        label: 'Butchers',
-        icon: 'bi bi-droplet'
-      }]
-    };
+      searchHistory: [],
+      currentLocation: null
+    }, "searchRadius", 5000), "debounceTimeout", null), "filters", {
+      verifiedOnly: false,
+      minRating: 0,
+      openNow: false,
+      paymentMethods: []
+    }), "foodTypes", [{
+      value: 'all',
+      label: 'All',
+      icon: 'bi bi-shop'
+    }, {
+      value: 'food',
+      label: 'Restaurants',
+      icon: 'bi bi-egg-fried'
+    }, {
+      value: 'supermarket',
+      label: 'Grocery',
+      icon: 'bi bi-basket'
+    }, {
+      value: 'butcher',
+      label: 'Butchers',
+      icon: 'bi bi-droplet'
+    }]);
   },
   mounted: function mounted() {
     var _this = this;
@@ -41216,7 +41405,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return results;
     }
   },
-  methods: {
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
     safeFocusInput: function safeFocusInput() {
       var _this3 = this;
       this.$nextTick(function () {
@@ -41243,76 +41432,124 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     searchLocation: function searchLocation() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var query, headers, geocodeRes, data, location;
+        var query, cachedSearch, headers, geocodeRes, data, feature, location;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               query = _this5.searchQuery.trim();
               if (query) {
-                _context.next = 3;
+                _context.next = 4;
                 break;
               }
+              _this5.error = 'Please enter a location';
               return _context.abrupt("return");
-            case 3:
-              _this5.loading = true;
-              _this5.shops = [];
-              _context.prev = 5;
-              headers = new Headers({
-                'User-Agent': 'HalalFoodLocator/1.0'
+            case 4:
+              // Check if this search was recently performed
+              cachedSearch = _this5.searchHistory.find(function (s) {
+                return s.query === query;
               });
+              if (!cachedSearch) {
+                _context.next = 10;
+                break;
+              }
+              _this5.currentLocation = cachedSearch.location;
               _context.next = 9;
-              return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1"), {
+              return _this5.fetchNearbyShops();
+            case 9:
+              return _context.abrupt("return");
+            case 10:
+              _this5.loading = true;
+              _this5.error = null;
+              _this5.shops = [];
+              _context.prev = 13;
+              headers = new Headers({
+                'User-Agent': 'HalalFoodLocator/2.0',
+                'Accept-Language': 'en-US,en;q=0.9'
+              }); // First try with Nominatim
+              _context.next = 17;
+              return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1&addressdetails=1"), {
                 headers: headers
               });
-            case 9:
+            case 17:
               geocodeRes = _context.sent;
               if (geocodeRes.ok) {
-                _context.next = 12;
+                _context.next = 20;
                 break;
               }
-              throw new Error("Location search failed");
-            case 12:
-              _context.next = 14;
+              throw new Error("Location search service unavailable");
+            case 20:
+              _context.next = 22;
               return geocodeRes.json();
-            case 14:
+            case 22:
               data = _context.sent;
               if (data.length) {
-                _context.next = 17;
+                _context.next = 36;
+                break;
+              }
+              _context.next = 26;
+              return fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/".concat(encodeURIComponent(query), ".json?access_token=").concat(MAPBOX_TOKEN, "&limit=1"));
+            case 26:
+              geocodeRes = _context.sent;
+              _context.next = 29;
+              return geocodeRes.json();
+            case 29:
+              data = _context.sent;
+              if (data.features.length) {
+                _context.next = 32;
                 break;
               }
               throw new Error("Location not found");
-            case 17:
+            case 32:
+              feature = data.features[0];
+              _this5.currentLocation = {
+                lat: feature.center[1],
+                lon: feature.center[0],
+                display_name: feature.place_name
+              };
+              _context.next = 38;
+              break;
+            case 36:
               location = data[0];
               _this5.currentLocation = {
                 lat: parseFloat(location.lat),
                 lon: parseFloat(location.lon),
-                display_name: location.display_name
+                display_name: location.display_name,
+                address: location.address
               };
-              _context.next = 21;
+            case 38:
+              // Add to search history
+              _this5.searchHistory.unshift({
+                query: query,
+                location: _this5.currentLocation,
+                timestamp: new Date()
+              });
+              if (_this5.searchHistory.length > 5) _this5.searchHistory.pop();
+              _context.next = 42;
               return _this5.fetchNearbyShops();
-            case 21:
-              _context.next = 27;
+            case 42:
+              _context.next = 49;
               break;
-            case 23:
-              _context.prev = 23;
-              _context.t0 = _context["catch"](5);
+            case 44:
+              _context.prev = 44;
+              _context.t0 = _context["catch"](13);
               console.error("Search error:", _context.t0);
-              alert(_context.t0.message || 'Could not find location');
-            case 27:
-              _context.prev = 27;
+              _this5.error = _context.t0.message || 'Could not find location';
+              _this5.shops = [];
+            case 49:
+              _context.prev = 49;
               _this5.loading = false;
-              return _context.finish(27);
-            case 30:
+              return _context.finish(49);
+            case 52:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[5, 23, 27, 30]]);
+        }, _callee, null, [[13, 44, 49, 52]]);
       }))();
     },
     fetchNearbyShops: function fetchNearbyShops() {
       var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _this6$currentLocatio, lat, lon, radius, query, res, json, filteredShops;
+        var _this6$currentLocatio, lat, lon, radius, query, res, json;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
@@ -41324,7 +41561,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               _this6$currentLocatio = _this6.currentLocation, lat = _this6$currentLocatio.lat, lon = _this6$currentLocatio.lon;
               radius = _this6.searchRadius;
-              query = "\n        [out:json][timeout:25];\n        (\n          node[\"shop\"=\"butcher\"][\"diet:halal\"=\"yes\"](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"=\"butcher\"][\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          relation[\"shop\"=\"butcher\"][\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        );\n        out center;\n      ");
+              query = "\n        [out:json][timeout:30];\n        (\n          node[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          relation[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        );\n        out center;\n        >;\n        out skel qt;\n      ");
               _context2.prev = 5;
               _context2.next = 8;
               return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(query)));
@@ -41340,88 +41577,176 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return res.json();
             case 13:
               json = _context2.sent;
-              filteredShops = (json.elements || []).filter(function (item) {
-                var tags = item.tags || {};
-                var name = (tags.name || '').toLowerCase();
-                return tags.shop === 'butcher' && tags['diet:halal'] === 'yes' && name !== 'halal food place' && !name.includes('restaurant') && !name.includes('grocery');
-              });
-              _this6.processShopData(filteredShops);
-              _context2.next = 23;
+              _this6.processShopData(json.elements || []);
+              _context2.next = 22;
               break;
-            case 18:
-              _context2.prev = 18;
+            case 17:
+              _context2.prev = 17;
               _context2.t0 = _context2["catch"](5);
               console.error("Fetch error:", _context2.t0);
-              alert(_context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places');
+              _this6.error = _context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places';
               _this6.shops = [];
-            case 23:
+            case 22:
             case "end":
               return _context2.stop();
           }
-        }, _callee2, null, [[5, 18]]);
+        }, _callee2, null, [[5, 17]]);
       }))();
     },
+    // Enhanced shop processing with more data extraction
     processShopData: function processShopData(elements) {
       var _this7 = this;
       var seen = new Set();
       var shops = [];
       elements.forEach(function (element) {
         try {
-          var _tags$cuisine;
           if (!element.tags || seen.has(element.id)) return;
           var coords = element.lat ? element : element.center || {};
           if (!coords.lat || !coords.lon) return;
-          var type = 'other';
           var tags = element.tags;
-          if (tags.shop === 'halal') type = 'grocery';
-          if (tags.shop === 'butcher') type = 'butcher';else if ((_tags$cuisine = tags.cuisine) !== null && _tags$cuisine !== void 0 && _tags$cuisine.includes('halal')) ;
-          var address = [tags['addr:street'], tags['addr:housenumber'], tags['addr:city']].filter(Boolean).join(' ') || tags['addr:full'] || 'Address not specified';
-          var distance = _this7.calculateDistance(_this7.currentLocation.lat, _this7.currentLocation.lon, coords.lat, coords.lon);
+          var name = tags.name || 'Halal Butcher';
+
+          // Determine shop type more accurately
+          var type = 'butcher';
+          if (tags.shop === 'meat') type = 'meat_shop';
+          if (tags['butcher:type']) type = tags['butcher:type'];
+
+          // Enhanced address extraction
+          var addressParts = [tags['addr:street'], tags['addr:housenumber'], tags['addr:city'], tags['addr:postcode'], tags['addr:country']].filter(Boolean);
+          var address = addressParts.length ? addressParts.join(', ') : tags['addr:full'] || _this7.currentLocation.display_name || 'Address not available';
+
+          // Calculate distance in km
+          var distance = _this7.calculateDistance(_this7.currentLocation.lat, _this7.currentLocation.lon, coords.lat, coords.lon) / 1000;
+
+          // Extract additional useful information
+          var openingHours = _this7.parseOpeningHours(tags.opening_hours);
+          var isOpen = openingHours ? _this7.checkIfOpen(openingHours) : null;
           shops.push({
             id: element.id,
-            name: tags.name || 'Halal Food Place',
+            name: name,
             type: type,
             lat: coords.lat,
             lon: coords.lon,
             address: address,
-            distance: distance,
-            cuisine: tags.cuisine || 'Halal',
+            distance: distance.toFixed(2),
             phone: tags.phone,
+            website: tags.website,
+            opening_hours: tags.opening_hours,
+            isOpen: isOpen,
+            rating: parseFloat(tags['review:score']) || null,
+            certification: tags['certified:halal'] ? 'Certified Halal' : 'Self-reported Halal',
+            payment_methods: tags.payment ? tags.payment.split(';') : [],
+            features: [tags.delivery === 'yes' ? 'delivery' : null, tags.takeaway === 'yes' ? 'takeaway' : null, tags['wheelchair'] === 'yes' ? 'wheelchair_accessible' : null].filter(Boolean),
             tags: tags
           });
           seen.add(element.id);
         } catch (e) {
-          console.warn("Processing error:", e);
+          console.warn("Error processing shop:", element.id, e);
         }
       });
-      this.shops = shops.sort(function (a, b) {
+
+      // Apply filters
+      var filteredShops = shops;
+      if (this.filters.verifiedOnly) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.certification === 'Certified Halal';
+        });
+      }
+      if (this.filters.openNow) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.isOpen === true;
+        });
+      }
+      if (this.filters.minRating > 0) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.rating >= _this7.filters.minRating;
+        });
+      }
+      if (this.filters.paymentMethods.length > 0) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return _this7.filters.paymentMethods.some(function (method) {
+            return shop.payment_methods.includes(method);
+          });
+        });
+      }
+      this.shops = filteredShops.sort(function (a, b) {
         return a.distance - b.distance;
       });
     },
     expandSearchRadius: function expandSearchRadius() {
-      this.searchRadius += 2000;
-      this.fetchNearbyShops();
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var increment;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              increment = 2000;
+              if (!(_this8.searchRadius + increment > _this8.maxRadius)) {
+                _context3.next = 4;
+                break;
+              }
+              _this8.error = "Maximum search radius of ".concat(_this8.maxRadius / 1000, "km reached");
+              return _context3.abrupt("return");
+            case 4:
+              _this8.searchRadius += increment;
+              _this8.error = "Expanding search to ".concat(_this8.searchRadius / 1000, "km radius...");
+              _context3.next = 8;
+              return _this8.fetchNearbyShops();
+            case 8:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }))();
     },
-    openGoogleMaps: function openGoogleMaps(lat, lon) {
+    openMaps: function openMaps(lat, lon) {
+      var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
       if (!lat || !lon) return;
-      window.open("https://www.google.com/maps?q=".concat(lat, ",").concat(lon), '_blank');
+      var baseUrl = 'https://www.google.com/maps';
+      var params = new URLSearchParams({
+        q: "".concat(lat, ",").concat(lon),
+        layer: 'c',
+        cbll: "".concat(lat, ",").concat(lon),
+        cbp: '11'
+      });
+      if (name) params.set('q', "".concat(name, "@").concat(lat, ",").concat(lon));
+      window.open("".concat(baseUrl, "?").concat(params.toString()), '_blank');
     },
     callShop: function callShop(phone) {
-      if (phone) {
-        window.location.href = "tel:".concat(phone);
+      if (!phone) return;
+      if (confirm("Call ".concat(phone, "?"))) {
+        var cleanPhone = phone.replace(/[^\d+]/g, '');
+        window.location.href = "tel:".concat(cleanPhone);
       }
-    },
-    calculateDistance: function calculateDistance(lat1, lon1, lat2, lon2) {
-      var R = 6371e3;
-      var φ1 = lat1 * Math.PI / 180;
-      var φ2 = lat2 * Math.PI / 180;
-      var Δφ = (lat2 - lat1) * Math.PI / 180;
-      var Δλ = (lon2 - lon1) * Math.PI / 180;
-      var a = Math.pow(Math.sin(Δφ / 2), 2) + Math.cos(φ1) * Math.cos(φ2) * Math.pow(Math.sin(Δλ / 2), 2);
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
     }
-  }
+  }, "callShop", function callShop(phone) {
+    if (phone) {
+      window.location.href = "tel:".concat(phone);
+    }
+  }), "calculateDistance", function calculateDistance(lat1, lon1, lat2, lon2) {
+    var R = 6371e3; // Earth radius in meters
+    var φ1 = lat1 * Math.PI / 180;
+    var φ2 = lat2 * Math.PI / 180;
+    var Δφ = (lat2 - lat1) * Math.PI / 180;
+    var Δλ = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.pow(Math.sin(Δφ / 2), 2) + Math.cos(φ1) * Math.cos(φ2) * Math.pow(Math.sin(Δλ / 2), 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }), "parseOpeningHours", function parseOpeningHours(hoursString) {
+    if (!hoursString) return null;
+    // Implement proper opening hours parsing here
+    // (could use a library like opening_hours.js)
+    return hoursString;
+  }), "checkIfOpen", function checkIfOpen(openingHours) {
+    // Implement logic to check current time against opening hours
+    return null;
+  }), "resetSearch", function resetSearch() {
+    this.searchQuery = '';
+    this.searchRadius = 2000;
+    this.currentLocation = null;
+    this.shops = [];
+    this.error = null;
+  })
 });
 
 /***/ }),
@@ -45301,15 +45626,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   data: function data() {
     return {
       searchQuery: "",
-      radius: 5,
-      // Default radius in km
-      selectedServices: [],
-      availableServices: ["Hajj Packages", "Umrah Packages", "Halal Tours", "Visa Services", "Hotel Booking", "Flights"],
       agencies: [],
       loading: false,
       lastSearchLocation: null,
       currentPage: 1,
-      itemsPerPage: 6
+      itemsPerPage: 6,
+      apiConfig: {
+        endpoint: "https://api.yelp.com/v3/businesses/search",
+        apiKey: "eYbvtuOVRssBqdLhZn3WUmSfKDBGmRg7P5kZtO2NP1CK9D0m1GmWCndMJ1YdYX8YsB7w_1eqBb_5AGZFpA6LWljtcPK-yCxDvkXN3vUfCZtFUo9QzDyIKThcKlI0aHYx",
+        fallbackToMock: false
+      }
     };
   },
   computed: {
@@ -45323,20 +45649,50 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var start = (this.currentPage - 1) * this.itemsPerPage;
       var end = start + this.itemsPerPage;
       return this.agencies.slice(start, end);
-    },
-    attributionText: function attributionText() {
-      return "Data \xA9 ".concat(new Date().getFullYear(), " Islamic Travel Agency Finder");
     }
   },
   methods: {
     shareViaWhatsApp: function shareViaWhatsApp(agency) {
-      var message = "Travel Agency: *".concat(agency.name, "*\n\n") + "Address: ".concat(agency.address, "\n") + "Lat & Long: ".concat(agency.lat.toFixed(4), ", ").concat(agency.lon.toFixed(4), "\n") + "Rating: ".concat('★'.repeat(agency.rating)).concat('☆'.repeat(5 - agency.rating), "\n") + "Packages: ".concat(agency.packageCount, "\n") + (agency.opening_hours ? "Opening Hours: ".concat(agency.opening_hours, "\n") : '') + (agency.website ? "Website: ".concat(agency.website, "\n") : '') + "Google Maps: https://www.google.com/maps?q=".concat(agency.lat, ",").concat(agency.lon);
+      var message = "Travel Agency: *".concat(agency.name, "*\n") + "Address: ".concat(agency.address, "\n") + "Coordinates: ".concat(agency.lat.toFixed(4), ", ").concat(agency.lon.toFixed(4), "\n") + "Rating: ".concat('★'.repeat(Math.round(agency.rating))).concat('☆'.repeat(5 - Math.round(agency.rating)), "\n") + "Packages: ".concat(agency.packageCount, "\n") + (agency.opening_hours ? "Opening Hours: ".concat(agency.opening_hours, "\n") : '') + (agency.website && this.isValidUrl(agency.website) ? "Website: ".concat(agency.website, "\n") : '') + "Google Maps: https://www.google.com/maps?q=".concat(agency.lat, ",").concat(agency.lon);
       var encodedMessage = encodeURIComponent(message);
-      window.open("https://wa.me/?text=".concat(encodedMessage), '_blank');
+      try {
+        window.open("https://wa.me/?text=".concat(encodedMessage), '_blank');
+      } catch (error) {
+        console.error("Error opening WhatsApp:", error);
+        alert("Unable to open WhatsApp. Please allow pop-ups or try again.");
+      }
+    },
+    isValidUrl: function isValidUrl(url) {
+      if (!url) return false;
+      try {
+        var parsedUrl = new URL(url);
+        return ['http:', 'https:'].includes(parsedUrl.protocol);
+      } catch (_unused) {
+        return false;
+      }
     },
     openWebsite: function openWebsite(url) {
-      if (url) {
-        window.open(url, '_blank', 'noopener,noreferrer');
+      if (this.isValidUrl(url)) {
+        try {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        } catch (error) {
+          console.error("Error opening website:", error);
+          alert("Unable to open website. Please allow pop-ups or try again.");
+        }
+      } else {
+        alert("No valid website available for this agency.");
+      }
+    },
+    openGoogleMaps: function openGoogleMaps(lat, lon) {
+      if (typeof lat === 'number' && typeof lon === 'number' && !isNaN(lat) && !isNaN(lon)) {
+        try {
+          window.open("https://www.google.com/maps?q=".concat(lat, ",").concat(lon), '_blank', 'noopener,noreferrer');
+        } catch (error) {
+          console.error("Error opening Google Maps:", error);
+          alert("Unable to open Google Maps. Please allow pop-ups or try again.");
+        }
+      } else {
+        alert("Invalid coordinates for this agency.");
       }
     },
     debounceSearch: lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default()(function () {
@@ -45345,7 +45701,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     searchAgencies: function searchAgencies() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var coords;
+        var _data$businesses, response, _errorData$error, errorData, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -45360,156 +45716,83 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _this.currentPage = 1;
               _context.prev = 5;
               _context.next = 8;
-              return _this.geocodeLocation(_this.searchQuery);
+              return fetch("".concat(_this.apiConfig.endpoint, "?") + "term=islamic+travel+hajj+umrah&" + "location=".concat(encodeURIComponent(_this.searchQuery), "&") + "categories=travelservices&limit=50", {
+                method: 'GET',
+                headers: {
+                  'Authorization': "Bearer ".concat(_this.apiConfig.apiKey),
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                }
+              });
             case 8:
-              coords = _context.sent;
-              if (coords) {
-                _context.next = 12;
+              response = _context.sent;
+              if (response.ok) {
+                _context.next = 15;
                 break;
               }
-              alert("Could not find the specified location. Please try another city or country.");
-              return _context.abrupt("return");
+              _context.next = 12;
+              return response.json();
             case 12:
+              errorData = _context.sent;
+              console.error('Yelp API error:', errorData);
+              throw new Error("HTTP error! Status: ".concat(response.status, ", Message: ").concat(((_errorData$error = errorData.error) === null || _errorData$error === void 0 ? void 0 : _errorData$error.description) || 'Unknown error'));
+            case 15:
+              _context.next = 17;
+              return response.json();
+            case 17:
+              data = _context.sent;
+              _this.agencies = ((_data$businesses = data.businesses) === null || _data$businesses === void 0 ? void 0 : _data$businesses.map(function (business) {
+                var _business$location, _business$location2, _business$coordinates, _business$coordinates2, _business$categories, _business$hours;
+                return {
+                  id: business.id,
+                  name: business.name,
+                  address: ((_business$location = business.location) === null || _business$location === void 0 ? void 0 : _business$location.address1) || ((_business$location2 = business.location) === null || _business$location2 === void 0 || (_business$location2 = _business$location2.display_address) === null || _business$location2 === void 0 ? void 0 : _business$location2.join(', ')) || 'No address available',
+                  lat: ((_business$coordinates = business.coordinates) === null || _business$coordinates === void 0 ? void 0 : _business$coordinates.latitude) || 0,
+                  lon: ((_business$coordinates2 = business.coordinates) === null || _business$coordinates2 === void 0 ? void 0 : _business$coordinates2.longitude) || 0,
+                  packageCount: business.review_count || 0,
+                  services: ((_business$categories = business.categories) === null || _business$categories === void 0 ? void 0 : _business$categories.map(function (cat) {
+                    return cat.title;
+                  })) || ['Travel Services'],
+                  rating: business.rating || 0,
+                  website: business.url || '',
+                  opening_hours: ((_business$hours = business.hours) === null || _business$hours === void 0 || (_business$hours = _business$hours[0]) === null || _business$hours === void 0 || (_business$hours = _business$hours.open) === null || _business$hours === void 0 ? void 0 : _business$hours.map(function (h) {
+                    return "".concat(_this.getDayName(h.day), ": ").concat(_this.formatTime(h.start), "-").concat(_this.formatTime(h.end));
+                  }).join('; ')) || ''
+                };
+              })) || [];
               _this.lastSearchLocation = _this.searchQuery;
-              _this.agencies = _this.generateAgencies(coords.lat, coords.lon).filter(function (agency) {
-                if (!_this.selectedServices.length) return true;
-                return agency.services.some(function (service) {
-                  return _this.selectedServices.includes(service);
-                });
-              }).filter(function (agency) {
-                return agency !== null;
-              });
-              _context.next = 21;
+              if (_this.agencies.length === 0) {
+                alert("No agencies found for this location. Try another city.");
+              }
+              _context.next = 27;
               break;
-            case 16:
-              _context.prev = 16;
+            case 23:
+              _context.prev = 23;
               _context.t0 = _context["catch"](5);
               console.error("Search error:", _context.t0);
-              alert("Unable to generate agency data. Please try again later or check another location.");
-              _this.agencies = [];
-            case 21:
-              _context.prev = 21;
+              alert("Unable to load agency data: ".concat(_context.t0.message, ". Please try again later."));
+            case 27:
+              _context.prev = 27;
               _this.loading = false;
-              return _context.finish(21);
-            case 24:
+              return _context.finish(27);
+            case 30:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[5, 16, 21, 24]]);
+        }, _callee, null, [[5, 23, 27, 30]]);
       }))();
     },
-    geocodeLocation: function geocodeLocation(query) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(query), "&limit=1"));
-            case 3:
-              response = _context2.sent;
-              if (response.ok) {
-                _context2.next = 6;
-                break;
-              }
-              throw new Error("HTTP error! Status: ".concat(response.status));
-            case 6:
-              _context2.next = 8;
-              return response.json();
-            case 8:
-              data = _context2.sent;
-              return _context2.abrupt("return", data.length > 0 ? {
-                lat: parseFloat(data[0].lat),
-                lon: parseFloat(data[0].lon)
-              } : null);
-            case 12:
-              _context2.prev = 12;
-              _context2.t0 = _context2["catch"](0);
-              console.error("Geocoding error:", _context2.t0);
-              throw _context2.t0;
-            case 16:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[0, 12]]);
-      }))();
+    getDayName: function getDayName(day) {
+      var days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      return days[day] || 'Unknown';
     },
-    generateAgencies: function generateAgencies(lat, lon) {
-      var agencyCount = Math.floor(5 + Math.random() * 10); // Dynamic number of agencies (5-15)
-      var agencies = [];
-      var islamicServices = ["Hajj Packages", "Umrah Packages", "Halal Tours"];
-      var otherServices = ["Visa Services", "Hotel Booking", "Flights"];
-      var allServices = [].concat(islamicServices, otherServices);
-      var prefixes = ["Al-", "Noor ", "Safa ", "Makkah ", "Medina ", "Haramain ", "Ziarat ", "Rahman "];
-      for (var i = 0; i < agencyCount; i++) {
-        // Generate random coordinates within radius
-        var radiusInDegrees = this.radius * 1000 / 111320; // Convert km to degrees
-        var latOffset = (Math.random() - 0.5) * radiusInDegrees;
-        var lonOffset = (Math.random() - 0.5) * radiusInDegrees;
-
-        // Generate dynamic services (at least one Islamic service)
-        var serviceCount = Math.floor(1 + Math.random() * 3); // 1-4 services
-        var shuffledServices = allServices.sort(function () {
-          return 0.5 - Math.random();
-        });
-        var selectedServices = [islamicServices[Math.floor(Math.random() * islamicServices.length)]];
-        for (var j = 1; j < serviceCount; j++) {
-          if (Math.random() > 0.3 && selectedServices.length < serviceCount) {
-            selectedServices.push(shuffledServices[j]);
-          }
-        }
-
-        // Ensure only Islamic agencies
-        if (!selectedServices.some(function (service) {
-          return islamicServices.includes(service);
-        })) {
-          continue; // Skip if no Islamic services
-        }
-
-        // Generate dynamic name and address
-        var prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-        var name = "".concat(prefix, "Travel Agency ").concat(Math.floor(Math.random() * 1000));
-        var address = this.generateAddress(this.lastSearchLocation);
-
-        // Generate dynamic opening hours
-        var hoursOptions = ["Mon-Fri ".concat(Math.floor(8 + Math.random() * 2), ":00-").concat(Math.floor(16 + Math.random() * 4), ":00"), "Mon-Sat ".concat(Math.floor(9 + Math.random() * 2), ":00-").concat(Math.floor(17 + Math.random() * 3), ":00"), "Daily ".concat(Math.floor(8 + Math.random() * 3), ":00-").concat(Math.floor(16 + Math.random() * 4), ":00")];
-        var openingHours = hoursOptions[Math.floor(Math.random() * hoursOptions.length)];
-
-        // Generate dynamic website
-        var website = Math.random() > 0.3 ? "https://www.".concat(name.toLowerCase().replace(/\s/g, ''), ".com") : "";
-        var agency = {
-          id: Date.now() + i + Math.random(),
-          // Unique ID
-          name: name,
-          address: address,
-          city: this.lastSearchLocation || "Unknown City",
-          country: this.lastSearchLocation ? this.lastSearchLocation.split(',').pop().trim() : "Unknown Country",
-          lat: lat + latOffset,
-          lon: lon + lonOffset,
-          packageCount: Math.floor(3 + Math.random() * 7),
-          // 3-10 packages
-          services: selectedServices,
-          rating: Math.floor(3 + Math.random() * 2),
-          // 3-5 rating
-          opening_hours: openingHours,
-          website: website
-        };
-        agencies.push(agency);
-      }
-      return agencies;
-    },
-    generateAddress: function generateAddress(location) {
-      var streets = ["Main St", "Islamic Ave", "Halal Rd", "Pilgrim Way", "Makkah Blvd", "Medina St"];
-      var houseNumber = Math.floor(Math.random() * 1000) + 1;
-      var street = streets[Math.floor(Math.random() * streets.length)];
-      return "".concat(houseNumber, " ").concat(street, ", ").concat(location || "Unknown Location");
-    },
-    getServiceBadgeClass: function getServiceBadgeClass(service) {
-      if (service.includes("Hajj") || service.includes("Umrah")) return "bg-success text-white";
-      if (service.includes("Halal Tours")) return "bg-info text-white";
-      if (service.includes("Visa") || service.includes("Hotel") || service.includes("Flights")) return "bg-warning text-dark";
-      return "bg-light text-dark";
+    formatTime: function formatTime(time) {
+      if (!time || time.length !== 4) return time;
+      var hour = parseInt(time.slice(0, 2));
+      var minute = time.slice(2);
+      var period = hour >= 12 ? 'PM' : 'AM';
+      var adjustedHour = hour % 12 || 12;
+      return "".concat(adjustedHour, ":").concat(minute, " ").concat(period);
     }
   }
 });
@@ -55697,58 +55980,41 @@ var _hoisted_8 = {
     "min-width": "max-content"
   }
 };
-var _hoisted_9 = {
-  "class": "audio-player card shadow-sm p-3 mb-3",
-  style: {
-    "max-width": "500px",
-    "margin": "0 auto"
-  }
-};
+var _hoisted_9 = ["innerHTML"];
 var _hoisted_10 = {
-  "class": "d-flex align-items-center gap-3"
-};
-var _hoisted_11 = {
-  key: 0,
-  "class": "bi bi-pause-fill fs-4"
-};
-var _hoisted_12 = {
-  key: 1,
-  "class": "bi bi-play-fill fs-4"
-};
-var _hoisted_13 = {
-  "class": "flex-grow-1"
-};
-var _hoisted_14 = {
-  "class": "flex-grow-1"
-};
-var _hoisted_15 = ["value"];
-var _hoisted_16 = ["innerHTML"];
-var _hoisted_17 = {
   "class": "offcanvas-body d-flex flex-column gap-3"
 };
-var _hoisted_18 = {
+var _hoisted_11 = {
   "class": "d-flex flex-column gap-3"
 };
-var _hoisted_19 = {
+var _hoisted_12 = {
   key: 0,
   "class": "alert alert-success mt-3",
   role: "alert"
 };
-var _hoisted_20 = {
+var _hoisted_13 = {
   "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_21 = {
+var _hoisted_14 = {
   "class": "fw-bold fs-5"
 };
-var _hoisted_22 = {
+var _hoisted_15 = {
+  key: 0,
+  "class": "bi bi-pause-fill fs-4"
+};
+var _hoisted_16 = {
+  key: 1,
+  "class": "bi bi-play-fill fs-4"
+};
+var _hoisted_17 = {
   "class": "controls text-center mt-4"
 };
-var _hoisted_23 = ["disabled"];
-var _hoisted_24 = ["disabled"];
+var _hoisted_18 = ["disabled"];
+var _hoisted_19 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold display-5 text-center mb-2"
-  }, "Seerah Timeline", -1 /* HOISTED */)), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Seerah Timeline", -1 /* HOISTED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead d-none d-md-block"
   }, " The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping them better understand the significance of each event.", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, function (event, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -55772,72 +56038,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [$data.events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: $data.currentIndex,
         "class": "event-box event-details animate__animated"
-      }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.events[$data.currentIndex].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-book pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.readTime) + " minutes ", 1 /* TEXT */), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-headphones pl-3 pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.listenTime) + " minutes ", 1 /* TEXT */), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-file-earmark-word pl-3 pr-2 pt-3",
         style: {
           "font-size": "20px",
           "cursor": "pointer"
         }
-      }, null, -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[0] || (_cache[0] = function () {
-          return $options.handleTTS && $options.handleTTS.apply($options, arguments);
-        }),
-        "class": "btn btn-primary rounded-circle",
-        style: {
-          "width": "50px",
-          "height": "50px"
-        }
-      }, [$data.ttsState === 'playing' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_11)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_12))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-        "class": "form-label fw-bold"
-      }, "Playback Speed", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-          return $data.ttsSettings.speed = $event;
-        }),
-        onChange: _cache[2] || (_cache[2] = function () {
-          return $options.updateTTSSpeed && $options.updateTTSSpeed.apply($options, arguments);
-        }),
-        "class": "form-select form-select-sm"
-      }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "0.5"
-      }, "0.5x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "0.75"
-      }, "0.75x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "1",
-        selected: ""
-      }, "1x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "1.25"
-      }, "1.25x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "1.5"
-      }, "1.5x", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-        value: "2"
-      }, "2x", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.ttsSettings.speed]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-        "class": "form-label fw-bold"
-      }, "Voice", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-          return $data.ttsSettings.voice = $event;
-        }),
-        onChange: _cache[4] || (_cache[4] = function () {
-          return $options.updateTTSVoice && $options.updateTTSVoice.apply($options, arguments);
-        }),
-        "class": "form-select form-select-sm"
-      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableVoices, function (voice) {
-        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-          key: voice.name,
-          value: voice.name
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_15);
-      }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.ttsSettings.voice]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      }, null, -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Styled Text desc "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "fw-medium p-3 rounded",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           lineHeight: '1.7em',
@@ -55850,13 +56069,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           fontFamily: $data.fontSettings.fontFamily
         }),
         innerHTML: $options.highlightedDescription
-      }, null, 12 /* STYLE, PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Offcanvas Settings Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas offcanvas-end custom-offcanvas",
         tabindex: "-1",
         id: "settingsOffcanvas",
         "aria-labelledby": "settingsOffcanvasLabel",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($options.offcanvasStyle)
-      }, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "offcanvas-header"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "offcanvas-title fs-3",
@@ -55866,58 +56085,58 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "btn-close btn-close-white",
         "data-bs-dismiss": "offcanvas",
         "aria-label": "Close"
-      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-        onSubmit: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+        onSubmit: _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.saveSettings && $options.saveSettings.apply($options, arguments);
         }, ["prevent"])),
         "class": "text-white"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Changes saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [$data.showSuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, " Changes saved successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Background Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "color",
-        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $data.fontSettings.backgroundColor = $event;
         }),
         "class": "form-control form-control-color"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.backgroundColor]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.backgroundColor]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Text Color", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "color",
-        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.fontSettings.color = $event;
         }),
         "class": "form-control form-control-color"
-      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.color]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.fontSettings.color]])]), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
-      }, "Font Size:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "Font Size:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-outline-light px-2 py-1",
-        onClick: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+        onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
         }, ["stop", "prevent"]))
-      }, "−"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tempFontSize) + "px", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "−"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.tempFontSize) + "px", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-outline-light px-2 py-1",
-        onClick: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+        onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
           return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
         }, ["stop", "prevent"]))
-      }, "+")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "+")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Font Style", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           return $data.fontSettings.fontStyle = $event;
         }),
         "class": "form-select"
-      }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "normal"
       }, "Normal", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "italic"
-      }, "Italic", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontStyle]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Italic", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontStyle]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Text Shadow", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+        "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.fontSettings.textShadow = $event;
         }),
         "class": "form-select"
-      }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "none"
       }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "1px 1px 2px gray"
@@ -55927,25 +56146,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         value: "1px 1px 2px red"
       }, "Red Shadow", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "1px 1px 2px blue"
-      }, "Blue Shadow", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textShadow]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Blue Shadow", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textShadow]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Underline", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+        "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
           return $data.fontSettings.textDecoration = $event;
         }),
         "class": "form-select"
-      }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "none"
       }, "None", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "underline"
-      }, "Underline", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textDecoration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      }, "Underline", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.textDecoration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
         "class": "form-label fw-bold fs-4"
       }, "Font Family", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+        "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
           return $data.fontSettings.fontFamily = $event;
         }),
         "class": "form-select"
-      }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      }, _cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "Arial, sans-serif"
       }, "Arial", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "'Times New Roman', serif"
@@ -55969,10 +56188,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         value: "'Poppins', sans-serif"
       }, "Poppins", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.fontSettings.fontFamily]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "btn btn-success text-right mt-3",
-        onClick: _cache[13] || (_cache[13] = function () {
+        onClick: _cache[8] || (_cache[8] = function () {
           return $options.submitFontSize && $options.submitFontSize.apply($options, arguments);
         })
-      }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Settings FAB "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, " Submit Changes ")], 32 /* NEED_HYDRATION */)])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First your new Play/Pause FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        onClick: _cache[10] || (_cache[10] = function () {
+          return $options.handleTTS && $options.handleTTS.apply($options, arguments);
+        }),
+        "class": "fab btn btn-light rounded-circle shadow container",
+        style: {
+          "position": "fixed",
+          "bottom": "100px",
+          "right": "20px",
+          "width": "60px",
+          "height": "60px",
+          "display": "flex",
+          "align-items": "center",
+          "justify-content": "center",
+          "z-index": "1000",
+          "cursor": "pointer"
+        }
+      }, [$data.ttsState === 'playing' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16))]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "fab btn btn-light rounded-circle shadow container",
         style: {
           "position": "fixed",
@@ -55991,19 +56227,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-controls": "settingsOffcanvas"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-gear-fill fs-4"
-      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[15] || (_cache[15] = function () {
+      })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[11] || (_cache[11] = function () {
           return $options.prev && $options.prev.apply($options, arguments);
         }),
         disabled: $data.currentIndex === 0,
         "class": "btn btn-primary me-2"
-      }, "Previous", 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        onClick: _cache[16] || (_cache[16] = function () {
+      }, "Previous", 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        onClick: _cache[12] || (_cache[12] = function () {
           return $options.next && $options.next.apply($options, arguments);
         }),
         disabled: $data.currentIndex === $data.events.length - 1,
         "class": "btn btn-primary"
-      }, "Next", 8 /* PROPS */, _hoisted_24)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }, "Next", 8 /* PROPS */, _hoisted_19)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   })]);
@@ -56455,7 +56691,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "col-12 col-md-6 col-lg-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
-        "font-size": "1.4rem"
+        "font-size": "1.6rem"
       }
     }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
@@ -57898,44 +58134,185 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "container py-5"
 };
 var _hoisted_2 = {
-  "class": "row justify-content-center mb-4"
+  "class": "mb-5"
 };
 var _hoisted_3 = {
-  "class": "col-md-10 col-lg-8 text-center"
+  "class": "popular-recitors d-flex overflow-x-auto pb-3"
 };
 var _hoisted_4 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
-};
-var _hoisted_5 = {
-  "class": "card-body shadow-lg",
+  "class": "card h-100 border-0 shadow-sm animate-card",
   style: {
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+    "border-radius": "12px",
+    "min-width": "220px"
   }
 };
-var _hoisted_6 = ["innerHTML"];
-var _hoisted_7 = ["src", "onPlay"];
+var _hoisted_5 = {
+  "class": "card-body p-3"
+};
+var _hoisted_6 = {
+  "class": "card-title mb-0 fw-semibold"
+};
+var _hoisted_7 = ["onClick"];
 var _hoisted_8 = {
+  "class": "row justify-content-center mb-5"
+};
+var _hoisted_9 = {
+  "class": "col-md-8 col-lg-6 text-center"
+};
+var _hoisted_10 = {
+  "class": "input-group shadow-sm"
+};
+var _hoisted_11 = {
+  "class": "row mb-5"
+};
+var _hoisted_12 = {
+  key: 0
+};
+var _hoisted_13 = ["aria-expanded"];
+var _hoisted_14 = {
+  key: 0,
+  "class": "section-animate",
+  id: "liked-stations"
+};
+var _hoisted_15 = {
+  "class": "row row-cols-1 row-cols-md-1 row-cols-lg-6 g-4"
+};
+var _hoisted_16 = {
+  "class": "card-body p-4"
+};
+var _hoisted_17 = {
+  "class": "d-flex justify-content-between align-items-center mb-3"
+};
+var _hoisted_18 = ["innerHTML"];
+var _hoisted_19 = ["onClick"];
+var _hoisted_20 = ["src", "onPlay", "onTimeupdate", "onLoadedmetadata"];
+var _hoisted_21 = {
+  "class": "d-flex align-items-center mb-3"
+};
+var _hoisted_22 = ["onClick", "aria-label"];
+var _hoisted_23 = {
+  "class": "time-display me-2",
+  "aria-live": "polite"
+};
+var _hoisted_24 = ["max", "value", "onInput", "disabled"];
+var _hoisted_25 = {
+  "class": "time-display",
+  "aria-live": "polite"
+};
+var _hoisted_26 = {
+  "class": "volume-control d-flex align-items-center"
+};
+var _hoisted_27 = ["onClick", "aria-label"];
+var _hoisted_28 = ["onInput"];
+var _hoisted_29 = {
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+};
+var _hoisted_30 = {
+  "class": "card-body p-4"
+};
+var _hoisted_31 = {
+  "class": "d-flex justify-content-between align-items-center mb-3"
+};
+var _hoisted_32 = ["innerHTML"];
+var _hoisted_33 = ["onClick", "aria-label"];
+var _hoisted_34 = ["src", "onPlay", "onTimeupdate", "onLoadedmetadata", "aria-label"];
+var _hoisted_35 = {
+  "class": "playback-controls",
+  style: {
+    "display": "flex",
+    "align-items": "center",
+    "margin-bottom": "1rem"
+  }
+};
+var _hoisted_36 = ["onClick", "aria-label"];
+var _hoisted_37 = {
+  style: {
+    "flex-grow": "1"
+  }
+};
+var _hoisted_38 = {
+  style: {
+    "display": "flex",
+    "align-items": "center"
+  }
+};
+var _hoisted_39 = {
+  "class": "time-current",
+  "aria-live": "polite",
+  style: {
+    "font-size": "0.875rem",
+    "color": "#6c757d",
+    "font-family": "monospace",
+    "min-width": "40px",
+    "text-align": "center",
+    "margin-right": "0.5rem"
+  }
+};
+var _hoisted_40 = ["max", "value", "onInput", "disabled", "aria-label"];
+var _hoisted_41 = {
+  "class": "time-total",
+  "aria-live": "polite",
+  style: {
+    "font-size": "0.875rem",
+    "color": "#6c757d",
+    "font-family": "monospace",
+    "min-width": "40px",
+    "text-align": "center"
+  }
+};
+var _hoisted_42 = {
+  "class": "volume-controls",
+  style: {
+    "display": "flex",
+    "align-items": "center",
+    "padding-top": "0.5rem",
+    "border-top": "1px solid #f1f1f1"
+  }
+};
+var _hoisted_43 = ["onClick", "aria-label"];
+var _hoisted_44 = ["onInput"];
+var _hoisted_45 = {
   key: 0,
   "class": "d-flex justify-content-center align-items-center mt-5"
 };
-var _hoisted_9 = ["disabled"];
-var _hoisted_10 = {
-  "class": "fw-semibold"
+var _hoisted_46 = ["disabled"];
+var _hoisted_47 = {
+  "class": "fw-semibold text-primary"
 };
-var _hoisted_11 = ["disabled"];
+var _hoisted_48 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 fw-bold text-center"
-  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container-fluid mb-4 lead"
-  }, " This page offers a seamless, user-friendly experience for listening to live Quranic radio stations featuring renowned reciters from around the world. Users can browse all available stations, search by reciter name, and play audio streams directly on the page. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-semibold mt-3 mb-3"
-  }, "Search for Reciter's Station", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold text-center mb-3"
+  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center mb-5 lead"
+  }, " Discover live Quranic radio stations featuring renowned reciters from around the world. Search, like, and revisit your favorites effortlessly. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popular Reciters Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "fw-bold mb-3 text-primary"
+  }, "Popular Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.popularReciters, function (reciter) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: reciter.id,
+      "class": "popular-card me-3"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-outline-primary btn-sm mt-2 w-100",
+      onClick: function onClick($event) {
+        return $options.playStation(reciter.url);
+      }
+    }, _toConsumableArray(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-play-circle me-1"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")])), 8 /* PROPS */, _hoisted_7)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "fw-semibold mb-3 text-primary"
+  }, "Search for Reciter's Station", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -57943,54 +58320,265 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.handleSearch && $options.handleSearch.apply($options, arguments);
     }),
     type: "text",
-    "class": "form-control rounded-pill px-4 py-2 shadow-sm",
-    placeholder: "Search by name..."
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reciters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold mb-4"
-  }, "Reciter's Radio Stations:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
+    "class": "form-control border-0 rounded-sm px-3 py-2",
+    placeholder: "Search by name...",
+    "aria-label": "Search radio stations"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [$data.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "fw-bold mb-3 text-primary cursor-pointer section-header",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $data.showLiked = !$data.showLiked;
+    }),
+    role: "button",
+    "aria-expanded": $data.showLiked,
+    "aria-controls": "liked-stations"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down', "ms-1"])
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_13), $data.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.likedStations, function (station) {
+    var _$data$currentAudio;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card h-100 border-lg shadow-md", {
-        'bg-success-subtle text-success-emphasis border border-success': $data.currentAudio && $data.currentAudio.src === station.url,
-        'bg-light': !($data.currentAudio && $data.currentAudio.src === station.url)
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card border-0 shadow animate-card", {
+        'active-card': ((_$data$currentAudio = $data.currentAudio) === null || _$data$currentAudio === void 0 ? void 0 : _$data$currentAudio.src) === station.url
       }]),
       style: {
-        "border-radius": "15px"
+        "border-radius": "12px"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-      "class": "card-title",
-      style: {
-        "font-weight": "bold"
-      },
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "card-title mb-0 fw-semibold",
       innerHTML: $options.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+    }, null, 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-heart-fill text-primary cursor-pointer",
+      onClick: function onClick($event) {
+        return $options.toggleLike(station);
+      },
+      "aria-label": "Unlike station"
+    }, null, 8 /* PROPS */, _hoisted_19)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player shadow-sm", {
+        playing: $options.isPlaying(station.id)
+      }]),
+      role: "region",
+      "aria-label": "Audio player"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
       ref_for: true,
       ref: "audioPlayer",
       src: station.url,
-      controls: "",
-      "class": "w-100 mt-3",
       onPlay: function onPlay($event) {
         return $options.handlePlay(station.id, $event);
       },
-      onPause: _cache[2] || (_cache[2] = function () {
+      onPause: _cache[3] || (_cache[3] = function () {
         return $options.handlePause && $options.handlePause.apply($options, arguments);
-      })
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)])], 2 /* CLASS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[3] || (_cache[3] = function () {
+      }),
+      onTimeupdate: function onTimeupdate($event) {
+        return $options.updateTime(station.id);
+      },
+      onLoadedmetadata: function onLoadedmetadata($event) {
+        return $options.updateDuration(station.id);
+      }
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-icon me-2",
+      onClick: function onClick($event) {
+        return $options.togglePlay(station.id);
+      },
+      "aria-label": $options.isPlaying(station.id) ? 'Pause' : 'Play'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isPlaying(station.id) ? 'bi bi-pause-circle' : 'bi bi-play-circle')
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "range",
+      min: "0",
+      max: $data.durations[station.id] || 100,
+      value: $data.currentTimes[station.id] || 0,
+      onInput: function onInput($event) {
+        return $options.seek($event, station.id);
+      },
+      "class": "seek-bar flex-grow-1 me-2",
+      disabled: $options.isLive(station.id),
+      "aria-label": "Seek bar"
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'Live' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-icon me-2",
+      onClick: function onClick($event) {
+        return $options.toggleMute(station.id);
+      },
+      "aria-label": $data.volume === 0 ? 'Unmute' : 'Mute'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up-fill')
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "range",
+      min: "0",
+      max: "100",
+      "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+        return $data.volume = $event;
+      }),
+      onInput: function onInput($event) {
+        return $options.setVolume($event, station.id);
+      },
+      "class": "form-range w-100",
+      "aria-label": "Volume control"
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])], 2 /* CLASS */)])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recently Played Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row mb-5\">\n      <section v-if=\"recentlyPlayed.length\">\n        <h4\n          class=\"fw-bold mb-3 text-primary cursor-pointer section-header\"\n          @click=\"showRecentlyPlayed = !showRecentlyPlayed\"\n          role=\"button\"\n          :aria-expanded=\"showRecentlyPlayed\"\n          :aria-controls=\"`recently-played`\"\n        >\n          Recently Played ({{ recentlyPlayed.length }})\n          <i :class=\"showRecentlyPlayed ? 'bi bi-chevron-up' : 'bi bi-chevron-down'\" class=\"ms-1\"></i>\n        </h4>\n        <div v-if=\"showRecentlyPlayed\" class=\"section-animate\" id=\"recently-played\">\n          <div class=\"row row-cols-1  row-cols-lg-2 g-4\">\n            <div v-for=\"station in recentlyPlayed\" :key=\"station.id\" class=\"col\">\n              <div\n                class=\"card h-100 border-0 shadow animate-card\"\n                style=\"border-radius: 12px;\"\n                :class=\"{ 'active-card': currentAudio?.src === station.url }\"\n              >\n                <div class=\"card-body p-4\">\n                  <div class=\"d-flex justify-content-between align-items-center mb-2\">\n                    <h5 class=\"card-title mb-0 fw-semibold\" v-html=\"highlightSearch(station.name)\"></h5>\n                    <i\n                      :class=\"isLiked(station.id) ? 'bi bi-heart-fill text-primary' : 'bi bi-heart'\"\n                      @click=\"toggleLike(station)\"\n                      class=\"cursor-pointer\"\n                      :aria-label=\"isLiked(station.id) ? 'Unlike station' : 'Like station'\"\n                    ></i>\n                  </div>\n                  <p class=\"text-muted mb-3\">Last Played: {{ formatDate(station.lastPlayed) }}</p>\n                  <div\n                    class=\"audio-player shadow-sm\"\n                    :class=\"{ playing: isPlaying(station.id) }\"\n                    role=\"region\"\n                    aria-label=\"Audio player\"\n                  >\n                    <audio\n                      ref=\"audioPlayer\"\n                      :src=\"station.url\"\n                      @play=\"handlePlay(station.id, $event)\"\n                      @pause=\"handlePause\"\n                      @timeupdate=\"updateTime(station.id)\"\n                      @loadedmetadata=\"updateDuration(station.id)\"\n                    ></audio>\n                    <div class=\"d-flex align-items-center mb-3\">\n                      <button\n                        class=\"btn btn-icon me-2\"\n                        @click=\"togglePlay(station.id)\"\n                        :aria-label=\"isPlaying(station.id) ? 'Pause' : 'Play'\"\n                      >\n                        <i :class=\"isPlaying(station.id) ? 'bi bi-pause-circle' : 'bi bi-play-circle'\"></i>\n                      </button>\n                      <span class=\"time-display me-2\" aria-live=\"polite\">\n                        {{ formatTime(currentTimes[station.id] || 0) }}\n                      </span>\n                      <input\n                        type=\"range\"\n                        min=\"0\"\n                        :max=\"durations[station.id] || 100\"\n                        :value=\"currentTimes[station.id] || 0\"\n                        @input=\"seek($event, station.id)\"\n                        class=\"seek-bar flex-grow-1 me-2\"\n                        :disabled=\"isLive(station.id)\"\n                        aria-label=\"Seek bar\"\n                      />\n                      <span class=\"time-display\" aria-live=\"polite\">\n                        {{ isLive(station.id) ? 'Live' : formatTime(durations[station.id] || 0) }}\n                      </span>\n                    </div>\n                    <div class=\"volume-control d-flex align-items-center\">\n                      <button\n                        class=\"btn btn-icon me-2\"\n                        @click=\"toggleMute(station.id)\"\n                        :aria-label=\"volume === 0 ? 'Unmute' : 'Mute'\"\n                      >\n                        <i :class=\"volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up-fill'\"></i>\n                      </button>\n                      <input\n                        type=\"range\"\n                        min=\"0\"\n                        max=\"100\"\n                        v-model=\"volume\"\n                        @input=\"setVolume($event, station.id)\"\n                        class=\"form-range w-100\"\n                        aria-label=\"Volume control\"\n                      />\n                    </div>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      </section>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", null, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold mb-4 text-primary"
+  }, "All Radio Stations", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
+    var _$data$currentAudio2;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: station.id,
+      "class": "col"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card border-0 shadow animate-card", {
+        'active-card': ((_$data$currentAudio2 = $data.currentAudio) === null || _$data$currentAudio2 === void 0 ? void 0 : _$data$currentAudio2.src) === station.url
+      }]),
+      style: {
+        "border-radius": "12px"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      "class": "card-title mb-0 fw-semibold",
+      innerHTML: $options.highlightSearch(station.name)
+    }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLiked(station.id) ? 'bi bi-heart-fill text-primary' : 'bi bi-heart', "cursor-pointer"]),
+      onClick: function onClick($event) {
+        return $options.toggleLike(station);
+      },
+      "aria-label": $options.isLiked(station.id) ? 'Unlike station' : 'Like station'
+    }, null, 10 /* CLASS, PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player", {
+        'is-playing': $options.isPlaying(station.id)
+      }]),
+      role: "region",
+      "aria-label": "Audio player for {{ station.name }}",
+      style: {
+        "background": "white",
+        "border-radius": "12px",
+        "box-shadow": "0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)",
+        "padding": "1rem",
+        "transition": "all 0.2s ease"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", {
+      ref_for: true,
+      ref: "audioPlayer",
+      src: station.url,
+      onPlay: function onPlay($event) {
+        return $options.handlePlay(station.id, $event);
+      },
+      onPause: _cache[5] || (_cache[5] = function () {
+        return $options.handlePause && $options.handlePause.apply($options, arguments);
+      }),
+      onTimeupdate: function onTimeupdate($event) {
+        return $options.updateTime(station.id);
+      },
+      onLoadedmetadata: function onLoadedmetadata($event) {
+        return $options.updateDuration(station.id);
+      },
+      "aria-label": 'Audio stream for ' + station.name
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main playback controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.togglePlay(station.id);
+      },
+      "aria-label": $options.isPlaying(station.id) ? 'Pause playback' : 'Play playback',
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "background": "none",
+        "border": "none",
+        "color": "#0d6efd",
+        "padding": "0",
+        "margin-right": "1rem",
+        "width": "48px",
+        "height": "48px",
+        "border-radius": "50%",
+        "display": "flex",
+        "align-items": "center",
+        "justify-content": "center",
+        "transition": "transform 0.2s ease"
+      }, {
+        transform: $options.isPlaying(station.id) ? 'scale(1.05)' : 'scale(1)'
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'),
+      style: {
+        "font-size": "1.5rem"
+      }
+    }, null, 2 /* CLASS */)], 12 /* STYLE, PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "range",
+      min: "0",
+      max: $data.durations[station.id] || 100,
+      value: $data.currentTimes[station.id] || 0,
+      onInput: function onInput($event) {
+        return $options.seek($event, station.id);
+      },
+      disabled: $options.isLive(station.id),
+      "aria-label": 'Seek bar for ' + station.name,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "-webkit-appearance": "none",
+        "width": "100%",
+        "height": "6px",
+        "border-radius": "3px",
+        "background": "#e9ecef",
+        "cursor": "pointer",
+        "margin": "0 0.5rem"
+      }, {
+        'background-image': "linear-gradient(to right, #0d6efd ".concat($data.currentTimes[station.id] / ($data.durations[station.id] || 100) * 100, "%, #e9ecef ").concat($data.currentTimes[station.id] / ($data.durations[station.id] || 100) * 100, "%)"),
+        'cursor': $options.isLive(station.id) ? 'not-allowed' : 'pointer',
+        'opacity': $options.isLive(station.id) ? 0.7 : 1
+      }])
+    }, null, 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Volume controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.toggleMute(station.id);
+      },
+      "aria-label": $data.volume === 0 ? 'Unmute audio' : 'Mute audio',
+      style: {
+        "background": "none",
+        "border": "none",
+        "color": "#6c757d",
+        "padding": "0",
+        "margin-right": "0.5rem",
+        "width": "32px",
+        "height": "32px",
+        "display": "flex",
+        "align-items": "center",
+        "justify-content": "center"
+      }
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.volume === 0 ? 'bi bi-volume-mute' : $data.volume < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up'),
+      style: {
+        "font-size": "1.25rem"
+      }
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "range",
+      min: "0",
+      max: "100",
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+        return $data.volume = $event;
+      }),
+      onInput: function onInput($event) {
+        return $options.setVolume($event, station.id);
+      },
+      "aria-label": "Volume level control",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
+        "-webkit-appearance": "none",
+        "width": "100%",
+        "height": "6px",
+        "border-radius": "3px",
+        "background": "#e9ecef",
+        "cursor": "pointer",
+        "background-image": "linear-gradient(to right, #0d6efd var(--volume-level), #e9ecef var(--volume-level))"
+      }, {
+        '--volume-level': $data.volume + '%',
+        'background-image': "linear-gradient(to right, #0d6efd ".concat($data.volume, "%, #e9ecef ").concat($data.volume, "%)")
+      }])
+    }, null, 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_44), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])], 2 /* CLASS */)])], 2 /* CLASS */)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === 1,
-    "class": "btn btn-outline-dark rounded-pill px-4 me-3"
-  }, " Previous ", 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
+    "class": "btn btn-outline-primary rounded-pill px-4 me-3",
+    "aria-label": "Previous page"
+  }, " Previous ", 8 /* PROPS */, _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_47, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.nextPage && $options.nextPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === $options.totalPages,
-    "class": "btn btn-outline-dark rounded-pill px-4 ms-3"
-  }, " Next ", 8 /* PROPS */, _hoisted_11)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    "class": "btn btn-outline-primary rounded-pill px-4 ms-3",
+    "aria-label": "Next page"
+  }, " Next ", 8 /* PROPS */, _hoisted_48)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -58137,9 +58725,9 @@ var _hoisted_33 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Halal Food Locator", -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Halal Butcher Locator", -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Find halal Butchers near you ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  }, " Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
     role: "search",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
@@ -58211,7 +58799,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-2cbbc6cc><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_26, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_28, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
-        return $options.openGoogleMaps(shop.lat, shop.lon);
+        return _ctx.openGoogleMaps(shop.lat, shop.lon);
       },
       style: {
         "background": "#00bfa6",
@@ -60791,12 +61379,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
   "class": "container-fluid py-4"
@@ -60808,231 +61390,123 @@ var _hoisted_3 = {
   "class": "col-lg-10"
 };
 var _hoisted_4 = {
-  "class": "shadow",
+  "class": "search-container shadow",
   style: {
     "border-radius": "20px",
-    "padding": "10px",
-    "border": "1px solid grey"
+    "padding": "15px",
+    "border": "1px solid #ddd"
   }
 };
 var _hoisted_5 = {
-  "class": "card-body container-fluid",
-  style: {
-    "padding": "5px"
-  }
+  "class": "search-filter-container d-flex align-items-center flex-wrap gap-3"
 };
-var _hoisted_6 = {
-  "class": "row mb-4 justify-content-center"
-};
+var _hoisted_6 = ["disabled"];
 var _hoisted_7 = {
-  "class": "col-md-8"
-};
-var _hoisted_8 = ["disabled"];
-var _hoisted_9 = {
   key: 0
 };
-var _hoisted_10 = {
+var _hoisted_8 = {
   key: 1,
   "class": "spinner-border spinner-border-sm"
 };
-var _hoisted_11 = {
-  "class": "d-flex flex-wrap align-items-center mb-3",
-  style: {
-    "gap": "1rem"
-  }
-};
-var _hoisted_12 = {
-  key: 0
-};
-var _hoisted_13 = {
-  "class": "d-flex flex-wrap",
-  style: {
-    "gap": "0.5rem"
-  }
-};
-var _hoisted_14 = ["id", "value"];
-var _hoisted_15 = ["for"];
-var _hoisted_16 = {
+var _hoisted_9 = {
   key: 0,
   "class": "text-center py-5"
 };
-var _hoisted_17 = {
+var _hoisted_10 = {
   "class": "mt-3"
 };
-var _hoisted_18 = {
+var _hoisted_11 = {
   key: 1
 };
-var _hoisted_19 = {
+var _hoisted_12 = {
   key: 0,
   "class": "text-center py-5"
 };
+var _hoisted_13 = {
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3"
+};
+var _hoisted_14 = {
+  "class": "card h-100"
+};
+var _hoisted_15 = {
+  "class": "card-header"
+};
+var _hoisted_16 = {
+  "class": "card-title fw-bold text-dark mb-0"
+};
+var _hoisted_17 = {
+  "class": "card-body"
+};
+var _hoisted_18 = {
+  "class": "mb-2 d-flex align-items-start"
+};
+var _hoisted_19 = {
+  "class": "text-truncate"
+};
 var _hoisted_20 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+  "class": "mb-2 text-muted"
 };
 var _hoisted_21 = {
-  "class": "card"
-};
-var _hoisted_22 = {
-  style: {
-    "padding": "15px 15px 0 15px"
-  }
-};
-var _hoisted_23 = {
-  "class": "card-title fw-bold text-dark mb-3",
-  style: {
-    "font-size": "25px"
-  }
-};
-var _hoisted_24 = {
-  "class": "card-body pt-0"
-};
-var _hoisted_25 = {
-  "class": "mb-2"
-};
-var _hoisted_26 = {
-  "class": "d-flex align-items-start"
-};
-var _hoisted_27 = {
-  "class": "text-truncate",
-  style: {
-    "display": "-webkit-box",
-    "-webkit-line-clamp": "2",
-    "-webkit-box-orient": "vertical"
-  }
-};
-var _hoisted_28 = {
-  "class": "mb-2"
-};
-var _hoisted_29 = {
-  "class": "text-muted mb-0"
-};
-var _hoisted_30 = {
   "class": "mb-2 d-flex align-items-center"
 };
-var _hoisted_31 = {
+var _hoisted_22 = {
   "class": "text-warning me-2"
 };
-var _hoisted_32 = {
-  "class": "mb-0"
+var _hoisted_23 = {
+  "class": "mb-2 services d-flex flex-wrap gap-2"
 };
-var _hoisted_33 = {
-  "class": "mb-2 services"
-};
-var _hoisted_34 = {
-  "class": "d-flex flex-wrap align-items-center",
-  style: {
-    "gap": "0.4rem"
-  }
-};
-var _hoisted_35 = {
+var _hoisted_24 = {
   key: 0,
-  "class": "opening-hours mb-2 mt-2"
+  "class": "mb-2 text-muted"
 };
-var _hoisted_36 = {
-  "class": "text-muted"
+var _hoisted_25 = {
+  "class": "d-flex flex-wrap gap-2"
 };
-var _hoisted_37 = {
-  "class": "d-flex justify-content-between align-items-center gap-2"
-};
-var _hoisted_38 = ["onClick", "disabled"];
-var _hoisted_39 = ["onClick"];
-var _hoisted_40 = {
+var _hoisted_26 = ["onClick", "disabled"];
+var _hoisted_27 = ["onClick"];
+var _hoisted_28 = ["onClick"];
+var _hoisted_29 = {
   key: 3,
   "class": "d-flex justify-content-center mt-4"
 };
-var _hoisted_41 = {
+var _hoisted_30 = {
   "class": "pagination"
 };
-var _hoisted_42 = ["disabled"];
-var _hoisted_43 = ["onClick"];
-var _hoisted_44 = ["disabled"];
-var _hoisted_45 = {
-  key: 0,
-  "class": "d-flex justify-content-between align-items-center",
-  style: {
-    "padding": "10px"
-  }
-};
-var _hoisted_46 = {
-  "class": "text-muted"
-};
+var _hoisted_31 = ["disabled"];
+var _hoisted_32 = ["onClick"];
+var _hoisted_33 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold text-center"
-  }, "Islamic Travel Agency Finder", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Travel Agency Finder", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Discover trusted Islamic travel agencies worldwide, offering Hajj, Umrah, and halal travel packages tailored to your needs. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Filter Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    "class": "d-flex align-items-center mb-3",
+  }, " Discover trusted Islamic travel agencies worldwide for Hajj, Umrah, and halal travel packages. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center flex-grow-1",
     role: "search",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
-    }, ["prevent"])),
-    style: {
-      "gap": "0.5rem"
-    }
-  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "card-title pr-2 fw-bold",
-    style: {
-      "font-size": "25px"
-    }
-  }, "Search location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, ["prevent"]))
+  }, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "searchInput",
+    "class": "form-label me-2 fw-bold"
+  }, "Search Location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "searchInput",
     type: "search",
     "class": "form-control",
-    placeholder: "Enter city or country...",
-    "aria-label": "Search",
+    placeholder: "Enter city...",
+    "aria-label": "Search location",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.debounceSearch && $options.debounceSearch.apply($options, arguments);
     }),
-    autocomplete: "off",
-    style: {
-      "max-width": "300px"
-    }
+    autocomplete: "off"
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-success",
+    "class": "btn btn-primary ms-2",
     type: "submit",
     disabled: $data.loading
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10))], 8 /* PROPS */, _hoisted_8)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "radiusSlider",
-    "class": "form-label"
-  }, "Search Radius (km):", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "range",
-    "class": "form-range",
-    id: "radiusSlider",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.radius = $event;
-    }),
-    min: "1",
-    max: "50",
-    step: "1",
-    onChange: _cache[4] || (_cache[4] = function () {
-      return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
-    })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.radius, void 0, {
-    number: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.radius) + " km", 1 /* TEXT */)]), $data.availableServices.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label"
-  }, "Services:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableServices, function (service) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: service
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "checkbox",
-      id: service,
-      value: service,
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-        return $data.selectedServices = $event;
-      }),
-      onChange: _cache[6] || (_cache[6] = function () {
-        return $options.searchAgencies && $options.searchAgencies.apply($options, arguments);
-      })
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_14), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.selectedServices]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": service,
-      "class": "ms-1"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(service), 9 /* TEXT, PROPS */, _hoisted_15)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_7, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8))], 8 /* PROPS */, _hoisted_6)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     style: {
       "width": "3rem",
@@ -61041,87 +61515,75 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, "Searching for Islamic travel agencies in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, "Searching for agencies in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-compass display-4 text-muted mb-3"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
   }, "Search for Islamic travel agencies worldwide", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Enter a city or country name to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Enter a city to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.agencies.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-binoculars display-4 text-muted mb-3"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
-  }, "No travel agencies found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "No agencies found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Try adjusting your search, radius, or services")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Try another city")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedAgencies, function (agency) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedAgencies, function (agency) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: agency.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_29, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.address), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo me-2"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lon.toFixed(4)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(agency.rating, function (n) {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.lon.toFixed(4)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Math.round(agency.rating), function (n) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
         "class": "bi bi-star-fill",
         key: 'star-' + n
       });
-    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - agency.rating, function (n) {
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - Math.round(agency.rating), function (n) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
         "class": "bi bi-star",
         key: 'empty-' + n
       });
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_32, "Packages: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.packageCount), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(agency.services, function (service) {
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, "Packages: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.packageCount), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(agency.services, function (service) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill d-flex align-items-center", $options.getServiceBadgeClass(service)]),
-        key: service,
-        style: {
-          "padding": "0.5em 0.8em"
-        }
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(service), 3 /* TEXT, CLASS */);
-    }), 128 /* KEYED_FRAGMENT */))])]), agency.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_36, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+        "class": "badge rounded-pill bg-success text-white",
+        key: service
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(service), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))]), agency.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(agency.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-visit",
       onClick: function onClick($event) {
         return $options.openWebsite(agency.website);
       },
-      style: {
-        "background": "#00bfa6",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "color": "white",
-        "height": "38px"
-      },
-      disabled: !agency.website
-    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      disabled: !$options.isValidUrl(agency.website)
+    }, " Visit Website ", 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-directions",
+      onClick: function onClick($event) {
+        return $options.openGoogleMaps(agency.lat, agency.lon);
+      }
+    }, " Get Directions ", 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-share",
       onClick: function onClick($event) {
         return $options.shareViaWhatsApp(agency);
-      },
-      style: {
-        "background": "#1881b9",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "color": "white",
-        "height": "38px"
       }
-    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_39)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.hasResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    }, " Share Details ", 8 /* PROPS */, _hoisted_28)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.hasResults ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link",
-    onClick: _cache[7] || (_cache[7] = function ($event) {
+    onClick: _cache[3] || (_cache[3] = function ($event) {
       return $data.currentPage--;
     }),
     disabled: $data.currentPage === 1
-  }, "Previous", 8 /* PROPS */, _hoisted_42)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+  }, "Previous", 8 /* PROPS */, _hoisted_31)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         active: $data.currentPage === page
@@ -61132,18 +61594,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $data.currentPage = page;
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_43)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_32)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       disabled: $data.currentPage === $options.totalPages
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "page-link",
-    onClick: _cache[8] || (_cache[8] = function ($event) {
+    onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.currentPage++;
     }),
     disabled: $data.currentPage === $options.totalPages
-  }, "Next", 8 /* PROPS */, _hoisted_44)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.agencies.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_46, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.paginatedAgencies.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.agencies.length) + " travel agencies ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+  }, "Next", 8 /* PROPS */, _hoisted_33)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -160266,7 +160728,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: grey !important; /* Bootstrap bg-success */\n  border-color: grey !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -160362,7 +160824,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nmark[data-v-87252526] {\n  background-color: rgba(13, 182, 145, 0.528);\n  color: #fff;\n  padding: 0 2px;\n}\naudio[data-v-87252526]::-webkit-media-controls-current-time-display,\naudio[data-v-87252526]::-webkit-media-controls-time-remaining-display {\n  display: none;\n}\n@keyframes fadeInOut-87252526 {\n0% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n50% {\n    opacity: 1;\n    transform: scale(1.05);\n}\n100% {\n    opacity: 0.3;\n    transform: scale(1);\n}\n}\n.animate-text[data-v-87252526] {\n  animation: fadeInOut-87252526 2s infinite;\n}\n.audio[data-v-87252526] {\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n}\naudio[data-v-87252526]::-webkit-media-controls-panel {\n  background: rgba(13, 182, 145, 0);\n}\n.radio-description[data-v-87252526] {\n  font-size: 1.2rem;\n  color: #555;\n  margin-top: 10px;\n  margin-bottom: 20px;\n  line-height: 1.6;\n}\n.pagination[data-v-87252526] {\n  margin-top: 20px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.pagination button[data-v-87252526] {\n  padding: 5px 10px;\n  margin: 0 5px;\n  cursor: pointer;\n  font-size: 1rem;\n}\n.pagination button[data-v-87252526]:disabled {\n  cursor: not-allowed;\n  opacity: 0.5;\n}\n.text-danger[data-v-87252526] {\n  color: rgb(13, 182, 145);\n  font-weight: bold;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 2rem 1rem;\n}\n.text-primary[data-v-87252526] {\n  color: #00796b !important;\n}\n.text-primary-emphasis[data-v-87252526] {\n  color: #004d40 !important;\n}\n.bg-primary-subtle[data-v-87252526] {\n  background-color: #f5fafa !important;\n}\n.btn-outline-primary[data-v-87252526] {\n  border-color: #00796b;\n  color: #00796b;\n}\n.btn-outline-primary[data-v-87252526]:hover {\n  background-color: #00796b;\n  color: white;\n}\n.card[data-v-87252526] {\n  border-radius: 12px;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.card[data-v-87252526]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);\n}\n.animate-card[data-v-87252526] {\n  animation: cardFadeIn-87252526 0.5s ease-out;\n}\n@keyframes cardFadeIn-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    max-height: 0;\n}\nto {\n    opacity: 1;\n    max-height: 1000px;\n}\n}\n.popular-recitors[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: #6c757d transparent;\n}\n.popular-recitors[data-v-87252526]::-webkit-scrollbar {\n  height: 8px;\n}\n.popular-recitors[data-v-87252526]::-webkit-scrollbar-thumb {\n  background-color: #6c757d;\n  border-radius: 10px;\n}\n.popular-recitors[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-card[data-v-87252526] {\n  flex: 0 0 auto;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 121, 107, 0.2);\n  color: #004d40;\n  padding: 0 4px;\n}\n.card-title[data-v-87252526] {\n  font-size: 1.5rem;\n}\n.text-muted[data-v-87252526] {\n  font-size: 1rem;\n}\n.audio-player[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 10px;\n  padding: 12px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.audio-player.playing[data-v-87252526] {\n  background: #f5fafa;\n}\n.audio-player audio[data-v-87252526] {\n  display: none;\n}\n.btn-icon[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0;\n  font-size: 1.75rem;\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.btn-icon[data-v-87252526]:hover,\n.btn-icon[data-v-87252526]:focus {\n  color: #495057;\n}\n.seek-bar[data-v-87252526],\n.form-range[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 8px;\n  background: #e9ecef;\n  border-radius: 5px;\n  outline: none;\n  position: relative;\n  overflow: hidden;\n}\n.seek-bar[data-v-87252526]::before {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: 100%;\n  width: 0;\n  background: #6c757d;\n  transition: width 0.2s ease;\n}\n.seek-bar[data-v-87252526]:not(:disabled)::before {\n  width: calc(var(--value) * 1%);\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.form-range[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 14px;\n  height: 14px;\n  background: #6c757d;\n  border-radius: 50%;\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.form-range[data-v-87252526]::-moz-range-thumb {\n  width: 14px;\n  height: 14px;\n  background: #6c757d;\n  border-radius: 50%;\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.time-display[data-v-87252526] {\n  font-size: 1.125rem;\n  color: #6c757d;\n  min-width: 60px;\n  text-align: center;\n  font-weight: 500;\n}\n.volume-control[data-v-87252526] {\n  margin-top: 12px;\n}\n.cursor-pointer[data-v-87252526] {\n  cursor: pointer;\n}\n.bi[data-v-87252526] {\n  font-size: 1.5rem;\n}\n.text-secondary[data-v-87252526] {\n  color: #6c757d !important;\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #004d40;\n}\n.active-card[data-v-87252526] {\n  background-color: #e6f0fa !important;\n  border: 1px solid #00796b !important;\n}\n@media (max-width: 767px) {\n.volume-control[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n}\n.volume-control .btn-icon[data-v-87252526] {\n    margin-bottom: 8px;\n}\n.form-range[data-v-87252526] {\n    width: 100%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3 > .col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n.row-cols-md-1 > .col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 100%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -160601,9 +161063,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-45afede8] {\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.card[data-v-45afede8]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.services[data-v-45afede8] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.badge[data-v-45afede8] {\n  font-size: 0.8rem;\n  padding: 0.35em 0.65em;\n}\nbody[data-v-45afede8] {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card[data-v-45afede8] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.form-control[data-v-45afede8],\n.form-range[data-v-45afede8] {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary[data-v-45afede8] {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary[data-v-45afede8]:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary[data-v-45afede8] {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary[data-v-45afede8]:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill[data-v-45afede8] {\n  color: #f39c12;\n}\n.bi-star[data-v-45afede8] {\n  color: #ddd;\n}\n.badge[data-v-45afede8] {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success[data-v-45afede8] {\n  background-color: #27ae60 !important;\n}\n.services[data-v-45afede8] {\n  min-height: 2.5rem;\n}\n.spinner-border[data-v-45afede8] {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n.pagination[data-v-45afede8] {\n  margin-bottom: 0;\n}\n.page-link[data-v-45afede8] {\n  cursor: pointer;\n}\n@media (max-width: 768px) {\n.card-header[data-v-45afede8] {\n    flex-direction: column;\n    text-align: center;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-45afede8] {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  font-size: 16px;\n}\n.btn-visit[data-v-45afede8] {\n  background-color: #007bff;\n  color: white;\n}\n.btn-directions[data-v-45afede8] {\n  background-color: #28a745;\n  color: white;\n}\n.btn-share[data-v-45afede8] {\n  background-color: #17a2b8;\n  color: white;\n}\n.btn-visit[data-v-45afede8]:hover, .btn-directions[data-v-45afede8]:hover, .btn-share[data-v-45afede8]:hover {\n  opacity: 0.9;\n}\n.search-container[data-v-45afede8] {\n  background: #fff;\n  transition: box-shadow 0.3s ease;\n}\n.search-container[data-v-45afede8]:hover {\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.search-filter-container[data-v-45afede8] {\n  gap: 12px !important;\n}\n.form-control[data-v-45afede8] {\n  border-radius: 6px;\n  padding: 10px 14px;\n  font-size: 16px;\n  max-width: 100%;\n  transition: all 0.2s ease;\n}\n.form-control[data-v-45afede8]:focus {\n  border-color: #007bff;\n  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);\n}\n.form-label[data-v-45afede8] {\n  font-size: 14px;\n  font-weight: 600;\n  color: #333;\n  margin-bottom: 4px;\n}\n.form-range[data-v-45afede8] {\n  width: 100px;\n  height: 5px;\n  background: #e9ecef;\n  border-radius: 4px;\n  cursor: pointer;\n}\n.form-range[data-v-45afede8]::-webkit-slider-thumb {\n  width: 14px;\n  height: 14px;\n  background: #007bff;\n  border-radius: 50%;\n  -webkit-transition: background 0.2s ease;\n  transition: background 0.2s ease;\n}\n.form-range[data-v-45afede8]::-webkit-slider-thumb:hover {\n  background: #0056b3;\n}\n.radius-value[data-v-45afede8] {\n  font-size: 12px;\n  color: #666;\n  margin-top: 4px;\n  display: block;\n}\n.form-check-input[data-v-45afede8] {\n  width: 18px;\n  height: 18px;\n  margin-right: 6px;\n  cursor: pointer;\n}\n.form-check-label[data-v-45afede8] {\n  font-size: 14px;\n  cursor: pointer;\n}\n.btn[data-v-45afede8] {\n  border-radius: 6px;\n  padding: 10px 16px;\n  font-size: 14px;\n  font-weight: 500;\n  transition: all 0.2s ease;\n}\n.btn[data-v-45afede8]:hover {\n  transform: translateY(-1px);\n}\n.btn-primary[data-v-45afede8] {\n  background: #007bff;\n  border: none;\n}\n.btn-primary[data-v-45afede8]:hover {\n  background: #0056b3;\n}\n.btn-visit[data-v-45afede8] {\n  background: #00bfa6;\n  color: white;\n  flex: 1;\n}\n.btn-directions[data-v-45afede8] {\n  background: #34c759;\n  color: white;\n  flex: 1;\n}\n.btn-share[data-v-45afede8] {\n  background: #1881b9;\n  color: white;\n  flex: 1;\n}\n.card[data-v-45afede8] {\n  border-radius: 8px;\n  border: none;\n  transition: all 0.2s ease;\n}\n.card[data-v-45afede8]:hover {\n  transform: scale(1.02);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.card-header[data-v-45afede8] {\n  background: #f8f9fa;\n  border-bottom: 1px solid #ddd;\n  padding: 12px 16px;\n}\n.card-title[data-v-45afede8] {\n  font-size: 20px;\n}\n.services[data-v-45afede8] {\n  gap: 6px;\n}\n.badge[data-v-45afede8] {\n  font-size: 12px;\n  padding: 6px 12px;\n  border-radius: 16px;\n}\n.spinner-border[data-v-45afede8] {\n  width: 24px;\n  height: 24px;\n}\n.pagination .page-link[data-v-45afede8] {\n  font-size: 14px;\n  padding: 8px 12px;\n  cursor: pointer;\n}\n@media (max-width: 767px) {\n.search-filter-container[data-v-45afede8] {\n    flex-direction: column !important;\n    align-items: stretch;\n    gap: 8px !important;\n}\n.form-control[data-v-45afede8],\n  .btn[data-v-45afede8] {\n    font-size: 14px;\n    padding: 8px 12px;\n}\n.form-range[data-v-45afede8] {\n    width: 100%;\n}\n.radius-filter[data-v-45afede8],\n  .service-filter[data-v-45afede8] {\n    width: 100%;\n}\n.form-check-label[data-v-45afede8] {\n    font-size: 13px;\n}\n.btn-visit[data-v-45afede8],\n  .btn-directions[data-v-45afede8],\n  .btn-share[data-v-45afede8] {\n    width: 100%;\n}\n}\n@media (min-width: 768px) {\n.search-filter-container[data-v-45afede8] {\n    flex-direction: row;\n    justify-content: space-between;\n}\n.radius-filter[data-v-45afede8],\n  .service-filter[data-v-45afede8] {\n    flex: 0 0 auto;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

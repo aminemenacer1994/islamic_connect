@@ -2,9 +2,9 @@
   <div class="container-fluid my-5">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Halal Food Locator</h1>
+        <h1 class="display-5 fw-bold text-center">Halal Butcher Locator</h1>
         <p class="text-center container mb-4 lead">
-          Find halal Butchers near you
+          Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops.
         </p>
         <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
           <!-- Search Section -->
@@ -140,15 +140,23 @@ export default {
   data() {
 
     return {
-
+      searchRadius: 2000, // Default 2km radius
+      maxRadius: 10000,
       domElementsLoaded: false,
       searchQuery: '',
       activeType: 'all',
       loading: false,
       shops: [],
+      searchHistory: [],
       currentLocation: null,
       searchRadius: 5000,
       debounceTimeout: null,
+      filters: {
+        verifiedOnly: false,
+        minRating: 0,
+        openNow: false,
+        paymentMethods: []
+      },
       foodTypes: [
         { value: 'all', label: 'All', icon: 'bi bi-shop' },
         { value: 'food', label: 'Restaurants', icon: 'bi bi-egg-fried' },
@@ -203,35 +211,76 @@ export default {
 
     async searchLocation() {
       const query = this.searchQuery.trim();
-      if (!query) return;
+      if (!query) {
+        this.error = 'Please enter a location';
+        return;
+      }
+
+      // Check if this search was recently performed
+      const cachedSearch = this.searchHistory.find(s => s.query === query);
+      if (cachedSearch) {
+        this.currentLocation = cachedSearch.location;
+        await this.fetchNearbyShops();
+        return;
+      }
 
       this.loading = true;
+      this.error = null;
       this.shops = [];
 
       try {
         const headers = new Headers({
-          'User-Agent': 'HalalFoodLocator/1.0'
+          'User-Agent': 'HalalFoodLocator/2.0',
+          'Accept-Language': 'en-US,en;q=0.9'
         });
 
-        const geocodeRes = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
+        // First try with Nominatim
+        let geocodeRes = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`,
           { headers }
         );
-        if (!geocodeRes.ok) throw new Error("Location search failed");
-        const data = await geocodeRes.json();
-        if (!data.length) throw new Error("Location not found");
 
-        const location = data[0];
-        this.currentLocation = {
-          lat: parseFloat(location.lat),
-          lon: parseFloat(location.lon),
-          display_name: location.display_name
-        };
+        if (!geocodeRes.ok) throw new Error("Location search service unavailable");
+
+        let data = await geocodeRes.json();
+
+        // Fallback to Mapbox if no results
+        if (!data.length) {
+          geocodeRes = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${MAPBOX_TOKEN}&limit=1`
+          );
+          data = await geocodeRes.json();
+          if (!data.features.length) throw new Error("Location not found");
+
+          const feature = data.features[0];
+          this.currentLocation = {
+            lat: feature.center[1],
+            lon: feature.center[0],
+            display_name: feature.place_name
+          };
+        } else {
+          const location = data[0];
+          this.currentLocation = {
+            lat: parseFloat(location.lat),
+            lon: parseFloat(location.lon),
+            display_name: location.display_name,
+            address: location.address
+          };
+        }
+
+        // Add to search history
+        this.searchHistory.unshift({
+          query,
+          location: this.currentLocation,
+          timestamp: new Date()
+        });
+        if (this.searchHistory.length > 5) this.searchHistory.pop();
 
         await this.fetchNearbyShops();
       } catch (err) {
         console.error("Search error:", err);
-        alert(err.message || 'Could not find location');
+        this.error = err.message || 'Could not find location';
+        this.shops = [];
       } finally {
         this.loading = false;
       }
@@ -244,45 +293,36 @@ export default {
       const radius = this.searchRadius;
 
       const query = `
-        [out:json][timeout:25];
+        [out:json][timeout:30];
         (
-          node["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
-          way["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
-          relation["shop"="butcher"]["diet:halal"="yes"](around:${radius},${lat},${lon});
+          node["shop"="butcher"][~"^(diet:halal|halal|certified:halal)$"~"yes"]
+            (around:${radius},${lat},${lon});
+          way["shop"="butcher"][~"^(diet:halal|halal|certified:halal)$"~"yes"]
+            (around:${radius},${lat},${lon});
+          relation["shop"="butcher"][~"^(diet:halal|halal|certified:halal)$"~"yes"]
+            (around:${radius},${lat},${lon});
         );
         out center;
+        >;
+        out skel qt;
       `;
 
       try {
         const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
         if (!res.ok) throw new Error("Failed to fetch food places");
-
+        
         const json = await res.json();
-
-        const filteredShops = (json.elements || []).filter(item => {
-          const tags = item.tags || {};
-          const name = (tags.name || '').toLowerCase();
-
-          return (
-            tags.shop === 'butcher' &&
-            tags['diet:halal'] === 'yes' &&
-            name !== 'halal food place' &&
-            !name.includes('restaurant') &&
-            !name.includes('grocery')
-          );
-        });
-
-        this.processShopData(filteredShops);
+        this.processShopData(json.elements || []);
       } catch (err) {
         console.error("Fetch error:", err);
-        alert(err.message.includes('Too Many Requests')
+        this.error = err.message.includes('Too Many Requests')
           ? 'Rate limit hit. Please wait and try again.'
-          : 'Could not load halal places');
+          : 'Could not load halal places';
         this.shops = [];
       }
     },
 
-
+    // Enhanced shop processing with more data extraction
     processShopData(elements) {
       const seen = new Set();
       const shops = [];
@@ -294,54 +334,122 @@ export default {
           const coords = element.lat ? element : element.center || {};
           if (!coords.lat || !coords.lon) return;
 
-          let type = 'other';
           const tags = element.tags;
+          const name = tags.name || 'Halal Butcher';
 
-          if (tags.shop === 'halal') type = 'grocery';
-          if (tags.shop === 'butcher') type = 'butcher';
-          else if (tags.cuisine?.includes('halal'));
+          // Determine shop type more accurately
+          let type = 'butcher';
+          if (tags.shop === 'meat') type = 'meat_shop';
+          if (tags['butcher:type']) type = tags['butcher:type'];
 
-          const address = [
+          // Enhanced address extraction
+          const addressParts = [
             tags['addr:street'],
             tags['addr:housenumber'],
-            tags['addr:city']
-          ].filter(Boolean).join(' ') || tags['addr:full'] || 'Address not specified';
+            tags['addr:city'],
+            tags['addr:postcode'],
+            tags['addr:country']
+          ].filter(Boolean);
 
+          const address = addressParts.length
+            ? addressParts.join(', ')
+            : tags['addr:full'] || this.currentLocation.display_name || 'Address not available';
+
+          // Calculate distance in km
           const distance = this.calculateDistance(
             this.currentLocation.lat, this.currentLocation.lon,
             coords.lat, coords.lon
-          );
+          ) / 1000;
+
+          // Extract additional useful information
+          const openingHours = this.parseOpeningHours(tags.opening_hours);
+          const isOpen = openingHours ? this.checkIfOpen(openingHours) : null;
 
           shops.push({
             id: element.id,
-            name: tags.name || 'Halal Food Place',
+            name,
             type,
             lat: coords.lat,
             lon: coords.lon,
             address,
-            distance,
-            cuisine: tags.cuisine || 'Halal',
+            distance: distance.toFixed(2),
             phone: tags.phone,
+            website: tags.website,
+            opening_hours: tags.opening_hours,
+            isOpen,
+            rating: parseFloat(tags['review:score']) || null,
+            certification: tags['certified:halal'] ? 'Certified Halal' : 'Self-reported Halal',
+            payment_methods: tags.payment ? tags.payment.split(';') : [],
+            features: [
+              tags.delivery === 'yes' ? 'delivery' : null,
+              tags.takeaway === 'yes' ? 'takeaway' : null,
+              tags['wheelchair'] === 'yes' ? 'wheelchair_accessible' : null
+            ].filter(Boolean),
             tags
           });
 
           seen.add(element.id);
         } catch (e) {
-          console.warn("Processing error:", e);
+          console.warn("Error processing shop:", element.id, e);
         }
       });
 
-      this.shops = shops.sort((a, b) => a.distance - b.distance);
+      // Apply filters
+      let filteredShops = shops;
+      if (this.filters.verifiedOnly) {
+        filteredShops = filteredShops.filter(shop => shop.certification === 'Certified Halal');
+      }
+      if (this.filters.openNow) {
+        filteredShops = filteredShops.filter(shop => shop.isOpen === true);
+      }
+      if (this.filters.minRating > 0) {
+        filteredShops = filteredShops.filter(shop => shop.rating >= this.filters.minRating);
+      }
+      if (this.filters.paymentMethods.length > 0) {
+        filteredShops = filteredShops.filter(shop =>
+          this.filters.paymentMethods.some(method =>
+            shop.payment_methods.includes(method))
+        )
+      }
+      this.shops = filteredShops.sort((a, b) => a.distance - b.distance);
     },
 
-    expandSearchRadius() {
-      this.searchRadius += 2000;
-      this.fetchNearbyShops();
+    async expandSearchRadius() {
+      const increment = 2000;
+      if (this.searchRadius + increment > this.maxRadius) {
+        this.error = `Maximum search radius of ${this.maxRadius / 1000}km reached`;
+        return;
+      }
+
+      this.searchRadius += increment;
+      this.error = `Expanding search to ${this.searchRadius / 1000}km radius...`;
+      await this.fetchNearbyShops();
     },
 
-    openGoogleMaps(lat, lon) {
+
+    openMaps(lat, lon, name = '') {
       if (!lat || !lon) return;
-      window.open(`https://www.google.com/maps?q=${lat},${lon}`, '_blank');
+
+      const baseUrl = 'https://www.google.com/maps';
+      const params = new URLSearchParams({
+        q: `${lat},${lon}`,
+        layer: 'c',
+        cbll: `${lat},${lon}`,
+        cbp: '11'
+      });
+
+      if (name) params.set('q', `${name}@${lat},${lon}`);
+
+      window.open(`${baseUrl}?${params.toString()}`, '_blank');
+    },
+
+    callShop(phone) {
+      if (!phone) return;
+
+      if (confirm(`Call ${phone}?`)) {
+        const cleanPhone = phone.replace(/[^\d+]/g, '');
+        window.location.href = `tel:${cleanPhone}`;
+      }
     },
 
     callShop(phone) {
@@ -351,7 +459,7 @@ export default {
     },
 
     calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3;
+      const R = 6371e3; // Earth radius in meters
       const φ1 = lat1 * Math.PI / 180;
       const φ2 = lat2 * Math.PI / 180;
       const Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -363,6 +471,26 @@ export default {
 
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       return R * c;
+    },
+
+    parseOpeningHours(hoursString) {
+      if (!hoursString) return null;
+      // Implement proper opening hours parsing here
+      // (could use a library like opening_hours.js)
+      return hoursString;
+    },
+
+    checkIfOpen(openingHours) {
+      // Implement logic to check current time against opening hours
+      return null;
+    },
+
+    resetSearch() {
+      this.searchQuery = '';
+      this.searchRadius = 2000;
+      this.currentLocation = null;
+      this.shops = [];
+      this.error = null;
     }
   }
 }
