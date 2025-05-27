@@ -41332,10 +41332,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js":
-/*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js ***!
-  \******************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -41343,27 +41343,410 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '@inertiajs/vue3'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  __name: 'ShopComponent',
-  setup: function setup(__props, _ref) {
-    var __expose = _ref.expose;
-    __expose();
-    var __returned__ = {
-      get Head() {
-        return Object(function webpackMissingModule() { var e = new Error("Cannot find module '@inertiajs/vue3'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-      },
-      get Link() {
-        return Object(function webpackMissingModule() { var e = new Error("Cannot find module '@inertiajs/vue3'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-      }
-    };
-    Object.defineProperty(__returned__, '__isScriptSetup', {
-      enumerable: false,
-      value: true
+  name: 'HalalFoodLocator',
+  data: function data() {
+    return _defineProperty(_defineProperty(_defineProperty(_defineProperty({
+      searchRadius: 2000,
+      // Default 2km radius
+      maxRadius: 10000,
+      domElementsLoaded: false,
+      searchQuery: '',
+      activeType: 'all',
+      loading: false,
+      shops: [],
+      searchHistory: [],
+      currentLocation: null
+    }, "searchRadius", 5000), "debounceTimeout", null), "filters", {
+      verifiedOnly: false,
+      minRating: 0,
+      openNow: false,
+      paymentMethods: []
+    }), "foodTypes", [{
+      value: 'all',
+      label: 'All',
+      icon: 'bi bi-shop'
+    }, {
+      value: 'food',
+      label: 'Restaurants',
+      icon: 'bi bi-egg-fried'
+    }, {
+      value: 'supermarket',
+      label: 'Grocery',
+      icon: 'bi bi-basket'
+    }, {
+      value: 'butcher',
+      label: 'Butchers',
+      icon: 'bi bi-droplet'
+    }]);
+  },
+  mounted: function mounted() {
+    var _this = this;
+    this.$nextTick(function () {
+      _this.domElementsLoaded = true;
     });
-    return __returned__;
-  }
+  },
+  computed: {
+    filteredShops: function filteredShops() {
+      var _this2 = this;
+      var results = this.shops;
+      if (this.activeType !== 'all') {
+        results = results.filter(function (shop) {
+          return shop.type === _this2.activeType;
+        });
+      }
+      return results;
+    }
+  },
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    safeFocusInput: function safeFocusInput() {
+      var _this3 = this;
+      this.$nextTick(function () {
+        var input = _this3.$refs.searchInput;
+        if (input !== null && input !== void 0 && input.focus) input.focus();
+      });
+    },
+    setActiveType: function setActiveType(type) {
+      this.activeType = type;
+    },
+    validateSearchQuery: function validateSearchQuery() {
+      if (!this.searchQuery || typeof this.searchQuery !== 'string') {
+        throw new Error("Invalid search query");
+      }
+      return this.searchQuery.trim();
+    },
+    debounceSearch: function debounceSearch() {
+      var _this4 = this;
+      clearTimeout(this.debounceTimeout);
+      this.debounceTimeout = setTimeout(function () {
+        return _this4.searchLocation();
+      }, 800);
+    },
+    searchLocation: function searchLocation() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var query, cachedSearch, headers, geocodeRes, data, feature, location;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              query = _this5.searchQuery.trim();
+              if (query) {
+                _context.next = 4;
+                break;
+              }
+              _this5.error = 'Please enter a location';
+              return _context.abrupt("return");
+            case 4:
+              // Check if this search was recently performed
+              cachedSearch = _this5.searchHistory.find(function (s) {
+                return s.query === query;
+              });
+              if (!cachedSearch) {
+                _context.next = 10;
+                break;
+              }
+              _this5.currentLocation = cachedSearch.location;
+              _context.next = 9;
+              return _this5.fetchNearbyShops();
+            case 9:
+              return _context.abrupt("return");
+            case 10:
+              _this5.loading = true;
+              _this5.error = null;
+              _this5.shops = [];
+              _context.prev = 13;
+              headers = new Headers({
+                'User-Agent': 'HalalFoodLocator/2.0',
+                'Accept-Language': 'en-US,en;q=0.9'
+              }); // First try with Nominatim
+              _context.next = 17;
+              return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1&addressdetails=1"), {
+                headers: headers
+              });
+            case 17:
+              geocodeRes = _context.sent;
+              if (geocodeRes.ok) {
+                _context.next = 20;
+                break;
+              }
+              throw new Error("Location search service unavailable");
+            case 20:
+              _context.next = 22;
+              return geocodeRes.json();
+            case 22:
+              data = _context.sent;
+              if (data.length) {
+                _context.next = 36;
+                break;
+              }
+              _context.next = 26;
+              return fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/".concat(encodeURIComponent(query), ".json?access_token=").concat(MAPBOX_TOKEN, "&limit=1"));
+            case 26:
+              geocodeRes = _context.sent;
+              _context.next = 29;
+              return geocodeRes.json();
+            case 29:
+              data = _context.sent;
+              if (data.features.length) {
+                _context.next = 32;
+                break;
+              }
+              throw new Error("Location not found");
+            case 32:
+              feature = data.features[0];
+              _this5.currentLocation = {
+                lat: feature.center[1],
+                lon: feature.center[0],
+                display_name: feature.place_name
+              };
+              _context.next = 38;
+              break;
+            case 36:
+              location = data[0];
+              _this5.currentLocation = {
+                lat: parseFloat(location.lat),
+                lon: parseFloat(location.lon),
+                display_name: location.display_name,
+                address: location.address
+              };
+            case 38:
+              // Add to search history
+              _this5.searchHistory.unshift({
+                query: query,
+                location: _this5.currentLocation,
+                timestamp: new Date()
+              });
+              if (_this5.searchHistory.length > 5) _this5.searchHistory.pop();
+              _context.next = 42;
+              return _this5.fetchNearbyShops();
+            case 42:
+              _context.next = 49;
+              break;
+            case 44:
+              _context.prev = 44;
+              _context.t0 = _context["catch"](13);
+              console.error("Search error:", _context.t0);
+              _this5.error = _context.t0.message || 'Could not find location';
+              _this5.shops = [];
+            case 49:
+              _context.prev = 49;
+              _this5.loading = false;
+              return _context.finish(49);
+            case 52:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[13, 44, 49, 52]]);
+      }))();
+    },
+    fetchNearbyShops: function fetchNearbyShops() {
+      var _this6 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var _this6$currentLocatio, lat, lon, radius, query, res, json;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              if (_this6.currentLocation) {
+                _context2.next = 2;
+                break;
+              }
+              return _context2.abrupt("return");
+            case 2:
+              _this6$currentLocatio = _this6.currentLocation, lat = _this6$currentLocatio.lat, lon = _this6$currentLocatio.lon;
+              radius = _this6.searchRadius;
+              query = "\n        [out:json][timeout:30];\n        (\n          node[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          relation[\"shop\"=\"butcher\"][~\"^(diet:halal|halal|certified:halal)$\"~\"yes\"]\n            (around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        );\n        out center;\n        >;\n        out skel qt;\n      ");
+              _context2.prev = 5;
+              _context2.next = 8;
+              return fetch("https://overpass-api.de/api/interpreter?data=".concat(encodeURIComponent(query)));
+            case 8:
+              res = _context2.sent;
+              if (res.ok) {
+                _context2.next = 11;
+                break;
+              }
+              throw new Error("Failed to fetch food places");
+            case 11:
+              _context2.next = 13;
+              return res.json();
+            case 13:
+              json = _context2.sent;
+              _this6.processShopData(json.elements || []);
+              _context2.next = 22;
+              break;
+            case 17:
+              _context2.prev = 17;
+              _context2.t0 = _context2["catch"](5);
+              console.error("Fetch error:", _context2.t0);
+              _this6.error = _context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places';
+              _this6.shops = [];
+            case 22:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[5, 17]]);
+      }))();
+    },
+    // Enhanced shop processing with more data extraction
+    processShopData: function processShopData(elements) {
+      var _this7 = this;
+      var seen = new Set();
+      var shops = [];
+      elements.forEach(function (element) {
+        try {
+          if (!element.tags || seen.has(element.id)) return;
+          var coords = element.lat ? element : element.center || {};
+          if (!coords.lat || !coords.lon) return;
+          var tags = element.tags;
+          var name = tags.name || 'Halal Butcher';
+
+          // Determine shop type more accurately
+          var type = 'butcher';
+          if (tags.shop === 'meat') type = 'meat_shop';
+          if (tags['butcher:type']) type = tags['butcher:type'];
+
+          // Enhanced address extraction
+          var addressParts = [tags['addr:street'], tags['addr:housenumber'], tags['addr:city'], tags['addr:postcode'], tags['addr:country']].filter(Boolean);
+          var address = addressParts.length ? addressParts.join(', ') : tags['addr:full'] || _this7.currentLocation.display_name || 'Address not available';
+
+          // Calculate distance in km
+          var distance = _this7.calculateDistance(_this7.currentLocation.lat, _this7.currentLocation.lon, coords.lat, coords.lon) / 1000;
+
+          // Extract additional useful information
+          var openingHours = _this7.parseOpeningHours(tags.opening_hours);
+          var isOpen = openingHours ? _this7.checkIfOpen(openingHours) : null;
+          shops.push({
+            id: element.id,
+            name: name,
+            type: type,
+            lat: coords.lat,
+            lon: coords.lon,
+            address: address,
+            distance: distance.toFixed(2),
+            phone: tags.phone,
+            website: tags.website,
+            opening_hours: tags.opening_hours,
+            isOpen: isOpen,
+            rating: parseFloat(tags['review:score']) || null,
+            certification: tags['certified:halal'] ? 'Certified Halal' : 'Self-reported Halal',
+            payment_methods: tags.payment ? tags.payment.split(';') : [],
+            features: [tags.delivery === 'yes' ? 'delivery' : null, tags.takeaway === 'yes' ? 'takeaway' : null, tags['wheelchair'] === 'yes' ? 'wheelchair_accessible' : null].filter(Boolean),
+            tags: tags
+          });
+          seen.add(element.id);
+        } catch (e) {
+          console.warn("Error processing shop:", element.id, e);
+        }
+      });
+
+      // Apply filters
+      var filteredShops = shops;
+      if (this.filters.verifiedOnly) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.certification === 'Certified Halal';
+        });
+      }
+      if (this.filters.openNow) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.isOpen === true;
+        });
+      }
+      if (this.filters.minRating > 0) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return shop.rating >= _this7.filters.minRating;
+        });
+      }
+      if (this.filters.paymentMethods.length > 0) {
+        filteredShops = filteredShops.filter(function (shop) {
+          return _this7.filters.paymentMethods.some(function (method) {
+            return shop.payment_methods.includes(method);
+          });
+        });
+      }
+      this.shops = filteredShops.sort(function (a, b) {
+        return a.distance - b.distance;
+      });
+    },
+    expandSearchRadius: function expandSearchRadius() {
+      var _this8 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var increment;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              increment = 2000;
+              if (!(_this8.searchRadius + increment > _this8.maxRadius)) {
+                _context3.next = 4;
+                break;
+              }
+              _this8.error = "Maximum search radius of ".concat(_this8.maxRadius / 1000, "km reached");
+              return _context3.abrupt("return");
+            case 4:
+              _this8.searchRadius += increment;
+              _this8.error = "Expanding search to ".concat(_this8.searchRadius / 1000, "km radius...");
+              _context3.next = 8;
+              return _this8.fetchNearbyShops();
+            case 8:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3);
+      }))();
+    },
+    openMaps: function openMaps(lat, lon) {
+      var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+      if (!lat || !lon) return;
+      var baseUrl = 'https://www.google.com/maps';
+      var params = new URLSearchParams({
+        q: "".concat(lat, ",").concat(lon),
+        layer: 'c',
+        cbll: "".concat(lat, ",").concat(lon),
+        cbp: '11'
+      });
+      if (name) params.set('q', "".concat(name, "@").concat(lat, ",").concat(lon));
+      window.open("".concat(baseUrl, "?").concat(params.toString()), '_blank');
+    },
+    callShop: function callShop(phone) {
+      if (!phone) return;
+      if (confirm("Call ".concat(phone, "?"))) {
+        var cleanPhone = phone.replace(/[^\d+]/g, '');
+        window.location.href = "tel:".concat(cleanPhone);
+      }
+    }
+  }, "callShop", function callShop(phone) {
+    if (phone) {
+      window.location.href = "tel:".concat(phone);
+    }
+  }), "calculateDistance", function calculateDistance(lat1, lon1, lat2, lon2) {
+    var R = 6371e3; // Earth radius in meters
+    var φ1 = lat1 * Math.PI / 180;
+    var φ2 = lat2 * Math.PI / 180;
+    var Δφ = (lat2 - lat1) * Math.PI / 180;
+    var Δλ = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.pow(Math.sin(Δφ / 2), 2) + Math.cos(φ1) * Math.cos(φ2) * Math.pow(Math.sin(Δλ / 2), 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }), "parseOpeningHours", function parseOpeningHours(hoursString) {
+    if (!hoursString) return null;
+    // Implement proper opening hours parsing here
+    // (could use a library like opening_hours.js)
+    return hoursString;
+  }), "checkIfOpen", function checkIfOpen(openingHours) {
+    // Implement logic to check current time against opening hours
+    return null;
+  }), "resetSearch", function resetSearch() {
+    this.searchQuery = '';
+    this.searchRadius = 2000;
+    this.currentLocation = null;
+    this.shops = [];
+    this.error = null;
+  })
 });
 
 /***/ }),
@@ -58200,10 +58583,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -58212,51 +58595,233 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "flex flex-col min-h-screen items-center justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+  "class": "container-fluid my-5"
 };
 var _hoisted_2 = {
-  "class": "w-full flex justify-end p-6"
+  "class": "row justify-content-center"
 };
 var _hoisted_3 = {
-  "class": "text-center max-w-2xl px-4"
+  "class": "col-lg-10"
 };
 var _hoisted_4 = {
-  "class": "mt-6"
+  "class": "shadow",
+  style: {
+    "border-radius": "20px",
+    "padding": "10px",
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_5 = {
+  "class": "card-body",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_6 = {
+  "class": "flex-wrap align-items-center justify-content-center gap-3 mb-4"
+};
+var _hoisted_7 = ["disabled"];
+var _hoisted_8 = {
+  key: 0
+};
+var _hoisted_9 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_10 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_11 = {
+  "class": "mt-3"
+};
+var _hoisted_12 = {
+  key: 1
+};
+var _hoisted_13 = {
+  key: 0,
+  "class": "text-center py-5"
+};
+var _hoisted_14 = {
+  "class": "text-center py-5"
+};
+var _hoisted_15 = {
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+};
+var _hoisted_16 = {
+  "class": "card h-100"
+};
+var _hoisted_17 = {
+  style: {
+    "padding": "15px 15px 0 15px"
+  }
+};
+var _hoisted_18 = {
+  "class": "card-title fw-bold text-dark mb-3",
+  style: {
+    "font-size": "25px"
+  }
+};
+var _hoisted_19 = {
+  "class": "card-body pt-0"
+};
+var _hoisted_20 = {
+  "class": "mb-2"
+};
+var _hoisted_21 = {
+  "class": "d-flex align-items-start"
+};
+var _hoisted_22 = {
+  "class": "text-truncate",
+  style: {
+    "display": "-webkit-box",
+    "-webkit-line-clamp": "2",
+    "-webkit-box-orient": "vertical"
+  }
+};
+var _hoisted_23 = {
+  "class": "mb-2 d-flex align-items-center"
+};
+var _hoisted_24 = {
+  "class": "mb-0"
+};
+var _hoisted_25 = {
+  key: 0,
+  "class": "mb-2"
+};
+var _hoisted_26 = {
+  "class": "text-muted"
+};
+var _hoisted_27 = {
+  key: 1,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_28 = {
+  "class": "text-muted"
+};
+var _hoisted_29 = {
+  "class": "d-flex justify-content-between align-items-center gap-2"
+};
+var _hoisted_30 = ["onClick"];
+var _hoisted_31 = ["onClick"];
+var _hoisted_32 = {
+  key: 0,
+  "class": "d-flex justify-content-between align-items-center",
+  style: {
+    "padding": "10px"
+  }
+};
+var _hoisted_33 = {
+  "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
-    title: "Home"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: _ctx.route('login'),
-    "class": "mr-4 hover:underline"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Log in")]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold text-center"
+  }, "Halal Butcher Locator", -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 lead"
+  }, " Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center mb-3",
+    role: "search",
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
+    }, ["prevent"])),
+    style: {
+      "gap": "0.5rem"
+    }
+  }, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "card-title pr-2 fw-bold",
+    style: {
+      "font-size": "25px"
+    }
+  }, "Search location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "searchInput",
+    type: "search",
+    "class": "form-control",
+    placeholder: "Enter city...",
+    "aria-label": "Search",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
     }),
-    _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: _ctx.route('register'),
-    "class": "hover:underline"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return _cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Register")]);
+    onInput: _cache[1] || (_cache[1] = function () {
+      return _ctx.handleTyping && _ctx.handleTyping.apply(_ctx, arguments);
     }),
-    _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_3, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "text-4xl font-bold mb-4"
-  }, "Welcome to Dellys", -1 /* HOISTED */)), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-lg text-gray-700 dark:text-gray-300"
-  }, " Find a home that suits your lifestyle. (banner) ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Link"], {
-    href: _ctx.route('dashboard'),
-    "class": "inline-block rounded bg-blue-600 text-white px-6 py-2 text-sm font-medium hover:bg-blue-700"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return _cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Go to Dashboard ")]);
-    }),
-    _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["href"])]), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"mt-8 space-y-6\"><div class=\"bg-gray-100 dark:bg-gray-800 p-4 rounded-lg\"><h2 class=\"text-xl font-semibold mb-2\">Banner</h2><p class=\"text-gray-600 dark:text-gray-400\"> Discover your featured property </p></div><div class=\"bg-gray-100 dark:bg-gray-800 p-4 rounded-lg\"><h2 class=\"text-xl font-semibold mb-2\">Info about dellys</h2><p class=\"text-gray-600 dark:text-gray-400\"> The experts in local and international property </p></div><div class=\"bg-gray-100 dark:bg-gray-800 p-4 rounded-lg\"><h2 class=\"text-xl font-semibold mb-2\">Testimonials</h2><p class=\"text-gray-600 dark:text-gray-400\"> What Our Residents Say About Us! </p></div><div class=\"bg-gray-100 dark:bg-gray-800 p-4 rounded-lg\"><h2 class=\"text-xl font-semibold mb-2\">Contact us</h2><p class=\"text-gray-600 dark:text-gray-400\"> Putting a plan to action, to assure your satisfaction! </p></div></div>", 1))])])], 64 /* STABLE_FRAGMENT */);
+    autocomplete: "off",
+    style: {
+      "max-width": "300px"
+    }
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-success",
+    type: "submit",
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal food in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-shop display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "Search for halal food", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Enter a city or address to find nearby halal restaurants and shops", -1 /* HOISTED */)]))) : $data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-binoculars display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "No halal food places found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.expandSearchRadius && $options.expandSearchRadius.apply($options, arguments);
+    })
+  }, " Try expanding search radius ")])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 2
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
+    var _shop$tags;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: shop.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge bg-success\">\n                        <i class=\"bi bi-check-circle-fill me-1\"></i> Halal Certified\n                      </span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-2cbbc6cc><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_26, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_28, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return _ctx.openGoogleMaps(shop.lat, shop.lon);
+      },
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-center w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.callShop(shop.phone);
+      },
+      style: {
+        "background": "#1881b9",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_33, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -160266,6 +160831,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  backgroun
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-2cbbc6cc] {\n  border-radius: 15px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.card[data-v-2cbbc6cc]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.btn-outline-primary.active[data-v-2cbbc6cc] {\n  background-color: #2c5fa8;\n  color: white;\n}\n.badge.bg-success[data-v-2cbbc6cc] {\n  background-color: #28a745 !important;\n}\n@media (max-width: 768px) {\n.d-flex.align-items-center[data-v-2cbbc6cc] {\n    flex-direction: column;\n    gap: 0.5rem;\n}\n.btn[data-v-2cbbc6cc] {\n    width: 100%;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css":
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StreamingComponent.vue?vue&type=style&index=0&id=670f86e6&scoped=true&lang=css ***!
@@ -228334,6 +228923,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RadioComponent_vue_vue_type_style_index_0_id_87252526_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -310943,15 +311562,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ShopComponent_vue_vue_type_template_id_2cbbc6cc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShopComponent.vue?vue&type=template&id=2cbbc6cc */ "./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc");
-/* harmony import */ var _ShopComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShopComponent.vue?vue&type=script&setup=true&lang=js */ "./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true */ "./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true");
+/* harmony import */ var _ShopComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShopComponent.vue?vue&type=script&lang=js */ "./resources/js/components/ShopComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css */ "./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 
 ;
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_ShopComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ShopComponent_vue_vue_type_template_id_2cbbc6cc__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/ShopComponent.vue"]])
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_ShopComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-2cbbc6cc"],['__file',"resources/js/components/ShopComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -310960,34 +311582,47 @@ if (false) {}
 
 /***/ }),
 
-/***/ "./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js":
-/*!**************************************************************************************!*\
-  !*** ./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js ***!
-  \**************************************************************************************/
+/***/ "./resources/js/components/ShopComponent.vue?vue&type=script&lang=js":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/ShopComponent.vue?vue&type=script&lang=js ***!
+  \***************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=script&setup=true&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=script&lang=js");
  
 
 /***/ }),
 
-/***/ "./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc ***!
-  \*********************************************************************************/
+/***/ "./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css":
+/*!***********************************************************************************************************!*\
+  !*** ./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=style&index=0&id=2cbbc6cc&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true ***!
+  \*********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=template&id=2cbbc6cc */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true");
 
 
 /***/ }),
