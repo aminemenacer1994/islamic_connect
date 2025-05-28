@@ -30,7 +30,7 @@
               <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <p class="mt-3">Searching for halal food in {{ searchQuery }}...</p>
+              <p class="mt-3">Searching for halal Butchers in {{ searchQuery }}...</p>
             </div>
 
             <!-- Results -->
@@ -38,8 +38,8 @@
               <!-- No Search State -->
               <div v-if="!searchQuery && shops.length === 0" class="text-center py-5">
                 <i class="bi bi-shop display-4 text-muted mb-3"></i>
-                <h3 class="h4 text-muted">Search for halal food</h3>
-                <p class="text-muted">Enter a city or address to find nearby halal restaurants and shops</p>
+                <h3 class="h4 text-muted">Search for halal Butchers</h3>
+                <p class="text-muted">Enter a city or address to find nearby halal butchers</p>
               </div>
 
               <!-- No Results State -->

@@ -55,6 +55,9 @@ use App\Http\Controllers\UmrahController;
 use App\Http\Controllers\NameController;
 use App\Http\Controllers\PrayerController;
 use App\Http\Controllers\TravelController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\KnowledgeController;
+use App\Http\Controllers\ServicesController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -356,3 +359,9 @@ Route::get('/name', [NameController::class, 'index'])->name('name');
 Route::get('/prayer', [PrayerController::class, 'index'])->name('prayer');
 // travel
 Route::get('/travel', [TravelController::class, 'index'])->name('travel');
+// media
+Route::get('/media', [MediaController::class, 'index'])->name('media');
+// knowledge
+Route::get('/knowledge', [KnowledgeController::class, 'index'])->name('knowledge');
+// services
+Route::get('/services', [ServicesController::class, 'index'])->name('services');

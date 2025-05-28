@@ -107,43 +107,16 @@ body{
                         </ul>
                     </li>
                     
-                    <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Media Center</b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/content">Audio Podcasts</a></li>
-                            <li><a class="dropdown-item" href="/radio">Reciters Stations</a></li>
-                            <li><a class="dropdown-item" href="/streaming">Live TV streaming</a></li>
-                            <li><a class="dropdown-item" href="/gallery">Image Gallery</a></li>
-                            <li><a class="dropdown-item" href="/video">Video Gallery</a></li>
-                        </ul>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/media" data-path="/media"><b style="color:black">Media Center</b></a></h6>
                     </li>
 
-                    <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Islamic Knowledge</b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/mission">Seerah Timeline</a></li>
-                            <li><a class="dropdown-item" href="/dua">Dua Collection</a></li>
-                            <li><a class="dropdown-item" href="/guides">Islamic Guides</a></li>
-                            <li><a class="dropdown-item" href="/umrah">Hajj & Umrah Guides</a></li>
-                            <li><a class="dropdown-item" href="/athkar">Salat Teachings</a></li>
-                        </ul>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/knowledge" data-path="/knowledge"><b style="color:black">Islamic Knowledge</b></a></h6>
                     </li>
 
-                    <li class="nav-item dropdown pt-3 pl-3">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" onclick="event.preventDefault();">
-                            <b style="color:black">Services</b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/mosque">Mosque Locator</a></li>
-                            <li><a class="dropdown-item" href="/shop">Halal Butchers</a></li>
-                            <!-- <li><a class="dropdown-item" href="/shop">Halal Restaurants</a></li> -->
-                            <!-- <li><a class="dropdown-item" href="/date">Hajj & Umrar Travel Agencies</a></li> -->
-                            <!-- <li><a class="dropdown-item" href="/calendar">Current Islamic Events</a></li> -->
-                        </ul>
+                    <li class="nav-item mt-3">
+                        <h6><a class="nav-link pt-2 ml-3 pl-3" href="/services" data-path="/services"><b style="color:black">Services</b></a></h6>
                     </li>
 
                     <li class="nav-item mt-3">
@@ -160,11 +133,11 @@ body{
                         <h6><a class="nav-link pt-2 " href="{{ route('login') }}" data-path="/login"><b style="color:black">{{ __('Login') }}</b></a></h6>
                     </li>
                     @endif
-                    @if (Route::has('register'))
+                    <!-- @if (Route::has('register'))
                     <li class="nav-item display-6 pl-3 mt-3">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
                     </li>
-                    @endif
+                    @endif -->
                     @else
                     <li class="nav-item dropdown pl-3">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button"
