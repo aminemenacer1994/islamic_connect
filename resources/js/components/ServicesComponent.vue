@@ -79,21 +79,20 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
-          <img src="/images/school1.png" alt="Donation" class="w-100" style="object-fit: contain;" />
+          <img src="/images/school1.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
-            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools and Classes</h5>
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools & Centers</h5>
             <p class="card-text text-muted text-wrap text-center"
-              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep
-              Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts
-            </p>
-            <button class="form-control" onclick="window.location.href='/support'"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.</p>
+            <button class="form-control" onclick="window.location.href='/school'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
-              <span class="text-center w-100"><b>Find Schools</b></span>
+              <span class="text-center w-100"><b>Visit Schools</b></span>
             </button>
           </div>
         </div>
       </div>
+
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">

@@ -60,6 +60,7 @@ use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\SchoolController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -371,3 +372,5 @@ Route::get('/services', [ServicesController::class, 'index'])->name('services');
 Route::get('/store', [StoreController::class, 'index'])->name('store');
 // food
 Route::get('/food', [FoodController::class, 'index'])->name('food');
+// school
+Route::get('/school', [SchoolController::class, 'index'])->name('school');
