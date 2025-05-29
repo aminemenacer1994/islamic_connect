@@ -45,6 +45,58 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/store1.jpg" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Shops Finder</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
+              halal food at your fingertips. Whether you're traveling or you're new in town.</p>
+            <button class="form-control" onclick="window.location.href='/store'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Locate Shops</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/food.jpg" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Halal Food Locater</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Discover delicious and certified
+              halal food at your fingertips. Whether you're traveling or you're new in town.</p>
+            <button class="form-control" onclick="window.location.href='/shop'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Search Foods</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/school1.png" alt="Donation" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Schools and Classes</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Your donation helps us keep
+              Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts
+            </p>
+            <button class="form-control" onclick="window.location.href='/support'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Find Schools</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
           <img src="/images/donate111.png" alt="Donation" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Donation</h5>
@@ -60,7 +112,6 @@
           </div>
         </div>
       </div>
-
 
     </div>
 

@@ -34282,341 +34282,134 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'IslamicShopsLocator',
   data: function data() {
     return {
-      searchQuery: '',
-      userLocation: null,
-      shops: [],
-      filteredShops: [],
+      searchQuery: 'Quran',
+      // Default to a more specific Islamic term
+      books: [],
       loading: false,
       error: null,
-      suggestions: [],
-      suggestionTimeout: null,
-      searchRadius: '0.1',
-      filterHalal: false,
-      lastSearchCoords: null
+      selectedBookIa: null,
+      selectedBookTitle: '',
+      bookReaderId: 'bookreader',
+      useIframeFallback: false,
+      readerError: null,
+      iframeSrc: '',
+      archiveUrl: '' // Direct archive.org link
     };
   },
   methods: {
-    searchLocation: function searchLocation() {
+    fetchBooks: function fetchBooks() {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var geocodeResponse, geocodeData, firstResult, lat, lon;
+        var response, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              if (_this.searchQuery.trim()) {
-                _context.next = 3;
-                break;
-              }
-              _this.error = 'Please enter a location to search';
-              return _context.abrupt("return");
-            case 3:
               _this.loading = true;
               _this.error = null;
-              _this.suggestions = [];
-              _context.prev = 6;
-              _context.next = 9;
-              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(_this.searchQuery)));
-            case 9:
-              geocodeResponse = _context.sent;
-              _context.next = 12;
-              return geocodeResponse.json();
-            case 12:
-              geocodeData = _context.sent;
-              if (!(geocodeData.length === 0)) {
-                _context.next = 15;
+              _this.closeBookReader();
+              _context.prev = 3;
+              _context.next = 6;
+              return fetch("https://openlibrary.org/search.json?q=".concat(encodeURIComponent(_this.searchQuery), "+subject:Islam&limit=20&sort=relevance"));
+            case 6:
+              response = _context.sent;
+              if (response.ok) {
+                _context.next = 9;
                 break;
               }
-              throw new Error('No results found for this location');
-            case 15:
-              firstResult = geocodeData[0];
-              lat = parseFloat(firstResult.lat);
-              lon = parseFloat(firstResult.lon);
-              _this.lastSearchCoords = {
-                lat: lat,
-                lon: lon
-              };
-              _context.next = 21;
-              return _this.findIslamicShops(lat, lon);
-            case 21:
-              _context.next = 28;
+              throw new Error('Failed to fetch books');
+            case 9:
+              _context.next = 11;
+              return response.json();
+            case 11:
+              data = _context.sent;
+              _this.books = data.docs.filter(function (book) {
+                return book.subject && book.subject.includes('Islam');
+              }) // Ensure Islamic relevance
+              .map(function (book) {
+                return {
+                  key: book.key,
+                  title: book.title,
+                  author_name: book.author_name || [],
+                  first_publish_year: book.first_publish_year,
+                  subject: book.subject || [],
+                  ia: book.ia ? book.ia[0] : null
+                };
+              });
+              if (_this.books.length === 0) {
+                _this.error = 'No Islamic books found for this search. Try "Quran" or "Hadith".';
+              }
+              _context.next = 19;
               break;
-            case 23:
-              _context.prev = 23;
-              _context.t0 = _context["catch"](6);
-              _this.error = _context.t0.message || 'Failed to search location';
-              _this.shops = [];
-              _this.filteredShops = [];
-            case 28:
-              _context.prev = 28;
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](3);
+              _this.error = 'Error fetching books: ' + _context.t0.message;
+            case 19:
+              _context.prev = 19;
               _this.loading = false;
-              return _context.finish(28);
-            case 31:
+              return _context.finish(19);
+            case 22:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[6, 23, 28, 31]]);
+        }, _callee, null, [[3, 16, 19, 22]]);
       }))();
     },
-    handleInputChange: function handleInputChange() {
+    openBookReader: function openBookReader(ia, title) {
       var _this2 = this;
-      clearTimeout(this.suggestionTimeout);
-      if (this.searchQuery.length < 3) {
-        this.suggestions = [];
-        return;
-      }
-      this.suggestionTimeout = setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=".concat(encodeURIComponent(_this2.searchQuery), "&addressdetails=1&limit=5"));
-            case 3:
-              response = _context2.sent;
-              _context2.next = 6;
-              return response.json();
-            case 6:
-              data = _context2.sent;
-              _this2.suggestions = data;
-              _context2.next = 14;
-              break;
-            case 10:
-              _context2.prev = 10;
-              _context2.t0 = _context2["catch"](0);
-              console.error('Failed to get suggestions:', _context2.t0);
-              _this2.suggestions = [];
-            case 14:
-            case "end":
-              return _context2.stop();
+      console.log('Opening book with IA ID:', ia, 'Title:', title);
+      this.selectedBookIa = ia;
+      this.selectedBookTitle = title;
+      this.readerError = null;
+      this.useIframeFallback = false;
+      this.iframeSrc = "https://archive.org/embed/".concat(ia);
+      this.archiveUrl = "https://archive.org/details/".concat(ia);
+      this.$nextTick(function () {
+        var script = document.createElement('script');
+        script.src = 'https://archive.org/bookreader/BookReader.js';
+        script.onerror = function () {
+          console.error('Failed to load BookReader script');
+          _this2.readerError = 'Failed to load book reader. Using fallback view.';
+          _this2.useIframeFallback = true;
+        };
+        script.onload = function () {
+          try {
+            var br = new window.BookReader({
+              el: "#".concat(_this2.bookReaderId),
+              ui: 'full',
+              bookId: ia,
+              defaultStartLeaf: 0
+            });
+            br.init();
+            console.log('BookReader initialized for:', ia);
+          } catch (err) {
+            console.error('BookReader error:', err);
+            _this2.readerError = 'Unable to load book. Using fallback view or visit Archive.org.';
+            _this2.useIframeFallback = true;
           }
-        }, _callee2, null, [[0, 10]]);
-      })), 300);
+        };
+        document.head.appendChild(script);
+      });
     },
-    selectSuggestion: function selectSuggestion(suggestion) {
-      this.searchQuery = suggestion.display_name;
-      this.suggestions = [];
-      this.searchLocation();
-    },
-    useCurrentLocation: function useCurrentLocation() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              if (navigator.geolocation) {
-                _context4.next = 3;
-                break;
-              }
-              _this3.error = 'Geolocation is not supported by your browser';
-              return _context4.abrupt("return");
-            case 3:
-              _this3.loading = true;
-              _this3.error = null;
-              navigator.geolocation.getCurrentPosition( /*#__PURE__*/function () {
-                var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(position) {
-                  var lat, lon, reverseGeocodeResponse, reverseGeocodeData;
-                  return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-                    while (1) switch (_context3.prev = _context3.next) {
-                      case 0:
-                        _context3.prev = 0;
-                        lat = position.coords.latitude;
-                        lon = position.coords.longitude;
-                        _this3.lastSearchCoords = {
-                          lat: lat,
-                          lon: lon
-                        };
-                        _context3.next = 6;
-                        return fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=".concat(lat, "&lon=").concat(lon));
-                      case 6:
-                        reverseGeocodeResponse = _context3.sent;
-                        _context3.next = 9;
-                        return reverseGeocodeResponse.json();
-                      case 9:
-                        reverseGeocodeData = _context3.sent;
-                        _this3.searchQuery = reverseGeocodeData.display_name || 'My Location';
-                        _context3.next = 13;
-                        return _this3.findIslamicShops(lat, lon);
-                      case 13:
-                        _context3.next = 20;
-                        break;
-                      case 15:
-                        _context3.prev = 15;
-                        _context3.t0 = _context3["catch"](0);
-                        _this3.error = _context3.t0.message || 'Failed to get your location';
-                        _this3.shops = [];
-                        _this3.filteredShops = [];
-                      case 20:
-                        _context3.prev = 20;
-                        _this3.loading = false;
-                        return _context3.finish(20);
-                      case 23:
-                      case "end":
-                        return _context3.stop();
-                    }
-                  }, _callee3, null, [[0, 15, 20, 23]]);
-                }));
-                return function (_x) {
-                  return _ref2.apply(this, arguments);
-                };
-              }(), function (error) {
-                _this3.loading = false;
-                _this3.error = 'Unable to retrieve your location: ' + error.message;
-              }, {
-                timeout: 10000
-              });
-            case 6:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4);
-      }))();
-    },
-    findIslamicShops: function findIslamicShops(lat, lon) {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var radius, response, data;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              radius = parseFloat(_this4.searchRadius);
-              _context5.next = 4;
-              return fetch("https://nominatim.openstreetmap.org/search?format=json&q=islamic+shop+halal&accept-language=en&bounded=1&viewbox=".concat(lon - radius, ",").concat(lat + radius, ",").concat(lon + radius, ",").concat(lat - radius));
-            case 4:
-              response = _context5.sent;
-              _context5.next = 7;
-              return response.json();
-            case 7:
-              data = _context5.sent;
-              _this4.shops = data.filter(function (item) {
-                return item.type === 'shop' || item["class"] === 'shop' || item.display_name.toLowerCase().includes('islamic') || item.display_name.toLowerCase().includes('halal');
-              }).map(function (item) {
-                return {
-                  name: _this4.extractShopName(item),
-                  address: item.display_name,
-                  type: _this4.determineShopType(item),
-                  lat: parseFloat(item.lat),
-                  lon: parseFloat(item.lon),
-                  isHalal: _this4.isHalal(item),
-                  osmId: item.osm_id
-                };
-              });
-              if (_this4.shops.length === 0) {
-                _this4.shops = _this4.generateFallbackShops(lat, lon);
-              }
-              _this4.filterShops();
-              _context5.next = 16;
-              break;
-            case 13:
-              _context5.prev = 13;
-              _context5.t0 = _context5["catch"](0);
-              throw new Error('Failed to find Islamic shops in this area');
-            case 16:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, null, [[0, 13]]);
-      }))();
-    },
-    extractShopName: function extractShopName(item) {
-      if (item.name) return item.name;
-      var parts = item.display_name.split(',');
-      return parts[0].includes('Shop') ? parts[0] : 'Islamic Shop';
-    },
-    determineShopType: function determineShopType(item) {
-      var name = item.display_name.toLowerCase();
-      if (name.includes('book')) return 'Islamic Books';
-      if (name.includes('clothing')) return 'Islamic Clothing';
-      if (name.includes('food')) return 'Halal Food';
-      if (name.includes('butcher')) return 'Halal Butcher';
-      return 'Islamic Goods';
-    },
-    isHalal: function isHalal(item) {
-      var name = item.display_name.toLowerCase();
-      return name.includes('halal') || name.includes('islamic');
-    },
-    generateFallbackShops: function generateFallbackShops(lat, lon) {
-      var count = 5 + Math.floor(Math.random() * 6);
-      var radius = parseFloat(this.searchRadius);
-      var shops = [];
-      var types = ['Islamic Books', 'Halal Food', 'Islamic Clothing', 'Halal Butcher', 'Islamic Gifts'];
-      for (var i = 0; i < count; i++) {
-        var latOffset = Math.random() * radius * 2 - radius;
-        var lonOffset = Math.random() * radius * 2 - radius;
-        var type = types[Math.floor(Math.random() * types.length)];
-        shops.push({
-          name: "".concat(type, " Shop ").concat(i + 1),
-          address: "Approximate location ".concat(i + 1),
-          type: type,
-          lat: lat + latOffset,
-          lon: lon + lonOffset,
-          isHalal: type.includes('Halal'),
-          osmId: "fallback_".concat(i)
-        });
-      }
-      return shops;
-    },
-    filterShops: function filterShops() {
-      var _this5 = this;
-      this.filteredShops = this.filterHalal ? this.shops.filter(function (shop) {
-        return shop.isHalal;
-      }) : _toConsumableArray(this.shops);
-
-      // Sort by distance if we have a reference point
-      if (this.lastSearchCoords) {
-        this.filteredShops.sort(function (a, b) {
-          var distA = _this5.calculateDistance(a.lat, a.lon);
-          var distB = _this5.calculateDistance(b.lat, b.lon);
-          return distA - distB;
-        });
-      }
-    },
-    calculateDistance: function calculateDistance(lat, lon) {
-      if (!this.lastSearchCoords) return 0;
-      var R = 6371; // Earth radius in km
-      var dLat = (lat - this.lastSearchCoords.lat) * Math.PI / 180;
-      var dLon = (lon - this.lastSearchCoords.lon) * Math.PI / 180;
-      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.lastSearchCoords.lat * Math.PI / 180) * Math.cos(lat * Math.PI / 180) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
-    },
-    radiusChanged: function radiusChanged() {
-      if (this.lastSearchCoords) {
-        this.findIslamicShops(this.lastSearchCoords.lat, this.lastSearchCoords.lon);
-      }
-    },
-    openDirections: function openDirections(lat, lon) {
-      // Open Google Maps with the shop's location
-      window.open("https://www.google.com/maps/dir/?api=1&destination=".concat(lat, ",").concat(lon, "&travelmode=driving"), '_blank');
-    },
-    formatAddress: function formatAddress(address) {
-      // Shorten the address for display
-      var parts = address.split(',');
-      return parts.slice(0, 3).join(',');
-    },
-    getRadiusText: function getRadiusText() {
-      var radius = parseFloat(this.searchRadius);
-      if (radius === 0.01) return '1km';
-      if (radius === 0.05) return '5km';
-      if (radius === 0.1) return '10km';
-      if (radius === 0.2) return '20km';
-      if (radius === 0.5) return '50km';
-      return "".concat(radius, " degrees");
+    closeBookReader: function closeBookReader() {
+      this.selectedBookIa = null;
+      this.selectedBookTitle = '';
+      this.readerError = null;
+      this.useIframeFallback = false;
+      this.iframeSrc = '';
+      this.archiveUrl = '';
+      var readerDiv = document.getElementById(this.bookReaderId);
+      if (readerDiv) readerDiv.innerHTML = '';
     }
+  },
+  created: function created() {
+    this.fetchBooks();
   }
 });
 
@@ -38063,6 +37856,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: {
+    handleTyping: function handleTyping() {
+      this.error = ""; // Clear error on typing
+    },
     shareViaWhatsApp: function shareViaWhatsApp(mosque) {
       var _mosque$tags;
       // Format the mosque details
@@ -41804,6 +41600,328 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     this.shops = [];
     this.error = null;
   })
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "IslamicStoreFinder",
+  data: function data() {
+    return {
+      searchQuery: "",
+      stores: [],
+      loading: false,
+      error: '',
+      lastSearchQuery: null,
+      selectedRadius: 10000,
+      // Default 10km radius
+      bbox: null
+    };
+  },
+  computed: {
+    hasResults: function hasResults() {
+      return this.stores.length > 0;
+    },
+    attributionText: function attributionText() {
+      return "Data \xA9 ".concat(new Date().getFullYear(), " OpenStreetMap contributors");
+    }
+  },
+  methods: {
+    handleTyping: function handleTyping() {
+      this.error = ""; // Clear error on typing
+    },
+    shareViaWhatsApp: function shareViaWhatsApp(store) {
+      var _store$tags;
+      var message = "Islamic Store: *".concat(store.name, "*\n\n") + "Address: ".concat(store.address, "\n") + "Lat & Long: ".concat(store.lat.toFixed(4), ", ").concat(store.lon.toFixed(4), "\n") + "Rating: ".concat('★'.repeat(store.rating)).concat('☆'.repeat(5 - store.rating), "\n") + "Inventory: ".concat(store.inventory.toLocaleString(), "\n\n") + ((_store$tags = store.tags) !== null && _store$tags !== void 0 && _store$tags.opening_hours ? "Opening Hours: ".concat(store.tags.opening_hours, "\n\n") : '') + "Google Maps: https://www.google.com/maps?q=".concat(store.lat, ",").concat(store.lon);
+      var encodedMessage = encodeURIComponent(message);
+      window.open("https://wa.me/?text=".concat(encodedMessage), '_blank');
+    },
+    openGoogleMaps: function openGoogleMaps(lat, lon) {
+      window.open("https://www.google.com/maps?q=".concat(lat, ",").concat(lon), '_blank', 'noopener,noreferrer');
+    },
+    searchStores: function searchStores() {
+      var _this = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var coords, radiusInDegrees, latDiff, lonDiff, stores, filteredStores;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              if (_this.searchQuery.trim()) {
+                _context.next = 3;
+                break;
+              }
+              _this.error = "Please enter a city or country.";
+              return _context.abrupt("return");
+            case 3:
+              _this.loading = true;
+              _this.error = "";
+              _this.stores = [];
+              _this.lastSearchQuery = _this.searchQuery;
+              _context.prev = 7;
+              _context.next = 10;
+              return _this.geocodeLocation(_this.searchQuery, 'settlement');
+            case 10:
+              coords = _context.sent;
+              if (coords) {
+                _context.next = 18;
+                break;
+              }
+              _context.next = 14;
+              return _this.geocodeLocation(_this.searchQuery, 'country');
+            case 14:
+              coords = _context.sent;
+              if (coords) {
+                _context.next = 18;
+                break;
+              }
+              _this.error = "Location \"".concat(_this.searchQuery, "\" not found. Please try another city or country.");
+              return _context.abrupt("return");
+            case 18:
+              if (!_this.bbox || !Array.isArray(_this.bbox) || _this.bbox.length !== 4) {
+                _this.error = "Unable to determine search area. Using default radius.";
+                radiusInDegrees = _this.selectedRadius / 111320; // Convert meters to degrees
+                _this.bbox = [coords.lat - radiusInDegrees,
+                // south
+                coords.lat + radiusInDegrees,
+                // north
+                coords.lon - radiusInDegrees,
+                // west
+                coords.lon + radiusInDegrees // east
+                ];
+              } else {
+                // Expand bounding box by 20%
+                latDiff = (_this.bbox[1] - _this.bbox[0]) * 0.2;
+                lonDiff = (_this.bbox[3] - _this.bbox[2]) * 0.2;
+                _this.bbox = [_this.bbox[0] - latDiff,
+                // south
+                _this.bbox[1] + latDiff,
+                // north
+                _this.bbox[2] - lonDiff,
+                // west
+                _this.bbox[3] + lonDiff // east
+                ];
+              }
+              _context.next = 21;
+              return _this.fetchStoresFromOverpass(coords);
+            case 21:
+              stores = _context.sent;
+              // Filter out unwanted stores
+              filteredStores = stores.filter(function (store) {
+                var _store$tags2, _store$tags3, _store$tags4;
+                var name = (((_store$tags2 = store.tags) === null || _store$tags2 === void 0 ? void 0 : _store$tags2.name) || '').toLowerCase();
+                var shopType = ((_store$tags3 = store.tags) === null || _store$tags3 === void 0 ? void 0 : _store$tags3.shop) || '';
+                var isUnwanted = ['butcher', 'food', 'grocery', 'supermarket', 'convenience', 'restaurant', 'fast_food', 'deli', 'bakery'].includes(shopType) || ((_store$tags4 = store.tags) === null || _store$tags4 === void 0 ? void 0 : _store$tags4['diet:halal']) === 'yes' || name.includes('butcher') || name.includes('meat');
+                return name.trim().length > 0 && !name.includes('unnamed') && !isUnwanted;
+              });
+              _this.stores = filteredStores.map(function (s) {
+                return _this.processStoreData(s, coords);
+              });
+              if (_this.stores.length === 0 && !_this.error) {
+                _this.error = "No Islamic stores found. Try increasing the search radius or using a larger city.";
+              }
+              _context.next = 31;
+              break;
+            case 27:
+              _context.prev = 27;
+              _context.t0 = _context["catch"](7);
+              _this.error = "Failed to fetch Islamic stores. Please try again later.";
+              console.error("Error in store search:", _context.t0);
+            case 31:
+              _context.prev = 31;
+              _this.loading = false;
+              return _context.finish(31);
+            case 34:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[7, 27, 31, 34]]);
+      }))();
+    },
+    geocodeLocation: function geocodeLocation(query, featuretype) {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var response, result;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('https://nominatim.openstreetmap.org/search', {
+                params: {
+                  q: query,
+                  format: 'json',
+                  limit: 1,
+                  'accept-language': 'en',
+                  featuretype: featuretype,
+                  email: 'your.email@example.com'
+                }
+              });
+            case 3:
+              response = _context2.sent;
+              if (!(response.data && response.data.length > 0)) {
+                _context2.next = 8;
+                break;
+              }
+              result = response.data[0];
+              _this2.bbox = result.boundingbox ? result.boundingbox.map(Number) : null;
+              return _context2.abrupt("return", {
+                lat: parseFloat(result.lat),
+                lon: parseFloat(result.lon)
+              });
+            case 8:
+              return _context2.abrupt("return", null);
+            case 11:
+              _context2.prev = 11;
+              _context2.t0 = _context2["catch"](0);
+              console.error("Geocoding error:", _context2.t0);
+              return _context2.abrupt("return", null);
+            case 15:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[0, 11]]);
+      }))();
+    },
+    fetchStoresFromOverpass: function fetchStoresFromOverpass(coords) {
+      var _this3 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var bbox, radiusInDegrees, _ref, south, north, west, east, query, response;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              bbox = _this3.bbox;
+              if (!bbox || !Array.isArray(bbox) || bbox.length !== 4) {
+                radiusInDegrees = _this3.selectedRadius / 111320;
+                bbox = [coords.lat - radiusInDegrees, coords.lat + radiusInDegrees, coords.lon - radiusInDegrees, coords.lon + radiusInDegrees];
+              }
+              _ref = [Math.min(bbox[0], bbox[1]), Math.max(bbox[0], bbox[1]), Math.min(bbox[2], bbox[3]), Math.max(bbox[2], bbox[3])], south = _ref[0], north = _ref[1], west = _ref[2], east = _ref[3];
+              query = "\n        [out:json];\n        (\n          node[\"shop\"=\"books\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](".concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"books\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"clothes\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"clothes\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic]|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"religion\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"religion\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"gift\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"gift\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"variety_store\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"variety_store\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"general\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"general\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"jewelry\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"jewelry\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"electronics\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"electronics\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"stationery\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"stationery\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"art\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"art\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"=\"craft\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"=\"craft\"][\"name\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"keywords\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"keywords\"~\"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"description\"~\"[Ii]slamic|[Mm]uslim\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"description\"~\"[Ii]slamic|[Mm]uslim\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"products\"~\"[Ii]slamic|religious\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"products\"~\"[Ii]slamic|religious\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"specialty\"=\"religious\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"specialty\"=\"religious\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"destination\"=\"religious\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"destination\"=\"religious\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"access\"~\"public|customers\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"access\"~\"public|customers\"][\"religion\"=\"islam\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          node[\"shop\"][\"name\"~\".*[Ii]slamic.*|.*[Mm]uslim.*\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n          way[\"shop\"][\"name\"~\".*[Ii]slamic.*|.*[Mm]uslim.*\"][\"shop\"!=\"butcher\"][\"shop\"!=\"food\"][\"shop\"!=\"grocery\"][\"shop\"!=\"supermarket\"][\"shop\"!=\"convenience\"][\"shop\"!=\"restaurant\"][\"shop\"!=\"fast_food\"][\"diet:halal\"!=\"yes\"](").concat(south, ",").concat(west, ",").concat(north, ",").concat(east, ");\n        );\n        out body;\n      ");
+              _context3.prev = 4;
+              _context3.next = 7;
+              return axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('https://overpass-api.de/api/interpreter', query, {
+                headers: {
+                  'Content-Type': 'text/plain'
+                }
+              });
+            case 7:
+              response = _context3.sent;
+              return _context3.abrupt("return", response.data.elements || []);
+            case 11:
+              _context3.prev = 11;
+              _context3.t0 = _context3["catch"](4);
+              console.error("Overpass API error:", _context3.t0);
+              return _context3.abrupt("return", []);
+            case 15:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[4, 11]]);
+      }))();
+    },
+    processStoreData: function processStoreData(data, coords) {
+      var _data$tags, _data$tags2, _data$tags3, _data$center, _data$center2;
+      return {
+        id: data.id,
+        name: ((_data$tags = data.tags) === null || _data$tags === void 0 ? void 0 : _data$tags.name) || "Unnamed Store",
+        address: this.getAddress(data.tags),
+        city: ((_data$tags2 = data.tags) === null || _data$tags2 === void 0 ? void 0 : _data$tags2["addr:city"]) || this.lastSearchQuery,
+        country: ((_data$tags3 = data.tags) === null || _data$tags3 === void 0 ? void 0 : _data$tags3["addr:country"]) || "",
+        lat: data.lat || ((_data$center = data.center) === null || _data$center === void 0 ? void 0 : _data$center.lat) || coords.lat,
+        lon: data.lon || ((_data$center2 = data.center) === null || _data$center2 === void 0 ? void 0 : _data$center2.lon) || coords.lon,
+        inventory: this.estimateInventory(data),
+        facilities: this.detectFacilities(data),
+        rating: this.generateRandomRating(),
+        tags: data.tags || {}
+      };
+    },
+    getAddress: function getAddress(tags) {
+      if (!tags) return "Address not specified";
+      var parts = [];
+      if (tags["addr:housenumber"]) parts.push(tags["addr:housenumber"]);
+      if (tags["addr:street"]) parts.push(tags["addr:street"]);
+      if (tags["addr:city"]) parts.push(tags["addr:city"]);
+      if (tags["addr:country"]) parts.push(tags["addr:country"]);
+      return parts.length > 0 ? parts.join(", ") : "Address not specified";
+    },
+    estimateInventory: function estimateInventory(data) {
+      var _data$tags4, _data$tags5;
+      if ((_data$tags4 = data.tags) !== null && _data$tags4 !== void 0 && _data$tags4.inventory) return parseInt(data.tags.inventory);
+      if (((_data$tags5 = data.tags) === null || _data$tags5 === void 0 ? void 0 : _data$tags5.shop) === "books") return Math.floor(100 + Math.random() * 500);
+      return Math.floor(50 + Math.random() * 300);
+    },
+    detectFacilities: function detectFacilities(data) {
+      var tags = data.tags || {};
+      var facilities = [];
+
+      // Shop Type
+      if (tags.shop === "books") facilities.push("Islamic Books");
+      if (tags.shop === "clothes") facilities.push("Islamic Clothing");
+      if (tags.shop === "religion") facilities.push("Religious Goods");
+      if (tags.shop === "gift") facilities.push("Islamic Gifts");
+      if (tags.shop === "variety_store") facilities.push("Variety Store");
+      if (tags.shop === "general") facilities.push("General Retail");
+      if (tags.shop === "jewelry") facilities.push("Islamic Jewelry");
+      if (tags.shop === "electronics") facilities.push("Islamic Electronics");
+      if (tags.shop === "stationery") facilities.push("Islamic Stationery");
+      if (tags.shop === "art") facilities.push("Islamic Art");
+      if (tags.shop === "craft") facilities.push("Islamic Crafts");
+      if (tags.shop) facilities.push("Retail");
+
+      // Certifications
+      if (tags.certification === "islamic") facilities.push("Islamic Certification");
+
+      // Accessibility
+      if (tags.wheelchair === "yes") facilities.push("♿ Wheelchair Access");
+      if (tags.wheelchair === "limited") facilities.push("♿ Limited Access");
+
+      // Amenities
+      if (tags.parking === "yes") facilities.push("🅿 Parking");
+      if (tags.internet_access === "yes") facilities.push("📶 WiFi");
+      if (tags.air_conditioning === "yes") facilities.push("❄️ AC");
+
+      // Services
+      if (tags.online_ordering === "yes") facilities.push("🛒 Online Ordering");
+      if (tags.delivery === "yes") facilities.push("🚚 Delivery");
+
+      // Opening Hours
+      if (tags.opening_hours) facilities.push("🕒 Opening Hours");
+      return facilities.length > 0 ? facilities : ["Basic Retail"];
+    },
+    getFacilityBadgeClass: function getFacilityBadgeClass(facility) {
+      if (facility.includes("Wheelchair")) return "bg-success text-white";
+      if (facility.includes("Islamic") || facility.includes("Religious")) return "bg-info text-white";
+      if (facility.includes("Opening Hours")) return "bg-primary text-white";
+      if (facility.includes("Parking") || facility.includes("WiFi")) return "bg-warning text-dark";
+      if (facility.includes("Online") || facility.includes("Delivery")) return "bg-dark text-white";
+      return "bg-light text-dark";
+    },
+    formatOpeningHours: function formatOpeningHours(hours) {
+      return hours.replace(/;/g, "; ").replace(/,/g, ", ").replace(/\s+/g, " ").trim();
+    },
+    generateRandomRating: function generateRandomRating() {
+      var rating = 3;
+      if (Math.random() > 0.7) rating += 1;
+      if (Math.random() > 0.9) rating += 1;
+      return Math.min(5, Math.max(1, rating));
+    }
+  }
 });
 
 /***/ }),
@@ -52554,10 +52672,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -52566,231 +52684,91 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid p-0"
+  "class": "library-container"
 };
 var _hoisted_2 = {
-  "class": "container my-4"
+  "class": "search-bar"
 };
 var _hoisted_3 = {
-  "class": "row"
+  key: 0,
+  "class": "loading"
 };
 var _hoisted_4 = {
-  "class": "col-md-12"
+  key: 1,
+  "class": "error"
 };
 var _hoisted_5 = {
-  "class": "card shadow-sm mb-4"
+  key: 2,
+  "class": "book-list"
 };
 var _hoisted_6 = {
-  "class": "card-body"
+  "class": "book-actions"
 };
-var _hoisted_7 = {
-  "class": "row"
-};
+var _hoisted_7 = ["onClick"];
 var _hoisted_8 = {
-  "class": "col-md-8 mb-3 mb-md-0"
+  key: 1
 };
 var _hoisted_9 = {
-  "class": "input-group"
+  key: 3,
+  "class": "book-reader"
 };
-var _hoisted_10 = ["disabled"];
+var _hoisted_10 = {
+  key: 0,
+  "class": "error"
+};
 var _hoisted_11 = {
-  key: 0,
-  "class": "suggestions-dropdown mt-1"
+  key: 1,
+  "class": "book-reader-frame"
 };
-var _hoisted_12 = ["onClick"];
+var _hoisted_12 = ["src"];
 var _hoisted_13 = {
-  "class": "col-md-4"
-};
-var _hoisted_14 = {
-  "class": "row mt-3"
-};
-var _hoisted_15 = {
-  "class": "col-md-6 mb-3"
-};
-var _hoisted_16 = {
-  "class": "col-md-6 mb-3"
-};
-var _hoisted_17 = {
-  "class": "form-check form-switch d-flex justify-content-end align-items-center h-100"
-};
-var _hoisted_18 = {
   key: 0,
-  "class": "text-center py-5"
+  "class": "fallback-link"
 };
-var _hoisted_19 = {
-  key: 1,
-  "class": "alert alert-danger mt-3"
-};
-var _hoisted_20 = {
-  key: 0,
-  "class": "row"
-};
-var _hoisted_21 = {
-  "class": "col-12 mb-3"
-};
-var _hoisted_22 = {
-  "class": "d-flex justify-content-between align-items-center"
-};
-var _hoisted_23 = {
-  "class": "mb-0"
-};
-var _hoisted_24 = {
-  "class": "text-muted"
-};
-var _hoisted_25 = {
-  "class": "card h-100 shop-card"
-};
-var _hoisted_26 = {
-  "class": "card-body"
-};
-var _hoisted_27 = {
-  "class": "d-flex justify-content-between align-items-start mb-2"
-};
-var _hoisted_28 = {
-  "class": "card-title mb-0"
-};
-var _hoisted_29 = {
-  key: 0,
-  "class": "badge bg-success"
-};
-var _hoisted_30 = {
-  "class": "card-text text-muted small mb-2"
-};
-var _hoisted_31 = {
-  "class": "card-text text-muted small mb-3"
-};
-var _hoisted_32 = {
-  "class": "card-text small mb-3"
-};
-var _hoisted_33 = ["onClick"];
-var _hoisted_34 = {
-  key: 1,
-  "class": "row"
-};
-var _hoisted_35 = {
-  "class": "bg-dark text-white py-3 mt-4"
-};
-var _hoisted_36 = {
-  "class": "container text-center"
-};
-var _hoisted_37 = {
-  "class": "mb-0"
-};
+var _hoisted_14 = ["href"];
+var _hoisted_15 = ["id"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    "class": "bg-primary text-white py-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "container"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "text-center mb-0"
-  }, "Worldwide Islamic Shops Locator")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "locationInput",
-    "class": "form-label"
-  }, "Search Location", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "text",
-    "class": "form-control",
-    id: "locationInput",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Islamic Connect eBook Library", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
-    placeholder: "Enter city, country or address",
-    onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }, ["enter"])),
-    onInput: _cache[2] || (_cache[2] = function () {
-      return $options.handleInputChange && $options.handleInputChange.apply($options, arguments);
+    type: "text",
+    placeholder: "Search for Islamic books (e.g., Quran, Hadith, Tafsir)",
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.fetchBooks && $options.fetchBooks.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-primary",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
-    }),
-    disabled: !$data.searchQuery.trim()
-  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")]), 8 /* PROPS */, _hoisted_10)]), $data.suggestions.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.suggestions, function (suggestion, index) {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, "Loading books...")) : $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.books, function (book) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
-      "class": "suggestion-item",
+      key: book.key,
+      "class": "book-card"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Author:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.author_name ? book.author_name.join(', ') : 'Unknown'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Published:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.first_publish_year || 'N/A'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Subjects:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.subject ? book.subject.join(', ') : 'N/A'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [book.ia ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 0,
       onClick: function onClick($event) {
-        return $options.selectSuggestion(suggestion);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.display_name), 9 /* TEXT, PROPS */, _hoisted_12);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-label"
-  }, "Search Radius", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "class": "form-select",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.searchRadius = $event;
+        return $options.openBookReader(book.ia, book.title);
+      },
+      "class": "btn"
+    }, "Read Now", 8 /* PROPS */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "No read option available"))])]);
+  }), 128 /* KEYED_FRAGMENT */))])), $data.selectedBookIa ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Reading: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedBookTitle), 1 /* TEXT */), $data.readerError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readerError), 1 /* TEXT */)) : $data.useIframeFallback ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    src: $data.iframeSrc,
+    width: "100%",
+    height: "600px",
+    frameborder: "0",
+    allowfullscreen: ""
+  }, null, 8 /* PROPS */, _hoisted_12), $data.readerError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    href: $data.archiveUrl,
+    target: "_blank"
+  }, "View on Archive.org", 8 /* PROPS */, _hoisted_14)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 2,
+    id: $data.bookReaderId,
+    "class": "book-reader-frame"
+  }, null, 8 /* PROPS */, _hoisted_15)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.closeBookReader && $options.closeBookReader.apply($options, arguments);
     }),
-    onChange: _cache[5] || (_cache[5] = function () {
-      return $options.radiusChanged && $options.radiusChanged.apply($options, arguments);
-    })
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option value=\"0.01\" data-v-5049bb1b>Very Near (1km)</option><option value=\"0.05\" data-v-5049bb1b>Near (5km)</option><option value=\"0.1\" selected data-v-5049bb1b>Medium (10km)</option><option value=\"0.2\" data-v-5049bb1b>Far (20km)</option><option value=\"0.5\" data-v-5049bb1b>Very Far (50km)</option>", 5)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.searchRadius]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-primary w-100",
-    onClick: _cache[6] || (_cache[6] = function () {
-      return $options.useCurrentLocation && $options.useCurrentLocation.apply($options, arguments);
-    })
-  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-geo-alt"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Use My Current Location ")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "class": "form-check-input me-2",
-    type: "checkbox",
-    id: "filterHalal",
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
-      return $data.filterHalal = $event;
-    }),
-    onChange: _cache[8] || (_cache[8] = function () {
-      return $options.filterShops && $options.filterShops.apply($options, arguments);
-    })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.filterHalal]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "class": "form-check-label",
-    "for": "filterHalal"
-  }, "Show Halal Only", -1 /* HOISTED */))])])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-primary",
-    role: "status"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "mt-3 mb-0"
-  }, "Searching for Islamic shops in your area...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), $data.filteredShops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_23, "Found " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.filteredShops.length) + " Islamic Shops", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_24, "Showing results within " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getRadiusText()) + " radius", 1 /* TEXT */)]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredShops, function (shop, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": "col-md-4 mb-4",
-      key: index
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */), shop.isHalal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "Halal")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-tags"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.type), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-geo-alt"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatAddress(shop.address)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-arrow-left-right text-primary"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.calculateDistance(shop.lat, shop.lon).toFixed(1)) + " km", 1 /* TEXT */), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" away "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-primary w-100 mt-auto",
-      onClick: function onClick($event) {
-        return $options.openDirections(shop.lat, shop.lon);
-      }
-    }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-geo-alt-fill"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Get Directions ")])), 8 /* PROPS */, _hoisted_33)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.filteredShops.length === 0 && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-12 text-center py-5"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-shop text-muted",
-    style: {
-      "font-size": "3rem"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "mt-3"
-  }, "No shops found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-muted"
-  }, "Try adjusting your search location or radius")], -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_37, "Worldwide Islamic Shops Locator © " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(new Date().getFullYear()), 1 /* TEXT */)])])]);
+    "class": "btn close-btn"
+  }, "Close Reader")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -56872,14 +56850,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.searchQuery = $event;
     }),
     onInput: _cache[1] || (_cache[1] = function () {
-      return _ctx.handleTyping && _ctx.handleTyping.apply(_ctx, arguments);
+      return $options.handleTyping && $options.handleTyping.apply($options, arguments);
     }),
     autocomplete: "off",
     style: {
       "max-width": "300px"
     }
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-success",
+    "class": "btn align-items-center justify-content-center",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px"
+    },
     type: "submit",
     disabled: $data.loading
   }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -56891,13 +56875,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for mosques in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [!$data.searchQuery || !_ctx.searchSubmitted && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-compass display-4 text-muted mb-3"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
   }, "Search for mosques worldwide", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Enter a city or town name to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Enter a city or town name to begin", -1 /* HOISTED */)]))) : _ctx.searchSubmitted && $data.searchQuery && $data.mosques.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-5"
@@ -56907,7 +56891,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "h4 text-muted"
   }, "No mosques found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Try adjusting your search or increasing the radius")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Try adjusting your search or increasing the radius.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.mosques, function (mosque) {
     var _mosque$tags;
@@ -59139,6 +59123,120 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "border": "1px solid grey"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/store1.jpg",
+    alt: "Islamic Shops",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Shops Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Discover delicious and certified halal food at your fingertips. Whether you're traveling or you're new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/store'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Locate Shops")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/food.jpg",
+    alt: "Islamic Shops",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Halal Food Locater"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Discover delicious and certified halal food at your fingertips. Whether you're traveling or you're new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/shop'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Foods")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/school1.png",
+    alt: "Donation",
+    "class": "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-2 fw-bold display-6 text-dark text-center"
+  }, "Schools and Classes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "form-control",
+    onclick: "window.location.href='/support'",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px",
+      "padding": "0.375rem 0.75rem"
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find Schools")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
+    style: {
+      "border": "1px solid grey"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/donate111.png",
     alt: "Donation",
     "class": "w-100",
@@ -59242,13 +59340,257 @@ var _hoisted_13 = {
   "class": "text-center py-5"
 };
 var _hoisted_14 = {
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+};
+var _hoisted_15 = {
+  "class": "card h-100"
+};
+var _hoisted_16 = {
+  style: {
+    "padding": "15px 15px 0 15px"
+  }
+};
+var _hoisted_17 = {
+  "class": "card-title fw-bold text-dark mb-3",
+  style: {
+    "font-size": "25px"
+  }
+};
+var _hoisted_18 = {
+  "class": "card-body pt-0"
+};
+var _hoisted_19 = {
+  "class": "mb-2"
+};
+var _hoisted_20 = {
+  "class": "d-flex align-items-start"
+};
+var _hoisted_21 = {
+  "class": "text-truncate",
+  style: {
+    "display": "-webkit-box",
+    "-webkit-line-clamp": "2",
+    "-webkit-box-orient": "vertical"
+  }
+};
+var _hoisted_22 = {
+  "class": "mb-2 d-flex align-items-center"
+};
+var _hoisted_23 = {
+  "class": "mb-0"
+};
+var _hoisted_24 = {
+  key: 0,
+  "class": "mb-2"
+};
+var _hoisted_25 = {
+  "class": "text-muted"
+};
+var _hoisted_26 = {
+  key: 1,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_27 = {
+  "class": "text-muted"
+};
+var _hoisted_28 = {
+  "class": "d-flex justify-content-between align-items-center gap-2"
+};
+var _hoisted_29 = ["onClick"];
+var _hoisted_30 = ["onClick"];
+var _hoisted_31 = {
+  key: 0,
+  "class": "d-flex justify-content-between align-items-center",
+  style: {
+    "padding": "10px"
+  }
+};
+var _hoisted_32 = {
+  "class": "text-muted"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-5 fw-bold text-center"
+  }, "Halal Butcher Finder", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-4 lead"
+  }, " Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center mb-3",
+    role: "search",
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
+    }, ["prevent"])),
+    style: {
+      "gap": "0.5rem"
+    }
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "card-title pr-2 fw-bold",
+    style: {
+      "font-size": "25px"
+    }
+  }, "Search location:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "searchInput",
+    type: "search",
+    "class": "form-control",
+    placeholder: "Enter city...",
+    "aria-label": "Search",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    onInput: _cache[1] || (_cache[1] = function () {
+      return _ctx.handleTyping && _ctx.handleTyping.apply(_ctx, arguments);
+    }),
+    autocomplete: "off",
+    style: {
+      "max-width": "300px"
+    }
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn align-items-center justify-content-center",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px"
+    },
+    type: "submit",
+    disabled: $data.loading
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    style: {
+      "width": "3rem",
+      "height": "3rem"
+    },
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal Butchers in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-shop display-4 text-muted mb-3"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "Search for halal Butchers", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Enter a city or address to find nearby halal butchers", -1 /* HOISTED */)]))) : $data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 1
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-binoculars display-4 text-muted mb-3"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "h4 text-muted"
+  }, "No halal food places found")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    key: 2
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
+    var _shop$tags;
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      "class": "col",
+      key: shop.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-2cbbc6cc><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_25, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_27, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return _ctx.openGoogleMaps(shop.lat, shop.lon);
+      },
+      style: {
+        "background": "#00bfa6",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-center w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.callShop(shop.phone);
+      },
+      style: {
+        "background": "#1881b9",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_30)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_32, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+var _hoisted_1 = {
+  "class": "container-fluid py-4"
+};
+var _hoisted_2 = {
+  "class": "row justify-content-center"
+};
+var _hoisted_3 = {
+  "class": "col-lg-10"
+};
+var _hoisted_4 = {
+  "class": "shadow",
+  style: {
+    "border-radius": "20px",
+    "padding": "10px",
+    "border": "1px solid grey"
+  }
+};
+var _hoisted_5 = {
+  "class": "card-body container-fluid",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_6 = {
+  "class": "row mb-4 justify-content-center"
+};
+var _hoisted_7 = ["disabled"];
+var _hoisted_8 = {
+  key: 0
+};
+var _hoisted_9 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm"
+};
+var _hoisted_10 = {
+  key: 0,
+  "class": "text-center text-danger py-3"
+};
+var _hoisted_11 = {
+  key: 1,
+  "class": "text-center py-5"
+};
+var _hoisted_12 = {
+  "class": "mt-3"
+};
+var _hoisted_13 = {
+  key: 2
+};
+var _hoisted_14 = {
+  key: 0,
   "class": "text-center py-5"
 };
 var _hoisted_15 = {
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
 var _hoisted_16 = {
-  "class": "card h-100"
+  "class": "card"
 };
 var _hoisted_17 = {
   style: {
@@ -59279,55 +59621,63 @@ var _hoisted_22 = {
   }
 };
 var _hoisted_23 = {
-  "class": "mb-2 d-flex align-items-center"
-};
-var _hoisted_24 = {
-  "class": "mb-0"
-};
-var _hoisted_25 = {
-  key: 0,
   "class": "mb-2"
 };
+var _hoisted_24 = {
+  "class": "text-muted mb-0"
+};
+var _hoisted_25 = {
+  "class": "mb-2 d-flex align-items-center"
+};
 var _hoisted_26 = {
-  "class": "text-muted"
+  "class": "text-warning me-2"
 };
 var _hoisted_27 = {
-  key: 1,
-  "class": "opening-hours mb-2 mt-2"
+  "class": "mb-0"
 };
 var _hoisted_28 = {
-  "class": "text-muted"
+  "class": "mb-2 facilities"
 };
 var _hoisted_29 = {
+  "class": "d-flex flex-wrap"
+};
+var _hoisted_30 = {
+  key: 0,
+  "class": "opening-hours mb-2 mt-2"
+};
+var _hoisted_31 = {
+  "class": "text-muted"
+};
+var _hoisted_32 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_30 = ["onClick"];
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = {
+var _hoisted_33 = ["onClick"];
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
   style: {
     "padding": "10px"
   }
 };
-var _hoisted_33 = {
+var _hoisted_36 = {
   "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 fw-bold text-center"
-  }, "Halal Butcher Locator", -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold text-center"
+  }, "Islamic Store Finder", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    "class": "d-flex align-items-center mb-3",
+  }, " Easily find nearby Islamic stores, such as bookstores, clothing, and religious goods, with detailed directions. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Inline Search Bar with Label, Input, Radius Dropdown, and Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    "class": "d-flex align-items-center mb-3 flex-wrap",
     role: "search",
     onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.searchLocation && $options.searchLocation.apply($options, arguments);
+      return $options.searchStores && $options.searchStores.apply($options, arguments);
     }, ["prevent"])),
     style: {
       "gap": "0.5rem"
     }
-  }, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "card-title pr-2 fw-bold",
     style: {
       "font-size": "25px"
@@ -59336,23 +59686,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "searchInput",
     type: "search",
     "class": "form-control",
-    placeholder: "Enter city...",
+    placeholder: "Select a city ...",
     "aria-label": "Search",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
     onInput: _cache[1] || (_cache[1] = function () {
-      return _ctx.handleTyping && _ctx.handleTyping.apply(_ctx, arguments);
+      return $options.handleTyping && $options.handleTyping.apply($options, arguments);
     }),
     autocomplete: "off",
     style: {
       "max-width": "300px"
     }
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-success",
+    "class": "btn align-items-center justify-content-center",
+    style: {
+      "background": "#00bfa6",
+      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      "color": "white",
+      "height": "38px"
+    },
     type: "submit",
     disabled: $data.loading
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     style: {
       "width": "3rem",
@@ -59361,36 +59717,55 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal Butchers in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-shop display-4 text-muted mb-3"
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, "Searching for Islamic stores in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.stores.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-compass display-4 text-muted mb-3"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
-  }, "Search for halal Butchers", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Search for Islamic stores worldwide", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-muted"
-  }, "Enter a city or address to find nearby halal butchers", -1 /* HOISTED */)]))) : $data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "Enter a city or town name to begin", -1 /* HOISTED */)]))) : $data.searchQuery && $data.stores.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-binoculars display-4 text-muted mb-3"
-  }, null, -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
-  }, "No halal food places found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-link",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.expandSearchRadius && $options.expandSearchRadius.apply($options, arguments);
-    })
-  }, " Try expanding search radius ")])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "No Islamic stores found"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Try increasing the search radius, using a larger city, or searching for bookstores, clothing, or religious goods.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
-    var _shop$tags;
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.stores, function (store) {
+    var _store$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
-      key: shop.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge bg-success\">\n                        <i class=\"bi bi-check-circle-fill me-1\"></i> Halal Certified\n                      </span> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      key: store.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(store.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-2cbbc6cc><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star-fill\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i><i class=\"bi bi-star\" data-v-2cbbc6cc></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((shop.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_26, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_28, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(store.address), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-geo me-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(store.lat.toFixed(4)) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(store.lon.toFixed(4)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(store.rating, function (n) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star-fill",
+        key: 'star-' + n
+      });
+    }), 128 /* KEYED_FRAGMENT */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(5 - store.rating, function (i) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", {
+        "class": "bi bi-star",
+        key: 'empty-' + i
+      });
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_27, "Inventory: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(store.inventory.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(store.facilities, function (facility) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill d-flex align-items-center", $options.getFacilityBadgeClass(facility)]),
+        key: facility,
+        style: {
+          "padding": "0.5em 0.8em"
+        }
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(facility), 3 /* TEXT, CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))])]), (_store$tags = store.tags) !== null && _store$tags !== void 0 && _store$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_31, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening hours: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatOpeningHours(store.tags.opening_hours)), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
-        return _ctx.openGoogleMaps(shop.lat, shop.lon);
+        return $options.openGoogleMaps(store.lat, store.lon);
       },
       style: {
         "background": "#00bfa6",
@@ -59398,12 +59773,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Directions")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
-        return $options.callShop(shop.phone);
+        return $options.shareViaWhatsApp(store);
       },
       style: {
         "background": "#1881b9",
@@ -59411,8 +59786,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_33, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Details", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_34)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.stores.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_36, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.stores.length) + " Islamic stores ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -160169,10 +160544,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  font-family: -apple-system,
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -160185,9 +160560,8 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-5049bb1b] {\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n  background-color: #f8f9fa;\n}\nheader[data-v-5049bb1b] {\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n}\n.card[data-v-5049bb1b] {\n  border-radius: 0.5rem;\n  border: none;\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n}\n.card[data-v-5049bb1b]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.shop-card[data-v-5049bb1b] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n}\n.shop-card .card-body[data-v-5049bb1b] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.shop-card .btn[data-v-5049bb1b] {\n  margin-top: auto;\n}\n.suggestions-dropdown[data-v-5049bb1b] {\n  position: absolute;\n  width: calc(100% - 40px);\n  background: white;\n  border: 1px solid #ddd;\n  border-radius: 0.25rem;\n  z-index: 1000;\n  max-height: 200px;\n  overflow-y: auto;\n}\n.suggestion-item[data-v-5049bb1b] {\n  padding: 0.5rem;\n  cursor: pointer;\n  border-bottom: 1px solid #eee;\n  font-size: 0.9rem;\n}\n.suggestion-item[data-v-5049bb1b]:hover {\n  background-color: #f8f9fa;\n}\n.suggestion-item[data-v-5049bb1b]:last-child {\n  border-bottom: none;\n}\n\n/* Custom scrollbar */\n.suggestions-dropdown[data-v-5049bb1b]::-webkit-scrollbar {\n  width: 6px;\n}\n.suggestions-dropdown[data-v-5049bb1b]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 10px;\n}\n.suggestions-dropdown[data-v-5049bb1b]::-webkit-scrollbar-thumb {\n  background: #888;\n  border-radius: 10px;\n}\n.suggestions-dropdown[data-v-5049bb1b]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n.badge[data-v-5049bb1b] {\n  font-size: 0.75rem;\n  padding: 0.35em 0.65em;\n}\n@media (max-width: 767.98px) {\n.shop-card[data-v-5049bb1b] {\n    margin-bottom: 1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.library-container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 20px;\n  font-family: Arial, sans-serif;\n}\nh1, h2 {\n  text-align: center;\n  color: #2c3e50;\n}\n.search-bar {\n  margin: 20px 0;\n  text-align: center;\n}\n.search-bar input {\n  width: 100%;\n  max-width: 500px;\n  padding: 10px;\n  font-size: 16px;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n}\n.book-list {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));\n  gap: 20px;\n}\n.book-card {\n  background: #f9f9f9;\n  border: 1px solid #ddd;\n  border-radius: 8px;\n  padding: 15px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.book-card h3 {\n  margin: 0 0 10px;\n  font-size: 18px;\n  color: #34495e;\n}\n.book-card p {\n  margin: 5px 0;\n  font-size: 14px;\n}\n.book-actions {\n  margin-top: 10px;\n}\n.btn {\n  display: inline-block;\n  padding: 8px 16px;\n  background: #3498db;\n  color: white;\n  text-decoration: none;\n  border-radius: 5px;\n  border: none;\n  cursor: pointer;\n}\n.btn:hover {\n  background: #2980b9;\n}\n.loading, .error {\n  text-align: center;\n  font-size: 16px;\n  margin: 20px 0;\n}\n.error {\n  color: red;\n}\n.book-reader {\n  margin-top: 40px;\n  border-top: 1px solid #ddd;\n  padding-top: 20px;\n}\n.book-reader-frame {\n  width: 100%;\n  height: 600px;\n  border: 1px solid #ccc;\n  border-radius: 5px;\n}\n.fallback-link {\n  text-align: center;\n  margin-top: 10px;\n}\n.close-btn {\n  display: block;\n  margin: 20px auto;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -160862,6 +161236,31 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-2cbbc6cc] {\n  border-radius: 15px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.card[data-v-2cbbc6cc]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.btn-outline-primary.active[data-v-2cbbc6cc] {\n  background-color: #2c5fa8;\n  color: white;\n}\n.badge.bg-success[data-v-2cbbc6cc] {\n  background-color: #28a745 !important;\n}\n@media (max-width: 768px) {\n.d-flex.align-items-center[data-v-2cbbc6cc] {\n    flex-direction: column;\n    gap: 0.5rem;\n}\n.btn[data-v-2cbbc6cc] {\n    width: 100%;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);"]);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-f627a372] {\n  transition: transform 0.2s ease, box-shadow 0.2s ease;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.card[data-v-f627a372]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.facilities[data-v-f627a372] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n}\n.badge[data-v-f627a372] {\n  font-size: 0.8rem;\n  padding: 0.35em 0.65em;\n}\nbody[data-v-f627a372] {\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;\n}\n.card[data-v-f627a372] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n  border: none;\n}\n.card-header[data-v-f627a372] {\n  padding: 1.25rem 1.5rem;\n  background-color: #2c3e50 !important;\n}\n.card-header .attribution small[data-v-f627a372] {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 0.7rem;\n}\n.mosque-card[data-v-f627a372] {\n  transition: all 0.3s ease;\n  border: 1px solid rgba(0, 0, 0, 0.05) !important;\n}\n.mosque-card[data-v-f627a372]:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.1) !important;\n}\n.form-control[data-v-f627a372],\n.form-select[data-v-f627a372] {\n  padding: 0.75rem 1rem;\n  border-radius: 0.5rem !important;\n}\n.btn-primary[data-v-f627a372] {\n  background-color: #3498db;\n  border-color: #3498db;\n  padding: 0.75rem 1.5rem;\n  font-weight: 500;\n}\n.btn-primary[data-v-f627a372]:hover {\n  background-color: #2980b9;\n  border-color: #2980b9;\n}\n.btn-outline-primary[data-v-f627a372] {\n  border-color: #3498db;\n  color: #3498db;\n}\n.btn-outline-primary[data-v-f627a372]:hover {\n  background-color: #3498db;\n  color: white;\n}\n.bi-star-fill[data-v-f627a372] {\n  color: #f39c12;\n}\n.bi-star[data-v-f627a372] {\n  color: #ddd;\n}\n.badge[data-v-f627a372] {\n  font-weight: 500;\n  padding: 0.35em 0.65em;\n  border-radius: 0.25rem;\n}\n.bg-success[data-v-f627a372] {\n  background-color: #27ae60 !important;\n}\n.facilities[data-v-f627a372] {\n  min-height: 2.5rem;\n}\n.spinner-border[data-v-f627a372] {\n  width: 1.5rem;\n  height: 1.5rem;\n  border-width: 0.15em;\n}\n\n/* Responsive adjustments */\n@media (max-width: 768px) {\n.card-header[data-v-f627a372] {\n    flex-direction: column;\n    text-align: center;\n}\n.attribution[data-v-f627a372] {\n    margin-top: 0.5rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -206317,10 +206716,10 @@ exports["default"] = Op;
 
 /***/ }),
 
-/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -206330,7 +206729,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css");
 
             
 
@@ -206339,11 +206738,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -207184,6 +207583,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_style_index_0_id_2cbbc6cc_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_style_index_0_id_f627a372_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_style_index_0_id_f627a372_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_style_index_0_id_f627a372_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -287528,19 +287957,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_MediaComponent_vue__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! ./components/MediaComponent.vue */ "./resources/js/components/MediaComponent.vue");
 /* harmony import */ var _components_KnowledgeComponent_vue__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! ./components/KnowledgeComponent.vue */ "./resources/js/components/KnowledgeComponent.vue");
 /* harmony import */ var _components_ServicesComponent_vue__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! ./components/ServicesComponent.vue */ "./resources/js/components/ServicesComponent.vue");
-/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
-/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
-/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_77__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
-/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_78__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
-/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_79__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
-/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_80__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
-/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_81__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
-/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_82__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
+/* harmony import */ var _components_StoreComponent_vue__WEBPACK_IMPORTED_MODULE_75__ = __webpack_require__(/*! ./components/StoreComponent.vue */ "./resources/js/components/StoreComponent.vue");
+/* harmony import */ var _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_76__ = __webpack_require__(/*! ./components/surah_selection/CustomSurahSelection.vue */ "./resources/js/components/surah_selection/CustomSurahSelection.vue");
+/* harmony import */ var _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_77__ = __webpack_require__(/*! ./components/intro/Donation.vue */ "./resources/js/components/intro/Donation.vue");
+/* harmony import */ var _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_78__ = __webpack_require__(/*! ./components/tinymce/TinymceEditor.vue */ "./resources/js/components/tinymce/TinymceEditor.vue");
+/* harmony import */ var _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_79__ = __webpack_require__(/*! ./components/search/SurahList.vue */ "./resources/js/components/search/SurahList.vue");
+/* harmony import */ var _components_search_SearchForm_vue__WEBPACK_IMPORTED_MODULE_80__ = __webpack_require__(/*! ./components/search/SearchForm.vue */ "./resources/js/components/search/SearchForm.vue");
+/* harmony import */ var _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_81__ = __webpack_require__(/*! ./components/DarkModeToggle.vue */ "./resources/js/components/DarkModeToggle.vue");
+/* harmony import */ var _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_82__ = __webpack_require__(/*! ./components/AthkarComponenet.vue */ "./resources/js/components/AthkarComponenet.vue");
+/* harmony import */ var _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_83__ = __webpack_require__(/*! ./components/FinanceComponent.vue */ "./resources/js/components/FinanceComponent.vue");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 window.bootstrap = bootstrap__WEBPACK_IMPORTED_MODULE_1__;
+
 
 
 
@@ -287672,7 +288103,7 @@ app.component("Panel", primevue_panel__WEBPACK_IMPORTED_MODULE_21__["default"]);
 app.component("Dialog", primevue_dialog__WEBPACK_IMPORTED_MODULE_22__["default"]);
 app.component("Image", primevue_image__WEBPACK_IMPORTED_MODULE_23__["default"]);
 app.component("Editor", primevue_editor__WEBPACK_IMPORTED_MODULE_24__["default"]);
-app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_80__["default"]);
+app.component('dark-mode-toggle', _components_DarkModeToggle_vue__WEBPACK_IMPORTED_MODULE_81__["default"]);
 app.component("users-component", _components_admin_panels_UsersComponent_vue__WEBPACK_IMPORTED_MODULE_25__["default"]);
 app.component("mailing-list-component", _components_admin_panels_MailingListComponent_vue__WEBPACK_IMPORTED_MODULE_26__["default"]);
 app.component("feedback-component", _components_admin_panels_FeedbackComponent_vue__WEBPACK_IMPORTED_MODULE_27__["default"]);
@@ -287699,11 +288130,11 @@ app.component("ai-component", _components_AiComponent_vue__WEBPACK_IMPORTED_MODU
 app.component("access-component", _components_AccessComponent_vue__WEBPACK_IMPORTED_MODULE_51__["default"]);
 app.component("content-component", _components_ContentComponent_vue__WEBPACK_IMPORTED_MODULE_52__["default"]);
 app.component("surat-component", _components_SuratComponent_vue__WEBPACK_IMPORTED_MODULE_53__["default"]);
-app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
-app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_78__["default"]);
-app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_76__["default"]);
+app.component("search-component", _components_surah_selection_CustomSurahSelection_vue__WEBPACK_IMPORTED_MODULE_76__["default"]);
+app.component("surah-list-component", _components_search_SurahList_vue__WEBPACK_IMPORTED_MODULE_79__["default"]);
+app.component("donations-component", _components_intro_Donation_vue__WEBPACK_IMPORTED_MODULE_77__["default"]);
 app.component("collection-component", _components_admin_panels_CollectionComponent_vue__WEBPACK_IMPORTED_MODULE_46__["default"]);
-app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_77__["default"]);
+app.component('TinymceEditor', _components_tinymce_TinymceEditor_vue__WEBPACK_IMPORTED_MODULE_78__["default"]);
 app.component('faq-component', _components_FaqComponent_vue__WEBPACK_IMPORTED_MODULE_47__["default"]);
 app.component('support-component', _components_SupportComponent_vue__WEBPACK_IMPORTED_MODULE_34__["default"]);
 app.component('dua-component', _components_DuaComponent_vue__WEBPACK_IMPORTED_MODULE_54__["default"]);
@@ -287720,8 +288151,8 @@ app.component('date-component', _components_DateComponent_vue__WEBPACK_IMPORTED_
 app.component('hadith-component', _components_HadithComponent_vue__WEBPACK_IMPORTED_MODULE_65__["default"]);
 app.component('shop-component', _components_ShopComponent_vue__WEBPACK_IMPORTED_MODULE_66__["default"]);
 app.component('tasbeeh-component', _components_TasbeehComponent_vue__WEBPACK_IMPORTED_MODULE_67__["default"]);
-app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_81__["default"]);
-app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_82__["default"]);
+app.component('athkar-component', _components_AthkarComponenet_vue__WEBPACK_IMPORTED_MODULE_82__["default"]);
+app.component('finance-component', _components_FinanceComponent_vue__WEBPACK_IMPORTED_MODULE_83__["default"]);
 app.component('umrah-component', _components_UmrahComponent_vue__WEBPACK_IMPORTED_MODULE_68__["default"]);
 app.component('name-component', _components_NameComponent_vue__WEBPACK_IMPORTED_MODULE_69__["default"]);
 app.component('prayer-component', _components_PrayerComponent_vue__WEBPACK_IMPORTED_MODULE_70__["default"]);
@@ -287729,6 +288160,7 @@ app.component('travel-component', _components_TravelComponent_vue__WEBPACK_IMPOR
 app.component('media-component', _components_MediaComponent_vue__WEBPACK_IMPORTED_MODULE_72__["default"]);
 app.component('knowledge-component', _components_KnowledgeComponent_vue__WEBPACK_IMPORTED_MODULE_73__["default"]);
 app.component('services-component', _components_ServicesComponent_vue__WEBPACK_IMPORTED_MODULE_74__["default"]);
+app.component('store-component', _components_StoreComponent_vue__WEBPACK_IMPORTED_MODULE_75__["default"]);
 app.mount("#app");
 
 /***/ }),
@@ -287779,9 +288211,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true */ "./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true");
+/* harmony import */ var _AboutComponent_vue_vue_type_template_id_5049bb1b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=template&id=5049bb1b */ "./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b");
 /* harmony import */ var _AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=script&lang=js */ "./resources/js/components/AboutComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css */ "./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css");
+/* harmony import */ var _AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css */ "./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css");
 /* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
@@ -287790,7 +288222,7 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-5049bb1b"],['__file',"resources/js/components/AboutComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_AboutComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_AboutComponent_vue_vue_type_template_id_5049bb1b__WEBPACK_IMPORTED_MODULE_0__.render],['__file',"resources/js/components/AboutComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -287815,31 +288247,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css ***!
-  \************************************************************************************************************/
+/***/ "./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css ***!
+  \************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&scoped=true&lang=css");
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_style_index_0_id_5049bb1b_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=style&index=0&id=5049bb1b&lang=css");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true ***!
-  \**********************************************************************************************/
+/***/ "./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b ***!
+  \**********************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_template_id_5049bb1b__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_template_id_5049bb1b_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b&scoped=true");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AboutComponent_vue_vue_type_template_id_5049bb1b__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AboutComponent.vue?vue&type=template&id=5049bb1b */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/AboutComponent.vue?vue&type=template&id=5049bb1b");
 
 
 /***/ }),
@@ -290091,6 +290523,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_ShopComponent_vue_vue_type_template_id_2cbbc6cc_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/ShopComponent.vue?vue&type=template&id=2cbbc6cc&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/StoreComponent.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/StoreComponent.vue ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _StoreComponent_vue_vue_type_template_id_f627a372_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StoreComponent.vue?vue&type=template&id=f627a372&scoped=true */ "./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true");
+/* harmony import */ var _StoreComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StoreComponent.vue?vue&type=script&lang=js */ "./resources/js/components/StoreComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _StoreComponent_vue_vue_type_style_index_0_id_f627a372_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css */ "./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_StoreComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_StoreComponent_vue_vue_type_template_id_f627a372_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-f627a372"],['__file',"resources/js/components/StoreComponent.vue"]])
+/* hot reload */
+if (false) {}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/StoreComponent.vue?vue&type=script&lang=js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/StoreComponent.vue?vue&type=script&lang=js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StoreComponent.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_style_index_0_id_f627a372_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=style&index=0&id=f627a372&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_template_id_f627a372_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_StoreComponent_vue_vue_type_template_id_f627a372_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./StoreComponent.vue?vue&type=template&id=f627a372&scoped=true */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/StoreComponent.vue?vue&type=template&id=f627a372&scoped=true");
 
 
 /***/ }),

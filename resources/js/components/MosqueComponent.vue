@@ -19,15 +19,17 @@
                   <input id="searchInput" type="search" class="form-control" placeholder="Enter city or country..."
                     aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
-                  <button class="btn btn-outline-success" type="submit" :disabled="loading">
-                    <span v-if="!loading">Search</span>
-                    <span v-else class="spinner-border spinner-border-sm"></span>
-                  </button>
+                    <button class="btn  align-items-center justify-content-center " style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
+                      <span v-if="!loading">Search</span>
+                      <span v-else class="spinner-border spinner-border-sm"></span>
+                    </button>
                 </form>
               </div>
             </div>
 
             <!-- Loading State -->
+
+            
             <div v-if="loading" class="text-center py-5">
               <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -37,18 +39,18 @@
 
             <!-- Results -->
             <div v-if="!loading">
-              <!-- No Search State -->
-              <div v-if="!searchQuery && mosques.length === 0" class="text-center py-5">
+              <div v-if="!searchQuery || !searchSubmitted && mosques.length === 0" class="text-center py-5">
                 <i class="bi bi-compass display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for mosques worldwide</h3>
                 <p class="text-muted">Enter a city or town name to begin</p>
               </div>
 
               <!-- No Results State -->
-              <div v-else-if="searchQuery && mosques.length === 0" class="text-center py-5">
+              <div v-else-if="searchSubmitted && searchQuery && mosques.length === 0" class="text-center py-5">
                 <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">No mosques found</h3>
-                <p class="text-muted">Try adjusting your search or increasing the radius</p>
+                <p class="text-muted">Try adjusting your search or increasing the radius.</p>
+
               </div>
 
               <!-- Results Grid -->
@@ -157,6 +159,9 @@ export default {
     }
   },
   methods: {
+    handleTyping() {
+      this.error = ""; // Clear error on typing
+    },
     shareViaWhatsApp(mosque) {
       // Format the mosque details
       const message = `Mosque name: *${mosque.name}*\n\n` +

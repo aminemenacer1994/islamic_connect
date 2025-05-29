@@ -2,7 +2,7 @@
   <div class="container-fluid my-5">
     <div class="row justify-content-center">
       <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Halal Butcher Locator</h1>
+        <h1 class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
         <p class="text-center container mb-4 lead">
           Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops.
         </p>
@@ -17,7 +17,7 @@
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
                   aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                   style="max-width: 300px;" />
-                <button class="btn btn-outline-success" type="submit" :disabled="loading">
+                <button class="btn  align-items-center justify-content-center " style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
                 </button>
@@ -36,7 +36,7 @@
             <!-- Results -->
             <div v-if="!loading">
               <!-- No Search State -->
-              <div v-if="!searchQuery && shops.length === 0" class="text-center py-5">
+              <div v-if="!searchQuery || shops.length === 0" class="text-center py-5">
                 <i class="bi bi-shop display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for halal Butchers</h3>
                 <p class="text-muted">Enter a city or address to find nearby halal butchers</p>
@@ -46,9 +46,6 @@
               <div v-else-if="searchQuery && shops.length === 0" class="text-center py-5">
                 <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">No halal food places found</h3>
-                <button class="btn btn-link" @click="expandSearchRadius">
-                  Try expanding search radius
-                </button>
               </div>
 
               <!-- Results Grid -->
@@ -59,9 +56,7 @@
                       <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">
                         {{ shop.name }}
                       </h1>
-                      <!-- <span class="badge bg-success">
-                        <i class="bi bi-check-circle-fill me-1"></i> Halal Certified
-                      </span> -->
+                      
                     </div>
                     <div class="card-body pt-0">
                       <div class="mb-2">
