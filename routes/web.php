@@ -59,6 +59,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\FoodController;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -368,3 +369,5 @@ Route::get('/knowledge', [KnowledgeController::class, 'index'])->name('knowledge
 Route::get('/services', [ServicesController::class, 'index'])->name('services');
 // store
 Route::get('/store', [StoreController::class, 'index'])->name('store');
+// food
+Route::get('/food', [FoodController::class, 'index'])->name('food');

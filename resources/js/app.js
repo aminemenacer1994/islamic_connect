@@ -81,6 +81,7 @@ import MediaComponent from "./components/MediaComponent.vue";
 import KnowledgeComponent from "./components/KnowledgeComponent.vue";
 import ServicesComponent from "./components/ServicesComponent.vue";
 import StoreComponent from "./components/StoreComponent.vue";
+import FoodComponent from "./components/FoodComponent.vue";
 
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
@@ -212,5 +213,6 @@ app.component('media-component', MediaComponent);
 app.component('knowledge-component', KnowledgeComponent);
 app.component('services-component', ServicesComponent);
 app.component('store-component', StoreComponent);
+app.component('food-component', FoodComponent);
 
 app.mount("#app");
