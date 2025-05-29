@@ -16,7 +16,7 @@
                 style="gap: 0.5rem;">
                 <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search" v-model="searchQuery" @input="debounceSearch" autocomplete="off"
+                  aria-label="Search" v-model="searchQuery" autocomplete="off"
                   style="max-width: 300px;" ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
@@ -53,13 +53,13 @@
               <!-- Results Grid -->
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="shop in filteredShops" :key="shop.id">
-                  <div class="card h-100">
+                  <div class="card h-100 d-flex flex-column">
                     <div style="padding: 15px 15px 0 15px;">
-                      <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 15px;">
+                      <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 1.5rem;">
                         {{ shop.name }}
                       </h1>
                     </div>
-                    <div class="card-body pt-0">
+                    <div class="card-body pt-0 flex-grow-1">
                       <div class="mb-2">
                         <div class="d-flex align-items-start">
                           <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
@@ -87,32 +87,36 @@
                         </small>
                       </div>
 
-                      <div v-if="shop.tags?.opening_hours" class="opening-hours mb-2 mt-2">
+                      <div class="opening-hours mb-2 mt-2">
                         <small class="text-muted">
-                          <strong>Opening Times:</strong> {{ shop.opening_hours_formatted }}
+                          <strong>Opening Times:</strong> {{ shop.opening_hours_formatted || 'Not specified' }}
                           <span v-if="shop.isOpen" class="badge bg-success ms-2">Open Now</span>
                           <span v-else-if="shop.isOpen === false" class="badge bg-danger ms-2">Closed</span>
                         </small>
                       </div>
+                    </div>
 
-                      <div
-                        class="card-footer d-flex sticky-bottom border-top-0 justify-content-between align-items-center gap-2">
-                        <!-- Get Directions Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="openGoogleMaps(shop.lat, shop.lon, shop.name)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <span class="text-center w-100">
-                            <b>Get Direction</b>
-                          </span>
-                        </button>
+                    <div class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2">
+                      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        @click="openGoogleMaps(shop.lat, shop.lon, shop.name)"
+                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                        <span class="text-center w-100">
+                          <b>Get Direction</b>
+                        </span>
+                      </button>
 
-                        <!-- Call Shop Button -->
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)"
-                          style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <b>Call Shop</b>
-                        </button>
-                      </div>
+                      <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                        @click="callShop(shop.phone)"
+                        :disabled="!shop.phone"
+                        :style="{
+                          background: shop.phone ? '#1881b9' : '#6c757d',
+                          boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+                          color: 'white',
+                          height: '38px',
+                          cursor: shop.phone ? 'pointer' : 'not-allowed'
+                        }">
+                        <b>Call Shop</b>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -143,18 +147,14 @@ export default {
       shops: [],
       searchHistory: [],
       currentLocation: null,
-      searchRadius: 5000, // 5km radius
-      maxRadius: 10000, // 10km max
-      debounceTimeout: null,
-      domElementsLoaded: false,
+      searchRadius: 5000,
+      maxRadius: 10000,
     };
   },
   mounted() {
     this.$nextTick(() => {
-      this.domElementsLoaded = true;
       this.safeFocusInput();
     });
-    // Load opening_hours.js dynamically
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/opening_hours@3.7.0/opening_hours.min.js';
     script.async = true;
@@ -162,7 +162,7 @@ export default {
   },
   computed: {
     filteredShops() {
-      return this.shops; // No type filtering needed, as all shops are restaurants or supermarkets
+      return this.shops;
     },
   },
   methods: {
@@ -178,10 +178,6 @@ export default {
       }
       return this.searchQuery.trim();
     },
-    debounceSearch() {
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(() => this.searchLocation(), 800);
-    },
     async searchLocation() {
       const query = this.validateSearchQuery();
       if (!query) {
@@ -189,7 +185,6 @@ export default {
         return;
       }
 
-      // Check search history
       const cachedSearch = this.searchHistory.find(s => s.query.toLowerCase() === query.toLowerCase());
       if (cachedSearch) {
         this.currentLocation = cachedSearch.location;
@@ -206,7 +201,7 @@ export default {
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`,
           {
             headers: {
-              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)', // Replace with your email
+              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)',
               'Accept-Language': 'en-US,en;q=0.9',
             },
           }
@@ -223,7 +218,6 @@ export default {
           address: location.address,
         };
 
-        // Update search history
         this.searchHistory.unshift({
           query,
           location: this.currentLocation,
@@ -287,11 +281,8 @@ export default {
 
           const tags = element.tags;
           const name = tags.name || (tags.amenity ? 'Halal Restaurant' : 'Halal Supermarket');
-
-          // Determine type
           const type = tags.amenity ? 'restaurant' : 'supermarket';
 
-          // Extract address
           const addressParts = [
             tags['addr:street'],
             tags['addr:housenumber'],
@@ -303,13 +294,11 @@ export default {
             ? addressParts.join(', ')
             : tags['addr:full'] || this.currentLocation.display_name || 'Address not available';
 
-          // Calculate distance
           const distance = this.calculateDistance(
             this.currentLocation.lat, this.currentLocation.lon,
             coords.lat, coords.lon
           );
 
-          // Process opening hours
           let opening_hours_formatted = tags.opening_hours || 'Not specified';
           let isOpen = null;
           if (tags.opening_hours && typeof opening_hours === 'function') {
@@ -340,7 +329,7 @@ export default {
             lat: coords.lat,
             lon: coords.lon,
             address,
-            distance: (distance / 1000).toFixed(1), // km
+            distance: (distance / 1000).toFixed(1),
             phone: tags.phone,
             website: tags.website,
             cuisine: tags.cuisine || (type === 'restaurant' ? 'Halal' : null),
@@ -387,7 +376,7 @@ export default {
       }
     },
     calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3; // Earth radius in meters
+      const R = 6371e3;
       const φ1 = (lat1 * Math.PI) / 180;
       const φ2 = (lat2 * Math.PI) / 180;
       const Δφ = ((lat2 - lat1) * Math.PI) / 180;
@@ -414,6 +403,8 @@ export default {
   padding: 0.5rem 0.75rem;
   background-color: white !important;
   border-top: 0;
+  position: sticky;
+  bottom: 0;
 }
 
 .card {
@@ -446,6 +437,8 @@ export default {
     padding: 0.5rem 0.75rem;
     background-color: white !important;
     border-top: 0;
+    position: sticky;
+    bottom: 0;
   }
 }
 </style>

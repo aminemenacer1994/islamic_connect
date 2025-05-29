@@ -36619,20 +36619,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       searchHistory: [],
       currentLocation: null,
       searchRadius: 5000,
-      // 5km radius
-      maxRadius: 10000,
-      // 10km max
-      debounceTimeout: null,
-      domElementsLoaded: false
+      maxRadius: 10000
     };
   },
   mounted: function mounted() {
     var _this = this;
     this.$nextTick(function () {
-      _this.domElementsLoaded = true;
       _this.safeFocusInput();
     });
-    // Load opening_hours.js dynamically
     var script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/opening_hours@3.7.0/opening_hours.min.js';
     script.async = true;
@@ -36640,7 +36634,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   computed: {
     filteredShops: function filteredShops() {
-      return this.shops; // No type filtering needed, as all shops are restaurants or supermarkets
+      return this.shops;
     }
   },
   methods: {
@@ -36657,51 +36651,42 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
       return this.searchQuery.trim();
     },
-    debounceSearch: function debounceSearch() {
-      var _this3 = this;
-      clearTimeout(this.debounceTimeout);
-      this.debounceTimeout = setTimeout(function () {
-        return _this3.searchLocation();
-      }, 800);
-    },
     searchLocation: function searchLocation() {
-      var _this4 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var query, cachedSearch, response, data, location;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              query = _this4.validateSearchQuery();
+              query = _this3.validateSearchQuery();
               if (query) {
                 _context.next = 4;
                 break;
               }
-              _this4.error = 'Please enter a location';
+              _this3.error = 'Please enter a location';
               return _context.abrupt("return");
             case 4:
-              // Check search history
-              cachedSearch = _this4.searchHistory.find(function (s) {
+              cachedSearch = _this3.searchHistory.find(function (s) {
                 return s.query.toLowerCase() === query.toLowerCase();
               });
               if (!cachedSearch) {
                 _context.next = 10;
                 break;
               }
-              _this4.currentLocation = cachedSearch.location;
+              _this3.currentLocation = cachedSearch.location;
               _context.next = 9;
-              return _this4.fetchNearbyShops();
+              return _this3.fetchNearbyShops();
             case 9:
               return _context.abrupt("return");
             case 10:
-              _this4.loading = true;
-              _this4.error = '';
-              _this4.shops = [];
+              _this3.loading = true;
+              _this3.error = '';
+              _this3.shops = [];
               _context.prev = 13;
               _context.next = 16;
               return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1&addressdetails=1"), {
                 headers: {
                   'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)',
-                  // Replace with your email
                   'Accept-Language': 'en-US,en;q=0.9'
                 }
               });
@@ -36724,34 +36709,32 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               throw new Error('Location not found');
             case 24:
               location = data[0];
-              _this4.currentLocation = {
+              _this3.currentLocation = {
                 lat: parseFloat(location.lat),
                 lon: parseFloat(location.lon),
                 display_name: location.display_name,
                 address: location.address
               };
-
-              // Update search history
-              _this4.searchHistory.unshift({
+              _this3.searchHistory.unshift({
                 query: query,
-                location: _this4.currentLocation,
+                location: _this3.currentLocation,
                 timestamp: new Date()
               });
-              if (_this4.searchHistory.length > 5) _this4.searchHistory.pop();
+              if (_this3.searchHistory.length > 5) _this3.searchHistory.pop();
               _context.next = 30;
-              return _this4.fetchNearbyShops();
+              return _this3.fetchNearbyShops();
             case 30:
               _context.next = 37;
               break;
             case 32:
               _context.prev = 32;
               _context.t0 = _context["catch"](13);
-              _this4.error = _context.t0.message || 'Could not find location';
+              _this3.error = _context.t0.message || 'Could not find location';
               console.error('Search error:', _context.t0);
-              _this4.shops = [];
+              _this3.shops = [];
             case 37:
               _context.prev = 37;
-              _this4.loading = false;
+              _this3.loading = false;
               return _context.finish(37);
             case 40:
             case "end":
@@ -36761,20 +36744,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchNearbyShops: function fetchNearbyShops() {
-      var _this5 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var _this5$currentLocatio, lat, lon, radius, query, response, json;
+        var _this4$currentLocatio, lat, lon, radius, query, response, json;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              if (_this5.currentLocation) {
+              if (_this4.currentLocation) {
                 _context2.next = 2;
                 break;
               }
               return _context2.abrupt("return");
             case 2:
-              _this5$currentLocatio = _this5.currentLocation, lat = _this5$currentLocatio.lat, lon = _this5$currentLocatio.lon;
-              radius = _this5.searchRadius;
+              _this4$currentLocatio = _this4.currentLocation, lat = _this4$currentLocatio.lat, lon = _this4$currentLocatio.lon;
+              radius = _this4.searchRadius;
               query = "\n        [out:json][timeout:30];\n        (\n          node[\"amenity\"~\"restaurant|fast_food\"][\"diet:halal\"=\"yes\"](around:".concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"amenity\"~\"restaurant|fast_food\"][\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          node[\"shop\"=\"supermarket\"][\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"=\"supermarket\"][\"diet:halal\"=\"yes\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          node[\"shop\"=\"supermarket\"][\"name\"~\"[Hh]alal\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n          way[\"shop\"=\"supermarket\"][\"name\"~\"[Hh]alal\"](around:").concat(radius, ",").concat(lat, ",").concat(lon, ");\n        );\n        out center;\n        >;\n        out skel qt;\n      ");
               _context2.prev = 5;
               _context2.next = 8;
@@ -36791,15 +36774,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 13:
               json = _context2.sent;
-              _this5.processShopData(json.elements || []);
+              _this4.processShopData(json.elements || []);
               _context2.next = 22;
               break;
             case 17:
               _context2.prev = 17;
               _context2.t0 = _context2["catch"](5);
-              _this5.error = _context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places';
+              _this4.error = _context2.t0.message.includes('Too Many Requests') ? 'Rate limit hit. Please wait and try again.' : 'Could not load halal places';
               console.error('Fetch error:', _context2.t0);
-              _this5.shops = [];
+              _this4.shops = [];
             case 22:
             case "end":
               return _context2.stop();
@@ -36808,7 +36791,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     processShopData: function processShopData(elements) {
-      var _this6 = this;
+      var _this5 = this;
       var seen = new Set();
       var shops = [];
       elements.forEach(function (element) {
@@ -36818,18 +36801,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           if (!coords.lat || !coords.lon) return;
           var tags = element.tags;
           var name = tags.name || (tags.amenity ? 'Halal Restaurant' : 'Halal Supermarket');
-
-          // Determine type
           var type = tags.amenity ? 'restaurant' : 'supermarket';
-
-          // Extract address
           var addressParts = [tags['addr:street'], tags['addr:housenumber'], tags['addr:city'], tags['addr:postcode'], tags['addr:country']].filter(Boolean);
-          var address = addressParts.length ? addressParts.join(', ') : tags['addr:full'] || _this6.currentLocation.display_name || 'Address not available';
-
-          // Calculate distance
-          var distance = _this6.calculateDistance(_this6.currentLocation.lat, _this6.currentLocation.lon, coords.lat, coords.lon);
-
-          // Process opening hours
+          var address = addressParts.length ? addressParts.join(', ') : tags['addr:full'] || _this5.currentLocation.display_name || 'Address not available';
+          var distance = _this5.calculateDistance(_this5.currentLocation.lat, _this5.currentLocation.lon, coords.lat, coords.lon);
           var opening_hours_formatted = tags.opening_hours || 'Not specified';
           var isOpen = null;
           if (tags.opening_hours && typeof opening_hours === 'function') {
@@ -36852,7 +36827,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             lon: coords.lon,
             address: address,
             distance: (distance / 1000).toFixed(1),
-            // km
             phone: tags.phone,
             website: tags.website,
             cuisine: tags.cuisine || (type === 'restaurant' ? 'Halal' : null),
@@ -36871,24 +36845,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       });
     },
     expandSearchRadius: function expandSearchRadius() {
-      var _this7 = this;
+      var _this6 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var increment;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
               increment = 2000;
-              if (!(_this7.searchRadius + increment > _this7.maxRadius)) {
+              if (!(_this6.searchRadius + increment > _this6.maxRadius)) {
                 _context3.next = 4;
                 break;
               }
-              _this7.error = "Maximum search radius of ".concat(_this7.maxRadius / 1000, "km reached");
+              _this6.error = "Maximum search radius of ".concat(_this6.maxRadius / 1000, "km reached");
               return _context3.abrupt("return");
             case 4:
-              _this7.searchRadius += increment;
-              _this7.error = "Expanding search to ".concat(_this7.searchRadius / 1000, "km radius...");
+              _this6.searchRadius += increment;
+              _this6.error = "Expanding search to ".concat(_this6.searchRadius / 1000, "km radius...");
               _context3.next = 8;
-              return _this7.fetchNearbyShops();
+              return _this6.fetchNearbyShops();
             case 8:
             case "end":
               return _context3.stop();
@@ -36916,7 +36890,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     calculateDistance: function calculateDistance(lat1, lon1, lat2, lon2) {
-      var R = 6371e3; // Earth radius in meters
+      var R = 6371e3;
       var φ1 = lat1 * Math.PI / 180;
       var φ2 = lat2 * Math.PI / 180;
       var Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -55596,7 +55570,7 @@ var _hoisted_14 = {
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
 var _hoisted_15 = {
-  "class": "card h-100"
+  "class": "card h-100 d-flex flex-column"
 };
 var _hoisted_16 = {
   style: {
@@ -55606,11 +55580,11 @@ var _hoisted_16 = {
 var _hoisted_17 = {
   "class": "card-title fw-bold text-dark mb-3",
   style: {
-    "font-size": "15px"
+    "font-size": "1.5rem"
   }
 };
 var _hoisted_18 = {
-  "class": "card-body pt-0"
+  "class": "card-body pt-0 flex-grow-1"
 };
 var _hoisted_19 = {
   "class": "mb-2"
@@ -55640,7 +55614,6 @@ var _hoisted_25 = {
   "class": "text-muted"
 };
 var _hoisted_26 = {
-  key: 1,
   "class": "opening-hours mb-2 mt-2"
 };
 var _hoisted_27 = {
@@ -55655,10 +55628,10 @@ var _hoisted_29 = {
   "class": "badge bg-danger ms-2"
 };
 var _hoisted_30 = {
-  "class": "card-footer d-flex sticky-bottom border-top-0 justify-content-between align-items-center gap-2"
+  "class": "card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2"
 };
 var _hoisted_31 = ["onClick"];
-var _hoisted_32 = ["onClick"];
+var _hoisted_32 = ["onClick", "disabled"];
 var _hoisted_33 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
@@ -55670,20 +55643,20 @@ var _hoisted_34 = {
   "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Halal Restaurants & Supermarkets Finder", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Halal Restaurants & Supermarkets Finder", -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
   }, " Discover the best halal restaurants and supermarkets near you with ease! Our platform connects you to trusted, local halal establishments. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     "class": "d-flex align-items-center mb-3",
     role: "search",
-    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.searchLocation && $options.searchLocation.apply($options, arguments);
     }, ["prevent"])),
     style: {
       "gap": "0.5rem"
     }
-  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "card-title pr-2 fw-bold",
     style: {
       "font-size": "25px"
@@ -55697,15 +55670,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
-    onInput: _cache[1] || (_cache[1] = function () {
-      return $options.debounceSearch && $options.debounceSearch.apply($options, arguments);
-    }),
     autocomplete: "off",
     style: {
       "max-width": "300px"
     },
     ref: "searchInput"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn align-items-center justify-content-center",
     style: {
       "background": "#00bfa6",
@@ -55715,7 +55685,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     type: "submit",
     disabled: $data.loading
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     style: {
       "width": "3rem",
@@ -55724,7 +55694,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal restaurants and supermarkets in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Loading...")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, "Searching for halal restaurants and supermarkets in " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.searchQuery) + "...", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Search State "), !$data.searchQuery || $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, _cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-shop display-4 text-muted mb-3"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "h4 text-muted"
@@ -55732,7 +55702,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted"
   }, "Enter a city or address to find nearby halal establishments", -1 /* HOISTED */)]))) : $data.searchQuery && $data.shops.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results State "), _cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center py-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-binoculars display-4 text-muted mb-3"
@@ -55741,13 +55711,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "No halal restaurants or supermarkets found")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 2
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredShops, function (shop) {
-    var _shop$tags;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       "class": "col",
       key: shop.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-ae99c338><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star\" data-v-ae99c338></i><i class=\"bi bi-star\" data-v-ae99c338></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.distance) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_25, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_shop$tags = shop.tags) !== null && _shop$tags !== void 0 && _shop$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_27, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.opening_hours_formatted) + " ", 1 /* TEXT */), shop.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, "Open Now")) : shop.isOpen === false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "Closed")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-ae99c338><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star-fill\" data-v-ae99c338></i><i class=\"bi bi-star\" data-v-ae99c338></i><i class=\"bi bi-star\" data-v-ae99c338></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.distance) + " km away", 1 /* TEXT */)]), shop.cuisine ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_25, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Cuisine:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.cuisine), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_27, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(shop.opening_hours_formatted || 'Not specified') + " ", 1 /* TEXT */), shop.isOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, "Open Now")) : shop.isOpen === false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29, "Closed")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
         return $options.openGoogleMaps(shop.lat, shop.lon, shop.name);
@@ -55758,20 +55727,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call Shop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Direction")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
         return $options.callShop(shop.phone);
       },
-      style: {
-        "background": "#1881b9",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "color": "white",
-        "height": "38px"
-      }
-    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32)])])])]);
+      disabled: !shop.phone,
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        background: shop.phone ? '#1881b9' : '#6c757d',
+        boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+        color: 'white',
+        height: '38px',
+        cursor: shop.phone ? 'pointer' : 'not-allowed'
+      })
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Call Shop", -1 /* HOISTED */)])), 12 /* STYLE, PROPS */, _hoisted_32)])])]);
   }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.shops.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredShops.length) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.shops.length) + " places ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
@@ -59982,38 +59953,32 @@ var _hoisted_23 = {
   }
 };
 var _hoisted_24 = {
-  "class": "mb-2 d-flex align-items-center"
-};
-var _hoisted_25 = {
-  "class": "mb-0"
-};
-var _hoisted_26 = {
   key: 0,
   "class": "mb-2"
+};
+var _hoisted_25 = {
+  "class": "text-muted"
+};
+var _hoisted_26 = {
+  key: 1,
+  "class": "opening-hours mb-2 mt-2"
 };
 var _hoisted_27 = {
   "class": "text-muted"
 };
 var _hoisted_28 = {
-  key: 1,
-  "class": "opening-hours mb-2 mt-2"
-};
-var _hoisted_29 = {
-  "class": "text-muted"
-};
-var _hoisted_30 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_31 = ["onClick"];
-var _hoisted_32 = ["href"];
-var _hoisted_33 = {
+var _hoisted_29 = ["onClick"];
+var _hoisted_30 = ["href"];
+var _hoisted_31 = {
   key: 0,
   "class": "d-flex justify-content-between align-items-center",
   style: {
     "padding": "10px"
   }
 };
-var _hoisted_34 = {
+var _hoisted_32 = {
   "class": "text-muted"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -60097,7 +60062,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: school.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-geo-alt-fill me-2 flex-shrink-0"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.address || 'Address not specified'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"text-warning me-2\" data-v-7fb373ce><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star\" data-v-7fb373ce></i><i class=\"bi bi-star\" data-v-7fb373ce></i></span>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((school.distance / 1000).toFixed(1)) + " km away", 1 /* TEXT */)]), school.type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Type:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.type), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_school$tags = school.tags) !== null && _school$tags !== void 0 && _school$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_29, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.address || 'Address not specified'), 1 /* TEXT */)])]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"mb-2 d-flex align-items-center\" data-v-7fb373ce><span class=\"text-warning me-2\" data-v-7fb373ce><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star-fill\" data-v-7fb373ce></i><i class=\"bi bi-star\" data-v-7fb373ce></i><i class=\"bi bi-star\" data-v-7fb373ce></i></span></div>", 1)), school.type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_25, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Type:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.type), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_school$tags = school.tags) !== null && _school$tags !== void 0 && _school$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
         return $options.openGoogleMaps(school.lat, school.lon, school.name);
@@ -60108,9 +60073,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Directions")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Get Directions")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: school.website,
       target: "_blank",
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn d-flex align-items-center justify-content-center flex-grow-1", {
@@ -60121,8 +60086,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website", -1 /* HOISTED */)])), 10 /* CLASS, PROPS */, _hoisted_32)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.schools.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.schools.length) + " Islamic educational schools & centers ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Website", -1 /* HOISTED */)])), 10 /* CLASS, PROPS */, _hoisted_30)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$data.loading && $data.schools.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_32, " Showing " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.schools.length) + " Islamic educational schools & centers ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),
@@ -161984,7 +161949,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-footer[data-v-ae99c338] {\n  padding: 0.5rem 0.75rem;\n  background-color: white !important;\n  border-top: 0;\n}\n.card[data-v-ae99c338] {\n  border-radius: 15px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.card[data-v-ae99c338]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.badge.bg-success[data-v-ae99c338] {\n  background-color: #28a745 !important;\n}\n@media (max-width: 768px) {\n.d-flex.align-items-center[data-v-ae99c338] {\n    flex-direction: column;\n    gap: 0.5rem;\n}\n.btn[data-v-ae99c338] {\n    width: 100%;\n}\n.card-footer[data-v-ae99c338] {\n    padding: 0.5rem 0.75rem;\n    background-color: white !important;\n    border-top: 0;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-footer[data-v-ae99c338] {\n  padding: 0.5rem 0.75rem;\n  background-color: white !important;\n  border-top: 0;\n  position: sticky;\n  bottom: 0;\n}\n.card[data-v-ae99c338] {\n  border-radius: 15px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  border: 1px solid rgba(0, 0, 0, 0.1);\n}\n.card[data-v-ae99c338]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.badge.bg-success[data-v-ae99c338] {\n  background-color: #28a745 !important;\n}\n@media (max-width: 768px) {\n.d-flex.align-items-center[data-v-ae99c338] {\n    flex-direction: column;\n    gap: 0.5rem;\n}\n.btn[data-v-ae99c338] {\n    width: 100%;\n}\n.card-footer[data-v-ae99c338] {\n    padding: 0.5rem 0.75rem;\n    background-color: white !important;\n    border-top: 0;\n    position: sticky;\n    bottom: 0;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -100,7 +100,6 @@
                           <i class="bi bi-star"></i>
                           <i class="bi bi-star"></i>
                         </span>
-                        <h6 class="mb-0">{{ (school.distance / 1000).toFixed(1) }} km away</h6>
                       </div>
 
                       <div v-if="school.type" class="mb-2">
