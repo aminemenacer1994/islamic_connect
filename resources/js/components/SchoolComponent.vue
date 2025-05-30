@@ -10,34 +10,17 @@
           <!-- Search Section -->
           <div class="card-body" style="padding: 5px;">
             <div class="mb-4">
-
               <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
-                  style="gap: 0.5rem;">
-                  <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
-                  <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
-                    aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
-                    style="max-width: 300px;" />
-                    <button class="btn  align-items-center justify-content-center " style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
-                      <span v-if="!loading">Search</span>
-                      <span v-else class="spinner-border spinner-border-sm"></span>
-                    </button>
-                </form>
-
-
-              <!-- Search form -->
-              <!-- <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
                 style="gap: 0.5rem;">
-                <h4 class="card-title fw-bold" style="font-size: 25px;">Search location:</h4>
-                <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
+                <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
+                <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
                   aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                   style="max-width: 300px;" />
-                <button class="btn align-items-center justify-content-center"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
-                  type="submit" :disabled="loading">
+                <button class="btn align-items-center justify-content-center" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
                 </button>
-              </form> -->
+              </form>
             </div>
 
             <!-- Loading State -->
@@ -67,8 +50,6 @@
                   incomplete OpenStreetMap data. Try another city, contribute to <a href="https://www.openstreetmap.org"
                     target="_blank">OpenStreetMap</a>, or check directories like <a href="https://madrassah.co.uk"
                     target="_blank">Madrassah.co.uk</a>.<br>
-                  <small>For live Islamic events (e.g., dawah, talks), set up a proxy with the Eventbrite API, as direct
-                    client-side requests are blocked by CORS.</small>
                 </p>
               </div>
 
@@ -76,6 +57,8 @@
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="school in schools" :key="school.id">
                   <div class="card h-100">
+                    <!-- Badges -->
+                    
                     <div style="padding: 15px 15px 0 15px;">
                       <h1 class="card-title text-left fw-bold text-dark mb-3" style="font-size: 25px;">
                         {{ school.name }}
@@ -92,14 +75,12 @@
                         </div>
                       </div>
 
+                      <!-- Dynamic Star Rating -->
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star"></i>
-                          <i class="bi bi-star"></i>
+                          <i v-for="n in 5" :key="n" :class="getStarClass(n, school.rating || 0)"></i>
                         </span>
+                        <small class="text-muted">({{ school.rating ? school.rating.toFixed(1) : 'N/A' }}/5)</small>
                       </div>
 
                       <div v-if="school.type" class="mb-2">
@@ -115,7 +96,6 @@
                       </div>
 
                       <div class="d-flex justify-content-between align-items-center gap-2">
-                        <!-- Get Directions Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(school.lat, school.lon, school.name)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
@@ -123,8 +103,6 @@
                             <b>Get Directions</b>
                           </span>
                         </button>
-
-                        <!-- Call Button -->
                         <a :href="school.website" target="_blank"
                           class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           style="background: #1881b9; color: white; height: 38px"
@@ -161,7 +139,7 @@ export default {
       schools: [],
       searchHistory: [],
       currentLocation: null,
-      bbox: null, // Store city bounding box
+      bbox: null,
       error: '',
     };
   },
@@ -173,7 +151,6 @@ export default {
         return;
       }
 
-      // Check cached search
       const cachedSearch = this.searchHistory.find(s => s.query === query);
       if (cachedSearch) {
         this.currentLocation = cachedSearch.location;
@@ -191,7 +168,7 @@ export default {
           `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1&bounded=1`,
           {
             headers: {
-              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)', // Replace with your email
+              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)',
               'Accept-Language': 'en-US,en;q=0.9',
             },
           }
@@ -209,9 +186,8 @@ export default {
           display_name: location.display_name,
           address: location.address,
         };
-        this.bbox = location.boundingbox.map(Number); // [south, north, west, east]
+        this.bbox = location.boundingbox.map(Number);
 
-        // Update search history
         this.searchHistory.unshift({
           query,
           location: this.currentLocation,
@@ -279,14 +255,12 @@ export default {
         const tags = element.tags;
         const name = tags.name || 'Islamic Education Center';
 
-        // Determine type
         let type = 'School';
         if (tags.name && tags.name.match(/[Mm]adrasah/i)) type = 'Madrassa';
         else if (tags.amenity === 'community_centre') type = 'Education Center';
         else if (tags.amenity === 'place_of_worship') type = 'Madrassa';
         else if (tags.amenity === 'college' || tags.amenity === 'university') type = 'College/University';
 
-        // Extract address
         const addressParts = [
           tags['addr:street'],
           tags['addr:housenumber'],
@@ -299,11 +273,16 @@ export default {
           ? addressParts.join(', ')
           : tags['addr:full'] || this.currentLocation.display_name || 'Address not available';
 
-        // Calculate distance from city center
         const distance = this.calculateDistance(
           this.currentLocation.lat, this.currentLocation.lon,
           coords.lat, coords.lon
         );
+
+        // Generate placeholder rating (3.5 to 5.0) since OpenStreetMap doesn't provide ratings
+        const rating = this.generatePlaceholderRating(tags, distance);
+
+        // Assign badges based on tags or random for placeholders
+        const badges = this.assignBadges(tags, rating);
 
         schools.push({
           id: element.id,
@@ -317,12 +296,44 @@ export default {
           website: tags.website,
           opening_hours: tags.opening_hours,
           tags,
+          rating, // Add rating
+          badges, // Add badges
         });
 
         seen.add(element.id);
       });
 
       this.schools = schools.sort((a, b) => a.distance - b.distance);
+    },
+    generatePlaceholderRating(tags, distance) {
+      // Simulate a rating based on heuristics (e.g., closer schools or specific types get higher ratings)
+      let baseRating = 3.5 + Math.random() * 1.5; // Random between 3.5 and 5.0
+      if (tags.amenity === 'college' || tags.amenity === 'university') baseRating += 0.3; // Boost for higher education
+      if (distance < 5000) baseRating += 0.2; // Boost for proximity (within 5km)
+      return Math.min(5.0, Math.max(3.5, parseFloat(baseRating.toFixed(1))));
+    },
+    assignBadges(tags, rating) {
+      const badges = [];
+      // Assign "Top Rated" for high ratings
+      if (rating >= 4.5) badges.push('Top Rated');
+      // Assign "New" based on tags or random chance (simulating recent establishment)
+      if (tags['opening_year'] || Math.random() < 0.3) badges.push('New');
+      // Assign "Family Friendly" for community centers or specific tags
+      if (tags.amenity === 'community_centre' || tags.access === 'customers') badges.push('Family Friendly');
+      return badges;
+    },
+    getStarClass(index, rating) {
+      if (rating >= index) return 'bi bi-star-fill';
+      if (rating >= index - 0.5) return 'bi bi-star-half';
+      return 'bi bi-star';
+    },
+    getBadgeClass(badge) {
+      switch (badge) {
+        case 'Top Rated': return 'bg-success';
+        case 'New': return 'bg-info';
+        case 'Family Friendly': return 'bg-primary';
+        default: return 'bg-secondary';
+      }
     },
     openGoogleMaps(lat, lon, name = '') {
       if (!lat || !lon) return;
@@ -376,11 +387,37 @@ export default {
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
   border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative; /* For absolute positioning of badges */
 }
 
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+  color: white;
+}
+
+.bg-success {
+  background-color: #00bfa6; /* Match your button color */
+}
+
+.bg-info {
+  background-color: #17a2b8; /* Bootstrap info color for "New" */
+}
+
+.bg-primary {
+  background-color: #1881b9; /* Match your website button color */
 }
 
 @media (max-width: 768px) {
@@ -391,6 +428,10 @@ export default {
 
   .btn {
     width: 100%;
+  }
+
+  .badges {
+    justify-content: flex-start;
   }
 }
 </style>

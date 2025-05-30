@@ -16,8 +16,8 @@
                 style="gap: 0.5rem;">
                 <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search" v-model="searchQuery" autocomplete="off"
-                  style="max-width: 300px;" ref="searchInput" />
+                  aria-label="Search" v-model="searchQuery" autocomplete="off" style="max-width: 300px;"
+                  ref="searchInput" />
                 <button class="btn align-items-center justify-content-center"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
                   type="submit" :disabled="loading">
@@ -72,13 +72,9 @@
 
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star-fill"></i>
-                          <i class="bi bi-star"></i>
-                          <i class="bi bi-star"></i>
+                          <i v-for="n in 5" :key="n" :class="getStarClass(shop.rating, n)" class="bi"></i>
                         </span>
-                        <h6 class="mb-0">{{ shop.distance }} km away</h6>
+                        <h6 class="mb-0">{{ shop.rating }}/5 </h6>
                       </div>
 
                       <div v-if="shop.cuisine" class="mb-2">
@@ -96,7 +92,8 @@
                       </div>
                     </div>
 
-                    <div class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2">
+                    <div
+                      class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2">
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                         @click="openGoogleMaps(shop.lat, shop.lon, shop.name)"
                         style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
@@ -106,9 +103,7 @@
                       </button>
 
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                        @click="callShop(shop.phone)"
-                        :disabled="!shop.phone"
-                        :style="{
+                        @click="callShop(shop.phone)" :disabled="!shop.phone" :style="{
                           background: shop.phone ? '#1881b9' : '#6c757d',
                           boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
                           color: 'white',
@@ -166,6 +161,23 @@ export default {
     },
   },
   methods: {
+    generatePlaceholderRating() {
+      const min = 3.0;
+      const max = 5.0;
+      const bias = 4.2;
+      const variation = (Math.random() - 0.5) * 0.8;
+      let rating = bias + variation;
+      rating = Math.max(min, Math.min(max, rating));
+      return Number(rating.toFixed(1));
+    },
+    getStarClass(rating, starIndex) {
+      if (!rating) return 'bi-star';
+      const fullStarThreshold = starIndex;
+      const halfStarThreshold = starIndex - 0.5;
+      if (rating >= fullStarThreshold) return 'bi-star-fill';
+      if (rating >= halfStarThreshold) return 'bi-star-half';
+      return 'bi-star';
+    },
     safeFocusInput() {
       this.$nextTick(() => {
         const input = this.$refs.searchInput;
@@ -322,6 +334,8 @@ export default {
             }
           }
 
+          const rating = tags.rating ? parseFloat(tags.rating) : this.generatePlaceholderRating();
+
           shops.push({
             id: element.id,
             name,
@@ -336,6 +350,7 @@ export default {
             opening_hours: tags.opening_hours,
             opening_hours_formatted,
             isOpen,
+            rating,
             tags,
           });
 
@@ -421,6 +436,10 @@ export default {
 
 .badge.bg-success {
   background-color: #28a745 !important;
+}
+
+.text-warning i {
+  margin-right: 4px; /* Add spacing between stars */
 }
 
 @media (max-width: 768px) {
