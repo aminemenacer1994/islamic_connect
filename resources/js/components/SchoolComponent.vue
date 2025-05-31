@@ -1,437 +1,675 @@
 <template>
-  <div class="container-fluid my-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <h1 class="display-5 fw-bold text-center">Islamic Education Finder</h1>
-        <p class="text-center container mb-4 lead">
-          Discover trusted Islamic schools, madrassas, and education centers near you with ease!
-        </p>
-        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
-          <!-- Search Section -->
-          <div class="card-body" style="padding: 5px;">
-            <div class="mb-4">
-              <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
-                style="gap: 0.5rem;">
-                <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
-                <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
-                  aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
-                  style="max-width: 300px;" />
-                <button class="btn align-items-center justify-content-center" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
-                  <span v-if="!loading">Search</span>
-                  <span v-else class="spinner-border spinner-border-sm"></span>
-                </button>
-              </form>
+  <div class="container-fluid py-5">
+    <!-- Header -->
+    <header class="text-center my-6">
+      <h1 class="display-3 fw-bold ">Islamic Radio</h1>
+      <p class="lead text-muted mb-5 mx-auto" style="max-width: 700px;">
+        Listen to live Quranic recitations by renowned reciters from around the world.
+      </p>
+      <div class="row">
+        <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+          <div v-if="isLoading" class="spinner-border " role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
+          <input v-else v-model="searchQuery" @input="debouncedSearch" type="text" class="form-control form-control-lg"
+            placeholder="Search for a reciter..." aria-label="Search radio stations" />
+        </div>
+      </div>
+    </header>
+
+    <!-- Popular Reciters -->
+    <section class="my-6">
+      <h2 class="h1 fw-semibold  mb-5">Popular Reciters</h2>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div v-for="reciter in popularReciters" :key="reciter.id" class="col">
+          <div class="card h-100">
+            <div class="card-body p-5">
+              <h5 class="card-title fw-bold mb-4" v-html="highlightSearch(reciter.name)"></h5>
+              <button class="btn  btn-lg w-100" @click="playStation(reciter.url)" :aria-label="`Play ${reciter.name}`">
+                <i class="bi bi-play-fill me-2"></i> Play
+              </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <!-- Loading State -->
-            <div v-if="loading" class="text-center py-5">
-              <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
+    <!-- Liked Stations -->
+    <section v-if="likedStations.length" class="my-6">
+      <h2 class="h1 fw-semibold  mb-5 d-flex align-items-center cursor-pointer" @click="showLiked = !showLiked"
+        role="button" :aria-expanded="showLiked">
+        Liked Stations ({{ likedStations.length }})
+        <i :class="showLiked ? 'bi bi-chevron-up ms-2' : 'bi bi-chevron-down ms-2'"></i>
+      </h2>
+      <div v-if="showLiked" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div v-for="station in likedStations" :key="station.id" class="col">
+          <div class="card h-100" :class="{ 'active': currentAudio?.src === station.url }">
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="card-title fw-bold mb-0" v-html="highlightSearch(station.name)"></h5>
+                <i class="bi bi-heart-fill  cursor-pointer" @click="toggleLike(station)"
+                  :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"></i>
               </div>
-              <p class="mt-3">Searching for Islamic schools & centers in {{ searchQuery }}...</p>
-            </div>
-
-            <!-- Results -->
-            <div v-if="!loading">
-              <!-- No Search State -->
-              <div v-if="!searchQuery || schools.length === 0" class="text-center py-5">
-                <i class="bi bi-book display-4 text-muted mb-3"></i>
-                <h3 class="h4 text-muted">Search for Islamic Schools & Centers</h3>
-                <p class="text-center text-muted">Enter a city to find nearby Islamic schools, madrassas, or education
-                  centers.</p>
-              </div>
-
-              <!-- No Results State -->
-              <div v-else-if="searchQuery && schools.length === 0" class="text-center py-5">
-                <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
-                <h3 class="h4 text-muted">No Islamic schools found</h3>
-                <p class="text-center text-muted">
-                  No Islamic schools or education centers found in {{ searchQuery }}. This may be due to
-                  incomplete OpenStreetMap data. Try another city, contribute to <a href="https://www.openstreetmap.org"
-                    target="_blank">OpenStreetMap</a>, or check directories like <a href="https://madrassah.co.uk"
-                    target="_blank">Madrassah.co.uk</a>.<br>
-                </p>
-              </div>
-
-              <!-- Results Grid -->
-              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                <div class="col" v-for="school in schools" :key="school.id">
-                  <div class="card h-100">
-                    <!-- Badges -->
-                    
-                    <div style="padding: 15px 15px 0 15px;">
-                      <h1 class="card-title text-left fw-bold text-dark mb-3" style="font-size: 25px;">
-                        {{ school.name }}
-                      </h1>
-                    </div>
-                    <div class="card-body pt-0">
-                      <div class="mb-2">
-                        <div class="d-flex align-items-start">
-                          <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
-                          <span class="text-truncate"
-                            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
-                            {{ school.address || 'Address not specified' }}
-                          </span>
-                        </div>
-                      </div>
-
-                      <!-- Dynamic Star Rating -->
-                      <div class="mb-2 d-flex align-items-center">
-                        <span class="text-warning me-2">
-                          <i v-for="n in 5" :key="n" :class="getStarClass(n, school.rating || 0)"></i>
-                        </span>
-                        <small class="text-muted">({{ school.rating ? school.rating.toFixed(1) : 'N/A' }}/5)</small>
-                      </div>
-
-                      <div v-if="school.type" class="mb-2">
-                        <small class="text-muted">
-                          <strong>Type:</strong> {{ school.type }}
-                        </small>
-                      </div>
-
-                      <div v-if="school.tags?.opening_hours" class="opening-hours mb-2 mt-2">
-                        <small class="text-muted">
-                          <strong>Opening Times:</strong> {{ school.tags.opening_hours }}
-                        </small>
-                      </div>
-
-                      <div class="d-flex justify-content-between align-items-center gap-2">
-                        <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="openGoogleMaps(school.lat, school.lon, school.name)"
-                          style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <span class="text-center w-100">
-                            <b>Get Directions</b>
-                          </span>
-                        </button>
-                        <a :href="school.website" target="_blank"
-                          class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          style="background: #1881b9; color: white; height: 38px"
-                          :class="{ disabled: !school.website }">
-                          <b>Visit Website</b>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+              <div v-if="currentAudio?.src === station.url" class="audio-player">
+                <audio ref="audioPlayer" :src="station.url" @play="handlePlay(station.id, $event)" @pause="handlePause"
+                  @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                  :aria-label="`Audio stream for ${station.name}`" preload="none"></audio>
+                <div class="d-flex align-items-center gap-3">
+                  <button class="btn btn-outline-primary" @click="togglePlay(station.id)"
+                    :aria-label="isPlaying(station.id) ? 'Pause' : 'Play'">
+                    <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+                  </button>
+                  <span class="text-muted small">{{ formatTime(currentTimes[station.id] || 0) }}</span>
+                  <input type="range" class="form-range flex-grow-1" min="0" :max="durations[station.id] || 100"
+                    :value="currentTimes[station.id] || 0" @input="seek($event, station.id)"
+                    :disabled="isLive(station.id)" :aria-label="`Seek bar for ${station.name}`" />
+                  <span class="text-muted small">{{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0)
+                  }}</span>
+                </div>
+                <div v-if="showVolume[station.id]" class="d-flex align-items-center gap-3 mt-3">
+                  <button class="btn btn-outline-primary" @click="toggleMute(station.id)"
+                    :aria-label="volume === 0 ? 'Unmute' : 'Mute'">
+                    <i :class="volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up'"></i>
+                  </button>
+                  <input type="range" class="form-range flex-grow-1" min="0" max="100" v-model="volume"
+                    @input="setVolume($event, station.id)" aria-label="Volume control" />
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div v-if="!loading && schools.length > 0" class="d-flex justify-content-between align-items-center"
-            style="padding: 10px;">
-            <small class="text-muted">
-              Showing {{ schools.length }} Islamic educational schools & centers
-            </small>
+    <!-- Recently Played -->
+    <section v-if="recentlyPlayed.length" class="my-6">
+      <h2 class="h1 fw-semibold  mb-5 d-flex align-items-center cursor-pointer"
+        @click="showRecentlyPlayed = !showRecentlyPlayed" role="button" :aria-expanded="showRecentlyPlayed">
+        Recently Played ({{ recentlyPlayed.length }})
+        <i :class="showRecentlyPlayed ? 'bi bi-chevron-up ms-2' : 'bi bi-chevron-down ms-2'"></i>
+      </h2>
+      <div v-if="showRecentlyPlayed" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div v-for="station in recentlyPlayed" :key="station.id" class="col">
+          <div class="card h-100" :class="{ 'active': currentAudio?.src === station.url }">
+            <div class="card-body p-5">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="card-title fw-bold mb-0" v-html="highlightSearch(station.name)"></h5>
+                <i :class="isLiked(station.id) ? 'bi bi-heart-fill ' : 'bi bi-heart'" @click="toggleLike(station)"
+                  class="cursor-pointer" :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"></i>
+              </div>
+              <p class="text-muted small mb-4">Last Played: {{ formatDate(station.lastPlayed) }}</p>
+              <div v-if="currentAudio?.src === station.url" class="audio-player">
+                <audio ref="audioPlayer" :src="station.url" @play="handlePlay(station.id, $event)" @pause="handlePause"
+                  @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                  :aria-label="`Audio stream for ${station.name}`" preload="none"></audio>
+                <div class="d-flex align-items-center gap-3">
+                  <button class="btn btn-outline-primary" @click="togglePlay(station.id)"
+                    :aria-label="isPlaying(station.id) ? 'Pause' : 'Play'">
+                    <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+                  </button>
+                  <span class="text-muted small">{{ formatTime(currentTimes[station.id] || 0) }}</span>
+                  <input type="range" class="form-range flex-grow-1" min="0" :max="durations[station.id] || 100"
+                    :value="currentTimes[station.id] || 0" @input="seek($event, station.id)"
+                    :disabled="isLive(station.id)" :aria-label="`Seek bar for ${station.name}`" />
+                  <span class="text-muted small">{{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0)
+                  }}</span>
+                </div>
+                <div v-if="showVolume[station.id]" class="d-flex align-items-center gap-3 mt-3">
+                  <button class="btn btn-outline-primary" @click="toggleMute(station.id)"
+                    :aria-label="volume === 0 ? 'Unmute' : 'Mute'">
+                    <i :class="volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up'"></i>
+                  </button>
+                  <input type="range" class="form-range flex-grow-1" min="0" max="100" v-model="volume"
+                    @input="setVolume($event, station.id)" aria-label="Volume control" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- All Radio Stations -->
+    <section class="my-6">
+      <h2 class="h1 fw-semibold  mb-5">All Radio Stations</h2>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div v-for="station in paginatedStations" :key="station.id" class="col">
+          <div class="card radio-card shadow-sm" :class="{ 'active-card': currentAudio?.src === station.url }"
+            role="article" :aria-labelledby="'station-title-' + station.id">
+            <div class="card-body p-4">
+              <!-- Station Header -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="card-title mb-0 fw-semibold text-truncate" :id="'station-title-' + station.id"
+                  v-html="highlightSearch(station.name)"></h5>
+                <button class="btn btn-icon like-button" @click="toggleLike(station)"
+                  :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                  <i :class="isLiked(station.id) ? 'bi bi-heart-fill' : 'bi bi-heart'" class="like-icon"></i>
+                </button>
+              </div>
+
+              <!-- Audio Player -->
+              <div class="audio-player" :class="{ playing: isPlaying(station.id) }" role="region"
+                :aria-label="'Audio player for ' + station.name">
+                <audio ref="audioPlayer" :src="station.url" @play="handlePlay(station.id, $event)" @pause="handlePause"
+                  @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                  :aria-label="'Audio stream for ' + station.name"></audio>
+
+                <!-- Playback Controls -->
+                <div class="playback-controls d-flex align-items-center mb-3 gap-3">
+                  <button class="btn btn-icon play-button" @click="togglePlay(station.id)"
+                    :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                    <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'" class="play-icon"></i>
+                  </button>
+                  <span class="time-display" aria-live="polite">
+                    {{ formatTime(currentTimes[station.id] || 0) }}
+                  </span>
+                  <input type="range" min="0" :max="durations[station.id] || 100" :value="currentTimes[station.id] || 0"
+                    @input="seek($event, station.id)" class="seek-bar flex-grow-1" :disabled="isLive(station.id)"
+                    :aria-label="'Seek bar for ' + station.name" />
+                  <span class="time-display" aria-live="polite">
+                    {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
+                  </span>
+                </div>
+
+                <!-- Volume Controls -->
+                <div class="volume-controls d-flex align-items-center gap-2">
+                  <button class="btn btn-icon volume-button" @click="toggleMute(station.id)"
+                    :aria-label="volume === 0 ? 'Unmute audio' : 'Mute audio'">
+                    <i :class="volume === 0 ? 'bi bi-volume-mute' : (volume < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up')"
+                      class="volume-icon"></i>
+                  </button>
+                  <input type="range" min="0" max="100" v-model="volume" @input="setVolume($event, station.id)"
+                    class="volume-bar" :aria-label="'Volume control for ' + station.name" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center gap-4 mt-6">
+      <button class="btn btn-outline-primary px-5" @click="previousPage" :disabled="currentPage === 1"
+        aria-label="Previous page">
+        <i class="bi bi-chevron-left"></i> Previous
+      </button>
+      <span class=" fw-medium fs-5">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn btn-outline-primary px-5" @click="nextPage" :disabled="currentPage === totalPages"
+        aria-label="Next page">
+        Next <i class="bi bi-chevron-right"></i>
+      </button>
+    </nav>
   </div>
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 export default {
-  name: 'IslamicEducationLocator',
   data() {
     return {
       searchQuery: '',
-      loading: false,
-      schools: [],
-      searchHistory: [],
-      currentLocation: null,
-      bbox: null,
-      error: '',
+      currentPage: 1,
+      itemsPerPage: 6,
+      stations: [],
+      filteredStations: [],
+      currentAudio: null,
+      volume: 50,
+      likedStations: [],
+      recentlyPlayed: [],
+      showLiked: false,
+      showRecentlyPlayed: false,
+      currentTimes: {},
+      durations: {},
+      playingStates: {},
+      showVolume: {},
+      isLoading: false,
+      error: null,
+      popularReciters: [
+        { id: 1, name: 'Mishary Rashid Alafasy', url: 'https://example.com/alafasy.mp3' },
+        { id: 2, name: 'Abdul Rahman Al-Sudais', url: 'https://example.com/sudais.mp3' },
+        { id: 3, name: 'Saad Al-Ghamdi', url: 'https://example.com/ghamdi.mp3' },
+        { id: 4, name: 'Maher Al-Muaiqly', url: 'https://example.com/muaiqly.mp3' },
+        { id: 5, name: 'Yasser Al-Dosari', url: 'https://example.com/dosari.mp3' },
+        { id: 6, name: 'Abdul Basit Abdul Samad', url: 'https://example.com/basit.mp3' },
+      ],
     };
   },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.filteredStations.length / this.itemsPerPage);
+    },
+    paginatedStations() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.filteredStations.slice(start, start + this.itemsPerPage);
+    },
+  },
   methods: {
-    async searchLocation() {
-      const query = this.searchQuery.trim();
-      if (!query) {
-        this.error = 'Please enter a city';
-        return;
-      }
-
-      const cachedSearch = this.searchHistory.find(s => s.query === query);
-      if (cachedSearch) {
-        this.currentLocation = cachedSearch.location;
-        this.bbox = cachedSearch.bbox;
-        await this.fetchNearbySchools();
-        return;
-      }
-
-      this.loading = true;
-      this.error = '';
-      this.schools = [];
-
+    debouncedSearch: debounce(function () {
+      this.handleSearch();
+    }, 300),
+    async fetchStations() {
+      this.isLoading = true;
+      this.error = null;
       try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1&bounded=1`,
-          {
-            headers: {
-              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)',
-              'Accept-Language': 'en-US,en;q=0.9',
-            },
-          }
-        );
-
-        if (!response.ok) throw new Error('Location search service unavailable');
-
+        const response = await fetch('https://mp3quran.net/api/v3/radios?language=eng');
+        if (!response.ok) throw new Error('Failed to fetch stations');
         const data = await response.json();
-        if (!data.length) throw new Error('City not found');
-
-        const location = data[0];
-        this.currentLocation = {
-          lat: parseFloat(location.lat),
-          lon: parseFloat(location.lon),
-          display_name: location.display_name,
-          address: location.address,
-        };
-        this.bbox = location.boundingbox.map(Number);
-
-        this.searchHistory.unshift({
-          query,
-          location: this.currentLocation,
-          bbox: this.bbox,
-          timestamp: new Date(),
-        });
-        if (this.searchHistory.length > 5) this.searchHistory.pop();
-
-        await this.fetchNearbySchools();
-      } catch (err) {
-        console.error('Search error:', err);
-        this.error = err.message || 'Could not find city';
-        this.schools = [];
+        this.stations = data.radios.map((radio) => ({
+          id: radio.id,
+          name: radio.name,
+          url: radio.url,
+        }));
+        this.filteredStations = this.stations;
+        this.loadLikedStations();
+        this.loadRecentlyPlayed();
+        this.loadVolume();
+      } catch (error) {
+        this.error = 'Unable to load radio stations. Please try again later.';
+        console.error('Failed to fetch stations:', error);
       } finally {
-        this.loading = false;
+        this.isLoading = false;
       }
     },
-    async fetchNearbySchools() {
-      if (!this.bbox) return;
+    handleSearch() {
+      const query = this.searchQuery.toLowerCase().trim();
+      this.filteredStations = this.stations.filter((station) =>
+        station.name.toLowerCase().includes(query)
+      );
+      this.currentPage = 1;
+    },
+    highlightSearch(name) {
+      if (!this.searchQuery) return name;
+      const regex = new RegExp(`(${this.searchQuery})`, 'gi');
+      return name.replace(regex, '<mark>$1</mark>');
+    },
+    handlePlay(id, event) {
+      const allAudios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
+      const current = event.target;
 
-      const [south, north, west, east] = this.bbox;
-      const query = `
-        [out:json][timeout:30];
-        (
-          node["amenity"~"school|college|university"]["religion"="islam"](${south},${west},${north},${east});
-          way["amenity"~"school|college|university"]["religion"="islam"](${south},${west},${north},${east});
-          node["amenity"~"school|college|university"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-          way["amenity"~"school|college|university"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-          node["amenity"="community_centre"]["destination"="islamic"](${south},${west},${north},${east});
-          way["amenity"="community_centre"]["destination"="islamic"](${south},${west},${north},${east});
-          node["amenity"="community_centre"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-          way["amenity"="community_centre"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-          node["amenity"="place_of_worship"]["religion"="islam"]["name"~"[Mm]adrasah|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-          way["amenity"="place_of_worship"]["religion"="islam"]["name"~"[Mm]adrasah|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
-        );
-        out center;
-        >;
-        out skel qt;
-      `;
+      allAudios.forEach((audio) => {
+        if (audio !== current) {
+          audio.pause();
+          const stationId = this.stations.find((s) => s.url === audio.src)?.id;
+          if (stationId) this.playingStates[stationId] = false;
+        }
+      });
 
-      try {
-        const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
-        if (!response.ok) throw new Error('Failed to fetch Islamic schools');
-
-        const json = await response.json();
-        this.processSchoolData(json.elements || []);
-      } catch (err) {
-        console.error('Fetch error:', err);
-        this.error = err.message.includes('Too Many Requests')
-          ? 'Rate limit hit. Please wait and try again.'
-          : 'Could not load Islamic schools';
-        this.schools = [];
+      this.currentAudio = current;
+      this.playingStates[id] = true;
+      this.addToRecentlyPlayed(id);
+      this.setVolume({ target: { value: this.volume } }, id);
+    },
+    handlePause() {
+      if (this.currentAudio) {
+        const id = this.stations.find((s) => s.url === this.currentAudio.src)?.id;
+        if (id) this.playingStates[id] = false;
+        this.currentAudio = null;
       }
     },
-    processSchoolData(elements) {
-      const seen = new Set();
-      const schools = [];
-
-      elements.forEach(element => {
-        if (!element.tags || seen.has(element.id)) return;
-
-        const coords = element.lat ? element : element.center || {};
-        if (!coords.lat || !coords.lon) return;
-
-        const tags = element.tags;
-        const name = tags.name || 'Islamic Education Center';
-
-        let type = 'School';
-        if (tags.name && tags.name.match(/[Mm]adrasah/i)) type = 'Madrassa';
-        else if (tags.amenity === 'community_centre') type = 'Education Center';
-        else if (tags.amenity === 'place_of_worship') type = 'Madrassa';
-        else if (tags.amenity === 'college' || tags.amenity === 'university') type = 'College/University';
-
-        const addressParts = [
-          tags['addr:street'],
-          tags['addr:housenumber'],
-          tags['addr:city'],
-          tags['addr:postcode'],
-          tags['addr:country'],
-        ].filter(Boolean);
-
-        const address = addressParts.length
-          ? addressParts.join(', ')
-          : tags['addr:full'] || this.currentLocation.display_name || 'Address not available';
-
-        const distance = this.calculateDistance(
-          this.currentLocation.lat, this.currentLocation.lon,
-          coords.lat, coords.lon
-        );
-
-        // Generate placeholder rating (3.5 to 5.0) since OpenStreetMap doesn't provide ratings
-        const rating = this.generatePlaceholderRating(tags, distance);
-
-        // Assign badges based on tags or random for placeholders
-        const badges = this.assignBadges(tags, rating);
-
-        schools.push({
-          id: element.id,
-          name,
-          type,
-          lat: coords.lat,
-          lon: coords.lon,
-          address,
-          distance,
-          phone: tags.phone,
-          website: tags.website,
-          opening_hours: tags.opening_hours,
-          tags,
-          rating, // Add rating
-          badges, // Add badges
+    togglePlay(id) {
+      const audio = this.getAudioForStation(id);
+      if (audio) {
+        if (this.isPlaying(id)) {
+          audio.pause();
+        } else {
+          audio.play().catch((error) => {
+            this.error = 'Playback failed. Please try again.';
+            console.error('Playback failed:', error);
+          });
+        }
+      }
+    },
+    isPlaying(id) {
+      return !!this.playingStates[id];
+    },
+    isLive(id) {
+      return isNaN(this.durations[id]) || this.durations[id] === Infinity;
+    },
+    updateTime(id) {
+      const audio = this.getAudioForStation(id);
+      if (audio && this.isPlaying(id)) {
+        this.currentTimes = { ...this.currentTimes, [id]: audio.currentTime };
+      }
+    },
+    updateDuration(id) {
+      const audio = this.getAudioForStation(id);
+      if (audio) {
+        this.durations = { ...this.durations, [id]: audio.duration || Infinity };
+      }
+    },
+    seek(event, id) {
+      const audio = this.getAudioForStation(id);
+      if (audio && !this.isLive(id)) {
+        const value = parseFloat(event.target.value);
+        audio.currentTime = value;
+        this.currentTimes = { ...this.currentTimes, [id]: value };
+      }
+    },
+    formatTime(seconds) {
+      if (isNaN(seconds) || seconds === Infinity) return 'Live';
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    },
+    setVolume(event, id) {
+      const volume = event.target.value / 100;
+      const audio = this.getAudioForStation(id);
+      if (audio) audio.volume = volume;
+      this.volume = event.target.value;
+      localStorage.setItem('playerVolume', this.volume);
+      // Update CSS variable for volume bar
+      const volumeBar = event.target;
+      volumeBar.style.setProperty('--volume-level', `${this.volume}%`);
+    },
+    toggleMute(id) {
+      this.volume = this.volume === 0 ? 50 : 0;
+      const audio = this.getAudioForStation(id);
+      if (audio) audio.volume = this.volume / 100;
+      localStorage.setItem('playerVolume', this.volume);
+    },
+    loadVolume() {
+      const savedVolume = localStorage.getItem('playerVolume');
+      if (savedVolume) {
+        this.volume = parseFloat(savedVolume);
+        const audios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
+        audios.forEach((audio) => {
+          audio.volume = this.volume / 100;
         });
-
-        seen.add(element.id);
-      });
-
-      this.schools = schools.sort((a, b) => a.distance - b.distance);
-    },
-    generatePlaceholderRating(tags, distance) {
-      // Simulate a rating based on heuristics (e.g., closer schools or specific types get higher ratings)
-      let baseRating = 3.5 + Math.random() * 1.5; // Random between 3.5 and 5.0
-      if (tags.amenity === 'college' || tags.amenity === 'university') baseRating += 0.3; // Boost for higher education
-      if (distance < 5000) baseRating += 0.2; // Boost for proximity (within 5km)
-      return Math.min(5.0, Math.max(3.5, parseFloat(baseRating.toFixed(1))));
-    },
-    assignBadges(tags, rating) {
-      const badges = [];
-      // Assign "Top Rated" for high ratings
-      if (rating >= 4.5) badges.push('Top Rated');
-      // Assign "New" based on tags or random chance (simulating recent establishment)
-      if (tags['opening_year'] || Math.random() < 0.3) badges.push('New');
-      // Assign "Family Friendly" for community centers or specific tags
-      if (tags.amenity === 'community_centre' || tags.access === 'customers') badges.push('Family Friendly');
-      return badges;
-    },
-    getStarClass(index, rating) {
-      if (rating >= index) return 'bi bi-star-fill';
-      if (rating >= index - 0.5) return 'bi bi-star-half';
-      return 'bi bi-star';
-    },
-    getBadgeClass(badge) {
-      switch (badge) {
-        case 'Top Rated': return 'bg-success';
-        case 'New': return 'bg-info';
-        case 'Family Friendly': return 'bg-primary';
-        default: return 'bg-secondary';
       }
     },
-    openGoogleMaps(lat, lon, name = '') {
-      if (!lat || !lon) return;
-
-      const baseUrl = 'https://www.google.com/maps';
-      const params = new URLSearchParams({
-        q: name ? `${name}@${lat},${lon}` : `${lat},${lon}`,
-        layer: 'c',
-        cbll: `${lat},${lon}`,
-        cbp: '11',
-      });
-
-      window.open(`${baseUrl}?${params.toString()}`, '_blank');
+    toggleLike(station) {
+      const index = this.likedStations.findIndex((s) => s.id === station.id);
+      if (index === -1) {
+        this.likedStations.push(station);
+      } else {
+        this.likedStations.splice(index, 1);
+      }
+      localStorage.setItem('likedStations', JSON.stringify(this.likedStations));
     },
-    callSchool(phone) {
-      if (!phone) return;
-
-      if (confirm(`Call ${phone}?`)) {
-        const cleanPhone = phone.replace(/[^\d+]/g, '');
-        window.location.href = `tel:${cleanPhone}`;
+    isLiked(id) {
+      return this.likedStations.some((s) => s.id === id);
+    },
+    loadLikedStations() {
+      const liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
+      this.likedStations = liked.filter((s) => this.stations.some((station) => station.id === s.id));
+    },
+    addToRecentlyPlayed(id) {
+      const station = this.stations.find((s) => s.id === id);
+      if (!station) return;
+      this.recentlyPlayed = this.recentlyPlayed.filter((s) => s.id !== id);
+      this.recentlyPlayed.unshift({ ...station, lastPlayed: new Date().toISOString() });
+      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
+      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
+    },
+    loadRecentlyPlayed() {
+      const recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
+      this.recentlyPlayed = recent.filter((s) => this.stations.some((station) => station.id === s.id));
+    },
+    formatDate(isoString) {
+      const date = new Date(isoString);
+      return date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    },
+    playStation(url) {
+      const station = this.stations.find((s) => s.url === url);
+      if (station) {
+        const audio = this.getAudioForStation(station.id);
+        if (audio) {
+          audio.play().catch((error) => {
+            this.error = 'Playback failed. Please try again.';
+            console.error('Playback failed:', error);
+          });
+          this.handlePlay(station.id, { target: audio });
+        }
       }
     },
-    calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371e3; // Earth radius in meters
-      const φ1 = lat1 * Math.PI / 180;
-      const φ2 = lat2 * Math.PI / 180;
-      const Δφ = (lat2 - lat1) * Math.PI / 180;
-      const Δλ = (lon2 - lon1) * Math.PI / 180;
-
-      const a = Math.sin(Δφ / 2) ** 2 +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ / 2) ** 2;
-
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return R * c;
+    nextPage() {
+      if (this.currentPage < this.totalPages) this.currentPage++;
     },
-    resetSearch() {
-      this.searchQuery = '';
-      this.currentLocation = null;
-      this.bbox = null;
-      this.schools = [];
-      this.error = '';
+    previousPage() {
+      if (this.currentPage > 1) this.currentPage--;
     },
+    getAudioForStation(id) {
+      const station = this.stations.find((s) => s.id === id);
+      if (!station) return null;
+      const audios = Array.isArray(this.$refs.audioPlayer) ? this.$refs.audioPlayer : [this.$refs.audioPlayer].filter(Boolean);
+      return audios.find((a) => a.src === station.url) || null;
+    },
+  },
+  mounted() {
+    this.fetchStations();
   },
 };
 </script>
 
 <style scoped>
-.card {
-  border-radius: 15px;
+.radio-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.2s ease;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  position: relative; /* For absolute positioning of badges */
+  margin-bottom: 1.5rem;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+.radio-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 191, 166, 0.15);
 }
 
-.badges {
+.radio-card.active-card {
+  border: 2px solid #00bfa6;
+  background: linear-gradient(180deg, #f5fffe 0%, #ffffff 100%);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  color: #1a3c34;
+  max-width: 80%;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.like-button:hover {
+  background: rgba(0, 191, 166, 0.1);
+}
+
+.like-icon {
+  font-size: 1.25rem;
+  color: #6c757d;
+  transition: color 0.2s ease;
+}
+
+.like-icon.bi-heart-fill {
+  color: #00bfa6;
+}
+
+.audio-player {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: background 0.2s ease;
+}
+
+.audio-player.playing {
+  background: rgba(0, 191, 166, 0.05);
+}
+
+.audio-player audio {
+  display: none;
+}
+
+.playback-controls {
+  gap: 1rem;
+}
+
+.play-button {
+  background: #00bfa6;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.badge {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 10px;
-  color: white;
+.play-button:hover {
+  background: #009d8a;
+  transform: scale(1.05);
 }
 
-.bg-success {
-  background-color: #00bfa6; /* Match your button color */
+.play-icon {
+  font-size: 1.75rem;
+  color: #ffffff;
 }
 
-.bg-info {
-  background-color: #17a2b8; /* Bootstrap info color for "New" */
+.time-display {
+  font-size: 0.875rem;
+  color: #6c757d;
+  font-family: 'Inter', monospace;
+  min-width: 50px;
+  text-align: center;
 }
 
-.bg-primary {
-  background-color: #1881b9; /* Match your website button color */
+.seek-bar {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s ease;
 }
 
-@media (max-width: 768px) {
-  .d-flex.align-items-center {
+.seek-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00bfa6;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.seek-bar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: #00bfa6;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.seek-bar:not(:disabled) {
+  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));
+}
+
+.seek-bar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.volume-controls {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.volume-button {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.volume-button:hover {
+  background: rgba(0, 191, 166, 0.1);
+}
+
+.volume-icon {
+  font-size: 1.25rem;
+  color: #6c757d;
+}
+
+.volume-icon.bi-volume-up,
+.volume-icon.bi-volume-down {
+  color: #00bfa6;
+}
+
+.volume-bar {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  cursor: pointer;
+  width: 100%;
+}
+
+.volume-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #00bfa6;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.volume-bar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #00bfa6;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.volume-bar {
+  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 0%)), #e9ecef calc(var(--volume-level, 0%)));
+}
+
+@media (max-width: 576px) {
+  .radio-card {
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+
+  .play-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .play-icon {
+    font-size: 1.5rem;
+  }
+
+  .time-display {
+    font-size: 0.75rem;
+    min-width: 40px;
+  }
+
+  .volume-controls {
     flex-direction: column;
-    gap: 0.5rem;
+    align-items: flex-start;
   }
 
-  .btn {
-    width: 100%;
-  }
-
-  .badges {
-    justify-content: flex-start;
+  .volume-button {
+    margin-bottom: 0.5rem;
   }
 }
 </style>

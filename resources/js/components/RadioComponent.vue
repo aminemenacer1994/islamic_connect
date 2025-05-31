@@ -1,414 +1,195 @@
-```vue
 <template>
   <div class="container py-5">
     <h1 class="display-4 fw-bold text-center mb-3 ">Islamic Radio Stations</h1>
     <p class="text-center mb-5 lead ">
-      Discover live Quranic radio stations featuring renowned reciters from around the world. Search, like, and revisit your favorites effortlessly.
+      Discover live Quranic radio stations featuring renowned reciters from around the world. Search, like, and revisit
+      your favorites effortlessly.
     </p>
-
-    <!-- Popular Reciters Section -->
-    <section class="mb-5">
-      <h4 class="fw-bold mb-3 text-primary">Popular Reciters</h4>
-      <div class="popular-recitors d-flex overflow-x-auto pb-3">
-        <div v-for="reciter in popularReciters" :key="reciter.id" class="popular-card me-3">
-          <div class="card h-100 border-0 shadow-sm animate-card" style="border-radius: 12px; min-width: 220px;">
-            <div class="card-body p-3">
-              <h5 class="card-title mb-0 fw-semibold">{{ reciter.name }}</h5>
-              <button class="btn btn-outline-primary btn-sm mt-2 w-100" @click="playStation(reciter.url)">
-                <i class="bi bi-play-circle me-1"></i> Listen
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Search Bar -->
-    <section class="row justify-content-center mb-5">
-      <div class="col-md-8 col-lg-6 text-center">
-        <h2 class="fw-semibold mb-3 text-primary">Search for Reciter's Station</h2>
-        <div class="input-group shadow-sm">
-          <input
-            v-model="searchQuery"
-            @input="handleSearch"
-            type="text"
-            class="form-control border-0 rounded-sm px-3 py-2"
-            placeholder="Search by name..."
-            aria-label="Search radio stations"
-          />
-        </div>
-      </div>
-    </section>
 
     <!-- Liked Stations Section -->
     <div class="row mb-5">
-      <section v-if="likedStations.length">
-        <h4
-          class="fw-bold mb-3 text-primary cursor-pointer section-header"
-          @click="showLiked = !showLiked"
-          role="button"
-          :aria-expanded="showLiked"
-          :aria-controls="`liked-stations`"
-        >
-          Liked Stations ({{ likedStations.length }})
-          <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
-        </h4>
-        <div v-if="showLiked" class="section-animate" id="liked-stations">
-          <div class="row row-cols-1 row-cols-md-1 row-cols-lg-6 g-4">
-            <div v-for="station in likedStations" :key="station.id" class="col">
-              <div
-                class="card border-0 shadow animate-card"
-                style="border-radius: 12px;"
-                :class="{ 'active-card': currentAudio?.src === station.url }"
-              >
-                <div class="card-body p-4">
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="card-title mb-0 fw-semibold" v-html="highlightSearch(station.name)"></h5>
-                    <i
-                      class="bi bi-heart-fill text-primary cursor-pointer"
-                      @click="toggleLike(station)"
-                      aria-label="Unlike station"
-                    ></i>
-                  </div>
-                  <div
-                    class="audio-player shadow-sm"
-                    :class="{ playing: isPlaying(station.id) }"
-                    role="region"
-                    aria-label="Audio player"
-                  >
-                    <audio
-                      ref="audioPlayer"
-                      :src="station.url"
-                      @play="handlePlay(station.id, $event)"
-                      @pause="handlePause"
-                      @timeupdate="updateTime(station.id)"
-                      @loadedmetadata="updateDuration(station.id)"
-                    ></audio>
-                    <div class="d-flex align-items-center mb-3">
-                      <button
-                        class="btn btn-icon me-2"
-                        @click="togglePlay(station.id)"
-                        :aria-label="isPlaying(station.id) ? 'Pause' : 'Play'"
-                      >
-                        <i :class="isPlaying(station.id) ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
-                      </button>
-                      <span class="time-display me-2" aria-live="polite">
-                        {{ formatTime(currentTimes[station.id] || 0) }}
-                      </span>
-                      <input
-                        type="range"
-                        min="0"
-                        :max="durations[station.id] || 100"
-                        :value="currentTimes[station.id] || 0"
-                        @input="seek($event, station.id)"
-                        class="seek-bar flex-grow-1 me-2"
-                        :disabled="isLive(station.id)"
-                        aria-label="Seek bar"
-                      />
-                      <span class="time-display" aria-live="polite">
-                        {{ isLive(station.id) ? 'Live' : formatTime(durations[station.id] || 0) }}
-                      </span>
-                    </div>
-                    <div class="volume-control d-flex align-items-center">
-                      <button
-                        class="btn btn-icon me-2"
-                        @click="toggleMute(station.id)"
-                        :aria-label="volume === 0 ? 'Unmute' : 'Mute'"
-                      >
-                        <i :class="volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up-fill'"></i>
-                      </button>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        v-model="volume"
-                        @input="setVolume($event, station.id)"
-                        class="form-range w-100"
-                        aria-label="Volume control"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <section class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6 text-center">
+          <h2 class="fw-semibold mb-3">Search for Reciter's Station</h2>
+          <div class="input-group shadow-sm mb-3">
+            <input v-model="searchQuery" @input="handleSearch" type="text"
+              class="form-control border-0 rounded-sm px-3 py-2" placeholder="Search by name..."
+              aria-label="Search radio stations" />
+          </div>
+          <div class="input-group shadow-sm">
+            <select v-model="selectedCategory" @change="handleSearch" class="form-select border-0 rounded-sm px-3 py-2"
+              aria-label="Filter by category">
+              <option v-for="category in availableCategories" :key="category" :value="category">{{ category }}</option>
+            </select>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- Recently Played Section -->
-    <!-- <div class="row mb-5">
-      <section v-if="recentlyPlayed.length">
-        <h4
-          class="fw-bold mb-3 text-primary cursor-pointer section-header"
-          @click="showRecentlyPlayed = !showRecentlyPlayed"
-          role="button"
-          :aria-expanded="showRecentlyPlayed"
-          :aria-controls="`recently-played`"
-        >
-          Recently Played ({{ recentlyPlayed.length }})
-          <i :class="showRecentlyPlayed ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
-        </h4>
-        <div v-if="showRecentlyPlayed" class="section-animate" id="recently-played">
-          <div class="row row-cols-1  row-cols-lg-2 g-4">
-            <div v-for="station in recentlyPlayed" :key="station.id" class="col">
-              <div
-                class="card h-100 border-0 shadow animate-card"
-                style="border-radius: 12px;"
-                :class="{ 'active-card': currentAudio?.src === station.url }"
-              >
-                <div class="card-body p-4">
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h5 class="card-title mb-0 fw-semibold" v-html="highlightSearch(station.name)"></h5>
-                    <i
-                      :class="isLiked(station.id) ? 'bi bi-heart-fill text-primary' : 'bi bi-heart'"
-                      @click="toggleLike(station)"
-                      class="cursor-pointer"
-                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
-                    ></i>
+    <section v-if="likedStations.length">
+      <h4 class="fw-bold mb-3  cursor-pointer section-header" @click="showLiked = !showLiked" role="button"
+        :aria-expanded="showLiked" :aria-controls="`liked-stations`">
+        Liked Stations ({{ likedStations.length }})
+        <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
+      </h4>
+      <div v-if="showLiked" class="section-animate" id="liked-stations">
+        <div class="row row-cols-1 row-cols-md-1 row-cols-lg-6 g-4">
+          <div v-for="station in likedStations" :key="station.id" class="col">
+            <div class="card border-0 shadow animate-card" style="border-radius: 12px;"
+              :class="{ 'active-card': currentAudio?.src === station.url }">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="card-title mb-0 fw-semibold" v-html="highlightSearch(station.name)"></h5>
+                  <i class="bi bi-heart-fill  cursor-pointer" @click="toggleLike(station)"
+                    aria-label="Unlike station"></i>
+                </div>
+                <div class="audio-player shadow-sm" :class="{ playing: isPlaying(station.id) }" role="region"
+                  aria-label="Audio player">
+                  <audio ref="audioPlayer" :src="station.url" @play="handlePlay(station.id, $event)"
+                    @pause="handlePause" @timeupdate="updateTime(station.id)"
+                    @loadedmetadata="updateDuration(station.id)"></audio>
+                  <div class="d-flex align-items-center mb-3">
+                    <button class="btn btn-icon me-2" @click="togglePlay(station.id)"
+                      :aria-label="isPlaying(station.id) ? 'Pause' : 'Play'">
+                      <i :class="isPlaying(station.id) ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
+                    </button>
+                    <span class="time-display me-2" aria-live="polite">
+                      {{ formatTime(currentTimes[station.id] || 0) }}
+                    </span>
+                    <input type="range" min="0" :max="durations[station.id] || 100"
+                      :value="currentTimes[station.id] || 0" @input="seek($event, station.id)"
+                      class="seek-bar flex-grow-1 me-2" :disabled="isLive(station.id)" aria-label="Seek bar" />
+                    <span class="time-display" aria-live="polite">
+                      {{ isLive(station.id) ? 'Live' : formatTime(durations[station.id] || 0) }}
+                    </span>
                   </div>
-                  <p class="text-muted mb-3">Last Played: {{ formatDate(station.lastPlayed) }}</p>
-                  <div
-                    class="audio-player shadow-sm"
-                    :class="{ playing: isPlaying(station.id) }"
-                    role="region"
-                    aria-label="Audio player"
-                  >
-                    <audio
-                      ref="audioPlayer"
-                      :src="station.url"
-                      @play="handlePlay(station.id, $event)"
-                      @pause="handlePause"
-                      @timeupdate="updateTime(station.id)"
-                      @loadedmetadata="updateDuration(station.id)"
-                    ></audio>
-                    <div class="d-flex align-items-center mb-3">
-                      <button
-                        class="btn btn-icon me-2"
-                        @click="togglePlay(station.id)"
-                        :aria-label="isPlaying(station.id) ? 'Pause' : 'Play'"
-                      >
-                        <i :class="isPlaying(station.id) ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
-                      </button>
-                      <span class="time-display me-2" aria-live="polite">
-                        {{ formatTime(currentTimes[station.id] || 0) }}
-                      </span>
-                      <input
-                        type="range"
-                        min="0"
-                        :max="durations[station.id] || 100"
-                        :value="currentTimes[station.id] || 0"
-                        @input="seek($event, station.id)"
-                        class="seek-bar flex-grow-1 me-2"
-                        :disabled="isLive(station.id)"
-                        aria-label="Seek bar"
-                      />
-                      <span class="time-display" aria-live="polite">
-                        {{ isLive(station.id) ? 'Live' : formatTime(durations[station.id] || 0) }}
-                      </span>
-                    </div>
-                    <div class="volume-control d-flex align-items-center">
-                      <button
-                        class="btn btn-icon me-2"
-                        @click="toggleMute(station.id)"
-                        :aria-label="volume === 0 ? 'Unmute' : 'Mute'"
-                      >
-                        <i :class="volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up-fill'"></i>
-                      </button>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        v-model="volume"
-                        @input="setVolume($event, station.id)"
-                        class="form-range w-100"
-                        aria-label="Volume control"
-                      />
-                    </div>
+                  <div class="volume-control d-flex align-items-center">
+                    <button class="btn btn-icon me-2" @click="toggleMute(station.id)"
+                      :aria-label="volume === 0 ? 'Unmute' : 'Mute'">
+                      <i :class="volume === 0 ? 'bi bi-volume-mute' : 'bi bi-volume-up-fill'"></i>
+                    </button>
+                    <input type="range" min="0" max="100" v-model="volume" @input="setVolume($event, station.id)"
+                      class="form-range w-100" aria-label="Volume control" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </div> -->
+      </div>
+    </section>
 
     <!-- All Radio Stations -->
     <section>
-      <h3 class="fw-bold mb-4 text-primary">All Radio Stations</h3>
+      <h3 class="fw-bold mb-4 ">All Radio Stations</h3>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div v-for="station in paginatedStations" :key="station.id" class="col">
-          <div
-            class="card border-0 shadow animate-card"
-            style="border-radius: 12px;"
-            :class="{ 'active-card': currentAudio?.src === station.url }"
-          >
+          <div class="card border-0 shadow animate-card" style="border-radius: 12px;"
+            :class="{ 'active-card': currentAudio?.src === station.url }">
             <div class="card-body p-4">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="card-title mb-0 fw-semibold" v-html="highlightSearch(station.name)"></h6>
-                <i
-                  :class="isLiked(station.id) ? 'bi bi-heart-fill text-primary' : 'bi bi-heart'"
-                  @click="toggleLike(station)"
-                  class="cursor-pointer"
-                  :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"
-                ></i>
+                <i :class="isLiked(station.id) ? 'bi bi-heart-fill ' : 'bi bi-heart'" @click="toggleLike(station)"
+                  class="cursor-pointer" :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'"></i>
               </div>
-              <div 
-  class="audio-player" 
-  :class="{ 'is-playing': isPlaying(station.id) }" 
-  role="region" 
-  aria-label="Audio player for {{ station.name }}"
-  style="
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    padding: 1rem;
-    transition: all 0.2s ease;
-  "
->
-  <audio
-    ref="audioPlayer"
-    :src="station.url"
-    @play="handlePlay(station.id, $event)"
-    @pause="handlePause"
-    @timeupdate="updateTime(station.id)"
-    @loadedmetadata="updateDuration(station.id)"
-    :aria-label="'Audio stream for ' + station.name"
-  ></audio>
-  
-  <!-- Main playback controls -->
-  <div class="playback-controls" style="display: flex; align-items: center; margin-bottom: 1rem;">
-    <button
-      @click="togglePlay(station.id)"
-      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
-      style="
-        background: none;
-        border: none;
-        color: #0d6efd;
-        padding: 0;
-        margin-right: 1rem;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s ease;
-      "
-      :style="{ transform: isPlaying(station.id) ? 'scale(1.05)' : 'scale(1)' }"
-    >
-      <i 
-        :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'" 
-        style="font-size: 1.5rem;"
-      ></i>
-    </button>
-    
-    <div style="flex-grow: 1;">
-      <div style="display: flex; align-items: center;">
-        <span 
-          class="time-current" 
-          aria-live="polite"
-          style="
-            font-size: 0.875rem;
-            color: #6c757d;
-            font-family: monospace;
-            min-width: 40px;
-            text-align: center;
-            margin-right: 0.5rem;
-          "
-        >
-          {{ formatTime(currentTimes[station.id] || 0) }}
-        </span>
-        
-        <input
-          type="range"
-          min="0"
-          :max="durations[station.id] || 100"
-          :value="currentTimes[station.id] || 0"
-          @input="seek($event, station.id)"
-          :disabled="isLive(station.id)"
-          :aria-label="'Seek bar for ' + station.name"
-          style="
-            -webkit-appearance: none;
-            width: 100%;
-            height: 6px;
-            border-radius: 3px;
-            background: #e9ecef;
-            cursor: pointer;
-            margin: 0 0.5rem;
-          "
-          :style="{
-            'background-image': `linear-gradient(to right, #0d6efd ${(currentTimes[station.id] / (durations[station.id] || 100)) * 100}%, #e9ecef ${(currentTimes[station.id] / (durations[station.id] || 100)) * 100}%)`,
-            'cursor': isLive(station.id) ? 'not-allowed' : 'pointer',
-            'opacity': isLive(station.id) ? 0.7 : 1
-          }"
-        />
-        
-        <span 
-          class="time-total" 
-          aria-live="polite"
-          style="
-            font-size: 0.875rem;
-            color: #6c757d;
-            font-family: monospace;
-            min-width: 40px;
-            text-align: center;
-          "
-        >
-          {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
-        </span>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Volume controls -->
-  <div class="volume-controls" style="display: flex; align-items: center; padding-top: 0.5rem; border-top: 1px solid #f1f1f1;">
-    <button
-      @click="toggleMute(station.id)"
-      :aria-label="volume === 0 ? 'Unmute audio' : 'Mute audio'"
-      style="
-        background: none;
-        border: none;
-        color: #6c757d;
-        padding: 0;
-        margin-right: 0.5rem;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      "
-    >
-      <i 
-        :class="volume === 0 ? 'bi bi-volume-mute' : (volume < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up')" 
-        style="font-size: 1.25rem;"
-      ></i>
-    </button>
-    
-    <input
-      type="range"
-      min="0"
-      max="100"
-      v-model="volume"
-      @input="setVolume($event, station.id)"
-      aria-label="Volume level control"
-      style="
-        -webkit-appearance: none;
-        width: 100%;
-        height: 6px;
-        border-radius: 3px;
-        background: #e9ecef;
-        cursor: pointer;
-        background-image: linear-gradient(to right, #0d6efd var(--volume-level), #e9ecef var(--volume-level));
-      "
-      :style="{
-        '--volume-level': volume + '%',
-        'background-image': `linear-gradient(to right, #0d6efd ${volume}%, #e9ecef ${volume}%)`
-      }"
-    />
-  </div>
-</div>
+              <div class="audio-player" :class="{ 'is-playing': isPlaying(station.id) }" role="region"
+                aria-label="Audio player for {{ station.name }}" style="
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+                padding: 1rem;
+                transition: all 0.2s ease;
+              ">
+                <audio ref="audioPlayer" :src="station.url" @play="handlePlay(station.id, $event)" @pause="handlePause"
+                  @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                  :aria-label="'Audio stream for ' + station.name"></audio>
+
+                <!-- Main playback controls -->
+                <div class="playback-controls" style="display: flex; align-items: center; margin-bottom: 1rem;">
+                  <button @click="togglePlay(station.id)"
+                    :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'" style="
+                      background: none;
+                      border: none;
+                      color: #0d6efd;
+                      padding: 0;
+                      margin-right: 1rem;
+                      width: 48px;
+                      height: 48px;
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      transition: transform 0.2s ease;
+                    " :style="{ transform: isPlaying(station.id) ? 'scale(1.05)' : 'scale(1)' }">
+                    <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"
+                      style="font-size: 1.5rem;"></i>
+                  </button>
+
+                  <div style="flex-grow: 1;">
+                    <div style="display: flex; align-items: center;">
+                      <span class="time-current" aria-live="polite" style="
+                        font-size: 0.875rem;
+                        color: #6c757d;
+                        font-family: monospace;
+                        min-width: 40px;
+                        text-align: center;
+                        margin-right: 0.5rem;
+                      ">
+                        {{ formatTime(currentTimes[station.id] || 0) }}
+                      </span>
+
+                      <input type="range" min="0" :max="durations[station.id] || 100"
+                        :value="currentTimes[station.id] || 0" @input="seek($event, station.id)"
+                        :disabled="isLive(station.id)" :aria-label="'Seek bar for ' + station.name" />
+
+                      <span class="time-total" aria-live="polite" style="
+                          font-size: 0.875rem;
+                          color: #6c757d;
+                          font-family: monospace;
+                          min-width: 40px;
+                          text-align: center;
+                        ">
+                        {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Volume controls -->
+                <div class="volume-controls"
+                  style="display: flex; align-items: center; padding-top: 0.5rem; border-top: 1px solid #f1f1f1;">
+                  <button @click="toggleMute(station.id)" :aria-label="volume === 0 ? 'Unmute audio' : 'Mute audio'"
+                    style="
+                      background: none;
+                      border: none;
+                      color: #6c757d;
+                      padding: 0;
+                      margin-right: 0.5rem;
+                      width: 32px;
+                      height: 32px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    ">
+                    <i :class="volume === 0 ? 'bi bi-volume-mute' : (volume < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up')"
+                      style="font-size: 1.25rem;"></i>
+                  </button>
+
+                  <input type="range" min="0" max="100" v-model="volume" @input="setVolume($event, station.id)"
+                    aria-label="Volume level control" style="
+                    -webkit-appearance: none;
+                    width: 100%;
+                    height: 6px;
+                    border-radius: 3px;
+                    background: #e9ecef;
+                    cursor: pointer;
+                    background-image: linear-gradient(to right, #0d6efd var(--volume-level), #e9ecef var(--volume-level));
+                  " :style="{
+                    '--volume-level': volume + '%',
+                    'background-image': `linear-gradient(to right, #0d6efd ${volume}%, #e9ecef ${volume}%)`
+                  }" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -417,21 +198,13 @@
 
     <!-- Pagination -->
     <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-5">
-      <button
-        @click="previousPage"
-        :disabled="currentPage === 1"
-        class="btn btn-outline-primary rounded-pill px-4 me-3"
-        aria-label="Previous page"
-      >
+      <button @click="previousPage" :disabled="currentPage === 1" class="btn  rounded-pill px-4 me-3"
+        aria-label="Previous page">
         Previous
       </button>
-      <span class="fw-semibold text-primary">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button
-        @click="nextPage"
-        :disabled="currentPage === totalPages"
-        class="btn btn-outline-primary rounded-pill px-4 ms-3"
-        aria-label="Next page"
-      >
+      <span class="fw-semibold ">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="btn  rounded-pill px-4 ms-3"
+        aria-label="Next page">
         Next
       </button>
     </nav>
@@ -442,6 +215,7 @@
 export default {
   data() {
     return {
+      selectedCategory: 'All Categories',
       searchQuery: '',
       currentPage: 1,
       itemsPerPage: 12,
@@ -470,6 +244,10 @@ export default {
     };
   },
   computed: {
+    availableCategories() {
+      const categories = [...new Set(this.stations.map(station => station.category))];
+      return ['All Categories', ...categories.filter(category => category)]; // Include "All Categories" option
+    },
     totalPages() {
       return Math.ceil(this.filteredStations.length / this.itemsPerPage);
     },
@@ -487,7 +265,10 @@ export default {
           id: radio.id,
           name: radio.name,
           url: radio.url,
+          category: radio.category || this.assignCategory(radio.name), // Fallback if API doesn't provide category
         }));
+        // Merge popularReciters with fetched stations
+        this.stations = [...this.popularReciters, ...this.stations];
         this.filteredStations = this.stations;
         this.loadLikedStations();
         this.loadRecentlyPlayed();
@@ -496,11 +277,22 @@ export default {
         console.error('Failed to fetch stations:', error);
       }
     },
+    assignCategory(name) {
+      name = name.toLowerCase();
+      if (name.includes('translation') || name.includes('translate')) return 'Translate';
+      if (name.includes('biography') || name.includes('seerah')) return 'Biography';
+      if (name.includes('fatwa') || name.includes('ruling')) return 'Fatwa';
+      return 'Recitation'; // Default category
+    },
     handleSearch() {
       const query = this.searchQuery.toLowerCase().trim();
-      this.filteredStations = this.stations.filter((station) =>
-        station.name.toLowerCase().includes(query),
-      );
+      this.filteredStations = this.stations.filter((station) => {
+        const matchesQuery = station.name.toLowerCase().includes(query);
+        const matchesCategory = this.selectedCategory && this.selectedCategory !== 'All Categories'
+          ? station.category === this.selectedCategory
+          : true;
+        return matchesQuery && matchesCategory;
+      });
       this.currentPage = 1;
     },
     highlightSearch(name) {
@@ -669,31 +461,32 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.form-select {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.form-select:focus {
+  box-shadow: 0 0 8px rgba(0, 121, 107, 0.2);
+  outline: none;
+}
+
+.input-group.shadow-sm {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 .container {
   max-width: 1400px;
   padding: 2rem 1rem;
 }
 
-.text-primary {
-  color: #00796b !important;
-}
-
-.text-primary-emphasis {
+.-emphasis {
   color: #004d40 !important;
-}
-
-.bg-primary-subtle {
-  background-color: #f5fafa !important;
-}
-
-.btn-outline-primary {
-  border-color: #00796b;
-  color: #00796b;
-}
-
-.btn-outline-primary:hover {
-  background-color: #00796b;
-  color: white;
 }
 
 .card {
@@ -716,6 +509,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -731,6 +525,7 @@ body {
     opacity: 0;
     max-height: 0;
   }
+
   to {
     opacity: 1;
     max-height: 1000px;
@@ -896,23 +691,25 @@ mark {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .volume-control .btn-icon {
     margin-bottom: 8px;
   }
+
   .form-range {
     width: 100%;
   }
 }
 
 @media (min-width: 992px) {
-  .row-cols-lg-3 > .col {
+  .row-cols-lg-3>.col {
     flex: 0 0 auto;
     width: 33.333333%;
   }
-  .row-cols-md-1 > .col {
+
+  .row-cols-md-1>.col {
     flex: 0 0 auto;
     width: 100%;
   }
 }
 </style>
-```
