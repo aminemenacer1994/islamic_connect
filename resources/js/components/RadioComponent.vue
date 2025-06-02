@@ -1,33 +1,29 @@
 <template>
   <div class="container py-5">
     <h1 class="text-center fw-bold display-4 mb-4">Islamic Radio Stations</h1>
-    
+
     <p class="text-center mb-4 lead">
       Discover live Quranic radio stations from renowned reciters worldwide.
     </p>
 
     <!-- Search Bar and Category Dropdown -->
     <section class="reciter-browser mb-5">
-      
-      <!-- Improved search section with visual grouping -->
-      <div class="search-section bg-light rounded-4 p-4 mb-5 shadow-sm">
+      <div class=" p-4 mb-5 shadow-md border">
         <h2 class="visually-hidden">Search Reciters</h2>
-        <div class="row g-3">
+        <div class="row g-4 align-items-end">
           <div class="col-md-8">
-            <label for="reciterSearch" class="form-label fw-semibold">Search by name</label>
-            <div class="input-group">
-              <span class="input-group-text bg-white border-0">
-                <i class="fas fa-search text-muted"></i>
-              </span>
+            <div for="reciterSearch" style="font-size: 1.7em;" class="form-label fw-bold display-5  text-dark mb-2">Search by Name</div>
+            <div class="input-group align-items-center">
               <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
-                class="form-control border-0 rounded-pill px-3 py-2 fs-5" placeholder="Example: Abdul Basit..."
-                aria-label="Search reciters by name" />
+                class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
+                aria-label="Search reciters by name" style="background-color: #f8f9fa;" />
             </div>
           </div>
           <div class="col-md-4">
-            <label for="reciterCategory" class="form-label fw-semibold">Filter by style</label>
+            <div for="reciterCategory" style="font-size: 1.7em;" class="form-label fw-bold text-dark mb-2">Filter by Style</div>
             <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-              class="form-select border-0 rounded-pill px-3 py-2 fs-5" aria-label="Filter reciters by style">
+              class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Filter reciters by style"
+              style="background-color: #f8f9fa;">
               <option value="All Categories">All Recitation Styles</option>
               <option v-for="category in availableCategories" :key="category" :value="category">
                 {{ category }}
@@ -38,26 +34,37 @@
       </div>
 
       <!-- Popular Reciters Section with better visual hierarchy -->
-      <section class="popular-reciters mb-5">
+      <section class="popular-reciters mb-5 section-animate">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="fw-bold fs-3 text-dark mb-0">Popular Reciters</h2>
+          <h2 class="fw-bold fs-4 text-heading">Popular Reciters</h2>
+          <button @click="toggleReciters" class="btn btn-outline-primary d-flex align-items-center gap-2"
+            :aria-expanded="showReciters" aria-controls="reciterGrid"
+            :aria-label="showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'">
+            <i :class="showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+            {{ showReciters ? 'Hide' : 'Show' }}
+          </button>
         </div>
-
-        <div class="popular-reciter-grid row g-3">
-          <div v-for="(reciter, index) in popularReciters.slice(0, 8)" :key="reciter.id"
-            class="col-6 col-sm-4 col-md-3">
-            <div class="reciter-card card h-100 shadow-sm border-0 rounded-3 overflow-hidden"
-              :style="{ animationDelay: `${index * 0.1}s` }" @click="playAndScrollToStation(reciter.id)" role="button"
-              tabindex="0" @keydown.enter="playAndScrollToStation(reciter.id)"
+        <div id="reciterGrid" class="popular-reciter-grid row g-4" v-show="showReciters">
+          <div v-for="(reciter, index) in popularReciters.slice(0, 6)" :key="reciter.id"
+            class="col-6 col-sm-3 col-md-3">
+            <div class="reciter-card rounded-3 overflow-hidden shadow-sm" :style="{ animationDelay: `${index * 0.1}s` }"
+              @click="playAndScrollToStation(reciter.id)" role="button" tabindex="0"
               :aria-label="'Play ' + reciter.name + ' recitations'">
-              <div class="reciter-img-container bg-light">
-                <div class="placeholder-img d-flex align-items-center justify-content-center">
-                  <i class="fas fa-user fa-3x text-secondary"></i>
+              <div class="reciter-img-container position-relative">
+                <img v-if="reciter.imageLoaded !== false" :src="reciter.imageUrl" :alt="reciter.name + ' profile image'"
+                  class="reciter-image img-fluid" loading="lazy" @error="handleImageError(reciter)" />
+                <div v-else class="placeholder-img d-flex align-items-center justify-content-center bg-light">
+                  <div class="avatar-initials fs-2 fw-bold text-muted" aria-hidden="true">
+                    {{ getInitials(reciter.name) }}
+                  </div>
+                </div>
+                <div class="play-overlay d-flex align-items-center justify-content-center">
+                  <i class="bi bi-play-circle-fill play-icon" style="font-size: 2.5rem; color: #fff;"></i>
                 </div>
               </div>
               <div class="reciter-content p-3 text-center">
-                <h3 class="reciter-name fs-5 fw-semibold mb-1">{{ reciter.name }}</h3>
-                <p class="text-muted small mb-0">{{ reciter.style || 'Various styles' }}</p>
+                <h6 class="reciter-name fw-semibold fs-6 mb-1">{{ reciter.name }}</h6>
+                <p class="text-style text-muted fs-6 mb-0">{{ reciter.style || 'Various styles' }}</p>
               </div>
             </div>
           </div>
@@ -139,17 +146,26 @@
     <section class="mb-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="fw-bold fs-3 text-dark">All Radio Stations</h3>
-        <!-- <span class="badge bg-primary fs-6">
-          {{ paginatedStations.length }} Station{{ paginatedStations.length !== 1 ? 's' : '' }}
-        </span> -->
       </div>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div v-if="isLoading" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading stations...</span>
+        </div>
+      </div>
+      <div v-else-if="fetchError" class="alert alert-danger" role="alert">
+        {{ fetchError }}
+        <button class="btn btn-sm btn-outline-danger ms-2" @click="fetchStations" aria-label="Retry loading stations">
+          Retry
+        </button>
+      </div>
+      <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div v-for="station in paginatedStations" :key="station.id" class="col">
-          <div class="card radio-card shadow-sm border-0" :class="{ 'active-card': currentAudio?.src === station.url }"
-            :id="'station-' + station.id" role="article" :aria-labelledby="'station-title-' + station.id">
+          <div class="card radio-card shadow-sm border-0"
+            :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
+            role="article" :aria-labelledby="'station-title-' + station.id">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title mb-0 fw-semibold text-truncate fs-5" :id="'station-title-' + station.id"
+                <h5 class="card-title mb-0 fw-semibold fs-5" :id="'station-title-' + station.id"
                   v-html="highlightSearch(station.name)"></h5>
                 <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
                   :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
@@ -161,7 +177,8 @@
                 :aria-label="'Audio player for ' + station.name">
                 <audio :ref="'audioPlayer-' + station.id" :src="station.url" @play="handlePlay(station.id, $event)"
                   @pause="handlePause(station.id)" @timeupdate="updateTime(station.id)"
-                  @loadedmetadata="updateDuration(station.id)" :aria-label="'Audio stream for ' + station.name"></audio>
+                  @loadedmetadata="updateDuration(station.id)" @error="handleAudioError(station.id, $event)"
+                  :aria-label="'Audio stream for ' + station.name"></audio>
                 <div class="playback-controls d-flex align-items-center gap-2 mb-3">
                   <button class="btn btn-icon play-button p-2" @click="togglePlay(station.id)"
                     :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
@@ -169,9 +186,6 @@
                     <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"
                       class="play-icon fs-5"></i>
                   </button>
-                  <span class="time-display fs-6" aria-live="polite">
-                    {{ formatTime(currentTimes[station.id] || 0) }}
-                  </span>
                   <input type="range" min="0" :max="durations[station.id] || 100" :value="currentTimes[station.id] || 0"
                     @input="seek($event, station.id)" class="seek-bar flex-grow-1" :disabled="isLive(station.id)"
                     :aria-label="'Seek bar for ' + station.name" />
@@ -179,8 +193,13 @@
                     {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
                   </span>
                 </div>
-                <div v-if="playbackErrors[station.id]" class="text-danger fs-6 mb-3" role="alert">
+                <div v-if="playbackErrors[station.id]" class="text-danger fs-6 mb-3 d-flex align-items-center gap-2"
+                  role="alert">
                   {{ playbackErrors[station.id] }}
+                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
+                    aria-label="Retry playback">
+                    Retry
+                  </button>
                 </div>
                 <div class="volume-controls d-flex align-items-center gap-2 px-2 py-1">
                   <button class="btn btn-icon volume-button p-2" @click="toggleMute(station.id)"
@@ -229,20 +248,89 @@ export default {
       likedStations: [],
       recentlyPlayed: [],
       showLiked: false,
+      showReciters: true,
       currentTimes: {},
       durations: {},
       playingStates: {},
       playbackErrors: {},
+      isLoading: false,
+      fetchError: null,
+      currentPlayingStationId: null,
       defaultPopularReciters: [
-        { id: 1, name: 'Mishary Rashid Alafasy', url: 'https://server8.mp3quran.net/afs/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Alafasy' },
-        { id: 2, name: 'Abdul Rahman Al-Sudais', url: 'https://server8.mp3quran.net/sds/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Sudais' },
-        { id: 3, name: 'Saad Al-Ghamdi', url: 'https://server8.mp3quran.net/s_gmd/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Ghamdi' },
-        { id: 4, name: 'Maher Al-Muaiqly', url: 'https://server8.mp3quran.net/maher/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Muaiqly' },
-        { id: 5, name: 'Yasser Al-Dosari', url: 'https://server8.mp3quran.net/yasser/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Dosari' },
-        { id: 6, name: 'Abdul Basit Abdul Samad', url: 'https://server8.mp3quran.net/basit/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Basit' },
-        { id: 7, name: 'Saud Al-Shuraim', url: 'https://server8.mp3quran.net/shur/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Shuraim' },
-        { id: 8, name: 'Ahmad Al-Ajmi', url: 'https://server8.mp3quran.net/ajm/001.mp3', category: 'Recitation', image: 'https://via.placeholder.com/80?text=Ajmi' },
-      ],
+        // {
+        //   id: 1,
+        //   name: 'Mishary Rashid Alafasy',
+        //   url: 'https://qurango.net/radio/mishary_alafasy',
+        //   fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
+        //   style: 'Murattal',
+        //   imageUrl: 'images/mra.jpeg',
+        //   imageLoaded: true
+        // },
+        {
+          id: 2,
+          name: 'Yasser Al-Dosari',
+          url: 'https://qurango.net/radio/yasser_aldosari',
+          fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/yad.webp',
+          imageLoaded: true
+        },
+        {  
+          id: 6,
+          name: 'Abdul Basit Abdul Samad',
+          url: 'https://qurango.net/radio/abdulbasit_abdulsamad_mujawwad',
+          fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
+          style: 'Mujawwad',
+          imageUrl: 'images/abas.jpeg',
+          imageLoaded: true
+        },
+        {
+          id: 3,
+          name: 'Saad Al-Ghamdi',
+          url: 'https://qurango.net/radio/saad_alghamdi',
+          fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/sag.webp',
+          imageLoaded: true
+        },
+        {
+          id: 4,
+          name: 'Maher Al-Muaiqly',
+          url: 'https://qurango.net/radio/maher_almuaiqly',
+          fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/mam.webp',
+          imageLoaded: true
+        },
+        // {
+        //   id: 5,
+        //   name: 'Abdul Rahman Al-Sudais',
+        //   url: 'https://qurango.net/radio/abdurrahman_alsudais',
+        //   fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
+        //   style: 'Murattal',
+        //   imageUrl: 'images/asds.jpeg',
+        //   imageLoaded: true
+        // },
+        
+        // {
+        //   id: 7,
+        //   name: 'Saud Al-Shuraim',
+        //   url: 'https://qurango.net/radio/saud_alshuraim',
+        //   fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
+        //   style: 'Murattal',
+        //   imageUrl: 'images/sas.jpeg',
+        //   imageLoaded: true
+        // },
+        // {
+        //   id: 8,
+        //   name: 'Ahmad Al-Ajmi',
+        //   url: 'https://qurango.net/radio/ahmad_alajmi',
+        //   fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
+        //   style: 'Murattal',
+        //   imageUrl: 'images/aaa.webp',
+        //   imageLoaded: true
+        // }
+      ]
     };
   },
   computed: {
@@ -260,7 +348,7 @@ export default {
       const liked = this.likedStations.map(s => ({ ...s, source: 'liked' }));
       const recent = this.recentlyPlayed.map(s => ({ ...s, source: 'recent' }));
       const combined = [...liked, ...recent.filter(r => !liked.some(l => l.id === r.id))];
-
+      
       const interactionCounts = this.stations.reduce((acc, station) => {
         acc[station.id] = {
           likes: this.likedStations.some(s => s.id === station.id) ? 1 : 0,
@@ -284,22 +372,158 @@ export default {
           .slice(0, remainingSlots);
         sorted.push(...defaults);
       }
-
       return sorted;
     },
   },
   methods: {
+    toggleReciters() {
+      this.showReciters = !this.showReciters;
+    },
+    handleImageError(reciter) {
+      reciter.imageLoaded = false;
+    },
+    getInitials(name) {
+      return name.split(' ').map(n => n[0]).join('').substring(0, 2);
+    },
+    initializeAudio(id) {
+      const audio = this.getAudioForStation(id);
+      if (audio && !audio.src) {
+        const station = this.defaultPopularReciters.find(s => s.id === id) || this.stations.find(s => s.id === id);
+        if (station) {
+          audio.src = station.url;
+        }
+      }
+    },
+    pauseAllAudio() {
+      // Pause any currently playing audio
+      if (this.currentAudio) {
+        const currentId = Object.keys(this.$refs).find(key => {
+          const ref = this.$refs[key];
+          return Array.isArray(ref) && ref[0] === this.currentAudio;
+        })?.replace('audioPlayer-', '');
+        if (currentId) {
+          this.currentAudio.pause();
+          this.playingStates[currentId] = false;
+          this.playbackErrors[currentId] = null;
+          this.currentPlayingStationId = null;
+        }
+        this.currentAudio = null;
+      }
+      // Ensure all playing states are reset
+      Object.keys(this.playingStates).forEach(id => {
+        if (this.playingStates[id]) {
+          const audio = this.getAudioForStation(id);
+          if (audio) audio.pause();
+          this.playingStates[id] = false;
+        }
+      });
+    },
+    async togglePlay(id) {
+      this.initializeAudio(id);
+      const audio = this.getAudioForStation(id);
+      if (!audio) {
+        console.error(`No audio element found for station ${id}`);
+        this.playbackErrors[id] = 'No audio element available';
+        return;
+      }
+
+      // If this station is already playing, pause it
+      if (this.isPlaying(id)) {
+        audio.pause();
+        this.playingStates[id] = false;
+        this.currentAudio = null;
+        this.currentPlayingStationId = null;
+        this.playbackErrors[id] = null;
+        return;
+      }
+
+      // Pause any other playing audio
+      this.pauseAllAudio();
+
+      // Play the new station
+      try {
+        await audio.play();
+        this.playingStates[id] = true;
+        this.currentAudio = audio;
+        this.currentPlayingStationId = id;
+        this.playbackErrors[id] = null;
+        this.addToRecentlyPlayed(id);
+        this.applyVolume(id);
+      } catch (error) {
+        console.error(`Playback failed for station ${id}:`, error);
+        this.playbackErrors[id] = error.message || 'Failed to play audio';
+        this.playingStates[id] = false;
+        this.currentAudio = null;
+        this.currentPlayingStationId = null;
+        
+        // Try fallback URL if available
+        const station = this.defaultPopularReciters.find(s => s.id === id) || this.stations.find(s => s.id === id);
+        if (station?.fallbackUrl) {
+          console.log(`Trying fallback URL for station ${id}`);
+          audio.src = station.fallbackUrl;
+          try {
+            await audio.play();
+            this.playingStates[id] = true;
+            this.currentAudio = audio;
+            this.currentPlayingStationId = id;
+            this.playbackErrors[id] = null;
+            this.addToRecentlyPlayed(id);
+            this.applyVolume(id);
+          } catch (fallbackError) {
+            console.error(`Fallback playback failed for station ${id}:`, fallbackError);
+            this.playbackErrors[id] = fallbackError.message || 'Failed to play fallback audio';
+          }
+        }
+      }
+    },
+    async playAndScrollToStation(id) {
+      // Scroll to the station if it's in the "All Radio Stations" or "Liked Stations" section
+      const stationElement = document.getElementById(`station-${id}`);
+      if (stationElement) {
+        const stationIndex = this.filteredStations.findIndex(station => station.id === id);
+        if (stationIndex !== -1) {
+          this.currentPage = Math.floor(stationIndex / this.itemsPerPage) + 1;
+          await this.$nextTick();
+          stationElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+      // Toggle playback (will handle pausing other players)
+      await this.togglePlay(id);
+    },
+    isPlaying(id) {
+      return !!this.playingStates[id];
+    },
+    getAudioForStation(id) {
+      return this.$refs[`audioPlayer-${id}`]?.[0] || null;
+    },
+    applyVolume(id) {
+      const audio = this.getAudioForStation(id);
+      if (audio && this.volumes[id] !== undefined) {
+        audio.volume = this.volumes[id] / 100;
+      }
+    },
+    addToRecentlyPlayed(id) {
+      const station = this.defaultPopularReciters.find(s => s.id === id) || this.stations.find(s => s.id === id);
+      if (!station) return;
+      this.recentlyPlayed = this.recentlyPlayed.filter(s => s.id !== id);
+      this.recentlyPlayed.unshift({ ...station, lastPlayed: new Date().toISOString() });
+      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
+      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
+    },
     async fetchStations() {
+      this.isLoading = true;
+      this.fetchError = null;
       try {
         const response = await fetch('https://mp3quran.net/api/v3/radios?language=eng');
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const data = await response.json();
         const apiStations = data.radios.map((radio) => ({
-          id: radio.id,
+          id: radio.id + 1000, // Offset to avoid ID conflicts with default reciters
           name: radio.name,
           url: radio.url,
           category: radio.category || this.assignCategory(radio.name),
-          image: radio.image || 'https://via.placeholder.com/80',
+          imageUrl: radio.image || 'https://via.placeholder.com/80',
+          imageLoaded: true
         }));
         this.stations = [
           ...this.defaultPopularReciters,
@@ -311,9 +535,12 @@ export default {
         this.loadRecentlyPlayed();
       } catch (error) {
         console.error('Failed to fetch stations:', error);
+        this.fetchError = 'Failed to load stations. Using default reciters.';
         this.stations = [...this.defaultPopularReciters].filter(station => this.isValidUrl(station.url));
         this.filteredStations = this.stations;
         this.initializeVolumes();
+      } finally {
+        this.isLoading = false;
       }
     },
     isValidUrl(url) {
@@ -361,6 +588,7 @@ export default {
       });
 
       this.currentAudio = current;
+      this.currentPlayingStationId = id;
       this.playingStates[id] = true;
       this.playbackErrors[id] = null;
       this.addToRecentlyPlayed(id);
@@ -373,6 +601,7 @@ export default {
         this.playbackErrors[id] = error.message || 'Failed to play audio';
         this.playingStates[id] = false;
         this.currentAudio = null;
+        this.currentPlayingStationId = null;
       }
     },
     handlePause(id) {
@@ -381,48 +610,34 @@ export default {
         if (stationId) {
           this.playingStates[stationId] = false;
           this.playbackErrors[stationId] = null;
+          this.currentPlayingStationId = null;
         }
         this.currentAudio = null;
       }
     },
-    async togglePlay(id) {
-      const audio = this.getAudioForStation(id);
-      if (!audio) {
-        console.error(`No audio element found for station ${id}`);
-        this.playbackErrors[id] = 'No audio element available';
-        return;
-      }
-
-      if (this.isPlaying(id)) {
-        audio.pause();
-      } else {
-        try {
-          await audio.play();
-          this.playingStates[id] = true;
-          this.currentAudio = audio;
-          this.playbackErrors[id] = null;
-          this.addToRecentlyPlayed(id);
-          this.applyVolume(id);
-        } catch (error) {
-          console.error(`Playback failed for station ${id}:`, error);
-          this.playbackErrors[id] = error.message || 'Failed to play audio';
+    handleAudioError(stationId, event) {
+      const error = event.target.error;
+      let errorMessage = "Failed to load audio.";
+      if (error) {
+        switch (error.code) {
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = "Audio source not supported or invalid.";
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            errorMessage = "Network error while loading audio.";
+            break;
+          case MediaError.MEDIA_ERR_ABORTED:
+            errorMessage = "Audio playback was aborted.";
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            errorMessage = "Error decoding audio.";
+            break;
+          default:
+            errorMessage = `Audio error: ${error.message || 'Unknown error'}`;
         }
       }
-    },
-    async playAndScrollToStation(id) {
-      const stationElement = document.getElementById(`station-${id}`);
-      if (stationElement) {
-        const stationIndex = this.filteredStations.findIndex(station => station.id === id);
-        if (stationIndex !== -1) {
-          this.currentPage = Math.floor(stationIndex / this.itemsPerPage) + 1;
-          await this.$nextTick();
-          stationElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
-      await this.togglePlay(id);
-    },
-    isPlaying(id) {
-      return !!this.playingStates[id];
+      this.$set(this.playbackErrors, stationId, errorMessage);
+      console.error(`Audio error for station ${stationId}:`, error);
     },
     isLive(id) {
       return isNaN(this.durations[id]) || this.durations[id] === Infinity;
@@ -465,16 +680,6 @@ export default {
         event.target.style.setProperty('--volume-level', `${volume}%`);
       }
     },
-    applyVolume(id) {
-      const audio = this.getAudioForStation(id);
-      if (audio && this.volumes[id] !== undefined) {
-        audio.volume = this.volumes[id] / 100;
-      }
-      const volumeBars = document.querySelectorAll(`.volume-bar[data-station-id="${id}"]`);
-      volumeBars.forEach(bar => {
-        bar.style.setProperty('--volume-level', `${this.volumes[id] || 50}%`);
-      });
-    },
     toggleMute(id) {
       this.volumes = { ...this.volumes, [id]: this.volumes[id] === 0 ? 50 : 0 };
       this.applyVolume(id);
@@ -502,14 +707,6 @@ export default {
       const liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
       this.likedStations = liked.filter((s) => this.stations.some((station) => station.id === s.id));
     },
-    addToRecentlyPlayed(id) {
-      const station = this.stations.find((s) => s.id === id);
-      if (!station) return;
-      this.recentlyPlayed = this.recentlyPlayed.filter((s) => s.id !== id);
-      this.recentlyPlayed.unshift({ ...station, lastPlayed: new Date().toISOString() });
-      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
-      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
-    },
     loadRecentlyPlayed() {
       const recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
       this.recentlyPlayed = recent.filter((s) => this.stations.some((station) => station.id === s.id));
@@ -523,28 +720,23 @@ export default {
         minute: '2-digit',
       });
     },
-    playStation(url) {
-      const station = this.stations.find((s) => s.url === url);
-      if (station) {
-        const audio = this.getAudioForStation(station.id);
-        if (audio) {
-          audio.play().catch((error) => {
-            console.error(`Playback failed for ${url}:`, error);
-            this.playbackErrors[station.id] = error.message || 'Failed to play audio';
-          });
-          this.handlePlay(station.id, { target: audio });
-        }
-      }
+    handlePlaybackError(id, error) {
+      this.playbackErrors[id] = {
+        message: error.message || 'Failed to play audio',
+        hidden: true // Hide station on error
+      };
+      this.setPlayingState(id, false);
+    },
+    retryPlayback(id) {
+      this.playbackErrors[id] = null;
+      this.togglePlay(id);
     },
     nextPage() {
       if (this.currentPage < this.totalPages) this.currentPage++;
     },
     previousPage() {
       if (this.currentPage > 1) this.currentPage--;
-    },
-    getAudioForStation(id) {
-      return this.$refs[`audioPlayer-${id}`]?.[0] || null;
-    },
+    }
   },
   mounted() {
     this.fetchStations();
@@ -567,18 +759,37 @@ body {
 .radio-card {
   background: #ffffff;
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
+  border: 2px solid #00bfa6;
 }
 
-.radio-card:hover {
+/* .radio-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);
+} */
+
+.reciter-card:hover .play-overlay {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.play-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+}
+
+.play-icon {
+  font-size: 2rem;
+  color: white;
 }
 
 .radio-card.active-card {
   border: 2px solid #00bfa6;
-  background: linear-gradient(180deg, #f5fffe 0%, #ffffff 100%);
 }
 
 .card-title {
@@ -854,22 +1065,23 @@ mark {
 
 .reciter-card {
   background: #f8f9fa;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #00897b;
+  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
 }
 
 .reciter-card:hover {
-  transform: translateY(-5px);
+  /* transform: translateY(-5px); */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
-.reciter-image {
+/* .reciter-image {
   transition: transform 0.3s ease;
 }
 
 .reciter-card:hover .reciter-image {
   transform: scale(1.1);
-}
+} */
 
 .reciter-content {
   display: flex;
@@ -880,9 +1092,9 @@ mark {
 .reciter-name {
   color: #1a3c34;
   margin: 0;
-  font-size: 1rem;
   white-space: normal;
   overflow-wrap: break-word;
+  font-size: 2em;
 }
 
 

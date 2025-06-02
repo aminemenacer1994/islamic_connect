@@ -542,17 +542,17 @@
             <div class="col-12 col-lg-4 px-4">
               <div class="d-flex justify-content-center justify-content-lg-end gap-3">
                 <a href="https://www.instagram.com/islamicconnect24/" class="text-decoration-none">
-                  <i class="bi bi-instagram h4" style="color: rgb(0, 191, 166);"></i>
+                  <i class="bi bi-instagram h4" style="color: black"></i>
                 </a>
                 <a href="https://www.tiktok.com/@islamic_connect24" class="text-decoration-none">
-                  <i class="bi bi-tiktok h4" style="color: rgb(0, 191, 166);"></i>
+                  <i class="bi bi-tiktok h4" style="color: black;"></i>
                 </a>
                 <a href="https://www.linkedin.com/company/islamic-connect/?viewAsMember=true"
                   class="text-decoration-none">
-                  <i class="bi bi-linkedin h4" style="color: rgb(0, 191, 166);"></i>
+                  <i class="bi bi-linkedin h4" style="color: black;"></i>
                 </a>
                 <a href="https://x.com/islamiconnect24" class="text-decoration-none">
-                  <i class="bi bi-twitter-x h4" style="color: rgb(0, 191, 166);"></i>
+                  <i class="bi bi-twitter-x h4" style="color: black;"></i>
                 </a>
               </div>
             </div>

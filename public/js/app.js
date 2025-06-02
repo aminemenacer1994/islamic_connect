@@ -41222,59 +41222,86 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       likedStations: [],
       recentlyPlayed: [],
       showLiked: false,
+      showReciters: true,
       currentTimes: {},
       durations: {},
       playingStates: {},
       playbackErrors: {},
-      defaultPopularReciters: [{
-        id: 1,
-        name: 'Mishary Rashid Alafasy',
-        url: 'https://server8.mp3quran.net/afs/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Alafasy'
-      }, {
+      isLoading: false,
+      fetchError: null,
+      currentPlayingStationId: null,
+      defaultPopularReciters: [
+      // {
+      //   id: 1,
+      //   name: 'Mishary Rashid Alafasy',
+      //   url: 'https://qurango.net/radio/mishary_alafasy',
+      //   fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
+      //   style: 'Murattal',
+      //   imageUrl: 'images/mra.jpeg',
+      //   imageLoaded: true
+      // },
+      {
         id: 2,
-        name: 'Abdul Rahman Al-Sudais',
-        url: 'https://server8.mp3quran.net/sds/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Sudais'
-      }, {
-        id: 3,
-        name: 'Saad Al-Ghamdi',
-        url: 'https://server8.mp3quran.net/s_gmd/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Ghamdi'
-      }, {
-        id: 4,
-        name: 'Maher Al-Muaiqly',
-        url: 'https://server8.mp3quran.net/maher/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Muaiqly'
-      }, {
-        id: 5,
         name: 'Yasser Al-Dosari',
-        url: 'https://server8.mp3quran.net/yasser/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Dosari'
+        url: 'https://qurango.net/radio/yasser_aldosari',
+        fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
+        style: 'Murattal',
+        imageUrl: 'images/yad.webp',
+        imageLoaded: true
       }, {
         id: 6,
         name: 'Abdul Basit Abdul Samad',
-        url: 'https://server8.mp3quran.net/basit/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Basit'
+        url: 'https://qurango.net/radio/abdulbasit_abdulsamad_mujawwad',
+        fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
+        style: 'Mujawwad',
+        imageUrl: 'images/abas.jpeg',
+        imageLoaded: true
       }, {
-        id: 7,
-        name: 'Saud Al-Shuraim',
-        url: 'https://server8.mp3quran.net/shur/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Shuraim'
+        id: 3,
+        name: 'Saad Al-Ghamdi',
+        url: 'https://qurango.net/radio/saad_alghamdi',
+        fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
+        style: 'Murattal',
+        imageUrl: 'images/sag.webp',
+        imageLoaded: true
       }, {
-        id: 8,
-        name: 'Ahmad Al-Ajmi',
-        url: 'https://server8.mp3quran.net/ajm/001.mp3',
-        category: 'Recitation',
-        image: 'https://via.placeholder.com/80?text=Ajmi'
-      }]
+        id: 4,
+        name: 'Maher Al-Muaiqly',
+        url: 'https://qurango.net/radio/maher_almuaiqly',
+        fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
+        style: 'Murattal',
+        imageUrl: 'images/mam.webp',
+        imageLoaded: true
+      }
+      // {
+      //   id: 5,
+      //   name: 'Abdul Rahman Al-Sudais',
+      //   url: 'https://qurango.net/radio/abdurrahman_alsudais',
+      //   fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
+      //   style: 'Murattal',
+      //   imageUrl: 'images/asds.jpeg',
+      //   imageLoaded: true
+      // },
+
+      // {
+      //   id: 7,
+      //   name: 'Saud Al-Shuraim',
+      //   url: 'https://qurango.net/radio/saud_alshuraim',
+      //   fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
+      //   style: 'Murattal',
+      //   imageUrl: 'images/sas.jpeg',
+      //   imageLoaded: true
+      // },
+      // {
+      //   id: 8,
+      //   name: 'Ahmad Al-Ajmi',
+      //   url: 'https://qurango.net/radio/ahmad_alajmi',
+      //   fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
+      //   style: 'Murattal',
+      //   imageUrl: 'images/aaa.webp',
+      //   imageLoaded: true
+      // }
+      ]
     };
   },
   computed: {
@@ -41337,64 +41364,279 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   },
   methods: {
-    fetchStations: function fetchStations() {
+    toggleReciters: function toggleReciters() {
+      this.showReciters = !this.showReciters;
+    },
+    handleImageError: function handleImageError(reciter) {
+      reciter.imageLoaded = false;
+    },
+    getInitials: function getInitials(name) {
+      return name.split(' ').map(function (n) {
+        return n[0];
+      }).join('').substring(0, 2);
+    },
+    initializeAudio: function initializeAudio(id) {
+      var audio = this.getAudioForStation(id);
+      if (audio && !audio.src) {
+        var station = this.defaultPopularReciters.find(function (s) {
+          return s.id === id;
+        }) || this.stations.find(function (s) {
+          return s.id === id;
+        });
+        if (station) {
+          audio.src = station.url;
+        }
+      }
+    },
+    pauseAllAudio: function pauseAllAudio() {
       var _this2 = this;
+      // Pause any currently playing audio
+      if (this.currentAudio) {
+        var _Object$keys$find;
+        var currentId = (_Object$keys$find = Object.keys(this.$refs).find(function (key) {
+          var ref = _this2.$refs[key];
+          return Array.isArray(ref) && ref[0] === _this2.currentAudio;
+        })) === null || _Object$keys$find === void 0 ? void 0 : _Object$keys$find.replace('audioPlayer-', '');
+        if (currentId) {
+          this.currentAudio.pause();
+          this.playingStates[currentId] = false;
+          this.playbackErrors[currentId] = null;
+          this.currentPlayingStationId = null;
+        }
+        this.currentAudio = null;
+      }
+      // Ensure all playing states are reset
+      Object.keys(this.playingStates).forEach(function (id) {
+        if (_this2.playingStates[id]) {
+          var audio = _this2.getAudioForStation(id);
+          if (audio) audio.pause();
+          _this2.playingStates[id] = false;
+        }
+      });
+    },
+    togglePlay: function togglePlay(id) {
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var response, data, apiStations;
+        var audio, station;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _context.prev = 0;
-              _context.next = 3;
-              return fetch('https://mp3quran.net/api/v3/radios?language=eng');
-            case 3:
-              response = _context.sent;
-              if (response.ok) {
+              _this3.initializeAudio(id);
+              audio = _this3.getAudioForStation(id);
+              if (audio) {
                 _context.next = 6;
                 break;
               }
-              throw new Error("HTTP error: ".concat(response.status));
+              console.error("No audio element found for station ".concat(id));
+              _this3.playbackErrors[id] = 'No audio element available';
+              return _context.abrupt("return");
             case 6:
-              _context.next = 8;
-              return response.json();
-            case 8:
-              data = _context.sent;
-              apiStations = data.radios.map(function (radio) {
-                return {
-                  id: radio.id,
-                  name: radio.name,
-                  url: radio.url,
-                  category: radio.category || _this2.assignCategory(radio.name),
-                  image: radio.image || 'https://via.placeholder.com/80'
-                };
-              });
-              _this2.stations = [].concat(_toConsumableArray(_this2.defaultPopularReciters), _toConsumableArray(apiStations.filter(function (apiStation) {
-                return !_this2.defaultPopularReciters.some(function (pr) {
-                  return pr.id === apiStation.id;
-                });
-              }))).filter(function (station) {
-                return _this2.isValidUrl(station.url);
-              });
-              _this2.filteredStations = _this2.stations;
-              _this2.initializeVolumes();
-              _this2.loadLikedStations();
-              _this2.loadRecentlyPlayed();
-              _context.next = 23;
-              break;
+              if (!_this3.isPlaying(id)) {
+                _context.next = 13;
+                break;
+              }
+              audio.pause();
+              _this3.playingStates[id] = false;
+              _this3.currentAudio = null;
+              _this3.currentPlayingStationId = null;
+              _this3.playbackErrors[id] = null;
+              return _context.abrupt("return");
+            case 13:
+              // Pause any other playing audio
+              _this3.pauseAllAudio();
+
+              // Play the new station
+              _context.prev = 14;
+              _context.next = 17;
+              return audio.play();
             case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](0);
-              console.error('Failed to fetch stations:', _context.t0);
-              _this2.stations = _toConsumableArray(_this2.defaultPopularReciters).filter(function (station) {
-                return _this2.isValidUrl(station.url);
+              _this3.playingStates[id] = true;
+              _this3.currentAudio = audio;
+              _this3.currentPlayingStationId = id;
+              _this3.playbackErrors[id] = null;
+              _this3.addToRecentlyPlayed(id);
+              _this3.applyVolume(id);
+              _context.next = 51;
+              break;
+            case 25:
+              _context.prev = 25;
+              _context.t0 = _context["catch"](14);
+              console.error("Playback failed for station ".concat(id, ":"), _context.t0);
+              _this3.playbackErrors[id] = _context.t0.message || 'Failed to play audio';
+              _this3.playingStates[id] = false;
+              _this3.currentAudio = null;
+              _this3.currentPlayingStationId = null;
+
+              // Try fallback URL if available
+              station = _this3.defaultPopularReciters.find(function (s) {
+                return s.id === id;
+              }) || _this3.stations.find(function (s) {
+                return s.id === id;
               });
-              _this2.filteredStations = _this2.stations;
-              _this2.initializeVolumes();
-            case 23:
+              if (!(station !== null && station !== void 0 && station.fallbackUrl)) {
+                _context.next = 51;
+                break;
+              }
+              console.log("Trying fallback URL for station ".concat(id));
+              audio.src = station.fallbackUrl;
+              _context.prev = 36;
+              _context.next = 39;
+              return audio.play();
+            case 39:
+              _this3.playingStates[id] = true;
+              _this3.currentAudio = audio;
+              _this3.currentPlayingStationId = id;
+              _this3.playbackErrors[id] = null;
+              _this3.addToRecentlyPlayed(id);
+              _this3.applyVolume(id);
+              _context.next = 51;
+              break;
+            case 47:
+              _context.prev = 47;
+              _context.t1 = _context["catch"](36);
+              console.error("Fallback playback failed for station ".concat(id, ":"), _context.t1);
+              _this3.playbackErrors[id] = _context.t1.message || 'Failed to play fallback audio';
+            case 51:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[0, 17]]);
+        }, _callee, null, [[14, 25], [36, 47]]);
+      }))();
+    },
+    playAndScrollToStation: function playAndScrollToStation(id) {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var stationElement, stationIndex;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              // Scroll to the station if it's in the "All Radio Stations" or "Liked Stations" section
+              stationElement = document.getElementById("station-".concat(id));
+              if (!stationElement) {
+                _context2.next = 8;
+                break;
+              }
+              stationIndex = _this4.filteredStations.findIndex(function (station) {
+                return station.id === id;
+              });
+              if (!(stationIndex !== -1)) {
+                _context2.next = 8;
+                break;
+              }
+              _this4.currentPage = Math.floor(stationIndex / _this4.itemsPerPage) + 1;
+              _context2.next = 7;
+              return _this4.$nextTick();
+            case 7:
+              stationElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+              });
+            case 8:
+              _context2.next = 10;
+              return _this4.togglePlay(id);
+            case 10:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2);
+      }))();
+    },
+    isPlaying: function isPlaying(id) {
+      return !!this.playingStates[id];
+    },
+    getAudioForStation: function getAudioForStation(id) {
+      var _this$$refs;
+      return ((_this$$refs = this.$refs["audioPlayer-".concat(id)]) === null || _this$$refs === void 0 ? void 0 : _this$$refs[0]) || null;
+    },
+    applyVolume: function applyVolume(id) {
+      var audio = this.getAudioForStation(id);
+      if (audio && this.volumes[id] !== undefined) {
+        audio.volume = this.volumes[id] / 100;
+      }
+    },
+    addToRecentlyPlayed: function addToRecentlyPlayed(id) {
+      var station = this.defaultPopularReciters.find(function (s) {
+        return s.id === id;
+      }) || this.stations.find(function (s) {
+        return s.id === id;
+      });
+      if (!station) return;
+      this.recentlyPlayed = this.recentlyPlayed.filter(function (s) {
+        return s.id !== id;
+      });
+      this.recentlyPlayed.unshift(_objectSpread(_objectSpread({}, station), {}, {
+        lastPlayed: new Date().toISOString()
+      }));
+      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
+      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
+    },
+    fetchStations: function fetchStations() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var response, data, apiStations;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _this5.isLoading = true;
+              _this5.fetchError = null;
+              _context3.prev = 2;
+              _context3.next = 5;
+              return fetch('https://mp3quran.net/api/v3/radios?language=eng');
+            case 5:
+              response = _context3.sent;
+              if (response.ok) {
+                _context3.next = 8;
+                break;
+              }
+              throw new Error("HTTP error: ".concat(response.status));
+            case 8:
+              _context3.next = 10;
+              return response.json();
+            case 10:
+              data = _context3.sent;
+              apiStations = data.radios.map(function (radio) {
+                return {
+                  id: radio.id + 1000,
+                  // Offset to avoid ID conflicts with default reciters
+                  name: radio.name,
+                  url: radio.url,
+                  category: radio.category || _this5.assignCategory(radio.name),
+                  imageUrl: radio.image || 'https://via.placeholder.com/80',
+                  imageLoaded: true
+                };
+              });
+              _this5.stations = [].concat(_toConsumableArray(_this5.defaultPopularReciters), _toConsumableArray(apiStations.filter(function (apiStation) {
+                return !_this5.defaultPopularReciters.some(function (pr) {
+                  return pr.id === apiStation.id;
+                });
+              }))).filter(function (station) {
+                return _this5.isValidUrl(station.url);
+              });
+              _this5.filteredStations = _this5.stations;
+              _this5.initializeVolumes();
+              _this5.loadLikedStations();
+              _this5.loadRecentlyPlayed();
+              _context3.next = 26;
+              break;
+            case 19:
+              _context3.prev = 19;
+              _context3.t0 = _context3["catch"](2);
+              console.error('Failed to fetch stations:', _context3.t0);
+              _this5.fetchError = 'Failed to load stations. Using default reciters.';
+              _this5.stations = _toConsumableArray(_this5.defaultPopularReciters).filter(function (station) {
+                return _this5.isValidUrl(station.url);
+              });
+              _this5.filteredStations = _this5.stations;
+              _this5.initializeVolumes();
+            case 26:
+              _context3.prev = 26;
+              _this5.isLoading = false;
+              return _context3.finish(26);
+            case 29:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[2, 19, 26, 29]]);
       }))();
     },
     isValidUrl: function isValidUrl(url) {
@@ -41414,11 +41656,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       return 'Recitation';
     },
     handleSearch: function handleSearch() {
-      var _this3 = this;
+      var _this6 = this;
       var query = this.searchQuery.toLowerCase().trim();
       this.filteredStations = this.stations.filter(function (station) {
         var matchesQuery = station.name.toLowerCase().includes(query);
-        var matchesCategory = _this3.selectedCategory !== 'All Categories' ? station.category === _this3.selectedCategory : true;
+        var matchesCategory = _this6.selectedCategory !== 'All Categories' ? station.category === _this6.selectedCategory : true;
         return matchesQuery && matchesCategory;
       });
       this.currentPage = 1;
@@ -41429,151 +41671,91 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       return name.replace(regex, '<mark>$1</mark>');
     },
     handlePlay: function handlePlay(id, event) {
-      var _this4 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      var _this7 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var allAudios, current;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              allAudios = Object.values(_this4.$refs).filter(function (el) {
+              allAudios = Object.values(_this7.$refs).filter(function (el) {
                 return el && el.tagName === 'AUDIO';
               });
               current = event.target;
               allAudios.forEach(function (audio) {
                 if (audio !== current) {
-                  var _this4$stations$find;
+                  var _this7$stations$find;
                   audio.pause();
-                  var stationId = (_this4$stations$find = _this4.stations.find(function (s) {
+                  var stationId = (_this7$stations$find = _this7.stations.find(function (s) {
                     return s.url === audio.src;
-                  })) === null || _this4$stations$find === void 0 ? void 0 : _this4$stations$find.id;
-                  if (stationId) _this4.playingStates[stationId] = false;
+                  })) === null || _this7$stations$find === void 0 ? void 0 : _this7$stations$find.id;
+                  if (stationId) _this7.playingStates[stationId] = false;
                 }
               });
-              _this4.currentAudio = current;
-              _this4.playingStates[id] = true;
-              _this4.playbackErrors[id] = null;
-              _this4.addToRecentlyPlayed(id);
-              _this4.applyVolume(id);
-              _context2.prev = 8;
-              _context2.next = 11;
+              _this7.currentAudio = current;
+              _this7.currentPlayingStationId = id;
+              _this7.playingStates[id] = true;
+              _this7.playbackErrors[id] = null;
+              _this7.addToRecentlyPlayed(id);
+              _this7.applyVolume(id);
+              _context4.prev = 9;
+              _context4.next = 12;
               return current.play();
-            case 11:
-              _context2.next = 19;
+            case 12:
+              _context4.next = 21;
               break;
-            case 13:
-              _context2.prev = 13;
-              _context2.t0 = _context2["catch"](8);
-              console.error("Playback failed for station ".concat(id, ":"), _context2.t0);
-              _this4.playbackErrors[id] = _context2.t0.message || 'Failed to play audio';
-              _this4.playingStates[id] = false;
-              _this4.currentAudio = null;
-            case 19:
+            case 14:
+              _context4.prev = 14;
+              _context4.t0 = _context4["catch"](9);
+              console.error("Playback failed for station ".concat(id, ":"), _context4.t0);
+              _this7.playbackErrors[id] = _context4.t0.message || 'Failed to play audio';
+              _this7.playingStates[id] = false;
+              _this7.currentAudio = null;
+              _this7.currentPlayingStationId = null;
+            case 21:
             case "end":
-              return _context2.stop();
+              return _context4.stop();
           }
-        }, _callee2, null, [[8, 13]]);
+        }, _callee4, null, [[9, 14]]);
       }))();
     },
     handlePause: function handlePause(id) {
-      var _this5 = this;
+      var _this8 = this;
       if (this.currentAudio) {
         var _this$stations$find;
         var stationId = (_this$stations$find = this.stations.find(function (s) {
-          return s.url === _this5.currentAudio.src;
+          return s.url === _this8.currentAudio.src;
         })) === null || _this$stations$find === void 0 ? void 0 : _this$stations$find.id;
         if (stationId) {
           this.playingStates[stationId] = false;
           this.playbackErrors[stationId] = null;
+          this.currentPlayingStationId = null;
         }
         this.currentAudio = null;
       }
     },
-    togglePlay: function togglePlay(id) {
-      var _this6 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var audio;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              audio = _this6.getAudioForStation(id);
-              if (audio) {
-                _context3.next = 5;
-                break;
-              }
-              console.error("No audio element found for station ".concat(id));
-              _this6.playbackErrors[id] = 'No audio element available';
-              return _context3.abrupt("return");
-            case 5:
-              if (!_this6.isPlaying(id)) {
-                _context3.next = 9;
-                break;
-              }
-              audio.pause();
-              _context3.next = 23;
-              break;
-            case 9:
-              _context3.prev = 9;
-              _context3.next = 12;
-              return audio.play();
-            case 12:
-              _this6.playingStates[id] = true;
-              _this6.currentAudio = audio;
-              _this6.playbackErrors[id] = null;
-              _this6.addToRecentlyPlayed(id);
-              _this6.applyVolume(id);
-              _context3.next = 23;
-              break;
-            case 19:
-              _context3.prev = 19;
-              _context3.t0 = _context3["catch"](9);
-              console.error("Playback failed for station ".concat(id, ":"), _context3.t0);
-              _this6.playbackErrors[id] = _context3.t0.message || 'Failed to play audio';
-            case 23:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3, null, [[9, 19]]);
-      }))();
-    },
-    playAndScrollToStation: function playAndScrollToStation(id) {
-      var _this7 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var stationElement, stationIndex;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              stationElement = document.getElementById("station-".concat(id));
-              if (!stationElement) {
-                _context4.next = 8;
-                break;
-              }
-              stationIndex = _this7.filteredStations.findIndex(function (station) {
-                return station.id === id;
-              });
-              if (!(stationIndex !== -1)) {
-                _context4.next = 8;
-                break;
-              }
-              _this7.currentPage = Math.floor(stationIndex / _this7.itemsPerPage) + 1;
-              _context4.next = 7;
-              return _this7.$nextTick();
-            case 7:
-              stationElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-              });
-            case 8:
-              _context4.next = 10;
-              return _this7.togglePlay(id);
-            case 10:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4);
-      }))();
-    },
-    isPlaying: function isPlaying(id) {
-      return !!this.playingStates[id];
+    handleAudioError: function handleAudioError(stationId, event) {
+      var error = event.target.error;
+      var errorMessage = "Failed to load audio.";
+      if (error) {
+        switch (error.code) {
+          case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = "Audio source not supported or invalid.";
+            break;
+          case MediaError.MEDIA_ERR_NETWORK:
+            errorMessage = "Network error while loading audio.";
+            break;
+          case MediaError.MEDIA_ERR_ABORTED:
+            errorMessage = "Audio playback was aborted.";
+            break;
+          case MediaError.MEDIA_ERR_DECODE:
+            errorMessage = "Error decoding audio.";
+            break;
+          default:
+            errorMessage = "Audio error: ".concat(error.message || 'Unknown error');
+        }
+      }
+      this.$set(this.playbackErrors, stationId, errorMessage);
+      console.error("Audio error for station ".concat(stationId, ":"), error);
     },
     isLive: function isLive(id) {
       return isNaN(this.durations[id]) || this.durations[id] === Infinity;
@@ -41616,17 +41798,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         event.target.style.setProperty('--volume-level', "".concat(volume, "%"));
       }
     },
-    applyVolume: function applyVolume(id) {
-      var _this8 = this;
-      var audio = this.getAudioForStation(id);
-      if (audio && this.volumes[id] !== undefined) {
-        audio.volume = this.volumes[id] / 100;
-      }
-      var volumeBars = document.querySelectorAll(".volume-bar[data-station-id=\"".concat(id, "\"]"));
-      volumeBars.forEach(function (bar) {
-        bar.style.setProperty('--volume-level', "".concat(_this8.volumes[id] || 50, "%"));
-      });
-    },
     toggleMute: function toggleMute(id) {
       this.volumes = _objectSpread(_objectSpread({}, this.volumes), {}, _defineProperty({}, id, this.volumes[id] === 0 ? 50 : 0));
       this.applyVolume(id);
@@ -41664,20 +41835,6 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         });
       });
     },
-    addToRecentlyPlayed: function addToRecentlyPlayed(id) {
-      var station = this.stations.find(function (s) {
-        return s.id === id;
-      });
-      if (!station) return;
-      this.recentlyPlayed = this.recentlyPlayed.filter(function (s) {
-        return s.id !== id;
-      });
-      this.recentlyPlayed.unshift(_objectSpread(_objectSpread({}, station), {}, {
-        lastPlayed: new Date().toISOString()
-      }));
-      if (this.recentlyPlayed.length > 10) this.recentlyPlayed.pop();
-      localStorage.setItem('recentlyPlayed', JSON.stringify(this.recentlyPlayed));
-    },
     loadRecentlyPlayed: function loadRecentlyPlayed() {
       var _this11 = this;
       var recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
@@ -41696,33 +41853,22 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         minute: '2-digit'
       });
     },
-    playStation: function playStation(url) {
-      var _this12 = this;
-      var station = this.stations.find(function (s) {
-        return s.url === url;
-      });
-      if (station) {
-        var audio = this.getAudioForStation(station.id);
-        if (audio) {
-          audio.play()["catch"](function (error) {
-            console.error("Playback failed for ".concat(url, ":"), error);
-            _this12.playbackErrors[station.id] = error.message || 'Failed to play audio';
-          });
-          this.handlePlay(station.id, {
-            target: audio
-          });
-        }
-      }
+    handlePlaybackError: function handlePlaybackError(id, error) {
+      this.playbackErrors[id] = {
+        message: error.message || 'Failed to play audio',
+        hidden: true // Hide station on error
+      };
+      this.setPlayingState(id, false);
+    },
+    retryPlayback: function retryPlayback(id) {
+      this.playbackErrors[id] = null;
+      this.togglePlay(id);
     },
     nextPage: function nextPage() {
       if (this.currentPage < this.totalPages) this.currentPage++;
     },
     previousPage: function previousPage() {
       if (this.currentPage > 1) this.currentPage--;
-    },
-    getAudioForStation: function getAudioForStation(id) {
-      var _this$$refs;
-      return ((_this$$refs = this.$refs["audioPlayer-".concat(id)]) === null || _this$$refs === void 0 ? void 0 : _this$$refs[0]) || null;
     }
   },
   mounted: function mounted() {
@@ -57302,7 +57448,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "48px"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:rgb(0, 191, 166);\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" mailing list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\" style=\"\n        background: #00bfa6;\n        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n      \">\n      <div class=\"container\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-lg-10\">\n            <h2 class=\"display-5 fw-bold text-center text-white\">\n              Subscribe to Mailing List\n            </h2>\n            <div class=\"mx-auto mt-3\">\n              <h3 class=\"lead container pt-1 text-center text-white\" style=\"line-height: 1.8em\">\n                <b>\n                  Sign up for our mailing list to receive the latest updates,\n                  content, and educational resources directly in your inbox.</b>\n              </h3>\n              <form class=\"container row g-3 pb-3\" @reset=\"reset\" @submit.prevent=\"submitMail()\">\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.name\" placeholder=\"Full name\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <input class=\"form-control bg-light\" v-model=\"form.email\" placeholder=\"Email address\" type=\"text\" />\n                </div>\n                <div class=\"col-md-4\">\n                  <div class=\"d-grid\">\n                    <button class=\"form-control\" style=\"background: #57c7b9; color: white; border: white solid 2px;\"\n                      type=\"submit\">\n                      Subscribe\n                    </button>\n                  </div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:black;\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -60105,148 +60251,171 @@ var _hoisted_2 = {
   "class": "reciter-browser mb-5"
 };
 var _hoisted_3 = {
-  "class": "search-section bg-light rounded-4 p-4 mb-5 shadow-sm"
+  "class": "p-4 mb-5 shadow-md border"
 };
 var _hoisted_4 = {
-  "class": "row g-3"
+  "class": "row g-4 align-items-end"
 };
 var _hoisted_5 = {
   "class": "col-md-8"
 };
 var _hoisted_6 = {
-  "class": "input-group"
+  "class": "input-group align-items-center"
 };
 var _hoisted_7 = {
   "class": "col-md-4"
 };
 var _hoisted_8 = ["value"];
 var _hoisted_9 = {
-  "class": "popular-reciters mb-5"
+  "class": "popular-reciters mb-5 section-animate"
 };
 var _hoisted_10 = {
-  "class": "popular-reciter-grid row g-3"
+  "class": "d-flex justify-content-between align-items-center mb-4"
 };
-var _hoisted_11 = ["onClick", "onKeydown", "aria-label"];
+var _hoisted_11 = ["aria-expanded", "aria-label"];
 var _hoisted_12 = {
+  id: "reciterGrid",
+  "class": "popular-reciter-grid row g-4"
+};
+var _hoisted_13 = ["onClick", "aria-label"];
+var _hoisted_14 = {
+  "class": "reciter-img-container position-relative"
+};
+var _hoisted_15 = ["src", "alt", "onError"];
+var _hoisted_16 = {
+  key: 1,
+  "class": "placeholder-img d-flex align-items-center justify-content-center bg-light"
+};
+var _hoisted_17 = {
+  "class": "avatar-initials fs-2 fw-bold text-muted",
+  "aria-hidden": "true"
+};
+var _hoisted_18 = {
   "class": "reciter-content p-3 text-center"
 };
-var _hoisted_13 = {
-  "class": "reciter-name fs-5 fw-semibold mb-1"
+var _hoisted_19 = {
+  "class": "reciter-name fw-semibold fs-6 mb-1"
 };
-var _hoisted_14 = {
-  "class": "text-muted small mb-0"
+var _hoisted_20 = {
+  "class": "text-style text-muted fs-6 mb-0"
 };
-var _hoisted_15 = {
+var _hoisted_21 = {
   key: 0,
   "class": "mb-5"
 };
-var _hoisted_16 = ["aria-expanded"];
-var _hoisted_17 = {
+var _hoisted_22 = ["aria-expanded"];
+var _hoisted_23 = {
   key: 0,
   "class": "section-animate",
   id: "liked-stations"
 };
-var _hoisted_18 = {
+var _hoisted_24 = {
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
-var _hoisted_19 = ["id", "aria-labelledby"];
-var _hoisted_20 = {
+var _hoisted_25 = ["id", "aria-labelledby"];
+var _hoisted_26 = {
   "class": "card-body p-4"
 };
-var _hoisted_21 = {
+var _hoisted_27 = {
   "class": "d-flex justify-content-between align-items-center mb-3"
 };
-var _hoisted_22 = ["id", "innerHTML"];
-var _hoisted_23 = ["onClick", "aria-label"];
-var _hoisted_24 = ["aria-label"];
-var _hoisted_25 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
-var _hoisted_26 = {
+var _hoisted_28 = ["id", "innerHTML"];
+var _hoisted_29 = ["onClick", "aria-label"];
+var _hoisted_30 = ["aria-label"];
+var _hoisted_31 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
+var _hoisted_32 = {
   "class": "playback-controls d-flex align-items-center gap-2 mb-3"
 };
-var _hoisted_27 = ["onClick", "aria-label", "disabled"];
-var _hoisted_28 = {
+var _hoisted_33 = ["onClick", "aria-label", "disabled"];
+var _hoisted_34 = {
   "class": "time-display fs-6",
   "aria-live": "polite"
 };
-var _hoisted_29 = ["max", "value", "onInput", "disabled", "aria-label"];
-var _hoisted_30 = {
+var _hoisted_35 = ["max", "value", "onInput", "disabled", "aria-label"];
+var _hoisted_36 = {
   "class": "time-display fs-6",
   "aria-live": "polite"
 };
-var _hoisted_31 = {
+var _hoisted_37 = {
   key: 0,
   "class": "text-danger fs-6 mb-3",
   role: "alert"
 };
-var _hoisted_32 = {
+var _hoisted_38 = {
   "class": "volume-controls d-flex align-items-center gap-2 px-2 py-1"
 };
-var _hoisted_33 = ["onClick", "aria-label"];
-var _hoisted_34 = ["onUpdate:modelValue", "onInput", "aria-label"];
-var _hoisted_35 = {
+var _hoisted_39 = ["onClick", "aria-label"];
+var _hoisted_40 = ["onUpdate:modelValue", "onInput", "aria-label"];
+var _hoisted_41 = {
   "class": "mb-5"
 };
-var _hoisted_36 = {
-  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
-};
-var _hoisted_37 = ["id", "aria-labelledby"];
-var _hoisted_38 = {
-  "class": "card-body"
-};
-var _hoisted_39 = {
-  "class": "d-flex justify-content-between align-items-center mb-3"
-};
-var _hoisted_40 = ["id", "innerHTML"];
-var _hoisted_41 = ["onClick", "aria-label"];
-var _hoisted_42 = ["aria-label"];
-var _hoisted_43 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
-var _hoisted_44 = {
-  "class": "playback-controls d-flex align-items-center gap-2 mb-3"
-};
-var _hoisted_45 = ["onClick", "aria-label", "disabled"];
-var _hoisted_46 = {
-  "class": "time-display fs-6",
-  "aria-live": "polite"
-};
-var _hoisted_47 = ["max", "value", "onInput", "disabled", "aria-label"];
-var _hoisted_48 = {
-  "class": "time-display fs-6",
-  "aria-live": "polite"
-};
-var _hoisted_49 = {
+var _hoisted_42 = {
   key: 0,
-  "class": "text-danger fs-6 mb-3",
+  "class": "text-center my-4"
+};
+var _hoisted_43 = {
+  key: 1,
+  "class": "alert alert-danger",
   role: "alert"
 };
-var _hoisted_50 = {
+var _hoisted_44 = {
+  key: 2,
+  "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+};
+var _hoisted_45 = ["id", "aria-labelledby"];
+var _hoisted_46 = {
+  "class": "card-body"
+};
+var _hoisted_47 = {
+  "class": "d-flex justify-content-between align-items-center mb-3"
+};
+var _hoisted_48 = ["id", "innerHTML"];
+var _hoisted_49 = ["onClick", "aria-label"];
+var _hoisted_50 = ["aria-label"];
+var _hoisted_51 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+var _hoisted_52 = {
+  "class": "playback-controls d-flex align-items-center gap-2 mb-3"
+};
+var _hoisted_53 = ["onClick", "aria-label", "disabled"];
+var _hoisted_54 = ["max", "value", "onInput", "disabled", "aria-label"];
+var _hoisted_55 = {
+  "class": "time-display fs-6",
+  "aria-live": "polite"
+};
+var _hoisted_56 = {
+  key: 0,
+  "class": "text-danger fs-6 mb-3 d-flex align-items-center gap-2",
+  role: "alert"
+};
+var _hoisted_57 = ["onClick"];
+var _hoisted_58 = {
   "class": "volume-controls d-flex align-items-center gap-2 px-2 py-1"
 };
-var _hoisted_51 = ["onClick", "aria-label"];
-var _hoisted_52 = ["onUpdate:modelValue", "onInput", "aria-label"];
-var _hoisted_53 = {
+var _hoisted_59 = ["onClick", "aria-label"];
+var _hoisted_60 = ["onUpdate:modelValue", "onInput", "aria-label"];
+var _hoisted_61 = {
   key: 1,
   "class": "d-flex justify-content-center align-items-center mt-4 pagination-nav"
 };
-var _hoisted_54 = ["disabled"];
-var _hoisted_55 = {
+var _hoisted_62 = ["disabled"];
+var _hoisted_63 = {
   "class": "fw-semibold fs-6 mx-3"
 };
-var _hoisted_56 = ["disabled"];
+var _hoisted_64 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-4 mb-4"
-  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " Discover live Quranic radio stations from renowned reciters worldwide. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Improved search section with visual grouping "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, " Discover live Quranic radio stations from renowned reciters worldwide. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "visually-hidden"
-  }, "Search Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Search Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "for": "reciterSearch",
-    "class": "form-label fw-semibold"
-  }, "Search by name", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text bg-white border-0"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-search text-muted"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    style: {
+      "font-size": "1.7em"
+    },
+    "class": "form-label fw-bold display-5 text-dark mb-2"
+  }, "Search by Name", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
@@ -60255,13 +60424,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     id: "reciterSearch",
     type: "text",
-    "class": "form-control border-0 rounded-pill px-3 py-2 fs-5",
-    placeholder: "Example: Abdul Basit...",
-    "aria-label": "Search reciters by name"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6",
+    placeholder: "e.g., Abdul Basit",
+    "aria-label": "Search reciters by name",
+    style: {
+      "background-color": "#f8f9fa"
+    }
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "for": "reciterCategory",
-    "class": "form-label fw-semibold"
-  }, "Filter by style", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    style: {
+      "font-size": "1.7em"
+    },
+    "class": "form-label fw-bold text-dark mb-2"
+  }, "Filter by Style", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.selectedCategory = $event;
     }),
@@ -60269,25 +60444,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.handleSearch && $options.handleSearch.apply($options, arguments);
     }),
     id: "reciterCategory",
-    "class": "form-select border-0 rounded-pill px-3 py-2 fs-5",
-    "aria-label": "Filter reciters by style"
-  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "class": "form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6",
+    "aria-label": "Filter reciters by style",
+    style: {
+      "background-color": "#f8f9fa"
+    }
+  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "All Categories"
   }, "All Recitation Styles", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.availableCategories, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category,
       value: category
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popular Reciters Section with better visual hierarchy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_9, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "d-flex justify-content-between align-items-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-bold fs-3 text-dark mb-0"
-  }, "Popular Reciters")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.popularReciters.slice(0, 8), function (reciter, index) {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popular Reciters Section with better visual hierarchy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "fw-bold fs-4 text-heading"
+  }, "Popular Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.toggleReciters && $options.toggleReciters.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-primary d-flex align-items-center gap-2",
+    "aria-expanded": $data.showReciters,
+    "aria-controls": "reciterGrid",
+    "aria-label": $data.showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down')
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showReciters ? 'Hide' : 'Show'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.popularReciters.slice(0, 6), function (reciter, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: reciter.id,
-      "class": "col-6 col-sm-4 col-md-3"
+      "class": "col-6 col-sm-3 col-md-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "reciter-card card h-100 shadow-sm border-0 rounded-3 overflow-hidden",
+      "class": "reciter-card rounded-3 overflow-hidden shadow-sm",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         animationDelay: "".concat(index * 0.1, "s")
       }),
@@ -60296,20 +60482,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       role: "button",
       tabindex: "0",
-      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
-        return $options.playAndScrollToStation(reciter.id);
-      }, ["enter"]),
       "aria-label": 'Play ' + reciter.name + ' recitations'
-    }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "reciter-img-container bg-light"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "placeholder-img d-flex align-items-center justify-content-center"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [reciter.imageLoaded !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+      key: 0,
+      src: reciter.imageUrl,
+      alt: reciter.name + ' profile image',
+      "class": "reciter-image img-fluid",
+      loading: "lazy",
+      onError: function onError($event) {
+        return $options.handleImageError(reciter);
+      }
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_15)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getInitials(reciter.name)), 1 /* TEXT */)])), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "play-overlay d-flex align-items-center justify-content-center"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "fas fa-user fa-3x text-secondary"
-    })])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.style || 'Various styles'), 1 /* TEXT */)])], 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_11)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $data.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+      "class": "bi bi-play-circle-fill play-icon",
+      style: {
+        "font-size": "2.5rem",
+        "color": "#fff"
+      }
+    })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.style || 'Various styles'), 1 /* TEXT */)])], 12 /* STYLE, PROPS */, _hoisted_13)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showReciters]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $data.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold mb-3 fs-4 cursor-pointer section-header text-dark",
-    onClick: _cache[4] || (_cache[4] = function ($event) {
+    onClick: _cache[5] || (_cache[5] = function ($event) {
       return $data.showLiked = !$data.showLiked;
     }),
     role: "button",
@@ -60317,7 +60511,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "liked-stations"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down', "ms-1"])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_16), $data.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.likedStations, function (station) {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_22), $data.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.likedStations, function (station) {
     var _$data$currentAudio;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
@@ -60329,11 +60523,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: 'station-' + station.id,
       role: "article",
       "aria-labelledby": 'station-title-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title mb-0 fw-semibold text-truncate fs-5",
       id: 'station-title-' + station.id,
       innerHTML: $options.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $options.toggleLike(station);
@@ -60341,7 +60535,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_29)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player", {
         playing: $options.isPlaying(station.id)
       }]),
@@ -60364,7 +60558,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.updateDuration(station.id);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon play-button p-2",
       onClick: function onClick($event) {
         return $options.togglePlay(station.id);
@@ -60373,7 +60567,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: !!$data.playbackErrors[station.id]
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill', "play-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: $data.durations[station.id] || 100,
@@ -60384,7 +60578,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "seek-bar flex-grow-1",
       disabled: $options.isLive(station.id),
       "aria-label": 'Seek bar for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon volume-button p-2",
       onClick: function onClick($event) {
         return $options.toggleMute(station.id);
@@ -60392,7 +60586,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $data.volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.volumes[station.id] === 0 ? 'bi bi-volume-mute' : $data.volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up', "volume-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
@@ -60404,30 +60598,40 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "volume-bar flex-grow-1",
       "aria-label": 'Volume control for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_34), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_40), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
       number: true
-    }]])])], 10 /* CLASS, PROPS */, _hoisted_24)])], 10 /* CLASS, PROPS */, _hoisted_19)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_35, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }]])])], 10 /* CLASS, PROPS */, _hoisted_30)])], 10 /* CLASS, PROPS */, _hoisted_25)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_41, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-flex justify-content-between align-items-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold fs-3 text-dark"
-  }, "All Radio Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge bg-primary fs-6\">\n          {{ paginatedStations.length }} Station{{ paginatedStations.length !== 1 ? 's' : '' }}\n        </span> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
-    var _$data$currentAudio2;
+  }, "All Radio Stations")], -1 /* HOISTED */)), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading stations...")], -1 /* HOISTED */)]))) : $data.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-danger ms-2",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.fetchStations && $options.fetchStations.apply($options, arguments);
+    }),
+    "aria-label": "Retry loading stations"
+  }, " Retry ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card radio-card shadow-sm border-0", {
-        'active-card': ((_$data$currentAudio2 = $data.currentAudio) === null || _$data$currentAudio2 === void 0 ? void 0 : _$data$currentAudio2.src) === station.url
+        'active-card': $data.currentPlayingStationId === station.id
       }]),
       id: 'station-' + station.id,
       role: "article",
       "aria-labelledby": 'station-title-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-      "class": "card-title mb-0 fw-semibold text-truncate fs-5",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "card-title mb-0 fw-semibold fs-5",
       id: 'station-title-' + station.id,
       innerHTML: $options.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $options.toggleLike(station);
@@ -60435,7 +60639,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_49)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player", {
         playing: $options.isPlaying(station.id)
       }]),
@@ -60457,8 +60661,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onLoadedmetadata: function onLoadedmetadata($event) {
         return $options.updateDuration(station.id);
       },
+      onError: function onError($event) {
+        return $options.handleAudioError(station.id, $event);
+      },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon play-button p-2",
       onClick: function onClick($event) {
         return $options.togglePlay(station.id);
@@ -60467,7 +60674,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: !!$data.playbackErrors[station.id]
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill', "play-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_45), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: $data.durations[station.id] || 100,
@@ -60478,7 +60685,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "seek-bar flex-grow-1",
       disabled: $options.isLive(station.id),
       "aria-label": 'Seek bar for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-sm btn-outline-danger",
+      onClick: function onClick($event) {
+        return $options.retryPlayback(station.id);
+      },
+      "aria-label": "Retry playback"
+    }, " Retry ", 8 /* PROPS */, _hoisted_57)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon volume-button p-2",
       onClick: function onClick($event) {
         return $options.toggleMute(station.id);
@@ -60486,7 +60699,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $data.volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.volumes[station.id] === 0 ? 'bi bi-volume-mute' : $data.volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up', "volume-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_59), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
@@ -60498,24 +60711,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "volume-bar flex-grow-1",
       "aria-label": 'Volume control for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_52), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_60), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
       number: true
-    }]])])], 10 /* CLASS, PROPS */, _hoisted_42)])], 10 /* CLASS, PROPS */, _hoisted_37)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function () {
+    }]])])], 10 /* CLASS, PROPS */, _hoisted_50)])], 10 /* CLASS, PROPS */, _hoisted_45)]);
+  }), 128 /* KEYED_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === 1,
     "class": "btn btn-outline-teal rounded-pill px-4 me-3 fs-6",
     "aria-label": "Previous page"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[6] || (_cache[6] = function () {
+  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_63, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function () {
       return $options.nextPage && $options.nextPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === $options.totalPages,
     "class": "btn btn-outline-teal rounded-pill px-4 ms-3 fs-6",
     "aria-label": "Next page"
-  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_56)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_64)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -163240,7 +163453,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  overflow: hidden;\n}\n.radio-card[data-v-87252526]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n}\n.radio-card.active-card[data-v-87252526] {\n  border: 2px solid #00bfa6;\n  background: linear-gradient(180deg, #f5fffe 0%, #ffffff 100%);\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n  max-width: 85%;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-icon.bi-volume-up[data-v-87252526],\n.volume-icon.bi-volume-down[data-v-87252526] {\n  color: #00bfa6;\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  background-color: #ffffff;\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:active {\n  background: #00897b;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 1rem;\n}\n\n/* Search and Filter Styles */\n.search-filter-container[data-v-87252526] {\n  display: flex;\n  gap: 1rem;\n  max-width: 800px;\n  margin: 0 auto;\n}\n.search-filter-container .input-group[data-v-87252526] {\n  flex: 1;\n}\n\n/* Popular Reciters Styles */\n.popular-reciter-scroll[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.reciter-card[data-v-87252526] {\n  background: #f8f9fa;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.reciter-card[data-v-87252526]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n.reciter-image[data-v-87252526] {\n  transition: transform 0.3s ease;\n}\n.reciter-card:hover .reciter-image[data-v-87252526] {\n  transform: scale(1.1);\n}\n.reciter-content[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  font-size: 1rem;\n  white-space: normal;\n  overflow-wrap: break-word;\n}\n\n/* Responsive Design */\n@media (max-width: 576px) {\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.card-title[data-v-87252526] {\n    font-size: 1rem;\n    max-width: 80%;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.search-filter-container[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.reciter-card[data-v-87252526] {\n    min-width: 120px;\n    padding: 0.75rem;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.reciter-station[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 1rem;\n    padding: 1rem 0.5rem;\n}\n.pagination-nav[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  overflow: hidden;\n  border: 2px solid #00bfa6;\n}\n\n/* .radio-card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n} */\n.reciter-card:hover .play-overlay[data-v-87252526] {\n  opacity: 1;\n  transition: opacity 0.3s ease;\n}\n.play-overlay[data-v-87252526] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  opacity: 0;\n}\n.play-icon[data-v-87252526] {\n  font-size: 2rem;\n  color: white;\n}\n.radio-card.active-card[data-v-87252526] {\n  border: 2px solid #00bfa6;\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n  max-width: 85%;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-icon.bi-volume-up[data-v-87252526],\n.volume-icon.bi-volume-down[data-v-87252526] {\n  color: #00bfa6;\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  background-color: #ffffff;\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:active {\n  background: #00897b;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 1rem;\n}\n\n/* Search and Filter Styles */\n.search-filter-container[data-v-87252526] {\n  display: flex;\n  gap: 1rem;\n  max-width: 800px;\n  margin: 0 auto;\n}\n.search-filter-container .input-group[data-v-87252526] {\n  flex: 1;\n}\n\n/* Popular Reciters Styles */\n.popular-reciter-scroll[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.reciter-card[data-v-87252526] {\n  background: #f8f9fa;\n  border: 2px solid #00897b;\n  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */\n}\n.reciter-card[data-v-87252526]:hover {\n  /* transform: translateY(-5px); */\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n\n/* .reciter-image {\n  transition: transform 0.3s ease;\n}\n\n.reciter-card:hover .reciter-image {\n  transform: scale(1.1);\n} */\n.reciter-content[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  white-space: normal;\n  overflow-wrap: break-word;\n  font-size: 2em;\n}\n\n/* Responsive Design */\n@media (max-width: 576px) {\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.card-title[data-v-87252526] {\n    font-size: 1rem;\n    max-width: 80%;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.search-filter-container[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.reciter-card[data-v-87252526] {\n    min-width: 120px;\n    padding: 0.75rem;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.reciter-station[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 1rem;\n    padding: 1rem 0.5rem;\n}\n.pagination-nav[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
