@@ -103,7 +103,6 @@ body{
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/quran">Companion</a></li>
                             <li><a class="dropdown-item" href="/surat">Explorer</a></li>
-                            <li><a class="dropdown-item" href="/name">Names of Allah</a></li>
                         </ul>
                     </li>
                     

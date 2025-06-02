@@ -273,12 +273,32 @@ export default {
           desc: `This podcast is dedicated to the pursuit of knowledge (Ilm) from an Islamic perspective. It explores various aspects of Islamic education, the importance of seeking knowledge, and provides insights on how to live a life based on the teachings of Islam.`,
           image: "./images/ilm.jpg",
         },
-
         {
           name: "Thinking Muslim",
           rssUrl: "https://anchor.fm/s/4c6115d8/podcast/rss",
           desc: `A podcast that engages in thoughtful discussions on Islamic beliefs, contemporary issues, and interviews with experts in various fields.`,
           image: "./images/tm.png",
+        },
+        {
+          name: "Sultans and Sneakers",
+          rssUrl: "https://sultansandsneakers.libsyn.com/rss",
+          desc: `Hosted by Mahin Islam, Sultans and Sneakers explores the intersection of faith, culture, and modern life through conversations with scholars, athletes, and influencers.  
+          The podcast covers topics like masculinity, spirituality, and navigating Islam in the West.`,
+          image: "./images/ss.jpg",
+        },
+        {
+          name: "Wives of Jannah",
+          rssUrl: "https://wivesofjannah.libsyn.com/rss",
+          desc: `Hosted by Megan Wyatt, Wives of Jannah offers Islamic-based relationship coaching for Muslim women.  
+          Focusing on love, mercy, and tranquility in marriage, it provides practical advice drawn from Quranic principles to strengthen relationships.`,
+          image: "./images/woj.jpeg",
+        },
+        {
+          name: "The Light of Reflection",
+          rssUrl: "https://feeds.buzzsprout.com/1658500.rss",
+          desc: `The Light of Reflection offers daily Quranic reflections and short reminders to inspire spiritual growth.  
+          It provides practical insights for Muslims seeking to connect with the Quran.`,
+          image: "./images/rl.jpeg",
         },
       ],
 
