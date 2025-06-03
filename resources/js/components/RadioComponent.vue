@@ -7,12 +7,13 @@
     </p>
 
     <!-- Search Bar and Category Dropdown -->
-    <section class="reciter-browser mb-5">
-      <div class=" p-4 mb-5 shadow-md border">
+    <section class=" mb-5">
+      
+      <div class=" p-4 mb-5 shadow-md border" style="border-radius: 25px; box-shadow: #00bfa6; background: #76d7c4 ; border: 3px solid lightgrey;">
         <h2 class="visually-hidden">Search Reciters</h2>
-        <div class="row g-4 align-items-end">
+        <div class="row g-4 align-items-end" >
           <div class="col-md-8">
-            <div for="reciterSearch" style="font-size: 1.7em;" class="form-label fw-bold display-5  text-dark mb-2">Search by Name</div>
+            <div for="reciterSearch" style="font-size: 1.5em;" class="form-label fw-bold display-4  text-dark mb-2">Search by Name</div>
             <div class="input-group align-items-center">
               <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
                 class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
@@ -20,7 +21,7 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div for="reciterCategory" style="font-size: 1.7em;" class="form-label fw-bold text-dark mb-2">Filter by Style</div>
+            <div for="reciterCategory" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Filter by Style</div>
             <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
               class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Filter reciters by style"
               style="background-color: #f8f9fa;">
@@ -34,7 +35,7 @@
       </div>
 
       <!-- Popular Reciters Section with better visual hierarchy -->
-      <section class="popular-reciters mb-5 section-animate">
+      <!-- <section class="popular-reciters mb-5 section-animate">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="fw-bold fs-4 text-heading">Popular Reciters</h2>
           <button @click="toggleReciters" class="btn btn-outline-success d-flex align-items-center gap-2"
@@ -69,7 +70,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> -->
     </section>
 
     <!-- Liked Stations Section -->
@@ -145,7 +146,7 @@
     <!-- All Radio Stations -->
     <section class="mb-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold fs-3 text-dark">All Radio Stations</h3>
+        <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Radio Stations:</h3>
       </div>
       <div v-if="isLoading" class="text-center my-4">
         <div class="spinner-border text-primary" role="status">
@@ -162,7 +163,7 @@
         <div v-for="station in paginatedStations" :key="station.id" class="col">
           <div class="card radio-card shadow-sm border-0"
             :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
-            role="article" :aria-labelledby="'station-title-' + station.id">
+            role="article" :aria-labelledby="'station-title-' + station.id" style="border-radius: 25px; box-shadow: #00bfa6; ">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="card-title mb-0 fw-semibold fs-5" :id="'station-title-' + station.id"
@@ -257,15 +258,15 @@ export default {
       fetchError: null,
       currentPlayingStationId: null,
       defaultPopularReciters: [
-        // {
-        //   id: 1,
-        //   name: 'Mishary Rashid Alafasy',
-        //   url: 'https://qurango.net/radio/mishary_alafasy',
-        //   fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
-        //   style: 'Murattal',
-        //   imageUrl: 'images/mra.jpeg',
-        //   imageLoaded: true
-        // },
+        {
+          id: 1,
+          name: 'Mishary Rashid Alafasy',
+          url: 'https://qurango.net/radio/mishary_alafasy',
+          fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/mra.jpeg',
+          imageLoaded: true
+        },
         {
           id: 2,
           name: 'Yasser Al-Dosari',
@@ -302,34 +303,34 @@ export default {
           imageUrl: 'images/mam.webp',
           imageLoaded: true
         },
-        // {
-        //   id: 5,
-        //   name: 'Abdul Rahman Al-Sudais',
-        //   url: 'https://qurango.net/radio/abdurrahman_alsudais',
-        //   fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
-        //   style: 'Murattal',
-        //   imageUrl: 'images/asds.jpeg',
-        //   imageLoaded: true
-        // },
+        {
+          id: 5,
+          name: 'Abdul Rahman Al-Sudais',
+          url: 'https://qurango.net/radio/abdurrahman_alsudais',
+          fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/asds.jpeg',
+          imageLoaded: true
+        },
         
-        // {
-        //   id: 7,
-        //   name: 'Saud Al-Shuraim',
-        //   url: 'https://qurango.net/radio/saud_alshuraim',
-        //   fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
-        //   style: 'Murattal',
-        //   imageUrl: 'images/sas.jpeg',
-        //   imageLoaded: true
-        // },
-        // {
-        //   id: 8,
-        //   name: 'Ahmad Al-Ajmi',
-        //   url: 'https://qurango.net/radio/ahmad_alajmi',
-        //   fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
-        //   style: 'Murattal',
-        //   imageUrl: 'images/aaa.webp',
-        //   imageLoaded: true
-        // }
+        {
+          id: 7,
+          name: 'Saud Al-Shuraim',
+          url: 'https://qurango.net/radio/saud_alshuraim',
+          fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/sas.jpeg',
+          imageLoaded: true
+        },
+        {
+          id: 8,
+          name: 'Ahmad Al-Ajmi',
+          url: 'https://qurango.net/radio/ahmad_alajmi',
+          fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
+          style: 'Murattal',
+          imageUrl: 'images/aaa.webp',
+          imageLoaded: true
+        }
       ]
     };
   },
