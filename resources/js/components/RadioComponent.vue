@@ -37,7 +37,7 @@
       <section class="popular-reciters mb-5 section-animate">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="fw-bold fs-4 text-heading">Popular Reciters</h2>
-          <button @click="toggleReciters" class="btn btn-outline-primary d-flex align-items-center gap-2"
+          <button @click="toggleReciters" class="btn btn-outline-success d-flex align-items-center gap-2"
             :aria-expanded="showReciters" aria-controls="reciterGrid"
             :aria-label="showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'">
             <i :class="showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
@@ -1063,6 +1063,25 @@ mark {
   background: rgba(0, 191, 166, 0.6);
 }
 
+.radio-card {
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.radio-card.active-card {
+  background-color: rgba(0, 191, 166, 0.161); /* Light blue background for active station */
+  border: 2px solid #007bff; /* Blue border to highlight */
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Subtle shadow for emphasis */
+}
+
+
+
+.radio-card.active-card .play-icon {
+  color: #fff; /* Darker color for play icon when active */
+}
+
+
 .reciter-card {
   background: #f8f9fa;
   border: 2px solid #00897b;
@@ -1199,6 +1218,14 @@ mark {
     flex-direction: column;
     gap: 0.75rem;
   }
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.radio-card.active-card {
+  animation: pulse 1.5s infinite ease-in-out;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
