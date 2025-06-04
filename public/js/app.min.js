@@ -36259,118 +36259,128 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       duaCollection: [],
       searchQuery: '',
-      selectedCategory: "",
-      // Track selected category
+      selectedCategory: '',
+      selectedReference: '',
       currentPage: {},
       duasPerPage: 20,
-      // Number of duas per page
       showCopyMessage: false,
       fontSize: 18
     };
   },
   computed: {
-    // Filter categories based on the search query and selected category
+    uniqueReferences: function uniqueReferences() {
+      var references = new Set();
+      this.duaCollection.forEach(function (category) {
+        category.duas.forEach(function (dua) {
+          if (dua.reference) references.add(dua.reference);
+        });
+      });
+      return _toConsumableArray(references).sort();
+    },
     filteredCategories: function filteredCategories() {
       var _this = this;
       var filteredByCategory = this.selectedCategory ? this.duaCollection.filter(function (category) {
         return category.id === parseInt(_this.selectedCategory);
       }) : this.duaCollection;
-      return filteredByCategory.filter(function (category) {
-        var searchQueryLower = _this.searchQuery.toLowerCase();
-        return category.duas.some(function (dua) {
-          return dua.title.toLowerCase().includes(searchQueryLower) || dua.arabic.toLowerCase().includes(searchQueryLower) || dua.transliteration.toLowerCase().includes(searchQueryLower) || dua.translation.toLowerCase().includes(searchQueryLower);
+      if (this.selectedReference) {
+        filteredByCategory = filteredByCategory.map(function (category) {
+          var filteredDuas = category.duas.filter(function (dua) {
+            return dua.reference === _this.selectedReference;
+          });
+          return _objectSpread(_objectSpread({}, category), {}, {
+            duas: filteredDuas
+          });
+        }).filter(function (category) {
+          return category.duas.length > 0;
         });
-      });
-    },
-    filteredDuas: function filteredDuas() {
-      var _this2 = this;
-      if (!this.searchQuery.trim()) {
-        return this.filteredCategories; // Return all cards if searchQuery is empty
       }
-      return this.filteredCategories.map(function (category) {
-        // Filter each dua in the category by checking if the searchQuery is present in title, arabic, or translation
+      if (!this.searchQuery.trim()) {
+        return filteredByCategory;
+      }
+      return filteredByCategory.map(function (category) {
         var filteredDuas = category.duas.filter(function (dua) {
-          var regex = new RegExp(_this2.searchQuery, 'gi');
-          return regex.test(dua.title) || regex.test(dua.arabic) || regex.test(dua.translation);
+          var searchQueryLower = _this.searchQuery.toLowerCase();
+          return dua.title.toLowerCase().includes(searchQueryLower) || dua.arabic.toLowerCase().includes(searchQueryLower) || dua.transliteration.toLowerCase().includes(searchQueryLower) || dua.translation.toLowerCase().includes(searchQueryLower) || dua.reference.toLowerCase().includes(searchQueryLower);
         });
-
-        // Return the category with only the filtered duas
         return _objectSpread(_objectSpread({}, category), {}, {
           duas: filteredDuas
         });
       }).filter(function (category) {
         return category.duas.length > 0;
-      }); // Remove empty categories
+      });
+    },
+    filteredDuas: function filteredDuas() {
+      return this.filteredCategories;
     }
   },
   methods: {
     highlightText: function highlightText(text) {
-      if (!this.searchQuery.trim()) return text; // Return original text if search is empty
-      var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
-      return text.replace(regex, '<span style="background-color: rgb(13, 182, 145); font-weight:bold; color: white;">$1</span>'); // Custom highlight with color
+      if (!this.searchQuery.trim()) return text;
+      var regex = new RegExp("(".concat(this.searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), ")"), 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
     },
     changeFontSize: function changeFontSize(action) {
-      if (action === 'increase' && this.fontSize < 30) {
-        this.fontSize += 2; // Increase font size
-      } else if (action === 'decrease' && this.fontSize > 10) {
-        this.fontSize -= 2; // Decrease font size
+      if (action === 'increase') {
+        this.fontSize += 2;
+      } else if (action === 'decrease' && this.fontSize > 12) {
+        this.fontSize -= 2;
       }
     },
-    // TTS Function for Arabic and English
     speak: function speak(text, lang) {
       if ('speechSynthesis' in window) {
-        // Cancel any ongoing speech to prevent overlap
         if (speechSynthesis.speaking) {
           speechSynthesis.cancel();
         }
         var utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-GB';
-        utterance.pitch = 0.8; // Default pitch (range: 0 - 2)
-        utterance.rate = 0.8; // Default rate (range: 0.1 - 10)
-
-        // Handle start, error, and end events
+        utterance.pitch = 0.8;
+        utterance.rate = 0.8;
         utterance.onstart = function () {
-          return console.log("TTS started.");
+          return console.log('TTS started.');
         };
         utterance.onerror = function (e) {
-          return console.error("TTS error:", e);
+          return console.error('TTS error:', e);
         };
         utterance.onend = function () {
-          return console.log("TTS ended.");
+          return console.log('TTS ended.');
         };
         speechSynthesis.speak(utterance);
       } else {
-        console.error("TTS is not supported in this browser.");
+        console.error('TTS is not supported in this browser.');
       }
     },
     copyContent: function copyContent(dua) {
-      var _this3 = this;
+      var _this2 = this;
       var text = "Dua title: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\n").concat(dua.translation, "\n\n- ").concat(dua.reference);
       navigator.clipboard.writeText(text).then(function () {
-        _this3.showCopyMessage = true; // Show success message
+        _this2.showCopyMessage = true;
         setTimeout(function () {
-          _this3.showCopyMessage = false; // Hide message after 3 seconds
+          _this2.showCopyMessage = false;
         }, 3000);
       })["catch"](function (err) {
-        console.error("Failed to copy content: ", err);
+        console.error('Failed to copy content: ', err);
       });
     },
     shareOnWhatsApp: function shareOnWhatsApp(dua) {
       var text = "Dua title: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\nTranslation: ").concat(dua.translation, "\n\nReference: ").concat(dua.reference);
       var encodedText = encodeURIComponent(text);
       var url = "https://wa.me/?text=".concat(encodedText);
-
-      // Open the WhatsApp URL in a new tab
       window.open(url, '_blank');
     },
-    // Pagination logic
     getPaginatedDuas: function getPaginatedDuas(duas) {
-      var start = (this.currentPage[duas[0].id] - 1) * this.duasPerPage;
+      var _duas$;
+      var start = ((this.currentPage[(_duas$ = duas[0]) === null || _duas$ === void 0 ? void 0 : _duas$.id] || 1) - 1) * this.duasPerPage;
       var end = start + this.duasPerPage;
       return duas.slice(start, end);
     },
@@ -36388,26 +36398,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       return Math.ceil(duas.length / this.duasPerPage);
     },
     resetPagination: function resetPagination() {
-      var _this4 = this;
-      // Reset pagination when category changes
+      var _this3 = this;
       this.duaCollection.forEach(function (category) {
-        // Directly set currentPage for each category
-        _this4.currentPage[category.id] = 1;
+        _this3.currentPage[category.id] = 1;
       });
     }
   },
   created: function created() {
-    var _this5 = this;
-    fetch("/duaCollection.json").then(function (response) {
+    var _this4 = this;
+    fetch('/duaCollection.json').then(function (response) {
       return response.json();
     }).then(function (data) {
-      _this5.duaCollection = data.categories;
-      // Initialize currentPage for each category
-      _this5.duaCollection.forEach(function (category) {
-        _this5.currentPage[category.id] = 1; // No need for this.$set()
+      _this4.duaCollection = data.categories;
+      _this4.duaCollection.forEach(function (category) {
+        _this4.currentPage[category.id] = 1;
       });
     })["catch"](function (error) {
-      return console.error("Error loading dua collection:", error);
+      return console.error('Error loading dua collection:', error);
     });
   }
 });
@@ -39157,417 +39164,201 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'PrayerTimesCalendar',
+  name: 'PrayerTimes',
   data: function data() {
     return {
-      city: '',
-      country: '',
-      latitude: null,
-      longitude: null,
-      method: '2',
-      // Default to ISNA
-      methodOptions: {
-        0: 'Shia Ithna-Ashari (Jafari)',
-        1: 'University of Islamic Sciences, Karachi',
-        2: 'Islamic Society of North America (ISNA)',
-        3: 'Muslim World League (MWL)',
-        4: 'Umm Al-Qura University, Makkah',
-        5: 'Egyptian General Authority of Survey',
-        7: 'Institute of Geophysics, University of Tehran',
-        8: 'Gulf Region',
-        9: 'Kuwait',
-        10: 'Qatar',
-        11: 'Majlis Ugama Islam Singapura, Singapore',
-        12: 'Union Organization Islamic de France',
-        13: 'Diyanet İşleri Başkanlığı, Turkey',
-        14: 'Spiritual Administration of Muslims of Russia'
+      city: 'Nottingham',
+      country: 'UK',
+      method: '5',
+      // Muslim World League
+      methods: {
+        '5': 'Muslim World League',
+        '3': 'ISNA',
+        '1': 'Egyptian',
+        '7': 'Umm al-Qura',
+        '4': 'Karachi'
+      },
+      school: '0',
+      // 0: Shafi/Maliki/Hambali, 1: Hanafi
+      adjustments: {
+        Fajr: 0,
+        Dhuhr: 0,
+        Asr: 0,
+        Maghrib: 0,
+        Isha: 0
       },
       prayerData: [],
-      loading: false,
-      submitted: false,
-      useCurrentLocation: true,
       monthName: '',
       year: '',
-      error: null,
-      lastAction: null // Track last action for retry functionality
+      submitted: false,
+      loading: false,
+      errorMessage: '',
+      showAdjustments: false
     };
   },
   mounted: function mounted() {
-    this.getCurrentLocation();
+    var _this = this;
+    this.getPrayerTimes();
+    setInterval(function () {
+      var today = new Date();
+      var newMonth = today.toLocaleString('default', {
+        month: 'long'
+      });
+      var newYear = today.getFullYear();
+      if (_this.submitted && (newMonth !== _this.monthName || newYear !== _this.year)) {
+        _this.getPrayerTimes();
+      }
+    }, 24 * 60 * 60 * 1000);
   },
   methods: {
-    formatTime: function formatTime(time) {
-      if (!time) return '--:--';
-      var timePart = time.split(' ')[0];
-      var _timePart$split = timePart.split(':'),
-        _timePart$split2 = _slicedToArray(_timePart$split, 2),
-        hourStr = _timePart$split2[0],
-        minuteStr = _timePart$split2[1];
-      var hour = parseInt(hourStr, 10);
-      var minute = parseInt(minuteStr, 10);
-      var period = hour >= 12 ? 'PM' : 'AM';
-      if (hour === 0) {
-        hour = 12;
-      } else if (hour > 12) {
-        hour -= 12;
-      }
-      return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
-    },
-    formatDate: function formatDate(dateStr) {
-      var date = new Date(dateStr);
-      var today = new Date();
-      var tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      if (date.toDateString() === today.toDateString()) {
-        return 'Today';
-      } else if (date.toDateString() === tomorrow.toDateString()) {
-        return 'Tomorrow';
-      } else {
-        return date.toLocaleDateString('en-US', {
-          weekday: 'short',
-          month: 'short',
-          day: 'numeric'
-        });
-      }
-    },
-    isToday: function isToday(dateStr) {
-      var date = new Date(dateStr);
-      var today = new Date();
-      return date.toDateString() === today.toDateString();
-    },
-    getNextPrayer: function getNextPrayer() {
-      if (!this.prayerData.length) return 'Loading...';
-      var today = new Date();
-      var todayStr = today.toISOString().split('T')[0];
-      var todayPrayers = this.prayerData.find(function (day) {
-        return day.date.gregorian.date === todayStr;
-      });
-      if (!todayPrayers) return 'No data for today';
-      var prayers = [{
-        name: 'Fajr',
-        time: todayPrayers.timings.Fajr
-      }, {
-        name: 'Dhuhr',
-        time: todayPrayers.timings.Dhuhr
-      }, {
-        name: 'Asr',
-        time: todayPrayers.timings.Asr
-      }, {
-        name: 'Maghrib',
-        time: todayPrayers.timings.Maghrib
-      }, {
-        name: 'Isha',
-        time: todayPrayers.timings.Isha
-      }];
-      var now = today.getHours() * 60 + today.getMinutes();
-      for (var _i = 0, _prayers = prayers; _i < _prayers.length; _i++) {
-        var prayer = _prayers[_i];
-        var _prayer$time$split$0$ = prayer.time.split(' ')[0].split(':'),
-          _prayer$time$split$0$2 = _slicedToArray(_prayer$time$split$0$, 2),
-          hours = _prayer$time$split$0$2[0],
-          minutes = _prayer$time$split$0$2[1];
-        var prayerTime = parseInt(hours) * 60 + parseInt(minutes);
-        if (prayerTime > now) {
-          return "".concat(prayer.name, " at ").concat(this.formatTime(prayer.time));
-        }
-      }
-      return 'All prayers completed for today';
-    },
-    getCurrentLocation: function getCurrentLocation() {
-      var _this = this;
+    getPrayerTimes: function getPrayerTimes() {
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var position, _position$coords, latitude, longitude, location;
+        var today, month, cacheKey, cachedData, daysInMonth, prayerTimes, day, date, url, res, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this.loading = true;
-              _this.error = null;
-              _this.submitted = false;
-              _this.lastAction = 'getCurrentLocation';
-              if (navigator.geolocation) {
-                _context.next = 8;
+              if (!(!_this2.city || !_this2.country)) {
+                _context.next = 5;
                 break;
               }
-              _this.error = 'Geolocation is not supported by your browser. Please enter your city manually.';
-              _this.setDefaultLocation();
+              _this2.errorMessage = 'Please enter both city and country.';
+              _this2.loading = false;
+              _this2.submitted = true;
               return _context.abrupt("return");
-            case 8:
-              _context.prev = 8;
-              _context.next = 11;
-              return new Promise(function (resolve, reject) {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {
-                  enableHighAccuracy: true,
-                  timeout: 10000,
-                  maximumAge: 0
-                });
+            case 5:
+              _this2.submitted = true;
+              _this2.loading = true;
+              _this2.errorMessage = '';
+              _this2.prayerData = [];
+              today = new Date();
+              month = today.getMonth() + 1;
+              _this2.monthName = today.toLocaleString('default', {
+                month: 'long'
               });
-            case 11:
-              position = _context.sent;
-              _position$coords = position.coords, latitude = _position$coords.latitude, longitude = _position$coords.longitude;
-              _context.next = 15;
-              return _this.reverseGeocode(latitude, longitude);
-            case 15:
-              location = _context.sent;
-              _this.city = location.city;
-              _this.country = location.country;
-              _this.latitude = latitude;
-              _this.longitude = longitude;
-              _this.useCurrentLocation = true;
-              _context.next = 23;
-              return _this.fetchPrayerTimes();
+              _this2.year = today.getFullYear();
+
+              // Check cache
+              cacheKey = "".concat(_this2.city, "-").concat(_this2.country, "-").concat(_this2.method, "-").concat(_this2.school, "-").concat(_this2.year, "-").concat(_this2.monthName);
+              cachedData = localStorage.getItem(cacheKey);
+              if (!cachedData) {
+                _context.next = 19;
+                break;
+              }
+              _this2.prayerData = JSON.parse(cachedData);
+              _this2.loading = false;
+              return _context.abrupt("return");
+            case 19:
+              _context.prev = 19;
+              // Fetch prayer times for each day of the month
+              daysInMonth = new Date(_this2.year, month, 0).getDate();
+              prayerTimes = [];
+              day = 1;
             case 23:
-              _context.next = 30;
+              if (!(day <= daysInMonth)) {
+                _context.next = 38;
+                break;
+              }
+              date = "".concat(_this2.year, "-").concat(month.toString().padStart(2, '0'), "-").concat(day.toString().padStart(2, '0'));
+              url = "https://dailyprayer.abdulrcs.repl.co/api/".concat(encodeURIComponent(_this2.city), "?date=").concat(date, "&method=").concat(_this2.method, "&school=").concat(_this2.school);
+              _context.next = 28;
+              return fetch(url);
+            case 28:
+              res = _context.sent;
+              if (res.ok) {
+                _context.next = 31;
+                break;
+              }
+              throw new Error("HTTP error! Status: ".concat(res.status));
+            case 31:
+              _context.next = 33;
+              return res.json();
+            case 33:
+              data = _context.sent;
+              if (data.prayerTimes) {
+                prayerTimes.push({
+                  date: date,
+                  fajr: _this2.applyAdjustment(data.prayerTimes.Fajr, _this2.adjustments.Fajr),
+                  dhuhr: _this2.applyAdjustment(data.prayerTimes.Dhuhr, _this2.adjustments.Dhuhr),
+                  asr: _this2.applyAdjustment(data.prayerTimes.Asr, _this2.adjustments.Asr),
+                  maghrib: _this2.applyAdjustment(data.prayerTimes.Maghrib, _this2.adjustments.Maghrib),
+                  isha: _this2.applyAdjustment(data.prayerTimes.Isha, _this2.adjustments.Isha)
+                });
+              }
+            case 35:
+              day++;
+              _context.next = 23;
               break;
-            case 25:
-              _context.prev = 25;
-              _context.t0 = _context["catch"](8);
-              console.error('Geolocation failed:', _context.t0);
-              _this.error = 'Could not get your current location. Please enter your city manually.';
-              _this.setDefaultLocation();
-            case 30:
-              _context.prev = 30;
-              _this.loading = false;
-              _this.submitted = true;
-              return _context.finish(30);
-            case 34:
+            case 38:
+              if (prayerTimes.length) {
+                _this2.prayerData = prayerTimes;
+                localStorage.setItem(cacheKey, JSON.stringify(_this2.prayerData));
+              } else {
+                _this2.errorMessage = 'No prayer times found. Please check your city, country, or try another method.';
+              }
+              _context.next = 45;
+              break;
+            case 41:
+              _context.prev = 41;
+              _context.t0 = _context["catch"](19);
+              _this2.errorMessage = "Failed to fetch prayer times: ".concat(_context.t0.message, ". Please check your connection or city input.");
+              console.error('Fetch error:', _context.t0);
+            case 45:
+              _context.prev = 45;
+              _this2.loading = false;
+              return _context.finish(45);
+            case 48:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[8, 25, 30, 34]]);
+        }, _callee, null, [[19, 41, 45, 48]]);
       }))();
     },
-    reverseGeocode: function reverseGeocode(lat, lon) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var res, data;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
-              return fetch("https://nominatim.openstreetmap.org/reverse?lat=".concat(lat, "&lon=").concat(lon, "&format=json"));
-            case 3:
-              res = _context2.sent;
-              if (res.ok) {
-                _context2.next = 6;
-                break;
-              }
-              throw new Error("HTTP error! status: ".concat(res.status));
-            case 6:
-              _context2.next = 8;
-              return res.json();
-            case 8:
-              data = _context2.sent;
-              return _context2.abrupt("return", {
-                city: data.address.city || data.address.town || data.address.village || data.address.county || 'Unknown City',
-                country: data.address.country || 'Unknown Country'
-              });
-            case 12:
-              _context2.prev = 12;
-              _context2.t0 = _context2["catch"](0);
-              console.error('Reverse geocoding failed:', _context2.t0);
-              throw new Error('Failed to determine city/country from coordinates.');
-            case 16:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[0, 12]]);
-      }))();
+    applyAdjustment: function applyAdjustment(time, adjustment) {
+      if (!time || !adjustment || typeof time !== 'string') return time || '--:--';
+      var _time$split$map = time.split(':').map(Number),
+        _time$split$map2 = _slicedToArray(_time$split$map, 2),
+        hours = _time$split$map2[0],
+        minutes = _time$split$map2[1];
+      if (isNaN(hours) || isNaN(minutes)) return time;
+      var date = new Date(0, 0, 0, hours, minutes + adjustment);
+      return "".concat(date.getHours().toString().padStart(2, '0'), ":").concat(date.getMinutes().toString().padStart(2, '0'));
     },
-    fetchPrayerTimes: function fetchPrayerTimes() {
-      var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var date, month, year, userTimezone, url, response, data;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              _this2.loading = true;
-              _this2.error = null;
-              _this2.prayerData = [];
-              date = new Date();
-              month = date.getMonth() + 1;
-              year = date.getFullYear();
-              userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-              if (!(!_this2.latitude || !_this2.longitude)) {
-                _context3.next = 12;
-                break;
-              }
-              _this2.error = 'Latitude and longitude are required to fetch prayer times.';
-              _this2.loading = false;
-              _this2.submitted = true;
-              return _context3.abrupt("return");
-            case 12:
-              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this2.latitude, "&longitude=").concat(_this2.longitude, "&method=").concat(_this2.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(userTimezone));
-              _context3.prev = 13;
-              _context3.next = 16;
-              return fetch(url);
-            case 16:
-              response = _context3.sent;
-              if (response.ok) {
-                _context3.next = 19;
-                break;
-              }
-              throw new Error("HTTP error! status: ".concat(response.status));
-            case 19:
-              _context3.next = 21;
-              return response.json();
-            case 21:
-              data = _context3.sent;
-              if (data.code === 200 && data.data && data.data.length > 0) {
-                _this2.prayerData = data.data;
-                _this2.monthName = new Date(_this2.prayerData[0].date.gregorian.date).toLocaleString('en-US', {
-                  month: 'long'
-                });
-                _this2.year = _this2.prayerData[0].date.gregorian.year;
-              } else {
-                _this2.prayerData = [];
-                _this2.error = data.status === 'fail' ? data.data : 'No prayer times found for this location/method.';
-              }
-              _context3.next = 30;
-              break;
-            case 25:
-              _context3.prev = 25;
-              _context3.t0 = _context3["catch"](13);
-              console.error('Failed to fetch prayer times:', _context3.t0);
-              _this2.prayerData = [];
-              _this2.error = "Failed to fetch prayer times: ".concat(_context3.t0.message, ". Please check your internet connection or try again.");
-            case 30:
-              _context3.prev = 30;
-              _this2.loading = false;
-              _this2.submitted = true;
-              return _context3.finish(30);
-            case 34:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3, null, [[13, 25, 30, 34]]);
-      }))();
+    formatDate: function formatDate(dateStr) {
+      var date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      return "".concat(date.getDate().toString().padStart(2, '0'), "-").concat((date.getMonth() + 1).toString().padStart(2, '0'), "-").concat(date.getFullYear());
     },
-    submitSearch: function submitSearch() {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var geo;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              _this3.loading = true;
-              _this3.error = null;
-              _this3.prayerData = [];
-              _this3.useCurrentLocation = false;
-              _this3.lastAction = 'submitSearch';
-              _context4.prev = 5;
-              if (_this3.city) {
-                _context4.next = 8;
-                break;
-              }
-              throw new Error('Please enter a city name.');
-            case 8:
-              _context4.next = 10;
-              return _this3.geocodeCity(_this3.city);
-            case 10:
-              geo = _context4.sent;
-              _this3.latitude = geo.lat;
-              _this3.longitude = geo.lon;
-              _context4.next = 15;
-              return _this3.fetchPrayerTimes();
-            case 15:
-              _context4.next = 22;
-              break;
-            case 17:
-              _context4.prev = 17;
-              _context4.t0 = _context4["catch"](5);
-              console.error('Geocoding error:', _context4.t0);
-              _this3.prayerData = [];
-              _this3.error = "Could not find prayer times for \"".concat(_this3.city, "\". ").concat(_context4.t0.message);
-            case 22:
-              _context4.prev = 22;
-              _this3.loading = false;
-              _this3.submitted = true;
-              return _context4.finish(22);
-            case 26:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4, null, [[5, 17, 22, 26]]);
-      }))();
-    },
-    geocodeCity: function geocodeCity(city) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var url, res, data;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(city), "&format=json&limit=1");
-              _context5.next = 4;
-              return fetch(url);
-            case 4:
-              res = _context5.sent;
-              if (res.ok) {
-                _context5.next = 7;
-                break;
-              }
-              throw new Error("HTTP error! status: ".concat(res.status));
-            case 7:
-              _context5.next = 9;
-              return res.json();
-            case 9:
-              data = _context5.sent;
-              if (data.length) {
-                _context5.next = 12;
-                break;
-              }
-              throw new Error('City not found. Please try a different name or be more specific (e.g., "London, UK").');
-            case 12:
-              return _context5.abrupt("return", {
-                lat: parseFloat(data[0].lat),
-                lon: parseFloat(data[0].lon)
-              });
-            case 15:
-              _context5.prev = 15;
-              _context5.t0 = _context5["catch"](0);
-              console.error('Geocoding city failed:', _context5.t0);
-              throw new Error("Failed to find coordinates for \"".concat(city, "\". ").concat(_context5.t0.message));
-            case 19:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, null, [[0, 15]]);
-      }))();
+    isToday: function isToday(dateStr) {
+      var today = new Date().toISOString().split('T')[0];
+      return dateStr === today;
     },
     resetFields: function resetFields() {
-      this.city = '';
-      this.latitude = null;
-      this.longitude = null;
+      this.city = 'Nottingham';
+      this.country = 'UK';
+      this.method = '5';
+      this.school = '0';
+      this.adjustments = {
+        Fajr: 0,
+        Dhuhr: 0,
+        Asr: 0,
+        Maghrib: 0,
+        Isha: 0
+      };
       this.prayerData = [];
       this.submitted = false;
-      this.error = null;
-      this.useCurrentLocation = true;
-      this.getCurrentLocation();
-    },
-    setDefaultLocation: function setDefaultLocation() {
-      this.city = 'London';
-      this.country = 'United Kingdom';
-      this.latitude = 51.5074;
-      this.longitude = -0.1278;
-      this.useCurrentLocation = false;
-      this.fetchPrayerTimes();
-    },
-    retryLastAction: function retryLastAction() {
-      if (this.lastAction === 'getCurrentLocation') {
-        this.getCurrentLocation();
-      } else if (this.lastAction === 'submitSearch') {
-        this.submitSearch();
-      }
+      this.errorMessage = '';
+      this.showAdjustments = false;
     }
   }
 });
@@ -55886,177 +55677,282 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
   "class": "container-fluid py-4"
 };
 var _hoisted_2 = {
-  "class": "container"
+  "class": "container mb-5"
 };
 var _hoisted_3 = {
-  "class": "row mb-4"
+  "class": "row justify-content-center"
 };
 var _hoisted_4 = {
   "class": "col-md-8"
 };
 var _hoisted_5 = {
+  "class": "search-container mb-4"
+};
+var _hoisted_6 = {
+  "class": "input-group"
+};
+var _hoisted_7 = {
+  "class": "container"
+};
+var _hoisted_8 = {
+  "class": "row mb-4"
+};
+var _hoisted_9 = {
+  "class": "col-md-6"
+};
+var _hoisted_10 = {
   "class": "mb-3"
 };
-var _hoisted_6 = ["value"];
-var _hoisted_7 = {
+var _hoisted_11 = ["value"];
+var _hoisted_12 = {
+  "class": "col-md-6"
+};
+var _hoisted_13 = {
+  "class": "mb-3"
+};
+var _hoisted_14 = ["value"];
+var _hoisted_15 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fade show",
   role: "alert"
 };
-var _hoisted_8 = {
+var _hoisted_16 = {
   "class": "container text-center"
 };
-var _hoisted_9 = {
-  "class": "card dua-card text-dark rounded-3 p-3 shadow-sm"
-};
-var _hoisted_10 = ["innerHTML"];
-var _hoisted_11 = {
-  "class": "row align-items-center mt-3"
-};
-var _hoisted_12 = {
-  "class": "col-md-10"
-};
-var _hoisted_13 = ["innerHTML"];
-var _hoisted_14 = {
-  "class": "row align-items-center"
-};
-var _hoisted_15 = {
-  "class": "col-md-10"
-};
-var _hoisted_16 = ["innerHTML"];
 var _hoisted_17 = {
-  "class": "d-flex justify-content-between align-items-center"
+  key: 0,
+  "class": "alert alert-info"
 };
 var _hoisted_18 = {
-  "class": "text-center"
+  "class": "fw-bold text-left mb-4 category-title"
 };
 var _hoisted_19 = {
-  "class": "text-center"
+  "class": "card dua-card shadow-sm"
 };
 var _hoisted_20 = {
-  "class": "text-center"
+  "class": "card-header"
 };
-var _hoisted_21 = ["onClick"];
+var _hoisted_21 = ["innerHTML"];
 var _hoisted_22 = {
-  "class": "text-center"
+  "class": "card-body"
 };
-var _hoisted_23 = ["onClick"];
+var _hoisted_23 = {
+  "class": "row align-items-center mb-3"
+};
+var _hoisted_24 = {
+  "class": "col-10"
+};
+var _hoisted_25 = ["innerHTML"];
+var _hoisted_26 = {
+  "class": "row align-items-center mb-3"
+};
+var _hoisted_27 = {
+  "class": "col-12"
+};
+var _hoisted_28 = ["innerHTML"];
+var _hoisted_29 = {
+  "class": "row align-items-center"
+};
+var _hoisted_30 = {
+  "class": "col-12"
+};
+var _hoisted_31 = ["innerHTML"];
+var _hoisted_32 = {
+  "class": "card-footer d-flex justify-content-between align-items-center"
+};
+var _hoisted_33 = {
+  "class": "text-center action-item"
+};
+var _hoisted_34 = {
+  "class": "text-center action-item"
+};
+var _hoisted_35 = {
+  "class": "text-center action-item"
+};
+var _hoisted_36 = ["onClick"];
+var _hoisted_37 = {
+  "class": "text-center action-item"
+};
+var _hoisted_38 = ["onClick"];
+var _hoisted_39 = {
+  "class": "pagination d-flex justify-content-center mt-4"
+};
+var _hoisted_40 = ["disabled", "onClick"];
+var _hoisted_41 = {
+  "class": "align-self-center pagination-text"
+};
+var _hoisted_42 = ["disabled", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold text-center mb-4"
-  }, "Dua Collection", -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Dua Collection", -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container lead"
-  }, " The Dua Collection presents a thoughtfully curated selection of authentic Islamic supplications (duas), carefully organized into meaningful categories such as forgiveness, protection, healing, gratitude, and many more. Each dua is sourced from reliable traditional texts to help you connect spiritually and seek guidance in various aspects of life. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, " The Dua Collection presents a thoughtfully curated selection of authentic Islamic supplications (duas), carefully organized into meaningful categories such as forgiveness, protection, healing, gratitude, and many more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input (Prominent and Top of Hierarchy) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "fw-bold text-center mb-3"
+  }, "Search Duas", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "input-group-text bg-primary text-white"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.searchQuery = $event;
+    }),
+    type: "text",
+    "class": "form-control form-control-lg search-input",
+    placeholder: "Search by title, Arabic, translation, or reference...",
+    "aria-label": "Search Duas",
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.resetPagination && $options.resetPagination.apply($options, arguments);
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     "class": "fw-bold text-left pt-2 pb-2 container"
   }, "Select a Category:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.selectedCategory = $event;
     }),
-    "class": "form-select"
-  }, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "class": "form-select",
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.resetPagination && $options.resetPagination.apply($options, arguments);
+    })
+  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "Select a Dua Category", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " Duas) ", 9 /* TEXT, PROPS */, _hoisted_6);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])])])]), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Content copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " Duas) ", 9 /* TEXT, PROPS */, _hoisted_11);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "fw-bold text-left pt-2 pb-2 container"
+  }, "Select a Reference:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.selectedReference = $event;
+    }),
+    "class": "form-select",
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.resetPagination && $options.resetPagination.apply($options, arguments);
+    })
+  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: ""
+  }, "Select a Reference", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueReferences, function (reference) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: reference,
+      value: reference
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference), 9 /* TEXT, PROPS */, _hoisted_14);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])]), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Content copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
-    onClick: _cache[1] || (_cache[1] = function ($event) {
+    onClick: _cache[6] || (_cache[6] = function ($event) {
       return $data.showCopyMessage = false;
     }),
     "aria-label": "Close"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, " No duas found matching your search criteria. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
-      "class": "row mb-4"
-    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
+      "class": "row mb-5"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
-        "class": "col-md-6"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-        "class": "pb-2",
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize + 'px'
-        }),
+        "class": "col-md-6 mb-4"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+        "class": "mb-0 fw-bold text-left title-text",
         innerHTML: $options.highlightText(dua.title)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "col-md-2 text-center"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (currently commented out) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.arabic, 'ar')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play Arabic\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+      }, null, 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "col-2 text-center"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (uncomment to enable) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h4 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.arabic, 'ar')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play Arabic\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $data.fontSize + 'px'
         }),
-        "class": "text-right",
+        "class": "text-right arabic-text",
         innerHTML: $options.highlightText(dua.arabic)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_13)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Translation Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_25)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Translation Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize + 'px'
+          fontSize: $data.fontSize * 0.9 + 'px'
         }),
-        "class": "text-left",
+        "class": "text-left translation-text",
         innerHTML: $options.highlightText(dua.translation)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_16)]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "col-md-2 text-center"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (currently commented out) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h3 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.translation, 'en')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play English\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_28)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Reference Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize + 'px'
+          fontSize: $data.fontSize * 0.8 + 'px'
         }),
-        "class": "text-left mt-1 small-text text-secondary"
-      }, "-" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.reference), 5 /* TEXT, STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Decrease "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-dash-circle icon-hover",
-        onClick: _cache[2] || (_cache[2] = function ($event) {
+        "class": "text-left reference-text text-secondary",
+        innerHTML: $options.highlightText('- ' + dua.reference)
+      }, null, 12 /* STYLE, PROPS */, _hoisted_31)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-circle action-btn",
+        onClick: _cache[7] || (_cache[7] = function ($event) {
           return $options.changeFontSize('decrease');
         }),
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Decrease Font Size",
-        "aria-label": "Decrease Font Size",
-        role: "button"
-      }), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small"
-      }, "Decrease", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Size Increase "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-plus-circle icon-hover",
-        onClick: _cache[3] || (_cache[3] = function ($event) {
+        "aria-label": "Decrease Font Size"
+      }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-dash-circle"
+      }, null, -1 /* HOISTED */)]))), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "action-label"
+      }, "Decrease", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-circle action-btn",
+        onClick: _cache[8] || (_cache[8] = function ($event) {
           return $options.changeFontSize('increase');
         }),
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Increase Font Size",
-        "aria-label": "Increase Font Size",
-        role: "button"
-      }), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small"
-      }, "Increase", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "aria-label": "Increase Font Size"
+      }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-plus-circle"
+      }, null, -1 /* HOISTED */)]))), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "action-label"
+      }, "Increase", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-circle action-btn",
         onClick: function onClick($event) {
           return $options.shareOnWhatsApp(dua);
         },
-        "class": "bi bi-share icon-hover",
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Share",
-        "aria-label": "Share content",
-        role: "button"
-      }, null, 8 /* PROPS */, _hoisted_21), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small"
-      }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-clipboard icon-hover",
+        "aria-label": "Share content"
+      }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-share"
+      }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_36), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "action-label"
+      }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "btn btn-circle action-btn",
         onClick: function onClick($event) {
           return $options.copyContent(dua);
         },
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Copy Content",
-        "aria-label": "Copy content",
-        role: "button"
-      }, null, 8 /* PROPS */, _hoisted_23), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "small"
+        "aria-label": "Copy content"
+      }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-clipboard"
+      }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_38), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "action-label"
       }, "Copy", -1 /* HOISTED */))])])])]);
-    }), 128 /* KEYED_FRAGMENT */))]);
+    }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-outline-primary me-2",
+      disabled: $data.currentPage[category.id] === 1,
+      onClick: function onClick($event) {
+        return $options.changePage('prev', category.id);
+      }
+    }, " Previous ", 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-outline-primary ms-2",
+      disabled: $data.currentPage[category.id] >= $options.totalPages(category.duas),
+      onClick: function onClick($event) {
+        return $options.changePage('next', category.id);
+      }
+    }, " Next ", 8 /* PROPS */, _hoisted_42)])]);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
@@ -58866,191 +58762,188 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "prayer-times-app"
+  "class": "container-fluid my-3 d-flex justify-content-center"
 };
 var _hoisted_2 = {
-  "class": "container-fluid my-4 d-flex justify-content-center"
-};
-var _hoisted_3 = {
-  "class": "main-card shadow-lg p-4 w-100",
+  "class": "card shadow p-4 w-100",
   style: {
     "max-width": "1500px"
   }
 };
+var _hoisted_3 = {
+  "class": "flex-grow-1"
+};
 var _hoisted_4 = {
-  "class": "search-inputs"
+  "class": "flex-grow-1"
 };
 var _hoisted_5 = {
-  "class": "input-group"
+  "class": "flex-grow-1"
 };
 var _hoisted_6 = {
-  "class": "input-group"
+  "class": "flex-grow-1"
 };
-var _hoisted_7 = ["value"];
-var _hoisted_8 = {
-  "class": "action-buttons"
+var _hoisted_7 = {
+  "class": "d-flex gap-2 align-items-end"
 };
-var _hoisted_9 = ["disabled"];
-var _hoisted_10 = {
+var _hoisted_8 = ["disabled"];
+var _hoisted_9 = {
   key: 0
 };
+var _hoisted_10 = {
+  key: 1,
+  "class": "spinner-border spinner-border-sm",
+  role: "status",
+  "aria-label": "Loading"
+};
 var _hoisted_11 = {
-  key: 1
-};
-var _hoisted_12 = ["disabled"];
-var _hoisted_13 = {
   key: 0,
-  "class": "loading-container"
+  "class": "container mb-4"
 };
-var _hoisted_14 = {
-  "class": "loading-text"
+var _hoisted_12 = {
+  "class": "d-flex flex-wrap gap-3"
 };
+var _hoisted_13 = ["for"];
+var _hoisted_14 = ["id", "onUpdate:modelValue", "aria-label"];
 var _hoisted_15 = {
   key: 1,
-  "class": "prayer-times-section"
+  "class": "alert alert-light text-center py-2 shadow-sm border-lg",
+  role: "alert"
 };
 var _hoisted_16 = {
-  "class": "times-header"
+  key: 2,
+  "class": "alert alert-warning text-center mt-4",
+  role: "alert"
 };
 var _hoisted_17 = {
-  "class": "times-title"
+  key: 3,
+  "class": "table-responsive table-scroll mt-3",
+  "aria-live": "polite"
 };
 var _hoisted_18 = {
-  "class": "location-info"
+  "class": "text-center fw-semibold mb-3"
 };
 var _hoisted_19 = {
-  "class": "table-container"
+  "class": "table table-hover table-bordered text-center align-middle"
 };
 var _hoisted_20 = {
-  "class": "prayer-table"
-};
-var _hoisted_21 = {
-  "class": "date-cell"
-};
-var _hoisted_22 = {
-  "class": "date-main"
-};
-var _hoisted_23 = {
-  "class": "date-hijri"
-};
-var _hoisted_24 = {
-  "class": "time-cell"
-};
-var _hoisted_25 = {
-  "class": "time-cell sunrise"
-};
-var _hoisted_26 = {
-  "class": "time-cell"
-};
-var _hoisted_27 = {
-  "class": "time-cell"
-};
-var _hoisted_28 = {
-  "class": "time-cell"
-};
-var _hoisted_29 = {
-  "class": "time-cell"
-};
-var _hoisted_30 = {
-  key: 2,
-  "class": "alert alert-warning text-center"
-};
-var _hoisted_31 = {
-  key: 3,
-  "class": "alert alert-danger text-center"
-};
-var _hoisted_32 = {
-  "class": "quick-info mt-4"
-};
-var _hoisted_33 = {
-  "class": "info-cards"
-};
-var _hoisted_34 = {
-  "class": "info-card"
-};
-var _hoisted_35 = {
-  "class": "info-text"
-};
-var _hoisted_36 = {
-  "class": "info-card"
-};
-var _hoisted_37 = {
-  "class": "info-text"
+  "class": "fw-semibold"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "hero-section"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "main-title"
-  }, "🕌 Prayer Times Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "subtitle"
-  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.submitSearch && $options.submitSearch.apply($options, arguments);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "text-center fw-bold display-4 py-2 mt-4 mb-2"
+  }, "Prayer Times Calendar", -1 /* HOISTED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center mb-4 lead container"
+  }, " Get accurate Salah times for any city worldwide. Enter a specific city and country for best results. Times are in the city's local timezone. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.getPrayerTimes && $options.getPrayerTimes.apply($options, arguments);
     }, ["prevent"])),
-    "class": "search-form mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4",
+    "aria-label": "Prayer Times Search"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "city",
-    "class": "form-label"
-  }, "🏙️ City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-label fw-bold"
+  }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.city = $event;
     }),
-    "class": "form-control city-input",
-    placeholder: "Enter your city...",
-    required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "methodSelect"
-  }, "📖 Calculation Method", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "methodSelect",
+    "class": "form-control",
+    placeholder: "Enter city (e.g., London)",
+    required: "",
+    "aria-label": "City name",
+    autofocus: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "country",
+    "class": "form-label fw-bold"
+  }, "Country", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "country",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.country = $event;
+    }),
+    "class": "form-control",
+    placeholder: "Enter country (e.g., UK)",
+    required: "",
+    "aria-label": "Country code or name"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.country]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "method",
+    "class": "form-label fw-bold"
+  }, "Calculation Method", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "method",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.method = $event;
     }),
-    "class": "form-select method-select"
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.methodOptions, function (name, id) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: id,
-      value: id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    "class": "btn btn-primary search-btn",
-    disabled: $data.loading
-  }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "🔍 Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, "⏳ Searching..."))], 8 /* PROPS */, _hoisted_9), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-outline-success location-btn",
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.resetFields && $options.resetFields.apply($options, arguments);
+    "class": "form-select",
+    required: "",
+    "aria-label": "Calculation method"
+  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<option disabled value=\"\" data-v-02228b8a>Select a method</option><option value=\"5\" data-v-02228b8a>Muslim World League</option><option value=\"3\" data-v-02228b8a>ISNA</option><option value=\"1\" data-v-02228b8a>Egyptian</option><option value=\"7\" data-v-02228b8a>Umm al-Qura</option><option value=\"4\" data-v-02228b8a>Karachi</option>", 6)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "school",
+    "class": "form-label fw-bold"
+  }, "School of Thought", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "school",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.school = $event;
     }),
+    "class": "form-select",
+    required: "",
+    "aria-label": "School of thought"
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "0"
+  }, "Shafi/Maliki/Hambali", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "1"
+  }, "Hanafi", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.school]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    style: {
+      "background-color": "rgb(13, 182, 145)",
+      "color": "white"
+    },
+    "class": "btn px-4 shadow",
     disabled: $data.loading
-  }, " 📍 Use My Location ", 8 /* PROPS */, _hoisted_12)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "loading-spinner"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_14, " 🔄 Fetching prayer times for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city || 'your location') + "... ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times Table "), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_17, " 📅 Prayer Times for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📍 " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["location-badge", $data.useCurrentLocation ? 'current-location' : 'search-location'])
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? 'Current Location' : 'Search Results'), 3 /* TEXT, CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_20, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "📅 Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌅 Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "☀️ Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌞 Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌤️ Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌅 Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "🌙 Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: day.date.gregorian.date,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        'today-row': $options.isToday(day.date.gregorian.date)
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(day.date.gregorian.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.hijri.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.hijri.month.en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.prayerData.length === 0 && $data.submitted && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "alert-icon"
-  }, "⚠️", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "No prayer times found. Please check your city or try another calculation method.", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error State "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "alert-icon"
-  }, "❌", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-sm btn-outline-danger mt-2",
+  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-2"
+  }, null, -1 /* HOISTED */)), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9, "Get Times")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10))], 8 /* PROPS */, _hoisted_8), $data.submitted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-outline-secondary px-4",
     onClick: _cache[4] || (_cache[4] = function () {
-      return $options.retryLastAction && $options.retryLastAction.apply($options, arguments);
+      return $options.resetFields && $options.resetFields.apply($options, arguments);
     })
-  }, " 🔄 Try Again ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quick Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "info-icon"
-  }, "🕐", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Next Prayer", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getNextPrayer()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "info-icon"
-  }, "🌍", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, "Method Used", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.methodOptions[$data.method]), 1 /* TEXT */)])])])])])])]);
+  }, " Clear All ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-outline-info px-4",
+    onClick: _cache[5] || (_cache[5] = function ($event) {
+      return $data.showAdjustments = !$data.showAdjustments;
+    })
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showAdjustments ? 'Hide' : 'Show') + " Adjustments ", 1 /* TEXT */)])], 32 /* NEED_HYDRATION */), $data.showAdjustments ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    "class": "fw-bold"
+  }, "Time Adjustments (minutes)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'], function (prayer) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      key: prayer,
+      "class": "flex-grow-1"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+      "for": prayer,
+      "class": "form-label"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer), 9 /* TEXT, PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      id: prayer,
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return $data.adjustments[prayer] = $event;
+      },
+      type: "number",
+      "class": "form-control",
+      placeholder: "0",
+      "aria-label": "".concat(prayer, " adjustment in minutes")
+    }, null, 8 /* PROPS */, _hoisted_14), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.adjustments[prayer], void 0, {
+      number: true
+    }]])]);
+  }), 64 /* STABLE_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && $data.submitted && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, " 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + ") ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, " ⚠️ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_18, " 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_19, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+    "class": "table-secondary sticky-top"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: day.date,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+        'table-primary': $options.isToday(day.date)
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(day.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.fajr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dhuhr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.asr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.maghrib), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.isha), 1 /* TEXT */)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -59365,7 +59258,7 @@ var _hoisted_19 = {
   "class": "content"
 };
 var _hoisted_20 = {
-  key: 0,
+  key: 1,
   "class": "container-fluid"
 };
 var _hoisted_21 = {
@@ -59605,8 +59498,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_SurahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("SurahDropdown");
   var _component_AyahDropdown = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahDropdown");
   var _component_ErrorAlert = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ErrorAlert");
-  var _component_NavTabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavTabs");
   var _component_Welcome = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Welcome");
+  var _component_NavTabs = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("NavTabs");
   var _component_TranslationSection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationSection");
   var _component_TranslationActions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TranslationActions");
   var _component_TafseerSection = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("TafseerSection");
@@ -59685,7 +59578,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "border-radius": "15px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, " Verse: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ayah.ayah_text), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_17, "Verse Breakdown...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_17, "Verse Breakdown...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.surah != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Welcome, {
+    key: 0,
+    information: $data.information
+  }, null, 8 /* PROPS */, ["information"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_NavTabs), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" toogle between basic/advanced "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container text-center\">\n                                        <div\n                                            class=\"row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light\">\n                                            -- Advanced Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Advanced</span>\n                                            </div>\n\n                                            -- Switch --\n                                            <div class=\"col\">\n                                                <div\n                                                    class=\"form-check form-switch d-flex justify-content-center align-items-center\">\n                                                    <input class=\"form-check-input h4 pr-5 shadow-lg text-center\"\n                                                        style=\"background-color: rgba(0, 191, 166); border-color: grey;\"\n                                                        type=\"checkbox\" role=\"switch\" id=\"flexSwitchCheckDefault\"\n                                                        v-model=\"isVisible\" @change=\"saveToggleState\" />\n                                                </div>\n                                            </div>\n\n                                            -- Basic Label --\n                                            <div class=\"col\">\n                                                <span class=\"fw-semibold text-muted\">Basic</span>\n                                            </div>\n                                        </div>\n                                    </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah info Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "modal fade",
     id: "translationInfo",
     tabindex: "-1",
@@ -162971,8 +162867,10 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Default font size for mobile devices */\n.dua-card-content[data-v-7926cb50] {\n  font-size: 18px;\n  /* Increased mobile default font size */\n}\n/* Increase font size for tablets (768px and above) */\n@media (min-width: 768px) {\n.dua-card-content[data-v-7926cb50] {\n    font-size: 22px;\n    /* Increased tablet font size */\n}\n}\n/* Increase font size further for desktop screens (1024px and above) */\n@media (min-width: 1024px) {\n.dua-card-content[data-v-7926cb50] {\n    font-size: 26px;\n    /* Increased desktop font size */\n}\n}\n.dua-card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 10px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 10px;\n  background: rgb(13, 182, 145);\n}\n.dua-description[data-v-7926cb50] {\n  color: #000000;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  /* Your desired highlight color */\n  color: white;\n  /* Optional: Change text color inside the highlight */\n}\n.icon-hover[data-v-7926cb50]:hover {\n  color: rgb(13, 182, 145) !important;\n  /* Change color on hover */\n}\n.card[data-v-7926cb50] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgba(148, 208, 195, 0.179);\n  padding: 10px;\n  border-radius: 20%;\n  border: 4px solid rgb(164, 197, 190);\n  color: white;\n  font-style: bolder;\n}\n.dua-card[data-v-7926cb50] {\n  text-align: center;\n  color: black;\n}\n.pagination button[data-v-7926cb50] {\n  margin: 5px;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1024px) {\n.dua-card-content[data-v-7926cb50] {\n    font-size: 26px;\n}\n}\n.dua-description[data-v-7926cb50] {\n  color: #333333;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  padding: 0.1em 0.2em;\n  border-radius: 3px;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: #ffffff;\n  border: 1px solid #e0e0e0;\n  border-radius: 12px;\n  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.card-header[data-v-7926cb50] {\n  background-color: #f8f9fa;\n  border-bottom: 1px solid #e0e0e0;\n  padding: 1rem 1.25rem;\n  border-radius: 12px 12px 0 0;\n}\n.card-body[data-v-7926cb50] {\n  padding: 1.5rem;\n}\n.card-footer[data-v-7926cb50] {\n  background-color: #f8f9fa;\n  border-top: 1px solid #e0e0e0;\n  padding: 0.75rem 1.25rem;\n  border-radius: 0 0 12px 12px;\n}\n.title-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.5rem;\n  font-weight: 700;\n  color: #1a1a1a;\n  line-height: 1.4;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-size: 1.8rem;\n  font-weight: 400;\n  color: #1a1a1a;\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.2rem;\n  font-weight: 300;\n  color: #333333;\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  font-weight: 400;\n  color: #6c757d;\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.75rem;\n  font-weight: 600;\n  color: #1a1a1a;\n}\n.action-btn[data-v-7926cb50] {\n  border-radius: 50%;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background-color 0.2s, color 0.2s;\n}\n.action-btn[data-v-7926cb50]:hover {\n  background-color: rgb(13, 182, 145);\n  color: #ffffff;\n}\n.action-btn i[data-v-7926cb50] {\n  font-size: 1.1rem;\n}\n.action-label[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 0.8rem;\n  color: #333333;\n  margin-top: 0.25rem;\n}\n.pagination button[data-v-7926cb50] {\n  border-radius: 8px;\n  padding: 0.5rem 1.25rem;\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  transition: background-color 0.2s, color 0.2s;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: rgb(13, 182, 145);\n  color: #ffffff;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n.pagination-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  color: #333333;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.2s ease-in-out;\n}\n.search-container[data-v-7926cb50]:hover {\n  transform: scale(1.02);\n}\n.search-input[data-v-7926cb50] {\n  border-radius: 0 0.375rem 0.375rem 0;\n  padding: 0.75rem;\n  font-size: 1.1rem;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: rgb(13, 182, 145);\n  box-shadow: 0 0 8px rgba(13, 182, 145, 0.3);\n}\n.input-group-text[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  border: none;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.2rem;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: rgb(13, 182, 145);\n  box-shadow: 0 0 5px rgba(13, 182, 145, 0.5);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -163310,7 +163208,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prayer-times-app[data-v-02228b8a] {\n  min-height: 100vh;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n.hero-section[data-v-02228b8a] {\n  text-align: center;\n  padding: 2rem 1rem;\n  color: white;\n}\n.main-title[data-v-02228b8a] {\n  font-size: 3rem;\n  font-weight: 700;\n  margin-bottom: 1rem;\n  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);\n}\n.subtitle[data-v-02228b8a] {\n  font-size: 1.2rem;\n  opacity: 0.9;\n  max-width: 600px;\n  margin: 0 auto;\n  line-height: 1.6;\n}\n.main-card[data-v-02228b8a] {\n  border-radius: 2rem;\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 1px solid rgba(255, 255, 255, 0.2);\n}\n.search-form[data-v-02228b8a] {\n  background: linear-gradient(145deg, #f8f9ff, #e8f0ff);\n  padding: 2rem;\n  border-radius: 1.5rem;\n  border: 1px solid rgba(102, 126, 234, 0.1);\n}\n.search-inputs[data-v-02228b8a] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 1.5rem;\n  margin-bottom: 1.5rem;\n}\n.input-group label[data-v-02228b8a] {\n  font-weight: 600;\n  color: #4a5568;\n  margin-bottom: 0.5rem;\n  display: block;\n}\n.city-input[data-v-02228b8a], .method-select[data-v-02228b8a] {\n  border: 2px solid #e2e8f0;\n  border-radius: 0.75rem;\n  padding: 0.75rem 1rem;\n  font-size: 1rem;\n  transition: all 0.3s ease;\n}\n.city-input[data-v-02228b8a]:focus, .method-select[data-v-02228b8a]:focus {\n  border-color: #667eea;\n  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);\n  outline: none;\n}\n.action-buttons[data-v-02228b8a] {\n  display: flex;\n  gap: 1rem;\n  justify-content: center;\n}\n.search-btn[data-v-02228b8a], .location-btn[data-v-02228b8a] {\n  padding: 0.75rem 2rem;\n  border-radius: 0.75rem;\n  font-weight: 600;\n  transition: all 0.3s ease;\n  border: none;\n}\n.search-btn[data-v-02228b8a] {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  color: white;\n}\n.search-btn[data-v-02228b8a]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);\n}\n.location-btn[data-v-02228b8a] {\n  background: transparent;\n  border: 2px solid #48bb78;\n  color: #48bb78;\n}\n.location-btn[data-v-02228b8a]:hover:not(:disabled) {\n  background: #48bb78;\n  color: white;\n  transform: translateY(-2px);\n}\n.loading-container[data-v-02228b8a] {\n  text-align: center;\n  padding: 3rem;\n}\n.loading-spinner[data-v-02228b8a] {\n  margin-bottom: 1rem;\n}\n.spinner[data-v-02228b8a] {\n  width: 50px;\n  height: 50px;\n  border: 4px solid #e2e8f0;\n  border-top: 4px solid #667eea;\n  border-radius: 50%;\n  animation: spin-02228b8a 1s linear infinite;\n  margin: 0 auto;\n}\n@keyframes spin-02228b8a {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n.loading-text[data-v-02228b8a] {\n  color: #667;\n  font-size: 1.1rem;\n}\n.prayer-times-section[data-v-02228b8a] {\n  margin-top: 2rem;\n}\n.times-header[data-v-02228b8a] {\n  text-align: center;\n  margin-bottom: 2rem;\n}\n.times-title[data-v-02228b8a] {\n  color: #2d3748;\n  font-size: 1.8rem;\n  margin-bottom: 1rem;\n}\n.location-info[data-v-02228b8a] {\n  color: #4a5568;\n  font-size: 1.1rem;\n}\n.location-badge[data-v-02228b8a] {\n  display: inline-block;\n  padding: 0.25rem 0.75rem;\n  border-radius: 1rem;\n  font-size: 0.875rem;\n  font-weight: 600;\n  margin-left: 0.5rem;\n}\n.current-location[data-v-02228b8a] {\n  background: #c6f6d5;\n  color: #22543d;\n}\n.search-location[data-v-02228b8a] {\n  background: #bee3f8;\n  color: #2a4365;\n}\n.table-container[data-v-02228b8a] {\n  overflow-x: auto;\n  border-radius: 1rem;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n.prayer-table[data-v-02228b8a] {\n  width: 100%;\n  border-collapse: collapse;\n  background: white;\n  font-size: 0.95rem;\n}\n.prayer-table th[data-v-02228b8a] {\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  color: white;\n  padding: 1rem;\n  text-align: center;\n  font-weight: 600;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.prayer-table td[data-v-02228b8a] {\n  padding: 1rem;\n  text-align: center;\n  border-bottom: 1px solid #e2e8f0;\n  transition: background-color 0.2s ease;\n}\n.prayer-table tr[data-v-02228b8a]:hover {\n  background-color: #f7fafc;\n}\n.today-row[data-v-02228b8a] {\n  background-color: #fff5f5 !important;\n  border-left: 4px solid #f56565;\n}\n.today-row[data-v-02228b8a]:hover {\n  background-color: #fed7d7 !important;\n}\n.date-cell[data-v-02228b8a] {\n  text-align: left !important;\n}\n.date-main[data-v-02228b8a] {\n  font-weight: 600;\n  color: #2d3748;\n}\n.date-hijri[data-v-02228b8a] {\n  font-size: 0.8rem;\n  color: #718096;\n  margin-top: 0.25rem;\n}\n.time-cell[data-v-02228b8a] {\n  font-weight: 500;\n  font-family: 'Courier New', monospace;\n}\n.time-cell.sunrise[data-v-02228b8a] {\n  color: #d69e2e;\n  font-weight: 600;\n}\n.alert[data-v-02228b8a] {\n  border-radius: 1rem;\n  padding: 1.5rem;\n  margin: 1rem 0;\n}\n.alert-icon[data-v-02228b8a] {\n  font-size: 2rem;\n  margin-bottom: 0.5rem;\n}\n.quick-info[data-v-02228b8a] {\n  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);\n  border-radius: 1rem;\n  padding: 1.5rem;\n}\n.info-cards[data-v-02228b8a] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 1rem;\n}\n.info-card[data-v-02228b8a] {\n  display: flex;\n  align-items: center;\n  background: white;\n  padding: 1rem;\n  border-radius: 0.75rem;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n}\n.info-icon[data-v-02228b8a] {\n  font-size: 2rem;\n  margin-right: 1rem;\n}\n.info-text h4[data-v-02228b8a] {\n  margin: 0 0 0.25rem 0;\n  color: #2d3748;\n  font-size: 1rem;\n}\n.info-text p[data-v-02228b8a] {\n  margin: 0;\n  color: #4a5568;\n  font-size: 0.9rem;\n}\n\n/* Responsive Design */\n@media (max-width: 768px) {\n.main-title[data-v-02228b8a] {\n    font-size: 2rem;\n}\n.search-inputs[data-v-02228b8a] {\n    grid-template-columns: 1fr;\n    gap: 1rem;\n}\n.action-buttons[data-v-02228b8a] {\n    flex-direction: column;\n    align-items: center;\n}\n.search-btn[data-v-02228b8a], .location-btn[data-v-02228b8a] {\n    width: 100%;\n    max-width: 300px;\n}\n.prayer-table th[data-v-02228b8a],\n  .prayer-table td[data-v-02228b8a] {\n    padding: 0.5rem;\n    font-size: 0.8rem;\n}\n.main-title[data-v-02228b8a] {\n    font-size: 2rem;\n}\n}\n@media (max-width: 480px) {\n.hero-section[data-v-02228b8a] {\n    padding: 1rem;\n}\n.main-title[data-v-02228b8a] {\n    font-size: 1.8rem;\n}\n.subtitle[data-v-02228b8a] {\n    font-size: 1rem;\n}\n.search-form[data-v-02228b8a] {\n    padding: 1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
