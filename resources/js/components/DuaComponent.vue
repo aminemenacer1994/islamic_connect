@@ -27,7 +27,7 @@
         <div class="col-12 col-md-8">
           <div class="search-container mb-3">
             <div class="input-group">
-              <span class="input-group-text bg-primary text-white">
+              <span class="input-group-text text-white" style="background-color: #0db691;">
                 <i class="bi bi-search"></i>
               </span>
               <input
@@ -60,6 +60,7 @@
             <a
               class="nav-link"
               :class="{ active: viewMode === 'all' }"
+              href="#"
               @click.prevent="viewMode = 'all'; resetPagination()"
               aria-current="page"
             >
@@ -70,6 +71,7 @@
             <a
               class="nav-link"
               :class="{ active: viewMode === 'liked' }"
+              href="#"
               @click.prevent="viewMode = 'liked'; resetPagination()"
             >
               Liked Duas
@@ -123,11 +125,11 @@
         </button>
       </div>
       <div v-for="category in filteredDuas" :key="category.id" class="mb-4">
-        <h3 style="display: flex;" class="fw-semibold text-start mb-3 category-title">{{ category.name }}</h3>
+        <h3 class="fw-semibold text-start mb-3 category-title">{{ category.name }}</h3>
         <div class="row">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6 mb-3">
             <div class="card dua-card shadow-md" :style="{ '--font-size-base': fontSize + 'px' }">
-              <div class="card-body" >
+              <div class="card-body">
                 <h5 class="fw-semibold text-start title-text mb-3" v-html="highlightText(dua.title)"></h5>
                 <p class="text-end arabic-text mb-3" v-html="highlightText(dua.arabic)"></p>
                 <p class="text-start translation-text mb-3" v-html="highlightText(dua.translation)"></p>
@@ -180,7 +182,7 @@
                 </div>
                 <div class="icon-wrapper">
                   <i
-                    :class="likedDuas.includes(dua.id) ? 'bi bi-heart action-icon liked' : 'bi bi-heart action-icon'"
+                    :class="likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'"
                     @click="toggleLike(dua.id)"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -195,7 +197,7 @@
         </div>
         <div class="pagination d-flex justify-content-center align-items-center mt-3">
           <button
-            class="btn btn-outline-primary me-2"
+            class="btn btn-outline-secondary me-2"
             :disabled="currentPage[category.id] === 1"
             @click="changePage('prev', category.id)"
             aria-label="Previous Page"
@@ -204,7 +206,7 @@
           </button>
           <span class="pagination-text">{{ currentPage[category.id] }} / {{ totalPages(category.duas) }}</span>
           <button
-            class="btn btn-outline-primary ms-2"
+            class="btn btn-outline-secondary ms-2"
             :disabled="currentPage[category.id] >= totalPages(category.duas)"
             @click="changePage('next', category.id)"
             aria-label="Next Page"
@@ -437,41 +439,43 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
 
-/* :root {
-  --primary: rgb(10, 160, 130);
-  --primary-dark: rgb(8, 128, 104);
-  --text-dark: #111827;
-  --text-muted: #374151;
-  --bg-card: #f9fafb;
-  --bg-body: #ffffff;
-} */
-
+body {
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #000000;
+}
 
 h1 {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
   font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
 }
 
 .lead {
+  font-size: clamp(1.125rem, 3vw, 1.25rem);
   font-weight: 400;
+  line-height: 1.5;
 }
 
-
 mark {
+  background-color: #0db691;
   color: white;
-  padding: 0.1em 0.2em;
+  padding: 0.1em 0.3em;
   border-radius: 3px;
 }
 
 .dua-card {
-  background-color: var(--bg-card);
+  background-color: #ffffff;
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dua-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card-body {
@@ -485,51 +489,57 @@ mark {
 }
 
 .title-text {
-  font-size: clamp(1.125rem, 3vw, 1.25rem);
-  font-weight: 600;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 500;
   line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 
 .arabic-text {
   font-family: 'Amiri', serif;
   font-weight: 400;
-  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 24px);
+  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 26px);
   line-height: 1.6;
   direction: rtl;
 }
 
 .translation-text {
   font-weight: 400;
-  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 22px);
+  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 24px);
   line-height: 1.5;
 }
 
 .reference-text {
   font-weight: 400;
-  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 20px);
+  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 22px);
   line-height: 1.4;
 }
 
 .category-title {
-  font-size: clamp(1.25rem, 4vw, 1.5rem);
-  font-weight: 600;
+  font-size: clamp(1.5rem, 4vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
 }
 
 .icon-wrapper {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 0.75rem;
 }
 
 .action-icon {
+  font-size: clamp(1.75rem, 5vw, 2rem);
+  color: #6b7280;
   cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .action-icon:hover {
-  color: var(--primary);
+  color: #0db691;
   transform: scale(1.15);
 }
 
@@ -548,14 +558,18 @@ mark {
   100% { transform: scale(1); }
 }
 
+
+
 .nav-tabs {
   border: none;
 }
 
 .nav-link {
-  font-size: clamp(1.125rem, 3vw, 1.375rem);
-  font-weight: 600;
-  padding: 1rem 2rem;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  font-weight: 500;
+  color: #6b7280;
+  background-color: #e5e7eb;
+  padding: 0.75rem 1.5rem;
   border-radius: 999px;
   letter-spacing: 0.02em;
   transition: all 0.3s ease;
@@ -563,21 +577,22 @@ mark {
 }
 
 .nav-link:hover {
-  color: var(--text-dark);
-  background-color: #000000;
-  color: #ffffff;
+  color: #000000;
+  background-color: #d1d5db;
 }
 
 .nav-link.active {
+  color: white;
+  background-color: #0db691;
   transform: scale(1.05);
-  box-shadow: 0 0 8px rgba(10, 160, 130, 0.3);
+  box-shadow: 0 0 8px rgba(13, 182, 145, 0.3);
 }
 
 .badge {
-  background-color: var(--primary);
+  background-color: #0db691;
   color: white;
   font-size: 0.875rem;
-  padding: 0.375rem 0.625rem;
+  padding: 0.375rem 0.75rem;
   border-radius: 999px;
   vertical-align: middle;
 }
@@ -587,17 +602,18 @@ mark {
   padding: 0.5rem 1rem;
   border-radius: 8px;
   min-height: 44px;
+  border-color: #d1d5db;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: var(--primary);
+  background-color: #0db691;
   color: white;
-  border-color: var(--primary);
+  border-color: #0db691;
 }
 
 .pagination-text {
   font-size: clamp(0.875rem, 3vw, 1rem);
-  color: var(--text-muted);
+  color: #6b7280;
   margin: 0 1rem;
 }
 
@@ -610,7 +626,6 @@ mark {
 }
 
 .input-group-text {
-  background-color: var(--primary);
   border: none;
   border-radius: 8px 0 0 8px;
   padding: 0.75rem;
@@ -620,11 +635,11 @@ mark {
 }
 
 .input-group-text i {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .search-input {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   padding: 0.75rem 1rem;
   border-radius: 0;
   border-color: #d1d5db;
@@ -632,8 +647,8 @@ mark {
 }
 
 .search-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(10, 160, 130, 0.1);
+  border-color: #0db691;
+  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);
 }
 
 .btn-outline-secondary {
@@ -642,26 +657,35 @@ mark {
   height: 48px;
   display: flex;
   align-items: center;
+  border-color: #d1d5db;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #0db691;
+  color: white;
+  border-color: #0db691;
 }
 
 .btn-outline-secondary i {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 
 .form-select {
   font-size: 1rem;
   padding: 0.75rem;
   border-radius: 8px;
+  border-color: #d1d5db;
 }
 
 .form-select:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(10, 160, 130, 0.1);
+  border-color: #0db691;
+  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);
 }
 
 .form-label {
   font-size: 1rem;
-  color: var(--text-dark);
+  color: #000000;
+  font-weight: 500;
 }
 
 .alert {
@@ -670,53 +694,53 @@ mark {
   border-radius: 8px;
 }
 
-/* .search-tags {
+.search-tags {
   display: flex;
   white-space: nowrap;
   scroll-behavior: smooth;
   -ms-overflow-style: none;
   scrollbar-width: none;
-} */
+}
 
 .search-tags::-webkit-scrollbar {
   display: none;
 }
 
 .tag-btn {
-  color: white;
-  background-color: #0db691;
+  background-color: #e5e7eb;
+  color: #000000;
   border: none;
-  border-radius: 999px;
+  border-radius: 10px;
   padding: 0.625rem 1.25rem;
-  font-size: 0.9375rem;
+  /* font-size: clamp(0.875rem, 3vw, 1rem); */
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 100px;
   text-align: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  /* text-overflow: ellipsis; */
+  /* overflow: hidden; */
   white-space: nowrap;
 }
 
 .tag-btn:hover {
-  background-color: #bfdbfe;
-  color: var(--text-dark);
+  background-color: #12d6a0;
+  color: white;
 }
 
 .tag-btn.active {
-  background-color: var(--primary-dark);
+  background-color: #0db691;
   color: white;
 }
 
 @media (max-width: 767.98px) {
   .action-icon {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 
   .icon-wrapper {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
+    margin: 0 0.5rem;
   }
 
   .dua-card {
@@ -728,14 +752,14 @@ mark {
   }
 
   .nav-link {
-    font-size: 1.125rem;
-    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
   }
 
   .tag-btn {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     padding: 0.5rem 1rem;
-    min-width: 90px;
+    /* min-width: 80px; */
   }
 }
 </style>
