@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid py-3">
-    <h1 class="fw-semibold text-center mb-3">Dua Collection</h1>
+  <div class="container-fluid py-4">
+    <h1 class="fw-bold text-center mb-3">Dua Collection</h1>
     <p class="text-center container lead text-muted mb-4">
       Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude.
     </p>
@@ -24,7 +24,7 @@
     <!-- Search Input -->
     <div class="container mb-4">
       <div class="row justify-content-center">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-10">
           <div class="search-container mb-3">
             <div class="input-group">
               <span class="input-group-text text-white" style="background-color: #0db691;">
@@ -34,7 +34,7 @@
                 v-model="searchQuery"
                 type="text"
                 class="form-control search-input"
-                placeholder="Search duas by title, Arabic, transliteration, translation, or reference"
+                placeholder="Search duas by title, Arabic words, paragraphs, translation or reference"
                 aria-label="Search Duas"
                 @input="resetPagination"
               />
@@ -86,7 +86,7 @@
     <div v-if="viewMode === 'all'" class="container mb-4">
       <div class="row">
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-semibold">Category</label>
+          <h5 class="form-label fw-bold">Select a Category:</h5>
           <select v-model="selectedCategory" class="form-select" @change="resetPagination">
             <option value="">All Categories</option>
             <option v-for="category in duaCollection" :key="category.id" :value="category.id">
@@ -95,7 +95,7 @@
           </select>
         </div>
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-semibold">Reference</label>
+          <h5 class="form-label fw-bold">Select a Reference:</h5>
           <select v-model="selectedReference" class="form-select" @change="resetPagination">
             <option value="">All References</option>
             <option v-for="reference in uniqueReferences" :key="reference" :value="reference">
@@ -335,15 +335,23 @@ export default {
   methods: {
     highlightText(text) {
       if (!this.searchQuery.trim() && !this.selectedTag) return text;
-      const terms = [
-        ...(this.searchQuery.trim() ? [this.searchQuery] : []),
-        ...(this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [])
-      ];
+      
       let highlightedText = text;
-      terms.forEach(term => {
+      
+      // Search query terms
+      const searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
+      searchTerms.forEach(term => {
         const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-search">$1</mark>');
       });
+      
+      // Tag terms (selectedTag + synonyms)
+      const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
+      tagTerms.forEach(term => {
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-tag">$1</mark>');
+      });
+      
       return highlightedText;
     },
     toggleTag(tag) {
@@ -445,6 +453,21 @@ body {
   color: #000000;
 }
 
+
+.mark-search {
+  background-color: #0db691;
+  color: #fff;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.mark-tag {
+  background-color: #0db691; /* Green for tags */
+  color: #ffffff;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
 h1 {
   font-size: clamp(2.25rem, 5vw, 3.25rem);
   font-weight: 600;
@@ -458,17 +481,10 @@ h1 {
   line-height: 1.5;
 }
 
-mark {
-  background-color: #0db691;
-  color: white;
-  padding: 0.1em 0.3em;
-  border-radius: 3px;
-}
-
 .dua-card {
   background-color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 18px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -479,13 +495,11 @@ mark {
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 2.0rem;
 }
 
 .card-footer {
-  background-color: transparent;
   border-top: none;
-  padding: 1rem 1.5rem;
 }
 
 .title-text {
@@ -523,8 +537,6 @@ mark {
 }
 
 .icon-wrapper {
-  width: 52px;
-  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -532,9 +544,10 @@ mark {
 }
 
 .action-icon {
-  font-size: clamp(1.75rem, 5vw, 2rem);
   color: #6b7280;
   cursor: pointer;
+  padding: 10px;
+  font-size: 1.5em;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -558,19 +571,16 @@ mark {
   100% { transform: scale(1); }
 }
 
-
-
 .nav-tabs {
   border: none;
 }
 
 .nav-link {
-  font-size: clamp(1rem, 3vw, 1.25rem);
   font-weight: 500;
-  color: #6b7280;
-  background-color: #e5e7eb;
+  color: #000000;
+  background-color:#e5e7eb;
   padding: 0.75rem 1.5rem;
-  border-radius: 999px;
+  border-radius: 10px;
   letter-spacing: 0.02em;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -578,19 +588,16 @@ mark {
 
 .nav-link:hover {
   color: #000000;
-  background-color: #d1d5db;
 }
 
 .nav-link.active {
-  color: white;
   background-color: #0db691;
+  color: white;
   transform: scale(1.05);
-  box-shadow: 0 0 8px rgba(13, 182, 145, 0.3);
 }
 
 .badge {
-  background-color: #0db691;
-  color: white;
+  background-color: #b60d0d;
   font-size: 0.875rem;
   padding: 0.375rem 0.75rem;
   border-radius: 999px;
@@ -682,12 +689,6 @@ mark {
   box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);
 }
 
-.form-label {
-  font-size: 1rem;
-  color: #000000;
-  font-weight: 500;
-}
-
 .alert {
   max-width: 500px;
   margin: 0 auto 1rem;
@@ -734,13 +735,12 @@ mark {
 
 @media (max-width: 767.98px) {
   .action-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .icon-wrapper {
-    width: 52px;
-    height: 52px;
-    margin: 0 0.5rem;
+    width: 46px;
+    height: 46px;
   }
 
   .dua-card {
