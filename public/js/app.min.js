@@ -36275,7 +36275,25 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       currentPage: {},
       duasPerPage: 20,
       showCopyMessage: false,
-      fontSize: 18
+      fontSize: 18,
+      likedDuas: [],
+      viewMode: 'all',
+      searchTags: ['All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience', 'Success', 'Mercy', 'Peace', 'Provision', 'Strength', 'Repentance'],
+      selectedTag: '',
+      tagSynonyms: {
+        Forgiveness: ['pardon', 'mercy', 'forgive'],
+        Protection: ['safety', 'guard', 'shield'],
+        Gratitude: ['thanks', 'appreciation', 'thankful'],
+        Healing: ['cure', 'recovery', 'health'],
+        Guidance: ['direction', 'path', 'lead'],
+        Patience: ['endurance', 'perseverance', 'calm'],
+        Success: ['achievement', 'victory', 'prosperity'],
+        Mercy: ['compassion', 'kindness', 'forgiveness'],
+        Peace: ['tranquility', 'calm', 'serenity'],
+        Provision: ['sustenance', 'wealth', 'blessings'],
+        Strength: ['power', 'resilience', 'fortitude'],
+        Repentance: ['regret', 'atonement', 'penitence']
+      }
     };
   },
   computed: {
@@ -36288,30 +36306,56 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       });
       return _toConsumableArray(references).sort();
     },
+    likedDuasCount: function likedDuasCount() {
+      return this.likedDuas.length;
+    },
     filteredCategories: function filteredCategories() {
       var _this = this;
-      var filteredByCategory = this.selectedCategory ? this.duaCollection.filter(function (category) {
-        return category.id === parseInt(_this.selectedCategory);
-      }) : this.duaCollection;
-      if (this.selectedReference) {
-        filteredByCategory = filteredByCategory.map(function (category) {
-          var filteredDuas = category.duas.filter(function (dua) {
-            return dua.reference === _this.selectedReference;
-          });
+      var filteredCollection = this.duaCollection;
+      if (this.viewMode === 'liked') {
+        filteredCollection = filteredCollection.map(function (category) {
           return _objectSpread(_objectSpread({}, category), {}, {
-            duas: filteredDuas
+            duas: category.duas.filter(function (dua) {
+              return _this.likedDuas.includes(dua.id);
+            })
+          });
+        }).filter(function (category) {
+          return category.duas.length > 0;
+        });
+        return filteredCollection;
+      }
+      if (this.selectedCategory) {
+        filteredCollection = filteredCollection.filter(function (category) {
+          return category.id === parseInt(_this.selectedCategory);
+        });
+      }
+      if (this.selectedReference) {
+        filteredCollection = filteredCollection.map(function (category) {
+          return _objectSpread(_objectSpread({}, category), {}, {
+            duas: category.duas.filter(function (dua) {
+              return dua.reference === _this.selectedReference;
+            })
           });
         }).filter(function (category) {
           return category.duas.length > 0;
         });
       }
-      if (!this.searchQuery.trim()) {
-        return filteredByCategory;
+      if (!this.searchQuery.trim() && !this.selectedTag) {
+        return filteredCollection;
       }
-      return filteredByCategory.map(function (category) {
+      return filteredCollection.map(function (category) {
         var filteredDuas = category.duas.filter(function (dua) {
-          var searchQueryLower = _this.searchQuery.toLowerCase();
-          return dua.title.toLowerCase().includes(searchQueryLower) || dua.arabic.toLowerCase().includes(searchQueryLower) || dua.transliteration.toLowerCase().includes(searchQueryLower) || dua.translation.toLowerCase().includes(searchQueryLower) || dua.reference.toLowerCase().includes(searchQueryLower);
+          var searchQueryLower = _this.searchQuery.trim().toLowerCase();
+          var tagLower = _this.selectedTag.toLowerCase();
+          var synonyms = _this.tagSynonyms[_this.selectedTag] || [];
+          var synonymLower = synonyms.map(function (s) {
+            return s.toLowerCase();
+          });
+          var queryMatch = _this.searchQuery.trim() ? (dua.title || '').toLowerCase().includes(searchQueryLower) || (dua.arabic || '').toLowerCase().includes(searchQueryLower) || (dua.transliteration || '').toLowerCase().includes(searchQueryLower) || (dua.translation || '').toLowerCase().includes(searchQueryLower) || (dua.reference || '').toLowerCase().includes(searchQueryLower) : true;
+          var tagMatch = _this.selectedTag ? (dua.title || '').toLowerCase().includes(tagLower) || (dua.arabic || '').toLowerCase().includes(tagLower) || (dua.transliteration || '').toLowerCase().includes(tagLower) || (dua.translation || '').toLowerCase().includes(tagLower) || (dua.reference || '').toLowerCase().includes(tagLower) || synonymLower.some(function (syn) {
+            return (dua.title || '').toLowerCase().includes(syn) || (dua.arabic || '').toLowerCase().includes(syn) || (dua.transliteration || '').toLowerCase().includes(syn) || (dua.translation || '').toLowerCase().includes(syn) || (dua.reference || '').toLowerCase().includes(syn);
+          }) : true;
+          return queryMatch && tagMatch;
         });
         return _objectSpread(_objectSpread({}, category), {}, {
           duas: filteredDuas
@@ -36326,68 +36370,71 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   },
   methods: {
     highlightText: function highlightText(text) {
-      if (!this.searchQuery.trim()) return text;
-      var regex = new RegExp("(".concat(this.searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), ")"), 'gi');
-      return text.replace(regex, '<mark>$1</mark>');
+      if (!this.searchQuery.trim() && !this.selectedTag) return text;
+      var terms = [].concat(_toConsumableArray(this.searchQuery.trim() ? [this.searchQuery] : []), _toConsumableArray(this.selectedTag ? [this.selectedTag].concat(_toConsumableArray(this.tagSynonyms[this.selectedTag] || [])) : []));
+      var highlightedText = text;
+      terms.forEach(function (term) {
+        var regex = new RegExp("(".concat(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), ")"), 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+      });
+      return highlightedText;
+    },
+    toggleTag: function toggleTag(tag) {
+      this.selectedTag = tag === 'All' || this.selectedTag === tag ? '' : tag;
+      this.resetPagination();
+    },
+    clearSearch: function clearSearch() {
+      this.searchQuery = '';
+      this.selectedTag = '';
+      this.resetPagination();
     },
     changeFontSize: function changeFontSize(action) {
       if (action === 'increase') {
-        this.fontSize += 2;
-      } else if (action === 'decrease' && this.fontSize > 12) {
+        this.fontSize = Math.min(this.fontSize + 2, 28);
+      } else if (action === 'decrease' && this.fontSize > 14) {
         this.fontSize -= 2;
-      }
-    },
-    speak: function speak(text, lang) {
-      if ('speechSynthesis' in window) {
-        if (speechSynthesis.speaking) {
-          speechSynthesis.cancel();
-        }
-        var utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-GB';
-        utterance.pitch = 0.8;
-        utterance.rate = 0.8;
-        utterance.onstart = function () {
-          return console.log('TTS started.');
-        };
-        utterance.onerror = function (e) {
-          return console.error('TTS error:', e);
-        };
-        utterance.onend = function () {
-          return console.log('TTS ended.');
-        };
-        speechSynthesis.speak(utterance);
-      } else {
-        console.error('TTS is not supported in this browser.');
       }
     },
     copyContent: function copyContent(dua) {
       var _this2 = this;
-      var text = "Dua title: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\n").concat(dua.translation, "\n\n- ").concat(dua.reference);
+      var text = "Dua: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\n").concat(dua.translation, "\n\n- ").concat(dua.reference);
       navigator.clipboard.writeText(text).then(function () {
         _this2.showCopyMessage = true;
         setTimeout(function () {
           _this2.showCopyMessage = false;
-        }, 3000);
+        }, 2000);
       })["catch"](function (err) {
         console.error('Failed to copy content: ', err);
       });
     },
     shareOnWhatsApp: function shareOnWhatsApp(dua) {
-      var text = "Dua title: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\nTranslation: ").concat(dua.translation, "\n\nReference: ").concat(dua.reference);
+      var text = "Dua: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\nTranslation: ").concat(dua.translation, "\n\nReference: ").concat(dua.reference);
       var encodedText = encodeURIComponent(text);
       var url = "https://wa.me/?text=".concat(encodedText);
       window.open(url, '_blank');
     },
+    toggleLike: function toggleLike(duaId) {
+      if (!duaId) return;
+      var updatedLikedDuas = _toConsumableArray(this.likedDuas);
+      if (updatedLikedDuas.includes(duaId)) {
+        updatedLikedDuas.splice(updatedLikedDuas.indexOf(duaId), 1);
+      } else {
+        updatedLikedDuas.push(duaId);
+      }
+      this.likedDuas = updatedLikedDuas;
+      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+    },
     getPaginatedDuas: function getPaginatedDuas(duas) {
-      var _duas$;
-      var start = ((this.currentPage[(_duas$ = duas[0]) === null || _duas$ === void 0 ? void 0 : _duas$.id] || 1) - 1) * this.duasPerPage;
+      if (!duas || !duas.length) return [];
+      var start = ((this.currentPage[duas[0].id] || 1) - 1) * this.duasPerPage;
       var end = start + this.duasPerPage;
       return duas.slice(start, end);
     },
     changePage: function changePage(direction, categoryId) {
-      var totalPages = this.totalPages(this.duaCollection.find(function (c) {
+      var _this$duaCollection$f;
+      var totalPages = this.totalPages(((_this$duaCollection$f = this.duaCollection.find(function (c) {
         return c.id === categoryId;
-      }).duas);
+      })) === null || _this$duaCollection$f === void 0 ? void 0 : _this$duaCollection$f.duas) || []);
       if (direction === 'next' && this.currentPage[categoryId] < totalPages) {
         this.currentPage[categoryId]++;
       } else if (direction === 'prev' && this.currentPage[categoryId] > 1) {
@@ -36399,6 +36446,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     resetPagination: function resetPagination() {
       var _this3 = this;
+      this.currentPage = {};
       this.duaCollection.forEach(function (category) {
         _this3.currentPage[category.id] = 1;
       });
@@ -36409,13 +36457,20 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     fetch('/duaCollection.json').then(function (response) {
       return response.json();
     }).then(function (data) {
-      _this4.duaCollection = data.categories;
-      _this4.duaCollection.forEach(function (category) {
-        _this4.currentPage[category.id] = 1;
-      });
+      _this4.duaCollection = data.categories || [];
+      _this4.resetPagination();
     })["catch"](function (error) {
       return console.error('Error loading dua collection:', error);
     });
+    try {
+      var storedLikedDuas = localStorage.getItem('likedDuas');
+      if (storedLikedDuas) {
+        this.likedDuas = JSON.parse(storedLikedDuas);
+      }
+    } catch (error) {
+      console.error('Error parsing likedDuas from localStorage:', error);
+      this.likedDuas = [];
+    }
   }
 });
 
@@ -55685,122 +55740,138 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid py-4"
+  "class": "container-fluid py-3"
 };
 var _hoisted_2 = {
-  "class": "container mb-5"
+  "class": "container mb-4"
 };
 var _hoisted_3 = {
-  "class": "row justify-content-center"
+  "class": "search-tags d-flex overflow-auto pb-2"
 };
-var _hoisted_4 = {
-  "class": "col-md-8"
-};
+var _hoisted_4 = ["onClick", "aria-label"];
 var _hoisted_5 = {
-  "class": "search-container mb-4"
+  "class": "container mb-4"
 };
 var _hoisted_6 = {
-  "class": "input-group"
+  "class": "row justify-content-center"
 };
 var _hoisted_7 = {
-  "class": "container"
+  "class": "col-12 col-md-8"
 };
 var _hoisted_8 = {
-  "class": "row mb-4"
+  "class": "search-container mb-3"
 };
 var _hoisted_9 = {
-  "class": "col-md-6"
+  "class": "input-group"
 };
 var _hoisted_10 = {
-  "class": "mb-3"
+  "class": "container mb-4"
 };
-var _hoisted_11 = ["value"];
+var _hoisted_11 = {
+  "class": "tabs-container"
+};
 var _hoisted_12 = {
-  "class": "col-md-6"
+  "class": "nav nav-tabs justify-content-center gap-2"
 };
 var _hoisted_13 = {
-  "class": "mb-3"
+  "class": "nav-item"
 };
-var _hoisted_14 = ["value"];
+var _hoisted_14 = {
+  "class": "nav-item"
+};
 var _hoisted_15 = {
   key: 0,
-  "class": "alert alert-success alert-dismissible fade show",
-  role: "alert"
+  "class": "badge ms-1"
 };
 var _hoisted_16 = {
-  "class": "container text-center"
+  key: 0,
+  "class": "container mb-4"
 };
 var _hoisted_17 = {
-  key: 0,
-  "class": "alert alert-info"
+  "class": "row"
 };
 var _hoisted_18 = {
-  "class": "fw-bold text-left mb-4 category-title"
+  "class": "col-md-6 mb-3"
 };
-var _hoisted_19 = {
-  "class": "card dua-card shadow-sm"
-};
+var _hoisted_19 = ["value"];
 var _hoisted_20 = {
-  "class": "card-header"
+  "class": "col-md-6 mb-3"
 };
-var _hoisted_21 = ["innerHTML"];
+var _hoisted_21 = ["value"];
 var _hoisted_22 = {
-  "class": "card-body"
+  key: 1,
+  "class": "alert alert-success alert-dismissible fade show mx-auto",
+  role: "alert"
 };
 var _hoisted_23 = {
-  "class": "row align-items-center mb-3"
+  "class": "container"
 };
 var _hoisted_24 = {
-  "class": "col-10"
+  key: 0,
+  "class": "alert alert-info text-center"
 };
-var _hoisted_25 = ["innerHTML"];
+var _hoisted_25 = {
+  style: {
+    "display": "flex"
+  },
+  "class": "fw-semibold text-start mb-3 category-title"
+};
 var _hoisted_26 = {
-  "class": "row align-items-center mb-3"
+  "class": "row"
 };
 var _hoisted_27 = {
-  "class": "col-12"
+  "class": "card-body"
 };
 var _hoisted_28 = ["innerHTML"];
-var _hoisted_29 = {
-  "class": "row align-items-center"
-};
-var _hoisted_30 = {
-  "class": "col-12"
-};
+var _hoisted_29 = ["innerHTML"];
+var _hoisted_30 = ["innerHTML"];
 var _hoisted_31 = ["innerHTML"];
 var _hoisted_32 = {
   "class": "card-footer d-flex justify-content-between align-items-center"
 };
 var _hoisted_33 = {
-  "class": "text-center action-item"
+  "class": "icon-wrapper"
 };
 var _hoisted_34 = {
-  "class": "text-center action-item"
+  "class": "icon-wrapper"
 };
 var _hoisted_35 = {
-  "class": "text-center action-item"
+  "class": "icon-wrapper"
 };
 var _hoisted_36 = ["onClick"];
 var _hoisted_37 = {
-  "class": "text-center action-item"
+  "class": "icon-wrapper"
 };
 var _hoisted_38 = ["onClick"];
 var _hoisted_39 = {
-  "class": "pagination d-flex justify-content-center mt-4"
+  "class": "icon-wrapper"
 };
-var _hoisted_40 = ["disabled", "onClick"];
+var _hoisted_40 = ["onClick", "title", "aria-label"];
 var _hoisted_41 = {
-  "class": "align-self-center pagination-text"
+  "class": "pagination d-flex justify-content-center align-items-center mt-3"
 };
 var _hoisted_42 = ["disabled", "onClick"];
+var _hoisted_43 = {
+  "class": "pagination-text"
+};
+var _hoisted_44 = ["disabled", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 fw-bold text-center mb-4"
-  }, "Dua Collection", -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container lead"
-  }, " The Dua Collection presents a thoughtfully curated selection of authentic Islamic supplications (duas), carefully organized into meaningful categories such as forgiveness, protection, healing, gratitude, and many more. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input (Prominent and Top of Hierarchy) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold text-center mb-3"
-  }, "Search Duas", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-semibold text-center mb-3"
+  }, "Dua Collection", -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container lead text-muted mb-4"
+  }, " Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchTags, function (tag) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: tag,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tag-btn me-2", {
+        active: $data.selectedTag === tag || tag === 'All' && !$data.selectedTag
+      }]),
+      onClick: function onClick($event) {
+        return $options.toggleTag(tag);
+      },
+      "aria-label": "Filter by ".concat(tag)
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 11 /* TEXT, CLASS, PROPS */, _hoisted_4);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-primary text-white"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
@@ -55809,150 +55880,181 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.searchQuery = $event;
     }),
     type: "text",
-    "class": "form-control form-control-lg search-input",
-    placeholder: "Search by title, Arabic, translation, or reference...",
+    "class": "form-control search-input",
+    placeholder: "Search duas by title, Arabic, transliteration, translation, or reference",
     "aria-label": "Search Duas",
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold text-left pt-2 pb-2 container"
-  }, "Select a Category:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery || $data.selectedTag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    "class": "btn btn-outline-secondary",
+    onClick: _cache[2] || (_cache[2] = function () {
+      return $options.clearSearch && $options.clearSearch.apply($options, arguments);
+    }),
+    "aria-label": "Clear search"
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
+      active: $data.viewMode === 'all'
+    }]),
+    onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      $data.viewMode = 'all';
+      $options.resetPagination();
+    }, ["prevent"])),
+    "aria-current": "page"
+  }, " All Duas ", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
+      active: $data.viewMode === 'liked'
+    }]),
+    onClick: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      $data.viewMode = 'liked';
+      $options.resetPagination();
+    }, ["prevent"]))
+  }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ")), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label fw-semibold"
+  }, "Category", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.selectedCategory = $event;
     }),
     "class": "form-select",
-    onChange: _cache[3] || (_cache[3] = function () {
+    onChange: _cache[6] || (_cache[6] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
-  }, "Select a Dua Category", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
+  }, "All Categories", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + " Duas) ", 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "class": "fw-bold text-left pt-2 pb-2 container"
-  }, "Select a Reference:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_19);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "form-label fw-semibold"
+  }, "Reference", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.selectedReference = $event;
     }),
     "class": "form-select",
-    onChange: _cache[5] || (_cache[5] = function () {
+    onChange: _cache[8] || (_cache[8] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
-  }, "Select a Reference", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueReferences, function (reference) {
+  }, "All References", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueReferences, function (reference) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reference,
       value: reference
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference), 9 /* TEXT, PROPS */, _hoisted_14);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])]), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Content copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference), 9 /* TEXT, PROPS */, _hoisted_21);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copied to clipboard ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
-    onClick: _cache[6] || (_cache[6] = function ($event) {
+    onClick: _cache[9] || (_cache[9] = function ($event) {
       return $data.showCopyMessage = false;
     }),
     "aria-label": "Close"
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, " No duas found matching your search criteria. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    "class": "btn btn-link p-0 ms-1",
+    onClick: _cache[10] || (_cache[10] = function ($event) {
+      $data.viewMode = 'all';
+      $options.resetPagination();
+    })
+  }, " Explore All Duas ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
-      "class": "row mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
+      "class": "mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
-        "class": "col-md-6 mb-4"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-        "class": "mb-0 fw-bold text-left title-text",
+        "class": "col-12 col-md-6 mb-3"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "card dua-card shadow-md",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          '--font-size-base': $data.fontSize + 'px'
+        })
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+        "class": "fw-semibold text-start title-text mb-3",
         innerHTML: $options.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Section with TTS Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "col-2 text-center"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TTS Icon (uncomment to enable) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-volume-up h4 icon-hover\" style=\"cursor:pointer\" @click=\"speak(dua.arabic, 'ar')\" data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Play Arabic\"></i> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize + 'px'
-        }),
-        "class": "text-right arabic-text",
+      }, null, 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+        "class": "text-end arabic-text mb-3",
         innerHTML: $options.highlightText(dua.arabic)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_25)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Translation Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize * 0.9 + 'px'
-        }),
-        "class": "text-left translation-text",
+      }, null, 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+        "class": "text-start translation-text mb-3",
         innerHTML: $options.highlightText(dua.translation)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_28)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Highlighted Reference Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          fontSize: $data.fontSize * 0.8 + 'px'
-        }),
-        "class": "text-left reference-text text-secondary",
+      }, null, 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+        "class": "text-start reference-text text-muted mb-0",
         innerHTML: $options.highlightText('- ' + dua.reference)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_31)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "btn btn-circle action-btn",
-        onClick: _cache[7] || (_cache[7] = function ($event) {
+      }, null, 8 /* PROPS */, _hoisted_31)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-dash-circle action-icon",
+        onClick: _cache[11] || (_cache[11] = function ($event) {
           return $options.changeFontSize('decrease');
         }),
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Decrease Font Size",
-        "aria-label": "Decrease Font Size"
-      }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-dash-circle"
-      }, null, -1 /* HOISTED */)]))), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "action-label"
-      }, "Decrease", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "btn btn-circle action-btn",
-        onClick: _cache[8] || (_cache[8] = function ($event) {
+        "aria-label": "Decrease Font Size",
+        role: "button"
+      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-plus-circle action-icon",
+        onClick: _cache[12] || (_cache[12] = function ($event) {
           return $options.changeFontSize('increase');
         }),
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Increase Font Size",
-        "aria-label": "Increase Font Size"
-      }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-plus-circle"
-      }, null, -1 /* HOISTED */)]))), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "action-label"
-      }, "Increase", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "btn btn-circle action-btn",
+        "aria-label": "Increase Font Size",
+        role: "button"
+      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-share action-icon",
         onClick: function onClick($event) {
           return $options.shareOnWhatsApp(dua);
         },
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
-        title: "Share",
-        "aria-label": "Share content"
-      }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-share"
-      }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_36), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "action-label"
-      }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "btn btn-circle action-btn",
+        title: "Share Content",
+        "aria-label": "Share Content",
+        role: "button"
+      }, null, 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-clipboard action-icon",
         onClick: function onClick($event) {
           return $options.copyContent(dua);
         },
         "data-bs-toggle": "tooltip",
         "data-bs-placement": "top",
         title: "Copy Content",
-        "aria-label": "Copy content"
-      }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-clipboard"
-      }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_38), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "action-label"
-      }, "Copy", -1 /* HOISTED */))])])])]);
-    }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "aria-label": "Copy Content",
+        role: "button"
+      }, null, 8 /* PROPS */, _hoisted_38)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart action-icon liked' : 'bi bi-heart action-icon'),
+        onClick: function onClick($event) {
+          return $options.toggleLike(dua.id);
+        },
+        "data-bs-toggle": "tooltip",
+        "data-bs-placement": "top",
+        title: $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
+        "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
+        role: "button"
+      }, null, 10 /* CLASS, PROPS */, _hoisted_40)])])], 4 /* STYLE */)]);
+    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-outline-primary me-2",
       disabled: $data.currentPage[category.id] === 1,
       onClick: function onClick($event) {
         return $options.changePage('prev', category.id);
-      }
-    }, " Previous ", 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      },
+      "aria-label": "Previous Page"
+    }, _toConsumableArray(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-chevron-left"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-outline-primary ms-2",
       disabled: $data.currentPage[category.id] >= $options.totalPages(category.duas),
       onClick: function onClick($event) {
         return $options.changePage('next', category.id);
-      }
-    }, " Next ", 8 /* PROPS */, _hoisted_42)])]);
+      },
+      "aria-label": "Next Page"
+    }, _toConsumableArray(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-chevron-right"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_44)])]);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
@@ -162867,10 +162969,10 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1024px) {\n.dua-card-content[data-v-7926cb50] {\n    font-size: 26px;\n}\n}\n.dua-description[data-v-7926cb50] {\n  color: #333333;\n}\n.container[data-v-7926cb50] {\n  margin: auto;\n}\nmark[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  color: white;\n  padding: 0.1em 0.2em;\n  border-radius: 3px;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: #ffffff;\n  border: 1px solid #e0e0e0;\n  border-radius: 12px;\n  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.card-header[data-v-7926cb50] {\n  background-color: #f8f9fa;\n  border-bottom: 1px solid #e0e0e0;\n  padding: 1rem 1.25rem;\n  border-radius: 12px 12px 0 0;\n}\n.card-body[data-v-7926cb50] {\n  padding: 1.5rem;\n}\n.card-footer[data-v-7926cb50] {\n  background-color: #f8f9fa;\n  border-top: 1px solid #e0e0e0;\n  padding: 0.75rem 1.25rem;\n  border-radius: 0 0 12px 12px;\n}\n.title-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.5rem;\n  font-weight: 700;\n  color: #1a1a1a;\n  line-height: 1.4;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-size: 1.8rem;\n  font-weight: 400;\n  color: #1a1a1a;\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.2rem;\n  font-weight: 300;\n  color: #333333;\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  font-weight: 400;\n  color: #6c757d;\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1.75rem;\n  font-weight: 600;\n  color: #1a1a1a;\n}\n.action-btn[data-v-7926cb50] {\n  border-radius: 50%;\n  width: 36px;\n  height: 36px;\n  padding: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: background-color 0.2s, color 0.2s;\n}\n.action-btn[data-v-7926cb50]:hover {\n  background-color: rgb(13, 182, 145);\n  color: #ffffff;\n}\n.action-btn i[data-v-7926cb50] {\n  font-size: 1.1rem;\n}\n.action-label[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 0.8rem;\n  color: #333333;\n  margin-top: 0.25rem;\n}\n.pagination button[data-v-7926cb50] {\n  border-radius: 8px;\n  padding: 0.5rem 1.25rem;\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  transition: background-color 0.2s, color 0.2s;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: rgb(13, 182, 145);\n  color: #ffffff;\n}\n.pagination button[data-v-7926cb50]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n}\n.pagination-text[data-v-7926cb50] {\n  font-family: 'Inter', sans-serif;\n  font-size: 1rem;\n  color: #333333;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.2s ease-in-out;\n}\n.search-container[data-v-7926cb50]:hover {\n  transform: scale(1.02);\n}\n.search-input[data-v-7926cb50] {\n  border-radius: 0 0.375rem 0.375rem 0;\n  padding: 0.75rem;\n  font-size: 1.1rem;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: rgb(13, 182, 145);\n  box-shadow: 0 0 8px rgba(13, 182, 145, 0.3);\n}\n.input-group-text[data-v-7926cb50] {\n  background-color: rgb(13, 182, 145);\n  border: none;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.2rem;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: rgb(13, 182, 145);\n  box-shadow: 0 0 5px rgba(13, 182, 145, 0.5);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* :root {\n  --primary: rgb(10, 160, 130);\n  --primary-dark: rgb(8, 128, 104);\n  --text-dark: #111827;\n  --text-muted: #374151;\n  --bg-card: #f9fafb;\n  --bg-body: #ffffff;\n} */\nh1[data-v-7926cb50] {\n  font-weight: 600;\n}\n.lead[data-v-7926cb50] {\n  font-weight: 400;\n}\nmark[data-v-7926cb50] {\n  color: white;\n  padding: 0.1em 0.2em;\n  border-radius: 3px;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: var(--bg-card);\n  border: none;\n  border-radius: 16px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);\n}\n.card-body[data-v-7926cb50] {\n  padding: 1.5rem;\n}\n.card-footer[data-v-7926cb50] {\n  background-color: transparent;\n  border-top: none;\n  padding: 1rem 1.5rem;\n}\n.title-text[data-v-7926cb50] {\n  font-size: clamp(1.125rem, 3vw, 1.25rem);\n  font-weight: 600;\n  line-height: 1.4;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-weight: 400;\n  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 24px);\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 22px);\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 20px);\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n  font-weight: 600;\n}\n.icon-wrapper[data-v-7926cb50] {\n  width: 48px;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.action-icon[data-v-7926cb50] {\n  cursor: pointer;\n  transition: transform 0.3s ease, color 0.3s ease;\n}\n.action-icon[data-v-7926cb50]:hover {\n  color: var(--primary);\n  transform: scale(1.15);\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n  animation: pulse-7926cb50 0.3s ease;\n}\n.action-icon.liked[data-v-7926cb50]:hover {\n  color: #c82333;\n}\n@keyframes pulse-7926cb50 {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.2);\n}\n100% { transform: scale(1);\n}\n}\n.nav-tabs[data-v-7926cb50] {\n  border: none;\n}\n.nav-link[data-v-7926cb50] {\n  font-size: clamp(1.125rem, 3vw, 1.375rem);\n  font-weight: 600;\n  padding: 1rem 2rem;\n  border-radius: 999px;\n  letter-spacing: 0.02em;\n  transition: all 0.3s ease;\n  text-decoration: none;\n}\n.nav-link[data-v-7926cb50]:hover {\n  color: var(--text-dark);\n  background-color: #000000;\n  color: #ffffff;\n}\n.nav-link.active[data-v-7926cb50] {\n  transform: scale(1.05);\n  box-shadow: 0 0 8px rgba(10, 160, 130, 0.3);\n}\n.badge[data-v-7926cb50] {\n  background-color: var(--primary);\n  color: white;\n  font-size: 0.875rem;\n  padding: 0.375rem 0.625rem;\n  border-radius: 999px;\n  vertical-align: middle;\n}\n.pagination button[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  padding: 0.5rem 1rem;\n  border-radius: 8px;\n  min-height: 44px;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: var(--primary);\n  color: white;\n  border-color: var(--primary);\n}\n.pagination-text[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  color: var(--text-muted);\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.3s ease;\n}\n.input-group[data-v-7926cb50] {\n  height: 48px;\n}\n.input-group-text[data-v-7926cb50] {\n  background-color: var(--primary);\n  border: none;\n  border-radius: 8px 0 0 8px;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.25rem;\n}\n.search-input[data-v-7926cb50] {\n  font-size: 1.25rem;\n  padding: 0.75rem 1rem;\n  border-radius: 0;\n  border-color: #d1d5db;\n  height: 48px;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: var(--primary);\n  box-shadow: 0 0 0 3px rgba(10, 160, 130, 0.1);\n}\n.btn-outline-secondary[data-v-7926cb50] {\n  border-radius: 0 8px 8px 0;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n}\n.btn-outline-secondary i[data-v-7926cb50] {\n  font-size: 1.25rem;\n}\n.form-select[data-v-7926cb50] {\n  font-size: 1rem;\n  padding: 0.75rem;\n  border-radius: 8px;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: var(--primary);\n  box-shadow: 0 0 0 3px rgba(10, 160, 130, 0.1);\n}\n.form-label[data-v-7926cb50] {\n  font-size: 1rem;\n  color: var(--text-dark);\n}\n.alert[data-v-7926cb50] {\n  max-width: 500px;\n  margin: 0 auto 1rem;\n  border-radius: 8px;\n}\n/* .search-tags {\n  display: flex;\n  white-space: nowrap;\n  scroll-behavior: smooth;\n  -ms-overflow-style: none;\n  scrollbar-width: none;\n} */\n.search-tags[data-v-7926cb50]::-webkit-scrollbar {\n  display: none;\n}\n.tag-btn[data-v-7926cb50] {\n  color: white;\n  background-color: #0db691;\n  border: none;\n  border-radius: 999px;\n  padding: 0.625rem 1.25rem;\n  font-size: 0.9375rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  min-width: 100px;\n  text-align: center;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n.tag-btn[data-v-7926cb50]:hover {\n  background-color: #bfdbfe;\n  color: var(--text-dark);\n}\n.tag-btn.active[data-v-7926cb50] {\n  background-color: var(--primary-dark);\n  color: white;\n}\n@media (max-width: 767.98px) {\n.action-icon[data-v-7926cb50] {\n    font-size: 1.75rem;\n}\n.icon-wrapper[data-v-7926cb50] {\n    width: 48px;\n    height: 48px;\n}\n.dua-card[data-v-7926cb50] {\n    margin-bottom: 1rem;\n}\n.pagination button[data-v-7926cb50] {\n    padding: 0.5rem 0.75rem;\n}\n.nav-link[data-v-7926cb50] {\n    font-size: 1.125rem;\n    padding: 0.75rem 1.5rem;\n}\n.tag-btn[data-v-7926cb50] {\n    font-size: 0.8125rem;\n    padding: 0.5rem 1rem;\n    min-width: 90px;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
