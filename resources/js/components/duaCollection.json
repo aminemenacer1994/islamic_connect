@@ -10,7 +10,7 @@
           "arabic": "اللهم اغفر لي",
           "transliteration": "Allahumma aghfir li",
           "translation": "O Allah, forgive me",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2702"
         },
         {
           "id": 2,
@@ -18,7 +18,7 @@
           "arabic": "اللهم أنت ربي لا إله إلا أنت",
           "transliteration": "Allahumma anta rabbi la ilaha illa anta",
           "translation": "O Allah, You are my Lord, there is no god but You",
-          "reference": "Sahih Bukhari"
+          "reference": "Sahih al-Bukhari, Book 21 (The Book of Supplications), Hadith 6306"
         },
         {
           "id": 3,
@@ -26,7 +26,7 @@
           "arabic": "اللهم اغفر لنا وارحمنا",
           "transliteration": "Allahumma aghfir lana warhamna",
           "translation": "O Allah, forgive us and have mercy upon us",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2697"
         },
         {
           "id": 4,
@@ -34,7 +34,7 @@
           "arabic": "اللهم اغفر لوالدَيّ",
           "transliteration": "Allahumma aghfir liwalidayya",
           "translation": "O Allah, forgive my parents",
-          "reference": "Sunan Abu Dawood"
+          "reference": "Sunan Abu Dawood, Book 12 (The Book of Prayer), Hadith 1523"
         },
         {
           "id": 5,
@@ -42,7 +42,7 @@
           "arabic": "اللهم اغفر لي ذنبي",
           "transliteration": "Allahumma aghfir li dhanbi",
           "translation": "O Allah, forgive my sin",
-          "reference": "Sahih Bukhari"
+          "reference": "Sahih al-Bukhari, Book 80 (The Book of Invocations), Hadith 6323"
         },
         {
           "id": 6,
@@ -50,7 +50,7 @@
           "arabic": "اللهم اجعلنا من أهل الجنة",
           "transliteration": "Allahumma ajilna min ahlil jannah",
           "translation": "O Allah, make us among the people of Paradise",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2699"
         },
         {
           "id": 7,
@@ -58,7 +58,7 @@
           "arabic": "اللهم إني أصبحت أشهدك",
           "transliteration": "Allahumma inni asbahtu ashhiduka",
           "translation": "O Allah, I have entered the morning bearing witness",
-          "reference": "Sunan Ibn Majah"
+          "reference": "Sunan Ibn Majah, Book 34 (The Book of Supplications), Hadith 3871"
         },
         {
           "id": 8,
@@ -66,7 +66,7 @@
           "arabic": "اللهم إني أسألك مغفرة",
           "transliteration": "Allahumma inni as'alu ka maghfirah",
           "translation": "O Allah, I ask You for forgiveness",
-          "reference": "Sunan At-Tirmidhi"
+          "reference": "Sunan At-Tirmidhi, Book 48 (The Book of Supplications), Hadith 3393"
         },
         {
           "id": 9,
@@ -74,7 +74,7 @@
           "arabic": "اللهم اغفر لي عند موتي",
           "transliteration": "Allahumma aghfir li anda mauti",
           "translation": "O Allah, forgive me at the time of my death",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2705"
         },
         {
           "id": 10,
@@ -82,7 +82,7 @@
           "arabic": "اللهم اغفر له وارحمه",
           "transliteration": "Allahumma aghfir lahu warhamhu",
           "translation": "O Allah, forgive him and have mercy on him",
-          "reference": "Sahih Bukhari"
+          "reference": "Sahih al-Bukhari, Book 23 (The Book of Funerals), Hadith 1374"
         },
         {
           "id": 11,
@@ -90,7 +90,7 @@
           "arabic": "اللهم إني تبت إليك",
           "transliteration": "Allahumma inni tubtu ilayk",
           "translation": "O Allah, I repent to You",
-          "reference": "Sunan Abu Dawood"
+          "reference": "Sunan Abu Dawood, Book 12 (The Book of Prayer), Hadith 1521"
         },
         {
           "id": 12,
@@ -98,7 +98,7 @@
           "arabic": "اللهم اجعلني من الذين يتوبون إليك",
           "transliteration": "Allahumma ajilni min al-ladhina yatubuna ilayk",
           "translation": "O Allah, make me among those who repent to You",
-          "reference": "Sunan Ibn Majah"
+          "reference": "Sunan Ibn Majah, Book 34 (The Book of Supplications), Hadith 3869"
         },
         {
           "id": 13,
@@ -106,7 +106,7 @@
           "arabic": "اللهم اغفر للمؤمنين والمؤمنات",
           "transliteration": "Allahumma aghfir lil-mu'minina wal-mu'minat",
           "translation": "O Allah, forgive the believing men and women",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2698"
         },
         {
           "id": 14,
@@ -114,7 +114,7 @@
           "arabic": "اللهم اغفر للمستضعفين",
           "transliteration": "Allahumma aghfir lil-mustad'afeen",
           "translation": "O Allah, forgive the oppressed",
-          "reference": "Sahih Bukhari"
+          "reference": "Sahih al-Bukhari, Book 83 (The Book of Asking Permission), Hadith 6441"
         },
         {
           "id": 15,
@@ -122,7 +122,7 @@
           "arabic": "اللهم اغفر لي خطيئتي",
           "transliteration": "Allahumma aghfir li khati'ati",
           "translation": "O Allah, forgive my mistake",
-          "reference": "Sunan Abu Dawood"
+          "reference": "Sunan Abu Dawood, Book 12 (The Book of Prayer), Hadith 1522"
         },
         {
           "id": 16,
@@ -130,7 +130,7 @@
           "arabic": "اللهم اغفر لي في آخر الليل",
           "transliteration": "Allahumma aghfir li fi akhir al-layl",
           "translation": "O Allah, forgive me in the last part of the night",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2703"
         },
         {
           "id": 17,
@@ -138,7 +138,7 @@
           "arabic": "اللهم تقبل عملي",
           "transliteration": "Allahumma taqabbal 'amali",
           "translation": "O Allah, accept my good deeds",
-          "reference": "Sunan At-Tirmidhi"
+          "reference": "Sunan At-Tirmidhi, Book 48 (The Book of Supplications), Hadith 3394"
         },
         {
           "id": 18,
@@ -146,7 +146,7 @@
           "arabic": "اللهم إني أسالك فرجاً قريباً",
           "transliteration": "Allahumma inni as'alu ka farajan qareeban",
           "translation": "O Allah, I ask You for relief from suffering",
-          "reference": "Sunan Ibn Majah"
+          "reference": "Sunan Ibn Majah, Book 34 (The Book of Supplications), Hadith 3870"
         },
         {
           "id": 19,
@@ -154,7 +154,7 @@
           "arabic": "اللهم اجعلنا من أهل الجنة",
           "transliteration": "Allahumma ajilna min ahlil jannah",
           "translation": "O Allah, make us among the people of Paradise",
-          "reference": "Sahih Muslim"
+          "reference": "Sahih Muslim, Book 35 (The Book of Remembrance, Supplication, Repentance, and Seeking Forgiveness), Hadith 2699"
         },
         {
           "id": 20,
@@ -162,7 +162,7 @@
           "arabic": "اللهم اغفر لي ولأهلي",
           "transliteration": "Allahumma aghfir li wa li ahli",
           "translation": "O Allah, forgive me and my family",
-          "reference": "Sunan Abu Dawood"
+          "reference": "Sunan Abu Dawood, Book 12 (The Book of Prayer), Hadith 1524"
         }
       ]
     },

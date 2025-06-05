@@ -1,3 +1,293 @@
+```vue
+<script>
+export default {
+  data() {
+    return {
+      duaCollection: [],
+      searchQuery: '',
+      selectedCategory: '',
+      selectedReference: '',
+      currentPage: {},
+      duasPerPage: 20,
+      showCopyMessage: false,
+      fontSize: 18,
+      likedDuas: [],
+      viewMode: 'all',
+      searchTags: [
+        'All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience',
+        'Success', 'Mercy', 'Peace', 'Provision', 'Strength', 'Repentance'
+      ],
+      selectedTag: '',
+      tagSynonyms: {
+        Forgiveness: ['pardon', 'mercy', 'forgive'],
+        Protection: ['safety', 'guard', 'shield'],
+        Gratitude: ['thanks', 'appreciation', 'thankful'],
+        Healing: ['cure', 'recovery', 'health'],
+        Guidance: ['direction', 'path', 'lead'],
+        Patience: ['endurance', 'perseverance', 'calm'],
+        Success: ['achievement', 'victory', 'prosperity'],
+        Mercy: ['compassion', 'kindness', 'forgiveness'],
+        Peace: ['tranquility', 'calm', 'serenity'],
+        Provision: ['sustenance', 'wealth', 'blessings'],
+        Strength: ['power', 'resilience', 'fortitude'],
+        Repentance: ['regret', 'atonement', 'penitence']
+      },
+      showScrollToTop: false,
+      actionFeedback: {}, // Track button feedback (e.g., "Done!")
+    };
+  },
+  computed: {
+    uniqueReferences() {
+      const references = new Set();
+      this.duaCollection.forEach(category => {
+        category.duas.forEach(dua => {
+          if (dua.reference) references.add(dua.reference);
+        });
+      });
+      return [...references].sort();
+    },
+    likedDuasCount() {
+      const validIds = this.likedDuas.filter(id => {
+        const [categoryId, duaId] = id.split('-');
+        const category = this.duaCollection.find(c => c.id === parseInt(categoryId));
+        return category && category.duas.some(dua => dua.id === id);
+      });
+      return validIds.length;
+    },
+    filteredCategories() {
+      let filteredCollection = this.duaCollection;
+
+      if (this.viewMode === 'liked') {
+        filteredCollection = filteredCollection.map(category => ({
+          ...category,
+          duas: category.duas.filter(dua => this.likedDuas.includes(dua.id)),
+        })).filter(category => category.duas.length > 0);
+        return filteredCollection;
+      }
+
+      if (this.selectedCategory) {
+        filteredCollection = filteredCollection.filter(category => category.id === parseInt(this.selectedCategory));
+      }
+
+      if (this.selectedReference) {
+        filteredCollection = filteredCollection.map(category => ({
+          ...category,
+          duas: category.duas.filter(dua => dua.reference === this.selectedReference),
+        })).filter(category => category.duas.length > 0);
+      }
+
+      if (!this.searchQuery.trim() && !this.selectedTag) {
+        return filteredCollection;
+      }
+
+      return filteredCollection.map(category => {
+        const filteredDuas = category.duas.filter(dua => {
+          const searchQueryLower = this.searchQuery.trim().toLowerCase();
+          const tagLower = this.selectedTag.toLowerCase();
+          const synonyms = this.tagSynonyms[this.selectedTag] || [];
+          const synonymLower = synonyms.map(s => s.toLowerCase());
+
+          const queryMatch = this.searchQuery.trim() ? (
+            (dua.title || '').toLowerCase().includes(searchQueryLower) ||
+            (dua.arabic || '').toLowerCase().includes(searchQueryLower) ||
+            (dua.transliteration || '').toLowerCase().includes(searchQueryLower) ||
+            (dua.translation || '').toLowerCase().includes(searchQueryLower) ||
+            (dua.reference || '').toLowerCase().includes(searchQueryLower)
+          ) : true;
+
+          const tagMatch = this.selectedTag ? (
+            (dua.title || '').toLowerCase().includes(tagLower) ||
+            (dua.arabic || '').toLowerCase().includes(tagLower) ||
+            (dua.transliteration || '').toLowerCase().includes(tagLower) ||
+            (dua.translation || '').toLowerCase().includes(tagLower) ||
+            (dua.reference || '').toLowerCase().includes(tagLower) ||
+            synonymLower.some(syn => (
+              (dua.title || '').toLowerCase().includes(syn) ||
+              (dua.arabic || '').toLowerCase().includes(syn) ||
+              (dua.transliteration || '').toLowerCase().includes(syn) ||
+              (dua.translation || '').toLowerCase().includes(syn) ||
+              (dua.reference || '').toLowerCase().includes(syn)
+            ))
+          ) : true;
+
+          return queryMatch && tagMatch;
+        });
+        return { ...category, duas: filteredDuas };
+      }).filter(category => category.duas.length > 0);
+    },
+    filteredDuas() {
+      return this.filteredCategories;
+    },
+    allDuasLikedInCategory() {
+      return (categoryId) => {
+        const category = this.duaCollection.find(c => c.id === categoryId);
+        if (!category || !category.duas.length) return false;
+        return category.duas.every(dua => this.likedDuas.includes(dua.id));
+      };
+    },
+  },
+  methods: {
+    highlightText(text) {
+      if (!this.searchQuery.trim() && !this.selectedTag) return text;
+      
+      let highlightedText = text;
+      
+      const searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
+      searchTerms.forEach(term => {
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-search">$1</mark>');
+      });
+      
+      const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
+      tagTerms.forEach(term => {
+        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-tag">$1</mark>');
+      });
+      
+      return highlightedText;
+    },
+    toggleTag(tag) {
+      this.selectedTag = (tag === 'All' || this.selectedTag === tag) ? '' : tag;
+      this.resetPagination();
+    },
+    clearSearch() {
+      this.searchQuery = '';
+      this.selectedTag = '';
+      this.resetPagination();
+    },
+    changeFontSize(action) {
+      if (action === 'increase') {
+        this.fontSize = Math.min(this.fontSize + 2, 28);
+      } else if (action === 'decrease' && this.fontSize > 14) {
+        this.fontSize -= 2;
+      }
+    },
+    copyContent(dua) {
+      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\n- ${dua.reference}`;
+      navigator.clipboard.writeText(text).then(() => {
+        this.showCopyMessage = true;
+        setTimeout(() => {
+          this.showCopyMessage = false;
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy content: ', err);
+      });
+    },
+    shareOnWhatsApp(dua) {
+      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\nTranslation: ${dua.translation}\n\nReference: ${dua.reference}`;
+      const encodedText = encodeURIComponent(text);
+      const url = `https://wa.me/?text=${encodedText}`;
+      window.open(url, '_blank');
+    },
+    toggleLike(duaId) {
+      if (!duaId) return;
+      const updatedLikedDuas = [...this.likedDuas];
+      if (updatedLikedDuas.includes(duaId)) {
+        updatedLikedDuas.splice(updatedLikedDuas.indexOf(duaId), 1);
+      } else {
+        updatedLikedDuas.push(duaId);
+      }
+      this.likedDuas = updatedLikedDuas;
+      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+    },
+    toggleAllInCategory(categoryId) {
+      const category = this.duaCollection.find(c => c.id === categoryId);
+      if (!category) return;
+      this.actionFeedback[categoryId] = true;
+      const allLiked = this.allDuasLikedInCategory(categoryId);
+      let updatedLikedDuas = [...this.likedDuas];
+      if (allLiked) {
+        updatedLikedDuas = updatedLikedDuas.filter(id => !category.duas.some(dua => dua.id === id));
+      } else {
+        updatedLikedDuas = [...new Set([...updatedLikedDuas, ...category.duas.map(dua => dua.id)])];
+      }
+      this.likedDuas = updatedLikedDuas;
+      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+      setTimeout(() => {
+        this.actionFeedback[categoryId] = false;
+      }, 1000);
+    },
+    clearAllLikedDuas() {
+      this.actionFeedback['clearAll'] = true;
+      this.likedDuas = [];
+      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+      setTimeout(() => {
+        this.actionFeedback['clearAll'] = false;
+      }, 1000);
+    },
+    toggleCategoryCollapse(categoryId) {
+      const category = this.duaCollection.find(c => c.id === categoryId);
+      if (category) {
+        category.collapsed = !category.collapsed;
+      }
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    handleScroll() {
+      const scrollPosition = window.scrollY;
+      const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollThreshold = windowHeight * 0.2; // 20% of page height
+      this.showScrollToTop = scrollPosition > scrollThreshold;
+    },
+    getPaginatedDuas(duas) {
+      if (!duas || !duas.length) return [];
+      const start = ((this.currentPage[duas[0].id.split('-')[0]] || 1) - 1) * this.duasPerPage;
+      const end = start + this.duasPerPage;
+      return duas.slice(start, end);
+    },
+    changePage(direction, categoryId) {
+      const totalPages = this.totalPages(this.duaCollection.find(c => c.id === categoryId)?.duas || []);
+      if (direction === 'next' && this.currentPage[categoryId] < totalPages) {
+        this.currentPage[categoryId]++;
+      } else if (direction === 'prev' && this.currentPage[categoryId] > 1) {
+        this.currentPage[categoryId]--;
+      }
+    },
+    totalPages(duas) {
+      return Math.ceil(duas.length / this.duasPerPage);
+    },
+    resetPagination() {
+      this.currentPage = {};
+      this.duaCollection.forEach(category => {
+        this.currentPage[category.id] = 1;
+      });
+    },
+  },
+  created() {
+    fetch('/duaCollection.json')
+      .then(response => response.json())
+      .then(data => {
+        this.duaCollection = data.categories.map(category => ({
+          ...category,
+          collapsed: false,
+          duas: category.duas.map((dua, index) => ({
+            ...dua,
+            id: `${category.id}-${dua.id || index + 1}`, // Ensure unique ID
+          })),
+        }));
+        const ids = new Set();
+        this.duaCollection.forEach(category => {
+          category.duas.forEach(dua => {
+            if (ids.has(dua.id)) {
+              console.warn(`Duplicate dua ID found: ${dua.id}`);
+            }
+            ids.add(dua.id);
+          });
+        });
+        this.resetPagination();
+        localStorage.removeItem('likedDuas');
+        this.likedDuas = [];
+      })
+      .catch(error => console.error('Error loading dua collection:', error));
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
+};
+</script>
+
 <template>
   <div class="container-fluid py-4">
     <h1 class="fw-bold text-center mb-3">Dua Collection</h1>
@@ -79,6 +369,21 @@
             </a>
           </li>
         </ul>
+        <!-- Clear All Liked Duas Button -->
+        <div v-if="viewMode === 'liked'" class="text-center mt-3">
+          <button
+            class="btn btn-outline interactive-btn"
+            style="border-color: #0db691; color: #0db691;"
+            :disabled="likedDuasCount === 0"
+            @click="clearAllLikedDuas"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            title="Clear all liked duas"
+            aria-label="Clear all liked duas"
+          >
+            {{ actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas' }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -107,10 +412,20 @@
     </div>
 
     <!-- Copy Success Message -->
-    <div v-if="showCopyMessage" class="alert alert-success alert-dismissible fade show mx-auto" role="alert">
+    <div v-if="showCopyMessage" class="alert alert-success alert-dismissible fade mx-auto" role="alert">
       Copied to clipboard
-      <button type="button" class="btn-close" @click="showCopyMessage = false" aria-label="Close"></button>
+      <button type="button" @click="showCopyMessage = false" class="btn-close" aria-label="Close"></button>
     </div>
+
+    <!-- Scroll to Top FAB -->
+    <button
+      v-if="showScrollToTop"
+      class="fab btn btn-primary"
+      @click="scrollToTop"
+      aria-label="Scroll to top"
+    >
+      <i class="bi bi-arrow-up"></i>
+    </button>
 
     <!-- Duas Display -->
     <div class="container">
@@ -118,15 +433,42 @@
         {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
         <button
           v-if="viewMode === 'liked'"
-          class="btn btn-link p-0 ms-1"
-          @click="viewMode = 'all'; resetPagination()"
+          class="btn btn-link p-0 ms-2"
+          @click="viewMode = 'all'; resetPagination"
         >
           Explore All Duas
         </button>
       </div>
       <div v-for="category in filteredDuas" :key="category.id" class="mb-4">
-        <h3 class="fw-semibold text-start mb-3 category-title">{{ category.name }}</h3>
-        <div class="row">
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="fw-semibold text-start mb-3 category-title">{{ category.name }}</h3>
+          <div class="d-flex align-items-center">
+            <button
+              class="btn btn-outline interactive-btn me-2"
+              style="border-color: #000; color: #000;"
+              :disabled="!category.duas.length"
+              @click="toggleAllInCategory(category.id)"
+              data-bs-toggle="tooltip"
+              data-bs="tooltip"
+              data-bs-placement="top"
+              :title="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
+              :aria-label="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
+             >
+              <i :class="allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1'"></i>
+              {{ actionFeedback[category.id] ? (allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!') : (allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All') }}            </button>
+            <i
+              :class="category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'"
+              @click="toggleCategoryCollapse(category.id)"
+              data-bs-toggle="tooltip"
+              data-bs="tooltip"
+              data-bs-placement="top"
+              :title="category.collapsed ? 'Expand Category' : 'Collapse Category'"
+              :aria-label="category.collapsed ? 'Expand Category' : 'Collapse Category'"
+              role="button"
+            ></i>
+          </div>
+        </div>
+        <div v-if="!category.collapsed" class="row">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6 mb-3">
             <div class="card dua-card shadow-md" :style="{ '--font-size-base': fontSize + 'px' }">
               <div class="card-body">
@@ -141,8 +483,7 @@
                     class="bi bi-dash-circle action-icon"
                     @click="changeFontSize('decrease')"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Decrease Font Size"
+                    data-bs-title="Decrease Font Size"
                     aria-label="Decrease Font Size"
                     role="button"
                   ></i>
@@ -152,8 +493,7 @@
                     class="bi bi-plus-circle action-icon"
                     @click="changeFontSize('increase')"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Increase Font Size"
+                    data-bs-title="Increase Font Size"
                     aria-label="Increase Font Size"
                     role="button"
                   ></i>
@@ -163,8 +503,7 @@
                     class="bi bi-share action-icon"
                     @click="shareOnWhatsApp(dua)"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Share Content"
+                    data-bs-title="Share Content"
                     aria-label="Share Content"
                     role="button"
                   ></i>
@@ -174,8 +513,7 @@
                     class="bi bi-clipboard action-icon"
                     @click="copyContent(dua)"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Copy Content"
+                    data-bs-title="Copy Content"
                     aria-label="Copy Content"
                     role="button"
                   ></i>
@@ -185,8 +523,7 @@
                     :class="likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'"
                     @click="toggleLike(dua.id)"
                     data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    :title="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
+                    data-bs-title="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
                     :aria-label="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
                     role="button"
                   ></i>
@@ -195,12 +532,12 @@
             </div>
           </div>
         </div>
-        <div class="pagination d-flex justify-content-center align-items-center mt-3">
+        <div v-if="!category.collapsed" class="pagination d-flex justify-content-center align-items-center mt-3">
           <button
             class="btn btn-outline-secondary me-2"
             :disabled="currentPage[category.id] === 1"
             @click="changePage('prev', category.id)"
-            aria-label="Previous Page"
+            aria-label="Previous page"
           >
             <i class="bi bi-chevron-left"></i>
           </button>
@@ -209,7 +546,7 @@
             class="btn btn-outline-secondary ms-2"
             :disabled="currentPage[category.id] >= totalPages(category.duas)"
             @click="changePage('next', category.id)"
-            aria-label="Next Page"
+            aria-label="Next page"
           >
             <i class="bi bi-chevron-right"></i>
           </button>
@@ -218,230 +555,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      duaCollection: [],
-      searchQuery: '',
-      selectedCategory: '',
-      selectedReference: '',
-      currentPage: {},
-      duasPerPage: 20,
-      showCopyMessage: false,
-      fontSize: 18,
-      likedDuas: [],
-      viewMode: 'all',
-      searchTags: [
-        'All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience',
-        'Success', 'Mercy', 'Peace', 'Provision', 'Strength', 'Repentance'
-      ],
-      selectedTag: '',
-      tagSynonyms: {
-        Forgiveness: ['pardon', 'mercy', 'forgive'],
-        Protection: ['safety', 'guard', 'shield'],
-        Gratitude: ['thanks', 'appreciation', 'thankful'],
-        Healing: ['cure', 'recovery', 'health'],
-        Guidance: ['direction', 'path', 'lead'],
-        Patience: ['endurance', 'perseverance', 'calm'],
-        Success: ['achievement', 'victory', 'prosperity'],
-        Mercy: ['compassion', 'kindness', 'forgiveness'],
-        Peace: ['tranquility', 'calm', 'serenity'],
-        Provision: ['sustenance', 'wealth', 'blessings'],
-        Strength: ['power', 'resilience', 'fortitude'],
-        Repentance: ['regret', 'atonement', 'penitence']
-      }
-    };
-  },
-  computed: {
-    uniqueReferences() {
-      const references = new Set();
-      this.duaCollection.forEach(category => {
-        category.duas.forEach(dua => {
-          if (dua.reference) references.add(dua.reference);
-        });
-      });
-      return [...references].sort();
-    },
-    likedDuasCount() {
-      return this.likedDuas.length;
-    },
-    filteredCategories() {
-      let filteredCollection = this.duaCollection;
-
-      if (this.viewMode === 'liked') {
-        filteredCollection = filteredCollection.map(category => ({
-          ...category,
-          duas: category.duas.filter(dua => this.likedDuas.includes(dua.id)),
-        })).filter(category => category.duas.length > 0);
-        return filteredCollection;
-      }
-
-      if (this.selectedCategory) {
-        filteredCollection = filteredCollection.filter(category => category.id === parseInt(this.selectedCategory));
-      }
-
-      if (this.selectedReference) {
-        filteredCollection = filteredCollection.map(category => ({
-          ...category,
-          duas: category.duas.filter(dua => dua.reference === this.selectedReference),
-        })).filter(category => category.duas.length > 0);
-      }
-
-      if (!this.searchQuery.trim() && !this.selectedTag) {
-        return filteredCollection;
-      }
-
-      return filteredCollection.map(category => {
-        const filteredDuas = category.duas.filter(dua => {
-          const searchQueryLower = this.searchQuery.trim().toLowerCase();
-          const tagLower = this.selectedTag.toLowerCase();
-          const synonyms = this.tagSynonyms[this.selectedTag] || [];
-          const synonymLower = synonyms.map(s => s.toLowerCase());
-
-          const queryMatch = this.searchQuery.trim() ? (
-            (dua.title || '').toLowerCase().includes(searchQueryLower) ||
-            (dua.arabic || '').toLowerCase().includes(searchQueryLower) ||
-            (dua.transliteration || '').toLowerCase().includes(searchQueryLower) ||
-            (dua.translation || '').toLowerCase().includes(searchQueryLower) ||
-            (dua.reference || '').toLowerCase().includes(searchQueryLower)
-          ) : true;
-
-          const tagMatch = this.selectedTag ? (
-            (dua.title || '').toLowerCase().includes(tagLower) ||
-            (dua.arabic || '').toLowerCase().includes(tagLower) ||
-            (dua.transliteration || '').toLowerCase().includes(tagLower) ||
-            (dua.translation || '').toLowerCase().includes(tagLower) ||
-            (dua.reference || '').toLowerCase().includes(tagLower) ||
-            synonymLower.some(syn => (
-              (dua.title || '').toLowerCase().includes(syn) ||
-              (dua.arabic || '').toLowerCase().includes(syn) ||
-              (dua.transliteration || '').toLowerCase().includes(syn) ||
-              (dua.translation || '').toLowerCase().includes(syn) ||
-              (dua.reference || '').toLowerCase().includes(syn)
-            ))
-          ) : true;
-
-          return queryMatch && tagMatch;
-        });
-        return { ...category, duas: filteredDuas };
-      }).filter(category => category.duas.length > 0);
-    },
-    filteredDuas() {
-      return this.filteredCategories;
-    },
-  },
-  methods: {
-    highlightText(text) {
-      if (!this.searchQuery.trim() && !this.selectedTag) return text;
-      
-      let highlightedText = text;
-      
-      // Search query terms
-      const searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
-      searchTerms.forEach(term => {
-        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-search">$1</mark>');
-      });
-      
-      // Tag terms (selectedTag + synonyms)
-      const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
-      tagTerms.forEach(term => {
-        const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-tag">$1</mark>');
-      });
-      
-      return highlightedText;
-    },
-    toggleTag(tag) {
-      this.selectedTag = (tag === 'All' || this.selectedTag === tag) ? '' : tag;
-      this.resetPagination();
-    },
-    clearSearch() {
-      this.searchQuery = '';
-      this.selectedTag = '';
-      this.resetPagination();
-    },
-    changeFontSize(action) {
-      if (action === 'increase') {
-        this.fontSize = Math.min(this.fontSize + 2, 28);
-      } else if (action === 'decrease' && this.fontSize > 14) {
-        this.fontSize -= 2;
-      }
-    },
-    copyContent(dua) {
-      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\n- ${dua.reference}`;
-      navigator.clipboard.writeText(text).then(() => {
-        this.showCopyMessage = true;
-        setTimeout(() => {
-          this.showCopyMessage = false;
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy content: ', err);
-      });
-    },
-    shareOnWhatsApp(dua) {
-      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\nTranslation: ${dua.translation}\n\nReference: ${dua.reference}`;
-      const encodedText = encodeURIComponent(text);
-      const url = `https://wa.me/?text=${encodedText}`;
-      window.open(url, '_blank');
-    },
-    toggleLike(duaId) {
-      if (!duaId) return;
-      const updatedLikedDuas = [...this.likedDuas];
-      if (updatedLikedDuas.includes(duaId)) {
-        updatedLikedDuas.splice(updatedLikedDuas.indexOf(duaId), 1);
-      } else {
-        updatedLikedDuas.push(duaId);
-      }
-      this.likedDuas = updatedLikedDuas;
-      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
-    },
-    getPaginatedDuas(duas) {
-      if (!duas || !duas.length) return [];
-      const start = ((this.currentPage[duas[0].id] || 1) - 1) * this.duasPerPage;
-      const end = start + this.duasPerPage;
-      return duas.slice(start, end);
-    },
-    changePage(direction, categoryId) {
-      const totalPages = this.totalPages(this.duaCollection.find(c => c.id === categoryId)?.duas || []);
-      if (direction === 'next' && this.currentPage[categoryId] < totalPages) {
-        this.currentPage[categoryId]++;
-      } else if (direction === 'prev' && this.currentPage[categoryId] > 1) {
-        this.currentPage[categoryId]--;
-      }
-    },
-    totalPages(duas) {
-      return Math.ceil(duas.length / this.duasPerPage);
-    },
-    resetPagination() {
-      this.currentPage = {};
-      this.duaCollection.forEach(category => {
-        this.currentPage[category.id] = 1;
-      });
-    },
-  },
-  created() {
-    fetch('/duaCollection.json')
-      .then(response => response.json())
-      .then(data => {
-        this.duaCollection = data.categories || [];
-        this.resetPagination();
-      })
-      .catch(error => console.error('Error loading dua collection:', error));
-    try {
-      const storedLikedDuas = localStorage.getItem('likedDuas');
-      if (storedLikedDuas) {
-        this.likedDuas = JSON.parse(storedLikedDuas);
-      }
-    } catch (error) {
-      console.error('Error parsing likedDuas from localStorage:', error);
-      this.likedDuas = [];
-    }
-  },
-};
-</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
@@ -453,19 +566,42 @@ body {
   color: #000000;
 }
 
-
-.mark-search {
-  background-color: #0db691;
-  color: #fff;
-  padding: 0.1rem 0.3rem;
-  border-radius: 4px;
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
-
-.mark-tag {
-  background-color: #0db691; /* Green for tags */
-  color: #ffffff;
-  padding: 0.1rem 0.3rem;
-  border-radius: 4px;
+.action-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.action-icon.liked {
+  color: #dc3545;
+}
+.btn-outline.interactive-btn {
+  border-color: #0db691;
+  color: black;
+  transition: all 0.3s ease;
+}
+.btn-outline.interactive-btn:hover:not(:disabled) {
+  background-color: #0db69149;
+  color: black;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+.btn-outline.interactive-btn:active {
+  transform: scale(0.95);
+}
+.btn-outline.interactive-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 h1 {
@@ -566,9 +702,17 @@ h1 {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .nav-tabs {
@@ -578,7 +722,7 @@ h1 {
 .nav-link {
   font-weight: 500;
   color: #000000;
-  background-color:#e5e7eb;
+  background-color: #e5e7eb;
   padding: 0.75rem 1.5rem;
   border-radius: 10px;
   letter-spacing: 0.02em;
