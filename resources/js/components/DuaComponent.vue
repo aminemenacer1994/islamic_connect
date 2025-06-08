@@ -1,4 +1,194 @@
-```vue
+<template>
+  <div class="container-fluid py-4">
+    <h1 class="fw-bold text-center mb-3">Dua Collection</h1>
+    <p class="text-center container lead text-muted mb-4">
+      Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness,
+      protection, and gratitude.
+    </p>
+
+    <!-- Error Message -->
+    <div v-if="errorMessage" class="alert alert-danger text-center" role="alert">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Custom Search Tags -->
+    <div class="container mb-4">
+      <div class="search-tags d-flex overflow-auto pb-2">
+        <button v-for="tag in searchTags" :key="tag" class="tag-btn me-2"
+          :class="{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }" @click="toggleTag(tag)"
+          :aria-label="`Filter by ${tag}`">
+          {{ tag }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Search Input -->
+    <div class="container mb-4">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10">
+          <div class="search-container mb-3">
+            <div class="input-group">
+              <span class="input-group-text text-white" style="background-color: #0db691;">
+                <i class="bi bi-search"></i>
+              </span>
+              <input v-model="searchQuery" type="text" class="form-control search-input"
+                placeholder="Search duas by title, Arabic words, paragraphs, translation or reference"
+                aria-label="Search Duas" @input="resetPagination" />
+              <button v-if="searchQuery || selectedTag || selectedReference" class="btn btn-outline-secondary"
+                @click="clearSearch" aria-label="Clear search">
+                <i class="bi bi-x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs for All Duas and Liked Duas -->
+    <div class="container mb-4">
+      <ul class="nav nav-tabs justify-content-center gap-2">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: viewMode === 'all' }" href="#"
+            @click.prevent="viewMode = 'all'; resetPagination()" aria-current="page">
+            All Duas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: viewMode === 'liked' }" href="#"
+            @click.prevent="viewMode = 'liked'; resetPagination()">
+            Liked Duas
+            <span v-if="likedDuasCount > 0" class="badge ms-1">{{ likedDuasCount }}</span>
+          </a>
+        </li>
+      </ul>
+      <!-- Clear All Liked Duas Button -->
+      <div v-if="viewMode === 'liked'" class="text-center mt-3">
+        <span class="icon-btn" :class="{ disabled: likedDuasCount === 0 }" @click="clearAllLikedDuas"
+          data-bs-toggle="tooltip" data-bs-placement="top" title="Clear all liked duas"
+          aria-label="Clear all liked duas" role="button">
+          <i class="bi bi-trash me-1"></i>
+          {{ actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas' }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Category and Reference Dropdowns -->
+    <div v-if="viewMode === 'all'" class="container mb-4">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <h5 class="form-label fw-bold">Select a Category:</h5>
+          <select v-model="selectedCategory" class="form-select" @change="resetPagination">
+            <option value="">All Categories</option>
+            <option v-for="category in duaCollection" :key="category.id" :value="category.id">
+              {{ category.name }} ({{ category.duas.length }})
+            </option>
+          </select>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h5 class="form-label fw-bold">Select a Reference:</h5>
+          <select v-model="selectedReference" class="form-select" @change="resetPagination">
+            <option value="">All References</option>
+            <option v-for="reference in uniqueReferences" :key="reference.full" :value="reference.full">
+              {{ reference.display }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copy Success Message -->
+    <div v-if="showCopyMessage" class="alert alert-success alert-dismissible fade show mx-auto" role="alert">
+      Copied to clipboard
+      <button type="button" class="btn-close" @click="showCopyMessage = false" aria-label="Close"></button>
+    </div>
+
+    <!-- Scroll to Top FAB -->
+    <button v-if="showScrollToTop" class="fab btn" style="background-color: #0db691;" @click="scrollToTop"
+      aria-label="Scroll to top">
+      <i class="bi-arrow-up-circle fab-icon text-white"></i>
+    </button>
+
+    <!-- Duas Display -->
+    <div class="container">
+      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center">
+        {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
+        <button v-if="viewMode === 'liked'" class="btn btn-link p-0 ms-1" @click="viewMode = 'all'; resetPagination()">
+          Explore All Duas
+        </button>
+      </div>
+      <div v-for="category in filteredDuas" :key="category.id" class="mb-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <h3 class="fw-semibold text-start mb-3 category-title"><img src="images/art.png" width="30px" class="mb-1 mr-2" />{{ category.name }}</h3>
+          <div class="d-flex align-items-center">
+            <span class="icon-btn me-2" :class="{ disabled: !category.duas.length }"
+              @click="toggleAllInCategory(category.id)" data-bs-toggle="tooltip" data-bs-placement="top"
+              :title="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
+              :aria-label="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
+              role="button">
+              <i :class="allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1'"></i>
+              {{ actionFeedback[category.id] ? (allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!') :
+                allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All' }}
+            </span>
+            <i :class="category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'"
+              @click="toggleCategoryCollapse(category.id)" data-bs-toggle="tooltip" data-bs-placement="top"
+              :title="category.collapsed ? 'Expand Category' : 'Collapse Category'"
+              :aria-label="category.collapsed ? 'Expand Category' : 'Collapse Category'" role="button"></i>
+          </div>
+        </div>
+        <div v-if="!category.collapsed" class="row">
+          <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6 mb-3">
+            <div class="card dua-card shadow-md" :style="{ '--font-size-base': fontSize + 'px' }">
+              <div class="card-body">
+                <h5 class="fw-semibold text-start title-text mb-3" v-html="highlightText(dua.title)"></h5>
+                <p class="text-end arabic-text mb-3" v-html="highlightText(dua.arabic)"></p>
+                <p class="text-start translation-text mb-3" v-html="highlightText(dua.translation)"></p>
+                <p class="text-start reference-text text-muted mb-0" v-html="highlightText('- ' + dua.reference)"></p>
+              </div>
+              <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="icon-wrapper">
+                  <i class="bi bi-dash-circle action-icon" @click="changeFontSize('decrease')" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Decrease Font Size" aria-label="Decrease Font Size"
+                    role="button"></i>
+                </div>
+                <div class="icon-wrapper">
+                  <i class="bi bi-plus-circle action-icon" @click="changeFontSize('increase')" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Increase Font Size" aria-label="Increase Font Size"
+                    role="button"></i>
+                </div>
+                <div class="icon-wrapper">
+                  <i class="bi bi-share action-icon" @click="shareOnWhatsApp(dua)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Share Content" aria-label="Share Content" role="button"></i>
+                </div>
+                <div class="icon-wrapper">
+                  <i class="bi bi-clipboard action-icon" @click="copyContent(dua)" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Copy Content" aria-label="Copy Content" role="button"></i>
+                </div>
+                <div class="icon-wrapper">
+                  <i :class="likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'"
+                    @click="toggleLike(dua.id)" data-bs-toggle="tooltip" data-bs-placement="top"
+                    :title="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
+                    :aria-label="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'" role="button"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="!category.collapsed" class="pagination d-flex justify-content-center align-items-center mt-3">
+          <button class="btn btn-outline-secondary me-2" :disabled="currentPage[category.id] === 1"
+            @click="changePage('prev', category.id)" aria-label="Previous Page">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <span class="pagination-text">{{ currentPage[category.id] }} / {{ totalPages(category.duas) }}</span>
+          <button class="btn btn-outline-secondary ms-2"
+            :disabled="currentPage[category.id] >= totalPages(category.duas)" @click="changePage('next', category.id)"
+            aria-label="Next Page">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 <script>
 export default {
   data() {
@@ -30,10 +220,17 @@ export default {
         Peace: ['tranquility', 'calm', 'serenity'],
         Provision: ['sustenance', 'wealth', 'blessings'],
         Strength: ['power', 'resilience', 'fortitude'],
-        Repentance: ['regret', 'atonement', 'penitence']
+        Repentance: ['regret', 'atonement', 'penitence'],
+        Faith: ['belief', 'trust', 'devotion'],
+        Knowledge: ['wisdom', 'understanding', 'learning'],
+        Family: ['kin', 'household', 'relatives'],
+        Justice: ['fairness', 'equity', 'righteousness'],
+        Hope: ['optimism', 'aspiration', 'expectation'],
+        Charity: ['generosity', 'almsgiving', 'benevolence']
       },
       showScrollToTop: false,
-      actionFeedback: {}, // Track button feedback (e.g., "Done!")
+      actionFeedback: {},
+      errorMessage: null,
     };
   },
   computed: {
@@ -41,10 +238,17 @@ export default {
       const references = new Set();
       this.duaCollection.forEach(category => {
         category.duas.forEach(dua => {
-          if (dua.reference) references.add(dua.reference);
+          if (dua.reference) {
+            references.add(dua.reference);
+          }
         });
       });
-      return [...references].sort();
+      return [...references]
+        .map(ref => ({
+          full: ref,
+          display: ref.split(',')[0].trim() // Shortened name for dropdown
+        }))
+        .sort((a, b) => a.display.localeCompare(b.display));
     },
     likedDuasCount() {
       const validIds = this.likedDuas.filter(id => {
@@ -129,21 +333,21 @@ export default {
   methods: {
     highlightText(text) {
       if (!this.searchQuery.trim() && !this.selectedTag) return text;
-      
+
       let highlightedText = text;
-      
+
       const searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
       searchTerms.forEach(term => {
         const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-search">$1</mark>');
       });
-      
+
       const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
       tagTerms.forEach(term => {
         const regex = new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-tag">$1</mark>');
       });
-      
+
       return highlightedText;
     },
     toggleTag(tag) {
@@ -153,6 +357,7 @@ export default {
     clearSearch() {
       this.searchQuery = '';
       this.selectedTag = '';
+      this.selectedReference = '';
       this.resetPagination();
     },
     changeFontSize(action) {
@@ -163,7 +368,7 @@ export default {
       }
     },
     copyContent(dua) {
-      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\n- ${dua.reference}`;
+      const text = `Dua: ${dua.title}\n\n${dua.arabic}\n\n${dua.translation}\n\nReference: ${dua.reference}`;
       navigator.clipboard.writeText(text).then(() => {
         this.showCopyMessage = true;
         setTimeout(() => {
@@ -227,7 +432,7 @@ export default {
     handleScroll() {
       const scrollPosition = window.scrollY;
       const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollThreshold = windowHeight * 0.2; // 20% of page height
+      const scrollThreshold = windowHeight * 0.05; // 5% of page height
       this.showScrollToTop = scrollPosition > scrollThreshold;
     },
     getPaginatedDuas(duas) {
@@ -255,9 +460,23 @@ export default {
     },
   },
   created() {
+    // Initialize likedDuas from localStorage
+    const storedLikedDuas = localStorage.getItem('likedDuas');
+    if (storedLikedDuas) {
+      this.likedDuas = JSON.parse(storedLikedDuas);
+    }
+
     fetch('/duaCollection.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
+        if (!data.categories || !Array.isArray(data.categories)) {
+          throw new Error('Invalid JSON structure: categories not found or not an array');
+        }
         this.duaCollection = data.categories.map(category => ({
           ...category,
           collapsed: false,
@@ -276,10 +495,11 @@ export default {
           });
         });
         this.resetPagination();
-        localStorage.removeItem('likedDuas');
-        this.likedDuas = [];
       })
-      .catch(error => console.error('Error loading dua collection:', error));
+      .catch(error => {
+        console.error('Error loading dua collection:', error);
+        this.errorMessage = 'Failed to load dua collection. Please try again later.';
+      });
     window.addEventListener('scroll', this.handleScroll);
   },
   beforeDestroy() {
@@ -287,275 +507,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="container-fluid py-4">
-    <h1 class="fw-bold text-center mb-3">Dua Collection</h1>
-    <p class="text-center container lead text-muted mb-4">
-      Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude.
-    </p>
-
-    <!-- Custom Search Tags -->
-    <div class="container mb-4">
-      <div class="search-tags d-flex overflow-auto pb-2">
-        <button
-          v-for="tag in searchTags"
-          :key="tag"
-          class="tag-btn me-2"
-          :class="{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }"
-          @click="toggleTag(tag)"
-          :aria-label="`Filter by ${tag}`"
-        >
-          {{ tag }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Search Input -->
-    <div class="container mb-4">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-10">
-          <div class="search-container mb-3">
-            <div class="input-group">
-              <span class="input-group-text text-white" style="background-color: #0db691;">
-                <i class="bi bi-search"></i>
-              </span>
-              <input
-                v-model="searchQuery"
-                type="text"
-                class="form-control search-input"
-                placeholder="Search duas by title, Arabic words, paragraphs, translation or reference"
-                aria-label="Search Duas"
-                @input="resetPagination"
-              />
-              <button
-                v-if="searchQuery || selectedTag"
-                class="btn btn-outline-secondary"
-                @click="clearSearch"
-                aria-label="Clear search"
-              >
-                <i class="bi bi-x"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tabs for All Duas and Liked Duas -->
-    <div class="container mb-4">
-      <div class="tabs-container">
-        <ul class="nav nav-tabs justify-content-center gap-2">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              :class="{ active: viewMode === 'all' }"
-              href="#"
-              @click.prevent="viewMode = 'all'; resetPagination()"
-              aria-current="page"
-            >
-              All Duas
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              :class="{ active: viewMode === 'liked' }"
-              href="#"
-              @click.prevent="viewMode = 'liked'; resetPagination()"
-            >
-              Liked Duas
-              <span v-if="likedDuasCount > 0" class="badge ms-1">{{ likedDuasCount }}</span>
-            </a>
-          </li>
-        </ul>
-        <!-- Clear All Liked Duas Button -->
-        <div v-if="viewMode === 'liked'" class="text-center mt-3">
-          <button
-            class="btn btn-outline interactive-btn"
-            style="border-color: #0db691; color: #0db691;"
-            :disabled="likedDuasCount === 0"
-            @click="clearAllLikedDuas"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Clear all liked duas"
-            aria-label="Clear all liked duas"
-          >
-            {{ actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas' }}
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Category and Reference Dropdowns -->
-    <div v-if="viewMode === 'all'" class="container mb-4">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <h5 class="form-label fw-bold">Select a Category:</h5>
-          <select v-model="selectedCategory" class="form-select" @change="resetPagination">
-            <option value="">All Categories</option>
-            <option v-for="category in duaCollection" :key="category.id" :value="category.id">
-              {{ category.name }} ({{ category.duas.length }})
-            </option>
-          </select>
-        </div>
-        <div class="col-md-6 mb-3">
-          <h5 class="form-label fw-bold">Select a Reference:</h5>
-          <select v-model="selectedReference" class="form-select" @change="resetPagination">
-            <option value="">All References</option>
-            <option v-for="reference in uniqueReferences" :key="reference" :value="reference">
-              {{ reference }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Copy Success Message -->
-    <div v-if="showCopyMessage" class="alert alert-success alert-dismissible fade mx-auto" role="alert">
-      Copied to clipboard
-      <button type="button" @click="showCopyMessage = false" class="btn-close" aria-label="Close"></button>
-    </div>
-
-    <!-- Scroll to Top FAB -->
-    <button
-      v-if="showScrollToTop"
-      class="fab btn btn-primary"
-      @click="scrollToTop"
-      aria-label="Scroll to top"
-    >
-      <i class="bi bi-arrow-up"></i>
-    </button>
-
-    <!-- Duas Display -->
-    <div class="container">
-      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center">
-        {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
-        <button
-          v-if="viewMode === 'liked'"
-          class="btn btn-link p-0 ms-2"
-          @click="viewMode = 'all'; resetPagination"
-        >
-          Explore All Duas
-        </button>
-      </div>
-      <div v-for="category in filteredDuas" :key="category.id" class="mb-4">
-        <div class="d-flex align-items-center justify-content-between">
-          <h3 class="fw-semibold text-start mb-3 category-title">{{ category.name }}</h3>
-          <div class="d-flex align-items-center">
-            <button
-              class="btn btn-outline interactive-btn me-2"
-              style="border-color: #000; color: #000;"
-              :disabled="!category.duas.length"
-              @click="toggleAllInCategory(category.id)"
-              data-bs-toggle="tooltip"
-              data-bs="tooltip"
-              data-bs-placement="top"
-              :title="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
-              :aria-label="allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'"
-             >
-              <i :class="allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1'"></i>
-              {{ actionFeedback[category.id] ? (allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!') : (allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All') }}            </button>
-            <i
-              :class="category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'"
-              @click="toggleCategoryCollapse(category.id)"
-              data-bs-toggle="tooltip"
-              data-bs="tooltip"
-              data-bs-placement="top"
-              :title="category.collapsed ? 'Expand Category' : 'Collapse Category'"
-              :aria-label="category.collapsed ? 'Expand Category' : 'Collapse Category'"
-              role="button"
-            ></i>
-          </div>
-        </div>
-        <div v-if="!category.collapsed" class="row">
-          <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6 mb-3">
-            <div class="card dua-card shadow-md" :style="{ '--font-size-base': fontSize + 'px' }">
-              <div class="card-body">
-                <h5 class="fw-semibold text-start title-text mb-3" v-html="highlightText(dua.title)"></h5>
-                <p class="text-end arabic-text mb-3" v-html="highlightText(dua.arabic)"></p>
-                <p class="text-start translation-text mb-3" v-html="highlightText(dua.translation)"></p>
-                <p class="text-start reference-text text-muted mb-0" v-html="highlightText('- ' + dua.reference)"></p>
-              </div>
-              <div class="card-footer d-flex justify-content-between align-items-center">
-                <div class="icon-wrapper">
-                  <i
-                    class="bi bi-dash-circle action-icon"
-                    @click="changeFontSize('decrease')"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Decrease Font Size"
-                    aria-label="Decrease Font Size"
-                    role="button"
-                  ></i>
-                </div>
-                <div class="icon-wrapper">
-                  <i
-                    class="bi bi-plus-circle action-icon"
-                    @click="changeFontSize('increase')"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Increase Font Size"
-                    aria-label="Increase Font Size"
-                    role="button"
-                  ></i>
-                </div>
-                <div class="icon-wrapper">
-                  <i
-                    class="bi bi-share action-icon"
-                    @click="shareOnWhatsApp(dua)"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Share Content"
-                    aria-label="Share Content"
-                    role="button"
-                  ></i>
-                </div>
-                <div class="icon-wrapper">
-                  <i
-                    class="bi bi-clipboard action-icon"
-                    @click="copyContent(dua)"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="Copy Content"
-                    aria-label="Copy Content"
-                    role="button"
-                  ></i>
-                </div>
-                <div class="icon-wrapper">
-                  <i
-                    :class="likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'"
-                    @click="toggleLike(dua.id)"
-                    data-bs-toggle="tooltip"
-                    data-bs-title="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
-                    :aria-label="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'"
-                    role="button"
-                  ></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="!category.collapsed" class="pagination d-flex justify-content-center align-items-center mt-3">
-          <button
-            class="btn btn-outline-secondary me-2"
-            :disabled="currentPage[category.id] === 1"
-            @click="changePage('prev', category.id)"
-            aria-label="Previous page"
-          >
-            <i class="bi bi-chevron-left"></i>
-          </button>
-          <span class="pagination-text">{{ currentPage[category.id] }} / {{ totalPages(category.duas) }}</span>
-          <button
-            class="btn btn-outline-secondary ms-2"
-            :disabled="currentPage[category.id] >= totalPages(category.duas)"
-            @click="changePage('next', category.id)"
-            aria-label="Next page"
-          >
-            <i class="bi bi-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
@@ -571,37 +522,80 @@ body {
   bottom: 20px;
   right: 20px;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+
+.fab-icon {
+  font-size: 1.7rem;
+}
+
 .action-icon {
   cursor: pointer;
   font-size: 1.2rem;
 }
+
 .action-icon.liked {
   color: #dc3545;
 }
+
 .btn-outline.interactive-btn {
   border-color: #0db691;
-  color: black;
+  color: #0db691;
   transition: all 0.3s ease;
 }
+
 .btn-outline.interactive-btn:hover:not(:disabled) {
-  background-color: #0db69149;
-  color: black;
+  background-color: #0db69162;
+  color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .btn-outline.interactive-btn:active {
   transform: scale(0.95);
 }
+
 .btn-outline.interactive-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.icon-btn {
+  /* border: 1px solid #0db691; */
+  color: #000000;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  /* font-weight: 500; */
+  font-size: 1em;
+}
+
+.icon-btn:hover:not(.disabled) {
+  background-color: #0db69162;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon-btn:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.icon-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.icon-btn i {
+  font-size: 1.2rem;
 }
 
 h1 {
@@ -631,7 +625,7 @@ h1 {
 }
 
 .card-body {
-  padding: 2.0rem;
+  /* padding: 2.0rem; */
 }
 
 .card-footer {
@@ -688,7 +682,7 @@ h1 {
 }
 
 .action-icon:hover {
-  color: #0db691;
+  color: #0db69165;
   transform: scale(1.15);
 }
 
@@ -857,13 +851,10 @@ h1 {
   border: none;
   border-radius: 10px;
   padding: 0.625rem 1.25rem;
-  /* font-size: clamp(0.875rem, 3vw, 1rem); */
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
-  /* text-overflow: ellipsis; */
-  /* overflow: hidden; */
   white-space: nowrap;
 }
 
@@ -876,6 +867,8 @@ h1 {
   background-color: #0db691;
   color: white;
 }
+
+
 
 @media (max-width: 767.98px) {
   .action-icon {
@@ -903,7 +896,6 @@ h1 {
   .tag-btn {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
-    /* min-width: 80px; */
   }
 }
 </style>

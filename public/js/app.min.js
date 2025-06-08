@@ -36296,10 +36296,17 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         Peace: ['tranquility', 'calm', 'serenity'],
         Provision: ['sustenance', 'wealth', 'blessings'],
         Strength: ['power', 'resilience', 'fortitude'],
-        Repentance: ['regret', 'atonement', 'penitence']
+        Repentance: ['regret', 'atonement', 'penitence'],
+        Faith: ['belief', 'trust', 'devotion'],
+        Knowledge: ['wisdom', 'understanding', 'learning'],
+        Family: ['kin', 'household', 'relatives'],
+        Justice: ['fairness', 'equity', 'righteousness'],
+        Hope: ['optimism', 'aspiration', 'expectation'],
+        Charity: ['generosity', 'almsgiving', 'benevolence']
       },
       showScrollToTop: false,
-      actionFeedback: {} // Track button feedback (e.g., "Done!")
+      actionFeedback: {},
+      errorMessage: null
     };
   },
   computed: {
@@ -36307,10 +36314,19 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       var references = new Set();
       this.duaCollection.forEach(function (category) {
         category.duas.forEach(function (dua) {
-          if (dua.reference) references.add(dua.reference);
+          if (dua.reference) {
+            references.add(dua.reference);
+          }
         });
       });
-      return _toConsumableArray(references).sort();
+      return _toConsumableArray(references).map(function (ref) {
+        return {
+          full: ref,
+          display: ref.split(',')[0].trim() // Shortened name for dropdown
+        };
+      }).sort(function (a, b) {
+        return a.display.localeCompare(b.display);
+      });
     },
     likedDuasCount: function likedDuasCount() {
       var _this = this;
@@ -36422,6 +36438,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     clearSearch: function clearSearch() {
       this.searchQuery = '';
       this.selectedTag = '';
+      this.selectedReference = '';
       this.resetPagination();
     },
     changeFontSize: function changeFontSize(action) {
@@ -36433,7 +36450,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     copyContent: function copyContent(dua) {
       var _this4 = this;
-      var text = "Dua: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\n").concat(dua.translation, "\n\n- ").concat(dua.reference);
+      var text = "Dua: ".concat(dua.title, "\n\n").concat(dua.arabic, "\n\n").concat(dua.translation, "\n\nReference: ").concat(dua.reference);
       navigator.clipboard.writeText(text).then(function () {
         _this4.showCopyMessage = true;
         setTimeout(function () {
@@ -36512,7 +36529,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     handleScroll: function handleScroll() {
       var scrollPosition = window.scrollY;
       var windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var scrollThreshold = windowHeight * 0.2; // 20% of page height
+      var scrollThreshold = windowHeight * 0.05; // 5% of page height
       this.showScrollToTop = scrollPosition > scrollThreshold;
     },
     getPaginatedDuas: function getPaginatedDuas(duas) {
@@ -36545,9 +36562,20 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   },
   created: function created() {
     var _this8 = this;
+    // Initialize likedDuas from localStorage
+    var storedLikedDuas = localStorage.getItem('likedDuas');
+    if (storedLikedDuas) {
+      this.likedDuas = JSON.parse(storedLikedDuas);
+    }
     fetch('/duaCollection.json').then(function (response) {
+      if (!response.ok) {
+        throw new Error("HTTP error! Status: ".concat(response.status));
+      }
       return response.json();
     }).then(function (data) {
+      if (!data.categories || !Array.isArray(data.categories)) {
+        throw new Error('Invalid JSON structure: categories not found or not an array');
+      }
       _this8.duaCollection = data.categories.map(function (category) {
         return _objectSpread(_objectSpread({}, category), {}, {
           collapsed: false,
@@ -36568,10 +36596,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         });
       });
       _this8.resetPagination();
-      localStorage.removeItem('likedDuas');
-      _this8.likedDuas = [];
     })["catch"](function (error) {
-      return console.error('Error loading dua collection:', error);
+      console.error('Error loading dua collection:', error);
+      _this8.errorMessage = 'Failed to load dua collection. Please try again later.';
     });
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -55849,32 +55876,34 @@ var _hoisted_1 = {
   "class": "container-fluid py-4"
 };
 var _hoisted_2 = {
-  "class": "container mb-4"
+  key: 0,
+  "class": "alert alert-danger text-center",
+  role: "alert"
 };
 var _hoisted_3 = {
+  "class": "container mb-4"
+};
+var _hoisted_4 = {
   "class": "search-tags d-flex overflow-auto pb-2"
 };
-var _hoisted_4 = ["onClick", "aria-label"];
-var _hoisted_5 = {
-  "class": "container mb-4"
-};
+var _hoisted_5 = ["onClick", "aria-label"];
 var _hoisted_6 = {
-  "class": "row justify-content-center"
+  "class": "container mb-4"
 };
 var _hoisted_7 = {
-  "class": "col-12 col-md-10"
+  "class": "row justify-content-center"
 };
 var _hoisted_8 = {
-  "class": "search-container mb-3"
+  "class": "col-12 col-md-10"
 };
 var _hoisted_9 = {
-  "class": "input-group"
+  "class": "search-container mb-3"
 };
 var _hoisted_10 = {
-  "class": "container mb-4"
+  "class": "input-group"
 };
 var _hoisted_11 = {
-  "class": "tabs-container"
+  "class": "container mb-4"
 };
 var _hoisted_12 = {
   "class": "nav nav-tabs justify-content-center gap-2"
@@ -55893,58 +55922,60 @@ var _hoisted_16 = {
   key: 0,
   "class": "text-center mt-3"
 };
-var _hoisted_17 = ["disabled"];
-var _hoisted_18 = {
-  key: 0,
+var _hoisted_17 = {
+  key: 1,
   "class": "container mb-4"
 };
-var _hoisted_19 = {
+var _hoisted_18 = {
   "class": "row"
 };
-var _hoisted_20 = {
+var _hoisted_19 = {
   "class": "col-md-6 mb-3"
 };
-var _hoisted_21 = ["value"];
-var _hoisted_22 = {
+var _hoisted_20 = ["value"];
+var _hoisted_21 = {
   "class": "col-md-6 mb-3"
 };
-var _hoisted_23 = ["value"];
-var _hoisted_24 = {
-  key: 1,
-  "class": "alert alert-success alert-dismissible fade mx-auto",
+var _hoisted_22 = ["value"];
+var _hoisted_23 = {
+  key: 2,
+  "class": "alert alert-success alert-dismissible fade show mx-auto",
   role: "alert"
 };
-var _hoisted_25 = {
+var _hoisted_24 = {
   "class": "container"
 };
-var _hoisted_26 = {
+var _hoisted_25 = {
   key: 0,
   "class": "alert alert-info text-center"
 };
-var _hoisted_27 = {
+var _hoisted_26 = {
   "class": "d-flex align-items-center justify-content-between"
 };
-var _hoisted_28 = {
+var _hoisted_27 = {
   "class": "fw-semibold text-start mb-3 category-title"
 };
-var _hoisted_29 = {
+var _hoisted_28 = {
   "class": "d-flex align-items-center"
 };
-var _hoisted_30 = ["disabled", "onClick", "title", "aria-label"];
-var _hoisted_31 = ["onClick", "title", "aria-label"];
-var _hoisted_32 = {
+var _hoisted_29 = ["onClick", "title", "aria-label"];
+var _hoisted_30 = ["onClick", "title", "aria-label"];
+var _hoisted_31 = {
   key: 0,
   "class": "row"
 };
-var _hoisted_33 = {
+var _hoisted_32 = {
   "class": "card-body"
 };
+var _hoisted_33 = ["innerHTML"];
 var _hoisted_34 = ["innerHTML"];
 var _hoisted_35 = ["innerHTML"];
 var _hoisted_36 = ["innerHTML"];
-var _hoisted_37 = ["innerHTML"];
-var _hoisted_38 = {
+var _hoisted_37 = {
   "class": "card-footer d-flex justify-content-between align-items-center"
+};
+var _hoisted_38 = {
+  "class": "icon-wrapper"
 };
 var _hoisted_39 = {
   "class": "icon-wrapper"
@@ -55952,33 +55983,30 @@ var _hoisted_39 = {
 var _hoisted_40 = {
   "class": "icon-wrapper"
 };
-var _hoisted_41 = {
+var _hoisted_41 = ["onClick"];
+var _hoisted_42 = {
   "class": "icon-wrapper"
 };
-var _hoisted_42 = ["onClick"];
-var _hoisted_43 = {
+var _hoisted_43 = ["onClick"];
+var _hoisted_44 = {
   "class": "icon-wrapper"
 };
-var _hoisted_44 = ["onClick"];
-var _hoisted_45 = {
-  "class": "icon-wrapper"
-};
-var _hoisted_46 = ["onClick", "aria-label"];
-var _hoisted_47 = {
+var _hoisted_45 = ["onClick", "title", "aria-label"];
+var _hoisted_46 = {
   key: 1,
   "class": "pagination d-flex justify-content-center align-items-center mt-3"
 };
-var _hoisted_48 = ["disabled", "onClick"];
-var _hoisted_49 = {
+var _hoisted_47 = ["disabled", "onClick"];
+var _hoisted_48 = {
   "class": "pagination-text"
 };
-var _hoisted_50 = ["disabled", "onClick"];
+var _hoisted_49 = ["disabled", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold text-center mb-3"
-  }, "Dua Collection", -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Dua Collection", -1 /* HOISTED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container lead text-muted mb-4"
-  }, " Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchTags, function (tag) {
+  }, " Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchTags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: tag,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tag-btn me-2", {
@@ -55988,8 +56016,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.toggleTag(tag);
       },
       "aria-label": "Filter by ".concat(tag)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 11 /* TEXT, CLASS, PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 11 /* TEXT, CLASS, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text text-white",
     style: {
       "background-color": "#0db691"
@@ -56007,7 +56035,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery || $data.selectedTag ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery || $data.selectedTag || $data.selectedReference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-outline-secondary",
     onClick: _cache[2] || (_cache[2] = function () {
@@ -56016,7 +56044,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Clear search"
   }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
       active: $data.viewMode === 'all'
     }]),
@@ -56035,21 +56063,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       $data.viewMode = 'liked';
       $options.resetPagination();
     }, ["prevent"]))
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ")), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear All Liked Duas Button "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline interactive-btn",
-    style: {
-      "border-color": "#0db691",
-      "color": "#0db691"
-    },
-    disabled: $options.likedDuasCount === 0,
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ")), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear All Liked Duas Button "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn", {
+      disabled: $options.likedDuasCount === 0
+    }]),
     onClick: _cache[5] || (_cache[5] = function () {
       return $options.clearAllLikedDuas && $options.clearAllLikedDuas.apply($options, arguments);
     }),
     "data-bs-toggle": "tooltip",
     "data-bs-placement": "top",
     title: "Clear all liked duas",
-    "aria-label": "Clear all liked duas"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 9 /* TEXT, PROPS */, _hoisted_17)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "aria-label": "Clear all liked duas",
+    role: "button"
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-trash me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "form-label fw-bold"
   }, "Select a Category:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
@@ -56059,14 +56087,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[7] || (_cache[7] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All Categories", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_20);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "form-label fw-bold"
   }, "Select a Reference:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
@@ -56076,69 +56104,72 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[9] || (_cache[9] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
-  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All References", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueReferences, function (reference) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: reference,
-      value: reference
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference), 9 /* TEXT, PROPS */, _hoisted_23);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copied to clipboard ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      key: reference.full,
+      value: reference.full
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.display), 9 /* TEXT, PROPS */, _hoisted_22);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copied to clipboard ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
+    "class": "btn-close",
     onClick: _cache[10] || (_cache[10] = function ($event) {
       return $data.showCopyMessage = false;
     }),
-    "class": "btn-close",
     "aria-label": "Close"
   })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), $data.showScrollToTop ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 2,
-    "class": "fab btn btn-primary",
+    key: 3,
+    "class": "fab btn",
+    style: {
+      "background-color": "#0db691"
+    },
     onClick: _cache[11] || (_cache[11] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
     "aria-label": "Scroll to top"
-  }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-arrow-up"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi-arrow-up-circle fab-icon text-white"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    "class": "btn btn-link p-0 ms-2",
+    "class": "btn btn-link p-0 ms-1",
     onClick: _cache[12] || (_cache[12] = function ($event) {
       $data.viewMode = 'all';
-      $options.resetPagination;
+      $options.resetPagination();
     })
   }, " Explore All Duas ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
       "class": "mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline interactive-btn me-2",
-      style: {
-        "border-color": "#000",
-        "color": "#000"
-      },
-      disabled: !category.duas.length,
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_27, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      src: "images/art.png",
+      width: "30px",
+      "class": "mb-1 mr-2"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn me-2", {
+        disabled: !category.duas.length
+      }]),
       onClick: function onClick($event) {
         return $options.toggleAllInCategory(category.id);
       },
       "data-bs-toggle": "tooltip",
-      "data-bs": "tooltip",
       "data-bs-placement": "top",
       title: $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category',
-      "aria-label": $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'
+      "aria-label": $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category',
+      role: "button"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1')
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback[category.id] ? $options.allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!' : $options.allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback[category.id] ? $options.allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!' : $options.allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'),
       onClick: function onClick($event) {
         return $options.toggleCategoryCollapse(category.id);
       },
       "data-bs-toggle": "tooltip",
-      "data-bs": "tooltip",
       "data-bs-placement": "top",
       title: category.collapsed ? 'Expand Category' : 'Collapse Category',
       "aria-label": category.collapsed ? 'Expand Category' : 'Collapse Category',
       role: "button"
-    }, null, 10 /* CLASS, PROPS */, _hoisted_31)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_30)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: dua.id,
         "class": "col-12 col-md-6 mb-3"
@@ -56147,83 +56178,88 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           '--font-size-base': $data.fontSize + 'px'
         })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
         "class": "fw-semibold text-start title-text mb-3",
         innerHTML: $options.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "text-end arabic-text mb-3",
         innerHTML: $options.highlightText(dua.arabic)
-      }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "text-start translation-text mb-3",
         innerHTML: $options.highlightText(dua.translation)
-      }, null, 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         "class": "text-start reference-text text-muted mb-0",
         innerHTML: $options.highlightText('- ' + dua.reference)
-      }, null, 8 /* PROPS */, _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-dash-circle action-icon",
         onClick: _cache[13] || (_cache[13] = function ($event) {
           return $options.changeFontSize('decrease');
         }),
         "data-bs-toggle": "tooltip",
-        "data-bs-title": "Decrease Font Size",
+        "data-bs-placement": "top",
+        title: "Decrease Font Size",
         "aria-label": "Decrease Font Size",
         role: "button"
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-plus-circle action-icon",
         onClick: _cache[14] || (_cache[14] = function ($event) {
           return $options.changeFontSize('increase');
         }),
         "data-bs-toggle": "tooltip",
-        "data-bs-title": "Increase Font Size",
+        "data-bs-placement": "top",
+        title: "Increase Font Size",
         "aria-label": "Increase Font Size",
         role: "button"
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-share action-icon",
         onClick: function onClick($event) {
           return $options.shareOnWhatsApp(dua);
         },
         "data-bs-toggle": "tooltip",
-        "data-bs-title": "Share Content",
+        "data-bs-placement": "top",
+        title: "Share Content",
         "aria-label": "Share Content",
         role: "button"
-      }, null, 8 /* PROPS */, _hoisted_42)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-clipboard action-icon",
         onClick: function onClick($event) {
           return $options.copyContent(dua);
         },
         "data-bs-toggle": "tooltip",
-        "data-bs-title": "Copy Content",
+        "data-bs-placement": "top",
+        title: "Copy Content",
         "aria-label": "Copy Content",
         role: "button"
-      }, null, 8 /* PROPS */, _hoisted_44)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'),
         onClick: function onClick($event) {
           return $options.toggleLike(dua.id);
         },
         "data-bs-toggle": "tooltip",
-        "data-bs-title": "likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'",
+        "data-bs-placement": "top",
+        title: $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
         "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
         role: "button"
-      }, null, 10 /* CLASS, PROPS */, _hoisted_46)])])], 4 /* STYLE */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 10 /* CLASS, PROPS */, _hoisted_45)])])], 4 /* STYLE */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-outline-secondary me-2",
       disabled: $data.currentPage[category.id] === 1,
       onClick: function onClick($event) {
         return $options.changePage('prev', category.id);
       },
-      "aria-label": "Previous page"
-    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Previous Page"
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-chevron-left"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-outline-secondary ms-2",
       disabled: $data.currentPage[category.id] >= $options.totalPages(category.duas),
       onClick: function onClick($event) {
         return $options.changePage('next', category.id);
       },
-      "aria-label": "Next page"
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Next Page"
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-chevron-right"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_50)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
@@ -57785,17 +57821,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4 d-flex pb-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4 d-flex pb-3\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/rug.png\" alt=\"Seerah Timeline\" class=\"w-100 mt-1\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Salat Teachings</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover the beauty of Islamic\n              prayer with our Salat Guide. This walks you through each of the five daily prayers\n            </p>\n            <button class=\"form-control\" onclick=\"window.location.href='/athkar'\"\n              style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Learn Salat</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
     style: {
       "border": "1px solid grey"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/rug.png",
-    alt: "Seerah Timeline",
-    "class": "w-100 mt-1",
+    src: "/images/duaa1.png",
+    alt: "Explore Duas",
+    "class": "w-100 pt-3",
     style: {
       "object-fit": "contain"
     }
@@ -57803,16 +57839,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Salat Teachings"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Discover the beauty of Islamic prayer with our Salat Guide. This walks you through each of the five daily prayers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
-    onclick: "window.location.href='/athkar'",
+    onclick: "window.location.href='/dua'",
     style: {
       "background": "#00bfa6",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -57823,7 +57859,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Learn Salat")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -57900,44 +57936,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/duaa1.png",
-    alt: "Explore Duas",
-    "class": "w-100 pt-3",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/dua'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Duas")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -163141,7 +163139,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-7926cb50] {\n  background-color: #ffffff;\n  font-family: 'Inter', sans-serif;\n  color: #000000;\n}\n.fab[data-v-7926cb50] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);\n}\n.action-icon[data-v-7926cb50] {\n  cursor: pointer;\n  font-size: 1.2rem;\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n}\n.btn-outline.interactive-btn[data-v-7926cb50] {\n  border-color: #0db691;\n  color: black;\n  transition: all 0.3s ease;\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db69149;\n  color: black;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:active {\n  transform: scale(0.95);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\nh1[data-v-7926cb50] {\n  font-size: clamp(2.25rem, 5vw, 3.25rem);\n  font-weight: 600;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.lead[data-v-7926cb50] {\n  font-size: clamp(1.125rem, 3vw, 1.25rem);\n  font-weight: 400;\n  line-height: 1.5;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: #ffffff;\n  border: none;\n  border-radius: 18px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.card-body[data-v-7926cb50] {\n  padding: 2.0rem;\n}\n.card-footer[data-v-7926cb50] {\n  border-top: none;\n}\n.title-text[data-v-7926cb50] {\n  font-size: clamp(1.25rem, 3vw, 1.5rem);\n  font-weight: 500;\n  line-height: 1.4;\n  letter-spacing: 0.01em;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-weight: 400;\n  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 26px);\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 24px);\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 22px);\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-size: clamp(1.5rem, 4vw, 1.75rem);\n  font-weight: 500;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.icon-wrapper[data-v-7926cb50] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 0.75rem;\n}\n.action-icon[data-v-7926cb50] {\n  color: #6b7280;\n  cursor: pointer;\n  padding: 10px;\n  font-size: 1.5em;\n  transition: transform 0.3s ease, color 0.3s ease;\n}\n.action-icon[data-v-7926cb50]:hover {\n  color: #0db691;\n  transform: scale(1.15);\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n  animation: pulse-7926cb50 0.3s ease;\n}\n.action-icon.liked[data-v-7926cb50]:hover {\n  color: #c82333;\n}\n@keyframes pulse-7926cb50 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.2);\n}\n100% {\n    transform: scale(1);\n}\n}\n.nav-tabs[data-v-7926cb50] {\n  border: none;\n}\n.nav-link[data-v-7926cb50] {\n  font-weight: 500;\n  color: #000000;\n  background-color: #e5e7eb;\n  padding: 0.75rem 1.5rem;\n  border-radius: 10px;\n  letter-spacing: 0.02em;\n  transition: all 0.3s ease;\n  text-decoration: none;\n}\n.nav-link[data-v-7926cb50]:hover {\n  color: #000000;\n}\n.nav-link.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n  transform: scale(1.05);\n}\n.badge[data-v-7926cb50] {\n  background-color: #b60d0d;\n  font-size: 0.875rem;\n  padding: 0.375rem 0.75rem;\n  border-radius: 999px;\n  vertical-align: middle;\n}\n.pagination button[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  padding: 0.5rem 1rem;\n  border-radius: 8px;\n  min-height: 44px;\n  border-color: #d1d5db;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.pagination-text[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  color: #6b7280;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.3s ease;\n}\n.input-group[data-v-7926cb50] {\n  height: 48px;\n}\n.input-group-text[data-v-7926cb50] {\n  border: none;\n  border-radius: 8px 0 0 8px;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.search-input[data-v-7926cb50] {\n  font-size: 1.125rem;\n  padding: 0.75rem 1rem;\n  border-radius: 0;\n  border-color: #d1d5db;\n  height: 48px;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.btn-outline-secondary[data-v-7926cb50] {\n  border-radius: 0 8px 8px 0;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  border-color: #d1d5db;\n}\n.btn-outline-secondary[data-v-7926cb50]:hover {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.btn-outline-secondary i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.form-select[data-v-7926cb50] {\n  font-size: 1rem;\n  padding: 0.75rem;\n  border-radius: 8px;\n  border-color: #d1d5db;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.alert[data-v-7926cb50] {\n  max-width: 500px;\n  margin: 0 auto 1rem;\n  border-radius: 8px;\n}\n.search-tags[data-v-7926cb50] {\n  display: flex;\n  white-space: nowrap;\n  scroll-behavior: smooth;\n  -ms-overflow-style: none;\n  scrollbar-width: none;\n}\n.search-tags[data-v-7926cb50]::-webkit-scrollbar {\n  display: none;\n}\n.tag-btn[data-v-7926cb50] {\n  background-color: #e5e7eb;\n  color: #000000;\n  border: none;\n  border-radius: 10px;\n  padding: 0.625rem 1.25rem;\n  /* font-size: clamp(0.875rem, 3vw, 1rem); */\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  text-align: center;\n  /* text-overflow: ellipsis; */\n  /* overflow: hidden; */\n  white-space: nowrap;\n}\n.tag-btn[data-v-7926cb50]:hover {\n  background-color: #12d6a0;\n  color: white;\n}\n.tag-btn.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n}\n@media (max-width: 767.98px) {\n.action-icon[data-v-7926cb50] {\n    font-size: 1.5rem;\n}\n.icon-wrapper[data-v-7926cb50] {\n    width: 46px;\n    height: 46px;\n}\n.dua-card[data-v-7926cb50] {\n    margin-bottom: 1rem;\n}\n.pagination button[data-v-7926cb50] {\n    padding: 0.5rem 0.75rem;\n}\n.nav-link[data-v-7926cb50] {\n    font-size: 1rem;\n    padding: 0.5rem 1rem;\n}\n.tag-btn[data-v-7926cb50] {\n    font-size: 0.875rem;\n    padding: 0.5rem 1rem;\n    /* min-width: 80px; */\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-7926cb50] {\n  background-color: #ffffff;\n  font-family: 'Inter', sans-serif;\n  color: #000000;\n}\n.fab[data-v-7926cb50] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  border-radius: 50%;\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);\n}\n.fab-icon[data-v-7926cb50] {\n  font-size: 1.7rem;\n}\n.action-icon[data-v-7926cb50] {\n  cursor: pointer;\n  font-size: 1.2rem;\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n}\n.btn-outline.interactive-btn[data-v-7926cb50] {\n  border-color: #0db691;\n  color: #0db691;\n  transition: all 0.3s ease;\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db69162;\n  color: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:active {\n  transform: scale(0.95);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.icon-btn[data-v-7926cb50] {\n  /* border: 1px solid #0db691; */\n  color: #000000;\n  font-weight: bold;\n  padding: 0.5rem 0.5rem;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: inline-flex;\n  align-items: center;\n  /* font-weight: 500; */\n  font-size: 1em;\n}\n.icon-btn[data-v-7926cb50]:hover:not(.disabled) {\n  background-color: #0db69162;\n  color: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.icon-btn[data-v-7926cb50]:active:not(.disabled) {\n  transform: scale(0.95);\n}\n.icon-btn.disabled[data-v-7926cb50] {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.icon-btn i[data-v-7926cb50] {\n  font-size: 1.2rem;\n}\nh1[data-v-7926cb50] {\n  font-size: clamp(2.25rem, 5vw, 3.25rem);\n  font-weight: 600;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.lead[data-v-7926cb50] {\n  font-size: clamp(1.125rem, 3vw, 1.25rem);\n  font-weight: 400;\n  line-height: 1.5;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: #ffffff;\n  border: none;\n  border-radius: 18px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.card-body[data-v-7926cb50] {\n  /* padding: 2.0rem; */\n}\n.card-footer[data-v-7926cb50] {\n  border-top: none;\n}\n.title-text[data-v-7926cb50] {\n  font-size: clamp(1.25rem, 3vw, 1.5rem);\n  font-weight: 500;\n  line-height: 1.4;\n  letter-spacing: 0.01em;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-weight: 400;\n  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 26px);\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 24px);\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 22px);\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-size: clamp(1.5rem, 4vw, 1.75rem);\n  font-weight: 500;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.icon-wrapper[data-v-7926cb50] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 0.75rem;\n}\n.action-icon[data-v-7926cb50] {\n  color: #6b7280;\n  cursor: pointer;\n  padding: 10px;\n  font-size: 1.5em;\n  transition: transform 0.3s ease, color 0.3s ease;\n}\n.action-icon[data-v-7926cb50]:hover {\n  color: #0db69165;\n  transform: scale(1.15);\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n  animation: pulse-7926cb50 0.3s ease;\n}\n.action-icon.liked[data-v-7926cb50]:hover {\n  color: #c82333;\n}\n@keyframes pulse-7926cb50 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.2);\n}\n100% {\n    transform: scale(1);\n}\n}\n.nav-tabs[data-v-7926cb50] {\n  border: none;\n}\n.nav-link[data-v-7926cb50] {\n  font-weight: 500;\n  color: #000000;\n  background-color: #e5e7eb;\n  padding: 0.75rem 1.5rem;\n  border-radius: 10px;\n  letter-spacing: 0.02em;\n  transition: all 0.3s ease;\n  text-decoration: none;\n}\n.nav-link[data-v-7926cb50]:hover {\n  color: #000000;\n}\n.nav-link.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n  transform: scale(1.05);\n}\n.badge[data-v-7926cb50] {\n  background-color: #b60d0d;\n  font-size: 0.875rem;\n  padding: 0.375rem 0.75rem;\n  border-radius: 999px;\n  vertical-align: middle;\n}\n.pagination button[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  padding: 0.5rem 1rem;\n  border-radius: 8px;\n  min-height: 44px;\n  border-color: #d1d5db;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.pagination-text[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  color: #6b7280;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.3s ease;\n}\n.input-group[data-v-7926cb50] {\n  height: 48px;\n}\n.input-group-text[data-v-7926cb50] {\n  border: none;\n  border-radius: 8px 0 0 8px;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.search-input[data-v-7926cb50] {\n  font-size: 1.125rem;\n  padding: 0.75rem 1rem;\n  border-radius: 0;\n  border-color: #d1d5db;\n  height: 48px;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.btn-outline-secondary[data-v-7926cb50] {\n  border-radius: 0 8px 8px 0;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  border-color: #d1d5db;\n}\n.btn-outline-secondary[data-v-7926cb50]:hover {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.btn-outline-secondary i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.form-select[data-v-7926cb50] {\n  font-size: 1rem;\n  padding: 0.75rem;\n  border-radius: 8px;\n  border-color: #d1d5db;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.alert[data-v-7926cb50] {\n  max-width: 500px;\n  margin: 0 auto 1rem;\n  border-radius: 8px;\n}\n.search-tags[data-v-7926cb50] {\n  display: flex;\n  white-space: nowrap;\n  scroll-behavior: smooth;\n  -ms-overflow-style: none;\n  scrollbar-width: none;\n}\n.search-tags[data-v-7926cb50]::-webkit-scrollbar {\n  display: none;\n}\n.tag-btn[data-v-7926cb50] {\n  background-color: #e5e7eb;\n  color: #000000;\n  border: none;\n  border-radius: 10px;\n  padding: 0.625rem 1.25rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  text-align: center;\n  white-space: nowrap;\n}\n.tag-btn[data-v-7926cb50]:hover {\n  background-color: #12d6a0;\n  color: white;\n}\n.tag-btn.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n}\n@media (max-width: 767.98px) {\n.action-icon[data-v-7926cb50] {\n    font-size: 1.5rem;\n}\n.icon-wrapper[data-v-7926cb50] {\n    width: 46px;\n    height: 46px;\n}\n.dua-card[data-v-7926cb50] {\n    margin-bottom: 1rem;\n}\n.pagination button[data-v-7926cb50] {\n    padding: 0.5rem 0.75rem;\n}\n.nav-link[data-v-7926cb50] {\n    font-size: 1rem;\n    padding: 0.5rem 1rem;\n}\n.tag-btn[data-v-7926cb50] {\n    font-size: 0.875rem;\n    padding: 0.5rem 1rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
