@@ -44760,366 +44760,1016 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "TasbeehCounter",
-  data: function data() {
-    return {
-      animatedCounter: 0,
-      counter: 0,
-      goal: 33,
-      dhikrList: ["SubhanAllah", "Alhamdulillah", "Allahu Akbar"],
-      dhikrListAr: ["سبحان الله", "الحمد لله", "الله أكبر"],
-      showMilestone: false,
-      milestoneMessage: "",
-      audio: null,
-      isListening: false,
-      recognition: null,
-      recognitionAvailable: false,
-      voiceStatus: "",
-      touchStartX: null,
-      touchEndX: null,
-      swipeDirection: null
-    };
-  },
-  computed: {
-    currentDhikr: function currentDhikr() {
-      var round = Math.floor(this.counter / this.goal) % this.dhikrList.length;
-      console.log('Computed currentDhikr:', this.dhikrList[round]);
-      return this.dhikrList[round];
-    },
-    currentDhikrAr: function currentDhikrAr() {
-      var round = Math.floor(this.counter / this.goal) % this.dhikrListAr.length;
-      console.log('Computed currentDhikrAr:', this.dhikrListAr[round]);
-      return this.dhikrListAr[round];
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-      var saved, audioUrl, cachedAudio, response, blob, reader, SpeechRecognition;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            console.log('Component mounted at', new Date().toISOString());
+  name: 'TasbeehComponent',
+  setup: function setup() {
+    // State
+    var count = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var targetCount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(33);
+    var selectedDhikr = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(1);
+    var currentTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(new Date());
+    var showSettings = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var soundEnabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
+    var hapticEnabled = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
+    var selectedTheme = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('Light');
+    var currentLanguage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
+      code: 'en',
+      name: 'English'
+    });
+    var sessionActive = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var sessionStartTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var voiceInputActive = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var guidedSessionActive = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var selectedGuidedSession = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(1);
+    var guidedTimeRemaining = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var guidedTimer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var todayTotal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var todaySessions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var todayTimeSpent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var recentHistory = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    var calendarDays = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    var currentMonth = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(new Date());
+    var alertMessage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var alertType = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('alert-success');
+    var newDua = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
+      arabic: '',
+      transliteration: '',
+      translation: '',
+      defaultCount: 33,
+      description: ''
+    });
+    var selectedDay = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var dayHistory = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    var touchStartX = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var touchStartY = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var touchEndX = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var touchEndY = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var tooltipTrigger = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var collapsedSections = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
+      dhikrGuide: false,
+      progressTracking: false,
+      dailyQuote: false,
+      guidedSession: false,
+      recentHistory: false
+    });
+    var deletingDuaId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var deletingDuaName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var isDeleting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
 
-            // Load saved counter
-            try {
-              saved = localStorage.getItem("tasbeehCounter");
-              if (saved) {
-                _this.counter = parseInt(saved, 10) || 0;
-                _this.animatedCounter = _this.counter;
-                console.log('Loaded counter from localStorage:', _this.counter);
-              }
-            } catch (error) {
-              console.error('Failed to load from localStorage:', error);
-            }
+    // Languages
+    var languages = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      code: 'en',
+      name: 'English'
+    }, {
+      code: 'ar',
+      name: 'العربية'
+    }, {
+      code: 'ur',
+      name: 'اردو'
+    }, {
+      code: 'tr',
+      name: 'Türkçe'
+    }, {
+      code: 'id',
+      name: 'Bahasa Indonesia'
+    }]);
 
-            // Initialize audio with offline fallback
-            _context.prev = 2;
-            audioUrl = "https://www.fesliyanstudios.com/play-mp3/387";
-            cachedAudio = localStorage.getItem("tasbeehAudio");
-            if (!cachedAudio) {
-              _context.next = 10;
-              break;
-            }
-            _this.audio = new Audio(cachedAudio);
-            console.log('Loaded audio from cache');
-            _context.next = 21;
-            break;
-          case 10:
-            _this.audio = new Audio(audioUrl);
-            _this.audio.load();
-            _context.next = 14;
-            return fetch(audioUrl);
-          case 14:
-            response = _context.sent;
-            _context.next = 17;
-            return response.blob();
-          case 17:
-            blob = _context.sent;
-            reader = new FileReader();
-            reader.onloadend = function () {
-              localStorage.setItem("tasbeehAudio", reader.result);
-              console.log('Audio cached in localStorage');
-            };
-            reader.readAsDataURL(blob);
-          case 21:
-            console.log('Audio initialized successfully');
-            _context.next = 27;
-            break;
-          case 24:
-            _context.prev = 24;
-            _context.t0 = _context["catch"](2);
-            console.error('Failed to initialize audio:', _context.t0);
-          case 27:
-            // Initialize SpeechRecognition
-            SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SpeechRecognition) {
-              try {
-                _this.setupRecognition();
-                _this.recognitionAvailable = true;
-                console.log('SpeechRecognition initialized');
-              } catch (error) {
-                console.error('Failed to initialize SpeechRecognition:', error);
-                _this.recognitionAvailable = false;
-                _this.voiceStatus = 'Error: Voice commands not supported.';
-                setTimeout(function () {
-                  _this.voiceStatus = "";
-                }, 2000);
-              }
-            } else {
-              console.warn('SpeechRecognition API not supported in this browser.');
-              _this.recognitionAvailable = false;
-              _this.voiceStatus = 'Error: Voice commands not supported.';
-              setTimeout(function () {
-                _this.voiceStatus = "";
-              }, 2000);
-            }
-          case 29:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee, null, [[2, 24]]);
-    }))();
-  },
-  watch: {
-    counter: function counter(newVal) {
-      console.log('Counter updated:', newVal);
-      try {
-        localStorage.setItem("tasbeehCounter", newVal);
-      } catch (error) {
-        console.error('Failed to save to localStorage:', error);
+    // Translations
+    var translations = {
+      en: {
+        settings: 'Settings',
+        theme: 'Theme',
+        soundEnabled: 'Sound',
+        hapticEnabled: 'Haptic Feedback',
+        targetCount: 'Target Count',
+        counter: 'Dhikr Counter',
+        count: 'Count',
+        reset: 'Reset',
+        pause: 'Pause',
+        resume: 'Resume',
+        complete: 'Complete',
+        voiceInput: 'Voice Input',
+        dailyQuote: 'Daily Inspiration',
+        progressTracking: 'Progress Tracking',
+        totalToday: 'Total Today',
+        sessions: 'Sessions',
+        timeSpent: 'Time Spent',
+        guidedSession: 'Guided Session',
+        startGuided: 'Start Session',
+        stopGuided: 'Stop Session',
+        recentHistory: 'Recent History',
+        noHistory: 'No history yet',
+        dhikrGuide: 'Dhikr Guide',
+        dhikrGuideText: 'Learn about the significance of each Dhikr and how to perform them correctly.',
+        targetReached: 'Target Reached!',
+        resetConfirm: 'Would you like to reset the counter?',
+        addCustomDua: 'Add Custom Dua',
+        arabicText: 'Arabic Text',
+        transliteration: 'Transliteration',
+        translation: 'Translation',
+        defaultCount: 'Default Count',
+        description: 'Description',
+        addDua: 'Add Dua',
+        customDuas: 'Custom Duas',
+        noCustomDuas: 'No custom duas yet. Add one above!',
+        noDescription: 'No description provided',
+        "delete": 'Delete',
+        cancel: 'Cancel',
+        deleting: 'Deleting...',
+        deleteDuaTitle: 'Delete Custom Dua',
+        deleteConfirm: 'Are you sure you want to delete "{name}"?',
+        deleteDuaAria: 'Delete {name}',
+        duaDeleted: 'Custom Dua deleted successfully',
+        dayDetails: 'Day Details',
+        noActivity: 'No activity for this day',
+        close: 'Close',
+        swipeRight: 'Swiped right to increment (+1)',
+        swipeLeft: 'Swiped left to decrement (-1)',
+        swipeUp: 'Swiped up to reset',
+        swipeInstructions: 'Swipe Right: +1 | Swipe Left: -1 | Swipe Up: Reset'
+      },
+      ar: {
+        settings: 'الإعدادات',
+        theme: 'المظهر',
+        soundEnabled: 'الصوت',
+        hapticEnabled: 'الاهتزاز',
+        targetCount: 'العدد المستهدف',
+        counter: 'عداد الذكر',
+        count: 'عد',
+        reset: 'إعادة تعيين',
+        pause: 'إيقاف مؤقت',
+        resume: 'استكمال',
+        complete: 'مكتمل',
+        voiceInput: 'الإدخال الصوتي',
+        dailyQuote: 'الإلهام اليومي',
+        progressTracking: 'تتبع التقدم',
+        totalToday: 'المجموع اليوم',
+        sessions: 'الجلسات',
+        timeSpent: 'الوقت المستغرق',
+        guidedSession: 'جلسة موجهة',
+        startGuided: 'بدء الجلسة',
+        stopGuided: 'إيقاف الجلسة',
+        recentHistory: 'التاريخ الحديث',
+        noHistory: 'لا يوجد تاريخ بعد',
+        dhikrGuide: 'دليل الذكر',
+        dhikrGuideText: 'تعرف على أهمية كل ذكر وكيفية أدائه بشكل صحيح.',
+        targetReached: 'تم الوصول إلى الهدف!',
+        resetConfirm: 'هل ترغب في إعادة تعيين العداد؟',
+        addCustomDua: 'إضافة دعاء مخصص',
+        arabicText: 'النص العربي',
+        transliteration: 'التفريغ الصوتي',
+        translation: 'الترجمة',
+        defaultCount: 'العدد الافتراضي',
+        description: 'الوصف',
+        addDua: 'إضافة دعاء',
+        customDuas: 'الأدعية المخصصة',
+        noCustomDuas: 'لا توجد أدعية مخصصة بعد. أضف واحدًا أعلاه!',
+        noDescription: 'لم يتم تقديم وصف',
+        "delete": 'حذف',
+        cancel: 'إلغاء',
+        deleting: 'جارٍ الحذف...',
+        deleteDuaTitle: 'حذف الدعاء المخصص',
+        deleteConfirm: 'هل أنت متأكد من حذف "{name}"؟',
+        deleteDuaAria: 'حذف {name}',
+        duaDeleted: 'تم حذف الدعاء المخصص بنجاح',
+        dayDetails: 'تفاصيل اليوم',
+        noActivity: 'لا توجد أنشطة لهذا اليوم',
+        close: 'إغلاق',
+        swipeRight: 'تم السحب لليمين للزيادة (+1)',
+        swipeLeft: 'تم السحب لليسار للنقصان (-1)',
+        swipeUp: 'تم السحب للأعلى لإعادة التعيين',
+        swipeInstructions: 'السحب لليمين: +1 | السحب لليسار: -1 | السحب للأعلى: إعادة تعيين'
       }
-    }
+      // Add translations for other languages (ur, tr, id) as needed
+    };
+
+    // Dhikr Presets
+    var dhikrPresets = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      id: 1,
+      arabic: 'سُبْحَانَ اللهِ',
+      transliteration: 'SubhanAllah',
+      translation: 'Glory be to Allah',
+      defaultCount: 33,
+      description: 'Praising Allah by declaring His glory, typically recited 33 times after prayers.',
+      isCustom: false
+    }, {
+      id: 2,
+      arabic: 'الْحَمْدُ لِلّهِ',
+      transliteration: 'Alhamdulillah',
+      translation: 'All praise is due to Allah',
+      defaultCount: 33,
+      description: 'Expressing gratitude to Allah, recited 33 times after prayers.',
+      isCustom: false
+    }, {
+      id: 3,
+      arabic: 'اللهُ أَكْبَرُ',
+      transliteration: 'Allahu Akbar',
+      translation: 'Allah is the Greatest',
+      defaultCount: 34,
+      description: 'Proclaiming Allah’s greatness, recited 34 times after prayers.',
+      isCustom: false
+    }, {
+      id: 4,
+      arabic: 'لَا إِلٰهَ إِلَّا اللهُ',
+      transliteration: 'La ilaha illa Allah',
+      translation: 'There is no god but Allah',
+      defaultCount: 100,
+      description: 'Affirming the oneness of Allah, often recited 100 times.',
+      isCustom: false
+    }, {
+      id: 5,
+      arabic: 'أَسْتَغْفِرُ اللهَ',
+      transliteration: 'Astaghfirullah',
+      translation: 'I seek forgiveness from Allah',
+      defaultCount: 100,
+      description: 'Seeking Allah’s forgiveness, commonly recited 100 times.',
+      isCustom: false
+    }]);
+
+    // Themes
+    var themes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      name: 'Light',
+      background: '#f8f9fa',
+      cardBg: '#ffffff',
+      text: '#212529',
+      accent: '#0db691'
+    }, {
+      name: 'Dark',
+      background: '#1a1a1a',
+      cardBg: '#2d2d2d',
+      text: '#ffffff',
+      accent: '#0db691'
+    }, {
+      name: 'Islamic Green',
+      background: '#0f4c3a',
+      cardBg: '#1a5f4a',
+      text: '#ffffff',
+      accent: '#0db691'
+    }]);
+
+    // Guided Sessions
+    var guidedSessions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      id: 1,
+      name: 'Morning Dhikr',
+      duration: 10,
+      dhikrs: [1, 2, 3]
+    }, {
+      id: 2,
+      name: 'Evening Dhikr',
+      duration: 15,
+      dhikrs: [4, 5, 1]
+    }, {
+      id: 3,
+      name: 'Quick Session',
+      duration: 5,
+      dhikrs: [1, 2]
+    }]);
+
+    // Daily Quotes
+    var dailyQuotes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([{
+      text: 'Remember Allah and Allah will remember you.',
+      source: 'Quran 2:152'
+    }, {
+      text: 'The remembrance of Allah is the greatest.',
+      source: 'Quran 29:45'
+    }, {
+      text: 'In the remembrance of Allah do hearts find rest.',
+      source: 'Quran 13:28'
+    }]);
+
+    // Computed Properties
+    var currentDhikr = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return dhikrPresets.value.find(function (d) {
+        return d.id === selectedDhikr.value;
+      }) || dhikrPresets.value[0];
+    });
+    var customDuas = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return dhikrPresets.value.filter(function (d) {
+        return d.isCustom;
+      });
+    });
+    var progressPercentage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return targetCount.value > 0 ? Math.min(count.value / targetCount.value * 100, 100) : 0;
+    });
+    var currentTheme = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return themes.value.find(function (t) {
+        return t.name === selectedTheme.value;
+      }) || themes.value[0];
+    });
+    var dailyQuote = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      var today = new Date().getDate();
+      return dailyQuotes.value[today % dailyQuotes.value.length];
+    });
+    var guidedProgress = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      var currentSession = guidedSessions.value.find(function (s) {
+        return s.id === selectedGuidedSession.value;
+      });
+      if (!currentSession) return 0;
+      var totalTime = currentSession.duration * 60;
+      return (totalTime - guidedTimeRemaining.value) / totalTime * 100;
+    });
+    var currentMonthYear = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      return currentMonth.value.toLocaleString('default', {
+        month: 'long',
+        year: 'numeric'
+      });
+    });
+
+    // Methods
+    var t = function t(key) {
+      var _translations$current;
+      var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var text = ((_translations$current = translations[currentLanguage.value.code]) === null || _translations$current === void 0 ? void 0 : _translations$current[key]) || translations.en[key] || key;
+      if (params) {
+        Object.keys(params).forEach(function (param) {
+          text = text.replace("{".concat(param, "}"), params[param]);
+        });
+      }
+      return text;
+    };
+    var formatTime = function formatTime(date) {
+      return new Date(date).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    };
+    var formatDate = function formatDate(date) {
+      return new Date(date).toLocaleDateString();
+    };
+    var formatDuration = function formatDuration(seconds) {
+      var hours = Math.floor(seconds / 3600);
+      var minutes = Math.floor(seconds % 3600 / 60);
+      return hours > 0 ? "".concat(hours, "h ").concat(minutes, "m") : "".concat(minutes, "m");
+    };
+    var formatGuidedTime = function formatGuidedTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var secs = seconds % 60;
+      return "".concat(minutes, ":").concat(secs.toString().padStart(2, '0'));
+    };
+    var showAlert = function showAlert(message) {
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'alert-success';
+      alertMessage.value = message;
+      alertType.value = type;
+      setTimeout(function () {
+        alertMessage.value = '';
+      }, 3000);
+    };
+    var increment = function increment() {
+      count.value++;
+      todayTotal.value++;
+      if (soundEnabled.value) playSound();
+      if (hapticEnabled.value) triggerHaptic();
+      if (count.value >= targetCount.value) onTargetReached();
+      saveProgress();
+    };
+    var decrement = function decrement() {
+      if (count.value > 0) {
+        count.value--;
+        todayTotal.value = Math.max(0, todayTotal.value - 1);
+        if (soundEnabled.value) playSound();
+        if (hapticEnabled.value) triggerHaptic();
+        saveProgress();
+      }
+    };
+    var reset = function reset() {
+      if (count.value > 0) saveToHistory();
+      count.value = 0;
+      saveProgress();
+      showAlert('Counter reset', 'alert-info');
+    };
+    var loadDhikr = function loadDhikr() {
+      var dhikr = currentDhikr.value;
+      if (dhikr && dhikr.defaultCount) {
+        targetCount.value = dhikr.defaultCount;
+      }
+      count.value = 0;
+      saveProgress();
+    };
+    var changeLanguage = function changeLanguage(langCode) {
+      var lang = languages.value.find(function (l) {
+        return l.code === langCode;
+      });
+      if (lang) {
+        currentLanguage.value = lang;
+        saveSettings();
+        showAlert("Language changed to ".concat(lang.name), 'alert-success');
+      }
+    };
+    var applyTheme = function applyTheme() {
+      saveSettings();
+      showAlert("Theme changed to ".concat(selectedTheme.value), 'alert-success');
+    };
+    var addCustomDua = function addCustomDua() {
+      if (newDua.value.arabic && newDua.value.transliteration && newDua.value.translation && newDua.value.defaultCount) {
+        var newId = Math.max.apply(Math, _toConsumableArray(dhikrPresets.value.map(function (d) {
+          return d.id;
+        })).concat([0])) + 1;
+        dhikrPresets.value.push({
+          id: newId,
+          arabic: newDua.value.arabic,
+          transliteration: newDua.value.transliteration,
+          translation: newDua.value.translation,
+          defaultCount: newDua.value.defaultCount,
+          description: newDua.value.description || 'Custom Dua added by user.',
+          isCustom: true
+        });
+        saveDhikrs();
+        selectedDhikr.value = newId;
+        loadDhikr();
+        newDua.value = {
+          arabic: '',
+          transliteration: '',
+          translation: '',
+          defaultCount: 33,
+          description: ''
+        };
+        showAlert('Custom Dua added successfully', 'alert-success');
+      } else {
+        showAlert('Please fill all required fields', 'alert-danger');
+      }
+    };
+    var openDeleteModal = function openDeleteModal(id) {
+      var dua = dhikrPresets.value.find(function (d) {
+        return d.id === id;
+      });
+      if (dua) {
+        deletingDuaId.value = id;
+        deletingDuaName.value = dua.transliteration;
+        var modal = new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(document.getElementById('deleteDuaModal'));
+        modal.show();
+      } else {
+        showAlert('Dua not found', 'alert-danger');
+      }
+    };
+    var confirmDeleteDua = function confirmDeleteDua() {
+      isDeleting.value = true;
+      setTimeout(function () {
+        // Simulate async operation
+        var id = deletingDuaId.value;
+        dhikrPresets.value = dhikrPresets.value.filter(function (d) {
+          return d.id !== id;
+        });
+        saveDhikrs();
+        if (selectedDhikr.value === id) {
+          var _dhikrPresets$value$;
+          selectedDhikr.value = ((_dhikrPresets$value$ = dhikrPresets.value[0]) === null || _dhikrPresets$value$ === void 0 ? void 0 : _dhikrPresets$value$.id) || 1;
+          loadDhikr();
+        }
+        isDeleting.value = false;
+        deletingDuaId.value = null;
+        deletingDuaName.value = '';
+        showAlert(t('duaDeleted'), 'alert-success');
+        var modal = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(document.getElementById('deleteDuaModal'));
+        modal.hide();
+      }, 500); // Short delay for UX
+    };
+    var toggleSession = function toggleSession() {
+      if (sessionActive.value) {
+        if (sessionStartTime.value) {
+          todayTimeSpent.value += Math.floor((Date.now() - sessionStartTime.value) / 1000);
+        }
+        sessionActive.value = false;
+        sessionStartTime.value = null;
+        showAlert('Session paused', 'alert-info');
+      } else {
+        sessionActive.value = true;
+        sessionStartTime.value = Date.now();
+        if (todaySessions.value === 0 || !sessionStartTime.value) {
+          todaySessions.value++;
+        }
+        showAlert('Session resumed', 'alert-success');
+      }
+      saveProgress();
+    };
+    var toggleVoiceInput = function toggleVoiceInput() {
+      if (!voiceInputActive.value) {
+        startVoiceRecognition();
+      } else {
+        stopVoiceRecognition();
+      }
+    };
+    var startVoiceRecognition = function startVoiceRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+        recognition.lang = currentLanguage.value.code === 'ar' ? 'ar-SA' : 'en-US';
+        recognition.onstart = function () {
+          voiceInputActive.value = true;
+          showAlert('Voice input started. Say "count", "reset", "pause", or "resume".', 'alert-success');
+        };
+        recognition.onresult = function (event) {
+          var result = event.results[event.results.length - 1][0].transcript.toLowerCase();
+          if (result.includes('count') || result.includes('counter') || result.includes('one')) {
+            increment();
+            showAlert('Count incremented via voice', 'alert-success');
+          } else if (result.includes('reset')) {
+            reset();
+            showAlert('Counter reset via voice', 'alert-info');
+          } else if (result.includes('pause')) {
+            if (sessionActive.value) {
+              toggleSession();
+            }
+          } else if (result.includes('resume')) {
+            if (!sessionActive.value) {
+              toggleSession();
+            }
+          }
+        };
+        recognition.onerror = function (event) {
+          voiceInputActive.value = false;
+          showAlert("Voice input error: ".concat(event.error), 'alert-danger');
+        };
+        recognition.onend = function () {
+          voiceInputActive.value = false;
+          showAlert('Voice input stopped', 'alert-info');
+        };
+        recognition.start();
+      } else {
+        showAlert('Voice recognition not supported in this browser', 'alert-danger');
+      }
+    };
+    var stopVoiceRecognition = function stopVoiceRecognition() {
+      voiceInputActive.value = false;
+      showAlert('Voice input stopped', 'alert-info');
+    };
+    var startGuidedSession = function startGuidedSession() {
+      var session = guidedSessions.value.find(function (s) {
+        return s.id === selectedGuidedSession.value;
+      });
+      if (session) {
+        guidedSessionActive.value = true;
+        guidedTimeRemaining.value = session.duration * 60;
+        guidedTimer.value = setInterval(function () {
+          guidedTimeRemaining.value--;
+          if (guidedTimeRemaining.value <= 0) {
+            stopGuidedSession();
+          }
+        }, 1000);
+        handleGuidedSession();
+        showAlert('Guided session started', 'alert-success');
+      }
+    };
+    var stopGuidedSession = function stopGuidedSession() {
+      guidedSessionActive.value = false;
+      if (guidedTimer.value) {
+        clearInterval(guidedTimer.value);
+        guidedTimer.value = null;
+      }
+      guidedTimeRemaining.value = 0;
+      showAlert('Guided session stopped', 'alert-info');
+    };
+    var onTargetReached = function onTargetReached() {
+      if (soundEnabled.value) playCompletionSound();
+      if (hapticEnabled.value) triggerHaptic();
+      showAlert(t('targetReached'), 'alert-success');
+      updateCalendar();
+      setTimeout(function () {
+        if (confirm(t('resetConfirm'))) {
+          reset();
+        }
+      }, 500);
+    };
+    var playSound = function playSound() {
+      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      var oscillator = audioContext.createOscillator();
+      var gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      oscillator.frequency.value = 800;
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.1);
+    };
+    var playCompletionSound = function playCompletionSound() {
+      var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      var frequencies = [523, 659, 784];
+      frequencies.forEach(function (freq, index) {
+        setTimeout(function () {
+          var oscillator = audioContext.createOscillator();
+          var gainNode = audioContext.createGain();
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          oscillator.frequency.value = freq;
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.3);
+        }, index * 100);
+      });
+    };
+    var triggerHaptic = function triggerHaptic() {
+      if ('vibrate' in navigator) navigator.vibrate(50);
+    };
+    var saveProgress = function saveProgress() {
+      var progress = {
+        count: count.value,
+        targetCount: targetCount.value,
+        selectedDhikr: selectedDhikr.value,
+        todayTotal: todayTotal.value,
+        todaySessions: todaySessions.value,
+        todayTimeSpent: todayTimeSpent.value,
+        date: new Date().toDateString(),
+        calendarDays: calendarDays.value
+      };
+      localStorage.setItem('tasbihProgress', JSON.stringify(progress));
+    };
+    var loadProgress = function loadProgress() {
+      var saved = localStorage.getItem('tasbihProgress');
+      if (saved) {
+        var progress = JSON.parse(saved);
+        if (progress.date === new Date().toDateString()) {
+          count.value = progress.count || 0;
+          targetCount.value = progress.targetCount || 33;
+          selectedDhikr.value = progress.selectedDhikr || 1;
+          todayTotal.value = progress.todayTotal || 0;
+          todaySessions.value = progress.todaySessions || 0;
+          todayTimeSpent.value = progress.todayTimeSpent || 0;
+          calendarDays.value = progress.calendarDays || generateCalendarDays();
+        } else {
+          resetDailyProgress();
+        }
+      } else {
+        generateCalendarDays();
+      }
+    };
+    var saveSettings = function saveSettings() {
+      var settings = {
+        soundEnabled: soundEnabled.value,
+        hapticEnabled: hapticEnabled.value,
+        selectedTheme: selectedTheme.value,
+        currentLanguage: currentLanguage.value,
+        collapsedSections: collapsedSections.value
+      };
+      localStorage.setItem('tasbihSettings', JSON.stringify(settings));
+    };
+    var loadSettings = function loadSettings() {
+      var saved = localStorage.getItem('tasbihSettings');
+      if (saved) {
+        var _settings$soundEnable, _settings$hapticEnabl;
+        var settings = JSON.parse(saved);
+        soundEnabled.value = (_settings$soundEnable = settings.soundEnabled) !== null && _settings$soundEnable !== void 0 ? _settings$soundEnable : true;
+        hapticEnabled.value = (_settings$hapticEnabl = settings.hapticEnabled) !== null && _settings$hapticEnabl !== void 0 ? _settings$hapticEnabl : true;
+        selectedTheme.value = settings.selectedTheme || 'Light';
+        currentLanguage.value = settings.currentLanguage || {
+          code: 'en',
+          name: 'English'
+        };
+        collapsedSections.value = settings.collapsedSections || {
+          dhikrGuide: false,
+          progressTracking: false,
+          dailyQuote: false,
+          guidedSession: false,
+          recentHistory: false
+        };
+      }
+    };
+    var saveDhikrs = function saveDhikrs() {
+      localStorage.setItem('tasbihDhikrs', JSON.stringify(dhikrPresets.value));
+    };
+    var loadDhikrs = function loadDhikrs() {
+      var saved = localStorage.getItem('tasbihDhikrs');
+      if (saved) {
+        var savedDhikrs = JSON.parse(saved);
+        dhikrPresets.value = [].concat(_toConsumableArray(dhikrPresets.value.filter(function (d) {
+          return !d.isCustom;
+        })), _toConsumableArray(savedDhikrs.filter(function (d) {
+          return d.isCustom;
+        })));
+      }
+    };
+    var saveToHistory = function saveToHistory() {
+      var entry = {
+        id: Date.now(),
+        dhikr: currentDhikr.value.transliteration,
+        count: count.value,
+        date: new Date(),
+        targetReached: count.value >= targetCount.value
+      };
+      recentHistory.value.unshift(entry);
+      if (recentHistory.value.length > 20) {
+        recentHistory.value = recentHistory.value.slice(0, 20);
+      }
+      localStorage.setItem('tasbihHistory', JSON.stringify(recentHistory.value));
+    };
+    var loadHistory = function loadHistory() {
+      var saved = localStorage.getItem('tasbihHistory');
+      if (saved) {
+        recentHistory.value = JSON.parse(saved);
+      }
+    };
+    var clearHistory = function clearHistory() {
+      recentHistory.value = [];
+      localStorage.removeItem('tasbihHistory');
+      showAlert('History cleared', 'alert-info');
+    };
+    var generateCalendarDays = function generateCalendarDays() {
+      var days = [];
+      var year = currentMonth.value.getFullYear();
+      var month = currentMonth.value.getMonth();
+      var firstDay = new Date(year, month, 1);
+      var lastDay = new Date(year, month + 1, 0);
+      var startDay = firstDay.getDay();
+      var totalDays = lastDay.getDate();
+      var prevMonthLastDay = new Date(year, month, 0).getDate();
+      for (var i = startDay - 1; i >= 0; i--) {
+        days.push({
+          date: new Date(year, month - 1, prevMonthLastDay - i).toDateString(),
+          day: prevMonthLastDay - i,
+          completed: false,
+          isCurrentMonth: false
+        });
+      }
+      for (var _i = 1; _i <= totalDays; _i++) {
+        var date = new Date(year, month, _i);
+        days.push({
+          date: date.toDateString(),
+          day: _i,
+          completed: false,
+          isCurrentMonth: true
+        });
+      }
+      var remainingDays = 42 - days.length;
+      for (var _i2 = 1; _i2 <= remainingDays; _i2++) {
+        days.push({
+          date: new Date(year, month + 1, _i2).toDateString(),
+          day: _i2,
+          completed: false,
+          isCurrentMonth: false
+        });
+      }
+      var saved = localStorage.getItem('tasbihProgress');
+      if (saved) {
+        var progress = JSON.parse(saved);
+        if (progress.calendarDays) {
+          progress.calendarDays.forEach(function (savedDay) {
+            var day = days.find(function (d) {
+              return d.date === savedDay.date;
+            });
+            if (day) day.completed = savedDay.completed;
+          });
+        }
+      }
+      calendarDays.value = days;
+      saveProgress();
+    };
+    var prevMonth = function prevMonth() {
+      currentMonth.value = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() - 1, 1);
+      generateCalendarDays();
+    };
+    var nextMonth = function nextMonth() {
+      currentMonth.value = new Date(currentMonth.value.getFullYear(), currentMonth.value.getMonth() + 1, 1);
+      generateCalendarDays();
+    };
+    var updateCalendar = function updateCalendar() {
+      var today = new Date().toDateString();
+      var day = calendarDays.value.find(function (d) {
+        return d.date === today;
+      });
+      if (day) {
+        day.completed = true;
+        showAlert('Daily target marked as completed', 'alert-success');
+        saveProgress();
+      }
+    };
+    var showDayDetails = function showDayDetails(date) {
+      selectedDay.value = date;
+      dayHistory.value = recentHistory.value.filter(function (h) {
+        return new Date(h.date).toDateString() === date;
+      });
+      var modal = new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(document.getElementById('dayDetailsModal'));
+      modal.show();
+    };
+    var resetDailyProgress = function resetDailyProgress() {
+      todayTotal.value = 0;
+      todaySessions.value = 0;
+      todayTimeSpent.value = 0;
+      count.value = 0;
+      generateCalendarDays();
+      saveProgress();
+    };
+    var toggleSection = function toggleSection(section) {
+      collapsedSections.value[section] = !collapsedSections.value[section];
+      saveSettings();
+    };
+    var handleGuidedSession = function handleGuidedSession() {
+      var session = guidedSessions.value.find(function (s) {
+        return s.id === selectedGuidedSession.value;
+      });
+      if (session && session.dhikrs) {
+        var sequence = session.dhikrs;
+        var index = 0;
+        var interval = setInterval(function () {
+          if (guidedSessionActive.value && index < sequence.length) {
+            selectedDhikr.value = sequence[index];
+            loadDhikr();
+            count.value = 0;
+            showAlert("Now reciting ".concat(dhikrPresets.value.find(function (d) {
+              return d.id === sequence[index];
+            }).transliteration), 'alert-info');
+            index++;
+          } else {
+            clearInterval(interval);
+          }
+        }, 5000);
+      }
+    };
+    var handleTouchStart = function handleTouchStart(event) {
+      touchStartX.value = event.changedTouches[0].screenX;
+      touchStartY.value = event.changedTouches[0].screenY;
+    };
+    var handleTouchEnd = function handleTouchEnd(event) {
+      touchEndX.value = event.changedTouches[0].screenX;
+      touchEndY.value = event.changedTouches[0].screenY;
+      handleSwipe();
+    };
+    var handleSwipe = function handleSwipe() {
+      var swipeXDistance = touchEndX.value - touchStartX.value;
+      var swipeYDistance = touchEndY.value - touchStartY.value;
+      var minSwipeDistance = 50;
+      var isHorizontalSwipe = Math.abs(swipeXDistance) > Math.abs(swipeYDistance);
+      var isVerticalSwipe = Math.abs(swipeYDistance) > Math.abs(swipeXDistance);
+      if (isHorizontalSwipe && Math.abs(swipeXDistance) > minSwipeDistance) {
+        if (swipeXDistance > 0) {
+          increment();
+          showAlert(t('swipeRight'), 'alert-success');
+        } else {
+          decrement();
+          showAlert(t('swipeLeft'), 'alert-warning');
+        }
+      } else if (isVerticalSwipe && Math.abs(swipeYDistance) > minSwipeDistance && swipeYDistance < 0) {
+        reset();
+        showAlert(t('swipeUp'), 'alert-info');
+      }
+    };
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      var clockInterval = setInterval(function () {
+        currentTime.value = new Date();
+      }, 1000);
+      loadSettings();
+      loadProgress();
+      loadHistory();
+      loadDhikrs();
+      loadDhikr();
+      if (tooltipTrigger.value) {
+        new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Tooltip(tooltipTrigger.value, {
+          placement: 'top',
+          trigger: 'hover'
+        });
+      }
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(function () {
+        clearInterval(clockInterval);
+        if (guidedTimer.value) {
+          clearInterval(guidedTimer.value);
+        }
+      });
+    });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(sessionActive, function (newVal) {
+      if (newVal) {
+        sessionStartTime.value = Date.now();
+      } else if (sessionStartTime.value) {
+        todayTimeSpent.value += Math.floor((Date.now() - sessionStartTime.value) / 1000);
+        sessionStartTime.value = null;
+        saveProgress();
+      }
+    });
+    return _defineProperty({
+      count: count,
+      targetCount: targetCount,
+      selectedDhikr: selectedDhikr,
+      currentTime: currentTime,
+      showSettings: showSettings,
+      soundEnabled: soundEnabled,
+      hapticEnabled: hapticEnabled,
+      selectedTheme: selectedTheme,
+      currentLanguage: currentLanguage,
+      sessionActive: sessionActive,
+      voiceInputActive: voiceInputActive,
+      guidedSessionActive: guidedSessionActive,
+      selectedGuidedSession: selectedGuidedSession,
+      guidedTimeRemaining: guidedTimeRemaining,
+      todayTotal: todayTotal,
+      todaySessions: todaySessions,
+      todayTimeSpent: todayTimeSpent,
+      recentHistory: recentHistory,
+      calendarDays: calendarDays,
+      currentMonth: currentMonth,
+      alertMessage: alertMessage,
+      alertType: alertType,
+      newDua: newDua,
+      selectedDay: selectedDay,
+      dayHistory: dayHistory,
+      languages: languages,
+      dhikrPresets: dhikrPresets,
+      themes: themes,
+      guidedSessions: guidedSessions,
+      currentDhikr: currentDhikr,
+      customDuas: customDuas,
+      progressPercentage: progressPercentage,
+      currentTheme: currentTheme,
+      dailyQuote: dailyQuote,
+      guidedProgress: guidedProgress,
+      currentMonthYear: currentMonthYear,
+      tooltipTrigger: tooltipTrigger,
+      collapsedSections: collapsedSections,
+      deletingDuaId: deletingDuaId,
+      deletingDuaName: deletingDuaName,
+      isDeleting: isDeleting,
+      t: t,
+      formatTime: formatTime,
+      formatDate: formatDate,
+      formatDuration: formatDuration,
+      formatGuidedTime: formatGuidedTime,
+      increment: increment,
+      decrement: decrement,
+      reset: reset,
+      loadDhikr: loadDhikr,
+      changeLanguage: changeLanguage,
+      applyTheme: applyTheme,
+      addCustomDua: addCustomDua,
+      openDeleteModal: openDeleteModal,
+      confirmDeleteDua: confirmDeleteDua,
+      toggleSession: toggleSession,
+      toggleVoiceInput: toggleVoiceInput,
+      startGuidedSession: startGuidedSession,
+      stopGuidedSession: stopGuidedSession,
+      clearHistory: clearHistory,
+      prevMonth: prevMonth,
+      nextMonth: nextMonth,
+      showDayDetails: showDayDetails,
+      toggleSection: toggleSection,
+      handleTouchStart: handleTouchStart,
+      handleTouchEnd: handleTouchEnd,
+      deletingId: null,
+      deletingName: '',
+      deleteType: ''
+    }, "isDeleting", false);
   },
   methods: {
-    setupRecognition: function setupRecognition() {
-      var _this2 = this;
-      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      this.recognition = new SpeechRecognition();
-      this.recognition.continuous = true;
-      this.recognition.interimResults = false;
-      this.recognition.lang = 'ar-SA';
-      this.recognition.maxAlternatives = 10;
-      this.recognition.onresult = function (event) {
-        var results = event.results[event.results.length - 1];
-        var transcript = results[0].transcript.trim();
-        var confidence = results[0].confidence;
-        if (confidence >= 0.6) {
-          _this2.voiceStatus = "Heard: \"".concat(transcript, "\" (").concat((confidence * 100).toFixed(0), "%)");
-          _this2.handleVoiceCommand(transcript);
-          console.log('Voice command received:', transcript, 'Confidence:', confidence);
-        } else {
-          _this2.voiceStatus = "Heard: \"".concat(transcript, "\" (Low confidence: ").concat((confidence * 100).toFixed(0), "%)");
-          console.log('Low confidence voice command:', transcript, 'Confidence:', confidence);
-        }
-        setTimeout(function () {
-          _this2.voiceStatus = "";
-        }, 2000);
-      };
-      this.recognition.onerror = function (event) {
-        console.error('Speech recognition error:', event.error);
-        _this2.isListening = false;
-        var errorMessage = "Error: ".concat(event.error);
-        if (event.error === 'no-speech') {
-          errorMessage = 'Error: No speech detected. Speak louder or move closer.';
-        } else if (event.error === 'not-allowed') {
-          errorMessage = 'Error: Microphone access denied. Please allow access.';
-        } else if (event.error === 'network') {
-          errorMessage = 'Error: Network issue. Check your connection.';
-        }
-        _this2.voiceStatus = errorMessage;
-        setTimeout(function () {
-          _this2.voiceStatus = "";
-        }, 2000);
-      };
-      this.recognition.onend = function () {
-        console.log('Speech recognition ended');
-        if (_this2.isListening) {
-          setTimeout(function () {
-            try {
-              _this2.recognition.start();
-              console.log('Speech recognition restarted');
-            } catch (error) {
-              console.error('Failed to restart recognition:', error);
-              _this2.isListening = false;
-              _this2.voiceStatus = 'Error: Voice recognition stopped.';
-              setTimeout(function () {
-                _this2.voiceStatus = "";
-              }, 2000);
-            }
-          }, 100);
-        }
-      };
-    },
-    animateCounter: function animateCounter(target) {
-      var _this3 = this;
-      console.log('Animating counter to:', target);
-      var _step = function step() {
-        if (_this3.animatedCounter === target) return;
-        var direction = target > _this3.animatedCounter ? 1 : -1;
-        _this3.animatedCounter += direction;
-        requestAnimationFrame(_step);
-      };
-      requestAnimationFrame(_step);
-    },
-    handleClick: function handleClick(event) {
-      console.log('Handle click triggered', event.type);
-      this.playSound();
-      this.counter++;
-      this.animatedCounter = this.counter;
-      this.checkMilestone();
-    },
-    undoClick: function undoClick() {
-      console.log('Undo click triggered');
-      if (this.counter > 0) {
-        this.playSound();
-        this.counter--;
-        this.animatedCounter = this.counter;
-      }
-    },
-    resetAll: function resetAll() {
-      console.log('Reset all triggered');
-      this.playSound();
-      this.counter = 0;
-      this.animatedCounter = 0;
-    },
-    playSound: function playSound() {
-      try {
-        if (this.audio) {
-          this.audio.currentTime = 0;
-          this.audio.play();
-          console.log('Sound played');
-        }
-      } catch (error) {
-        console.error('Failed to play sound:', error);
-      }
-    },
-    checkMilestone: function checkMilestone() {
-      var _this4 = this;
-      var milestones = [33, 66, 99];
-      if (milestones.includes(this.counter)) {
-        this.milestoneMessage = "You reached ".concat(this.counter, "! Keep going!");
-        this.showMilestone = true;
-        console.log('Milestone reached:', this.counter);
-        setTimeout(function () {
-          _this4.showMilestone = false;
-          console.log('Milestone message hidden');
-        }, 3000);
-      }
-    },
-    toggleVoiceControls: function toggleVoiceControls() {
-      var _this5 = this;
-      console.log('Toggle voice controls triggered');
-      if (!this.recognitionAvailable) {
-        this.voiceStatus = 'Error: Voice controls not supported.';
-        setTimeout(function () {
-          _this5.voiceStatus = "";
-        }, 2000);
-        return;
-      }
-      if (this.isListening) {
-        try {
-          this.recognition.stop();
-          this.isListening = false;
-          this.voiceStatus = 'Voice recognition stopped.';
-          setTimeout(function () {
-            _this5.voiceStatus = "";
-          }, 2000);
-          console.log('Voice recognition stopped');
-        } catch (error) {
-          console.error('Failed to stop recognition:', error);
-          this.voiceStatus = 'Error: Failed to stop voice controls.';
-          setTimeout(function () {
-            _this5.voiceStatus = "";
-          }, 2000);
-        }
-      } else {
-        try {
-          this.recognition.start();
-          this.isListening = true;
-          this.voiceStatus = 'Listening...';
-          console.log('Voice recognition started');
-        } catch (error) {
-          console.error('Failed to start recognition:', error);
-          this.voiceStatus = 'Error: Failed to start voice controls.';
-          setTimeout(function () {
-            _this5.voiceStatus = "";
-          }, 2000);
-          this.isListening = false;
-        }
-      }
-    },
-    handleVoiceCommand: function handleVoiceCommand(transcript) {
-      console.log('Processing voice command:', transcript);
-      var subhanAllahVariationsAr = ['سبحان الله', 'سبحانالله', 'سبحان', 'سوبحان الله', 'سبحان اللہ', 'سبحاناللہ', 'سوبحان', 'سبحانا', 'سبحانا الله', 'سبحان اللاه', 'سبحان اللة', 'سبحانا اللہ', 'سوبحانالله', 'سبحان اللله', 'سبحانا اللة', 'سبحاناله', 'سوبحان اللہ', 'سبحان الل'];
-      var levenshteinDistance = function levenshteinDistance(a, b) {
-        var matrix = Array(b.length + 1).fill().map(function () {
-          return Array(a.length + 1).fill(0);
+    openDeleteModal: function openDeleteModal(id, type) {
+      this.deleteType = type;
+      if (type === 'dua') {
+        var dua = this.customDuas.find(function (d) {
+          return d.id === id;
         });
-        for (var i = 0; i <= a.length; i++) matrix[0][i] = i;
-        for (var j = 0; j <= b.length; j++) matrix[j][0] = j;
-        for (var _j = 1; _j <= b.length; _j++) {
-          for (var _i = 1; _i <= a.length; _i++) {
-            var indicator = a[_i - 1] === b[_j - 1] ? 0 : 1;
-            matrix[_j][_i] = Math.min(matrix[_j][_i - 1] + 1, matrix[_j - 1][_i] + 1, matrix[_j - 1][_i - 1] + indicator);
-          }
-        }
-        return matrix[b.length][a.length];
-      };
-      var isSubhanAllah = subhanAllahVariationsAr.some(function (variation) {
-        return transcript.includes(variation) || levenshteinDistance(transcript, variation) <= 3;
+        this.deletingId = id;
+        this.deletingName = dua ? dua.transliteration : '';
+      } else {
+        var entry = this.recentHistory.find(function (e) {
+          return e.id === id;
+        });
+        this.deletingId = id;
+        this.deletingName = entry ? entry.dhikr : '';
+      }
+      var modal = new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(document.getElementById('deleteModal'));
+      modal.show();
+    },
+    confirmDelete: function confirmDelete() {
+      this.isDeleting = true;
+      if (this.deleteType === 'dua') {
+        this.confirmDeleteDua();
+      } else {
+        this.deleteHistoryEntry();
+      }
+    },
+    deleteHistoryEntry: function deleteHistoryEntry() {
+      var _this = this;
+      this.recentHistory = this.recentHistory.filter(function (entry) {
+        return entry.id !== _this.deletingId;
       });
-      if (isSubhanAllah) {
-        this.handleClick({
-          type: 'voice'
-        });
-        console.log('Voice command: SubhanAllah detected');
-      } else if (transcript.includes('رجوع') || transcript.includes('تراجع') || transcript.includes('الغاء')) {
-        this.undoClick();
-        console.log('Voice command: Undo detected');
-      } else if (transcript.includes('إعادة') || transcript.includes('تصفير') || transcript.includes('بدء من جديد')) {
-        this.resetAll();
-        console.log('Voice command: Reset detected');
-      } else {
-        console.log('No matching voice command');
-      }
+      localStorage.setItem('recentHistory', JSON.stringify(this.recentHistory));
+      this.isDeleting = false;
+      this.deletingId = null;
+      this.deletingName = '';
+      this.deleteType = '';
+      var modal = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(document.getElementById('deleteModal'));
+      modal.hide();
+      this.showAlert(this.t('historyDeleted'), 'success');
     },
-    handleTouchStart: function handleTouchStart(event) {
-      this.touchStartX = event.touches[0].clientX;
-      this.swipeDirection = null;
-      console.log('Touch start:', this.touchStartX);
-    },
-    handleTouchMove: function handleTouchMove(event) {
-      this.touchEndX = event.touches[0].clientX;
-      console.log('Touch move:', this.touchEndX);
-    },
-    handleTouchEnd: function handleTouchEnd() {
-      var _this6 = this;
-      if (this.touchStartX !== null && this.touchEndX !== null) {
-        var deltaX = this.touchEndX - this.touchStartX;
-        var minSwipeDistance = 50;
-        if (deltaX > minSwipeDistance) {
-          this.swipeDirection = 'right';
-          this.handleClick({
-            type: 'swipe-right'
-          });
-          console.log('Swipe right detected');
-        } else if (deltaX < -minSwipeDistance) {
-          this.swipeDirection = 'left';
-          this.undoClick();
-          console.log('Swipe left detected');
-        }
-        setTimeout(function () {
-          _this6.swipeDirection = null;
-        }, 300);
-      }
-      this.touchStartX = null;
-      this.touchEndX = null;
+    showAlert: function showAlert(message, type) {
+      var _this2 = this;
+      this.alertMessage = message;
+      this.alertType = "alert-".concat(type);
+      setTimeout(function () {
+        _this2.alertMessage = '';
+        _this2.alertType = '';
+      }, 3000);
     }
   }
 });
@@ -62816,143 +63466,1029 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "tasbeeh-container"
+  key: 0,
+  "class": "alert alert-dismissible fade show position-fixed top-0 end-0 m-3 alert-success",
+  role: "alert",
+  style: {
+    "z-index": "2000"
+  }
 };
 var _hoisted_2 = {
-  "class": "counter-container"
+  "class": "navbar navbar-expand-lg shadow-sm sticky-top",
+  style: {
+    backgroundColor: 'var(--primary-color)'
+  }
 };
 var _hoisted_3 = {
-  "class": "dhikr-display"
+  "class": "container"
 };
 var _hoisted_4 = {
-  "class": "dhikr-text"
+  "class": "d-flex align-items-center"
 };
 var _hoisted_5 = {
-  "class": "dhikr-text-arabic"
+  "class": "text-white me-3 d-none d-md-block fs-5"
 };
 var _hoisted_6 = {
-  "class": "counter",
-  "aria-live": "polite"
+  "class": "dropdown"
 };
 var _hoisted_7 = {
-  "class": "bead-string"
+  "class": "btn btn-outline-light rounded-3 btn-sm dropdown-toggle",
+  "data-bs-toggle": "dropdown",
+  title: "Language",
+  "aria-label": "Select Language"
 };
 var _hoisted_8 = {
-  key: 0,
-  "class": "milestone"
+  "class": "dropdown-menu dropdown-menu-end"
 };
-var _hoisted_9 = {
-  "class": "tap-area-wrapper"
-};
+var _hoisted_9 = ["onClick"];
 var _hoisted_10 = {
-  key: 0,
-  "class": "arrow-right"
+  "class": "container py-3"
 };
 var _hoisted_11 = {
-  key: 1,
-  "class": "arrow-left"
+  key: 0,
+  "class": "mb-3"
 };
 var _hoisted_12 = {
-  "class": "controls"
+  "class": "card shadow-sm border-0 rounded-3 primary-card"
 };
-var _hoisted_13 = ["disabled"];
+var _hoisted_13 = {
+  "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center"
+};
+var _hoisted_14 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_15 = {
+  "class": "card-body p-3"
+};
+var _hoisted_16 = {
+  "class": "row g-2"
+};
+var _hoisted_17 = {
+  "class": "col-md-4"
+};
+var _hoisted_18 = {
+  "class": "form-label fw-medium"
+};
+var _hoisted_19 = ["value"];
+var _hoisted_20 = {
+  "class": "col-md-4"
+};
+var _hoisted_21 = {
+  "class": "form-label fw-medium"
+};
+var _hoisted_22 = {
+  "class": "form-check form-switch"
+};
+var _hoisted_23 = {
+  "class": "form-check-label",
+  "for": "soundSwitch"
+};
+var _hoisted_24 = {
+  "class": "col-md-4"
+};
+var _hoisted_25 = {
+  "class": "form-label fw-medium"
+};
+var _hoisted_26 = {
+  "class": "form-check form-switch"
+};
+var _hoisted_27 = {
+  "class": "form-check-label",
+  "for": "hapticSwitch"
+};
+var _hoisted_28 = {
+  "class": "mt-3"
+};
+var _hoisted_29 = {
+  "class": "mb-2 fw-semibold"
+};
+var _hoisted_30 = {
+  "class": "row g-2"
+};
+var _hoisted_31 = {
+  "class": "col-md-6"
+};
+var _hoisted_32 = ["placeholder"];
+var _hoisted_33 = {
+  "class": "col-md-6"
+};
+var _hoisted_34 = ["placeholder"];
+var _hoisted_35 = {
+  "class": "col-md-6"
+};
+var _hoisted_36 = ["placeholder"];
+var _hoisted_37 = {
+  "class": "col-md-6"
+};
+var _hoisted_38 = ["placeholder"];
+var _hoisted_39 = {
+  "class": "col-12"
+};
+var _hoisted_40 = ["placeholder"];
+var _hoisted_41 = {
+  "class": "col-12"
+};
+var _hoisted_42 = {
+  type: "submit",
+  "class": "btn btn-success rounded-3",
+  "aria-label": "Add Custom Dua"
+};
+var _hoisted_43 = {
+  "class": "mt-3"
+};
+var _hoisted_44 = {
+  "class": "mb-2 fw-semibold"
+};
+var _hoisted_45 = {
+  key: 0,
+  "class": "custom-duas-list"
+};
+var _hoisted_46 = {
+  "class": "card-body d-flex justify-content-between align-items-center p-2"
+};
+var _hoisted_47 = {
+  "class": "arabic-text fs-5"
+};
+var _hoisted_48 = {
+  "class": "text-muted small"
+};
+var _hoisted_49 = {
+  "class": "text-muted smaller mt-1"
+};
+var _hoisted_50 = ["onClick", "disabled", "aria-label", "title"];
+var _hoisted_51 = {
+  key: 0,
+  "class": "spinner-border spinner-border-sm ms-1",
+  role: "status"
+};
+var _hoisted_52 = {
+  "class": "visually-hidden"
+};
+var _hoisted_53 = {
+  key: 1,
+  "class": "text-muted text-center p-2 bg-light rounded-3"
+};
+var _hoisted_54 = {
+  "class": "row g-3"
+};
+var _hoisted_55 = {
+  "class": "col-lg-8"
+};
+var _hoisted_56 = {
+  "class": "card shadow-sm border-0 rounded-3 h-100 primary-card",
+  style: {
+    "border-top": "4px solid var(--primary-color)"
+  }
+};
+var _hoisted_57 = {
+  "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center"
+};
+var _hoisted_58 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_59 = ["title"];
+var _hoisted_60 = {
+  "class": "card-body p-3"
+};
+var _hoisted_61 = {
+  "class": "mb-3"
+};
+var _hoisted_62 = {
+  "class": "section-title mb-2 fw-semibold text-start text-uppercase small",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_63 = {
+  "class": "row g-2"
+};
+var _hoisted_64 = {
+  "class": "col-md-8"
+};
+var _hoisted_65 = ["value"];
+var _hoisted_66 = {
+  "class": "col-md-4"
+};
+var _hoisted_67 = ["placeholder"];
+var _hoisted_68 = {
+  "class": "mb-3"
+};
+var _hoisted_69 = {
+  "class": "section-title mb-2 fw-semibold text-start text-uppercase small",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_70 = {
+  "class": "p-3 rounded-3",
+  style: {
+    "background-color": "#f8f9fa",
+    "border-left": "4px solid var(--primary-color)"
+  }
+};
+var _hoisted_71 = {
+  "class": "arabic-text mb-2 fs-1 fw-semibold",
+  style: {
+    "color": "var(--primary-dark)"
+  }
+};
+var _hoisted_72 = {
+  "class": "h4 mb-1 fw-medium text-dark"
+};
+var _hoisted_73 = {
+  "class": "text-muted mb-0 fs-5"
+};
+var _hoisted_74 = {
+  "class": "mb-3"
+};
+var _hoisted_75 = {
+  "class": "section-title mb-2 fw-semibold text-start text-uppercase small",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_76 = {
+  "class": "counter-section position-relative bg-light rounded-3 p-3 border border-light"
+};
+var _hoisted_77 = {
+  "class": "display-1 fw-semibold text-center mb-2",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_78 = {
+  "class": "d-flex justify-content-between small fw-semibold mb-1",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_79 = {
+  "class": "progress",
+  style: {
+    "height": "10px",
+    "border-radius": "5px",
+    "background-color": "#e9ecef"
+  }
+};
+var _hoisted_80 = {
+  "class": "mb-2"
+};
+var _hoisted_81 = {
+  "class": "section-title mb-2 fw-semibold text-start text-uppercase small",
+  style: {
+    "color": "var(--primary-color)"
+  }
+};
+var _hoisted_82 = {
+  "class": "d-flex justify-content-center gap-2 flex-wrap"
+};
+var _hoisted_83 = {
+  "class": "col-lg-4"
+};
+var _hoisted_84 = {
+  "class": "card shadow-sm border-0 rounded-3 mb-3 primary-card",
+  style: {
+    "border-top": "4px solid var(--primary-color)"
+  }
+};
+var _hoisted_85 = ["aria-expanded"];
+var _hoisted_86 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_87 = ["title"];
+var _hoisted_88 = {
+  id: "progressTrackingBody",
+  "class": "card-body p-3 collapse show"
+};
+var _hoisted_89 = {
+  "class": "calendar mb-3"
+};
+var _hoisted_90 = {
+  "class": "calendar-header mb-2 d-flex justify-content-between align-items-center"
+};
+var _hoisted_91 = {
+  "class": "fw-semibold fs-5"
+};
+var _hoisted_92 = {
+  "class": "calendar-grid"
+};
+var _hoisted_93 = ["onClick", "aria-label"];
+var _hoisted_94 = {
+  "class": "mt-2"
+};
+var _hoisted_95 = {
+  "class": "d-flex justify-content-between mb-2 fs-6"
+};
+var _hoisted_96 = {
+  "class": "badge bg-success fs-6 px-2 py-1"
+};
+var _hoisted_97 = {
+  "class": "d-flex justify-content-between mb-2 fs-6"
+};
+var _hoisted_98 = {
+  "class": "badge bg-secondary fs-6 px-2 py-1"
+};
+var _hoisted_99 = {
+  "class": "d-flex justify-content-between fs-6"
+};
+var _hoisted_100 = {
+  "class": "badge bg-secondary fs-6 px-2 py-1"
+};
+var _hoisted_101 = {
+  "class": "card shadow-sm border-0 rounded-3 mb-3 secondary-card"
+};
+var _hoisted_102 = ["aria-expanded"];
+var _hoisted_103 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_104 = ["title"];
+var _hoisted_105 = {
+  key: 0
+};
+var _hoisted_106 = ["value"];
+var _hoisted_107 = {
+  key: 1,
+  "class": "text-center"
+};
+var _hoisted_108 = {
+  "class": "mb-2"
+};
+var _hoisted_109 = {
+  "class": "h5"
+};
+var _hoisted_110 = {
+  "class": "progress",
+  style: {
+    "height": "12px",
+    "border-radius": "6px"
+  }
+};
+var _hoisted_111 = {
+  "class": "card shadow-sm border-0 rounded-3 mb-3 secondary-card"
+};
+var _hoisted_112 = ["aria-expanded"];
+var _hoisted_113 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_114 = ["title"];
+var _hoisted_115 = {
+  "class": "blockquote text-center mb-0"
+};
+var _hoisted_116 = {
+  "class": "mb-1 fs-6"
+};
+var _hoisted_117 = {
+  "class": "blockquote-footer"
+};
+var _hoisted_118 = {
+  "class": "card shadow-sm border-0 rounded-3 mb-3 secondary-card"
+};
+var _hoisted_119 = ["aria-expanded"];
+var _hoisted_120 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_121 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_122 = ["title"];
+var _hoisted_123 = {
+  "class": "d-block"
+};
+var _hoisted_124 = {
+  "class": "text-muted"
+};
+var _hoisted_125 = {
+  "class": "d-flex align-items-center"
+};
+var _hoisted_126 = {
+  "class": "badge bg-success me-2"
+};
+var _hoisted_127 = ["onClick", "disabled", "aria-label", "title"];
+var _hoisted_128 = {
+  key: 0,
+  "class": "spinner-border spinner-border-sm ms-1",
+  role: "status"
+};
+var _hoisted_129 = {
+  "class": "visually-hidden"
+};
+var _hoisted_130 = {
+  key: 0,
+  "class": "text-muted text-center"
+};
+var _hoisted_131 = {
+  "class": "card shadow-sm border-0 rounded-3 mb-3 secondary-card"
+};
+var _hoisted_132 = ["aria-expanded"];
+var _hoisted_133 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_134 = ["title"];
+var _hoisted_135 = {
+  "class": "text-muted dhikr-guide-text fs-6"
+};
+var _hoisted_136 = {
+  "class": "list-unstyled dhikr-guide-list"
+};
+var _hoisted_137 = {
+  "class": "arabic-text"
+};
+var _hoisted_138 = {
+  "class": "modal fade",
+  id: "dayDetailsModal",
+  tabindex: "-1",
+  "aria-labelledby": "dayDetailsModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_139 = {
+  "class": "modal-dialog modal-dialog-centered"
+};
+var _hoisted_140 = {
+  "class": "modal-content rounded-3"
+};
+var _hoisted_141 = {
+  "class": "card-header grey-header"
+};
+var _hoisted_142 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_143 = {
+  "class": "card-body p-3"
+};
+var _hoisted_144 = {
+  key: 0
+};
+var _hoisted_145 = {
+  "class": "d-block text-muted"
+};
+var _hoisted_146 = {
+  "class": "badge bg-success"
+};
+var _hoisted_147 = {
+  key: 1,
+  "class": "text-muted text-center"
+};
+var _hoisted_148 = {
+  "class": "modal-footer"
+};
+var _hoisted_149 = {
+  type: "button",
+  "class": "btn btn-secondary rounded-3",
+  "data-bs-dismiss": "modal",
+  "aria-label": "Close Modal"
+};
+var _hoisted_150 = {
+  "class": "modal fade",
+  id: "deleteModal",
+  tabindex: "-1",
+  "aria-labelledby": "deleteModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_151 = {
+  "class": "modal-dialog modal-dialog-centered"
+};
+var _hoisted_152 = {
+  "class": "modal-content rounded-3"
+};
+var _hoisted_153 = {
+  "class": "card-header grey-header"
+};
+var _hoisted_154 = {
+  "class": "mb-0 fw-semibold text-dark"
+};
+var _hoisted_155 = {
+  "class": "card-body p-3"
+};
+var _hoisted_156 = {
+  "class": "modal-footer"
+};
+var _hoisted_157 = {
+  type: "button",
+  "class": "btn btn-secondary rounded-3",
+  "data-bs-dismiss": "modal",
+  "aria-label": "Cancel Deletion"
+};
+var _hoisted_158 = ["disabled"];
+var _hoisted_159 = {
+  key: 0,
+  "class": "spinner-border spinner-border-sm me-2",
+  role: "status"
+};
+var _hoisted_160 = {
+  "class": "visually-hidden"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "title"
-  }, "Digital Tasbeeh Counter", -1 /* HOISTED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "subtitle"
-  }, "Tap, swipe right, or say \"SubhanAllah\" to count", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Counter and Dhikr Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentDhikrAr), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.animatedCounter), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bead String "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.goal, function (n) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      key: n,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bead", {
-        filled: n <= $data.counter % $data.goal
-      }])
-    }, null, 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Milestone Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.showMilestone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.milestoneMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    "class": "tasbih-app min-vh-100",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      backgroundColor: $setup.currentTheme.background
     }),
-    _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice Feedback "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade"
-  }, {
-    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.voiceStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: 0,
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["voice-status", {
-          error: $data.voiceStatus.includes('Error')
-        }])
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceStatus), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    onTouchstart: _cache[34] || (_cache[34] = function () {
+      return $setup.handleTouchStart && $setup.handleTouchStart.apply($setup, arguments);
     }),
-    _: 1 /* STABLE */
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tap and Swipe Area "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tap-area", {
-      'swipe-right': $data.swipeDirection === 'right',
-      'swipe-left': $data.swipeDirection === 'left'
-    }]),
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.handleClick && $options.handleClick.apply($options, arguments);
+    onTouchend: _cache[35] || (_cache[35] = function () {
+      return $setup.handleTouchEnd && $setup.handleTouchEnd.apply($setup, arguments);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Alert for Notifications "), $setup.alertMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn-close",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $setup.alertMessage = '';
     }),
-    onTouchstartPassive: _cache[1] || (_cache[1] = function () {
-      return $options.handleTouchStart && $options.handleTouchStart.apply($options, arguments);
-    }),
-    onTouchmovePassive: _cache[2] || (_cache[2] = function () {
-      return $options.handleTouchMove && $options.handleTouchMove.apply($options, arguments);
-    }),
-    onTouchend: _cache[3] || (_cache[3] = function () {
-      return $options.handleTouchEnd && $options.handleTouchEnd.apply($options, arguments);
-    }),
-    role: "button",
-    "aria-label": "Tap or swipe to increment/decrement counter",
-    tabindex: "0",
-    onKeydown: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.handleClick && $options.handleClick.apply($options, arguments);
-    }, ["enter"]))
-  }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tap or swipe right to count ")), $data.swipeDirection === 'right' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_10, "➡️")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.swipeDirection === 'left' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_11, "⬅️")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 34 /* CLASS, NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Control Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["voice-btn", {
-      active: $data.isListening
-    }]),
-    disabled: !$data.recognitionAvailable,
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.toggleVoiceControls && $options.toggleVoiceControls.apply($options, arguments);
-    }),
-    role: "button",
-    "aria-label": "Toggle voice",
-    tabindex: "0",
-    onKeydown: _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.toggleVoiceControls && $options.toggleVoiceControls.apply($options, arguments);
-    }, ["enter"]))
+    "aria-label": "Close"
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "navbar-brand text-white fw-bold fs-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-microphone", {
-      'fa-microphone-slash disabled': !$data.isListening
+    "class": "bi bi-person-arms-up me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Tasbih Counter ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatTime($setup.currentTime)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-light rounded-3 btn-sm me-2",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.showSettings = !$setup.showSettings;
+    }),
+    title: "Settings",
+    "aria-label": "Toggle Settings"
+  }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentLanguage.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.languages, function (lang) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: lang.code
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "dropdown-item text-center",
+      onClick: function onClick($event) {
+        return $setup.changeLanguage(lang.code);
+      },
+      href: "#"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(lang.name), 9 /* TEXT, PROPS */, _hoisted_9)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Settings Panel "), $setup.showSettings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_14, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear-fill me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('settings')), 1 /* TEXT */)]), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "collapse-icon d-none",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('theme')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-select rounded-3",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.selectedTheme = $event;
+    }),
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $setup.applyTheme && $setup.applyTheme.apply($setup, arguments);
+    }),
+    "aria-label": "Select Theme"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.themes, function (theme) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: theme.name,
+      value: theme.name
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(theme.name), 9 /* TEXT, PROPS */, _hoisted_19);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedTheme]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('soundEnabled')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $setup.soundEnabled = $event;
+    }),
+    id: "soundSwitch",
+    "aria-label": "Toggle Sound"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.soundEnabled]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('soundEnabled')), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('hapticEnabled')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-check-input",
+    type: "checkbox",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $setup.hapticEnabled = $event;
+    }),
+    id: "hapticSwitch",
+    "aria-label": "Toggle Haptic Feedback"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.hapticEnabled]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('hapticEnabled')), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('addCustomDua')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $setup.addCustomDua && $setup.addCustomDua.apply($setup, arguments);
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control rounded-3",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $setup.newDua.arabic = $event;
+    }),
+    placeholder: $setup.t('arabicText'),
+    required: "",
+    "aria-label": "Arabic Text"
+  }, null, 8 /* PROPS */, _hoisted_32), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newDua.arabic]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control rounded-3",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
+      return $setup.newDua.transliteration = $event;
+    }),
+    placeholder: $setup.t('transliteration'),
+    required: "",
+    "aria-label": "Transliteration"
+  }, null, 8 /* PROPS */, _hoisted_34), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newDua.transliteration]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control rounded-3",
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+      return $setup.newDua.translation = $event;
+    }),
+    placeholder: $setup.t('translation'),
+    required: "",
+    "aria-label": "Translation"
+  }, null, 8 /* PROPS */, _hoisted_36), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newDua.translation]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": "form-control rounded-3",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $setup.newDua.defaultCount = $event;
+    }),
+    placeholder: $setup.t('defaultCount'),
+    min: "1",
+    required: "",
+    "aria-label": "Default Count"
+  }, null, 8 /* PROPS */, _hoisted_38), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newDua.defaultCount, void 0, {
+    number: true
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    "class": "form-control rounded-3",
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $setup.newDua.description = $event;
+    }),
+    placeholder: $setup.t('description'),
+    rows: "3",
+    "aria-label": "Description"
+  }, null, 8 /* PROPS */, _hoisted_40), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newDua.description]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('addDua')), 1 /* TEXT */)])])], 32 /* NEED_HYDRATION */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('customDuas')), 1 /* TEXT */), $setup.customDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.customDuas, function (dhikr) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: dhikr.id,
+      "class": "card mb-2 shadow-sm border-0 rounded-3"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.transliteration) + " | " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.translation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.description || $setup.t('noDescription')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-outline-danger btn-sm rounded-circle",
+      onClick: function onClick($event) {
+        return $options.openDeleteModal(dhikr.id, 'dua');
+      },
+      disabled: $setup.isDeleting,
+      "aria-label": $setup.t('deleteDuaAria', {
+        name: dhikr.transliteration
+      }),
+      title: $setup.t('deleteDuaAria', {
+        name: dhikr.transliteration
+      })
+    }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-trash"
+    }, null, -1 /* HOISTED */)), $setup.isDeleting && $setup.deletingDuaId === dhikr.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('deleting')), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_50)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('noCustomDuas')), 1 /* TEXT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Column (Counter and Dhikr Selection) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Counter Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_58, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-counter me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('counter')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "bi bi-info-circle fs-4 cursor-pointer ms-auto",
+    style: {
+      "color": "var(--primary-color)"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.t('swipeInstructions'),
+    ref: "tooltipTrigger",
+    "aria-label": "Swipe Instructions"
+  }, null, 8 /* PROPS */, _hoisted_59)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dhikr Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_62, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-bookmark-fill me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('dhikrSelection')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-select form-select-lg rounded-3",
+    "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
+      return $setup.selectedDhikr = $event;
+    }),
+    onChange: _cache[13] || (_cache[13] = function () {
+      return $setup.loadDhikr && $setup.loadDhikr.apply($setup, arguments);
+    }),
+    "aria-label": "Select Dhikr"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dhikrPresets, function (dhikr) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: dhikr.id,
+      value: dhikr.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.arabic) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.transliteration), 9 /* TEXT, PROPS */, _hoisted_65);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedDhikr]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": "form-control form-control-lg rounded-3",
+    "onUpdate:modelValue": _cache[14] || (_cache[14] = function ($event) {
+      return $setup.targetCount = $event;
+    }),
+    placeholder: $setup.t('targetCount'),
+    min: "1",
+    "aria-label": "Target Count"
+  }, null, 8 /* PROPS */, _hoisted_67), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.targetCount]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Current Dhikr "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_69, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-text-paragraph me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('currentDhikr')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentDhikr.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentDhikr.transliteration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentDhikr.translation), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Counter Display and Progress "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_75, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-counter me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('progress')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link p-0 position-absolute start-0 top-50 translate-middle-y",
+    onClick: _cache[15] || (_cache[15] = function () {
+      return _ctx.prevCounter && _ctx.prevCounter.apply(_ctx, arguments);
+    }),
+    "aria-label": "Previous Counter"
+  }, _cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-left fs-3",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-link p-0 position-absolute end-0 top-50 translate-middle-y",
+    onClick: _cache[16] || (_cache[16] = function () {
+      return _ctx.nextCounter && _ctx.nextCounter.apply(_ctx, arguments);
+    }),
+    "aria-label": "Next Counter"
+  }, _cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-right fs-3",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('progress')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.progressPercentage.toFixed(1)) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: $setup.progressPercentage + '%',
+      backgroundColor: 'var(--primary-color)'
+    })
+  }, null, 4 /* STYLE */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_81, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-sliders me-2"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('actions')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success btn-lg rounded-3 px-4 py-2 fw-semibold",
+    onClick: _cache[17] || (_cache[17] = function () {
+      return $setup.increment && $setup.increment.apply($setup, arguments);
+    }),
+    "aria-label": "Increment Count"
+  }, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-plus-lg me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('count')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-secondary btn-lg rounded-3 px-3 py-2 fw-semibold",
+    onClick: _cache[18] || (_cache[18] = function () {
+      return $setup.reset && $setup.reset.apply($setup, arguments);
+    }),
+    "aria-label": "Reset Counter"
+  }, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-repeat me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('reset')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-success btn-lg rounded-3 px-3 py-2 fw-semibold",
+    onClick: _cache[19] || (_cache[19] = function () {
+      return $setup.toggleSession && $setup.toggleSession.apply($setup, arguments);
+    }),
+    "aria-label": "Toggle Session"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.sessionActive ? 'bi-pause' : 'bi-play'])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.sessionActive ? $setup.t('pause') : $setup.t('resume')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-success btn-lg rounded-3 px-3 py-2 fw-semibold",
+    onClick: _cache[20] || (_cache[20] = function () {
+      return $setup.toggleVoiceInput && $setup.toggleVoiceInput.apply($setup, arguments);
+    }),
+    "aria-label": "Toggle Voice Input"
+  }, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-mic me-1"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('voiceInput')), 1 /* TEXT */)])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sidebar Column (Progress and Secondary Features) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracking Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center cursor-pointer",
+    onClick: _cache[21] || (_cache[21] = function ($event) {
+      return $setup.toggleSection('progressTracking');
+    }),
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#progressTrackingBody",
+    "aria-expanded": !$setup.collapsedSections.progressTracking,
+    "aria-controls": "progressTrackingBody"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_86, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-calendar-check-fill me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('progressTracking')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collapse-icon bi", $setup.collapsedSections.progressTracking ? 'bi-chevron-down' : 'bi-chevron-up']),
+    style: {
+      "color": "#6c757d"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.collapsedSections.progressTracking ? $setup.t('expand') : $setup.t('collapse'),
+    "aria-label": "Toggle Progress Tracking"
+  }, null, 10 /* CLASS, PROPS */, _hoisted_87)], 8 /* PROPS */, _hoisted_85), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-secondary rounded-3",
+    onClick: _cache[22] || (_cache[22] = function () {
+      return $setup.prevMonth && $setup.prevMonth.apply($setup, arguments);
+    }),
+    "aria-label": "Previous Month"
+  }, _cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-left"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentMonthYear), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-secondary rounded-3",
+    onClick: _cache[23] || (_cache[23] = function () {
+      return $setup.nextMonth && $setup.nextMonth.apply($setup, arguments);
+    }),
+    "aria-label": "Next Month"
+  }, _cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-chevron-right"
+  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.calendarDays, function (day) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: day.date,
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["calendar-day", {
+        completed: day.completed,
+        'text-muted': !day.isCurrentMonth
+      }]),
+      onClick: function onClick($event) {
+        return $setup.showDayDetails(day.date);
+      },
+      role: "button",
+      "aria-label": 'View details for ' + day.day
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.day), 11 /* TEXT, CLASS, PROPS */, _hoisted_93);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('totalToday')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.todayTotal), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('sessions')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_98, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.todaySessions), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('timeSpent')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatDuration($setup.todayTimeSpent)), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided Session Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center cursor-pointer",
+    onClick: _cache[24] || (_cache[24] = function ($event) {
+      return $setup.toggleSection('guidedSession');
+    }),
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#guidedSessionBody",
+    "aria-expanded": !$setup.collapsedSections.guidedSession,
+    "aria-controls": "guidedSessionBody"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_103, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-play-circle-fill me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('guidedSession')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collapse-icon bi", $setup.collapsedSections.guidedSession ? 'bi-chevron-down' : 'bi-chevron-up']),
+    style: {
+      "color": "#6c757d"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.collapsedSections.guidedSession ? $setup.t('expand') : $setup.t('collapse'),
+    "aria-label": "Toggle Guided Session"
+  }, null, 10 /* CLASS, PROPS */, _hoisted_104)], 8 /* PROPS */, _hoisted_102), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "guidedSessionBody",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-body p-2 collapse", {
+      show: !$setup.collapsedSections.guidedSession
     }])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isListening ? "Stop Listening" : "Start Voice Commands"), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function () {
-      return $options.undoClick && $options.undoClick.apply($options, arguments);
+  }, [!$setup.guidedSessionActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-select mb-2 rounded-3",
+    "onUpdate:modelValue": _cache[25] || (_cache[25] = function ($event) {
+      return $setup.selectedGuidedSession = $event;
     }),
-    role: "button",
-    "aria-label": "Undo last count",
-    tabindex: "0",
-    onKeydown: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.undoClick && $options.undoClick.apply($options, arguments);
-    }, ["enter"]))
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-undo"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Undo ")]), 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[9] || (_cache[9] = function () {
-      return $options.resetAll && $options.resetAll.apply($options, arguments);
+    "aria-label": "Select Guided Session"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.guidedSessions, function (session) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: session.id,
+      value: session.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(session.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(session.duration) + "min) ", 9 /* TEXT, PROPS */, _hoisted_106);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedGuidedSession]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success w-100 rounded-3",
+    onClick: _cache[26] || (_cache[26] = function () {
+      return $setup.startGuidedSession && $setup.startGuidedSession.apply($setup, arguments);
     }),
-    role: "button",
-    "aria-label": "Reset counter",
-    tabindex: "0",
-    onKeydown: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
-      return $options.resetAll && $options.resetAll.apply($options, arguments);
-    }, ["enter"]))
-  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "fas fa-redo"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset ")]), 32 /* NEED_HYDRATION */)])]);
+    "aria-label": "Start Guided Session"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('startGuided')), 1 /* TEXT */)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatGuidedTime($setup.guidedTimeRemaining)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: $setup.guidedProgress + '%',
+      backgroundColor: 'var(--primary-color)'
+    })
+  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-danger rounded-3",
+    onClick: _cache[27] || (_cache[27] = function () {
+      return $setup.stopGuidedSession && $setup.stopGuidedSession.apply($setup, arguments);
+    }),
+    "aria-label": "Stop Guided Session"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('stopGuided')), 1 /* TEXT */)]))], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Daily Quote Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center cursor-pointer",
+    onClick: _cache[28] || (_cache[28] = function ($event) {
+      return $setup.toggleSection('dailyQuote');
+    }),
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#dailyQuoteBody",
+    "aria-expanded": !$setup.collapsedSections.dailyQuote,
+    "aria-controls": "dailyQuoteBody"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_113, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-quote me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('dailyQuote')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collapse-icon bi", $setup.collapsedSections.dailyQuote ? 'bi-chevron-down' : 'bi-chevron-up']),
+    style: {
+      "color": "#6c757d"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.collapsedSections.dailyQuote ? $setup.t('expand') : $setup.t('collapse'),
+    "aria-label": "Toggle Daily Quote"
+  }, null, 10 /* CLASS, PROPS */, _hoisted_114)], 8 /* PROPS */, _hoisted_112), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "dailyQuoteBody",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-body p-2 collapse", {
+      show: !$setup.collapsedSections.dailyQuote
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("blockquote", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dailyQuote.text), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_117, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.dailyQuote.source), 1 /* TEXT */)])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Recent History Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center cursor-pointer",
+    onClick: _cache[30] || (_cache[30] = function ($event) {
+      return $setup.toggleSection('recentHistory');
+    }),
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#recentHistoryBody",
+    "aria-expanded": !$setup.collapsedSections.recentHistory,
+    "aria-controls": "recentHistoryBody"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_120, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-clock-history me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('recentHistory')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-danger rounded-3 me-2",
+    onClick: _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $setup.clearHistory && $setup.clearHistory.apply($setup, arguments);
+    }, ["stop"])),
+    "aria-label": "Clear All History"
+  }, _cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-trash"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collapse-icon bi", $setup.collapsedSections.recentHistory ? 'bi-chevron-down' : 'bi-chevron-up']),
+    style: {
+      "color": "#6c757d"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.collapsedSections.recentHistory ? $setup.t('expand') : $setup.t('collapse'),
+    "aria-label": "Toggle Recent History"
+  }, null, 10 /* CLASS, PROPS */, _hoisted_122)])], 8 /* PROPS */, _hoisted_119), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "recentHistoryBody",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-body p-2 collapse", {
+      show: !$setup.collapsedSections.recentHistory
+    }])
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.recentHistory, function (entry) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: entry.id,
+      "class": "d-flex justify-content-between align-items-center mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_123, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.dhikr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatDate(entry.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn btn-outline-danger btn-sm rounded-circle",
+      onClick: function onClick($event) {
+        return $options.openDeleteModal(entry.id, 'history');
+      },
+      disabled: $setup.isDeleting,
+      "aria-label": $setup.t('deleteHistoryAria', {
+        name: entry.dhikr
+      }),
+      title: $setup.t('deleteHistoryAria', {
+        name: entry.dhikr
+      })
+    }, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-trash"
+    }, null, -1 /* HOISTED */)), $setup.isDeleting && $setup.deletingId === entry.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_129, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('deleting')), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_127)])]);
+  }), 128 /* KEYED_FRAGMENT */)), $setup.recentHistory.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('noHistory')), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dhikr Guide Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header grey-header rounded-top-3 d-flex justify-content-between align-items-center cursor-pointer",
+    onClick: _cache[31] || (_cache[31] = function ($event) {
+      return $setup.toggleSection('dhikrGuide');
+    }),
+    "data-bs-toggle": "collapse",
+    "data-bs-target": "#dhikrGuideBody",
+    "aria-expanded": !$setup.collapsedSections.dhikrGuide,
+    "aria-controls": "dhikrGuideBody"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_133, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book-fill me-2",
+    style: {
+      "color": "var(--primary-color)"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('dhikrGuide')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["collapse-icon bi", $setup.collapsedSections.dhikrGuide ? 'bi-chevron-down' : 'bi-chevron-up']),
+    style: {
+      "color": "#6c757d"
+    },
+    "data-bs-toggle": "tooltip",
+    title: $setup.collapsedSections.dhikrGuide ? $setup.t('expand') : $setup.t('collapse'),
+    "aria-label": "Toggle Dhikr Guide"
+  }, null, 10 /* CLASS, PROPS */, _hoisted_134)], 8 /* PROPS */, _hoisted_132), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "dhikrGuideBody",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["card-body p-2 collapse", {
+      show: !$setup.collapsedSections.dhikrGuide
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_135, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('dhikrGuideText')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_136, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dhikrPresets, function (dhikr) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: dhikr.id,
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_137, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.arabic), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.transliteration) + "): " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dhikr.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fab d-lg-none",
+    onClick: _cache[32] || (_cache[32] = function () {
+      return $setup.increment && $setup.increment.apply($setup, arguments);
+    }),
+    title: "Increment Count",
+    "aria-label": "Increment Count"
+  }, _cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-plus-lg"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Day Details Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('dayDetails')) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.selectedDay), 1 /* TEXT */), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  }, null, -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [$setup.dayHistory.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_144, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.dayHistory, function (entry) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: entry.id,
+      "class": "d-flex justify-content-between align-items-center mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.dhikr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_145, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatDate(entry.date)) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatTime(entry.date)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.count), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_147, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('noActivity')), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_149, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('close')), 1 /* TEXT */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Delete Confirmation Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.deleteType === 'dua' ? $setup.t('deleteDuaTitle') : $setup.t('deleteHistoryTitle')), 1 /* TEXT */), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn-close",
+    "data-bs-dismiss": "modal",
+    "aria-label": "Close"
+  }, null, -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.deleteType === 'dua' ? $setup.t('deleteConfirm', {
+    name: $setup.deletingName
+  }) : $setup.t('deleteHistoryConfirm', {
+    name: $setup.deletingName
+  })), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_157, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('cancel')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    "class": "btn btn-danger rounded-3",
+    onClick: _cache[33] || (_cache[33] = function () {
+      return $options.confirmDelete && $options.confirmDelete.apply($options, arguments);
+    }),
+    disabled: $setup.isDeleting,
+    "aria-label": "Confirm Deletion"
+  }, [$setup.isDeleting ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('deleting')), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.t('delete')), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_158)])])])])])], 36 /* STYLE, NEED_HYDRATION */);
 }
 
 /***/ }),
@@ -163765,8 +165301,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-1c15337c]:root {\n  --primary-color: #198754;\n  --secondary-color: #ffc107;\n  --background-color: #f8f9fa;\n  --text-color: #333;\n}\n.tasbeeh-container[data-v-1c15337c] {\n  min-height: 100vh;\n  background: var(--background-color);\n  padding: 16px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n  max-width: 100vw;\n  overflow-x: hidden;\n}\n.title[data-v-1c15337c] {\n  font-size: clamp(1.5rem, 5vw, 1.8rem);\n  color: var(--primary-color);\n  margin-bottom: 8px;\n}\n.subtitle[data-v-1c15337c] {\n  font-size: clamp(0.9rem, 3vw, 1rem);\n  color: var(--text-color);\n  opacity: 0.7;\n  margin-bottom: 16px;\n}\n.counter-container[data-v-1c15337c] {\n  margin-bottom: 16px;\n  text-align: center;\n}\n.dhikr-display[data-v-1c15337c] {\n  display: flex;\n  gap: 8px;\n  justify-content: center;\n  margin-bottom: 12px;\n}\n.dhikr-text[data-v-1c15337c] {\n  font-size: clamp(1.4rem, 4vw, 1.6rem);\n  font-weight: bold;\n  color: var(--primary-color);\n}\n.dhikr-text-arabic[data-v-1c15337c] {\n  font-size: clamp(1rem, 3vw, 1.1rem);\n  color: var(--text-color);\n  opacity: 0.8;\n  font-family: 'Amiri', serif;\n}\n.counter[data-v-1c15337c] {\n  font-size: clamp(2.5rem, 6vw, 2.8rem);\n  font-weight: bold;\n  color: var(--primary-color);\n}\n.bead-string[data-v-1c15337c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 6px;\n  justify-content: center;\n  margin-bottom: 16px;\n}\n.bead[data-v-1c15337c] {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background: #e0e0e0;\n  border: 2px solid var(--primary-color);\n}\n.bead.filled[data-v-1c15337c] {\n  background: var(--primary-color);\n}\n.tap-area-wrapper[data-v-1c15337c] {\n  width: 80%;\n  max-width: 300px;\n  margin-bottom: 16px;\n}\n.tap-area[data-v-1c15337c] {\n  font-size: clamp(1rem, 3vw, 1.1rem);\n  padding: 12px;\n  background: var(--primary-color);\n  color: white;\n  border: none;\n  border-radius: 8px;\n  cursor: pointer;\n  width: 100%;\n  text-align: center;\n  transition: background 0.2s, transform 0.2s;\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n}\n.tap-area[data-v-1c15337c]:hover {\n  background: #28a745;\n}\n.tap-area[data-v-1c15337c]:active {\n  background: #146c43;\n}\n.tap-area.swipe-right[data-v-1c15337c] {\n  transform: translateX(8px);\n}\n.tap-area.swipe-left[data-v-1c15337c] {\n  transform: translateX(-8px);\n}\n.arrow-right[data-v-1c15337c], .arrow-left[data-v-1c15337c] {\n  font-size: 1.2rem;\n  opacity: 0.8;\n}\n.controls[data-v-1c15337c] {\n  display: flex;\n  gap: 8px;\n  justify-content: center;\n  flex-wrap: wrap;\n  width: 80%;\n  max-width: 300px;\n}\n.controls button[data-v-1c15337c] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  padding: 8px;\n  background: #e0e0e0;\n  border: none;\n  border-radius: 8px;\n  font-size: clamp(0.8rem, 2.5vw, 0.9rem);\n  color: var(--text-color);\n  cursor: pointer;\n  flex: 1;\n  min-width: 80px;\n  transition: background 0.2s;\n}\n.controls button[data-v-1c15337c]:hover {\n  background: #d0d0d0;\n}\n.controls button[data-v-1c15337c]:active {\n  background: #c0c0c0;\n}\n.controls button[data-v-1c15337c]:disabled {\n  background: #f0f0f0;\n  color: #999;\n  cursor: not-allowed;\n}\n.voice-btn.active[data-v-1c15337c] {\n  background: #ff4d4d;\n  color: white;\n}\n.milestone[data-v-1c15337c] {\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  color: var(--secondary-color);\n  margin-bottom: 16px;\n}\n.voice-status[data-v-1c15337c] {\n  font-size: clamp(0.8rem, 2.5vw, 0.9rem);\n  color: var(--text-color);\n  opacity: 0.7;\n  margin-bottom: 8px;\n}\n.voice-status.error[data-v-1c15337c] {\n  color: #dc3545;\n  opacity: 1;\n}\n.fade-enter-active[data-v-1c15337c], .fade-leave-active[data-v-1c15337c] {\n  transition: opacity 0.4s;\n}\n.fade-enter[data-v-1c15337c], .fade-leave-to[data-v-1c15337c] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-1c15337c]:root {\n  --primary-color: #0db691;\n  --primary-dark: #0a9974;\n  --fab-color: #28a745;\n  --fab-dark: #218838;\n  --header-bg: rgba(13, 182, 145, 0.05);\n  --header-border: rgba(13, 182, 145, 0.2);\n}\n.tasbih-app[data-v-1c15337c] {\n  font-family: 'Inter', 'Amiri', 'Noto Sans Arabic', sans-serif;\n  background: linear-gradient(to bottom, #f0f9f7, #f0f0f8);\n}\n.arabic-text[data-v-1c15337c] {\n  font-family: 'Amiri', 'Noto Sans Arabic', serif;\n  font-weight: 600;\n  line-height: 2.2;\n  font-size: 1.1em;\n}\n.fab[data-v-1c15337c] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  width: 60px;\n  height: 60px;\n  font-size: 2rem;\n  background: linear-gradient(135deg, var(--fab-color), var(--fab-dark));\n  color: white;\n  border-radius: 50%;\n  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.4);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: none;\n}\n.fab[data-v-1c15337c]:hover {\n  background: linear-gradient(135deg, var(--fab-dark), var(--fab-color));\n  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);\n}\n.btn-circle[data-v-1c15337c] {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  font-size: 1.25rem;\n  box-shadow: 0 4px 8px rgba(13, 182, 145, 0.3);\n}\n.btn-circle[data-v-1c15337c]:hover {\n  box-shadow: 0 6px 12px rgba(13, 182, 145, 0.5);\n}\n.digital-counter[data-v-1c15337c] {\n  font-family: 'Orbitron', 'Roboto Mono', monospace;\n  font-size: 7rem;\n  letter-spacing: 2px;\n  text-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  padding: 10px 20px;\n  border-radius: 10px;\n  display: inline-block;\n}\n.dhikr-guide-text[data-v-1c15337c] {\n  line-height: 1.8;\n  padding: 0.75rem;\n  margin-bottom: 1rem;\n}\n.dhikr-guide-list[data-v-1c15337c] {\n  line-height: 1.8;\n  padding-left: 0.5rem;\n}\n.dhikr-guide-list li[data-v-1c15337c] {\n  margin-bottom: 1rem;\n}\n.swipe-arrow[data-v-1c15337c] {\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n  font-size: 1.5rem;\n  color: rgba(13, 182, 145, 0.5);\n}\n.swipe-arrow[data-v-1c15337c]:hover {\n  color: var(--primary-color);\n}\n.swipe-arrow-left[data-v-1c15337c] {\n  left: 10px;\n}\n.swipe-arrow-right[data-v-1c15337c] {\n  right: 10px;\n}\n.calendar-header[data-v-1c15337c] {\n  font-size: 1rem;\n}\n.calendar-grid[data-v-1c15337c] {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr);\n  gap: 6px;\n  padding: 10px;\n}\n.calendar-day[data-v-1c15337c] {\n  padding: 10px;\n  text-align: center;\n  border-radius: 8px;\n  background-color: #e9ecef;\n  font-size: 1rem;\n  cursor: pointer;\n}\n.calendar-day.completed[data-v-1c15337c] {\n  background-color: var(--primary-color);\n  color: white;\n}\n.calendar-day[data-v-1c15337c]:hover {\n  background-color: #d1d5db;\n}\n.primary-card[data-v-1c15337c] {\n  border-radius: 16px;\n  background: white;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);\n  border: 1px solid #e9ecef;\n}\n.primary-card[data-v-1c15337c]:hover {\n  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);\n}\n.secondary-card[data-v-1c15337c] {\n  border-radius: 12px;\n  background: white;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n  border: 1px solid #e9ecef;\n}\n.secondary-card[data-v-1c15337c]:hover {\n  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);\n}\n.card-header[data-v-1c15337c] {\n  padding: 1rem 1.5rem;\n  border-bottom: 1px solid var(--header-border);\n}\n.colored-header[data-v-1c15337c] {\n  background-color: var(--header-bg);\n}\n.card-header h5[data-v-1c15337c],\n.card-header h6[data-v-1c15337c] {\n  margin: 0;\n  line-height: 1.4;\n}\n.collapse-icon[data-v-1c15337c] {\n  font-size: 1.25rem;\n  color: #6c757d;\n  padding: 0.5rem;\n  border-radius: 50%;\n  margin-left: auto;\n}\n.collapse-icon[data-v-1c15337c]:hover {\n  background-color: rgba(13, 182, 145, 0.1);\n  color: var(--primary-color);\n}\n.btn[data-v-1c15337c] {\n  border-radius: 8px;\n  padding: 0.75rem 1.5rem;\n}\n.btn[data-v-1c15337c]:hover {\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.btn[data-v-1c15337c]:active {\n  box-shadow: none;\n}\n.btn-success[data-v-1c15337c] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-success[data-v-1c15337c]:hover {\n  background-color: var(--primary-dark);\n  border-color: var(--primary-dark);\n}\n.btn-outline-success[data-v-1c15337c] {\n  border-color: var(--primary-color);\n  color: var(--primary-color);\n}\n.btn-outline-success[data-v-1c15337c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n.form-control[data-v-1c15337c],\n.form-select[data-v-1c15337c] {\n  border-radius: 8px;\n  border: 2px solid #e9ecef;\n  padding: 0.75rem;\n}\n.form-control[data-v-1c15337c]:focus,\n.form-select[data-v-1c15337c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.25rem rgba(13, 182, 145, 0.25);\n}\n.navbar[data-v-1c15337c] {\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  background: var(--primary-color);\n}\n.dropdown-menu[data-v-1c15337c] {\n  border-radius: 8px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);\n  border: none;\n}\n.badge.bg-success[data-v-1c15337c] {\n  background-color: var(--primary-color) !important;\n}\n.badge.bg-info[data-v-1c15337c] {\n  background-color: #6c757d !important;\n}\n.modal-content[data-v-1c15337c] {\n  border-radius: 12px;\n  border: none;\n  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);\n}\n.custom-duas-list .card[data-v-1c15337c] {\n  border-radius: 10px;\n}\n.custom-duas-list .card[data-v-1c15337c]:hover {\n  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);\n}\n.btn-outline-danger.rounded-circle[data-v-1c15337c] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 0;\n  border-width: 2px;\n}\n.btn-outline-danger.rounded-circle[data-v-1c15337c]:hover {\n  background-color: #dc3545;\n  color: white;\n}\n.btn-outline-danger[data-v-1c15337c]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.smaller[data-v-1c15337c] {\n  font-size: 0.85rem;\n  line-height: 1.4;\n}\n@media (max-width: 768px) {\n.digital-counter[data-v-1c15337c] {\n    font-size: 2.5rem;\n}\n.arabic-text[data-v-1c15337c] {\n    font-size: 1.6rem !important;\n}\n.card-body[data-v-1c15337c] {\n    padding: 1rem;\n}\n.card-header[data-v-1c15337c] {\n    padding: 0.75rem 1rem;\n}\n.btn-circle[data-v-1c15337c] {\n    width: 50px;\n    height: 50px;\n    font-size: 1rem;\n}\n.calendar-day[data-v-1c15337c] {\n    padding: 6px;\n    font-size: 0.85rem;\n}\n.swipe-arrow[data-v-1c15337c] {\n    font-size: 1rem;\n}\n.btn-outline-danger.rounded-circle[data-v-1c15337c] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.9rem;\n}\n.custom-duas-list .card-body[data-v-1c15337c] {\n    flex-direction: column;\n    align-items: flex-start;\n}\n.custom-duas-list .btn[data-v-1c15337c] {\n    margin-top: 0.5rem;\n    align-self: flex-end;\n}\n.primary-card[data-v-1c15337c] {\n    border-radius: 12px;\n}\n.primary-card .card-header h5[data-v-1c15337c] {\n    font-size: 1.25rem;\n}\n.secondary-card .card-header h6[data-v-1c15337c] {\n    font-size: 1rem;\n}\n.form-select-lg[data-v-1c15337c],\n  .form-control-lg[data-v-1c15337c] {\n    font-size: 1rem !important;\n    padding: 0.5rem !important;\n}\n.btn-lg[data-v-1c15337c] {\n    font-size: 1rem !important;\n    padding: 0.5rem 1rem !important;\n}\n.collapse-icon[data-v-1c15337c] {\n    font-size: 1rem;\n    padding: 0.4rem;\n}\n.fab[data-v-1c15337c] {\n    width: 56px;\n    height: 56px;\n    font-size: 1.5rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
