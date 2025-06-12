@@ -1,28 +1,26 @@
 <template>
-  <div class="dictionary-app" :style="{ fontSize: `${baseFontSize}px` }">
-    <!-- Sticky Header with Gradient Background -->
-    <header class="sticky-top bg-gradient-primary py-4 shadow-sm">
-      <div class="container-fluid">
+  <div class="dictionary-app" :style="{ fontSize: `${baseFontSize}rem` }">
+    <header class=" py-3 py-md-4 ">
+      <div class="container-fluid px-3 px-md-4">
         <div class="row justify-content-center">
-          <div class="col-lg-10 col-xl-8">
-            <!-- App Title and Description -->
-            <div class="text-center mb-4">
-              <h1 class="display-5 fw-bold text-white mb-2">
-                <i class="bi bi-book-half me-2"></i>Islamic Dictionary
+          <div class="col-12 col-lg-10 col-xl-8">
+            <div class="text-center mb-3 mb-md-4">
+              <h1 class="display-4 display-md-5 fw-bold text-dark mb-2">
+                Islamic Dictionary
               </h1>
-              <p class="text-white-50 mb-0">A comprehensive resource for exploring Islamic terms and their meanings</p>
+              <p class="text-black-50 display-5 mb-0 fs-6 fs-md-5">
+                A comprehensive resource for exploring Islamic terms and their meanings
+              </p>
             </div>
-
-            <!-- Search and Filter Section -->
             <div class="search-section">
-              <div class="row g-3">
-                <!-- Subject Filter -->
-                <div class="col-4">
+              <div class="row g-2 g-md-3">
+                <div class="col-12 col-md-4">
                   <label for="subjectFilter" class="form-label fw-bold text-dark">Subject</label>
                   <select
                     id="subjectFilter"
                     v-model="selectedSubject"
-                    class="form-select form-select-lg border-0 shadow-sm"
+                    class="form-select border-0 shadow-sm"
+                    :class="{ 'form-select-lg': $isLargeScreen }"
                     aria-label="Filter by subject"
                     @change="debouncedSearch"
                   >
@@ -32,12 +30,10 @@
                     </option>
                   </select>
                 </div>
-
-                <!-- Search Bar -->
-                <div class="col-8">
+                <div class="col-12 col-md-8">
                   <label for="searchQuery" class="form-label fw-bold text-dark">Search Query</label>
                   <div class="search-bar position-relative">
-                    <div class="input-group input-group-lg shadow-sm">
+                    <div class="input-group shadow-sm" :class="{ 'input-group-lg': $isLargeScreen }">
                       <span class="input-group-text bg-white border-0">
                         <i class="bi bi-search text-secondary"></i>
                       </span>
@@ -45,7 +41,8 @@
                         id="searchQuery"
                         type="text"
                         v-model="searchQuery"
-                        class="form-control border-0 py-3 fs-5"
+                        class="form-control border-0 py-2 py-md-3"
+                        :class="{ 'fs-5': $isLargeScreen }"
                         placeholder="Search terms, meanings, or references..."
                         aria-label="Search Islamic Dictionary"
                         @input="debouncedSearch"
@@ -57,7 +54,7 @@
                       />
                       <button
                         v-if="searchQuery"
-                        class="btn btn-outline-secondary border-0"
+                        class="btn btn-outline-secondary border-0 touch-friendly"
                         type="button"
                         @click="clearSearch"
                         aria-label="Clear search"
@@ -65,7 +62,7 @@
                         <i class="bi bi-x-lg"></i>
                       </button>
                       <button
-                        class="btn btn-outline-secondary border-0"
+                        class="btn btn-outline-secondary border-0 touch-friendly"
                         type="button"
                         :disabled="!isSpeechSupported"
                         :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'"
@@ -75,8 +72,6 @@
                         <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
                       </button>
                     </div>
-
-                    <!-- Autocomplete Dropdown -->
                     <div
                       v-if="showSuggestions && suggestions.length && searchQuery.length >= 2"
                       class="suggestions-dropdown shadow-lg rounded-bottom"
@@ -104,49 +99,64 @@
         </div>
       </div>
     </header>
-
-    <!-- Main Content -->
-    <main class="container-fluid py-4">
+    <main class="container-fluid py-3 py-md-4 px-3 px-md-4">
       <div class="row justify-content-center">
-        <div class="col-lg-10 col-xl-8">
-          <!-- Empty State -->
-          <div v-if="paginatedTerms.length === 0" class="empty-state text-center py-5">
-            <div class="empty-icon mb-4">
-              <i class="bi bi-search-heart fs-1 text-muted"></i>
+        <div class="col-12 col-lg-10 col-xl-8">
+          <div v-if="paginatedTerms.length === 0" class="empty-state text-center py-4 py-md-5">
+            <div class="empty-icon mb-3 mb-md-4">
+              <i class="bi bi-search-heart fs-2 fs-md-1 text-muted"></i>
             </div>
-            <h3 class="fw-bold mb-3">No terms found</h3>
-            <p class="text-muted mb-4">Try adjusting your search or filter criteria</p>
-            <button class="btn btn-primary px-4" @click="clearSearch">
+            <h3 class="fw-bold mb-2 mb-md-3 fs-5 fs-md-4">No terms found</h3>
+            <p class="text-muted mb-3 mb-md-4 fs-6 fs-md-5">Try adjusting your search or filter criteria</p>
+            <button class="btn btn-primary px-3 px-md-4 touch-friendly" @click="clearSearch">
               <i class="bi bi-arrow-counterclockwise me-2"></i>Reset Search
             </button>
           </div>
-
-          <!-- Dictionary Grid -->
-          <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-md-4">
             <div v-for="term in paginatedTerms" :key="term.id" class="col">
               <div class="card h-100 border-0 shadow-sm hover-effect">
-                <!-- Card Header with Icons -->
-                <div class="card-header bg-light d-flex justify-content-end gap-2">
+                <div class="card-body d-flex flex-column p-3 p-md-4" :style="{ fontSize: `${termFontSizes[term.id]}rem` }">
+                  <span class="badge bg-primary-subtle text-primary rounded-pill mb-2 mb-md-3">
+                    {{ term.subject }}
+                  </span>
+                  <h5 class="card-title fw-bold mb-2 mb-md-3">{{ term.term }}</h5>
+                  <p class="card-text text-muted mb-2 mb-md-3">
+                    <small>"{{ term.phrase }}"</small>
+                  </p>
+                  <div class="mb-2 mb-md-3">
+                    <h6 class="fw-bold text-primary">Meaning</h6>
+                    <p>{{ term.meaning }}</p>
+                  </div>
+                  <div class="mb-2 mb-md-3">
+                    <h6 class="fw-bold text-primary">Example</h6>
+                    <p>{{ term.example }}</p>
+                  </div>
+                  <div class="mb-2 mb-md-3">
+                    <h6 class="fw-bold text-primary">Reference</h6>
+                    <p>{{ term.reference }}</p>
+                  </div>
+                </div>
+                <div class="card-bottom bg-light d-flex  gap-1 gap-md-2 p-2 p-md-3">
                   <button
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary btn-sm touch-friendly"
                     @click="adjustFontSize(term.id, -1)"
-                    :disabled="termFontSizes[term.id] <= 14"
+                    :disabled="termFontSizes[term.id] <= minFontSize"
                     title="Decrease font size"
                     aria-label="Decrease font size"
                   >
                     <i class="bi bi-dash-lg"></i>
                   </button>
                   <button
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary btn-sm touch-friendly"
                     @click="adjustFontSize(term.id, 1)"
-                    :disabled="termFontSizes[term.id] >= 22"
+                    :disabled="termFontSizes[term.id] >= maxFontSize"
                     title="Increase font size"
                     aria-label="Increase font size"
                   >
                     <i class="bi bi-plus-lg"></i>
                   </button>
                   <button
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary btn-sm touch-friendly"
                     @click="resetFontSize(term.id)"
                     title="Reset font size"
                     aria-label="Reset font size"
@@ -154,7 +164,7 @@
                     <i class="bi bi-fonts"></i>
                   </button>
                   <a
-                    class="btn btn-outline-success btn-sm"
+                    class="btn btn-outline-success btn-sm touch-friendly"
                     :href="getWhatsAppShareLink(term)"
                     target="_blank"
                     title="Share via WhatsApp"
@@ -163,7 +173,7 @@
                     <i class="bi bi-whatsapp"></i>
                   </a>
                   <button
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary btn-sm touch-friendly"
                     @click="copyToClipboard(term)"
                     title="Copy to clipboard"
                     aria-label="Copy term details"
@@ -171,7 +181,7 @@
                     <i class="bi bi-clipboard"></i>
                   </button>
                   <button
-                    class="btn btn-outline-secondary btn-sm"
+                    class="btn btn-outline-secondary btn-sm touch-friendly"
                     @click="speakTerm(term)"
                     :disabled="!isSpeechSynthesisSupported"
                     :title="isSpeechSynthesisSupported ? 'Read aloud' : 'Text-to-speech not supported'"
@@ -180,51 +190,21 @@
                     <i class="bi bi-volume-up"></i>
                   </button>
                 </div>
-                <div class="card-body d-flex flex-column" :style="{ fontSize: `${termFontSizes[term.id]}px` }">
-                  <span class="badge bg-primary-subtle text-primary rounded-pill mb-3">
-                    {{ term.subject }}
-                  </span>
-                  <h5 class="card-title fw-bold mb-3">{{ term.term }}</h5>
-                  <p class="card-text text-muted mb-3">
-                    <small>"{{ term.phrase }}"</small>
-                  </p>
-                  <div class="mb-3">
-                    <h6 class="fw-bold text-primary">Meaning</h6>
-                    <p>{{ term.meaning }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <h6 class="fw-bold text-primary">Example</h6>
-                    <p>{{ term.example }}</p>
-                  </div>
-                  <div class="mb-3">
-                    <h6 class="fw-bold text-primary">Reference</h6>
-                    <p>{{ term.reference }}</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
-
-          <!-- Pagination -->
-          <nav v-if="filteredTerms.length > termsPerPage" class="mt-4" aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
+          <nav v-if="filteredTerms.length > termsPerPage" class="mt-3 mt-md-4" aria-label="Page navigation">
+            <ul class="pagination justify-content-center flex-wrap">
               <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <button class="page-link" @click="currentPage--" aria-label="Previous">
+                <button class="page-link touch-friendly" @click="currentPage--" aria-label="Previous">
                   <span aria-hidden="true">«</span>
                 </button>
               </li>
-              <li
-                v-for="page in totalPages"
-                :key="page"
-                class="page-item"
-                :class="{ active: page === currentPage }"
-              >
-                <button class="page-link" @click="currentPage = page">
-                  {{ page }}
-                </button>
+              <li class="page-item disabled">
+                <span class="page-link">Page {{ currentPage }} of {{ totalPages }}</span>
               </li>
               <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <button class="page-link" @click="currentPage++" aria-label="Next">
+                <button class="page-link touch-friendly" @click="currentPage++" aria-label="Next">
                   <span aria-hidden="true">»</span>
                 </button>
               </li>
@@ -280,8 +260,10 @@ export default {
         'Fasting',
         'Prayer'
       ],
-      baseFontSize: 16,
+      baseFontSize: 1,
       termFontSizes: {},
+      minFontSize: 0.875,
+      maxFontSize: 1.375,
       currentPage: 1,
       termsPerPage: 6
     };
@@ -291,12 +273,10 @@ export default {
       let filtered = this.terms;
       const query = this.searchQuery.toLowerCase().trim();
 
-      // Apply subject filter first
       if (this.selectedSubject) {
         filtered = filtered.filter(term => term.subject.toLowerCase() === this.selectedSubject.toLowerCase());
       }
 
-      // Then apply search query filter
       if (query) {
         filtered = filtered.filter(term =>
           term.term.toLowerCase().includes(query) ||
@@ -314,6 +294,14 @@ export default {
       const start = (this.currentPage - 1) * this.termsPerPage;
       const end = start + this.termsPerPage;
       return this.filteredTerms.slice(start, end);
+    },
+    $isLargeScreen() {
+      return window.innerWidth >= 768;
+    }
+  },
+  watch: {
+    selectedSubject() {
+      this.debouncedSearch();
     }
   },
   methods: {
@@ -330,7 +318,7 @@ export default {
     debouncedSearch() {
       this.debounce(() => {
         this.updateSuggestions();
-        this.currentPage = 1; // Reset to first page on search or subject change
+        this.currentPage = 1;
       }, 300)();
     },
     updateSuggestions() {
@@ -341,7 +329,6 @@ export default {
       }
 
       let filtered = this.terms;
-      // Apply subject filter to suggestions
       if (this.selectedSubject) {
         filtered = filtered.filter(term => term.subject.toLowerCase() === this.selectedSubject.toLowerCase());
       }
@@ -408,7 +395,6 @@ export default {
         console.warn('SpeechRecognition API not supported in this browser.');
       }
 
-      // Initialize speech synthesis support
       this.isSpeechSynthesisSupported = 'speechSynthesis' in window;
     },
     toggleVoiceSearch() {
@@ -422,11 +408,11 @@ export default {
       }
     },
     adjustFontSize(termId, change) {
-      this.termFontSizes[termId] = Math.min(22, Math.max(14, (this.termFontSizes[termId] || 16) + change));
+      this.termFontSizes[termId] = Math.min(this.maxFontSize, Math.max(this.minFontSize, (this.termFontSizes[termId] || 1) + change * 0.125));
       this.$forceUpdate();
     },
     resetFontSize(termId) {
-      this.termFontSizes[termId] = 16;
+      this.termFontSizes[termId] = 1;
       this.$forceUpdate();
     },
     copyToClipboard(term) {
@@ -445,7 +431,7 @@ export default {
     speakTerm(term) {
       if (!this.isSpeechSynthesisSupported) return;
       const utterance = new SpeechSynthesisUtterance(
-        `Term: ${term.term}. Phrase: ${term.phrase}. Meaning: ${term.meaning}. Example: ${term.example}. Reference: ${term.reference}. Subject: ${term.subject}.`
+        `term=${term.term}. Phrase: ${term.phrase}. Meaning: ${term.meaning}. Example: ${term.example}. Reference: ${term.reference}. Subject: ${term.subject}.`
       );
       utterance.lang = 'en-US';
       window.speechSynthesis.speak(utterance);
@@ -454,12 +440,10 @@ export default {
   mounted() {
     this.initSpeechRecognition();
     
-    // Initialize font sizes for all terms
     this.terms.forEach(term => {
-      this.termFontSizes[term.id] = 16;
+      this.termFontSizes[term.id] = 1;
     });
 
-    // Add toast element dynamically
     const toastEl = document.createElement('div');
     toastEl.id = 'copyToast';
     toastEl.className = 'toast align-items-center text-white bg-success position-fixed bottom-0 end-0 m-3';
@@ -492,7 +476,7 @@ export default {
 .search-section {
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
@@ -505,7 +489,7 @@ export default {
   width: 100%;
   z-index: 1050;
   background: white;
-  max-height: 300px;
+  max-height: 40vh;
   overflow-y: auto;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-top: none;
@@ -514,7 +498,8 @@ export default {
 .suggestions-dropdown .list-group-item {
   border-left: none;
   border-right: none;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
 }
 
 .suggestions-dropdown .list-group-item:last-child {
@@ -526,7 +511,6 @@ export default {
   border-color: #4e4376;
 }
 
-/* Card Styling */
 .card {
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -542,11 +526,16 @@ export default {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Empty State */
+.touch-friendly {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0.5rem;
+  touch-action: manipulation;
+}
+
 .empty-state {
   background-color: white;
   border-radius: 12px;
-  padding: 3rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -554,27 +543,68 @@ export default {
   color: #e9ecef;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
+  .dictionary-app {
+    font-size: 0.9rem;
+  }
+
   .search-section {
-    padding: 1rem;
+    padding: 0.75rem;
+  }
+
+  .card-header {
+    gap: 0.5rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .card-body {
+    padding: 0.75rem !important;
+  }
+
+  .pagination {
+    font-size: 0.9rem;
   }
 }
 
-/* Accessibility improvements */
+@media (max-width: 576px) {
+  .dictionary-app {
+    font-size: 0.85rem;
+  }
+
+  .display-6 {
+    font-size: 1.5rem !important;
+  }
+
+  .fs-6 {
+    font-size: 0.9rem !important;
+  }
+
+  .card-title {
+    font-size: 1.1rem !important;
+  }
+
+  .card-text,
+  .card-body p,
+  .card-body small {
+    font-size: 0.9rem !important;
+  }
+}
+
 :focus {
   outline: 2px solid #4e4376;
   outline-offset: 2px;
 }
 
-.btn:focus, .form-control:focus, .form-select:focus {
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
   box-shadow: 0 0 0 0.25rem rgba(78, 67, 118, 0.25);
 }
 
-/* Pagination Styling */
 .pagination .page-link {
   border-radius: 8px;
   margin: 0 0.2rem;
+  padding: 0.5rem 1rem;
 }
 
 .pagination .page-item.active .page-link {

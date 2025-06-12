@@ -9,7 +9,7 @@
     <!-- Search Bar and Category Dropdown -->
     <section class=" mb-5">
       
-      <div class=" p-4 mb-5 shadow-md border" style="border-radius: 25px; box-shadow: #00bfa6; background: #76d7c4 ; border: 3px solid lightgrey;">
+      <div class=" p-4 mb-5 shadow-lg border-md" style="border-radius: 25px; box-shadow: #00bfa6; border: 3px solid lightgrey;">
         <h2 class="visually-hidden">Search Reciters</h2>
         <div class="row g-4 align-items-end" >
           <div class="col-md-8">
@@ -87,7 +87,7 @@
             <div class="card radio-card shadow-sm border-0"
               :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id" role="article"
               :aria-labelledby="'station-title-' + station.id">
-              <div class="card-body p-4">
+              <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <h5 class="card-title mb-0 fw-semibold text-truncate fs-5" :id="'station-title-' + station.id"
                     v-html="highlightSearch(station.name)"></h5>
@@ -238,6 +238,10 @@
 export default {
   data() {
     return {
+      defaultPopularReciters: [],
+      showSuggestions: false,
+      filteredSuggestions: [],
+      highlightIndex: -1,
       searchQuery: '',
       selectedCategory: 'All Categories',
       currentPage: 1,
@@ -519,7 +523,7 @@ export default {
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const data = await response.json();
         const apiStations = data.radios.map((radio) => ({
-          id: radio.id + 1000, // Offset to avoid ID conflicts with default reciters
+          id: radio.id + 1000,
           name: radio.name,
           url: radio.url,
           category: radio.category || this.assignCategory(radio.name),
@@ -560,16 +564,61 @@ export default {
       if (name.includes('fatwa') || name.includes('ruling')) return 'Fatwa';
       return 'Recitation';
     },
+    selectSuggestion(name) {
+      this.searchQuery = name;
+      this.filteredSuggestions = [];
+      this.showSuggestions = false;
+      this.handleSearch(); // Trigger search with selected name
+    },
+    hideSuggestions() {
+      // Delay to allow click on suggestion
+      setTimeout(() => {
+        this.showSuggestions = false;
+        this.highlightIndex = -1;
+      }, 200);
+    },
+    handleKeydown(event) {
+      if (!this.showSuggestions || !this.filteredSuggestions.length) return;
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.highlightIndex = (this.highlightIndex + 1) % this.filteredSuggestions.length;
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.highlightIndex = (this.highlightIndex - 1 + this.filteredSuggestions.length) % this.filteredSuggestions.length;
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        if (this.highlightIndex >= 0 && this.filteredSuggestions[this.highlightIndex]) {
+          this.selectSuggestion(this.filteredSuggestions[this.highlightIndex].name);
+        }
+      } else if (event.key === 'Escape') {
+        this.showSuggestions = false;
+        this.highlightIndex = -1;
+      }
+    },
     handleSearch() {
+      // Reset highlight index
+      this.highlightIndex = -1;
+
+      // Autocomplete logic: show suggestions after 2 characters
+      if (this.searchQuery.length >= 2) {
+        this.filteredSuggestions = this.stations.filter(station =>
+          station.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+        ).slice(0, 5); // Limit to 5 suggestions
+        this.showSuggestions = true;
+      } else {
+        this.filteredSuggestions = [];
+        this.showSuggestions = false;
+      }
+
+      // Existing search filtering logic
+      this.currentPage = 1; // Reset to first page
       const query = this.searchQuery.toLowerCase().trim();
-      this.filteredStations = this.stations.filter((station) => {
-        const matchesQuery = station.name.toLowerCase().includes(query);
-        const matchesCategory = this.selectedCategory !== 'All Categories'
-          ? station.category === this.selectedCategory
-          : true;
-        return matchesQuery && matchesCategory;
+      this.filteredStations = this.stations.filter(station => {
+        const matchesName = station.name.toLowerCase().includes(query);
+        const matchesCategory = this.selectedCategory === 'All Categories' || station.category === this.selectedCategory;
+        return matchesName && matchesCategory;
       });
-      this.currentPage = 1;
     },
     highlightSearch(name) {
       if (!this.searchQuery) return name;
