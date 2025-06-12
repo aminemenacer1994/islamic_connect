@@ -623,7 +623,7 @@ export default {
     highlightSearch(name) {
       if (!this.searchQuery) return name;
       const regex = new RegExp(`(${this.searchQuery})`, 'gi');
-      return name.replace(regex, '<mark>$1</mark>');
+      return name.replace(regex, '<mark style="background:#0db691;color:white" >$1</mark>');
     },
     async handlePlay(id, event) {
       const allAudios = Object.values(this.$refs).filter(el => el && el.tagName === 'AUDIO');

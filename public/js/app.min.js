@@ -41912,7 +41912,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     highlightSearch: function highlightSearch(name) {
       if (!this.searchQuery) return name;
       var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
-      return name.replace(regex, '<mark>$1</mark>');
+      return name.replace(regex, '<mark style="background:#0db691;color:white" >$1</mark>');
     },
     handlePlay: function handlePlay(id, event) {
       var _this8 = this;
