@@ -84,7 +84,7 @@ import StoreComponent from "./components/StoreComponent.vue";
 import FoodComponent from "./components/FoodComponent.vue";
 import SchoolComponent from "./components/SchoolComponent.vue";
 import WelfareComponent from "./components/WelfareComponent.vue";
-
+import BooksComponent from "./components/BooksComponent.vue";
 
 import CustomSurahSelection from "./components/surah_selection/CustomSurahSelection.vue";
 import Donation from "./components/intro/Donation.vue";
@@ -218,5 +218,6 @@ app.component('store-component', StoreComponent);
 app.component('food-component', FoodComponent);
 app.component('school-component', SchoolComponent);
 app.component('welfare-component', WelfareComponent);
+app.component('books-component', BooksComponent);
 
 app.mount("#app");

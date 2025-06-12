@@ -6,7 +6,6 @@
       <button @click="clearChat" class="clear-btn">Clear</button>
     </div>
 
-    <!-- Chatbox Area -->
     <div class="chat-box" ref="chatBox">
       <div v-for="(message, index) in chatMessages" :key="index" class="message">
         <div :class="message.sender === 'user' ? 'user-message' : 'ai-message'">

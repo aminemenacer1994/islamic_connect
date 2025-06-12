@@ -108,6 +108,24 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
+          <img src="/images/adic.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h5 class="mb-2 fw-bold display-6 text-dark text-center">Islamic Dictionary</h5>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Count your dhikr effortlessly with
+              our digital Tasbeeh counter. Keep track of your recitations anytime, anywhere.
+            </p>
+            <button class="form-control" onclick="window.location.href='/books'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
+              type="submit">
+              <span class="text-center w-100"><b>Search Words</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-md-6 col-lg-4">
+        <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
           <img src="/images/tb.png" alt="Names of Allah" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Tasbeeh Counter</h5>
@@ -122,7 +140,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>
