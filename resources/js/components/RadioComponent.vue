@@ -21,11 +21,11 @@
             </div>
           </div>
           <div class="col-md-4">
-            <div for="reciterCategory" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Filter by Style</div>
+            <div for="reciterCategory" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Select a Category</div>
             <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-              class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Filter reciters by style"
+              class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
               style="background-color: #f8f9fa;">
-              <option value="All Categories">All Recitation Styles</option>
+              <option value="All Categories">All Categories</option>
               <option v-for="category in availableCategories" :key="category" :value="category">
                 {{ category }}
               </option>
@@ -985,10 +985,6 @@ body {
   font-size: clamp(1.25rem, 4vw, 1.5rem);
 }
 
-.volume-icon.bi-volume-up,
-.volume-icon.bi-volume-down {
-  color: #00bfa6;
-}
 
 .volume-bar {
   background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));
@@ -996,7 +992,6 @@ body {
 
 .form-control,
 .form-select {
-  background-color: #ffffff;
   border: none;
   border-radius: 20px;
   font-size: clamp(0.875rem, 2.5vw, 1rem);
