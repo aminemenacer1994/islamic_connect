@@ -137,7 +137,7 @@
         </div>
         <div v-if="!category.collapsed" class="row">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6 mb-3">
-            <div class="card dua-card shadow-md" :style="{ '--font-size-base': fontSize + 'px' }">
+            <div class="card dua-card shadow-sm" :style="{ '--font-size-base': fontSize + 'px' }">
               <div class="card-body">
                 <h5 class="fw-semibold text-start title-text mb-3" v-html="highlightText(dua.title)"></h5>
                 <p class="text-end arabic-text mb-3" v-html="highlightText(dua.arabic)"></p>

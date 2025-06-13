@@ -57440,7 +57440,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         key: dua.id,
         "class": "col-12 col-md-6 mb-3"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "card dua-card shadow-md",
+        "class": "card dua-card shadow-sm",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           '--font-size-base': $data.fontSize + 'px'
         })
@@ -58928,20 +58928,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
-  key: 0,
-  "aria-labelledby": "welcome-heading",
-  "class": "tab-pane active",
-  id: "home",
-  role: "tabpanel"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use an article or section tag for better semantics and SEO "), !$props.information ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, _cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Use an article or section tag for better semantics and SEO "), _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+    "aria-labelledby": "welcome-heading",
+    "class": "tab-pane active",
+    id: "home",
+    role: "tabpanel"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     id: "welcome-heading",
     "class": "text-center"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Welcome to Islamic Connect")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Welcome to Islamic Connect")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center ayah-translation"
-  }, " Welcome to Islamic Connect, a platform built on the belief that knowledge leads to understanding and fosters acceptance. Our goal is to provide a space where individuals from all walks of life can explore, learn, and grow together in their journey toward greater awareness of Islam. ", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
+  }, " Welcome to Islamic Connect, a platform built on the belief that knowledge leads to understanding and fosters acceptance. Our goal is to provide a space where individuals from all walks of life can explore, learn, and grow together in their journey toward greater awareness of Islam. ")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
 }
 
 /***/ }),
@@ -60512,27 +60510,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "mt-3 mt-md-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold pb-3"
-  }, "Make Islamic Knowledge Accessible to Everyone"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Unlock Islamic Knowledge for Every Muslim — With Your Help"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead lh-base mb-3"
-  }, " Millions of Muslims still struggle to access the Quran and authentic Islamic knowledge— especially those with disabilities, new reverts, or those in under-resourced communities. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " 🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic knowledge — especially reverts, people with disabilities, and those in under-resourced communities. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead lh-base mb-4"
-  }, " At Islamic Connect, we’re building a platform that removes these barriers using AI, voice tools, and accessibility features—but we need your support. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 🚀 At "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Islamic Connect"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(", we’re building a game-changing platform that makes learning Islam easy, inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead lh-base mb-4"
-  }, " Any amount you give is used with care to help Muslims around the world engage with Islam in a way that truly fits their needs. Donate today and help us build a platform that serves the entire ummah. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 👉 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Your donation is more than charity — it’s Sadaqah Jariyah."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Every dollar helps someone connect with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold pb-3 mt-4"
-  }, "Where Your Donation Goes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+  }, "📦 Where Your Donation Goes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
+    "class": "lead lh-base ps-3 mb-4",
+    style: {}
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("📚 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Content Expansion"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Adding more Quranic content, Hadith, Seerah, Duas, lectures, and educational materials.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("♿ "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Accessibility Tools"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.).")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🤖 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "AI Development"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Building voice search, personalized recitation tools, and smart learning experiences.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("🔐 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Essential Costs"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Covering servers, security, third-party services, and keeping the platform free for all.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("👨‍💻 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Team Support"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Supporting our small team of developers working around the clock to serve the ummah.")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "display-5 fw-bold pb-3 mt-4"
+  }, "Why Give?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead lh-base mb-4"
+  }, " Because your donation could be the reason someone: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
     "class": "lead lh-base ps-3 mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "mb-1"
-  }, "Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "mb-1"
-  }, "Accessibility Tools – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.)."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "mb-1"
-  }, "AI Development – Building voice search, personalized recitation tools, and smart learning experiences."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "mb-1"
-  }, "Essential Costs – Covering servers, security, third-party services, and keeping the platform free for all."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
-    "class": "mb-1"
-  }, "Salaries & Stipends – Supporting our small team of developers, scholars, and designers working around the clock.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "mb-2"
+  }, "📖 Hears the Quran for the first time"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, "🕋 Learns how to pray"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, "🤲 Finds peace through a dua"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "mb-2"
+  }, "🕌 Connects to Allah in a way they never could before")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead lh-base mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 🌟 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Make an impact that lasts."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Support Islamic Connect and donate today. ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-8"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "container form-control",
@@ -60543,7 +60558,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "48px"
     },
     onclick: "window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Donate today")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Donate Now")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-4 order-2 d-none d-lg-block"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/heart.png",
@@ -61675,11 +61690,11 @@ var _hoisted_2 = {
   "class": "mb-5"
 };
 var _hoisted_3 = {
-  "class": "p-4 mb-5 shadow-lg border-md",
+  "class": "fixed-footer p-4 mb-5 shadow-lg border-md",
   style: {
     "border-radius": "25px",
-    "box-shadow": "#00bfa6",
-    "border": "3px solid lightgrey"
+    "background-color": "lightgray",
+    "box-shadow": "#00bfa6"
   }
 };
 var _hoisted_4 = {
@@ -61874,8 +61889,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: 'station-' + station.id,
       role: "article",
       "aria-labelledby": 'station-title-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-      "class": "card-title mb-0 fw-semibold text-truncate fs-5",
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+      "class": "card-title mb-0 fw-bold text-truncate display-5",
       id: 'station-title-' + station.id,
       innerHTML: $options.highlightSearch(station.name)
     }, null, 8 /* PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {

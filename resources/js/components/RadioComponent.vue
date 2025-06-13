@@ -9,7 +9,7 @@
     <!-- Search Bar and Category Dropdown -->
     <section class=" mb-5">
       
-      <div class=" p-4 mb-5 shadow-lg border-md" style="border-radius: 25px; box-shadow: #00bfa6; border: 3px solid lightgrey;">
+      <div class="fixed-footer p-4 mb-5 shadow-lg border-md" style="border-radius: 25px; background-color:lightgray; box-shadow: #00bfa6; ">
         <h2 class="visually-hidden">Search Reciters</h2>
         <div class="row g-4 align-items-end" >
           <div class="col-md-8">
@@ -89,8 +89,8 @@
               :aria-labelledby="'station-title-' + station.id">
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h5 class="card-title mb-0 fw-semibold text-truncate fs-5" :id="'station-title-' + station.id"
-                    v-html="highlightSearch(station.name)"></h5>
+                  <h2 class="card-title mb-0 fw-bold text-truncate display-5 " :id="'station-title-' + station.id"
+                    v-html="highlightSearch(station.name)"></h2>
                   <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
                     :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
                     <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"

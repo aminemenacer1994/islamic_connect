@@ -5,47 +5,57 @@
         <div class="row gx-4 align-items-center justify-content-between">
           <div class="col-md-8 order-2 order-md-1 pb-3">
             <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Make Islamic Knowledge Accessible to Everyone</h2>
+              <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim — With Your Help</h2>
 
               <p class="lead lh-base mb-3">
-                Millions of Muslims still struggle to access the Quran and authentic Islamic knowledge—
-                especially those with disabilities, new reverts, or those in under-resourced communities.
+                🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic knowledge — especially reverts, people with disabilities, and those in under-resourced communities.              
               </p>
 
               <p class="lead lh-base mb-4">
-                At Islamic Connect, we’re building a platform that removes these barriers using AI, voice tools,
-                and accessibility features—but we need your support.
+                🚀 At <b>Islamic Connect</b>, we’re building a game-changing platform that makes learning Islam easy, inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features.              
               </p>
 
               <p class="lead lh-base mb-4">
-                Any amount you give is used with care to help Muslims around the world engage with Islam in a way that
-                truly fits their needs. Donate today and help us build a platform that serves the entire ummah.
+                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every dollar helps someone connect with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
               </p>
 
-              <h2 class="display-5 fw-bold pb-3 mt-4">Where Your Donation Goes</h2>
+
+              <h2 class="display-5 fw-bold pb-3 mt-4">📦 Where Your Donation Goes</h2>
+
+              <ul class="lead lh-base ps-3 mb-4" style="">
+                <li class="mb-2">📚 <b>Content Expansion</b> – Adding more Quranic content, Hadith, Seerah, Duas, lectures, and educational materials.</li>
+                <li class="mb-2">♿ <b>Accessibility Tools</b> – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.).</li>
+                <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and smart learning experiences.</li>
+                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security, third-party services, and keeping the platform free for all.</li>
+                <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the clock to serve the ummah.</li>
+              </ul>
+
+              <h3 class="display-5 fw-bold pb-3 mt-4">Why Give?</h3>
+              
+              <p class="lead lh-base mb-4">
+                Because your donation could be the reason someone:
+              </p>
 
               <ul class="lead lh-base ps-3 mb-4">
-                <li class="mb-1">Content Expansion – Adding more Quranic content, Hadith, Seerah, Duas, and lectures.
-                </li>
-                <li class="mb-1">Accessibility Tools – Improving features for the blind, deaf, and physically disabled
-                  (screen readers, TTS, voice search, etc.).</li>
-                <li class="mb-1">AI Development – Building voice search, personalized recitation tools, and smart
-                  learning experiences.</li>
-                <li class="mb-1">Essential Costs – Covering servers, security, third-party services, and keeping the
-                  platform free for all.</li>
-                <li class="mb-1">Salaries & Stipends – Supporting our small team of developers, scholars, and designers
-                  working around the clock.</li>
+                <li class="mb-2">📖 Hears the Quran for the first time</li>
+                <li class="mb-2">🕋 Learns how to pray</li>
+                <li class="mb-2">🤲 Finds peace through a dua</li>
+                <li class="mb-2">🕌 Connects to Allah in a way they never could before</li>
               </ul>
+
+              <p class="lead lh-base mb-4">
+                🌟 <b>Make an impact that lasts.</b><br />
+                Support Islamic Connect and donate today.
+              </p>
 
               <div class="col-md-8">
                 <button class="container form-control"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
                   onclick="window.location.href='https://donate.stripe.com/6oE5kY84oc3q7fy145';">
-                  <b>Donate today</b>
+                  <b>Donate Now</b>
                 </button>
               </div>
             </div>
-
           </div>
           <div class="col-md-4 order-2 d-none d-lg-block">
             <img src="/images/heart.png" width="80%" alt="Support Islamic Connect" />

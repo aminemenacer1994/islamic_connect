@@ -1,6 +1,6 @@
 <template>
   <!-- Use an article or section tag for better semantics and SEO -->
-  <section v-if="!information" aria-labelledby="welcome-heading" class="tab-pane active" id="home" role="tabpanel">
+  <section  aria-labelledby="welcome-heading" class="tab-pane active" id="home" role="tabpanel">
     <h1 id="welcome-heading" class="text-center">
       <strong>Welcome to Islamic Connect</strong>
     </h1>
