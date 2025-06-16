@@ -23,6 +23,7 @@
             <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
             <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h4>
 
+
             <h4 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">
               Ahmed
               Ali</h4>
@@ -43,29 +44,40 @@
           </div>
 
           <!-- Toggle Button -->
-          <div>
-            <!-- Rate, Pitch, and Voice Dropdowns -->
-            <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-              <b>Rate:</b>
-              <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
-                <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
-              </select>
-
-              <b>Pitch:</b>
-              <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
-                <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
-              </select>
-
-              <b>Voice:</b>
-              <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
-                <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
-                  :value="voice.name">
-                  {{ voice.name }}
-                </option>
-              </select>
+          <transition name="fade">
+            <div v-if="showOptions" class="container voice-settings p-3 rounded shadow-sm"
+              style="background-color: #f8f9fa;">
+              <div class="d-flex flex-column flex-md-row gap-3 align-items-start align-items-md-center">
+                <!-- Rate -->
+                <div class="d-flex flex-column flex-grow-1">
+                  <label for="speech-rate" class="form-label fw-bold mb-1">Rate</label>
+                  <select id="speech-rate" v-model="speechRate" class="form-select" aria-label="Select speech rate"
+                    title="Adjust speech speed">
+                    <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}x</option>
+                  </select>
+                </div>
+                <!-- Pitch -->
+                <div class="d-flex flex-column flex-grow-1">
+                  <label for="speech-pitch" class="form-label fw-bold mb-1">Pitch</label>
+                  <select id="speech-pitch" v-model="speechPitch" class="form-select" aria-label="Select speech pitch"
+                    title="Adjust speech tone">
+                    <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}x</option>
+                  </select>
+                </div>
+                <!-- Voice -->
+                <div class="d-flex flex-column flex-grow-1">
+                  <label for="speech-voice" class="form-label fw-bold mb-1">Voice</label>
+                  <select id="speech-voice" v-model="selectedVoice" class="form-select" aria-label="Select voice"
+                    title="Choose voice for speech">
+                    <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
+                      :value="voice.name">
+                      {{ voice.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-
+          </transition>
         </div>
 
         <!-- Icons Column -->
@@ -101,7 +113,7 @@
               data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
               aria-controls="collapseExample" @click="toggleIcon" title="More Options"></i>
           </p>
-          
+
         </div>
 
       </div>
