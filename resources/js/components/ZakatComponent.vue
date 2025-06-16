@@ -16,7 +16,9 @@
           <div class="calculator-card card shadow-md">
             <div class="card-body ">
               <!-- Currency and Nisab Selection -->
-              <div class="row g-3 mb-4">
+              <h4 class="mb-4 fw-bold text-dark">Zakat Calculator</h4>
+
+              <div class="row g-3 ">
                 <div class="col-md-6">
                   <label for="currency" class="form-label fw-semibold">Currency</label>
                   <select id="currency" class="form-select" v-model="selectedCurrency" aria-describedby="currencyHelp">
@@ -26,7 +28,7 @@
                   </select>
                   <small id="currencyHelp" class="form-text text-muted">Select your preferred currency for calculations.</small>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-2">
                   <label for="nisab" class="form-label fw-semibold">Nisab Standard</label>
                   <select id="nisab" class="form-select" v-model="nisabType" aria-describedby="nisabHelp">
                     <option value="gold">Gold (85g)</option>
@@ -37,8 +39,8 @@
               </div>
 
               <!-- Asset Inputs -->
-              <h5 class="mb-3 fw-semibold text-dark section-title">
-                <i class="bi bi-coin me-2"></i>Your Assets
+              <h5 class="mt-3 fw-semibold text-dark section-title">
+                <i class="bi bi-coin me-2 mt-2"></i>Your Assets
               </h5>
 
               <!-- Gold Input -->
@@ -46,11 +48,11 @@
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-warning me-2"></i>Gold
                 </label>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams" min="0" required
                     :class="{ 'is-invalid': errors.goldGrams }" aria-describedby="goldGramsError">
                   <div v-if="errors.goldGrams" class="invalid-feedback" id="goldGramsError">{{ errors.goldGrams }}</div>
-                </div>
+                </div> -->
                 <div class="col-md-4">
                   <div class="input-group">
                     <span class="input-group-text">{{ currencySymbol }}</span>
@@ -66,11 +68,11 @@
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-secondary me-2"></i>Silver
                 </label>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="silverGrams" placeholder="Grams" min="0"
                     :class="{ 'is-invalid': errors.silverGrams }" aria-describedby="silverGramsError">
                   <div v-if="errors.silverGrams" class="invalid-feedback" id="silverGramsError">{{ errors.silverGrams }}</div>
-                </div>
+                </div> -->
                 <div class="col-md-4">
                   <div class="input-group">
                     <span class="input-group-text">{{ currencySymbol }}</span>
