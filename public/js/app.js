@@ -61079,7 +61079,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-5 fw-bold pb-3 mt-4"
   }, "📦 Where Your Donation Goes"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
     "class": "lead lh-base ps-3 mb-4",
-    style: {}
+    style: {
+      "list-style-type": "none"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": "mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("📚 "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Content Expansion"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" – Adding more Quranic content, Hadith, Seerah, Duas, lectures, and educational materials.")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
@@ -61095,7 +61097,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Why Give?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead lh-base mb-4"
   }, " Because your donation could be the reason someone: "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", {
-    "class": "lead lh-base ps-3 mb-4"
+    "class": "lead lh-base ps-3 mb-4",
+    style: {
+      "list-style-type": "none"
+    }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": "mb-2"
   }, "📖 Hears the Quran for the first time"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {

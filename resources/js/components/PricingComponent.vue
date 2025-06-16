@@ -8,35 +8,42 @@
               <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim — With Your Help</h2>
 
               <p class="lead lh-base mb-3">
-                🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic knowledge — especially reverts, people with disabilities, and those in under-resourced communities.              
+                🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic
+                knowledge — especially reverts, people with disabilities, and those in under-resourced communities.
               </p>
 
               <p class="lead lh-base mb-4">
-                🚀 At <b>Islamic Connect</b>, we’re building a game-changing platform that makes learning Islam easy, inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features.              
+                🚀 At <b>Islamic Connect</b>, we’re building a game-changing platform that makes learning Islam easy,
+                inclusive, and accessible for all — powered by AI, voice tools, and disability-friendly features.
               </p>
 
               <p class="lead lh-base mb-4">
-                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every dollar helps someone connect with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
+                👉 <b>Your donation is more than charity — it’s Sadaqah Jariyah.</b> Every dollar helps someone connect
+                with the Quran, learn a dua, or discover Islam for the first time — and you share in every reward.
               </p>
-
 
               <h2 class="display-5 fw-bold pb-3 mt-4">📦 Where Your Donation Goes</h2>
 
-              <ul class="lead lh-base ps-3 mb-4" style="">
-                <li class="mb-2">📚 <b>Content Expansion</b> – Adding more Quranic content, Hadith, Seerah, Duas, lectures, and educational materials.</li>
-                <li class="mb-2">♿ <b>Accessibility Tools</b> – Improving features for the blind, deaf, and physically disabled (screen readers, TTS, voice search, etc.).</li>
-                <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and smart learning experiences.</li>
-                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security, third-party services, and keeping the platform free for all.</li>
-                <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the clock to serve the ummah.</li>
+              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
+                <li class="mb-2">📚 <b>Content Expansion</b> – Adding more Quranic content, Hadith, Seerah, Duas,
+                  lectures, and educational materials.</li>
+                <li class="mb-2">♿ <b>Accessibility Tools</b> – Improving features for the blind, deaf, and physically
+                  disabled (screen readers, TTS, voice search, etc.).</li>
+                <li class="mb-2">🤖 <b>AI Development</b> – Building voice search, personalized recitation tools, and
+                  smart learning experiences.</li>
+                <li class="mb-2">🔐 <b>Essential Costs</b> – Covering servers, security, third-party services, and
+                  keeping the platform free for all.</li>
+                <li class="mb-2">👨‍💻 <b>Team Support</b> – Supporting our small team of developers working around the
+                  clock to serve the ummah.</li>
               </ul>
 
               <h3 class="display-5 fw-bold pb-3 mt-4">Why Give?</h3>
-              
+
               <p class="lead lh-base mb-4">
                 Because your donation could be the reason someone:
               </p>
 
-              <ul class="lead lh-base ps-3 mb-4">
+              <ul class="lead lh-base ps-3 mb-4" style="list-style-type: none;">
                 <li class="mb-2">📖 Hears the Quran for the first time</li>
                 <li class="mb-2">🕋 Learns how to pray</li>
                 <li class="mb-2">🤲 Finds peace through a dua</li>
