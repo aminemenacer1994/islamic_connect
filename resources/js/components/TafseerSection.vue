@@ -21,13 +21,13 @@
             <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
 
-            <div class="d-flex align-items-center mt-3">
+            <!-- <div class="d-flex align-items-center mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Tafseer:</h4>
 
               <h5 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">Ibn
                 Katheer</h5>
-            </div>
+            </div> -->
 
             <!-- <div class="d-flex align-items-center mt-2">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
@@ -35,8 +35,6 @@
                 Katheer</h5>
             </div> -->
 
-
-            <hr />
 
             <div v-if="!isVisible" class="row collapse pt-3 pb-2" id="collapseExample">
               <div class="d-flex flex-wrap gap-2 pb-2">
@@ -52,9 +50,6 @@
               </div>
             </div>
 
-            <!-- Toggle Button -->
-            <button type="button" class="btn btn-secondary text-center" @click="showOptions = !showOptions">{{
-              showOptions ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
             <!-- Rate, Pitch, and Voice Dropdowns -->
             <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
               <b>Rate:</b>
@@ -105,6 +100,11 @@
             <i style="cursor: pointer" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
               aria-placeholder="Decrease text size" @click="decreaseFontSize" data-bs-toggle="tooltip"
               data-bs-placement="top" title="Decrease text size">
+            </i>
+
+            <!-- Voice settings -->
+            <i class="bi bi-gear-fill h3 custom-icon-increase" style="cursor: pointer" @click="showOptions = !showOptions"
+              title="Toggle Voice Settings">
             </i>
 
             <!-- Collapse Toggle -->

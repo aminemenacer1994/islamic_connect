@@ -32,12 +32,12 @@
                 </button>
               </div>
             </div>
-            <div class="d-flex align-items-center mt-3">
+            <!-- <div class="d-flex align-items-center mt-3">
               <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
               <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Transliteration:</h4>
 
               <h5 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">Saheeh International</h5>
-            </div>
+            </div> -->
           </div>
           <!-- Icons Column (Stacked Vertically) -->
           <div v-if="!isVisible" class="col-md-1 col-2 d-flex align-items-center justify-content-center flex-column">

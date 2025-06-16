@@ -3,65 +3,27 @@
     <!-- Search Input Group -->
     <div>
 
-      <div class="container input-group pb-2" style="position: relative; ">
+      <div class="container input-group pb-3" style="position: relative;">
         <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Search for a keyword..."
-          class="form-control pb-2 mobile-only"
-          style="flex: 1;box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;" />
+          class="form-control pb-3 mobile-only"
+          style="flex: 1; padding: 15px; height: 50px;" />
 
         <!-- Suggestions Dropdown -->
         <ul v-if="suggestions.length" class="list-group suggestions"
-          style="position: absolute; top: 100%; left: 0; width: 95%; z-index: 1000; max-height: 600px; overflow-y: auto;">
+          style="position: absolute; top: 100%; left: 0; width: 95%; z-index: 1000; max-height: 700px; overflow-y: auto;">
           <li class="list-group-item text-left list-group-item-success" v-for="(suggestion, index) in suggestions"
-            :key="index" @click="selectSuggestion(suggestion)">
+            :key="index" @click="selectSuggestion(suggestion)" style="padding: 15px;">
             {{ suggestion }}
           </li>
         </ul>
 
-
-        <!-- Dropdown for Filter Selection -->
-        <!-- <div class="dropdown me-2">
-        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" href="#">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" v-model="filters.translation" id="translationCheckbox" @change="updateSuggestions" />
-                  <label class="form-check-label" for="translationCheckbox">Translation</label>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" v-model="filters.tafseer" id="tafseerCheckbox" @change="updateSuggestions" />
-                  <label class="form-check-label" for="tafseerCheckbox">Tafseer</label>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" v-model="filters.transliteration" id="transliterationCheckbox" @change="updateSuggestions" />
-                  <label class="form-check-label" for="transliterationCheckbox">Transliteration</label>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div> -->
-
-
-
         <!-- Voice input button -->
         <button type="button" class="btn button-36 bi bi-mic-fill"
-          @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()">
+          @click="isListening ? stopVoiceRecognition() : startVoiceRecognition()"
+          style="height: 50px; display: flex; align-items: center; justify-content: center; padding: 0 20px;">
           <!-- <span style="color:white"><b>Voice Search</b></span> -->
         </button>
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-
-        <!--
-      <button class="btn btn-info text-white" @click="searchWord"><i class="bi bi-search h4 text-white"></i></button>
-      -->
       </div>
     </div>
 
@@ -249,48 +211,48 @@ export default {
   },
   methods: {
     methods: {
-    redirectToMonthlySubscription() {
-      // Replace with your Stripe Payment Link for monthly subscription
-      window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
-    },
-    redirectToYearlySubscription() {
-      // Replace with your Stripe Payment Link for yearly subscription
-      window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
-    },
-    redirectToRegister() {
-      location.assign("/register");
-    },
-    async donate() {
-      if (this.amount <= 0) {
-        alert("Please enter a valid donation amount.");
-        return;
-      }
-
-      try {
-        // Send the dynamically selected donation amount to the backend
-        const response = await axios.post('/create-checkout-session', {
-          amount: this.amount,
-        });
-
-        const {
-          id
-        } = response.data;
-
-        // Redirect to Stripe Checkout page
-        const {
-          error
-        } = await this.stripe.redirectToCheckout({
-          sessionId: id,
-        });
-
-        if (error) {
-          console.error('Error redirecting to checkout:', error.message);
+      redirectToMonthlySubscription() {
+        // Replace with your Stripe Payment Link for monthly subscription
+        window.location.href = "https://buy.stripe.com/dR6fZC0BWd7ubvO8wz";
+      },
+      redirectToYearlySubscription() {
+        // Replace with your Stripe Payment Link for yearly subscription
+        window.location.href = "https://buy.stripe.com/00g7t63O8d7uczS6os";
+      },
+      redirectToRegister() {
+        location.assign("/register");
+      },
+      async donate() {
+        if (this.amount <= 0) {
+          alert("Please enter a valid donation amount.");
+          return;
         }
-      } catch (error) {
-        console.error('Error creating checkout session:', error.message);
-      }
+
+        try {
+          // Send the dynamically selected donation amount to the backend
+          const response = await axios.post('/create-checkout-session', {
+            amount: this.amount,
+          });
+
+          const {
+            id
+          } = response.data;
+
+          // Redirect to Stripe Checkout page
+          const {
+            error
+          } = await this.stripe.redirectToCheckout({
+            sessionId: id,
+          });
+
+          if (error) {
+            console.error('Error redirecting to checkout:', error.message);
+          }
+        } catch (error) {
+          console.error('Error creating checkout session:', error.message);
+        }
+      },
     },
-  },
     filterResults() {
       console.log(this.searchTerm); // Log the search term
       // Example of filtering logic
@@ -643,7 +605,7 @@ export default {
   color: #FFFFFF;
   cursor: pointer;
   font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  height: 2.4rem; 
+  height: 2.4rem;
   padding: 0 1.3rem;
   text-align: center;
   text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;

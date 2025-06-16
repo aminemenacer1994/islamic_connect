@@ -33,7 +33,7 @@
 
                 <div class="col-md-4 pt-2">
                     <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
-                    <SurahDropdown class="col-md-12 " :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
+                    <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
                     <!-- <FilteredSurahList :filteredSurah="filteredSurah" @select-surah="selectSurahFromResults" /> -->
@@ -44,7 +44,7 @@
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
                     <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
-                    <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
+                    <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
                             type="number" placeholder="Enter Verse Number" v-model="verseNumber" required />
@@ -52,7 +52,7 @@
                             type="submit">
                             Search
                         </button>
-                    </form>
+                    </form> -->
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
@@ -89,11 +89,10 @@
                                 </div> -->
                                 <div class="custom-scrollbar pb-3 w-100" style="
                                     overflow-y: auto; cursor: pointer;                             
-                                    border: 3px solid #31464338; border-radius: 15px;
+                                    border: 1px solid #31464338; border-radius: 8px;
                                     max-height: 600px;
-                                    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px
-                                            12px -2px,
-                                        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;">
+                                    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                                        
 
                                     <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
@@ -124,8 +123,7 @@
                 <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">
                     <h4 class="fw-bold text-left container-fluid " v-if="information != null">Verse Breakdown...</h4>
                     <div class="card content" style="
-                        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-                            rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; border-radius: 15px;  border: 3px solid #31464338">
+                        border-radius: 15px;  border: 1px solid #31464338">
                         <div class="content">
                             <Welcome :information="information" v-if="surah != null"/>
        
@@ -160,7 +158,7 @@
                                     </div> -->
                                 </div>
                                 <!-- Surah info Modal -->
-                                <div class="modal fade" id="translationInfo" tabindex="-1"
+                                <!-- <div class="modal fade" id="translationInfo" tabindex="-1"
                                     aria-labelledby="surahInfoModalLabel" aria-hidden="true" @click.self="closeModal">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content">
@@ -210,7 +208,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="card-body content">
@@ -274,13 +272,13 @@
                                                                 aria-expanded="false" title="Bookmark verse"></i>
                                                             <div class="icon-text pt-2">Bookmark</div>
                                                         </div>
-                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                        <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                 data-bs-toggle="modal" data-bs-target="#translationInfo"
                                                                 aria-expanded="false" data-bs-placement="top"
                                                                 title="Surah info"></i>
                                                             <div class="icon-text pt-2">Surah Info</div>
-                                                        </div>
+                                                        </div> -->
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i title="Give feedback" data-bs-toggle="modal"
                                                                 data-bs-target="#exampleModal"
@@ -424,7 +422,7 @@
                                                                     <div class="icon-text pt-2 mb-2">Bookmark</div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                                 <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#translationInfo"
@@ -433,7 +431,7 @@
                                                                 <div class="col desktop-icon">
                                                                     <div class="icon-text pt-2 mb-2">Surah Info</div>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col desktop-icon" style="cursor: pointer;">
                                                                 <i title="Give feedback" data-bs-toggle="modal"
                                                                     data-bs-target="#exampleModal"
@@ -588,7 +586,7 @@
                                                                         <div class="icon-text pt-2 mb-2">Bookmark</div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col desktop-icon" style="cursor: pointer;">
+                                                                <!-- <div class="col desktop-icon" style="cursor: pointer;">
                                                                     <i class="bi bi-info-circle h4 mr-2 pl-2"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#translationInfo"
@@ -598,7 +596,7 @@
                                                                         <div class="icon-text pt-2 mb-2">Surah Info
                                                                         </div>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                                 <div class="col desktop-icon" style="cursor: pointer;">
                                                                     <i title="Give feedback" data-bs-toggle="modal"
                                                                         data-bs-target="#exampleModal"

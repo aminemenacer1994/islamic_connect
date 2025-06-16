@@ -74,7 +74,6 @@ export default {
 
 .form-control {
     width: 100%;
-    padding: 8px 12px;
     font-size: 1rem;
     line-height: 1.5;
     background-color: #fff;

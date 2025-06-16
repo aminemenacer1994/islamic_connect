@@ -21,14 +21,12 @@
 
           <div class="d-flex align-items-center mt-3">
             <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
-            <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden" >Translation:</h4>
+            <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h4>
 
-            <h4 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }"> Ahmed
+            <h4 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">
+              Ahmed
               Ali</h4>
           </div>
-
-
-          <hr />
 
           <div v-if="isVisible" class="row collapse pt-3" id="collapseExample">
             <div class="d-flex flex-wrap gap-2 pb-2">
@@ -45,29 +43,29 @@
           </div>
 
           <!-- Toggle Button -->
+          <div>
+            <!-- Rate, Pitch, and Voice Dropdowns -->
+            <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
+              <b>Rate:</b>
+              <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
+                <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
+              </select>
 
-          <button type="button" class="btn btn-secondary text-center mb-2" @click="showOptions = !showOptions">{{ showOptions
-            ? 'Hide Voice settings' : 'Show Voice settings' }}</button>
-          <!-- Rate, Pitch, and Voice Dropdowns -->
-          <div v-if="showOptions" class="container d-flex flex-column flex-sm-row gap-2 mt-3">
-            <b>Rate:</b>
-            <select v-model="speechRate" class="form-select form-select-sm" aria-label="Select Speech Rate">
-              <option v-for="rate in rates" :key="rate" :value="rate">{{ rate }}</option>
-            </select>
+              <b>Pitch:</b>
+              <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
+                <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
+              </select>
 
-            <b>Pitch:</b>
-            <select v-model="speechPitch" class="form-select form-select-sm" aria-label="Select Speech Pitch">
-              <option v-for="pitch in pitches" :key="pitch" :value="pitch">{{ pitch }}</option>
-            </select>
-
-            <b>Voice:</b>
-            <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
-              <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
-                :value="voice.name">
-                {{ voice.name }}
-              </option>
-            </select>
+              <b>Voice:</b>
+              <select v-model="selectedVoice" class="form-select form-select-sm" aria-label="Select Voice">
+                <option v-for="voice in voices.filter(v => !v.name.includes('Google'))" :key="voice.name"
+                  :value="voice.name">
+                  {{ voice.name }}
+                </option>
+              </select>
+            </div>
           </div>
+
         </div>
 
         <!-- Icons Column -->
@@ -78,11 +76,13 @@
             isReading ? (isPaused ? 'bi-play-circle-fill' : 'bi-pause-circle-fill') : 'bi-play-circle-fill',
             'h3',
             'custom-icon-play'
-          ]" style="cursor: pointer;" aria-label="Play or pause translation audio" title="Play/Pause Translation Audio"></i>
+          ]" style="cursor: pointer;" aria-label="Play or pause translation audio"
+            title="Play/Pause Translation Audio"></i>
 
           <!-- Stop Button, visible only after Play button is clicked -->
-          <i v-if="isReading && !isPaused" @click="stopReading" :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']"
-            style="cursor: pointer;" aria-label="Stop reading audio" title="Stop Translation Audio"></i>
+          <i v-if="isReading && !isPaused" @click="stopReading"
+            :class="['bi', 'bi-stop-circle-fill', 'h3', 'custom-icon-play']" style="cursor: pointer;"
+            aria-label="Stop reading audio" title="Stop Translation Audio"></i>
 
           <!-- Font Size Adjustments -->
           <i style="cursor: pointer;" class="bi bi-plus-circle-fill h3 custom-icon-increase"
@@ -90,12 +90,18 @@
           <i style="cursor: pointer;" class="bi bi-dash-circle-fill h3 custom-icon-decrease"
             aria-placeholder="Decrease text size" @click="decreaseFontSize" title="Decrease Text Size"></i>
 
+          <!-- Voice settings -->
+          <i class="bi bi-gear-fill h3 custom-icon-increase" style="cursor: pointer" @click="showOptions = !showOptions"
+            title="Toggle Voice Settings">
+          </i>
+
           <!-- Toggle Collapse for More Options -->
           <p class="d-inline-flex gap-1">
             <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
               data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
               aria-controls="collapseExample" @click="toggleIcon" title="More Options"></i>
           </p>
+          
         </div>
 
       </div>
@@ -119,7 +125,6 @@ import Magnifier from "./search/Magnifier.vue";
 import OffcanvasSetting from "./modals/OffcanvasSetting.vue";
 import TransliterationSection from "./TransliterationSection.vue";
 import SpeechSettings from "./settings/SpeechSettings.vue";
-import { Offcanvas } from 'bootstrap';
 import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 
