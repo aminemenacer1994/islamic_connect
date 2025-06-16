@@ -49343,37 +49343,53 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
 
 chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart, _toConsumableArray(chart_js__WEBPACK_IMPORTED_MODULE_0__.registerables));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "ZakatCalculator",
+  name: 'ZakatCalculator',
+  directives: {
+    tooltip: {
+      mounted: function mounted(el, binding) {
+        el.setAttribute('title', binding.value);
+        el.classList.add('has-tooltip');
+      }
+    }
+  },
   data: function data() {
     return {
       chartInstance: null,
       zakatCalculated: false,
+      showAboutZakat: false,
       goldGrams: 0,
       goldPrice: 0,
       silverGrams: 0,
-      silverPrice: 1,
+      silverPrice: 0,
       cash: 0,
       investments: 0,
       businessAssets: 0,
+      realEstate: 0,
+      agriculturalProduce: 0,
       liabilities: 0,
-      selectedCurrency: "GBP",
-      nisabType: "gold",
+      selectedCurrency: 'GBP',
+      nisabType: 'gold',
+      errors: {},
       currencySymbols: {
-        USD: "$",
-        GBP: "£",
-        EUR: "€",
-        SAR: "﷼",
-        AED: "د.إ",
-        PKR: "₨"
+        USD: '$',
+        GBP: '£',
+        EUR: '€',
+        SAR: '﷼',
+        AED: 'د.إ',
+        PKR: '₨',
+        INR: '₹',
+        BDT: '৳',
+        MYR: 'RM',
+        IDR: 'Rp'
       }
     };
   },
   computed: {
     currencySymbol: function currencySymbol() {
-      return this.currencySymbols[this.selectedCurrency] || "$";
+      return this.currencySymbols[this.selectedCurrency] || '$';
     },
     totalAssets: function totalAssets() {
-      return this.goldGrams * this.goldPrice + this.silverGrams * this.silverPrice + this.cash + this.investments + this.businessAssets;
+      return this.goldGrams * this.goldPrice + this.silverGrams * this.silverPrice + this.cash + this.investments + this.businessAssets + this.realEstate + this.agriculturalProduce;
     },
     zakatableAmount: function zakatableAmount() {
       var amount = this.totalAssets - this.liabilities;
@@ -49383,22 +49399,80 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       return this.zakatableAmount * 0.025;
     },
     nisabThreshold: function nisabThreshold() {
-      return this.nisabType === "gold" ? 85 * this.goldPrice : 595 * this.silverPrice;
+      return this.nisabType === 'gold' ? 85 * this.goldPrice : 595 * this.silverPrice;
     },
     nisabTypeLabel: function nisabTypeLabel() {
-      return this.nisabType === "gold" ? "Based on Gold (85g)" : "Based on Silver (595g)";
+      return this.nisabType === 'gold' ? 'Based on Gold (85g)' : 'Based on Silver (595g)';
     },
     isEligible: function isEligible() {
       return this.zakatableAmount >= this.nisabThreshold;
     },
-    isFormEmpty: function isFormEmpty() {
-      return this.goldGrams === 0 && this.goldPrice === 0 && this.silverGrams === 0 && this.silverPrice === 0 && this.cash === 0 && this.investments === 0 && this.businessAssets === 0 && this.liabilities === 0;
+    isFormValid: function isFormValid() {
+      return this.validateForm();
+    },
+    assetBreakdown: function assetBreakdown() {
+      return {
+        'Gold': this.goldGrams * this.goldPrice,
+        'Silver': this.silverGrams * this.silverPrice,
+        'Cash': this.cash,
+        'Investments': this.investments,
+        'Business Assets': this.businessAssets,
+        'Real Estate': this.realEstate,
+        'Agricultural Produce': this.agriculturalProduce
+      };
     }
   },
   methods: {
+    validateForm: function validateForm() {
+      this.errors = {};
+      var isValid = true;
+      if (this.goldGrams < 0) {
+        this.errors.goldGrams = 'Grams cannot be negative';
+        isValid = false;
+      }
+      if (this.goldPrice < 0) {
+        this.errors.goldPrice = 'Price cannot be negative';
+        isValid = false;
+      }
+      if (this.silverGrams < 0) {
+        this.errors.silverGrams = 'Grams cannot be negative';
+        isValid = false;
+      }
+      if (this.silverPrice < 0) {
+        this.errors.silverPrice = 'Price cannot be negative';
+        isValid = false;
+      }
+      if (this.cash < 0) {
+        this.errors.cash = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.investments < 0) {
+        this.errors.investments = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.businessAssets < 0) {
+        this.errors.businessAssets = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.realEstate < 0) {
+        this.errors.realEstate = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.agriculturalProduce < 0) {
+        this.errors.agriculturalProduce = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.liabilities < 0) {
+        this.errors.liabilities = 'Amount cannot be negative';
+        isValid = false;
+      }
+      return isValid;
+    },
     calculateZakat: function calculateZakat() {
       var _this = this;
+      if (!this.validateForm()) return;
       this.zakatCalculated = true;
+      this.saveToLocalStorage();
       this.$nextTick(function () {
         if (window.innerWidth <= 768 && _this.$refs.zakatSummary) {
           _this.$refs.zakatSummary.scrollIntoView({
@@ -49409,48 +49483,69 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       });
     },
     renderChart: function renderChart() {
-      var _this$$refs$zakatChar;
+      var _this$$refs$zakatChar,
+        _this2 = this;
       if (this.chartInstance) {
         this.chartInstance.destroy();
       }
-      var ctx = (_this$$refs$zakatChar = this.$refs.zakatChart) === null || _this$$refs$zakatChar === void 0 ? void 0 : _this$$refs$zakatChar.getContext("2d");
+      var ctx = (_this$$refs$zakatChar = this.$refs.zakatChart) === null || _this$$refs$zakatChar === void 0 ? void 0 : _this$$refs$zakatChar.getContext('2d');
       if (!ctx) return;
+      var assetValues = Object.values(this.assetBreakdown);
+      var assetLabels = Object.keys(this.assetBreakdown);
       this.chartInstance = new chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart(ctx, {
-        type: 'line',
+        type: 'doughnut',
         data: {
-          labels: ['Zakat Due', 'Remaining Wealth'],
+          labels: [].concat(assetLabels, ['Zakat Due']),
           datasets: [{
-            data: [this.zakatDue, this.zakatableAmount - this.zakatDue],
-            backgroundColor: ['#f6b93b', '#4a69bd']
+            data: [].concat(assetValues, [this.zakatDue]),
+            backgroundColor: ['#f1c40f', '#7f8c8d', '#2ecc71', '#3498db', '#9b59b6', '#e74c3c', '#27ae60', '#e67e22'],
+            borderColor: '#fff',
+            borderWidth: 2
           }]
         },
         options: {
           responsive: true,
           plugins: {
             legend: {
-              position: 'bottom'
+              position: 'bottom',
+              labels: {
+                padding: 15
+              }
             },
             tooltip: {
               callbacks: {
                 label: function label(context) {
                   var label = context.label || '';
-                  var value = context.parsed || 0;
-                  return "".concat(label, ": ").concat(value.toFixed(2));
+                  var value = context.raw || 0;
+                  return "".concat(label, ": ").concat(_this2.currencySymbol).concat(value.toLocaleString());
                 }
               }
             }
-          }
+          },
+          cutout: '60%'
         }
       });
     },
     printSummary: function printSummary() {
-      var content = document.querySelector(".results-card").innerHTML;
-      var printWindow = window.open("", "", "");
-      printWindow.document.write("\n      <html>\n        <head>\n          <title>Zakat Summary</title>\n          <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n          <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css\">\n          <style>\n            body {\n              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n              background-color: #ffffff;\n              color: #333;\n              line-height: 1.6;\n            }\n            .results-card {\n              margin: 0 auto;\n              border: 1px solid #ccc;\n              border-radius: 8px;\n              background-color: #f9f9f9;\n            }\n            .content-row {\n              display: flex;\n              justify-content: space-between;\n              padding: 8px 0;\n              border-bottom: 1px solid #ddd;\n            }\n            .label { font-weight: 500; color: #555; }\n            .value { text-align: right; color: #000; }\n            @media print {\n              .results-card {\n                border: none;\n                box-shadow: none;\n                background-color: white;\n              }\n            }\n          </style>\n        </head>\n        <body>\n          <div class=\"results-card\">".concat(content, "</div>\n        </body>\n      </html>"));
+      var content = this.$refs.zakatSummary.innerHTML;
+      var printWindow = window.open('', '', '');
+      printWindow.document.write("\n        <html>\n          <head>\n            <title>Zakat Summary</title>\n            <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n            <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css\">\n            <style>\n              body { font-family: 'Segoe UI', sans-serif; padding: 20px; }\n              .results-card { max-width: 800px; margin: 0 auto; }\n              .summary-item { margin-bottom: 20px; }\n              .progress { height: 8px; }\n              @media print {\n                .results-card { border: none; box-shadow: none; }\n                .btn { display: none; }\n              }\n            </style>\n          </head>\n          <body>\n            <div class=\"results-card\">".concat(content, "</div>\n          </body>\n        </html>\n      "));
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
       printWindow.close();
+    },
+    shareSummary: function shareSummary() {
+      var summaryText = "\n        Zakat Summary\n        Currency: ".concat(this.selectedCurrency, " (").concat(this.currencySymbol, ")\n        Total Assets: ").concat(this.currencySymbol).concat(this.totalAssets.toLocaleString(), "\n        Liabilities: ").concat(this.currencySymbol).concat(this.liabilities.toLocaleString(), "\n        Zakatable Amount: ").concat(this.currencySymbol).concat(this.zakatableAmount.toLocaleString(), "\n        Zakat Due: ").concat(this.currencySymbol).concat(this.zakatDue.toLocaleString(), "\n        Nisab Threshold: ").concat(this.currencySymbol).concat(this.nisabThreshold.toLocaleString(), " (").concat(this.nisabTypeLabel, ")\n        Status: ").concat(this.isEligible ? 'Zakat is Obligatory' : 'Below Nisab', "\n      ");
+      if (navigator.share) {
+        navigator.share({
+          title: 'Zakat Calculation Summary',
+          text: summaryText
+        })["catch"](console.error);
+      } else {
+        navigator.clipboard.writeText(summaryText);
+        alert('Summary copied to clipboard!');
+      }
     },
     resetCalculator: function resetCalculator() {
       if (this.chartInstance) {
@@ -49464,27 +49559,56 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       this.cash = 0;
       this.investments = 0;
       this.businessAssets = 0;
+      this.realEstate = 0;
+      this.agriculturalProduce = 0;
       this.liabilities = 0;
       this.zakatCalculated = false;
+      this.errors = {};
+      localStorage.removeItem('zakatCalculatorData');
     },
     saveToLocalStorage: function saveToLocalStorage() {
-      // Placeholder for your local storage logic if needed
+      var data = {
+        goldGrams: this.goldGrams,
+        goldPrice: this.goldPrice,
+        silverGrams: this.silverGrams,
+        silverPrice: this.silverPrice,
+        cash: this.cash,
+        investments: this.investments,
+        businessAssets: this.businessAssets,
+        realEstate: this.realEstate,
+        agriculturalProduce: this.agriculturalProduce,
+        liabilities: this.liabilities,
+        selectedCurrency: this.selectedCurrency,
+        nisabType: this.nisabType
+      };
+      localStorage.setItem('zakatData', JSON.stringify(data));
+    },
+    loadFromLocalStorage: function loadFromLocalStorage() {
+      var savedData = localStorage.getItem('zakatData');
+      if (savedData) {
+        var data = JSON.parse(savedData);
+        Object.assign(this, data);
+      }
     }
   },
   watch: {
-    goldGrams: "saveToLocalStorage",
-    goldPrice: "saveToLocalStorage",
-    silverGrams: "saveToLocalStorage",
-    silverPrice: "saveToLocalStorage",
-    cash: "saveToLocalStorage",
-    investments: "saveToLocalStorage",
-    businessAssets: "saveToLocalStorage",
-    liabilities: "saveToLocalStorage",
-    selectedCurrency: "saveToLocalStorage",
-    nisabType: "saveToLocalStorage"
+    goldGrams: 'saveToLocalStorage',
+    goldPrice: 'saveToLocalStorage',
+    silverGrams: 'saveToLocalStorage',
+    silverPrice: 'saveToLocalStorage',
+    cash: 'saveToLocalStorage',
+    investments: 'saveToLocalStorage',
+    businessAssets: 'saveToLocalStorage',
+    realEstate: 'saveToLocalStorage',
+    agriculturalProduce: 'saveToLocalStorage',
+    liabilities: 'saveToLocalStorage',
+    selectedCurrency: 'saveToLocalStorage',
+    nisabType: 'saveToLocalStorage'
   },
   mounted: function mounted() {
-    this.chartInstance = null;
+    var _this$$refs$zakatCalc;
+    this.loadFromLocalStorage();
+    (_this$$refs$zakatCalc = this.$refs.zakatCalculator) === null || _this$$refs$zakatCalc === void 0 || _this$$refs$zakatCalc.focus();
   }
 });
 
@@ -67825,69 +67949,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container-fluid"
+  "class": "zakat-calculator"
 };
 var _hoisted_2 = {
-  "class": "row g-4"
+  "class": "container-fluid"
 };
 var _hoisted_3 = {
-  "class": "col-lg-8"
+  "class": "row g-4"
 };
 var _hoisted_4 = {
-  "class": "calculator-card card shadow-md",
-  style: {
-    "border": "2px solid lightgray",
-    "border-radius": "20px"
-  }
+  "class": "col-lg-8"
 };
 var _hoisted_5 = {
-  "class": "card-body p-4"
+  "class": "calculator-card card shadow-md"
 };
 var _hoisted_6 = {
-  "class": "row g-3 mb-4"
+  "class": "card-body"
 };
 var _hoisted_7 = {
+  "class": "row g-3 mb-4"
+};
+var _hoisted_8 = {
   "class": "col-md-6"
 };
-var _hoisted_8 = ["value"];
-var _hoisted_9 = {
-  "class": "col-md-6"
-};
+var _hoisted_9 = ["value"];
 var _hoisted_10 = {
-  "class": "row mb-3 align-items-center"
+  "class": "col-md-6"
 };
 var _hoisted_11 = {
-  "class": "col-md-4"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_12 = {
   "class": "col-md-4"
 };
 var _hoisted_13 = {
-  "class": "input-group"
+  key: 0,
+  "class": "invalid-feedback",
+  id: "goldGramsError"
 };
 var _hoisted_14 = {
-  "class": "input-group-text"
+  "class": "col-md-4"
 };
 var _hoisted_15 = {
-  "class": "row mb-3 align-items-center"
-};
-var _hoisted_16 = {
-  "class": "col-md-4"
-};
-var _hoisted_17 = {
-  "class": "col-md-4"
-};
-var _hoisted_18 = {
   "class": "input-group"
 };
-var _hoisted_19 = {
+var _hoisted_16 = {
   "class": "input-group-text"
 };
-var _hoisted_20 = {
+var _hoisted_17 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "goldPriceError"
+};
+var _hoisted_18 = {
   "class": "row mb-3 align-items-center"
 };
+var _hoisted_19 = {
+  "class": "col-md-4"
+};
+var _hoisted_20 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "silverGramsError"
+};
 var _hoisted_21 = {
-  "class": "col-md-9"
+  "class": "col-md-4"
 };
 var _hoisted_22 = {
   "class": "input-group"
@@ -67896,281 +68022,429 @@ var _hoisted_23 = {
   "class": "input-group-text"
 };
 var _hoisted_24 = {
-  "class": "row mb-3 align-items-center"
+  key: 0,
+  "class": "invalid-feedback",
+  id: "silverPriceError"
 };
 var _hoisted_25 = {
-  "class": "col-md-9"
-};
-var _hoisted_26 = {
-  "class": "input-group"
-};
-var _hoisted_27 = {
-  "class": "input-group-text"
-};
-var _hoisted_28 = {
   "class": "row mb-3 align-items-center"
 };
-var _hoisted_29 = {
+var _hoisted_26 = {
   "class": "col-md-9"
+};
+var _hoisted_27 = {
+  "class": "input-group"
+};
+var _hoisted_28 = {
+  "class": "input-group-text"
+};
+var _hoisted_29 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "cashError"
 };
 var _hoisted_30 = {
-  "class": "input-group"
+  "class": "row mb-3 align-items-center"
 };
 var _hoisted_31 = {
-  "class": "input-group-text"
-};
-var _hoisted_32 = {
-  "class": "row mb-4 align-items-center"
-};
-var _hoisted_33 = {
   "class": "col-md-9"
 };
-var _hoisted_34 = {
+var _hoisted_32 = {
   "class": "input-group"
 };
-var _hoisted_35 = {
+var _hoisted_33 = {
   "class": "input-group-text"
 };
+var _hoisted_34 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "investmentsError"
+};
+var _hoisted_35 = {
+  "class": "row mb-3 align-items-center"
+};
 var _hoisted_36 = {
+  "class": "col-md-9"
+};
+var _hoisted_37 = {
+  "class": "input-group"
+};
+var _hoisted_38 = {
+  "class": "input-group-text"
+};
+var _hoisted_39 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "businessAssetsError"
+};
+var _hoisted_40 = {
+  "class": "row mb-3 align-items-center"
+};
+var _hoisted_41 = {
+  "class": "col-md-9"
+};
+var _hoisted_42 = {
+  "class": "input-group"
+};
+var _hoisted_43 = {
+  "class": "input-group-text"
+};
+var _hoisted_44 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "realEstateError"
+};
+var _hoisted_45 = {
+  "class": "row mb-3 align-items-center"
+};
+var _hoisted_46 = {
+  "class": "col-md-9"
+};
+var _hoisted_47 = {
+  "class": "input-group"
+};
+var _hoisted_48 = {
+  "class": "input-group-text"
+};
+var _hoisted_49 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "agriculturalProduceError"
+};
+var _hoisted_50 = {
+  "class": "row mb-4 align-items-center"
+};
+var _hoisted_51 = {
+  "class": "col-md-9"
+};
+var _hoisted_52 = {
+  "class": "input-group"
+};
+var _hoisted_53 = {
+  "class": "input-group-text"
+};
+var _hoisted_54 = {
+  key: 0,
+  "class": "invalid-feedback",
+  id: "liabilitiesError"
+};
+var _hoisted_55 = {
   "class": "d-flex flex-column flex-md-row gap-3"
 };
-var _hoisted_37 = ["disabled"];
-var _hoisted_38 = {
+var _hoisted_56 = ["disabled"];
+var _hoisted_57 = {
   key: 0,
   "class": "col-lg-4",
   ref: "zakatSummary"
 };
-var _hoisted_39 = {
-  "class": "results-card card shadow-md sticky-top container",
-  style: {
-    "border": "2px solid lightgray",
-    "border-radius": "20px"
-  }
+var _hoisted_58 = {
+  "class": "results-card card shadow-md sticky-top"
 };
-var _hoisted_40 = {
-  "class": "card-body"
+var _hoisted_59 = {
+  "class": "card-body p-4"
 };
-var _hoisted_41 = {
-  "class": "summary-item"
+var _hoisted_60 = {
+  "class": "summary-item mb-4"
 };
-var _hoisted_42 = {
+var _hoisted_61 = {
+  "class": "text-muted"
+};
+var _hoisted_62 = {
+  "class": "summary-item mb-4"
+};
+var _hoisted_63 = {
   "class": "d-flex justify-content-between mb-2"
 };
-var _hoisted_43 = {
-  "class": "text-success"
-};
-var _hoisted_44 = {
-  "class": "summary-item"
-};
-var _hoisted_45 = {
-  "class": "d-flex justify-content-between mb-2"
-};
-var _hoisted_46 = {
+var _hoisted_64 = {
   "class": "text-danger"
 };
-var _hoisted_47 = {
-  "class": "summary-item"
+var _hoisted_65 = {
+  "class": "summary-item mb-4"
 };
-var _hoisted_48 = {
+var _hoisted_66 = {
   "class": "d-flex justify-content-between mb-2"
 };
-var _hoisted_49 = {
-  "class": "text-primary"
+var _hoisted_67 = {
+  "class": "text-dark"
 };
-var _hoisted_50 = {
-  "class": "summary-item bg-light p-3 rounded mb-3"
+var _hoisted_68 = {
+  "class": "summary-item bg-light p-3 rounded mb-4"
 };
-var _hoisted_51 = {
+var _hoisted_69 = {
   "class": "d-flex justify-content-between align-items-center"
 };
-var _hoisted_52 = {
+var _hoisted_70 = {
   "class": "text-success mb-0"
 };
-var _hoisted_53 = {
+var _hoisted_71 = {
   ref: "zakatChart",
-  id: "zakatChart"
+  id: "zakatChart",
+  "class": "mb-4"
 };
-var _hoisted_54 = {
-  "class": "summary-item"
+var _hoisted_72 = {
+  "class": "summary-item mb-4"
 };
-var _hoisted_55 = {
+var _hoisted_73 = {
   "class": "d-flex justify-content-between mb-2"
 };
-var _hoisted_56 = {
+var _hoisted_74 = {
+  "class": "text-muted"
+};
+var _hoisted_75 = {
   key: 0,
   "class": "small mb-0"
 };
-var _hoisted_57 = {
+var _hoisted_76 = {
   key: 1,
   "class": "small mb-0"
 };
+var _hoisted_77 = {
+  "class": "d-flex flex-column gap-2 mt-4"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center py-4"
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "hero-section text-center py-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold mb-4"
   }, "Zakat Calculator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead text-muted mx-auto"
-  }, " Calculate your annual Zakat obligation with our simple, accurate tool. Determine if you meet the Nisab threshold and how much Zakat (2.5%) you owe on your assets. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Calculator Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "lead text-muted mx-auto col-md-8"
+  }, " Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "currency",
     "class": "form-label fw-semibold"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Currency")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, "Currency", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "currency",
     "class": "form-select",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selectedCurrency = $event;
-    })
+    }),
+    "aria-describedby": "currencyHelp"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.currencySymbols, function (symbol, currency) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: currency,
       value: currency
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(currency) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(symbol) + ") ", 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(currency) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(symbol) + ") ", 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    id: "currencyHelp",
+    "class": "form-text text-muted"
+  }, "Select your preferred currency for calculations.", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "nisab",
     "class": "form-label fw-semibold"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Nisab Standard")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, "Nisab Standard", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "nisab",
     "class": "form-select",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.nisabType = $event;
-    })
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }),
+    "aria-describedby": "nisabHelp"
+  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gold"
   }, "Gold (85g)", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "silver"
-  }, "Silver (595g)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Inputs "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-3 fw-semibold text-primary"
+  }, "Silver (595g)", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+    id: "nisabHelp",
+    "class": "form-text text-muted"
+  }, "Choose gold or silver standard for Nisab threshold.", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Inputs "), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "mb-3 fw-semibold text-dark section-title"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-coin me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-gem text-warning me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Gold ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Gold ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.goldGrams
+    }]),
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.goldGrams = $event;
     }),
-    placeholder: "Grams"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldGrams, void 0, {
+    placeholder: "Grams",
+    min: "0",
+    required: "",
+    "aria-describedby": "goldGramsError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldGrams, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]]), $data.errors.goldGrams ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.goldGrams), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.goldPrice
+    }]),
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.goldPrice = $event;
     }),
-    placeholder: "Price per gram"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldPrice, void 0, {
+    placeholder: "Price per gram",
+    min: "0",
+    "aria-describedby": "goldPriceError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]), $data.errors.goldPrice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.goldPrice), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-gem text-secondary me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Silver ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Silver ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.silverGrams
+    }]),
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.silverGrams = $event;
     }),
-    placeholder: "Grams"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverGrams, void 0, {
+    placeholder: "Grams",
+    min: "0",
+    "aria-describedby": "silverGramsError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverGrams, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }]]), $data.errors.silverGrams ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.silverGrams), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.silverPrice
+    }]),
     "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.silverPrice = $event;
     }),
-    placeholder: "Price per gram"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverPrice, void 0, {
+    placeholder: "Price per gram",
+    min: "0",
+    "aria-describedby": "silverPriceError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]), $data.errors.silverPrice ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.silverPrice), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-cash-coin text-success me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cash ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Cash ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.cash
+    }]),
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.cash = $event;
     }),
-    placeholder: "Amount"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.cash, void 0, {
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "cashError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.cash, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]), $data.errors.cash ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.cash), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-graph-up text-info me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Investments ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Investments ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.investments
+    }]),
     "onUpdate:modelValue": _cache[7] || (_cache[7] = function ($event) {
       return $data.investments = $event;
     }),
-    placeholder: "Amount"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.investments, void 0, {
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "investmentsError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.investments, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]), $data.errors.investments ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.investments), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-briefcase text-primary me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Business Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "bi bi-briefcase text-dark me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Business Assets ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.businessAssets
+    }]),
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.businessAssets = $event;
     }),
-    placeholder: "Amount"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.businessAssets, void 0, {
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "businessAssetsError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.businessAssets, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]]), $data.errors.businessAssets ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.businessAssets), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Real Estate Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-house text-warning me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Real Estate ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.realEstate
+    }]),
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $data.realEstate = $event;
+    }),
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "realEstateError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.realEstate, void 0, {
+    number: true
+  }]]), $data.errors.realEstate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.realEstate), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Agricultural Produce Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "col-md-3 col-form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-wheat text-success me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Agricultural Produce ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.agriculturalProduce
+    }]),
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $data.agriculturalProduce = $event;
+    }),
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "agriculturalProduceError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.agriculturalProduce, void 0, {
+    number: true
+  }]]), $data.errors.agriculturalProduce ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.agriculturalProduce), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "col-md-3 col-form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-credit-card text-danger me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liabilities ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liabilities ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
-    "class": "form-control",
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["form-control", {
+      'is-invalid': $data.errors.liabilities
+    }]),
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.liabilities = $event;
     }),
-    placeholder: "Amount"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.liabilities, void 0, {
+    placeholder: "Amount",
+    min: "0",
+    "aria-describedby": "liabilitiesError"
+  }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.liabilities, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }]]), $data.errors.liabilities ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.liabilities), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn flex-fill",
-    disabled: $options.isFormEmpty,
+    disabled: !$options.isFormValid,
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-      opacity: $options.isFormEmpty ? 0.5 : 1,
-      cursor: $options.isFormEmpty ? 'not-allowed' : 'pointer'
+      opacity: $options.isFormValid ? 1 : 0.5,
+      cursor: $options.isFormValid ? 'pointer' : 'not-allowed'
     }, {
       "background": "rgb(13, 182, 145)",
       "color": "#fff"
     }]),
-    onClick: _cache[10] || (_cache[10] = function () {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.calculateZakat && $options.calculateZakat.apply($options, arguments);
     })
-  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-calculator me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* HOISTED */)]), 12 /* STYLE, PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* HOISTED */)]), 12 /* STYLE, PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-outline-secondary flex-fill",
-    onClick: _cache[11] || (_cache[11] = function () {
+    onClick: _cache[13] || (_cache[13] = function () {
       return $options.resetCalculator && $options.resetCalculator.apply($options, arguments);
     })
-  }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), $data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    style: {
-      "font-weight": "bold"
-    },
-    "class": "pt-3 pl-3"
-  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted"
-  }, "Total Assets: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalAssets.toLocaleString()), 1 /* TEXT */)]), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), $data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    "class": "mb-4 fw-bold text-dark"
+  }, "Zakat Summary", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Breakdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    "class": "mb-3"
+  }, "Asset Breakdown", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.assetBreakdown, function (value, key) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: key,
+      "class": "d-flex justify-content-between mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(value.toLocaleString()), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
-      "height": "6px"
+      "height": "8px"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress-bar bg-success",
@@ -68178,12 +68452,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Liabilities: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Liabilities:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.liabilities.toLocaleString()), 1 /* TEXT */)]), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
-      "height": "6px"
+      "height": "8px"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress-bar bg-danger",
@@ -68191,43 +68465,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakatable Amount "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "Zakatable Amount: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Zakatable Amount:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress mb-3",
     style: {
-      "height": "6px"
+      "height": "8px"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "progress-bar bg-primary",
+    "class": "progress-bar bg-dark",
     role: "progressbar",
     style: {
       width: '100%'
     }
-  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+  })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     "class": "mb-1"
-  }, "Zakat Due (2.5%)", -1 /* HOISTED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, "Zakat Due (2.5%)", -1 /* HOISTED */)), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     "class": "text-muted"
-  }, "Your annual obligation", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_53, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted"
-  }, "Nisab Threshold: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Your annual obligation", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString()), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chart "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_71, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Nisab Threshold "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_74, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + "):", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Eligibility "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.isEligible ? 'text-success' : 'text-muted')
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_56, "Your assets meet the Nisab threshold")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_57, "Your assets don't meet the Nisab threshold"))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn w-100 mt-4",
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_75, "Your assets exceed the Nisab threshold.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_76, "Your assets are below the Nisab threshold."))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn w-100",
     style: {
       "background": "rgb(13, 182, 145)",
       "color": "#fff"
     },
-    onClick: _cache[12] || (_cache[12] = function () {
+    onClick: _cache[14] || (_cache[14] = function () {
       return $options.printSummary && $options.printSummary.apply($options, arguments);
     })
-  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-download me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* HOISTED */)]))])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-outline-dark w-100",
+    onClick: _cache[15] || (_cache[15] = function () {
+      return $options.shareSummary && $options.shareSummary.apply($options, arguments);
+    })
+  }, _cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Summary", -1 /* HOISTED */)]))])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
 }
 
 /***/ }),
@@ -166902,7 +167181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  background-color: #f8fafc;\n  min-height: 100vh;\n  padding-bottom: 3rem;\n}\n.hero-section[data-v-b319a4de] {\n  background: linear-gradient(135deg, #f0f7ff 0%, #e1f0ff 100%);\n  border-bottom: 1px solid #e2e8f0;\n  margin-bottom: 2rem;\n}\n.calculator-card[data-v-b319a4de],\n.results-card[data-v-b319a4de] {\n  border-radius: 16px;\n  overflow: hidden;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.calculator-card[data-v-b319a4de]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;\n}\n.section-title[data-v-b319a4de] {\n  position: relative;\n  padding-bottom: 0.5rem;\n}\n.section-title[data-v-b319a4de]::after {\n  content: '';\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 50px;\n  height: 3px;\n  background-color: rgb(13, 182, 145);\n  border-radius: 3px;\n}\n.input-group-text[data-v-b319a4de] {\n  min-width: 120px;\n  justify-content: flex-start;\n  font-weight: 500;\n}\n.summary-item[data-v-b319a4de] {\n  margin-bottom: 1.5rem;\n}\n.eligibility-badge[data-v-b319a4de] {\n  transition: all 0.3s ease;\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n\n/* Responsive adjustments */\n@media (max-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 2rem;\n}\n.input-group-text[data-v-b319a4de] {\n    min-width: 100px;\n}\n}\n@media (max-width: 768px) {\n.hero-section[data-v-b319a4de] {\n    padding: 2rem 1rem;\n}\n.hero-section h1[data-v-b319a4de] {\n    font-size: 2rem;\n}\n.input-group-text[data-v-b319a4de] {\n    min-width: 90px;\n    font-size: 0.9rem;\n}\n.form-control[data-v-b319a4de],\n  .form-select[data-v-b319a4de] {\n    font-size: 0.9rem;\n}\n}\n\n/* Animation for results */\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.summary-item[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.5s ease forwards;\n}\n.summary-item[data-v-b319a4de]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.summary-item[data-v-b319a4de]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.summary-item[data-v-b319a4de]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.summary-item[data-v-b319a4de]:nth-child(4) {\n  animation-delay: 0.4s;\n}\n.summary-item[data-v-b319a4de]:nth-child(5) {\n  animation-delay: 0.5s;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n}\n.hero-section[data-v-b319a4de] {\n  margin-bottom: 2.5rem;\n}\n.calculator-card[data-v-b319a4de],\n.results-card[data-v-b319a4de] {\n  border-radius: 8px;\n  overflow: hidden;\n}\n.section-title[data-v-b319a4de]::after {\n  content: '';\n  position: 4px;\n  width: 60px;\n  height: 4px;\n  background: rgb(13, 182, 145);\n  border-radius: 8px;\n}\n.input-group-text[data-v-b319a4de] {\n  min-width: 60px;\n  font-weight: 500;\n  background-color: #f1f3f5;\n}\n.summary-item[data-v-b319a4de] {\n  margin-bottom: 2rem;\n  animation: fadeIn 0.5s ease forwards;\n}\n\n/* Responsive Design */\n@media (max-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n@media (max-width: 768px) {\n.hero-section h1[data-v-b319a4de] {\n    font-size: 2.5rem;\n}\n.input-group-text[data-v-b319a4de] {\n    font-size: 1rem;\n}\n}\n@media (max-width: 576px) {\n.form-control[data-v-b319a4de],\n  .form-select[data-v-b319a4de] {\n    font-size: 0.95rem;\n}\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
