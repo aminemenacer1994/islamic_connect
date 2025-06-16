@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <select
       class="form-control right-side-form card container"
-      style="border: 3px solid #31464338; border-radius: 8px;"
+      style="border: 1px solid black; border-radius: 8px;"
       v-model="selectedAyahId"
       @change="handleAyahChange"
       :disabled="isLoading"

@@ -5,8 +5,7 @@
             <!-- <ChatBot /> -->
             <h1 class="text-center container mb-4 lead" style="line-height: 1.6em;">
                 The Quran Companion page utilizes AI tools and accessibility features to enrich your learning
-                experience. It offers text-to-speech, speech-to-text, and synchronized highlighting to support
-                memorization, recitation, and comprehension.
+                experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
             </h1>
             <div v-if="!isVisible">
                 <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the

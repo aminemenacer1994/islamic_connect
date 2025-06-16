@@ -3,7 +3,7 @@
         <select
             class="form-control custom-dropdown card"
             aria-label="Select a Surah"
-            style="border: 3px solid #31464338; border-radius: 8px;"
+            style="border: 1px solid #31464338; border-radius: 8px;"
             :value="selectedSurahLocal"
             @change="handleChange"
         >
@@ -74,12 +74,11 @@ export default {
 
 .form-control {
     width: 100%;
+    padding: 8px 12px;
     font-size: 1rem;
     line-height: 1.5;
     background-color: #fff;
     border-radius: 5px;
-    border: 3px solid #00bfa6;
-    transition: border-color 0.15s ease-in-out;
 }
 
 .custom-dropdown {
@@ -95,6 +94,5 @@ export default {
 
 .card:focus {
     border-color: #00bfa6;
-    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);
 }
 </style>

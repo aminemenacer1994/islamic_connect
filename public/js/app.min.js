@@ -60461,17 +60461,16 @@ var _hoisted_8 = {
 var _hoisted_9 = {
   "class": "input-group input-group-lg",
   style: {
-    "border-radius": "25px"
+    "border-radius": "8px"
   }
 };
 var _hoisted_10 = {
   "class": "row g-4"
 };
 var _hoisted_11 = {
-  "class": "card h-100 shadow-md",
+  "class": "card h-100",
   style: {
-    "border-radius": "20px",
-    "border": "2px solid lightgray"
+    "border-radius": "8px"
   }
 };
 var _hoisted_12 = {
@@ -60486,8 +60485,8 @@ var _hoisted_14 = {
 var _hoisted_15 = {
   "class": "mt-3 mb-2",
   style: {
-    "font-size": "1.8rem",
-    "color": "rgb(13, 182, 145)"
+    "font-size": "1.6rem",
+    "color": "black"
   }
 };
 var _hoisted_16 = {
@@ -60508,7 +60507,7 @@ var _hoisted_18 = {
 var _hoisted_19 = {
   "class": "small text-muted",
   style: {
-    "font-size": "1.4rem"
+    "font-size": "1.2rem"
   }
 };
 var _hoisted_20 = {
@@ -60587,7 +60586,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: name.number,
       "class": "col-12 col-md-6 col-lg-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, "#" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
@@ -60602,7 +60601,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       style: {
         "background": "#00bfa6",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
       }
@@ -60615,7 +60613,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       rel: "noopener",
       style: {
         "background": "#00bfa6",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "color": "white",
         "height": "38px"
       }
@@ -60631,7 +60628,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
-    "class": "btn position-fixed rounded-circle shadow d-flex align-items-center justify-content-center",
+    "class": "btn position-fixed rounded-circle d-flex align-items-center justify-content-center",
     style: {
       "bottom": "1.5rem",
       "right": "1.5rem",
@@ -61552,7 +61549,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "line-height": "1.6em"
     }
-  }, " The Quran Companion page utilizes AI tools and accessibility features to enrich your learning experience. It offers text-to-speech, speech-to-text, and synchronized highlighting to support memorization, recitation, and comprehension. ", -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_4, "Search for a word in the Quran...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
+  }, " The Quran Companion page utilizes AI tools and accessibility features to enrich your learning experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more. ", -1 /* HOISTED */)), !$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [$data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("h4", _hoisted_4, "Search for a word in the Quran...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.information != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AdvancedSearch, {
     key: 1,
     onInputChange: _ctx.handleInputChange
   }, null, 8 /* PROPS */, ["onInputChange"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <custom-surah-selection v-if=\"information != null\" :customSurat=\"customSuratList\" v-model=\"selectedSurah\"></custom-surah-selection> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" accordion headers "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row\">\n                    <div class=\"col-12 col-md-6\">\n                        <SurahDropdown v-if=\"!selectedSurahId\" class=\"pt-1\" :selectedSurah=\"selectedSurahId\"\n                            :filteredSurah=\"filteredSurah\" :surat=\"surat\" @update:selectedSurah=\"updateSelectedSurah\"\n                            @fetchAyat=\"getAyat\" />\n                    </div>\n                    <div class=\"col-12 col-md-6\">\n                        <HelpGuideModal />\n                    </div>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
@@ -71619,7 +71616,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'mobile-visible': true
     }]),
     style: {
-      "border": "3px solid #31464338",
+      "border": "1px solid black",
       "border-radius": "8px"
     },
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -71918,7 +71915,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-control custom-dropdown card",
     "aria-label": "Select a Surah",
     style: {
-      "border": "3px solid #31464338",
+      "border": "1px solid #31464338",
       "border-radius": "8px"
     },
     value: $data.selectedSurahLocal,
@@ -166128,7 +166125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 20px;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n  border-radius: 0 0 15px 15px;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -167188,7 +167185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n    border: 3px solid #00bfa6;\n    transition: border-color 0.15s ease-in-out;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac] {\n    display: flex;\n    border: 3px solid #00bfa6;\n    border-radius: 8px;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n    box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 5px;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac] {\n    display: flex;\n    border: 3px solid #00bfa6;\n    border-radius: 8px;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

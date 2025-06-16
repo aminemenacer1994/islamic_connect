@@ -36,7 +36,7 @@
 
         <!-- Search bar (right column) -->
         <div class="col-12 col-lg-6 mb-3">
-          <div class="input-group input-group-lg" style="border-radius: 25px;">
+          <div class="input-group input-group-lg" style="border-radius: 8px;">
             <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
             <input type="text" class="form-control border-start-0" placeholder="Search names..." v-model="searchQuery"
               @input="filterNames" />
@@ -48,13 +48,13 @@
       <!-- Names Grid -->
       <div class="row g-4">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 shadow-md" style="border-radius: 20px; border: 2px solid lightgray;">
+          <div class="card h-100 " style="border-radius: 8px;">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-start">
-                <span class="badge bg-secondary fs-6">#{{ name.number }}</span>
+                <span class="badge bg-secondary fs-6">{{ name.number }}</span>
               </div>
 
-              <p class="mt-3 mb-2" style="font-size: 1.8rem;color:rgb(13, 182, 145)"><b>{{ name.name }}</b></p>
+              <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
 
 
               <div v-if="showArabic" class="display-5 text-end" dir="rtl">
@@ -63,7 +63,7 @@
 
               <div v-if="showTranslation" class="mt-3 ">
                 <strong style="font-size: 1.6rem;">Meaning:</strong>
-                <p class="small text-muted" style="font-size: 1.4rem;">{{ name.translation }}</p>
+                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
               </div>
 
               <div v-if="showDescription" class="mt-2">
@@ -75,7 +75,7 @@
                 <!-- Get Directions Button -->
                 <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                   @click="copyToClipboard(name)"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                  style="background: #00bfa6;  color: white; height: 38px">
                   <span class="text-center w-100">
                     <b>Copy to Clipboard</b>
                   </span>
@@ -84,7 +84,7 @@
                 <!-- WhatsApp Share Button -->
                 <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
                   :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                  style="background: #00bfa6; color: white; height: 38px">
                   <b>Share on WhatsApp</b>
                 </a>
 
@@ -103,7 +103,7 @@
 
       <!-- Floating Action Button -->
       <button @click="scrollToTop"
-        class="btn  position-fixed rounded-circle shadow d-flex align-items-center justify-content-center"
+        class="btn  position-fixed rounded-circle d-flex align-items-center justify-content-center"
         style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
         title="Back to Top">
         <i class="bi bi-chevron-double-up fs-5"></i>
@@ -924,14 +924,11 @@ html {
 .names-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
   font-size: 1.1rem;
 }
 
 .header {
   background-color: var(--secondary-color);
-  border-radius: 0 0 15px 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 h1,
@@ -971,7 +968,6 @@ h6 {
 }
 
 .name-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: none;
   border-radius: 12px;
   overflow: hidden;
@@ -980,7 +976,6 @@ h6 {
 
 .name-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
 }
 
 .featured-card {
