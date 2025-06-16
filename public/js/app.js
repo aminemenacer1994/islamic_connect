@@ -40254,53 +40254,76 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "AdvancedQiblaFinder",
+  name: 'QiblaFinder',
   data: function data() {
-    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
-      compassRotation: 0,
-      error: "",
-      loading: false,
-      isOnline: true,
-      darkMode: false,
+    return {
       searchLocation: '',
       userLatitude: null,
       userLongitude: null,
       qiblaDirection: null,
-      distanceToKaaba: null
-    }, "compassRotation", 0), "loading", false), "isCalibrated", false), "sensorSupported", false), "accuracy", null), "lastUpdated", null), "deviceType", null), "userAgent", null);
+      distanceToKaaba: null,
+      compassRotation: 0,
+      loading: false,
+      error: '',
+      isCalibrated: false,
+      sensorSupported: false,
+      accuracy: null,
+      lastUpdated: null,
+      deviceType: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop',
+      userAgent: navigator.userAgent,
+      darkMode: false,
+      showOptions: false,
+      speechRate: 0.9,
+      speechPitch: 1.1,
+      selectedVoice: '',
+      rates: [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5],
+      pitches: [0.5, 0.75, 1, 1.1, 1.25, 1.5],
+      voices: []
+    };
   },
   mounted: function mounted() {
     var _this = this;
-    if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
-      DeviceOrientationEvent.requestPermission().then(function (permissionState) {
-        if (permissionState === "granted") {
-          window.addEventListener("deviceorientation", _this.handleOrientation, true);
-        }
-      })["catch"](console.error);
+    // Check device orientation support
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      this.sensorSupported = true;
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission().then(function (permissionState) {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', _this.handleOrientation, true);
+          }
+        })["catch"](function (err) {
+          _this.error = 'Device orientation permission denied';
+          console.error(err);
+        });
+      } else {
+        window.addEventListener('deviceorientation', this.handleOrientation, true);
+      }
     } else {
-      // Non-iOS
-      window.addEventListener("deviceorientation", this.handleOrientation, true);
+      this.error = 'Device orientation not supported';
+    }
+    // Populate voices for speech synthesis
+    if (window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = function () {
+        _this.voices = window.speechSynthesis.getVoices();
+        if (_this.voices.length > 0) {
+          var naturalVoice = _this.voices.find(function (v) {
+            return v.name.includes('Natural') || v.name.includes('Samantha') || v.lang.includes('en');
+          });
+          _this.selectedVoice = naturalVoice ? naturalVoice.name : _this.voices[0].name;
+        }
+      };
     }
   },
   computed: {
     hasData: function hasData() {
       return this.qiblaDirection !== null || this.userLatitude !== null;
+    },
+    formattedQiblaDirection: function formattedQiblaDirection() {
+      return this.qiblaDirection !== null ? "".concat(this.qiblaDirection.toFixed(2), "\xB0") : 'N/A';
     }
   },
   methods: {
-    resetData: function resetData() {
-      this.searchLocation = '';
-      this.userLatitude = null;
-      this.userLongitude = null;
-      this.qiblaDirection = null;
-      this.distanceToKaaba = null;
-      this.compassRotation = 0;
-      this.lastUpdated = null;
-    },
     searchQibla: function searchQibla() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -40309,74 +40332,82 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
           while (1) switch (_context.prev = _context.next) {
             case 0:
               if (_this2.searchLocation.trim()) {
-                _context.next = 2;
+                _context.next = 3;
                 break;
               }
+              _this2.error = 'Please enter a valid location';
               return _context.abrupt("return");
-            case 2:
+            case 3:
               _this2.loading = true;
-              _context.prev = 3;
-              _context.next = 6;
+              _this2.error = '';
+              _context.prev = 5;
+              _context.next = 8;
               return fetch("https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(_this2.searchLocation), "&format=json&limit=1"));
-            case 6:
+            case 8:
               response = _context.sent;
               if (response.ok) {
-                _context.next = 9;
+                _context.next = 11;
                 break;
               }
               throw new Error('Network response was not ok');
-            case 9:
-              _context.next = 11;
-              return response.json();
             case 11:
+              _context.next = 13;
+              return response.json();
+            case 13:
               data = _context.sent;
               if (!(data && data.length > 0)) {
-                _context.next = 18;
+                _context.next = 20;
                 break;
               }
               _this2.userLatitude = parseFloat(data[0].lat);
               _this2.userLongitude = parseFloat(data[0].lon);
               _this2.calculateQibla();
-              _context.next = 19;
+              _context.next = 21;
               break;
-            case 18:
+            case 20:
               throw new Error('Location not found');
-            case 19:
-              _context.next = 25;
-              break;
             case 21:
-              _context.prev = 21;
-              _context.t0 = _context["catch"](3);
-              console.error("Geocoding error:", _context.t0);
-              alert("Could not find the location. Please try again.");
-            case 25:
-              _context.prev = 25;
+              _context.next = 27;
+              break;
+            case 23:
+              _context.prev = 23;
+              _context.t0 = _context["catch"](5);
+              _this2.error = "Could not find location: ".concat(_context.t0.message);
+              console.error('Geocoding error:', _context.t0);
+            case 27:
+              _context.prev = 27;
               _this2.loading = false;
-              return _context.finish(25);
-            case 28:
+              return _context.finish(27);
+            case 30:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[3, 21, 25, 28]]);
+        }, _callee, null, [[5, 23, 27, 30]]);
       }))();
+    },
+    clearSearch: function clearSearch() {
+      this.searchLocation = '';
+      this.$refs.searchInput.focus();
     },
     getLocation: function getLocation() {
       var _this3 = this;
       this.loading = true;
+      this.error = '';
       if (!navigator.geolocation) {
+        this.error = 'Geolocation is not supported by your browser';
         this.loading = false;
-        alert("Geolocation is not supported by your browser");
         return;
       }
       navigator.geolocation.getCurrentPosition(function (position) {
         _this3.userLatitude = position.coords.latitude;
         _this3.userLongitude = position.coords.longitude;
+        _this3.accuracy = position.coords.accuracy;
         _this3.calculateQibla();
         _this3.loading = false;
       }, function (error) {
+        _this3.error = "Error getting location: ".concat(error.message);
         _this3.loading = false;
-        console.error("Geolocation error:", error);
-        alert("Error getting location: ".concat(error.message));
+        console.error('Geolocation error:', error);
       }, {
         enableHighAccuracy: true,
         timeout: 10000
@@ -40384,46 +40415,62 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     calculateQibla: function calculateQibla() {
       if (this.userLatitude === null || this.userLongitude === null) return;
-
-      // Kaaba coordinates (21.4225° N, 39.8262° E)
       var kaabaLat = 21.4225;
       var kaabaLon = 39.8262;
-
-      // Convert degrees to radians
-      var lat1 = this.userLatitude * Math.PI / 180;
-      var lon1 = this.userLongitude * Math.PI / 180;
-      var lat2 = kaabaLat * Math.PI / 180;
-      var lon2 = kaabaLon * Math.PI / 180;
-
-      // Calculate Qibla direction
+      var lat1 = this.toRadians(this.userLatitude);
+      var lon1 = this.toRadians(this.userLongitude);
+      var lat2 = this.toRadians(kaabaLat);
+      var lon2 = this.toRadians(kaabaLon);
       var y = Math.sin(lon2 - lon1) * Math.cos(lat2);
       var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
-      this.qiblaDirection = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-
-      // Calculate distance to Kaaba
-      var R = 6371; // Earth's radius in km
+      this.qiblaDirection = (this.toDegrees(Math.atan2(y, x)) + 360) % 360;
+      var R = 6371;
       var dLat = lat2 - lat1;
       var dLon = lon2 - lon1;
       var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       this.distanceToKaaba = R * c;
       this.lastUpdated = new Date().toISOString();
+      this.isCalibrated = this.accuracy !== null && this.accuracy <= 30;
     },
     handleOrientation: function handleOrientation(event) {
       if (event.webkitCompassHeading !== undefined) {
         this.compassRotation = event.webkitCompassHeading;
       } else if (event.alpha !== null) {
-        this.compassRotation = 360 - event.alpha; // subtract to rotate clockwise
+        this.compassRotation = 360 - event.alpha;
       }
+      this.accuracy = event.webkitCompassAccuracy || event.accuracy || null;
+      this.isCalibrated = this.accuracy !== null && this.accuracy <= 30;
+    },
+    speakQiblaDirection: function speakQiblaDirection() {
+      var _this4 = this;
+      if (!window.speechSynthesis || !this.qiblaDirection) return;
+      var utterance = new SpeechSynthesisUtterance("The Qibla direction is ".concat(this.formattedQiblaDirection, " from North."));
+      utterance.rate = this.speechRate;
+      utterance.pitch = this.speechPitch;
+      utterance.volume = 0.9;
+      var voice = this.voices.find(function (v) {
+        return v.name === _this4.selectedVoice;
+      });
+      if (voice) utterance.voice = voice;
+      utterance.onboundary = function (event) {
+        if (event.name === 'sentence') {
+          window.speechSynthesis.pause();
+          setTimeout(function () {
+            return window.speechSynthesis.resume();
+          }, 200);
+        }
+      };
+      window.speechSynthesis.speak(utterance);
+    },
+    toggleDarkMode: function toggleDarkMode() {
+      this.darkMode = !this.darkMode;
     },
     toRadians: function toRadians(deg) {
       return deg * Math.PI / 180;
     },
     toDegrees: function toDegrees(rad) {
       return rad * 180 / Math.PI;
-    },
-    toggleDarkMode: function toggleDarkMode() {
-      this.darkMode = !this.darkMode;
     }
   }
 });
@@ -61099,84 +61146,170 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "mb-4"
 };
 var _hoisted_2 = {
-  "class": "text-center"
+  "class": "d-flex flex-column flex-md-row gap-3 align-items-center"
 };
 var _hoisted_3 = {
-  "class": "mb-3"
+  "class": "input-group flex-grow-1 position-relative"
 };
-var _hoisted_4 = {
-  "class": "d-flex justify-content-center gap-2 mt-2"
-};
+var _hoisted_4 = ["disabled"];
 var _hoisted_5 = ["disabled"];
-var _hoisted_6 = ["disabled"];
-var _hoisted_7 = {
+var _hoisted_6 = {
   key: 0,
-  "class": "text-dark mb-3"
+  "class": "card shadow-sm mb-4"
+};
+var _hoisted_7 = {
+  "class": "card-body"
 };
 var _hoisted_8 = {
-  "class": "text-center container mb-3 lead"
+  key: 0,
+  "class": "text-danger text-center"
 };
 var _hoisted_9 = {
-  key: 1,
-  "class": "text-dark mb-3"
+  "class": "row g-3"
 };
 var _hoisted_10 = {
-  "class": "text-center container mb-3 lead"
+  "class": "col-12 col-md-6"
 };
 var _hoisted_11 = {
-  "class": "text-center container mb-3 lead"
+  key: 0,
+  "class": "mb-2"
 };
 var _hoisted_12 = {
-  "class": "d-flex justify-content-center my-4"
+  key: 1,
+  "class": "mb-2"
 };
-var _hoisted_13 = ["data-latitude", "data-longitude", "data-qibla-angle", "data-distance-to-kaaba", "data-compass-rotation", "data-is-calibrated", "data-sensor-supported", "data-accuracy", "data-last-updated", "data-device-type", "data-user-agent"];
+var _hoisted_13 = {
+  "class": "col-12 col-md-6"
+};
+var _hoisted_14 = {
+  key: 0,
+  "class": "mb-2"
+};
+var _hoisted_15 = {
+  key: 1,
+  "class": "mb-2"
+};
+var _hoisted_16 = {
+  "class": "card shadow-sm"
+};
+var _hoisted_17 = {
+  "class": "card-body text-center"
+};
+var _hoisted_18 = ["aria-label", "data-latitude", "data-longitude", "data-qibla-angle", "data-distance-to-kaaba", "data-compass-rotation", "data-is-calibrated", "data-sensor-supported", "data-accuracy", "data-last-updated", "data-device-type", "data-user-agent"];
+var _hoisted_19 = {
+  "class": "row row-cols-2 row-cols-sm-4 g-2 mt-2 mb-3 justify-content-center"
+};
+var _hoisted_20 = {
+  "class": "col"
+};
+var _hoisted_21 = ["disabled"];
+var _hoisted_22 = {
+  key: 0
+};
+var _hoisted_23 = {
+  "class": "col"
+};
+var _hoisted_24 = ["disabled"];
+var _hoisted_25 = {
+  key: 0
+};
+var _hoisted_26 = {
+  "class": "col"
+};
+var _hoisted_27 = ["disabled"];
+var _hoisted_28 = {
+  key: 0
+};
+var _hoisted_29 = {
+  "class": "col"
+};
+var _hoisted_30 = ["disabled"];
+var _hoisted_31 = {
+  key: 0
+};
+var _hoisted_32 = {
+  key: 0,
+  "class": "voice-settings p-3 p-sm-4 rounded shadow-sm mt-2 mb-4",
+  style: {
+    "background-color": "#f8f9fa"
+  }
+};
+var _hoisted_33 = {
+  "class": "d-flex flex-column flex-md-row gap-3 gap-sm-4"
+};
+var _hoisted_34 = {
+  "class": "d-flex flex-column flex-grow-1"
+};
+var _hoisted_35 = ["value"];
+var _hoisted_36 = {
+  "class": "d-flex flex-column flex-grow-1"
+};
+var _hoisted_37 = ["value"];
+var _hoisted_38 = {
+  "class": "d-flex flex-column flex-grow-1"
+};
+var _hoisted_39 = ["value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$userLatitude, _$data$userLongitude, _$data$qiblaDirection, _$data$distanceToKaab;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "text-center fw-bold display-4 mb-4"
-  }, " Qibla Finder "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container-fluid mb-3 lead"
-  }, "The Advanced Qibla Finder is a high-precision tool that uses GPS, digital compass, maps, and optional AR to accurately determine the direction of the Kaaba from any location. It features real-time orientation, offline support, visual and voice guidance.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  var _$data$userLatitude, _$data$userLongitude, _$data$distanceToKaab;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container py-4", {
+      'dark-mode': $data.darkMode
+    }])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "text-center mb-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "fw-bold display-5 mb-3"
+  }, "Qibla Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead container-fluid mb-0 px-3"
+  }, " Effortlessly find the direction of the Kaaba in Mecca with precision using GPS and a digital compass. Enjoy real-time orientation, voice-guided directions, and offline support for prayer alignment anywhere in the world. Optimized for all modern devices, ensuring a seamless experience. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search and Voice Settings Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar with Clear Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
-    "class": "form-control form-control-lg",
-    placeholder: "Enter country, city or town",
+    "class": "form-control form-control-lg pe-5",
+    placeholder: "Enter country, city, or town",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchLocation = $event;
     }),
     onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
-    }, ["enter"]))
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-lg",
-    style: {
-      "background": "#00bfa6",
-      "color": "white"
-    },
+    }, ["enter"])),
+    "aria-label": "Search for a location to find Qibla",
+    title: "Enter a location to find Qibla direction",
+    ref: "searchInput"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), $data.searchLocation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    "class": "btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3",
     onClick: _cache[2] || (_cache[2] = function () {
+      return $options.clearSearch && $options.clearSearch.apply($options, arguments);
+    }),
+    title: "Clear search",
+    "aria-label": "Clear search input",
+    style: {
+      "z-index": "10"
+    }
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x-lg"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-lg btn-teal",
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }),
-    disabled: $data.loading
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Searching...' : 'Search Qibla'), 9 /* TEXT, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-lg btn-outline-secondary",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.resetData && $options.resetData.apply($options, arguments);
+    disabled: $data.loading,
+    title: "Search Qibla direction"
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Searching...' : 'Search'), 9 /* TEXT, PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-lg btn-outline-teal",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return _ctx.resetData && _ctx.resetData.apply(_ctx, arguments);
     }),
-    disabled: !$options.hasData
-  }, " Reset ", 8 /* PROPS */, _hoisted_6)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Location Info "), $data.userLatitude !== null && $data.userLongitude !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "fw-bold"
-  }, "Your Coordinates: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "° N, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "° E", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Info "), $data.qiblaDirection !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_10, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "fw-bold"
-  }, "Qibla Direction: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(2)) + "°", 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" from North "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
-    "class": "fw-bold"
-  }, "Distance to Kaaba: ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(1)) + " km", 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass UI with Metadata "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "position-relative compass-wrapper border border-3 rounded-circle shadow bg-white p-3",
+    disabled: !$options.hasData,
+    title: "Reset location and Qibla data"
+  }, " Reset ", 8 /* PROPS */, _hoisted_5)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Location and Qibla Info "), $data.userLatitude !== null || $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_6, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-title ml-4 mt-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Qibla Direction:")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [$data.userLatitude !== null && $data.userLongitude !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_11, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Coordinates:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "° N, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "° E ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.qiblaDirection !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_12, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Qibla Direction:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedQiblaDirection) + " from North ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [$data.distanceToKaaba !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_14, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Distance to Kaaba:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(1)) + " km ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.isCalibrated !== null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_15, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Compass Calibration:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isCalibrated ? 'Calibrated' : 'Not Calibrated'), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass and Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass UI "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-wrapper border border-3 rounded-circle shadow bg-white p-4 mx-auto",
     role: "img",
-    "aria-label": "Compass showing Qibla at {{ qiblaDirection ? qiblaDirection.toFixed(2) : 0 }} degrees from North",
+    "aria-label": "Compass showing Qibla at ".concat($data.qiblaDirection ? $data.qiblaDirection.toFixed(2) : 0, " degrees from North"),
     tabindex: "0",
     "data-latitude": $data.userLatitude,
     "data-longitude": $data.userLongitude,
@@ -61189,7 +61322,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-last-updated": $data.lastUpdated,
     "data-device-type": $data.deviceType,
     "data-user-agent": $data.userAgent
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass Image "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Compass_Rose_English_North.svg/240px-Compass_Rose_English_North.svg.png",
     alt: "Compass Background",
     "class": "position-absolute top-50 start-50 opacity-25",
@@ -61199,27 +61332,134 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "transform": "translate(-50%, -50%)",
       "pointer-events": "none"
     }
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass Labels "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "compass-label north fw-bold display-4"
-  }, "N", -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "compass-label south fw-bold display-4"
-  }, "S", -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "compass-label east fw-bold display-4"
-  }, "E", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "compass-label west fw-bold display-4"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass Labels "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label north fw-bold display-5"
+  }, "N", -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label south fw-bold display-5"
+  }, "S", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label east fw-bold display-5"
+  }, "E", -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label west fw-bold display-5"
   }, "W", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Needle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "arrow bg-danger position-absolute top-50 start-50",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)([{
-      transform: 'translate(-50%, -100%) rotate(' + ($data.qiblaDirection - $data.compassRotation + 360) % 360 + 'deg)'
-    }, {
-      "width": "8px",
-      "height": "36%",
-      "transition": "transform 0.5s ease-in-out",
-      "transform-origin": "bottom center",
-      "border-radius": "8px"
-    }]),
+    "class": "arrow bg-teal position-absolute top-50 start-50",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      transform: "translate(-50%, -100%) rotate(".concat(($data.qiblaDirection - $data.compassRotation + 360) % 360, "deg)")
+    }),
     "aria-hidden": "true"
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_13)])]);
+  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-control", {
+      'btn-icon-only': _ctx.compactMode
+    }]),
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.getLocation && $options.getLocation.apply($options, arguments);
+    }),
+    disabled: $data.loading,
+    title: "Use current location",
+    "aria-label": "Use current location",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top"
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-geo-alt me-1"
+  }, null, -1 /* HOISTED */)), !_ctx.compactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, "Use My Location")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_21)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-control", {
+      'btn-icon-only': _ctx.compactMode
+    }]),
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.speakQiblaDirection && $options.speakQiblaDirection.apply($options, arguments);
+    }),
+    disabled: !$data.qiblaDirection,
+    title: "Hear Qibla direction",
+    "aria-label": "Hear Qibla direction",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top"
+  }, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-volume-up me-1"
+  }, null, -1 /* HOISTED */)), !_ctx.compactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25, "Speak Direction")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_24)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-control", {
+      'btn-icon-only': _ctx.compactMode
+    }]),
+    onClick: _cache[7] || (_cache[7] = function () {
+      return _ctx.shareLocation && _ctx.shareLocation.apply(_ctx, arguments);
+    }),
+    disabled: !$options.hasData,
+    title: "Share location and Qibla details",
+    "aria-label": "Share location and Qibla details",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top"
+  }, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share me-1"
+  }, null, -1 /* HOISTED */)), !_ctx.compactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28, "Share Location")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_27)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-control", {
+      'btn-icon-only': _ctx.compactMode
+    }]),
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $data.showOptions = !$data.showOptions;
+    }),
+    disabled: !$options.hasData || $data.voices.length === 0,
+    title: "Toggle voice settings",
+    "aria-label": "Toggle voice settings",
+    "data-bs-toggle": "tooltip",
+    "data-bs-placement": "top"
+  }, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear me-1"
+  }, null, -1 /* HOISTED */)), !_ctx.compactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31, "Voice Settings")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_30)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice Settings Dropdowns "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$data.showOptions ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "for": "speech-rate",
+        "class": "form-label fw-bold mb-1"
+      }, "Rate", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        id: "speech-rate",
+        "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+          return $data.speechRate = $event;
+        }),
+        "class": "form-select",
+        "aria-label": "Select speech rate",
+        title: "Adjust speech speed"
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.rates, function (rate) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: rate,
+          value: rate
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(rate) + "x", 9 /* TEXT, PROPS */, _hoisted_35);
+      }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechRate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "for": "speech-pitch",
+        "class": "form-label fw-bold mb-1"
+      }, "Pitch", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        id: "speech-pitch",
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+          return $data.speechPitch = $event;
+        }),
+        "class": "form-select",
+        "aria-label": "Select speech pitch",
+        title: "Adjust speech tone"
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.pitches, function (pitch) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: pitch,
+          value: pitch
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(pitch) + "x", 9 /* TEXT, PROPS */, _hoisted_37);
+      }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.speechPitch]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+        "for": "speech-voice",
+        "class": "form-label fw-bold mb-1"
+      }, "Voice", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        id: "speech-voice",
+        "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+          return $data.selectedVoice = $event;
+        }),
+        "class": "form-select",
+        "aria-label": "Select voice",
+        title: "Choose voice for speech"
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.voices.filter(function (v) {
+        return !v.name.includes('Google');
+      }), function (voice) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          key: voice.name,
+          value: voice.name
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name), 9 /* TEXT, PROPS */, _hoisted_39);
+      }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoice]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+    }),
+    _: 1 /* STABLE */
+  })])])], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -166197,7 +166437,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.arrow[data-v-6d77f7a9] {\n  transform-origin: bottom center;\n  border-radius: 6px;\n}\n.compass-wrapper[data-v-6d77f7a9] {\n  width: 90vw;\n  max-width: 400px;\n  aspect-ratio: 1 / 1;\n  margin: auto;\n  position: relative;\n}\n.compass-label[data-v-6d77f7a9] {\n  position: absolute;\n  font-weight: bold;\n  color: #343a40;\n  font-size: 1.25rem;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.compass-label.north[data-v-6d77f7a9] {\n  top: 4%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.south[data-v-6d77f7a9] {\n  bottom: 4%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.east[data-v-6d77f7a9] {\n  top: 50%;\n  right: 4%;\n  transform: translateY(-50%);\n}\n.compass-label.west[data-v-6d77f7a9] {\n  top: 50%;\n  left: 4%;\n  transform: translateY(-50%);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Dark Mode */\n.dark-mode[data-v-6d77f7a9] {\n  background-color: #212529;\n  color: #f8f9fa;\n}\n.dark-mode .card[data-v-6d77f7a9],\n.dark-mode .voice-settings[data-v-6d77f7a9] {\n  background-color: #343a40;\n  color: #f8f9fa;\n  border-color: #495057;\n}\n.dark-mode .compass-wrapper[data-v-6d77f7a9] {\n  background-color: #343a40;\n}\n.dark-mode .compass-label[data-v-6d77f7a9] {\n  color: #f8f9fa;\n}\n.dark-mode .form-control[data-v-6d77f7a9] {\n  background-color: #495057;\n  color: #f8f9fa;\n  border-color: #6c757d;\n}\n.dark-mode .form-control[data-v-6d77f7a9]::-moz-placeholder {\n  color: #adb5bd;\n}\n.dark-mode .form-control[data-v-6d77f7a9]::placeholder {\n  color: #adb5bd;\n}\n.dark-mode .btn-teal[data-v-6d77f7a9] {\n  background-color: #00d4b6;\n  border-color: #00d4b6;\n}\n.dark-mode .btn-teal[data-v-6d77f7a9]:hover {\n  background-color: #00a88f;\n  border-color: #00a88f;\n}\n.dark-mode .btn-outline-teal[data-v-6d77f7a9] {\n  color: #00d4b6;\n  border-color: #00d4b6;\n}\n.dark-mode .btn-outline-teal[data-v-6d77f7a9]:hover {\n  background-color: #00d4b6;\n  color: #fff;\n}\n/* Animation for voice settings */\n.fade-enter-active[data-v-6d77f7a9],\n.fade-leave-active[data-v-6d77f7a9] {\n  transition: opacity 0.3s ease, transform 0.3s ease;\n}\n.fade-enter-from[data-v-6d77f7a9],\n.fade-leave-to[data-v-6d77f7a9] {\n  opacity: 0;\n  transform: translateY(-10px);\n}\n/* Button Styling */\n.btn-teal[data-v-6d77f7a9] {\n  background-color: #00bfa6;\n  border-color: #00bfa6;\n  color: #fff;\n  transition: background-color 0.2s ease, border-color 0.2s ease;\n}\n.btn-teal[data-v-6d77f7a9]:hover {\n  background-color: #009688;\n  border-color: #009688;\n}\n.btn-teal[data-v-6d77f7a9]:disabled {\n  background-color: #66d9c9;\n  border-color: #66d9c9;\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.btn-outline-teal[data-v-6d77f7a9] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  transition: background-color 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-6d77f7a9]:hover {\n  background-color: #00bfa6;\n  color: #fff;\n}\n.btn-outline-teal[data-v-6d77f7a9]:disabled {\n  color: #66d9c9;\n  border-color: #66d9c9;\n  opacity: 0.6;\n  cursor: not-allowed;\n}\n.bg-teal[data-v-6d77f7a9] {\n  background-color: #00bfa6;\n}\n/* Compass Styling */\n.compass-wrapper[data-v-6d77f7a9] {\n  width: 80vw;\n  max-width: 320px;\n  aspect-ratio: 1 / 1;\n  position: relative;\n  transition: transform 0.5s ease-in-out;\n}\n.arrow[data-v-6d77f7a9] {\n  width: 12px;\n  height: 42%;\n  transform-origin: bottom center;\n  border-radius: 8px;\n  transition: transform 0.5s ease-in-out;\n}\n.compass-label[data-v-6d77f7a9] {\n  position: absolute;\n  font-weight: bold;\n  color: #343a40;\n  font-size: 1.8rem;\n  -webkit-user-select: none;\n     -moz-user-select: none;\n          user-select: none;\n}\n.compass-label.north[data-v-6d77f7a9] {\n  top: 5%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.south[data-v-6d77f7a9] {\n  bottom: 5%;\n  left: 50%;\n  transform: translateX(-50%);\n}\n.compass-label.east[data-v-6d77f7a9] {\n  top: 50%;\n  right: 5%;\n  transform: translateY(-50%);\n}\n.compass-label.west[data-v-6d77f7a9] {\n  top: 50%;\n  left: 5%;\n  transform: translateY(-50%);\n}\n/* Voice Settings */\n.voice-settings[data-v-6d77f7a9] {\n  max-width: 100%;\n  border: 1px solid #dee2e6;\n}\n.form-select[data-v-6d77f7a9] {\n  padding: 0.6rem 2rem 0.6rem 0.8rem;\n  font-size: 1rem;\n  border-radius: 0.3rem;\n  background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\");\n  background-position: right 0.8rem center;\n  background-size: 16px 12px;\n}\n.form-label[data-v-6d77f7a9] {\n  font-size: 0.85rem;\n  color: #333;\n}\n.btn i[data-v-6d77f7a9] {\n  font-size: 1.3rem;\n}\n/* Search Bar */\n.form-control-lg[data-v-6d77f7a9] {\n  padding: 0.8rem 1rem;\n  font-size: 1.1rem;\n  border-radius: 0.4rem;\n}\n.btn-link[data-v-6d77f7a9] {\n  color: #6c757d;\n}\n.btn-link[data-v-6d77f7a9]:hover {\n  color: #495057;\n}\n/* General Layout */\nsection[data-v-6d77f7a9] {\n  transition: opacity 0.3s ease;\n}\n.card[data-v-6d77f7a9] {\n  border-radius: 0.5rem;\n  overflow: hidden;\n}\n.card-body[data-v-6d77f7a9] {\n  padding: 1.5rem;\n}\n.btn-lg[data-v-6d77f7a9] {\n  padding: 0.6rem 1.2rem;\n  font-size: 1rem;\n  border-radius: 0.4rem;\n}\n/* Two-Column Location Details */\n.row[data-v-6d77f7a9] {\n  align-items: stretch;\n}\n.col-12 p[data-v-6d77f7a9] {\n  margin-bottom: 0.5rem;\n  font-size: 1rem;\n  line-height: 1.5;\n}\n.text-danger[data-v-6d77f7a9] {\n  font-size: 1rem;\n  font-weight: 500;\n}\n/* Responsive Adjustments */\n@media (max-width: 576px) {\n.compass-wrapper[data-v-6d77f7a9] {\n    width: 90vw;\n    max-width: 280px;\n}\n.form-control-lg[data-v-6d77f7a9] {\n    font-size: 1rem;\n    padding: 0.6rem 0.8rem;\n}\n.form-select[data-v-6d77f7a9] {\n    font-size: 0.9rem;\n    padding: 0.5rem 1.5rem 0.5rem 0.7rem;\n}\n.form-label[data-v-6d77f7a9] {\n    font-size: 0.8rem;\n}\n.btn-lg[data-v-6d77f7a9] {\n    font-size: 0.9rem;\n    padding: 0.5rem 1rem;\n}\n.card-body[data-v-6d77f7a9] {\n    padding: 1.2rem;\n}\n.compass-label[data-v-6d77f7a9] {\n    font-size: 1.5rem;\n}\n.col-12 p[data-v-6d77f7a9] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
