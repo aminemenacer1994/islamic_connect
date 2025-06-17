@@ -4,8 +4,8 @@
     <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
-      <div class="container" style="position: relative; z-index: 2">
-        <div class="container text-center">
+      <div class="container-fluid" style="position: relative; z-index: 2">
+        <div class="container-fluid text-center">
           <div class="row mb-2 ">
             <div class="col-md-6">
               <h1 class="display-4 mt-1 fw-bold text-left container">
@@ -29,7 +29,7 @@
 
 
             </div>
-            <div class="col-md-6 mt-3">
+            <div class="col-md-6">
 
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -60,19 +60,18 @@
             </div>
 
           </div>
-          <PrayerTimes />
         </div>
 
         <section class="py-5 bg-transparent">
-          <div class="container text-center ">
+          <div class="container text-center mb-4">
             <h1 class="display-4 fw-bold mb-4">Our Trusted Partners</h1>
-            <p class="lead text-muted fw-semibold lh-base">
+            <h2 class="lead container" style="line-height: 1.8em">
               We proudly collaborate with ethical and impactful platforms to bring you accessible, faith-driven
               experiences.
-            </p>
+            </h2>
           </div>
 
-          <div id="partnersCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+          <div id="partnersCarousel" class="carousel slide py-2" data-bs-ride="carousel" data-bs-interval="4000">
             <div class="carousel-inner">
               <div v-for="(chunk, index) in chunkedPartners" :key="index"
                 :class="['carousel-item', { active: index === 0 }]">
@@ -91,8 +90,12 @@
       </div>
       </hr>
     </div>
+
+    
     <section>
-      <div class="py-3 service-1">
+      <PrayerTimes />
+
+      <div class="py-5 service-1">
         <div class="container">
           <!-- Row  -->
           <div class="row ">

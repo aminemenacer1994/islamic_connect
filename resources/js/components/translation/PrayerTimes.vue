@@ -13,8 +13,7 @@
           </h4>
         </div>
 
-        <div class="col-md-4">
-          <!-- Search Form -->
+        <!-- <div class="col-md-4">
           <form class="d-flex pb-" @submit.prevent="fetchPrayerTimesByCity">
             <input
               v-model="city"
@@ -26,7 +25,7 @@
             />
             <button class="btn btn-success" type="submit">Search</button>
           </form>
-        </div>
+        </div> -->
 
         <!-- Loading Spinner with Transition -->
         <transition name="fade">
