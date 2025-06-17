@@ -19,15 +19,13 @@
           <h3 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }"></h3>
 
-          <div class="d-flex align-items-center mt-3">
+          <!-- <div class="d-flex align-items-center mt-3">
             <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
             <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h4>
-
-
             <h4 class=" mb-0 ms-2" style="color:dimgrey;" :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }">
               Ahmed
               Ali</h4>
-          </div>
+          </div> -->
 
           <div v-if="isVisible" class="row collapse pt-3" id="collapseExample">
             <div class="d-flex flex-wrap gap-2 pb-2">

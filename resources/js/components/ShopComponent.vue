@@ -4,7 +4,8 @@
       <div class="col-lg-10">
         <h1 class="display-5 fw-bold text-center">Halal Butcher Finder</h1>
         <p class="text-center container mb-4 lead">
-          Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher shops.
+          Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher
+          shops.
         </p>
         <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
           <!-- Search Section -->
@@ -102,9 +103,7 @@
 
                         <!-- Call Shop Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                          @click="callShop(shop.phone)"
-                          :disabled="!shop.phone"
-                          :style="{
+                          @click="callShop(shop.phone)" :disabled="!shop.phone" :style="{
                             background: shop.phone ? '#1881b9' : '#6c757d',
                             boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
                             color: 'white',
@@ -169,6 +168,8 @@ export default {
       script.src = 'https://cdn.jsdelivr.net/npm/opening_hours@3.7.0/opening_hours.min.js';
       script.async = true;
       document.head.appendChild(script);
+      // Refresh open status every minute
+      setInterval(this.refreshOpenStatus, 60000);
     });
   },
   computed: {
@@ -181,6 +182,22 @@ export default {
     },
   },
   methods: {
+    refreshOpenStatus() {
+      this.shops = this.shops.map(shop => {
+        if (shop.opening_hours && typeof opening_hours === 'function') {
+          try {
+            const oh = new opening_hours(shop.opening_hours, {
+              lat: shop.lat,
+              lon: shop.lon,
+            });
+            return { ...shop, isOpen: oh.getState() };
+          } catch (e) {
+            console.warn('Error refreshing open status:', e);
+          }
+        }
+        return shop;
+      });
+    },
     generatePlaceholderRating() {
       const min = 3.0;
       const max = 5.0;
@@ -504,7 +521,8 @@ export default {
 }
 
 .text-warning i {
-  margin-right: 4px; /* Spacing between stars */
+  margin-right: 4px;
+  /* Spacing between stars */
 }
 
 @media (max-width: 768px) {

@@ -55,7 +55,7 @@
                     <AyahDropdown :selectedSurahId="selectedSurahId" :dropdownHidden="dropdownHidden"
                         @update-information="updateInformation" @update-tafseer="updateTafseer"
                         v-if="ayah == null && !dropdownHidden"
-                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none container" />
+                        class="ayah-dropdown-hidden-on-desktop d-block d-md-none" />
 
                     <!-- List of Ayat for Surah (desktop) -->
                     <div class="tab-content hide-on-mobile-tablet" id="nav-tabContent"
@@ -90,7 +90,7 @@
                                     overflow-y: auto; cursor: pointer;                             
                                     border: 1px solid #31464338; border-radius: 8px;
                                     max-height: 600px;
-                                    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;">
+                                    background: white;">
                                         
 
                                     <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"

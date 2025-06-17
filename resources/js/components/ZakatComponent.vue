@@ -48,11 +48,11 @@
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-warning me-2"></i>Gold
                 </label>
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams" min="0" required
                     :class="{ 'is-invalid': errors.goldGrams }" aria-describedby="goldGramsError">
                   <div v-if="errors.goldGrams" class="invalid-feedback" id="goldGramsError">{{ errors.goldGrams }}</div>
-                </div> -->
+                </div>
                 <div class="col-md-4">
                   <div class="input-group">
                     <span class="input-group-text">{{ currencySymbol }}</span>
@@ -68,11 +68,11 @@
                 <label class="col-md-3 col-form-label">
                   <i class="bi bi-gem text-secondary me-2"></i>Silver
                 </label>
-                <!-- <div class="col-md-4">
+                <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="silverGrams" placeholder="Grams" min="0"
                     :class="{ 'is-invalid': errors.silverGrams }" aria-describedby="silverGramsError">
                   <div v-if="errors.silverGrams" class="invalid-feedback" id="silverGramsError">{{ errors.silverGrams }}</div>
-                </div> -->
+                </div>
                 <div class="col-md-4">
                   <div class="input-group">
                     <span class="input-group-text">{{ currencySymbol }}</span>
