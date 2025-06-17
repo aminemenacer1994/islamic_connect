@@ -57218,7 +57218,7 @@ var _hoisted_16 = {
 };
 var _hoisted_17 = ["innerHTML"];
 var _hoisted_18 = {
-  "class": "container-fluid text-center d-flex justify-content-between align-items-center"
+  "class": "text-center d-flex justify-content-between align-items-center"
 };
 var _hoisted_19 = {
   "class": "icon-container"
@@ -57303,12 +57303,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: podcast.title,
       "class": "col"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['card h-100', {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['card', {
         'highlighted': $data.playingIndex === index
       }]),
       style: {
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "border-radius": "20px"
+        "border-radius": "8px"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "card-title pb-2 display-5 fw-bold",
@@ -57363,9 +57362,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "height": "60px",
         "font-size": "20px",
-        "padding": "10px",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "border-bottom-right-radius": "20px"
+        "border-bottom-right-radius": "8px"
       },
       onPlay: function onPlay($event) {
         return $options.onPlay(index);
@@ -166290,7 +166287,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-e4489e22] {\n  background-color: #f0f8ff;\n  /* Light blue background to highlight */\n  box-shadow: rgba(0, 123, 255, 0.5) 0px 7px 29px 0px;\n  /* Example of highlight effect */\n}\n.icon-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer;\n}\n.icon-tooltip[data-v-e4489e22] {\n  font-size: 1.3rem;\n}\n.icon-text[data-v-e4489e22] {\n  font-size: 0.875rem;\n  color: #333;\n}\n.icon-tooltip[data-v-e4489e22] {\n  cursor: pointer;\n  font-size: 1.3rem;\n  transition: color 0.3s ease-in-out;\n}\n.icon-tooltip[data-v-e4489e22]:hover {\n  color: rgb(13, 182, 145);\n}\nimg[data-v-e4489e22] {\n  max-width: 180px;\n  /* Adjust as needed */\n  height: auto;\n}\n.highlighted[data-v-e4489e22] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(13, 182, 145, 0.1);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n  /* Adjust as needed */\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n    /* Increased padding for larger screens */\n}\n}\n@media (max-width: 576px) {\n.pagination[data-v-e4489e22] {\n    /* display: flex; */\n    flex-wrap: nowrap;\n    /* Prevent wrapping */\n    justify-content: center;\n    /* Centre the pagination */\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n    /* Adjust as needed */\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255);\n  padding: 20px;\n  border-radius: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.audio[data-v-e4489e22] {\n  border-bottom-left-radius: 20px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgb(13, 182, 145);\n}\naudio[data-v-e4489e22]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 20px;\n  border-bottom-right-radius: 20px;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.pagination .page-item.disabled .page-link[data-v-e4489e22] {\n  cursor: not-allowed;\n}\n.pagination .page-link[data-v-e4489e22] {\n  cursor: pointer;\n}\n@media (max-width: 767px) {\n.pagination[data-v-e4489e22] {\n    /* display: block; */\n    text-align: center;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-e4489e22] {\n  /* background-color: #f0f8ff; */\n  /* Light blue background to highlight */\n  box-shadow: rgba(0, 123, 255, 0.5) 0px 7px 29px 0px;\n  /* Example of highlight effect */\n}\n.icon-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer;\n}\n.icon-tooltip[data-v-e4489e22] {\n  font-size: 1.3rem;\n}\n.icon-text[data-v-e4489e22] {\n  font-size: 0.875rem;\n  color: #333;\n}\n.icon-tooltip[data-v-e4489e22] {\n  cursor: pointer;\n  font-size: 1.3rem;\n  transition: color 0.3s ease-in-out;\n}\n.icon-tooltip[data-v-e4489e22]:hover {\n  color: rgb(13, 182, 145);\n}\nimg[data-v-e4489e22] {\n  max-width: 180px;\n  /* Adjust as needed */\n  height: auto;\n}\n.highlighted[data-v-e4489e22] {\n  border: 2px solid rgb(13, 182, 145);\n  /* Highlight border */\n  background-color: rgba(10, 228, 181, 0.232);\n  /* Light highlight effect */\n  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n  /* Adjust as needed */\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n    /* Increased padding for larger screens */\n}\n}\n@media (max-width: 576px) {\n.pagination[data-v-e4489e22] {\n    /* display: flex; */\n    flex-wrap: nowrap;\n    /* Prevent wrapping */\n    justify-content: center;\n    /* Centre the pagination */\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n    /* Adjust as needed */\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255);\n  padding: 20px;\n  border-radius: 10px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.audio[data-v-e4489e22] {\n  border-bottom-left-radius: 8px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  border-bottom-right-radius: 20px;\n  background: rgb(13, 182, 145);\n}\naudio[data-v-e4489e22]::-webkit-media-controls-panel {\n  background: rgb(13, 182, 145);\n  border-bottom-left-radius: 8px;\n  border-bottom-right-radius: 20px;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.pagination .page-item.disabled .page-link[data-v-e4489e22] {\n  cursor: not-allowed;\n}\n.pagination .page-link[data-v-e4489e22] {\n  cursor: pointer;\n}\n@media (max-width: 767px) {\n.pagination[data-v-e4489e22] {\n    /* display: block; */\n    text-align: center;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

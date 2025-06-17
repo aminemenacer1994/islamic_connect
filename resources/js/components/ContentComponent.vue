@@ -79,8 +79,8 @@
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2">
           <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
-            <div :class="['card h-100', { 'highlighted': playingIndex === index }]"
-              style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 20px;">
+            <div :class="['card', { 'highlighted': playingIndex === index }]"
+              style=" border-radius: 8px;">
 
               <div class="card-body">
                 <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
@@ -88,7 +88,7 @@
                 <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
                 <hr>
 
-                <div class="container-fluid text-center d-flex justify-content-between align-items-center">
+                <div class=" text-center d-flex justify-content-between align-items-center">
                   <!-- Rewind -->
                   <div class="icon-container">
                     <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
@@ -122,7 +122,7 @@
               <!-- Audio Player -->
               <audio ref="audioPlayers" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
                 class="w-100 audio"
-                style="height: 60px; font-size: 20px; padding: 10px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-bottom-right-radius: 20px;"
+                style="height: 60px; font-size: 20px; border-bottom-right-radius: 8px;"
                 @play="onPlay(index)" @pause="onPause(index)" @ended="onEnded(index)">
                 Your browser does not support the audio element.
               </audio>
@@ -764,8 +764,6 @@ export default {
       });
     },
 
-
-
     onSearch() {
       this.currentPage = 1;
       const query = this.searchQuery.toLowerCase();
@@ -843,7 +841,7 @@ export default {
 
 <style scoped>
 .highlighted {
-  background-color: #f0f8ff;
+  /* background-color: #f0f8ff; */
   /* Light blue background to highlight */
   box-shadow: rgba(0, 123, 255, 0.5) 0px 7px 29px 0px;
   /* Example of highlight effect */
@@ -884,7 +882,7 @@ img {
 .highlighted {
   border: 2px solid rgb(13, 182, 145);
   /* Highlight border */
-  background-color: rgba(13, 182, 145, 0.1);
+  background-color: rgba(10, 228, 181, 0.232);
   /* Light highlight effect */
   transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
 }
@@ -939,7 +937,7 @@ img {
 }
 
 .audio {
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 8px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-bottom-right-radius: 20px;
   background: rgb(13, 182, 145);
@@ -947,7 +945,7 @@ img {
 
 audio::-webkit-media-controls-panel {
   background: rgb(13, 182, 145);
-  border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 8px;
   border-bottom-right-radius: 20px;
 }
 
