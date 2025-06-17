@@ -4,8 +4,8 @@
     <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
-      <div class="container-fluid" style="position: relative; z-index: 2">
-        <div class="container-fluid text-center">
+      <div class="container" style="position: relative; z-index: 2">
+        <div class="container text-center">
           <div class="row mb-2 ">
             <div class="col-md-6">
               <h1 class="display-4 mt-1 fw-bold text-left container">
@@ -25,8 +25,11 @@
                     onclick="window.location.href='/support'">Donate Today</button>
                 </div>
               </div>
+
+
+
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-3">
 
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -55,9 +58,35 @@
                 </button>
               </div>
             </div>
+
           </div>
           <PrayerTimes />
         </div>
+
+        <section class="py-5 bg-transparent">
+          <div class="container text-center ">
+            <h1 class="display-4 fw-bold mb-4">Our Trusted Partners</h1>
+            <p class="lead text-muted fw-semibold lh-base">
+              We proudly collaborate with ethical and impactful platforms to bring you accessible, faith-driven
+              experiences.
+            </p>
+          </div>
+
+          <div id="partnersCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+            <div class="carousel-inner">
+              <div v-for="(chunk, index) in chunkedPartners" :key="index"
+                :class="['carousel-item', { active: index === 0 }]">
+                <div class="row justify-content-center text-center">
+                  <div v-for="(partner, i) in chunk" :key="i" class="col-6 col-md-3 mb-5">
+                    <img :src="partner.icon" :alt="partner.name" class="partner-icon mb-4" />
+                    <h4 class="fw-bold text-dark">{{ partner.name }}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
 
       </div>
       </hr>
@@ -206,13 +235,13 @@
               to screen reader support and voice search it's your accessible, intelligent way to
               connect with the Divine.
             </strong>
-            <div class="d-grid pt-2">
-              <button class="form-control" onclick="window.location.href='/quran'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                type="submit">
-                <b>Learn more</b>
-              </button>
-            </div>
+          <div class="d-grid pt-2">
+            <button class="form-control" onclick="window.location.href='/quran'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
+              type="submit">
+              <b>Learn more</b>
+            </button>
+          </div>
           </p>
         </div>
         <div class="col-md-6 mt-4 order-1 order-md-1">
@@ -273,9 +302,6 @@
       </div>
 
     </section>
-
-
-
 
     <!-- AI tools & features -->
     <section style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="py-5">
@@ -404,8 +430,111 @@
       </div>
     </section>
 
-    <!-- contact -->
+    <!-- faq -->
     <section class="py-5">
+      <div class="container">
+        <div class="row justify-content-center text-center mb-5">
+          <div class="col-lg-8 col-xxl-7">
+            <h1 class="display-5 fw-bold  mb-3">Frequently Asked Questions</h1>
+            <p class="lead text-muted fw-normal lh-base">
+              Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support,
+              feedback, or inquiries about our content and services.
+            </p>
+          </div>
+        </div>
+
+        <div class="accordion" id="faqAccordion">
+          <!-- Question 1 -->
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="faqHeading1">
+              <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faqCollapse1" aria-expanded="true" aria-controls="faqCollapse1">
+                What is Islamic Connect and how can it benefit me?
+              </button>
+            </h2>
+            <div id="faqCollapse1" class="accordion-collapse collapse show" aria-labelledby="faqHeading1"
+              data-bs-parent="#faqAccordion">
+              <div class="accordion-body lh-base pt-2">
+                <strong>Islamic Connect</strong> is a digital platform offering Quranic content, live streams, articles,
+                and more — designed to improve your learning and spiritual experience with accessibility-first features.
+              </div>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="faqHeading2">
+              <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faqCollapse2" aria-expanded="false" aria-controls="faqCollapse2">
+                How can I listen to Quran recitations on your platform?
+              </button>
+            </h2>
+            <div id="faqCollapse2" class="accordion-collapse collapse" aria-labelledby="faqHeading2"
+              data-bs-parent="#faqAccordion">
+              <div class="accordion-body lh-base pt-2">
+                You can browse any Surah and tap the play icon beside a verse to hear its recitation. Features like
+                auto-scroll and synced highlighting enhance the experience.
+              </div>
+            </div>
+          </div>
+
+          <!-- Question 3 -->
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="faqHeading3">
+              <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faqCollapse3" aria-expanded="false" aria-controls="faqCollapse3">
+                Is Islamic Connect accessible for visually impaired users?
+              </button>
+            </h2>
+            <div id="faqCollapse3" class="accordion-collapse collapse" aria-labelledby="faqHeading3"
+              data-bs-parent="#faqAccordion">
+              <div class="accordion-body lh-base pt-2">
+                Yes. Our platform supports screen readers, keyboard navigation, gesture controls, and text-to-speech so
+                all users — especially the visually impaired — can benefit.
+              </div>
+            </div>
+          </div>
+
+          <!-- Question 4 -->
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="faqHeading4">
+              <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faqCollapse4" aria-expanded="false" aria-controls="faqCollapse4">
+                Can I bookmark or save verses for later?
+              </button>
+            </h2>
+            <div id="faqCollapse4" class="accordion-collapse collapse" aria-labelledby="faqHeading4"
+              data-bs-parent="#faqAccordion">
+              <div class="accordion-body lh-base pt-2">
+                Yes, you can bookmark ayahs, organize them into collections with custom names, colors, and even add
+                dates. Bookmarks are saved locally or to your profile if logged in.
+              </div>
+            </div>
+          </div>
+
+          <!-- Question 5 -->
+          <div class="accordion-item mb-3">
+            <h2 class="accordion-header" id="faqHeading5">
+              <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
+                data-bs-target="#faqCollapse5" aria-expanded="false" aria-controls="faqCollapse5">
+                How do I report errors or suggest improvements?
+              </button>
+            </h2>
+            <div id="faqCollapse5" class="accordion-collapse collapse" aria-labelledby="faqHeading5"
+              data-bs-parent="#faqAccordion">
+              <div class="accordion-body lh-base pt-2">
+                Please email us at <a href="mailto:support@islamicconnect.org">support@islamicconnect.org</a> to report
+                issues, bugs, or to suggest new features. Your feedback helps us grow.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- contact -->
+    <section class="py-5" style="background: #e3e3e3">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
@@ -459,7 +588,9 @@
                 </div>
                 <div class="col-md-12">
                   <div class="d-grid">
-                    <button class="form-control" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px" type="submit" >
+                    <button class="form-control"
+                      style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
+                      type="submit">
                       <b>Send message</b>
                     </button>
                   </div>
@@ -470,44 +601,9 @@
         </div>
       </div>
     </section>
-    <!-- mailing list -->
-    <!-- <section class="py-5" style="
-        background: #00bfa6;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-      ">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <h2 class="display-5 fw-bold text-center text-white">
-              Subscribe to Mailing List
-            </h2>
-            <div class="mx-auto mt-3">
-              <h3 class="lead container pt-1 text-center text-white" style="line-height: 1.8em">
-                <b>
-                  Sign up for our mailing list to receive the latest updates,
-                  content, and educational resources directly in your inbox.</b>
-              </h3>
-              <form class="container row g-3 pb-3" @reset="reset" @submit.prevent="submitMail()">
-                <div class="col-md-4">
-                  <input class="form-control bg-light" v-model="form.name" placeholder="Full name" type="text" />
-                </div>
-                <div class="col-md-4">
-                  <input class="form-control bg-light" v-model="form.email" placeholder="Email address" type="text" />
-                </div>
-                <div class="col-md-4">
-                  <div class="d-grid">
-                    <button class="form-control" style="background: #57c7b9; color: white; border: white solid 2px;"
-                      type="submit">
-                      Subscribe
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
+
+
+
     <!-- footer -->
     <section class="py-4" style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
       <footer>
@@ -564,6 +660,32 @@
   </div>
 </template>
 <style scoped>
+.partner-icon {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.partner-icon:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 576px) {
+  .partner-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+
+  p.fs-6 {
+    font-size: 0.95rem;
+  }
+}
+
 .controls {
   margin-top: 20px;
 }
@@ -733,7 +855,6 @@
 <script defer>
 import axios from "axios";
 import PrayerTimes from "./translation/PrayerTimes.vue";
-// import HijriCalendar from "./translation/HijriCalendar.vue";
 export default {
   components: {
     // HijriCalendar
@@ -741,6 +862,13 @@ export default {
   },
   data() {
     return {
+      partners: [
+        { name: "Ana Atlou", icon: "/images/aatlout.webp" },
+        { name: "Noor Taibah", icon: "/images/algerian.png" },
+        { name: "Algerian Quran", icon: "/images/aatlout.webp" },
+        { name: "Islamic Connect", icon: "/images/algerian.png" }
+      ],
+      chunkSize: 4,
       mailing: {},
       feedback: {},
       form: new Form({
@@ -756,6 +884,15 @@ export default {
         message: "",
       }),
     };
+  },
+  computed: {
+    chunkedPartners() {
+      const chunks = [];
+      for (let i = 0; i < this.partners.length; i += this.chunkSize) {
+        chunks.push(this.partners.slice(i, i + this.chunkSize));
+      }
+      return chunks;
+    }
   },
   methods: {
     sendMessage() {
@@ -828,3 +965,31 @@ export default {
   },
 };
 </script>
+<style scoped>
+.partner-icon {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.partner-icon:hover {
+  transform: scale(1.1);
+}
+
+h4 {
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .partner-icon {
+    width: 130px;
+    height: 130px;
+  }
+
+  h4 {
+    font-size: 1.45rem;
+  }
+}
+</style>
