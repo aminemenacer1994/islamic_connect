@@ -41836,18 +41836,22 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
+    return _defineProperty({
+      defaultPopularReciters: [],
+      showSuggestions: false,
+      filteredSuggestions: [],
+      highlightIndex: -1,
       searchQuery: '',
       selectedCategory: 'All Categories',
       currentPage: 1,
@@ -41856,66 +41860,83 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       filteredStations: [],
       currentAudio: null,
       volumes: {},
+      // Per-station volume
       likedStations: [],
       recentlyPlayed: [],
       showLiked: false,
+      showReciters: true,
       currentTimes: {},
       durations: {},
       playingStates: {},
       playbackErrors: {},
       isLoading: false,
       fetchError: null,
-      currentPlayingStationId: null,
-      defaultPopularReciters: [{
-        id: 1,
-        name: 'Mishary Rashid Alafasy',
-        url: 'https://qurango.net/radio/mishary_alafasy',
-        fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
-        style: 'Murattal',
-        imageUrl: 'images/mra.jpeg',
-        imageLoaded: true
-      }, {
-        id: 2,
-        name: 'Yasser Al-Dosari',
-        url: 'https://qurango.net/radio/yasser_aldosari',
-        fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
-        style: 'Murattal',
-        imageUrl: 'images/yad.webp',
-        imageLoaded: true
-      }, {
-        id: 6,
-        name: 'Abdul Basit Abdul Samad',
-        url: 'https://qurango.net/radio/abdulbasit_abdulsamad_mujawwad',
-        fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
-        style: 'Mujawwad',
-        imageUrl: 'images/abas.jpeg',
-        imageLoaded: true
-      }, {
-        id: 3,
-        name: 'Saad Al-Ghamdi',
-        url: 'https://qurango.net/radio/saad_alghamdi',
-        fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
-        style: 'Murattal',
-        imageUrl: 'images/sag.webp',
-        imageLoaded: true
-      }, {
-        id: 4,
-        name: 'Maher Al-Muaiqly',
-        url: 'https://qurango.net/radio/maher_almuaiqly',
-        fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
-        style: 'Murattal',
-        imageUrl: 'images/mam.webp',
-        imageLoaded: true
-      }, {
-        id: 5,
-        name: 'Abdul Rahman Al-Sudais',
-        url: 'https://qurango.net/radio/abdurrahman_alsudais',
-        fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
-        style: 'Murattal',
-        imageUrl: 'images/asds.jpeg',
-        imageLoaded: true
-      }]
-    };
+      currentPlayingStationId: null
+    }, "defaultPopularReciters", [{
+      id: 1,
+      name: 'Mishary Rashid Alafasy',
+      url: 'https://qurango.net/radio/mishary_alafasy',
+      fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/mra.jpeg',
+      imageLoaded: true
+    }, {
+      id: 2,
+      name: 'Yasser Al-Dosari',
+      url: 'https://qurango.net/radio/yasser_aldosari',
+      fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/yad.webp',
+      imageLoaded: true
+    }, {
+      id: 6,
+      name: 'Abdul Basit Abdul Samad',
+      url: 'https://qurango.net/radio/abdulbasit_abdulsamad_mujawwad',
+      fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
+      style: 'Mujawwad',
+      imageUrl: 'images/abas.jpeg',
+      imageLoaded: true
+    }, {
+      id: 3,
+      name: 'Saad Al-Ghamdi',
+      url: 'https://qurango.net/radio/saad_alghamdi',
+      fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/sag.webp',
+      imageLoaded: true
+    }, {
+      id: 4,
+      name: 'Maher Al-Muaiqly',
+      url: 'https://qurango.net/radio/maher_almuaiqly',
+      fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/mam.webp',
+      imageLoaded: true
+    }, {
+      id: 5,
+      name: 'Abdul Rahman Al-Sudais',
+      url: 'https://qurango.net/radio/abdurrahman_alsudais',
+      fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/asds.jpeg',
+      imageLoaded: true
+    }, {
+      id: 7,
+      name: 'Saud Al-Shuraim',
+      url: 'https://qurango.net/radio/saud_alshuraim',
+      fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/sas.jpeg',
+      imageLoaded: true
+    }, {
+      id: 8,
+      name: 'Ahmad Al-Ajmi',
+      url: 'https://qurango.net/radio/ahmad_alajmi',
+      fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
+      style: 'Murattal',
+      imageUrl: 'images/aaa.webp',
+      imageLoaded: true
+    }]);
   },
   computed: {
     totalPages: function totalPages() {
@@ -41963,8 +41984,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         var aScore = (((_interactionCounts$a$ = interactionCounts[a.id]) === null || _interactionCounts$a$ === void 0 ? void 0 : _interactionCounts$a$.likes) || 0) * 2 + (((_interactionCounts$a$2 = interactionCounts[a.id]) === null || _interactionCounts$a$2 === void 0 ? void 0 : _interactionCounts$a$2.plays) || 0);
         var bScore = (((_interactionCounts$b$ = interactionCounts[b.id]) === null || _interactionCounts$b$ === void 0 ? void 0 : _interactionCounts$b$.likes) || 0) * 2 + (((_interactionCounts$b$2 = interactionCounts[b.id]) === null || _interactionCounts$b$2 === void 0 ? void 0 : _interactionCounts$b$2.plays) || 0);
         return bScore - aScore;
-      }).slice(0, 6);
-      var remainingSlots = 6 - sorted.length;
+      }).slice(0, 8);
+      var remainingSlots = 8 - sorted.length;
       if (remainingSlots > 0) {
         var defaults = this.defaultPopularReciters.filter(function (d) {
           return !sorted.some(function (s) {
@@ -41977,6 +41998,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   },
   methods: {
+    toggleReciters: function toggleReciters() {
+      this.showReciters = !this.showReciters;
+    },
     handleImageError: function handleImageError(reciter) {
       reciter.imageLoaded = false;
     },
@@ -42000,6 +42024,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     pauseAllAudio: function pauseAllAudio() {
       var _this2 = this;
+      // Pause any currently playing audio
       if (this.currentAudio) {
         var _Object$keys$find;
         var currentId = (_Object$keys$find = Object.keys(this.$refs).find(function (key) {
@@ -42014,6 +42039,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         }
         this.currentAudio = null;
       }
+      // Ensure all playing states are reset
       Object.keys(this.playingStates).forEach(function (id) {
         if (_this2.playingStates[id]) {
           var audio = _this2.getAudioForStation(id);
@@ -42050,7 +42076,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               _this3.playbackErrors[id] = null;
               return _context.abrupt("return");
             case 13:
+              // Pause any other playing audio
               _this3.pauseAllAudio();
+
+              // Play the new station
               _context.prev = 14;
               _context.next = 17;
               return audio.play();
@@ -42071,6 +42100,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               _this3.playingStates[id] = false;
               _this3.currentAudio = null;
               _this3.currentPlayingStationId = null;
+
+              // Try fallback URL if available
               station = _this3.defaultPopularReciters.find(function (s) {
                 return s.id === id;
               }) || _this3.stations.find(function (s) {
@@ -42113,6 +42144,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
+              // Scroll to the station if it's in the "All Radio Stations" or "Liked Stations" section
               stationElement = document.getElementById("station-".concat(id));
               if (!stationElement) {
                 _context2.next = 8;
@@ -42256,49 +42288,95 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       if (name.includes('fatwa') || name.includes('ruling')) return 'Fatwa';
       return 'Recitation';
     },
-    handleSearch: function handleSearch() {
+    selectSuggestion: function selectSuggestion(name) {
+      this.searchQuery = name;
+      this.filteredSuggestions = [];
+      this.showSuggestions = false;
+      this.handleSearch(); // Trigger search with selected name
+    },
+    hideSuggestions: function hideSuggestions() {
       var _this6 = this;
-      this.currentPage = 1;
+      // Delay to allow click on suggestion
+      setTimeout(function () {
+        _this6.showSuggestions = false;
+        _this6.highlightIndex = -1;
+      }, 200);
+    },
+    handleKeydown: function handleKeydown(event) {
+      if (!this.showSuggestions || !this.filteredSuggestions.length) return;
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.highlightIndex = (this.highlightIndex + 1) % this.filteredSuggestions.length;
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.highlightIndex = (this.highlightIndex - 1 + this.filteredSuggestions.length) % this.filteredSuggestions.length;
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
+        if (this.highlightIndex >= 0 && this.filteredSuggestions[this.highlightIndex]) {
+          this.selectSuggestion(this.filteredSuggestions[this.highlightIndex].name);
+        }
+      } else if (event.key === 'Escape') {
+        this.showSuggestions = false;
+        this.highlightIndex = -1;
+      }
+    },
+    handleSearch: function handleSearch() {
+      var _this7 = this;
+      // Reset highlight index
+      this.highlightIndex = -1;
+
+      // Autocomplete logic: show suggestions after 2 characters
+      if (this.searchQuery.length >= 2) {
+        this.filteredSuggestions = this.stations.filter(function (station) {
+          return station.name.toLowerCase().includes(_this7.searchQuery.toLowerCase());
+        }).slice(0, 5); // Limit to 5 suggestions
+        this.showSuggestions = true;
+      } else {
+        this.filteredSuggestions = [];
+        this.showSuggestions = false;
+      }
+
+      // Existing search filtering logic
+      this.currentPage = 1; // Reset to first page
       var query = this.searchQuery.toLowerCase().trim();
       this.filteredStations = this.stations.filter(function (station) {
         var matchesName = station.name.toLowerCase().includes(query);
-        var matchesCategory = _this6.selectedCategory === 'All Categories' || station.category === _this6.selectedCategory;
+        var matchesCategory = _this7.selectedCategory === 'All Categories' || station.category === _this7.selectedCategory;
         return matchesName && matchesCategory;
       });
     },
     highlightSearch: function highlightSearch(name) {
       if (!this.searchQuery) return name;
       var regex = new RegExp("(".concat(this.searchQuery, ")"), 'gi');
-      return name.replace(regex, '<mark style="background:#0db691;color:white">$1</mark>');
+      return name.replace(regex, '<mark style="background:#0db691;color:white" >$1</mark>');
     },
     handlePlay: function handlePlay(id, event) {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var allAudios, current;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) switch (_context4.prev = _context4.next) {
             case 0:
-              allAudios = Object.values(_this7.$refs).filter(function (el) {
-                var _el$;
-                return el && ((_el$ = el[0]) === null || _el$ === void 0 ? void 0 : _el$.tagName) === 'AUDIO';
-              }).flat();
+              allAudios = Object.values(_this8.$refs).filter(function (el) {
+                return el && el.tagName === 'AUDIO';
+              });
               current = event.target;
               allAudios.forEach(function (audio) {
                 if (audio !== current) {
-                  var _this7$stations$find;
+                  var _this8$stations$find;
                   audio.pause();
-                  var stationId = (_this7$stations$find = _this7.stations.find(function (s) {
+                  var stationId = (_this8$stations$find = _this8.stations.find(function (s) {
                     return s.url === audio.src;
-                  })) === null || _this7$stations$find === void 0 ? void 0 : _this7$stations$find.id;
-                  if (stationId) _this7.playingStates[stationId] = false;
+                  })) === null || _this8$stations$find === void 0 ? void 0 : _this8$stations$find.id;
+                  if (stationId) _this8.playingStates[stationId] = false;
                 }
               });
-              _this7.currentAudio = current;
-              _this7.currentPlayingStationId = id;
-              _this7.playingStates[id] = true;
-              _this7.playbackErrors[id] = null;
-              _this7.addToRecentlyPlayed(id);
-              _this7.applyVolume(id);
+              _this8.currentAudio = current;
+              _this8.currentPlayingStationId = id;
+              _this8.playingStates[id] = true;
+              _this8.playbackErrors[id] = null;
+              _this8.addToRecentlyPlayed(id);
+              _this8.applyVolume(id);
               _context4.prev = 9;
               _context4.next = 12;
               return current.play();
@@ -42309,10 +42387,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
               _context4.prev = 14;
               _context4.t0 = _context4["catch"](9);
               console.error("Playback failed for station ".concat(id, ":"), _context4.t0);
-              _this7.playbackErrors[id] = _context4.t0.message || 'Failed to play audio';
-              _this7.playingStates[id] = false;
-              _this7.currentAudio = null;
-              _this7.currentPlayingStationId = null;
+              _this8.playbackErrors[id] = _context4.t0.message || 'Failed to play audio';
+              _this8.playingStates[id] = false;
+              _this8.currentAudio = null;
+              _this8.currentPlayingStationId = null;
             case 21:
             case "end":
               return _context4.stop();
@@ -42321,11 +42399,11 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       }))();
     },
     handlePause: function handlePause(id) {
-      var _this8 = this;
+      var _this9 = this;
       if (this.currentAudio) {
         var _this$stations$find;
         var stationId = (_this$stations$find = this.stations.find(function (s) {
-          return s.url === _this8.currentAudio.src;
+          return s.url === _this9.currentAudio.src;
         })) === null || _this$stations$find === void 0 ? void 0 : _this$stations$find.id;
         if (stationId) {
           this.playingStates[stationId] = false;
@@ -42356,7 +42434,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
             errorMessage = "Audio error: ".concat(error.message || 'Unknown error');
         }
       }
-      this.playbackErrors[stationId] = errorMessage; // Direct assignment
+      this.$set(this.playbackErrors, stationId, errorMessage);
       console.error("Audio error for station ".concat(stationId, ":"), error);
     },
     isLive: function isLive(id) {
@@ -42406,10 +42484,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       localStorage.setItem("volume-".concat(id), this.volumes[id]);
     },
     initializeVolumes: function initializeVolumes() {
-      var _this9 = this;
+      var _this10 = this;
       this.stations.forEach(function (station) {
         var savedVolume = localStorage.getItem("volume-".concat(station.id));
-        _this9.volumes = _objectSpread(_objectSpread({}, _this9.volumes), {}, _defineProperty({}, station.id, savedVolume ? parseFloat(savedVolume) : 50));
+        _this10.volumes = _objectSpread(_objectSpread({}, _this10.volumes), {}, _defineProperty({}, station.id, savedVolume ? parseFloat(savedVolume) : 50));
       });
     },
     toggleLike: function toggleLike(station) {
@@ -42429,22 +42507,38 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       });
     },
     loadLikedStations: function loadLikedStations() {
-      var _this10 = this;
+      var _this11 = this;
       var liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
       this.likedStations = liked.filter(function (s) {
-        return _this10.stations.some(function (station) {
+        return _this11.stations.some(function (station) {
           return station.id === s.id;
         });
       });
     },
     loadRecentlyPlayed: function loadRecentlyPlayed() {
-      var _this11 = this;
+      var _this12 = this;
       var recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
       this.recentlyPlayed = recent.filter(function (s) {
-        return _this11.stations.some(function (station) {
+        return _this12.stations.some(function (station) {
           return station.id === s.id;
         });
       });
+    },
+    formatDate: function formatDate(isoString) {
+      var date = new Date(isoString);
+      return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    },
+    handlePlaybackError: function handlePlaybackError(id, error) {
+      this.playbackErrors[id] = {
+        message: error.message || 'Failed to play audio',
+        hidden: true // Hide station on error
+      };
+      this.setPlayingState(id, false);
     },
     retryPlayback: function retryPlayback(id) {
       this.playbackErrors[id] = null;
@@ -57098,41 +57192,38 @@ var _hoisted_8 = {
 };
 var _hoisted_9 = ["src", "alt"];
 var _hoisted_10 = {
-  "class": "col-md-10 mt-3 pb-3",
+  "class": "col-md-10 mt-3 pb-3 text-muted",
   style: {
-    "line-height": "1.6em"
+    "line-height": "1.8em"
   }
 };
 var _hoisted_11 = {
   "class": "fw-bold ml-2 pb-3"
 };
 var _hoisted_12 = {
-  "class": "row pb-3 g-2 g-md-3"
-};
-var _hoisted_13 = {
-  key: 0,
-  "class": "col-md-6 px-2 px-md-3"
-};
-var _hoisted_14 = {
   key: 1
 };
-var _hoisted_15 = {
+var _hoisted_13 = {
   key: 0
 };
-var _hoisted_16 = {
+var _hoisted_14 = {
   key: 0,
   "class": "text-center mt-4"
 };
-var _hoisted_17 = {
+var _hoisted_15 = {
   "class": "row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2"
 };
-var _hoisted_18 = {
+var _hoisted_16 = {
   "class": "card-body"
 };
-var _hoisted_19 = ["innerHTML"];
-var _hoisted_20 = {
+var _hoisted_17 = ["innerHTML"];
+var _hoisted_18 = {
   "class": "container-fluid text-center d-flex justify-content-between align-items-center"
 };
+var _hoisted_19 = {
+  "class": "icon-container"
+};
+var _hoisted_20 = ["onClick"];
 var _hoisted_21 = {
   "class": "icon-container"
 };
@@ -57145,29 +57236,25 @@ var _hoisted_25 = {
   "class": "icon-container"
 };
 var _hoisted_26 = ["onClick"];
-var _hoisted_27 = {
-  "class": "icon-container"
-};
-var _hoisted_28 = ["onClick"];
-var _hoisted_29 = ["src", "onPlay", "onPause", "onEnded"];
-var _hoisted_30 = {
+var _hoisted_27 = ["src", "onPlay", "onPause", "onEnded"];
+var _hoisted_28 = {
   "aria-label": "Podcast pagination",
   "class": "mt-4"
 };
-var _hoisted_31 = {
+var _hoisted_29 = {
   "class": "pagination justify-content-center"
 };
-var _hoisted_32 = ["onClick"];
-var _hoisted_33 = {
+var _hoisted_30 = ["onClick"];
+var _hoisted_31 = {
   key: 2,
   "class": "text-center"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Podcasts", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <ChatBot /> "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-4 lead"
-  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, " Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions, thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your understanding of Islam. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "fw-bold text-left pt-2 pb-4"
   }, "Select a Podcast:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicPodcasts, function (podcast) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -57191,7 +57278,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(0, 0, 0, 0.35) 0px 5px 15px"
       }
     }, null, 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.name), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))])]), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }), 128 /* KEYED_FRAGMENT */))])]), $data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
   }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     style: {
@@ -57200,32 +57287,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "col-md-2",
     src: $data.selectedPodcast.image,
     alt: $data.selectedPodcast.name
-  }, null, 8 /* PROPS */, _hoisted_9), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, _hoisted_9), _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-flex justify-content-between align-items-start"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, " Amount of Episodes: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available'), 1 /* TEXT */)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [$data.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-    "for": "sortPodcasts",
-    "class": "form-label fw-bold"
-  }, "Views:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "sortPodcasts",
-    "class": "form-select",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.sortBy = $event;
-    }),
-    onChange: _cache[1] || (_cache[1] = function () {
-      return $options.sortPodcasts && $options.sortPodcasts.apply($options, arguments);
-    })
-  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "most-viewed"
-  }, "Most Viewed", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "least-viewed"
-  }, "Least Viewed", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 px-2 px-md-3 pb-2\" v-if=\"selectedPodcast\">\n        <h4 for=\"durationFilter\" class=\"form-label fw-bold\">Duration:</h4>\n        <select id=\"durationFilter\" class=\"form-select\" v-model=\"durationFilter\" @change=\"filterPodcasts\">\n          <option value=\"\">All Durations</option>\n          <option value=\"longest\">Longest</option>\n          <option value=\"shortest\">Shortest</option>\n          <option value=\"0-10\">0 - 10 min</option>\n          <option value=\"10-30\">10 - 30 min</option>\n          <option value=\"30-60\">30 - 60 min</option>\n          <option value=\"more-than-60\">More than 1 hour</option>\n        </select>\n      </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Cards "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [!$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_11, " Amount of Episodes: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedPodcast.episodeCount > 0 ? $data.selectedPodcast.episodeCount : 'Data not available'), 1 /* TEXT */)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "row pb-3 g-2 g-md-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 px-2 px-md-3\" v-if=\"selectedPodcast\">\n        <h4 for=\"sortPodcasts\" class=\"form-label fw-bold\">Views:</h4>\n        <select id=\"sortPodcasts\" class=\"form-select\" v-model=\"sortBy\" @change=\"sortPodcasts\">\n          <option value=\"most-viewed\">Most Viewed</option>\n          <option value=\"least-viewed\">Least Viewed</option>\n        </select>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 px-2 px-md-3 pb-2\" v-if=\"selectedPodcast\">\n        <h4 for=\"durationFilter\" class=\"form-label fw-bold\">Duration:</h4>\n        <select id=\"durationFilter\" class=\"form-select\" v-model=\"durationFilter\" @change=\"filterPodcasts\">\n          <option value=\"\">All Durations</option>\n          <option value=\"longest\">Longest</option>\n          <option value=\"shortest\">Shortest</option>\n          <option value=\"0-10\">0 - 10 min</option>\n          <option value=\"10-30\">10 - 30 min</option>\n          <option value=\"30-60\">30 - 60 min</option>\n          <option value=\"more-than-60\">More than 1 hour</option>\n        </select>\n      </div> ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Cards "), !$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [!$data.loading && $options.paginatedPodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mt-2 fw-bold"
   }, "Loading podcasts, please wait...", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-success",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading...")], -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedPodcasts, function (podcast, index) {
+  }, "Loading...")], -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedPodcasts, function (podcast, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: podcast.title,
       "class": "col"
@@ -57237,10 +57310,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "border-radius": "20px"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "card-title pb-2 display-5 fw-bold",
       innerHTML: $options.highlightText(podcast.title)
-    }, null, 8 /* PROPS */, _hoisted_19), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Views: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(podcast.pubDate)), 1 /* TEXT */), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rewind "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 8 /* PROPS */, _hoisted_17), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("br", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Views: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(podcast.views), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Published on: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(podcast.pubDate)), 1 /* TEXT */), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Rewind "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle icon-tooltip",
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
@@ -57248,9 +57321,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Rewind"
-    }, null, 8 /* PROPS */, _hoisted_22), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_20), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "icon-text"
-    }, "Rewind", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "Rewind", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share icon-tooltip",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(podcast);
@@ -57258,9 +57331,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Share"
-    }, null, 8 /* PROPS */, _hoisted_24), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_22), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "icon-text"
-    }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Replay "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "Share", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Replay "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-repeat icon-tooltip",
       onClick: function onClick($event) {
         return $options.replayAudio(index);
@@ -57268,9 +57341,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Replay"
-    }, null, 8 /* PROPS */, _hoisted_26), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_24), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "icon-text"
-    }, "Replay", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fast Forward "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "Replay", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fast Forward "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle icon-tooltip",
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
@@ -57278,7 +57351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Fast Forward"
-    }, null, 8 /* PROPS */, _hoisted_28), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 8 /* PROPS */, _hoisted_26), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "icon-text"
     }, "Forward", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Audio Player "), podcast.audioUrl ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
       key: 0,
@@ -57303,19 +57376,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onEnded: function onEnded($event) {
         return $options.onEnded(index);
       }
-    }, " Your browser does not support the audio element. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_29)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)]);
+    }, " Your browser does not support the audio element. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_27)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)]);
   }), 128 /* KEYED_FRAGMENT */))])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 1
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Podcasts Found Message "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Podcasts Found Message "), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center"
-  }, "No podcasts found", -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, "No podcasts found", -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       'disabled': $data.currentPage === 1
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.changePage($data.currentPage - 1);
     }, ["prevent"])),
     style: {
@@ -57336,7 +57409,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.changePage(page);
       }, ["prevent"]),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === page ? 'background-color: white; color: rgb(13, 182, 145); border-color: rgb(13, 182, 145);' : 'background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 13 /* TEXT, STYLE, PROPS */, _hoisted_32)], 2 /* CLASS */);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 13 /* TEXT, STYLE, PROPS */, _hoisted_30)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
       'disabled': $data.currentPage === $options.totalPages
@@ -57344,7 +57417,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "page-link",
     href: "#",
-    onClick: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       return $options.changePage($data.currentPage + 1);
     }, ["prevent"])),
     style: {
@@ -57352,7 +57425,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white",
       "border-color": "rgb(13, 182, 145)"
     }
-  }, " Next ")], 2 /* CLASS */)])])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, "No podcasts found")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, " Next ")], 2 /* CLASS */)])])])) : !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, "No podcasts found")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -62529,9 +62602,8 @@ var _hoisted_2 = {
   "class": "mb-5"
 };
 var _hoisted_3 = {
-  "class": "fixed-footer p-4 mb-5",
+  "class": "fixed-footer p-4 mb-5 border-md",
   style: {
-    "border": "1px solid lightgray",
     "border-radius": "8px"
   }
 };
@@ -62549,135 +62621,116 @@ var _hoisted_7 = {
 };
 var _hoisted_8 = ["value"];
 var _hoisted_9 = {
-  "class": "popular-reciters mt-4"
-};
-var _hoisted_10 = {
-  "class": "popular-reciter-scroll d-flex flex-nowrap overflow-auto pb-3"
-};
-var _hoisted_11 = ["onClick", "aria-label"];
-var _hoisted_12 = {
-  "class": "reciter-img-container position-relative"
-};
-var _hoisted_13 = ["src", "alt", "onError"];
-var _hoisted_14 = {
-  key: 1,
-  "class": "placeholder-img d-flex align-items-center justify-content-center bg-light"
-};
-var _hoisted_15 = {
-  "class": "avatar-initials fs-2 fw-bold text-muted",
-  "aria-hidden": "true"
-};
-var _hoisted_16 = {
   key: 0,
   "class": "mb-5"
 };
-var _hoisted_17 = ["aria-expanded"];
-var _hoisted_18 = {
+var _hoisted_10 = ["aria-expanded"];
+var _hoisted_11 = {
   key: 0,
   "class": "section-animate",
   id: "liked-stations"
 };
-var _hoisted_19 = {
+var _hoisted_12 = {
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
-var _hoisted_20 = ["id", "aria-labelledby"];
-var _hoisted_21 = {
+var _hoisted_13 = ["id", "aria-labelledby"];
+var _hoisted_14 = {
   "class": "card-body"
 };
-var _hoisted_22 = {
+var _hoisted_15 = {
   "class": "d-flex justify-content-between align-items-center mb-3"
 };
-var _hoisted_23 = ["id", "innerHTML"];
-var _hoisted_24 = ["onClick", "aria-label"];
-var _hoisted_25 = ["aria-label"];
-var _hoisted_26 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
-var _hoisted_27 = {
+var _hoisted_16 = ["id", "innerHTML"];
+var _hoisted_17 = ["onClick", "aria-label"];
+var _hoisted_18 = ["aria-label"];
+var _hoisted_19 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "aria-label"];
+var _hoisted_20 = {
   "class": "playback-controls d-flex align-items-center gap-2 mb-3"
 };
-var _hoisted_28 = ["onClick", "aria-label", "disabled"];
-var _hoisted_29 = {
+var _hoisted_21 = ["onClick", "aria-label", "disabled"];
+var _hoisted_22 = {
   "class": "time-display fs-6",
   "aria-live": "polite"
 };
-var _hoisted_30 = ["max", "value", "onInput", "disabled", "aria-label"];
-var _hoisted_31 = {
+var _hoisted_23 = ["max", "value", "onInput", "disabled", "aria-label"];
+var _hoisted_24 = {
   "class": "time-display fs-6",
   "aria-live": "polite"
 };
-var _hoisted_32 = {
+var _hoisted_25 = {
   key: 0,
   "class": "text-danger fs-6 mb-3",
   role: "alert"
 };
-var _hoisted_33 = {
+var _hoisted_26 = {
   "class": "volume-controls d-flex align-items-center gap-2 px-2 py-1"
 };
-var _hoisted_34 = ["onClick", "aria-label"];
-var _hoisted_35 = ["onUpdate:modelValue", "onInput", "aria-label"];
-var _hoisted_36 = {
+var _hoisted_27 = ["onClick", "aria-label"];
+var _hoisted_28 = ["onUpdate:modelValue", "onInput", "aria-label"];
+var _hoisted_29 = {
   "class": "mb-5"
 };
-var _hoisted_37 = {
+var _hoisted_30 = {
   key: 0,
   "class": "text-center my-4"
 };
-var _hoisted_38 = {
+var _hoisted_31 = {
   key: 1,
   "class": "alert alert-danger",
   role: "alert"
 };
-var _hoisted_39 = {
+var _hoisted_32 = {
   key: 2,
   "class": "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
 };
-var _hoisted_40 = ["id", "aria-labelledby"];
-var _hoisted_41 = {
+var _hoisted_33 = ["id", "aria-labelledby"];
+var _hoisted_34 = {
   "class": "card-body"
 };
-var _hoisted_42 = {
+var _hoisted_35 = {
   "class": "d-flex justify-content-between align-items-center mb-3"
 };
-var _hoisted_43 = ["id", "innerHTML"];
-var _hoisted_44 = ["onClick", "aria-label"];
-var _hoisted_45 = ["aria-label"];
-var _hoisted_46 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
-var _hoisted_47 = {
+var _hoisted_36 = ["id", "innerHTML"];
+var _hoisted_37 = ["onClick", "aria-label"];
+var _hoisted_38 = ["aria-label"];
+var _hoisted_39 = ["src", "onPlay", "onPause", "onTimeupdate", "onLoadedmetadata", "onError", "aria-label"];
+var _hoisted_40 = {
   "class": "playback-controls d-flex align-items-center gap-2 mb-3"
 };
-var _hoisted_48 = ["onClick", "aria-label", "disabled"];
-var _hoisted_49 = ["max", "value", "onInput", "disabled", "aria-label"];
-var _hoisted_50 = {
+var _hoisted_41 = ["onClick", "aria-label", "disabled"];
+var _hoisted_42 = ["max", "value", "onInput", "disabled", "aria-label"];
+var _hoisted_43 = {
   "class": "time-display fs-6",
   "aria-live": "polite"
 };
-var _hoisted_51 = {
+var _hoisted_44 = {
   key: 0,
   "class": "text-danger fs-6 mb-3 d-flex align-items-center gap-2",
   role: "alert"
 };
-var _hoisted_52 = ["onClick"];
-var _hoisted_53 = {
+var _hoisted_45 = ["onClick"];
+var _hoisted_46 = {
   "class": "volume-controls d-flex align-items-center gap-2 px-2 py-1"
 };
-var _hoisted_54 = ["onClick", "aria-label"];
-var _hoisted_55 = ["onUpdate:modelValue", "onInput", "aria-label"];
-var _hoisted_56 = {
+var _hoisted_47 = ["onClick", "aria-label"];
+var _hoisted_48 = ["onUpdate:modelValue", "onInput", "aria-label"];
+var _hoisted_49 = {
   key: 1,
   "class": "d-flex justify-content-center align-items-center mt-4 pagination-nav"
 };
-var _hoisted_57 = ["disabled"];
-var _hoisted_58 = {
+var _hoisted_50 = ["disabled"];
+var _hoisted_51 = {
   "class": "fw-semibold fs-6 mx-3"
 };
-var _hoisted_59 = ["disabled"];
+var _hoisted_52 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "text-center fw-bold display-4 mb-4"
-  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Radio Stations", -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead"
-  }, " Discover live Quranic radio stations from renowned reciters worldwide. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar, Category Dropdown, and Popular Reciters Scrollbar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, " Discover live Quranic radio stations from renowned reciters worldwide. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "visually-hidden"
-  }, "Search Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Search Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "for": "reciterSearch",
     style: {
       "font-size": "1.5em"
@@ -62698,7 +62751,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "background-color": "#f8f9fa"
     }
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "for": "reciterCategory",
     style: {
       "font-size": "1.5em"
@@ -62724,40 +62777,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: category,
       value: category
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popular Reciters Scrollbar Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "fw-bold fs-4 text-dark mb-3"
-  }, "Popular Reciters", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.popularReciters.slice(0, 6), function (reciter, index) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: reciter.id,
-      "class": "reciter-card rounded-3 overflow-hidden",
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        animationDelay: "".concat(index * 0.1, "s")
-      }),
-      onClick: function onClick($event) {
-        return $options.playAndScrollToStation(reciter.id);
-      },
-      role: "button",
-      tabindex: "0",
-      "aria-label": 'Play ' + reciter.name + ' recitations'
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [reciter.imageLoaded !== false ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
-      key: 0,
-      src: reciter.imageUrl,
-      alt: reciter.name + ' profile image',
-      "class": "reciter-image img-fluid",
-      loading: "lazy",
-      onError: function onError($event) {
-        return $options.handleImageError(reciter);
-      }
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_13)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.getInitials(reciter.name)), 1 /* TEXT */)])), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "play-overlay d-flex align-items-center justify-content-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-play-circle-fill play-icon",
-      style: {
-        "font-size": "2.5rem",
-        "color": "#fff"
-      }
-    })], -1 /* HOISTED */))])], 12 /* STYLE, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $data.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popular Reciters Section with better visual hierarchy "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"popular-reciters mb-5 section-animate\">\n        <div class=\"d-flex justify-content-between align-items-center mb-4\">\n          <h2 class=\"fw-bold fs-4 text-heading\">Popular Reciters</h2>\n          <button @click=\"toggleReciters\" class=\"btn btn-outline-success d-flex align-items-center gap-2\"\n            :aria-expanded=\"showReciters\" aria-controls=\"reciterGrid\"\n            :aria-label=\"showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'\">\n            <i :class=\"showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'\"></i>\n            {{ showReciters ? 'Hide' : 'Show' }}\n          </button>\n        </div>\n        <div id=\"reciterGrid\" class=\"popular-reciter-grid row g-4\" v-show=\"showReciters\">\n          <div v-for=\"(reciter, index) in popularReciters.slice(0, 6)\" :key=\"reciter.id\"\n            class=\"col-6 col-sm-3 col-md-3\">\n            <div class=\"reciter-card rounded-3 overflow-hidden shadow-sm\" :style=\"{ animationDelay: `${index * 0.1}s` }\"\n              @click=\"playAndScrollToStation(reciter.id)\" role=\"button\" tabindex=\"0\"\n              :aria-label=\"'Play ' + reciter.name + ' recitations'\">\n              <div class=\"reciter-img-container position-relative\">\n                <img v-if=\"reciter.imageLoaded !== false\" :src=\"reciter.imageUrl\" :alt=\"reciter.name + ' profile image'\"\n                  class=\"reciter-image img-fluid\" loading=\"lazy\" @error=\"handleImageError(reciter)\" />\n                <div v-else class=\"placeholder-img d-flex align-items-center justify-content-center bg-light\">\n                  <div class=\"avatar-initials fs-2 fw-bold text-muted\" aria-hidden=\"true\">\n                    {{ getInitials(reciter.name) }}\n                  </div>\n                </div>\n                <div class=\"play-overlay d-flex align-items-center justify-content-center\">\n                  <i class=\"bi bi-play-circle-fill play-icon\" style=\"font-size: 2.5rem; color: #fff;\"></i>\n                </div>\n              </div>\n              <div class=\"reciter-content p-3 text-center\">\n                <h6 class=\"reciter-name fw-semibold fs-6 mb-1\">{{ reciter.name }}</h6>\n                <p class=\"text-style text-muted fs-6 mb-0\">{{ reciter.style || 'Various styles' }}</p>\n              </div>\n            </div>\n          </div>\n        </div>\n      </section> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $data.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold mb-3 fs-4 cursor-pointer section-header text-dark",
     onClick: _cache[4] || (_cache[4] = function ($event) {
       return $data.showLiked = !$data.showLiked;
@@ -62767,7 +62787,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-controls": "liked-stations"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down', "ms-1"])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_17), $data.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.likedStations, function (station) {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_10), $data.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.likedStations, function (station) {
     var _$data$currentAudio;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
@@ -62779,11 +62799,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: 'station-' + station.id,
       role: "article",
       "aria-labelledby": 'station-title-' + station.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       "class": "card-title mb-0 fw-bold text-truncate display-5",
       id: 'station-title-' + station.id,
       innerHTML: $options.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $options.toggleLike(station);
@@ -62791,7 +62811,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_24)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_17)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player", {
         playing: $options.isPlaying(station.id)
       }]),
@@ -62814,7 +62834,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.updateDuration(station.id);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon play-button p-2",
       onClick: function onClick($event) {
         return $options.togglePlay(station.id);
@@ -62823,7 +62843,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: !!$data.playbackErrors[station.id]
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill', "play-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime($data.currentTimes[station.id] || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: $data.durations[station.id] || 100,
@@ -62834,7 +62854,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "seek-bar flex-grow-1",
       disabled: $options.isLive(station.id),
       "aria-label": 'Seek bar for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon volume-button p-2",
       onClick: function onClick($event) {
         return $options.toggleMute(station.id);
@@ -62842,7 +62862,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $data.volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.volumes[station.id] === 0 ? 'bi bi-volume-mute' : $data.volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up', "volume-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
@@ -62854,10 +62874,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "volume-bar flex-grow-1",
       "aria-label": 'Volume control for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_35), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
       number: true
-    }]])])], 10 /* CLASS, PROPS */, _hoisted_25)])], 10 /* CLASS, PROPS */, _hoisted_20)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_36, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }]])])], 10 /* CLASS, PROPS */, _hoisted_18)])], 10 /* CLASS, PROPS */, _hoisted_13)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" All Radio Stations "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_29, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-flex justify-content-between align-items-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold fs-3 text-dark"
@@ -62865,18 +62885,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "images/art.png",
     width: "30px",
     "class": "mb-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Radio Stations:")])], -1 /* HOISTED */)), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Radio Stations:")])], -1 /* HOISTED */)), $data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
-  }, "Loading stations...")], -1 /* HOISTED */)]))) : $data.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Loading stations...")], -1 /* HOISTED */)]))) : $data.fetchError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.fetchError) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-sm btn-outline-danger ms-2",
     onClick: _cache[5] || (_cache[5] = function () {
       return $options.fetchStations && $options.fetchStations.apply($options, arguments);
     }),
     "aria-label": "Retry loading stations"
-  }, " Retry ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
+  }, " Retry ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedStations, function (station) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: station.id,
       "class": "col"
@@ -62888,13 +62908,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       role: "article",
       "aria-labelledby": 'station-title-' + station.id,
       style: {
-        "border-radius": "25px"
+        "border-radius": "25px",
+        "box-shadow": "#00bfa6"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "card-title mb-0 fw-semibold fs-5",
       id: 'station-title-' + station.id,
       innerHTML: $options.highlightSearch(station.name)
-    }, null, 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon like-button p-2",
       onClick: function onClick($event) {
         return $options.toggleLike(station);
@@ -62902,7 +62923,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $options.isLiked(station.id) ? 'Unlike station' : 'Like station'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart', "like-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_44)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["audio-player", {
         playing: $options.isPlaying(station.id)
       }]),
@@ -62928,7 +62949,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return $options.handleAudioError(station.id, $event);
       },
       "aria-label": 'Audio stream for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon play-button p-2",
       onClick: function onClick($event) {
         return $options.togglePlay(station.id);
@@ -62937,7 +62958,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: !!$data.playbackErrors[station.id]
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill', "play-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: $data.durations[station.id] || 100,
@@ -62948,13 +62969,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "seek-bar flex-grow-1",
       disabled: $options.isLive(station.id),
       "aria-label": 'Seek bar for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isLive(station.id) ? 'LIVE' : $options.formatTime($data.durations[station.id] || 0)), 1 /* TEXT */)]), $data.playbackErrors[station.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackErrors[station.id]) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-sm btn-outline-danger",
       onClick: function onClick($event) {
         return $options.retryPlayback(station.id);
       },
       "aria-label": "Retry playback"
-    }, " Retry ", 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, " Retry ", 8 /* PROPS */, _hoisted_45)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn btn-icon volume-button p-2",
       onClick: function onClick($event) {
         return $options.toggleMute(station.id);
@@ -62962,7 +62983,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": $data.volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.volumes[station.id] === 0 ? 'bi bi-volume-mute' : $data.volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up', "volume-icon fs-5"])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "range",
       min: "0",
       max: "100",
@@ -62974,24 +62995,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "class": "volume-bar flex-grow-1",
       "aria-label": 'Volume control for ' + station.name
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_55), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_48), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volumes[station.id], void 0, {
       number: true
-    }]])])], 10 /* CLASS, PROPS */, _hoisted_45)])], 10 /* CLASS, PROPS */, _hoisted_40)]);
-  }), 128 /* KEYED_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }]])])], 10 /* CLASS, PROPS */, _hoisted_38)])], 10 /* CLASS, PROPS */, _hoisted_33)]);
+  }), 128 /* KEYED_FRAGMENT */))]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $options.totalPages > 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.previousPage && $options.previousPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === 1,
     "class": "btn btn-outline-teal rounded-pill px-4 me-3 fs-6",
     "aria-label": "Previous page"
-  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_57), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_58, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Previous", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, "Page " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.nextPage && $options.nextPage.apply($options, arguments);
     }),
     disabled: $data.currentPage === $options.totalPages,
     "class": "btn btn-outline-teal rounded-pill px-4 ms-3 fs-6",
     "aria-label": "Next page"
-  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_59)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Next", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_52)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -166777,7 +166798,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  overflow: hidden;\n  border: 2px solid #00bfa6;\n  transition: all 0.3s ease;\n}\n.radio-card.active-card[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.161);\n  border: 2px solid #00bfa6;\n  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);\n  animation: pulse-87252526 1.5s infinite ease-in-out;\n}\n@keyframes pulse-87252526 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.02);\n}\n100% {\n    transform: scale(1);\n}\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n  max-width: 85%;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 1rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n  display: flex;\n  overflow-x: auto;\n  scroll-snap-type: x mandatory;\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n  gap: 1rem;\n  padding-bottom: 1rem;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.reciter-card[data-v-87252526] {\n  background: #ffffff;\n  border: 1px solid lightgray;\n  flex-shrink: 0;\n  border-radius: 5px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  width: 22rem;\n  height: 24rem;\n  -o-object-fit: contain;\n     object-fit: contain;\n}\n.reciter-card[data-v-87252526]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n.reciter-img-container[data-v-87252526] {\n  position: relative;\n  width: 100%;\n  height: 120px;\n  overflow: hidden;\n}\n.reciter-image[data-v-87252526] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.placeholder-img[data-v-87252526] {\n  width: 100%;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #e9ecef;\n}\n.play-overlay[data-v-87252526] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  opacity: 0;\n  transition: opacity 0.3s ease;\n}\n.reciter-card:hover .play-overlay[data-v-87252526] {\n  opacity: 1;\n}\n.reciter-content[data-v-87252526] {\n  padding: 0.75rem;\n  text-align: center;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  font-size: 1rem;\n}\n.text-style[data-v-87252526] {\n  font-size: 0.875rem;\n}\n\n/* Responsive Design */\n@media (max-width: 576px) {\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.card-title[data-v-87252526] {\n    font-size: 1rem;\n    max-width: 80%;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.reciter-card[data-v-87252526] {\n    width: 140px;\n}\n.reciter-img-container[data-v-87252526] {\n    height: 100px;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.text-style[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 0.75rem;\n}\n.pagination-nav[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-87252526] {\n  background-color: #fafafa;\n  font-family: 'Inter', sans-serif;\n  font-size: 16px;\n}\n.container[data-v-87252526] {\n  max-width: 1400px;\n  padding: 1.5rem 1rem;\n}\n.radio-card[data-v-87252526] {\n  background: #ffffff;\n  border-radius: 12px;\n  overflow: hidden;\n  border: 2px solid #00bfa6;\n}\n\n/* .radio-card:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 20px rgba(0, 191, 166, 0.12);\n} */\n.reciter-card:hover .play-overlay[data-v-87252526] {\n  opacity: 1;\n  transition: opacity 0.3s ease;\n}\n.play-overlay[data-v-87252526] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  opacity: 0;\n}\n.play-icon[data-v-87252526] {\n  font-size: 2rem;\n  color: white;\n}\n.radio-card.active-card[data-v-87252526] {\n  border: 2px solid #00bfa6;\n}\n.card-title[data-v-87252526] {\n  font-size: clamp(1.125rem, 3.5vw, 1.25rem);\n  color: #1a3c34;\n  max-width: 85%;\n}\n.like-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.like-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.like-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.like-icon[data-v-87252526] {\n  color: #6c757d;\n  transition: color 0.2s ease;\n}\n.like-icon.bi-heart-fill[data-v-87252526] {\n  color: #dc3545;\n}\n.playback-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.play-button[data-v-87252526] {\n  background: #00bfa6;\n  border-radius: 50%;\n  width: clamp(40px, 10vw, 44px);\n  height: clamp(40px, 10vw, 44px);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: transform 0.2s ease, background 0.2s ease;\n}\n.play-button[data-v-87252526]:hover {\n  background: #00897b;\n  transform: scale(1.05);\n}\n.play-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.play-button[data-v-87252526]:disabled {\n  background: #6c757d;\n  cursor: not-allowed;\n}\n.play-icon[data-v-87252526] {\n  font-size: clamp(1.5rem, 5vw, 1.75rem);\n  color: #ffffff;\n}\n.time-display[data-v-87252526] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #6c757d;\n  font-family: 'Inter', monospace;\n  min-width: 40px;\n  text-align: center;\n}\n.seek-bar[data-v-87252526],\n.volume-bar[data-v-87252526] {\n  -webkit-appearance: none;\n  -moz-appearance: none;\n       appearance: none;\n  height: 5px;\n  border-radius: 2.5px;\n  background: #e9ecef;\n  cursor: pointer;\n  transition: background 0.2s ease;\n  accent-color: #00bfa6;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n.volume-bar[data-v-87252526]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]::-moz-range-thumb,\n.volume-bar[data-v-87252526]::-moz-range-thumb {\n  width: 12px;\n  height: 12px;\n  background: #00bfa6;\n  border-radius: 50%;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);\n  cursor: pointer;\n}\n.seek-bar[data-v-87252526]:not(:disabled) {\n  background: linear-gradient(to right, #00bfa6 var(--value, 0%), #e9ecef var(--value, 0%));\n}\n.seek-bar[data-v-87252526]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.volume-controls[data-v-87252526] {\n  gap: 0.5rem;\n}\n.volume-button[data-v-87252526] {\n  background: none;\n  border: none;\n  padding: 0.25rem;\n  border-radius: 50%;\n  transition: background 0.2s ease, transform 0.2s ease;\n}\n.volume-button[data-v-87252526]:hover {\n  background: rgba(0, 191, 166, 0.1);\n  transform: scale(1.1);\n}\n.volume-button[data-v-87252526]:active {\n  transform: scale(0.95);\n}\n.volume-icon[data-v-87252526] {\n  color: #6c757d;\n  font-size: clamp(1.25rem, 4vw, 1.5rem);\n}\n.volume-bar[data-v-87252526] {\n  background: linear-gradient(to right, #00bfa6 calc(var(--volume-level, 50%)), #e9ecef calc(var(--volume-level, 50%)));\n}\n.form-control[data-v-87252526],\n.form-select[data-v-87252526] {\n  border: none;\n  border-radius: 20px;\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #495057;\n  transition: box-shadow 0.2s ease;\n}\n.form-control[data-v-87252526]:focus,\n.form-select[data-v-87252526]:focus {\n  box-shadow: 0 0 6px rgba(0, 191, 166, 0.3);\n  outline: none;\n}\n.input-group.shadow-sm[data-v-87252526] {\n  border-radius: 20px;\n  overflow: hidden;\n}\nmark[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: #1a3c34;\n  padding: 0 2px;\n}\n.section-animate[data-v-87252526] {\n  animation: sectionSlide-87252526 0.3s ease-out;\n}\n@keyframes sectionSlide-87252526 {\nfrom {\n    opacity: 0;\n    transform: translateY(-10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.section-header[data-v-87252526] {\n  transition: color 0.2s ease;\n}\n.section-header[data-v-87252526]:hover {\n  color: #00bfa6;\n}\n.text-danger[data-v-87252526] {\n  color: #d32f2f;\n  font-size: clamp(0.75rem, 2.5vw, 0.875rem);\n}\n.btn-outline-teal[data-v-87252526] {\n  border-color: #00bfa6;\n  color: #00bfa6;\n  background: transparent;\n  transition: background 0.2s ease, color 0.2s ease;\n}\n.btn-outline-teal[data-v-87252526]:hover {\n  background: #00bfa6;\n  color: #ffffff;\n}\n.btn-outline-teal[data-v-87252526]:active {\n  background: #00897b;\n}\n.btn-outline-teal[data-v-87252526]:disabled {\n  border-color: #6c757d;\n  color: #6c757d;\n  background: transparent;\n  cursor: not-allowed;\n}\n.pagination-nav[data-v-87252526] {\n  background: transparent;\n  gap: 1rem;\n}\n\n/* Search and Filter Styles */\n.search-filter-container[data-v-87252526] {\n  display: flex;\n  gap: 1rem;\n  max-width: 800px;\n  margin: 0 auto;\n}\n.search-filter-container .input-group[data-v-87252526] {\n  flex: 1;\n}\n\n/* Popular Reciters Styles */\n.popular-reciter-scroll[data-v-87252526] {\n  scrollbar-width: thin;\n  scrollbar-color: rgba(0, 191, 166, 0.4) transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar {\n  height: 6px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-track {\n  background: transparent;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb {\n  background: rgba(0, 191, 166, 0.4);\n  border-radius: 3px;\n}\n.popular-reciter-scroll[data-v-87252526]::-webkit-scrollbar-thumb:hover {\n  background: rgba(0, 191, 166, 0.6);\n}\n.radio-card[data-v-87252526] {\n  transition: all 0.3s ease;\n  background-color: #ffffff;\n  border-radius: 8px;\n}\n.radio-card.active-card[data-v-87252526] {\n  background-color: rgba(0, 191, 166, 0.161); /* Light blue background for active station */\n  border: 2px solid #007bff; /* Blue border to highlight */\n  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Subtle shadow for emphasis */\n}\n.radio-card.active-card .play-icon[data-v-87252526] {\n  color: #fff; /* Darker color for play icon when active */\n}\n.reciter-card[data-v-87252526] {\n  background: #f8f9fa;\n  border: 2px solid #00897b;\n  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */\n}\n.reciter-card[data-v-87252526]:hover {\n  /* transform: translateY(-5px); */\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  cursor: pointer;\n}\n\n/* .reciter-image {\n  transition: transform 0.3s ease;\n}\n\n.reciter-card:hover .reciter-image {\n  transform: scale(1.1);\n} */\n.reciter-content[data-v-87252526] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.reciter-name[data-v-87252526] {\n  color: #1a3c34;\n  margin: 0;\n  white-space: normal;\n  overflow-wrap: break-word;\n  font-size: 2em;\n}\n\n/* Responsive Design */\n@media (max-width: 576px) {\n.container[data-v-87252526] {\n    padding: 1rem 0.5rem;\n}\n.radio-card[data-v-87252526] {\n    margin-bottom: 0.75rem;\n}\n.card-title[data-v-87252526] {\n    font-size: 1rem;\n    max-width: 80%;\n}\n.like-icon[data-v-87252526],\n  .volume-icon[data-v-87252526] {\n    font-size: 1.3rem;\n}\n.play-button[data-v-87252526] {\n    width: 36px;\n    height: 36px;\n}\n.play-icon[data-v-87252526] {\n    font-size: 1.25rem;\n}\n.time-display[data-v-87252526] {\n    font-size: 0.75rem;\n    min-width: 35px;\n}\n.volume-controls[data-v-87252526] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.25rem;\n}\n.volume-button[data-v-87252526] {\n    margin-bottom: 0.25rem;\n}\n.seek-bar[data-v-87252526],\n  .volume-bar[data-v-87252526] {\n    height: 4px;\n}\n.seek-bar[data-v-87252526]::-webkit-slider-thumb,\n  .seek-bar[data-v-87252526]::-moz-range-thumb {\n    width: 10px;\n    height: 10px;\n}\n.volume-bar[data-v-87252526]::-webkit-slider-thumb,\n  .volume-bar[data-v-87252526]::-moz-range-thumb {\n    width: 8px;\n    height: 8px;\n}\n.form-control[data-v-87252526],\n  .form-select[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.5rem 0.75rem;\n}\n.btn-outline-teal[data-v-87252526] {\n    font-size: 0.875rem;\n    padding: 0.25rem 1rem;\n}\n.search-filter-container[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.reciter-card[data-v-87252526] {\n    min-width: 120px;\n    padding: 0.75rem;\n}\n.reciter-name[data-v-87252526] {\n    font-size: 0.875rem;\n}\n.reciter-station[data-v-87252526] {\n    font-size: 0.75rem;\n}\n.popular-reciter-scroll[data-v-87252526] {\n    gap: 1rem;\n    padding: 1rem 0.5rem;\n}\n.pagination-nav[data-v-87252526] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n}\n@keyframes pulse-87252526 {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.02);\n}\n100% { transform: scale(1);\n}\n}\n.radio-card.active-card[data-v-87252526] {\n  animation: pulse-87252526 1.5s infinite ease-in-out;\n}\n@media (min-width: 768px) and (max-width: 991px) {\n.row-cols-md-2>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 50%;\n}\n}\n@media (min-width: 992px) {\n.row-cols-lg-3>.col[data-v-87252526] {\n    flex: 0 0 auto;\n    width: 33.333333%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

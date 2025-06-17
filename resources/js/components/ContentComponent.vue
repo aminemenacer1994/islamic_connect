@@ -35,7 +35,7 @@
 
       <div class="d-flex justify-content-between align-items-start">
       </div>
-      <h5 class="col-md-10 mt-3 pb-3" style="line-height: 1.6em;">{{ selectedPodcast.desc }}</h5>
+      <h5 class="col-md-10 mt-3 pb-3 text-muted" style="line-height: 1.8em;">{{ selectedPodcast.desc }}</h5>
       <h4 class="fw-bold ml-2 pb-3">
         Amount of Episodes:
         {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }}
@@ -44,13 +44,13 @@
 
 
     <div class="row pb-3 g-2 g-md-3">
-      <div class="col-md-6 px-2 px-md-3" v-if="selectedPodcast">
+      <!-- <div class="col-md-6 px-2 px-md-3" v-if="selectedPodcast">
         <h4 for="sortPodcasts" class="form-label fw-bold">Views:</h4>
         <select id="sortPodcasts" class="form-select" v-model="sortBy" @change="sortPodcasts">
           <option value="most-viewed">Most Viewed</option>
           <option value="least-viewed">Least Viewed</option>
         </select>
-      </div>
+      </div> -->
 
       <!-- <div class="col-md-6 px-2 px-md-3 pb-2" v-if="selectedPodcast">
         <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
