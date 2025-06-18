@@ -61,8 +61,9 @@
 
           </div>
         </div>
+        <PrayerTimes />
 
-        <section class="py-5 bg-transparent">
+        <!-- <section class="py-5 bg-transparent">
           <div class="container text-center mb-4">
             <h1 class="display-4 fw-bold mb-4">Our Trusted Partners</h1>
             <h2 class="lead container" style="line-height: 1.8em">
@@ -84,8 +85,7 @@
               </div>
             </div>
           </div>
-        </section>
-
+        </section> -->
 
       </div>
       </hr>
@@ -93,7 +93,6 @@
 
     
     <section>
-      <PrayerTimes />
 
       <div class="py-5 service-1">
         <div class="container">

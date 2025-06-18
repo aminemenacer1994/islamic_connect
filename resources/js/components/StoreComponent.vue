@@ -8,7 +8,7 @@
           directions.
         </p>
 
-        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
+        <div class="shadow" style="border-radius: 8px; padding: 10px;">
           <!-- Search Section -->
           <div class="card-body container-fluid" style="padding: 5px;">
             <div class="row mb-4 justify-content-center">
@@ -446,7 +446,7 @@ export default {
 
 .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -488,7 +488,6 @@ body {
 
 .mosque-card {
   transition: all 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
 
 .mosque-card:hover {

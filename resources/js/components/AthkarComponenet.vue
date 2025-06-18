@@ -1,64 +1,135 @@
+```vue
 <template>
-  <div class="container mt-4">
-    <h3 class="text-center fw-bold display-4 py-2 mt-4 mb-2">Salat Teachings</h3>
-    <p class="text-center mb-4 lead container">
-      Discover the beauty of Islamic prayer with our comprehensive Salat Guide. This easy-to-follow resource walks you
-      through each of the five daily prayers
+  <div class="container py-6">
+    <h1 class="display-4 fw-bold text-center mb-4">Islamic Audio Lectures</h1>
+    <p class="text-center lead mb-5">
+      Explore a collection of Islamic lectures by renowned scholars, delivering insights on faith, history, and spirituality.
     </p>
 
+    <!-- Error Message -->
+    <div v-if="errorMessage" class="alert alert-danger text-center">
+      {{ errorMessage }}
+      <button @click="retryFetch" class="btn btn-primary ms-2">Retry</button>
+    </div>
 
-    <div v-for="step in salatSteps" :key="step.id" class="card mb-5 shadow rounded-4 border-0"
-      style="overflow: hidden;border: 1px solid darkgrey; background-color: #fdfdfd;">
-      <!-- Header -->
-      <div class="card-header fw-bold"
-        style=" background: linear-gradient(to right, #f3f4f6, #e2e8f0); color: #1a202c; font-size: 2rem; border-bottom: 1px solid #e5e7eb;">
-        {{ step.id }}. {{ step.name }}
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
+    </div>
 
-      <!-- Body -->
-      <div class="card-body d-flex flex-column flex-md-row align-items-start gap-4 px-4 py-4">
-        <!-- Image -->
-        <img :src="step.image" :alt="step.name" class="img-fluid rounded-3 shadow-sm"
-          style="max-width: 200%; max-height: 260px; object-fit: contain; background-color: #fff; padding: 0.5rem;" />
-
-        <!-- Text Content -->
-        <div class="flex-grow-1 text-dark" style="font-size: 1.15rem;">
-          <p>
-          <h4 class="fw-bold text-muted">Arabic:</h4>
-          {{ step.arabic }}
-          </p>
-
-          <p>
-          <h4 class="fw-bold text-muted">Transliteration:</h4>
-          {{ step.transliteration }}
-          </p>
-
-          <p>
-          <h4 class="fw-bold text-muted">Translation:</h4>
-          {{ step.translation }}
-          </p>
-
-          <p>
-          <h4 class="fw-bold text-muted">Description:</h4>
-          {{ step.description }}
-          </p>
-
-          <!-- Details Section -->
-          <div v-if="step.details && Object.keys(step.details).length">
-            <h4 class="fw-bold text-muted">Details:</h4>
-            <ul class="list-group list-group-flush">
-              <li v-for="(detail, key) in step.details" :key="key" class="list-group-item px-0 py-1 border-0 text-muted"
-                style="background-color: transparent;">
-                <strong>{{ key.charAt(0).toUpperCase() + key.slice(1) }}:</strong> {{ detail }}
-              </li>
-            </ul>
+    <!-- Lecture Selection -->
+    <div v-else class="container">
+      <h2 class="fw-bold text-left mb-4">Available Lectures</h2>
+      <div class="row">
+        <div v-for="lecture in lectures" :key="lecture.id" class="col-md-3 col-sm-6 mb-4 text-center">
+          <div class="card h-100 shadow-sm" @click="selectLecture(lecture)" style="cursor: pointer;">
+            <img :src="lecture.coverImage" class="card-img-top" :alt="lecture.title" @error="handleImageError">
+            <div class="card-body">
+              <h5 class="card-title fw-bold">{{ lecture.title }}</h5>
+              <p class="text-muted">{{ lecture.narrator }}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Lecture Details -->
+    <div v-if="selectedLecture" ref="lectureDetailSection" class="mt-5">
+      <hr class="my-4">
+      <h2 class="display-5 fw-bold">{{ selectedLecture.title }}</h2>
+      <div class="row">
+        <div class="col-md-3">
+          <img :src="selectedLecture.coverImage" class="img-fluid rounded" :alt="selectedLecture.title" alt="Surah Cover" @error="handleImageError">
+        </div>
+        <div class="col-md-9">
+          <p class="text-muted lead">{{ selectedLecture.description }}</p>
+          <p><strong>Narrator:</strong> {{ selectedLecture.narrator || 'Unknown' }}</p>
+          <p><strong>Duration:</strong> {{ formatDuration(selectedLecture.totalDuration) }}</p>
+          <p><strong>Segments:</strong> {{ selectedLecture.segmentCount }}</p>
+        </div>
+      </div>
 
+      <!-- Playback Speed -->
+      <div class="col-md-4 mb-3">
+        <label for="playbackSpeed" class="form-label fw-bold">Playback Speed</label>
+        <select id="playbackSpeed" class="form-select" v-model="playbackSpeed" @change="updateSpeed">
+          <option value="0.5">0.5x</option>
+          <option value="1.0" selected>1.0x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2.0">2.0x</option>
+        </select>
+      </div>
 
+      <!-- Filters -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label for="genreFilter" class="form-label fw-bold">Genre</label>
+          <select id="genreFilter" class="form-select" v-model="genreFilter" @change="filterLectures">
+            <option value="">All Genres</option>
+            <option value="Tafsir">Tafsir</option>
+            <option value="Seerah">Seerah</option>
+            <option value="Spirituality">Spirituality</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="durationFilter" class="form-label fw-bold">Duration</label>
+          <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterLectures">
+            <option value="">All Durations</option>
+            <option value="short">Short (<1 hr)</option>
+            <option value="medium">Medium (1–5 hrs)</option>
+            <option value="long">Long (>5 hrs)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Segments -->
+      <div v-if="paginatedSegments.length" class="mt-4">
+        <h3 class="fw-bold">Lecture Segments</h3>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+          <div v-for="(segment, index) in paginatedSegments" :key="segment.id" class="col">
+            <div :class="['card', { 'border-primary': playingIndex === index }]" class="shadow-sm">
+              <div class="card-body">
+                <h4 class="card-title fw-bold">{{ segment.title }}</h4>
+                <p class="text-muted">Duration: {{ formatDuration(segment.duration) }}</p>
+                <p class="mb-2">Progress: {{ progress(segment.progress || 0).toFixed(1) }}%</p>
+                <div class="d-flex justify-content-between">
+                  <i class="bi bi-skip-backward-circle fs-4" @click="rewind(index)" title="Rewind 15s" data-bs-toggle="tooltip"></i>
+                  <i class="bi bi-share fs-4" @click="share(segment)" title="Share" data-bs-toggle="tooltip"></i>
+                  <i :class="['bi', isBookmarked(segment) ? 'bi-bookmark-fill' : 'bi-bookmark', 'fs-4']" @click="toggleBookmark(segment)" title="Bookmark" data-bs-toggle="tooltip"></i>
+                  <i class="bi-arrow-right-circle" @click="fastForward(index)" title="Fast Forward 15s" data-bs-toggle="tooltip"></i>
+                </div>
+              </div>
+              <audio v-if="segment.audioUrl" ref="audioPlayers" :src="segment.audioUrl" controls class="w-100" @play="handlePlay(index)" @pause="handlePause(index)" @ended="handleEnded(index)" @timeupdate="handleTimeUpdate(index, $event.target)" @error="handleAudioError(index)">
+                Your browser does not support audio.
+              </audio>
+              <div v-else class="text-center text-danger p-3">
+                Audio unavailable for this segment.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-2">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+              <a class="page-link" href="#" @click.prevent="navigatePage(currentPage - 1)">Previous</a>
+            </li>
+            <li v-for="page in pages" :key="page" class="page-item" :class="{ active: currentPage === page }">
+              <a class="page-link" href="#" @click.prevent="navigatePage(page)">{{ page }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+              <a class="page-link" href="#" @click.prevent="navigatePage(currentPage + 1)">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div v-else-if="!loading" class="text-center text-muted mt-4">
+        No segments found.
+      </div>
+    </div>
   </div>
 </template>
 
@@ -66,427 +137,280 @@
 export default {
   data() {
     return {
-      salatSteps: [
-        {
-          id: 1,
-          name: "Takbiratul Ihram",
-          image: "images/takbir_1.jpg",
-          arabic: "الله أكبر",
-          transliteration: "Allahu Akbar",
-          translation: "Allah is the Greatest",
-          description:
-            "Begin the prayer by raising both hands up to the ears with palms facing forward while saying 'Allahu Akbar'. This marks the official start of your salah and means all worldly matters should now be disregarded.",
-          details: {
-            hands: "Raised to ear level, thumbs aligned with earlobes",
-            posture: "Standing straight, facing Qibla",
-            eyes: "Looking at the place of prostration",
-            timing: "Say 'Allahu Akbar' as you raise your hands"
-          }
-        },
-        {
-          id: 2,
-          name: "Qiyam (Standing)",
-          image: "images/standing_2.jpg",
-          arabic: "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِیْنَۙ(۱) الرَّحْمٰنِ الرَّحِیْمِۙ(۲) مٰلِكِ یَوْمِ الدِّیْنِؕ(۳) اِیَّاكَ نَعْبُدُ وَ اِیَّاكَ نَسْتَعِیْنُؕ(۴) اِهْدِنَا الصِّرَاطَ الْمُسْتَقِیْمَۙ(۵) صِرَاطَ الَّذِیْنَ اَنْعَمْتَ عَلَیْهِمْ غَیْرِ الْمَغْضُوْبِ عَلَیْهِمْ وَ لَا الضَّآلِّیْنَ۠ ۷)",
-          transliteration: "Alhamdu lillaahi Rabbil ‘aalameen Ar-Rahmaanir-Raheem Maaliki Yawmid-Deen Iyyaaka na’budu wa lyyaaka nasta’een Ihdinas-Siraatal-Mustaqeem Siraatal-lazeena an’amta ‘alaihim ghayril-maghdoobi ‘alaihim wa lad-daaalleen",
-          translation: "Glory to my Lord the Great, and praise to Him",
-          description:
-            "After Takbir, place your right hand over your left on your chest. Begin by reciting the opening supplication (Thana), then Surah Al-Fatihah followed by another Surah or verses from the Quran.",
-          details: {
-            hands: "Right over left, placed below the chest",
-            recitation: "Must recite Al-Fatihah in every rak'ah",
-            duration: "Stand until fully reciting required verses",
-            focus: "Maintain concentration on the meaning"
-          }
-        },
-        {
-          id: 3,
-          name: "Ruku (Bowing)",
-          image: "images/bowing_3.jpg",
-          arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
-          transliteration: "Subhana Rabbiyal Adheem",
-          translation: "Glory to my Lord the Most Great",
-          description:
-            "While saying 'Allahu Akbar', bow down with your back straight parallel to the ground, hands gripping the knees with fingers spread apart. Maintain this position while reciting the tasbih at least three times.",
-          details: {
-            back: "Flat and parallel to the ground",
-            hands: "Firmly gripping knees with fingers spread",
-            head: "In line with the back, not lowered or raised",
-            feet: "Shoulder-width apart, knees slightly bent"
-          }
-        },
-        {
-          id: 4,
-          name: "Standing from Ruku",
-          image: "images/waiting_4.jpg",
-          arabic: "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
-          transliteration: "Sami Allahu liman hamidah",
-          translation: "Allah hears those who praise Him",
-          description:
-            "Rise from bowing while saying 'Sami Allahu liman hamidah'. When fully standing upright, say 'Rabbana lakal hamd' (Our Lord, to You is all praise). Ensure you stand completely straight before proceeding.",
-          details: {
-            rising: "Come up smoothly without jerking",
-            posture: "Stand completely straight before moving",
-            hands: "Return to sides naturally while rising",
-            duration: "Pause briefly in standing position"
-          }
-        },
-        {
-          id: 5,
-          name: "Sujood (Prostration)",
-          image: "images/sujud_5.jpg",
-          arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى",
-          transliteration: "Subhana Rabbiyal A'la",
-          translation: "Glory to my Lord the Most High",
-          description:
-            "While saying 'Allahu Akbar', go down into prostration with seven body parts touching the ground: forehead, nose, both palms, both knees, and toes of both feet. Recite the tasbih at least three times.",
-          details: {
-            contact: "Seven points must touch the ground",
-            arms: "Elbows raised, not touching the ground",
-            feet: "Toes pointing towards Qibla",
-            position: "Forehead and nose firmly on ground"
-          }
-        },
-        {
-          id: 6,
-          name: "Sitting Between Prostrations",
-          image: "images/tashahud_7.jpg",
-          arabic: "رَبِّ اغْفِرْ لِي",
-          transliteration: "Rabbighfir li",
-          translation: "O Lord, forgive me",
-          description:
-            "After first prostration, sit up completely while saying 'Allahu Akbar'. Sit on your left foot which is flat on the ground while your right foot is upright with toes pointing toward Qibla. Make the supplication before second prostration.",
-          details: {
-            sitting: "On left foot, right foot upright",
-            hands: "Resting on thighs near knees",
-            duration: "Long enough to say the dua",
-            posture: "Back straight during sitting"
-          }
-        },
-        {
-          id: 7,
-          name: "Tashahhud",
-          image: "images/sitting_6.jpg",
-          arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلاَمُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلاَمُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
-          transliteration: "At-tahiyyatu lillahi was-salawatu wat-tayyibatu...",
-          translation: "All compliments, prayers and pure words are due to Allah...",
-          description:
-            "After completing the required prostrations, sit for the Tashahhud. Raise your right index finger when reciting 'Ash-hadu an la ilaha illallah' to testify to Allah's oneness. Maintain this position until completion.",
-          details: {
-            finger: "Raised during Shahada portion",
-            sitting: "Same as between prostrations",
-            recitation: "Must be said in Arabic correctly",
-            focus: "On meaning of the words"
-          }
-        },
-        {
-          id: 8,
-          name: "Tasleem (Ending the Prayer)",
-          image: "images/tasleem.jpg",
-          arabic: "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
-          transliteration: "Assalamu alaykum wa rahmatullah",
-          translation: "Peace and mercy of Allah be upon you",
-          description:
-            "Turn your head to the right and say 'Assalamu alaykum wa rahmatullah' then to the left repeating the same. This officially ends the prayer. Remain seated briefly to complete recommended dhikr and supplications.",
-          details: {
-            turn: "First to right, then to left",
-            angle: "Turn until cheeks are visible from behind",
-            intention: "Greeting angels and worshippers",
-            completion: "Prayer is now complete"
-          }
-        }
-      ]
-    };
-  }
-};
-</script>
-
-<style>
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.card {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-</style>
-<!-- <template>
-  <div class="container py-4">
-    <div class="text-center mb-4">
-      <h2 class="fw-bold text-primary">🕌 Islamic Prayer & Habit Tracker</h2>
-      <p class="text-muted">Track your daily prayers, habits, and reflections.</p>
-    </div>
-
-    <div class="d-flex justify-content-center mb-3">
-      <button class="btn btn-outline-primary me-2" :class="{ active: viewMode === 'month' }" @click="viewMode = 'month'">Monthly</button>
-      <button class="btn btn-outline-primary me-2" :class="{ active: viewMode === 'week' }" @click="viewMode = 'week'">Weekly</button>
-      <button class="btn btn-outline-primary" :class="{ active: viewMode === 'day' }" @click="viewMode = 'day'">Daily</button>
-    </div>
-
-    <div class="card shadow mb-3">
-      <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <button class="btn btn-sm btn-outline-secondary" @click="prevPeriod">«</button>
-        <h4 class="mb-0">{{ displayTitle }}</h4>
-        <button class="btn btn-sm btn-outline-secondary" @click="nextPeriod">»</button>
-      </div>
-
-      <div class="card-body px-1">
-        <div v-if="viewMode === 'month'">
-          <div class="row text-center fw-bold border-bottom pb-2">
-            <div class="col" v-for="day in weekDays" :key="day">{{ day }}</div>
-          </div>
-          <div class="row text-center" v-for="(week, wIndex) in calendarGrid" :key="wIndex">
-            <div
-              class="col calendar-cell p-2 border"
-              :class="{ 'bg-light': isToday(day), 'bg-success text-white': isSelected(day) }"
-              v-for="(day, dIndex) in week"
-              :key="dIndex"
-              @click="selectDate(day)"
-            >
-              <span v-if="day">{{ day.getDate() }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div v-if="viewMode === 'week'" class="row text-center">
-          <div class="col calendar-cell p-2 border" v-for="day in currentWeek" :key="day" :class="{ 'bg-light': isToday(day), 'bg-success text-white': isSelected(day) }" @click="selectDate(day)">
-            <div>{{ weekDays[day.getDay()] }}</div>
-            <div>{{ day.getDate() }}</div>
-          </div>
-        </div>
-
-        <div v-if="viewMode === 'day'" class="text-center">
-          <button class="btn btn-outline-secondary" @click="goToPreviousDay">Previous</button>
-          <strong class="mx-3">{{ selectedDate.toDateString() }}</strong>
-          <button class="btn btn-outline-secondary" @click="goToNextDay">Next</button>
-        </div>
-      </div>
-    </div>
-
-    <div v-if="selectedDate" class="row g-3">
-      <div class="col-md-6">
-        <div class="card shadow">
-          <div class="card-header bg-primary text-white">
-            <strong>Prayers on {{ selectedDate.toDateString() }}</strong>
-          </div>
-          <div class="card-body">
-            <div v-for="prayer in prayers" :key="prayer" class="d-flex justify-content-between align-items-center mb-2">
-              <span>{{ prayer }}</span>
-              <button
-                class="btn btn-outline-success btn-sm"
-                :class="{ active: isChecked(prayer) }"
-                @click="togglePrayer(prayer)"
-              >
-                {{ isChecked(prayer) ? '✓ Completed' : 'Mark' }}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="card shadow mb-3">
-          <div class="card-header bg-info text-white">Daily Reflection / Notes</div>
-          <div class="card-body">
-            <textarea
-              v-model="personalNotes[dateKey]"
-              class="form-control"
-              rows="4"
-              placeholder="Write your thoughts, goals or intentions..."
-              @input="saveNotes"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="card shadow">
-          <div class="card-header bg-warning text-dark">Monthly Stats</div>
-          <div class="card-body">
-            <p>Total Prayers Marked: <strong>{{ totalMarked }}</strong></p>
-            <p>Completion Rate: <strong>{{ completionRate }}%</strong></p>
-            <div class="progress" style="height: 20px;">
-              <div class="progress-bar bg-success" :style="{ width: completionRate + '%' }"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
-export default {
-  name: 'PrayerHabitTracker',
-  data() {
-    return {
-      viewMode: 'month',
-      prayers: ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
-      selectedDate: new Date(),
-      currentMonth: new Date().getMonth(),
-      currentYear: new Date().getFullYear(),
-      prayerData: {},
-      personalNotes: {},
-      weekDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      lectures: [],
+      selectedLecture: null,
+      paginatedSegments: [],
+      playingIndex: null,
+      playbackSpeed: 1.0,
+      progress: {},
+      loading: false,
+      errorMessage: null,
+      genreFilter: '',
+      durationFilter: '',
+      currentPage: 1,
+      segmentsPerPage: 8,
+      bookmarks: JSON.parse(localStorage.getItem('lectureBookmarks')) || [],
     };
   },
+
   computed: {
-    dateKey() {
-      return this.selectedDate.toISOString().split('T')[0];
+    totalPages() {
+      return Math.ceil(this.filteredSegments.length / this.segmentsPerPage);
     },
-    displayTitle() {
-      if (this.viewMode === 'month') {
-        return new Date(this.currentYear, this.currentMonth).toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'long',
-        });
+    pages() {
+      return Array.from({ length: Math.min(this.totalPages, 8) }, (_, i) => i + 1);
+    },
+    filteredSegments() {
+      if (!this.selectedLecture) return [];
+      let segments = [...this.selectedLecture.segments];
+      if (this.genreFilter) {
+        segments = segments.filter(() => this.selectedLecture.genre === this.genreFilter);
       }
-      if (this.viewMode === 'week') {
-        const start = this.currentWeek[0].toLocaleDateString();
-        const end = this.currentWeek[6].toLocaleDateString();
-        return `Week: ${start} - ${end}`;
+      if (this.durationFilter) {
+        segments = this.applyFilter(segments);
       }
-      return this.selectedDate.toDateString();
-    },
-    calendarGrid() {
-      const first = new Date(this.currentYear, this.currentMonth, 1);
-      const last = new Date(this.currentYear, this.currentMonth + 1, 0);
-      const weeks = [];
-      let week = Array(first.getDay()).fill(null);
-      for (let day = 1; day <= last.getDate(); day++) {
-        week.push(new Date(this.currentYear, this.currentMonth, day));
-        if (week.length === 7) {
-          weeks.push(week);
-          week = [];
-        }
-      }
-      if (week.length) {
-        while (week.length < 7) week.push(null);
-        weeks.push(week);
-      }
-      return weeks;
-    },
-    currentWeek() {
-      const selected = new Date(this.selectedDate);
-      const start = new Date(selected.setDate(selected.getDate() - selected.getDay()));
-      return Array.from({ length: 7 }, (_, i) => new Date(start.getFullYear(), start.getMonth(), start.getDate() + i));
-    },
-    totalMarked() {
-      const keys = Object.keys(this.prayerData);
-      return keys.filter(k => k.startsWith(this.currentYear + '-') && this.prayerData[k]).length;
-    },
-    completionRate() {
-      const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-      const totalPossible = daysInMonth * this.prayers.length;
-      const completed = Object.entries(this.prayerData).filter(([k, v]) => {
-        const date = new Date(k.split('_')[1]);
-        return (
-          date.getMonth() === this.currentMonth &&
-          date.getFullYear() === this.currentYear &&
-          v === true
-        );
-      }).length;
-      return Math.round((completed / totalPossible) * 100);
+      return segments;
     },
   },
+
   methods: {
-    getKey(prayer) {
-      return `${prayer}_${this.dateKey}`;
-    },
-    isChecked(prayer) {
-      return !!this.prayerData[this.getKey(prayer)];
-    },
-    togglePrayer(prayer) {
-      const key = this.getKey(prayer);
-      this.prayerData[key] = !this.prayerData[key];
-      this.saveData();
-    },
-    selectDate(day) {
-      if (day) this.selectedDate = new Date(day);
-    },
-    isToday(day) {
-      const today = new Date();
-      return (
-        day &&
-        day.getDate() === today.getDate() &&
-        day.getMonth() === today.getMonth() &&
-        day.getFullYear() === today.getFullYear()
-      );
-    },
-    isSelected(day) {
-      return (
-        day &&
-        day.getDate() === this.selectedDate.getDate() &&
-        day.getMonth() === this.selectedDate.getMonth() &&
-        day.getFullYear() === this.selectedDate.getFullYear()
-      );
-    },
-    prevPeriod() {
-      if (this.viewMode === 'month') {
-        this.currentMonth--;
-        if (this.currentMonth < 0) {
-          this.currentMonth = 11;
-          this.currentYear--;
+    async fetchLectures() {
+      this.loading = true;
+      this.errorMessage = null;
+      try {
+        const lectures = [];
+        // Fetch Tafsir for Surahs 1–5
+        for (let surah = 1; surah <= 5; surah++) {
+          const response = await fetch(`https://api.alquran.cloud/v1/surah/${surah}/en.tafsir_mulk`);
+          if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status} for Surah ${surah}`);
+          }
+          const data = await response.json();
+          const surahData = data.data;
+          // Map ayahs to lecture segments
+          const segments = surahData.ayahs.map((ayah, i) => ({
+            id: `surah-${surah}-ayah-${ayah.number}`,
+            title: `Segment ${i + 1}: Ayah ${ayah.number}`,
+            duration: 600, // Placeholder duration (replace with actual audio duration)
+            audioUrl: null, // Replace with your hosted MP3 URL
+            progress: 0,
+          }));
+          lectures.push({
+            id: `surah-${surah}`,
+            title: `Tafsir of Surah ${surahData.englishName}`,
+            narrator: 'Ibn Muhammad',
+            description: `Explanation of Surah ${surahData.englishName} based on Tafsir.`,
+            coverImage: `https://via.placeholder.com/180x180?text=${surahData.englishName}`,
+            genre: 'Tafsir',
+            totalDuration: segments.length * 600, // Estimated
+            segmentCount: segments.length,
+            segments,
+          });
         }
-      } else if (this.viewMode === 'week') {
-        this.selectedDate.setDate(this.selectedDate.getDate() - 7);
-      } else {
-        this.selectedDate.setDate(this.selectedDate.getDate() - 1);
+        this.lectures = lectures;
+        await this.validateAudioUrls();
+      } catch (error) {
+        console.error('Error fetching lectures:', error);
+        this.errorMessage = 'Failed to load lectures. Please check your connection.';
+      } finally {
+        this.loading = false;
       }
     },
-    nextPeriod() {
-      if (this.viewMode === 'month') {
-        this.currentMonth++;
-        if (this.currentMonth > 11) {
-          this.currentMonth = 0;
-          this.currentYear++;
+
+    async validateAudioUrls() {
+      for (const lecture of this.lectures) {
+        for (const segment of lecture.segments) {
+          if (!segment.audioUrl) continue;
+          try {
+            const response = await fetch(segment.audioUrl, { method: 'HEAD' });
+            if (!response.ok) {
+              segment.audioUrl = null;
+            }
+          } catch (error) {
+            segment.audioUrl = null;
+          }
         }
-      } else if (this.viewMode === 'week') {
-        this.selectedDate.setDate(this.selectedDate.getDate() + 7);
-      } else {
-        this.selectedDate.setDate(this.selectedDate.getDate() + 1);
       }
     },
-    goToPreviousDay() {
-      this.selectedDate.setDate(this.selectedDate.getDate() - 1);
+
+    selectLecture(lecture) {
+      this.selectedLecture = lecture;
+      this.currentPage = 1;
+      this.fetchSegments();
+      this.$nextTick(() => {
+        const section = this.$refs.lectureDetailSection;
+        if (section) section.scrollIntoView({ behavior: 'smooth' });
+      });
     },
-    goToNextDay() {
-      this.selectedDate.setDate(this.selectedDate.getDate() + 1);
+
+    fetchSegments() {
+      if (!this.selectedLecture) {
+        this.paginatedSegments = [];
+        return;
+      }
+      const start = (this.currentPage - 1) * this.segmentsPerPage;
+      const end = start + this.segmentsPerPage;
+      this.paginatedSegments = this.filteredSegments.slice(start, end);
     },
-    saveData() {
-      localStorage.setItem('prayerData', JSON.stringify(this.prayerData));
+
+    applyFilter(segments) {
+      switch (this.durationFilter) {
+        case 'short':
+          return segments.filter(s => s.duration <= 3600);
+        case 'medium':
+          return segments.filter(s => s.duration > 3600 && s.duration <= 18000);
+        case 'long':
+          return segments.filter(s => s.duration > 18000);
+        default:
+          return segments;
+      }
     },
-    saveNotes() {
-      localStorage.setItem('personalNotes', JSON.stringify(this.personalNotes));
+
+    filterLectures() {
+      this.currentPage = 1;
+      this.fetchSegments();
     },
-    loadData() {
-      const prayer = localStorage.getItem('prayerData');
-      if (prayer) this.prayerData = JSON.parse(prayer);
-      const notes = localStorage.getItem('personalNotes');
-      if (notes) this.personalNotes = JSON.parse(notes);
+
+    updateSpeed() {
+      const players = Array.isArray(this.$refs.audioPlayers) ? this.$refs.audioPlayers : [this.$refs.audioPlayers];
+      players.forEach(player => {
+        if (player) player.playbackRate = parseFloat(this.playbackSpeed);
+      });
+    },
+
+    handlePlay(index) {
+      const players = Array.isArray(this.$refs.audioPlayers) ? this.$refs.audioPlayers : [this.$refs.audioPlayers];
+      players.forEach((player, i) => {
+        if (i !== index && player && !player.paused) {
+          player.pause();
+          player.currentTime = 0;
+        }
+      });
+      this.playingIndex = index;
+    },
+
+    handlePause(index) {
+      if (this.playingIndex === index) this.playingIndex = null;
+    },
+
+    handleEnded(index) {
+      if (this.playingIndex === index) this.playingIndex = null;
+    },
+
+    rewind(index) {
+      const player = Array.isArray(this.$refs.audioPlayers) ? this.$refs.audioPlayers[index] : this.$refs.audioPlayers;
+      if (player) player.currentTime = Math.max(0, player.currentTime - 15);
+    },
+
+    fastForward(index) {
+      const player = Array.isArray(this.$refs.audioPlayers) ? this.$refs.audioPlayers[index] : this.$refs.audioPlayers;
+      if (player) player.currentTime = Math.min(player.duration || Infinity, player.currentTime + 15);
+    },
+
+    handleTimeUpdate(index, player) {
+      if (player && player.duration) {
+        const progress = (player.currentTime / player.duration) * 100;
+        this.$set(this.progress, this.paginatedSegments[index].id, progress);
+      }
+    },
+
+    share(segment) {
+      if (!segment.audioUrl) {
+        alert('Audio unavailable for sharing.');
+        return;
+      }
+      const text = `Listen to ${segment.title} from ${this.selectedLecture.title}: ${segment.audioUrl}`;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    },
+
+    toggleBookmark(segment) {
+      const bookmark = {
+        lectureId: this.selectedLecture.id,
+        segmentId: segment.id,
+        title: segment.title,
+        timestamp: this.$refs.audioPlayers && Array.isArray(this.$refs.audioPlayers)
+          ? this.$refs.audioPlayers[this.playingIndex]?.currentTime || 0
+          : this.$refs.audioPlayers?.currentTime || 0,
+      };
+      const index = this.bookmarks.findIndex(b => b.segmentId === segment.id);
+      if (index > -1) {
+        this.bookmarks.splice(index, 1);
+      } else {
+        this.bookmarks.push(bookmark);
+      }
+      localStorage.setItem('lectureBookmarks', JSON.stringify(this.bookmarks));
+    },
+
+    isBookmarked(segment) {
+      return this.bookmarks.some(b => b.segmentId === segment.id);
+    },
+
+    navigatePage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        this.fetchSegments();
+      }
+    },
+
+    formatDuration(seconds) {
+      if (!seconds) return 'Unknown';
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${hours > 0 ? `${hours}h ` : ''}${minutes}m ${secs}s`;
+    },
+
+    handleImageError(event) {
+      event.target.src = 'https://via.placeholder.com/180x180?text=Cover+Not+Available';
+    },
+
+    handleAudioError(index) {
+      this.errorMessage = `Audio for ${this.paginatedSegments[index]?.title || 'segment'} is unavailable.`;
+    },
+
+    retryFetch() {
+      this.fetchLectures();
     },
   },
+
   mounted() {
-    this.loadData();
+    const tooltipTriggers = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggers.forEach(el => new bootstrap.Tooltip(el));
+    this.fetchLectures();
+  },
+
+  watch: {
+    genreFilter: 'filterLectures',
+    durationFilter: 'filterLectures',
   },
 };
 </script>
 
 <style scoped>
-.calendar-cell {
-  min-height: 60px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.3s;
+.card:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
 }
-.calendar-cell:hover {
-  background-color: #f0f0f0;
-}
-textarea {
-  resize: vertical;
-}
-button.active {
-  background-color: #0d6efd !important;
-  color: white !important;
+.border-primary {
   border-color: #0d6efd !important;
+  background-color: rgba(13, 110, 253, 0.05);
 }
-</style> -->
+.bi {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.bi:hover {
+  color: #0d6efd;
+}
+audio {
+  border-radius: 0 0 8px 8px;
+}
+.pagination .page-link {
+  color: #0d6efd;
+}
+.pagination .page-item.active .page-link {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+</style>

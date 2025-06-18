@@ -7,7 +7,7 @@
           Discover the best halal butchers near you with ease! Our platform connects you to trusted, local halal butcher
           shops.
         </p>
-        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
+        <div class="shadow" style="border-radius: 8px; padding: 10px; ">
           <!-- Search Section -->
           <div class="card-body" style="padding: 5px;">
             <div class="flex-wrap align-items-center justify-content-center gap-3 mb-4">
@@ -500,10 +500,9 @@ export default {
 
 <style scoped>
 .card {
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .card:hover {

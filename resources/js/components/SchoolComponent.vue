@@ -6,7 +6,7 @@
         <p class="text-center container mb-4 lead">
           Discover trusted Islamic schools, madrassas, and education centers near you with ease!
         </p>
-        <div class="shadow" style="border-radius: 20px; padding: 10px; border: 1px solid grey;">
+        <div class="shadow" style="border-radius: 8px; padding: 10px;">
           <!-- Search Section -->
           <div class="card-body" style="padding: 5px;">
             <div class="mb-4">
@@ -383,11 +383,10 @@ export default {
 
 <style scoped>
 .card {
-  border-radius: 15px;
+  border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  position: relative; /* For absolute positioning of badges */
+  position: relative; 
 }
 
 .card:hover {
@@ -404,7 +403,7 @@ export default {
 .badge {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
-  border-radius: 10px;
+  border-radius: 8px;
   color: white;
 }
 
