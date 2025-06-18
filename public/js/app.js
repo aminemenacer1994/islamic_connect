@@ -44061,8 +44061,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       reciters: [],
       translations: [],
       selectedSurah: localStorage.getItem("selectedSurah") || "1",
-      selectedReciter: localStorage.getItem("selectedReciter") || "ar.alafasy",
-      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.asad",
+      selectedReciter: "ar.alafasy",
+      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
       selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
@@ -44080,11 +44080,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     };
   },
   mounted: function mounted() {
+    var _this = this;
     this.audioElement = new Audio();
     this.prepareAyahText();
     window.addEventListener("scroll", this.handleScroll);
     this.resetToDefault();
     this.loadPreferences();
+    this.fetchReciters().then(function () {
+      if (!_this.reciters.some(function (r) {
+        return r.identifier === _this.selectedReciter;
+      })) {
+        _this.selectedReciter = _this.reciters.length > 0 ? _this.reciters[0].identifier : "ar.alafasy";
+      }
+    });
   },
   beforeUnmount: function beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -44099,13 +44107,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   watch: {
     selectedReciter: function selectedReciter(newVal) {
-      var _this = this;
+      var _this2 = this;
       if (newVal) {
         this.savePreference("selectedReciter", newVal);
         this.fetchSurahDetails().then(function () {
-          _this.resetAllAudioPlayers();
-          if (_this.currentlyPlayingIndex !== null) {
-            _this.playAudio(_this.currentlyPlayingIndex);
+          _this2.resetAllAudioPlayers();
+          if (_this2.currentlyPlayingIndex !== null) {
+            _this2.playAudio(_this2.currentlyPlayingIndex);
           }
         });
       }
@@ -44131,12 +44139,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       immediate: true
     },
     filteredAyahs: function filteredAyahs(newAyahs) {
-      var _this2 = this;
+      var _this3 = this;
       this.isAudioPlaying = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length);
       this.$nextTick(function () {
-        _this2.initializeAudioElements();
+        _this3.initializeAudioElements();
       });
     }
   },
@@ -44159,21 +44167,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   },
   methods: {
     initializeAudioElements: function initializeAudioElements() {
-      var _this3 = this;
+      var _this4 = this;
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) return;
       this.audioElements = this.$refs.audioCard.map(function (card, index) {
-        var _this3$filteredAyahs$;
-        var audio = new Audio(((_this3$filteredAyahs$ = _this3.filteredAyahs[index]) === null || _this3$filteredAyahs$ === void 0 ? void 0 : _this3$filteredAyahs$.audio) || "");
+        var _this4$filteredAyahs$;
+        var audio = new Audio(((_this4$filteredAyahs$ = _this4.filteredAyahs[index]) === null || _this4$filteredAyahs$ === void 0 ? void 0 : _this4$filteredAyahs$.audio) || "");
         if (audio) {
-          audio.playbackRate = _this3.playbackSpeed;
+          audio.playbackRate = _this4.playbackSpeed;
           audio.addEventListener("timeupdate", function () {
-            return _this3.updateProgress(index);
+            return _this4.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
-            _this3.progress[index] = 0;
+            _this4.progress[index] = 0;
           });
           audio.addEventListener("ended", function () {
-            return _this3.handleAyahEnd(index);
+            return _this4.handleAyahEnd(index);
           });
         }
         return audio;
@@ -44193,7 +44201,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     playAudio: function playAudio(index) {
-      var _this4 = this;
+      var _this5 = this;
       if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         this.currentlyPlaying.pause();
@@ -44206,14 +44214,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentlyPlayingIndex = index;
       this.currentlyPlaying.play()["catch"](function (err) {
         console.error("Play error:", err);
-        _this4.handleAyahEnd(index);
+        _this5.handleAyahEnd(index);
       });
       this.isAudioPlaying[index] = true;
-      var audioCards = this.$refs.audioCard;
-      audioCards.forEach(function (card) {
-        return card.classList.remove('highlighted');
+      var audioCards = this.$refs["audioCard_".concat(index)];
+      if (audioCards) audioCards[0].scrollIntoView({
+        behavior: "smooth",
+        block: "center"
       });
-      if (audioCards[index]) audioCards[index].classList.add('highlighted');
       this.scrollToCard(index);
     },
     pauseAudio: function pauseAudio(index) {
@@ -44228,6 +44236,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.audioElements[index].currentTime = 0;
         this.isAudioPlaying[index] = false;
         this.progress[index] = 0;
+      }
+    },
+    rewindAudio: function rewindAudio() {
+      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
+        var audio = this.audioElements[this.currentlyPlayingIndex];
+        audio.currentTime = Math.max(0, audio.currentTime - 15);
+        this.updateProgress(this.currentlyPlayingIndex);
+      }
+    },
+    fastForwardAudio: function fastForwardAudio() {
+      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
+        var audio = this.audioElements[this.currentlyPlayingIndex];
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+        this.updateProgress(this.currentlyPlayingIndex);
       }
     },
     updateProgress: function updateProgress(index) {
@@ -44247,13 +44269,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return text.replace(regex, "<span class=\"highlight\">$1</span>");
     },
     scrollToCard: function scrollToCard(index) {
-      var audioCards = this.$refs.audioCard;
-      if (!audioCards || !audioCards[index]) return;
-      clearTimeout(this.scrollTimeout);
+      var audioCards = this.$refs["audioCard_".concat(index)];
+      if (!audioCards || !audioCards.length) return;
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
       this.scrollTimeout = setTimeout(function () {
-        audioCards[index].scrollIntoView({
+        audioCards[0].scrollIntoView({
           behavior: "smooth",
-          block: "nearest"
+          block: "center"
         });
       }, 100);
     },
@@ -44278,35 +44300,35 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.highlightedAyah = this.words.join(" ");
     },
     syncHighlight: function syncHighlight() {
-      var _this5 = this;
+      var _this6 = this;
       var audio = this.currentlyPlaying;
       if (!audio) return;
       var currentTime = audio.currentTime;
       var highlightedWords = this.words.map(function (word, index) {
-        return currentTime >= _this5.timestamps[index] ? "<span class=\"highlight\">".concat(word, "</span>") : word;
+        return currentTime >= _this6.timestamps[index] ? "<span class=\"highlight\">".concat(word, "</span>") : word;
       });
       this.highlightedAyah = highlightedWords.join(" ");
     },
     copyAyah: function copyAyah(ayah) {
-      var _this6 = this;
+      var _this7 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var ayahText;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              ayahText = "Surah number: ".concat(_this6.surahDetails.surahNumber, "\n\nSurah name: ").concat(_this6.surahDetails.englishName, "\n\nAyah text: ").concat(ayah.text, "\n\nTranslation: ").concat(ayah.translation);
+              ayahText = "Surah number: ".concat(_this7.surahDetails.surahNumber, "\n\nSurah name: ").concat(_this7.surahDetails.englishName, "\n\nAyah text: ").concat(ayah.text, "\n\nTranslation: ").concat(ayah.translation);
               _context.prev = 1;
               _context.next = 4;
               return navigator.clipboard.writeText(ayahText);
             case 4:
-              _this6.showAlert("success", "Ayah & Translation copied to clipboard!");
+              _this7.showAlert("success", "Ayah & Translation copied to clipboard!");
               _context.next = 11;
               break;
             case 7:
               _context.prev = 7;
               _context.t0 = _context["catch"](1);
               console.error("Error copying text:", _context.t0);
-              _this6.showAlert("danger", "Failed to copy Ayah. Please try again.");
+              _this7.showAlert("danger", "Failed to copy Ayah. Please try again.");
             case 11:
             case "end":
               return _context.stop();
@@ -44329,7 +44351,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       window.open(whatsappLink, "_blank");
     },
     fetchSurahs: function fetchSurahs() {
-      var _this7 = this;
+      var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -44350,7 +44372,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context2.sent;
-              _this7.surahs = data.data;
+              _this8.surahs = data.data;
               _context2.next = 15;
               break;
             case 12:
@@ -44365,7 +44387,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchReciters: function fetchReciters() {
-      var _this8 = this;
+      var _this9 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -44386,7 +44408,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context3.sent;
-              _this8.reciters = data.data.filter(function (reciter) {
+              _this9.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -44396,21 +44418,31 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               }).filter(function (reciter) {
                 return !['elmir kuliev by 1muslimapp', 'elmir kuliev 2 by 1muslimapp', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
               });
-              _context3.next = 15;
+              if (_this9.reciters.length === 0) {
+                _this9.reciters.push({
+                  identifier: "ar.alafasy",
+                  englishName: "Mishary Rashid Alafasy"
+                });
+              }
+              _context3.next = 17;
               break;
-            case 12:
-              _context3.prev = 12;
+            case 13:
+              _context3.prev = 13;
               _context3.t0 = _context3["catch"](0);
               console.error("Error fetching Reciters:", _context3.t0);
-            case 15:
+              _this9.reciters = [{
+                identifier: "ar.alafasy",
+                englishName: "Mishary Rashid Alafasy"
+              }];
+            case 17:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[0, 12]]);
+        }, _callee3, null, [[0, 13]]);
       }))();
     },
     fetchTranslations: function fetchTranslations() {
-      var _this9 = this;
+      var _this10 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -44431,7 +44463,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context4.sent;
-              _this9.translations = data.data;
+              _this10.translations = data.data.map(function (translation) {
+                return {
+                  identifier: translation.identifier,
+                  englishName: translation.englishName || "Unknown Translation",
+                  language: translation.language || "Unknown",
+                  flag: _this10.getFlagFromLanguage(translation.language || "Unknown")
+                };
+              }).filter(function (translation) {
+                return translation.flag !== '🌐';
+              });
               _context4.next = 15;
               break;
             case 12:
@@ -44445,14 +44486,34 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee4, null, [[0, 12]]);
       }))();
     },
+    getFlagFromLanguage: function getFlagFromLanguage(lang) {
+      var languageFlags = {
+        'en': '🇬🇧',
+        'ar': '🇸🇦',
+        'fr': '🇫🇷',
+        'es': '🇪🇸',
+        'ur': '🇵🇰',
+        'tr': '🇹🇷',
+        'id': '🇮🇩',
+        'bn': '🇧🇩',
+        'fa': '🇮🇷',
+        'ru': '🇷🇺',
+        'de': '🇩🇪',
+        'it': '🇮🇹',
+        'sw': '🇹🇿',
+        'zh': '🇨🇳',
+        'hi': '🇮🇳'
+      };
+      return languageFlags[lang.toLowerCase()] || '🌐';
+    },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this10 = this;
+      var _this11 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
         var response, data, arabicText, translation;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
-              if (!(!_this10.selectedSurah || !_this10.selectedReciter || !_this10.selectedTranslation)) {
+              if (!(!_this11.selectedSurah || !_this11.selectedReciter || !_this11.selectedTranslation)) {
                 _context5.next = 2;
                 break;
               }
@@ -44460,7 +44521,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               _context5.prev = 2;
               _context5.next = 5;
-              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this10.selectedSurah, "/editions/").concat(_this10.selectedReciter, ",").concat(_this10.selectedTranslation));
+              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this11.selectedSurah, "/editions/").concat(_this11.selectedReciter, ",").concat(_this11.selectedTranslation));
             case 5:
               response = _context5.sent;
               if (response.ok) {
@@ -44475,8 +44536,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               data = _context5.sent;
               arabicText = data.data[0];
               translation = data.data[1];
-              _this10.surahDetails = {
-                surahNumber: _this10.selectedSurah,
+              _this11.surahDetails = {
+                surahNumber: _this11.selectedSurah,
                 englishName: arabicText.englishName,
                 name: arabicText.name,
                 ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -44489,10 +44550,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   };
                 })
               };
-              if (_this10.surahDetails.ayahs.length > 0) {
-                _this10.currentAudioUrl = _this10.surahDetails.ayahs[0].audio;
+              if (_this11.surahDetails.ayahs.length > 0) {
+                _this11.currentAudioUrl = _this11.surahDetails.ayahs[0].audio;
               }
-              _this10.resetAllAudioPlayers();
+              _this11.resetAllAudioPlayers();
               _context5.next = 21;
               break;
             case 18:
@@ -44507,28 +44568,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this11 = this;
+      var _this12 = this;
       this.$nextTick(function () {
-        _this11.audioElements.forEach(function (audio, index) {
+        _this12.audioElements.forEach(function (audio, index) {
           if (audio) {
-            var _this11$filteredAyahs;
+            var _this12$filteredAyahs;
             audio.pause();
-            audio.src = ((_this11$filteredAyahs = _this11.filteredAyahs[index]) === null || _this11$filteredAyahs === void 0 ? void 0 : _this11$filteredAyahs.audio) || "";
+            audio.src = ((_this12$filteredAyahs = _this12.filteredAyahs[index]) === null || _this12$filteredAyahs === void 0 ? void 0 : _this12$filteredAyahs.audio) || "";
             audio.load();
             audio.currentTime = 0;
-            audio.playbackRate = _this11.playbackSpeed;
+            audio.playbackRate = _this12.playbackSpeed;
           }
         });
       });
     },
     fetchJuzDetails: function fetchJuzDetails() {
-      var _this12 = this;
+      var _this13 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
         var response, data, arabicText, translation;
         return _regeneratorRuntime().wrap(function _callee6$(_context6) {
           while (1) switch (_context6.prev = _context6.next) {
             case 0:
-              if (!(!_this12.selectedJuz || _this12.selectedJuz < 1 || _this12.selectedJuz > 30)) {
+              if (!(!_this13.selectedJuz || _this13.selectedJuz < 1 || _this13.selectedJuz > 30)) {
                 _context6.next = 2;
                 break;
               }
@@ -44536,7 +44597,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             case 2:
               _context6.prev = 2;
               _context6.next = 5;
-              return fetch("https://api.alquran.cloud/v1/juz/".concat(_this12.selectedJuz, "/editions/").concat(_this12.selectedReciter, ",").concat(_this12.selectedTranslation));
+              return fetch("https://api.alquran.cloud/v1/juz/".concat(_this13.selectedJuz, "/editions/").concat(_this13.selectedReciter, ",").concat(_this13.selectedTranslation));
             case 5:
               response = _context6.sent;
               if (response.ok) {
@@ -44551,9 +44612,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               data = _context6.sent;
               arabicText = data.data[0];
               translation = data.data[1];
-              _this12.surahDetails = {
-                englishName: "Juz ".concat(_this12.selectedJuz),
-                name: "Juz ".concat(_this12.selectedJuz),
+              _this13.surahDetails = {
+                englishName: "Juz ".concat(_this13.selectedJuz),
+                name: "Juz ".concat(_this13.selectedJuz),
                 ayahs: arabicText.ayahs.map(function (ayah, index) {
                   var _translation$ayahs$in2;
                   return {
@@ -44590,12 +44651,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     stopAllAudio: function stopAllAudio() {
-      var _this13 = this;
+      var _this14 = this;
       this.audioElements.forEach(function (audio, index) {
         if (audio) {
           audio.pause();
-          _this13.isAudioPlaying[index] = false;
-          _this13.progress[index] = 0;
+          _this14.isAudioPlaying[index] = false;
+          _this14.progress[index] = 0;
         }
       });
       this.currentlyPlaying = null;
@@ -44606,21 +44667,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.updatePlaybackSpeed();
     },
     updatePlaybackSpeed: function updatePlaybackSpeed() {
-      var _this14 = this;
+      var _this15 = this;
       if (this.currentlyPlaying) {
         this.currentlyPlaying.playbackRate = this.playbackSpeed;
       }
       this.audioElements.forEach(function (audio) {
-        if (audio) audio.playbackRate = _this14.playbackSpeed;
+        if (audio) audio.playbackRate = _this15.playbackSpeed;
       });
     },
     selectReciter: function selectReciter(reciterId) {
-      var _this15 = this;
+      var _this16 = this;
       this.selectedReciter = reciterId;
       this.savePreference("selectedReciter", reciterId);
       this.fetchSurahDetails().then(function () {
-        if (_this15.currentlyPlayingIndex !== null) {
-          _this15.playAudio(_this15.currentlyPlayingIndex);
+        if (_this16.currentlyPlayingIndex !== null) {
+          _this16.playAudio(_this16.currentlyPlayingIndex);
         }
       });
     },
@@ -64735,32 +64796,22 @@ var _hoisted_41 = {
 var _hoisted_42 = {
   "class": "controls"
 };
-var _hoisted_43 = ["title"];
+var _hoisted_43 = {
+  "class": "time-display"
+};
 var _hoisted_44 = {
-  "class": "control-btn speed-btn",
-  "data-bs-toggle": "dropdown",
-  "aria-expanded": "false",
-  title: "Adjust Speed"
-};
-var _hoisted_45 = {
-  "class": "speed-value"
-};
-var _hoisted_46 = {
-  "class": "dropdown-menu"
-};
-var _hoisted_47 = {
-  "class": "dropdown-menu reciter-dropdown"
-};
-var _hoisted_48 = ["onClick"];
-var _hoisted_49 = {
   "class": "progress-bar"
 };
-var _hoisted_50 = {
-  "class": "time"
+var _hoisted_45 = {
+  "class": "playback-controls"
+};
+var _hoisted_46 = ["title"];
+var _hoisted_47 = {
+  "class": "time-display"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  var _$data$audioElements$, _$data$audioElements$2, _$data$audioElements$3;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -64776,7 +64827,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     }
-  }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -64788,7 +64839,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[2] || (_cache[2] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.surahs, function (surah) {
@@ -64796,7 +64847,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -64805,7 +64856,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.selectedReciter = $event;
     })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reciters, function (reciter) {
@@ -64813,7 +64864,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -64825,14 +64876,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onChange: _cache[5] || (_cache[5] = function () {
       return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.translations, function (translation) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: translation.identifier,
       value: translation.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName), 9 /* TEXT, PROPS */, _hoisted_11);
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.language) + ") ", 9 /* TEXT, PROPS */, _hoisted_11);
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.isVisible]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
     var _$data$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -64843,7 +64894,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref: "audioCard",
       key: ayah.number,
       "class": "col-md-12 mb-2 mt-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
@@ -64853,7 +64904,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -64881,7 +64932,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle",
       style: {
         "font-size": "1.2rem",
@@ -64896,7 +64947,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[7] || (_cache[7] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle",
       style: {
         "font-size": "1.2rem",
@@ -64911,7 +64962,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share",
       style: {
         "font-size": "1.2rem",
@@ -64926,7 +64977,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.copyAyah(ayah);
       }
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard",
       style: {
         "font-size": "1.2rem",
@@ -64942,7 +64993,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_28), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -64976,7 +65027,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle",
       style: {
         "font-size": "1.2rem",
@@ -64994,7 +65045,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle",
       style: {
         "font-size": "1.2rem",
@@ -65012,7 +65063,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share",
       style: {
         "font-size": "1.2rem",
@@ -65030,7 +65081,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard",
       style: {
         "font-size": "1.2rem",
@@ -65043,76 +65094,49 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_39)])])])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), $data.isAudioPlaying.some(function (state) {
     return state;
-  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[10] || (_cache[10] = function () {
+  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, "-" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)("-" + $options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.duration) - (((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.currentTime) || 0) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress-bar-container",
+    onClick: _cache[10] || (_cache[10] = function ($event) {
+      return $options.seekAudio($event);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "progress",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: $data.progress[$data.currentlyPlayingIndex] + '%'
+    })
+  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[11] || (_cache[11] = function () {
+      return $options.rewindAudio && $options.rewindAudio.apply($options, arguments);
+    }),
+    "class": "control-btn rewind",
+    title: "Rewind 15s"
+  }, _cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-rewind"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.togglePlayPause && $options.togglePlayPause.apply($options, arguments);
     }),
     "class": "control-btn play-pause",
     title: $data.isAudioPlaying[$data.currentlyPlayingIndex] ? 'Pause' : 'Play'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isAudioPlaying[$data.currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_44, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-speedometer2"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.playbackSpeed) + "x", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.setSpeed(0.5);
-    }, ["prevent"]))
-  }, "0.5x")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    onClick: _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.setSpeed(1.0);
-    }, ["prevent"]))
-  }, "1.0x")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    onClick: _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.setSpeed(1.5);
-    }, ["prevent"]))
-  }, "1.5x")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "dropdown-item",
-    href: "#",
-    onClick: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.setSpeed(2.0);
-    }, ["prevent"]))
-  }, "2.0x")])]), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "control-btn reciter-btn",
-    "data-bs-toggle": "dropdown",
-    "aria-expanded": "false",
-    title: "Select Reciter"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-person-square"
-  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_47, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reciters, function (reciter) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: reciter.identifier
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "dropdown-item",
-      href: "#",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-        return $options.selectReciter(reciter.identifier);
-      }, ["prevent"])
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_48)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[15] || (_cache[15] = function ($event) {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[13] || (_cache[13] = function () {
+      return $options.fastForwardAudio && $options.fastForwardAudio.apply($options, arguments);
+    }),
+    "class": "control-btn fast-forward",
+    title: "Fast Forward 15s"
+  }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-fast-forward"
+  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[14] || (_cache[14] = function ($event) {
       return $options.stopAudio($data.currentlyPlayingIndex);
     }),
-    "class": "control-btn",
+    "class": "control-btn stop",
     title: "Stop"
-  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-circle-fill"
-  }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "progress-container",
-    onClick: _cache[16] || (_cache[16] = function ($event) {
-      return $options.seekAudio($event);
-    })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "progress",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: $data.progress[$data.currentlyPlayingIndex] + '%'
-    })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$3 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$3 === void 0 ? void 0 : _$data$audioElements$3.duration) || 0)), 1 /* TEXT */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -167393,7 +167417,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.sticky-dropdown .row[data-v-828f3036] {\n  margin-left: 0;\n  margin-right: 0;\n}\n@media (max-width: 768px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 5px;\n}\n.sticky-dropdown .col-12[data-v-828f3036] {\n    margin-bottom: 10px;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 0.9rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 0.9rem;\n}\n}\n@media (min-width: 769px) and (max-width: 991px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 8px;\n}\n.sticky-dropdown .col-md-4[data-v-828f3036] {\n    margin-bottom: 10px;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 1rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 10px;\n}\n.sticky-dropdown .col-md-4[data-v-828f3036] {\n    margin-bottom: 0;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n.icon-hover[data-v-828f3036] {\n  transition: all 0.3s ease;\n}\n.icon-hover[data-v-828f3036]:hover {\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.9);\n  padding: 15px 30px;\n  border-top-left-radius: 15px;\n  border-top-right-radius: 15px;\n  animation: slideUp-828f3036 0.5s ease-out;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: white;\n  min-height: 80px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 25px;\n  flex-grow: 1;\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 2rem;\n  cursor: pointer;\n  padding: 5px;\n  width: 2rem;\n  height: 2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.speed-btn[data-v-828f3036], .reciter-btn[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n}\n.speed-value[data-v-828f3036] {\n  font-size: 1.2rem;\n}\n.progress-container[data-v-828f3036] {\n  flex-grow: 1;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: pointer;\n  margin: 0 20px;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 6px;\n  background-color: #444;\n  border-radius: 3px;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  border-radius: 3px;\n  transition: width 0.1s linear;\n}\n.time[data-v-828f3036] {\n  font-size: 1rem;\n  margin-top: 5px;\n}\n.reciter-dropdown[data-v-828f3036] {\n  max-height: 300px;\n  overflow-y: auto;\n  background-color: #343a40;\n  border: 1px solid #00bfa6;\n  border-radius: 5px;\n  padding: 10px;\n}\n.reciter-dropdown .dropdown-item[data-v-828f3036] {\n  font-size: 1.1rem;\n  color: white;\n  padding: 10px 15px;\n  transition: background-color 0.3s ease;\n}\n.reciter-dropdown .dropdown-item[data-v-828f3036]:hover {\n  background-color: #00bfa6;\n  color: #fff;\n}\n.dropdown-menu[data-v-828f3036] {\n  min-width: 150px;\n}\n.dropdown-item[data-v-828f3036] {\n  font-size: 1rem;\n}\n@keyframes slideUp-828f3036 {\nfrom {\n    transform: translateY(100%);\n    opacity: 0;\n}\nto {\n    transform: translateY(0);\n    opacity: 1;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.sticky-dropdown .row[data-v-828f3036] {\n  margin-left: 0;\n  margin-right: 0;\n}\n@media (max-width: 768px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 5px;\n}\n.sticky-dropdown .col-12[data-v-828f3036] {\n    margin-bottom: 10px;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 0.9rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 0.9rem;\n}\n}\n@media (min-width: 769px) and (max-width: 991px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 8px;\n}\n.sticky-dropdown .col-md-4[data-v-828f3036] {\n    margin-bottom: 10px;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 1rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.sticky-dropdown[data-v-828f3036] {\n    padding: 10px;\n}\n.sticky-dropdown .col-md-4[data-v-828f3036] {\n    margin-bottom: 0;\n}\n.sticky-dropdown .form-select[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n.sticky-dropdown .form-label[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n.icon-hover[data-v-828f3036] {\n  transition: all 0.3s ease;\n}\n.icon-hover[data-v-828f3036]:hover {\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: #1a1a1a;\n  padding: 10px 20px;\n  border-top: 1px solid #333;\n  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);\n  animation: slideUp-828f3036 0.5s ease-out;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: #fff;\n  height: 60px;\n  background: transparent;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  width: 100%;\n  justify-content: space-between;\n}\n.time-display[data-v-828f3036] {\n  font-size: 0.9rem;\n  color: #bbb;\n  min-width: 40px;\n  text-align: center;\n}\n.progress-bar-container[data-v-828f3036] {\n  flex-grow: 1;\n  margin: 0 15px;\n  height: 4px;\n  background-color: #333;\n  position: relative;\n  cursor: pointer;\n}\n.progress-bar[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  position: absolute;\n  top: 0;\n  left: 0;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n  animation: progressPulse-828f3036 1s infinite alternate;\n}\n.playback-controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 5px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n@keyframes slideUp-828f3036 {\nfrom {\n    transform: translateY(100%);\n    opacity: 0;\n}\nto {\n    transform: translateY(0);\n    opacity: 1;\n}\n}\n@keyframes progressPulse-828f3036 {\nfrom {\n    background-color: #00bfa6;\n}\nto {\n    background-color: #009e8a;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

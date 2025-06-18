@@ -41,7 +41,7 @@
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation" @change="fetchSurahDetails">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
-              {{ translation.englishName }}
+              {{ translation.flag }} {{ translation.englishName }} ({{ translation.language }})
             </option>
           </select>
         </div>
@@ -49,7 +49,7 @@
     </div>
 
     <div class="row rtl-text">
-      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" :ref="'audioCard_' + index" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             border-top-left-radius: 25px;
@@ -141,36 +141,27 @@
     <div v-if="isAudioPlaying.some(state => state)" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <button @click="togglePlayPause" class="control-btn play-pause" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
-            <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-          </button>
-          <button class="control-btn speed-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Adjust Speed">
-            <i class="bi bi-speedometer2"></i>
-            <span class="speed-value">{{ playbackSpeed }}x</span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" @click.prevent="setSpeed(0.5)">0.5x</a></li>
-            <li><a class="dropdown-item" href="#" @click.prevent="setSpeed(1.0)">1.0x</a></li>
-            <li><a class="dropdown-item" href="#" @click.prevent="setSpeed(1.5)">1.5x</a></li>
-            <li><a class="dropdown-item" href="#" @click.prevent="setSpeed(2.0)">2.0x</a></li>
-          </ul>
-          <button class="control-btn reciter-btn" data-bs-toggle="dropdown" aria-expanded="false" title="Select Reciter">
-            <i class="bi bi-person-square"></i>
-          </button>
-          <ul class="dropdown-menu reciter-dropdown">
-            <li v-for="reciter in reciters" :key="reciter.identifier">
-              <a class="dropdown-item" href="#" @click.prevent="selectReciter(reciter.identifier)">{{ reciter.englishName }}</a>
-            </li>
-          </ul>
-          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
-            <i class="bi bi-x-circle-fill"></i>
-          </button>
-          <div class="progress-container" @click="seekAudio($event)">
+          <span class="time-display">-{{"-" + formatTime(audioElements[currentlyPlayingIndex]?.duration - (audioElements[currentlyPlayingIndex]?.currentTime || 0) || 0)}}</span>
+          <div class="progress-bar-container" @click="seekAudio($event)">
             <div class="progress-bar">
               <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
             </div>
-            <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           </div>
+          <div class="playback-controls">
+            <button @click="rewindAudio" class="control-btn rewind" title="Rewind 15s">
+              <i class="bi bi-rewind"></i>
+            </button>
+            <button @click="togglePlayPause" class="control-btn play-pause" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
+              <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+            </button>
+            <button @click="fastForwardAudio" class="control-btn fast-forward" title="Fast Forward 15s">
+              <i class="bi bi-fast-forward"></i>
+            </button>
+            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn stop" title="Stop">
+              <i class="bi bi-x-circle-fill"></i>
+            </button>
+          </div>
+          <span class="time-display">{{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
         </div>
       </div>
     </div>
@@ -195,8 +186,8 @@ export default {
       reciters: [],
       translations: [],
       selectedSurah: localStorage.getItem("selectedSurah") || "1",
-      selectedReciter: localStorage.getItem("selectedReciter") || "ar.alafasy",
-      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.asad",
+      selectedReciter: "ar.alafasy",
+      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
       selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
@@ -219,6 +210,11 @@ export default {
     window.addEventListener("scroll", this.handleScroll);
     this.resetToDefault();
     this.loadPreferences();
+    this.fetchReciters().then(() => {
+      if (!this.reciters.some(r => r.identifier === this.selectedReciter)) {
+        this.selectedReciter = this.reciters.length > 0 ? this.reciters[0].identifier : "ar.alafasy";
+      }
+    });
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -332,9 +328,8 @@ export default {
         this.handleAyahEnd(index);
       });
       this.isAudioPlaying[index] = true;
-      const audioCards = this.$refs.audioCard;
-      audioCards.forEach(card => card.classList.remove('highlighted'));
-      if (audioCards[index]) audioCards[index].classList.add('highlighted');
+      const audioCards = this.$refs[`audioCard_${index}`];
+      if (audioCards) audioCards[0].scrollIntoView({ behavior: "smooth", block: "center" });
       this.scrollToCard(index);
     },
     pauseAudio(index) {
@@ -349,6 +344,20 @@ export default {
         this.audioElements[index].currentTime = 0;
         this.isAudioPlaying[index] = false;
         this.progress[index] = 0;
+      }
+    },
+    rewindAudio() {
+      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
+        const audio = this.audioElements[this.currentlyPlayingIndex];
+        audio.currentTime = Math.max(0, audio.currentTime - 15);
+        this.updateProgress(this.currentlyPlayingIndex);
+      }
+    },
+    fastForwardAudio() {
+      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
+        const audio = this.audioElements[this.currentlyPlayingIndex];
+        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
+        this.updateProgress(this.currentlyPlayingIndex);
       }
     },
     updateProgress(index) {
@@ -368,14 +377,11 @@ export default {
       return text.replace(regex, `<span class="highlight">$1</span>`);
     },
     scrollToCard(index) {
-      const audioCards = this.$refs.audioCard;
-      if (!audioCards || !audioCards[index]) return;
-      clearTimeout(this.scrollTimeout);
+      const audioCards = this.$refs[`audioCard_${index}`];
+      if (!audioCards || !audioCards.length) return;
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
       this.scrollTimeout = setTimeout(() => {
-        audioCards[index].scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
+        audioCards[0].scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
     },
     handleScroll() {
@@ -462,8 +468,12 @@ export default {
             'shamshad ali khan',
             'youssouf leclerc'
           ].includes(reciter.englishName.toLowerCase()));
+        if (this.reciters.length === 0) {
+          this.reciters.push({ identifier: "ar.alafasy", englishName: "Mishary Rashid Alafasy" });
+        }
       } catch (error) {
         console.error("Error fetching Reciters:", error);
+        this.reciters = [{ identifier: "ar.alafasy", englishName: "Mishary Rashid Alafasy" }];
       }
     },
     async fetchTranslations() {
@@ -471,10 +481,35 @@ export default {
         const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
         if (!response.ok) throw new Error("Failed to fetch Translations");
         const data = await response.json();
-        this.translations = data.data;
+        this.translations = data.data.map(translation => ({
+          identifier: translation.identifier,
+          englishName: translation.englishName || "Unknown Translation",
+          language: translation.language || "Unknown",
+          flag: this.getFlagFromLanguage(translation.language || "Unknown")
+        })).filter(translation => translation.flag !== '🌐');
       } catch (error) {
         console.error("Error fetching Translations:", error);
       }
+    },
+    getFlagFromLanguage(lang) {
+      const languageFlags = {
+        'en': '🇬🇧',
+        'ar': '🇸🇦',
+        'fr': '🇫🇷',
+        'es': '🇪🇸',
+        'ur': '🇵🇰',
+        'tr': '🇹🇷',
+        'id': '🇮🇩',
+        'bn': '🇧🇩',
+        'fa': '🇮🇷',
+        'ru': '🇷🇺',
+        'de': '🇩🇪',
+        'it': '🇮🇹',
+        'sw': '🇹🇿',
+        'zh': '🇨🇳',
+        'hi': '🇮🇳'
+      };
+      return languageFlags[lang.toLowerCase()] || '🌐';
     },
     async fetchSurahDetails() {
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return;
@@ -720,10 +755,10 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1001;
-  background-color: rgba(33, 33, 33, 0.9);
-  padding: 15px 30px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  background-color: #1a1a1a;
+  padding: 10px 20px;
+  border-top: 1px solid #333;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.5s ease-out;
 }
 
@@ -731,26 +766,62 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: white;
-  min-height: 80px;
+  color: #fff;
+  height: 60px;
+  background: transparent;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 25px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.time-display {
+  font-size: 0.9rem;
+  color: #bbb;
+  min-width: 40px;
+  text-align: center;
+}
+
+.progress-bar-container {
   flex-grow: 1;
+  margin: 0 15px;
+  height: 4px;
+  background-color: #333;
+  position: relative;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #00bfa6;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress {
+  height: 100%;
+  background-color: #00bfa6;
+  transition: width 0.1s linear;
+  animation: progressPulse 1s infinite alternate;
+}
+
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .control-btn {
   background: none;
   border: none;
-  color: white;
-  font-size: 2rem;
+  color: #fff;
+  font-size: 1.5rem;
   cursor: pointer;
   padding: 5px;
-  width: 2rem;
-  height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -761,73 +832,6 @@ export default {
   color: #00bfa6;
 }
 
-.speed-btn, .reciter-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.speed-value {
-  font-size: 1.2rem;
-}
-
-.progress-container {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  margin: 0 20px;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background-color: #444;
-  border-radius: 3px;
-}
-
-.progress {
-  height: 100%;
-  background-color: #00bfa6;
-  border-radius: 3px;
-  transition: width 0.1s linear;
-}
-
-.time {
-  font-size: 1rem;
-  margin-top: 5px;
-}
-
-.reciter-dropdown {
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #343a40;
-  border: 1px solid #00bfa6;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.reciter-dropdown .dropdown-item {
-  font-size: 1.1rem;
-  color: white;
-  padding: 10px 15px;
-  transition: background-color 0.3s ease;
-}
-
-.reciter-dropdown .dropdown-item:hover {
-  background-color: #00bfa6;
-  color: #fff;
-}
-
-.dropdown-menu {
-  min-width: 150px;
-}
-
-.dropdown-item {
-  font-size: 1rem;
-}
-
 @keyframes slideUp {
   from {
     transform: translateY(100%);
@@ -836,6 +840,15 @@ export default {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes progressPulse {
+  from {
+    background-color: #00bfa6;
+  }
+  to {
+    background-color: #009e8a;
   }
 }
 </style>
