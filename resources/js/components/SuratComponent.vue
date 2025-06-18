@@ -450,7 +450,18 @@ export default {
           .map((reciter) => ({
             identifier: reciter.identifier,
             englishName: reciter.englishName || "Unknown Reciter",
-          }));
+          }))
+          .filter(reciter => ![
+            'elmir kuliev by 1muslimapp',
+            'elmir kuliev 2 by 1muslimapp',
+            'elmir kuliev 1muslim',
+            'elmir kuliev 2muslim',
+            'chinese',
+            'ibrahim walk',
+            'fooladvand - hedayatfar',
+            'shamshad ali khan',
+            'youssouf leclerc'
+          ].includes(reciter.englishName.toLowerCase()));
       } catch (error) {
         console.error("Error fetching Reciters:", error);
       }
@@ -637,7 +648,7 @@ export default {
 
 .sticky-dropdown {
   position: sticky;
-  top: 60px;
+  top: 50px;
   z-index: 1000;
   background-color: #343a40;
   padding: 10px;
@@ -695,12 +706,12 @@ export default {
 }
 
 .icon-hover {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 }
 
 .icon-hover:hover {
   color: #00bfa6;
-  transform: scale(1.3);
+  transform: scale(1.1);
 }
 
 .audio-player-container {
