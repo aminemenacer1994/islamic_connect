@@ -31,7 +31,7 @@
 
 
                 <div class="col-md-4 pt-2">
-                    <h4 class="fw-bold text-left pt-2 container">Select a Surah:</h4>
+                    <h4 class="fw-bold text-left pt-2 ">Select a Surah:</h4>
                     <SurahDropdown class="col-md-12" :selectedSurah="selectedSurahId" :filteredSurah="filteredSurah"
                         :surat="surat" @update:selectedSurah="updateSelectedSurah" @fetchAyat="getAyat" />
 
@@ -42,7 +42,7 @@
 
                     <!-- <AddBookmark /> -->
                     <!-- </div> -->
-                    <h4 class="fw-bold text-left container " v-if="information != null">Select a Verse:</h4>
+                    <h4 class="fw-bold text-left  " v-if="information != null">Select a Verse:</h4>
                     <!-- <form class="d-flex pb-2 container hide-on-mobile-tablet" v-if="information != null" role="search"
                         @submit.prevent="scrollToAyah">
                         <input class="form-control me-2" style="border: 3px solid #31464338; border-radius: 10px; "
@@ -120,7 +120,7 @@
                     </div>
                 </div>
                 <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">
-                    <h4 class="fw-bold text-left container-fluid " v-if="information != null">Verse Breakdown...</h4>
+                    <h4 class="fw-bold text-left" v-if="information != null">Verse Breakdown...</h4>
                     <div class="card content" style="
                         border-radius: 15px;  border: 1px solid #31464338">
                         <div class="content">

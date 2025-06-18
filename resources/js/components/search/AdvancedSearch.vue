@@ -5,7 +5,7 @@
 
       <div class="container input-group pb-3" style="position: relative;">
         <input type="search" @keyup="onInput" v-model="searchTerm" placeholder="Search for a keyword..."
-          class="form-control pb-3 mobile-only"
+          class="form-control mobile-only"
           style="flex: 1; padding: 15px; height: 50px;" />
 
         <!-- Suggestions Dropdown -->
