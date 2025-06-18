@@ -21,7 +21,7 @@
         <div class="col-md-4">
           <label for="surah-select" class="form-label text-white">Select Surah:</label>
           <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
-            <option value="" disabled selected>Select a Surah</option>
+            <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
               {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
             </option>
@@ -39,7 +39,7 @@
         <div class="col-md-4">
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation" @change="fetchSurahDetails">
-            <option value="" disabled selected>Select Translation</option>
+            <option value="" disabled>Select Translation</option>
             <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
               {{ translation.englishName }}
             </option>
@@ -105,19 +105,19 @@
             <div class="col-md-1 text-center">
               <div class="d-flex flex-column align-items-center">
                 <div class="mb-3" @click="toggleAudioPlayer(index)">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle' : 'bi-play-circle'" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
                 <div class="mb-3" @click="rewindAudio(index)">
-                  <i class="bi bi-skip-backward-circle" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
+                  <i class="bi bi-skip-backward-circle-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
                 </div>
                 <div class="mb-3" @click="decreaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-dash-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Decrease Font Size"></i>
+                  <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Decrease Font Size"></i>
                 </div>
                 <div class="mb-3" @click="increaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-plus-circle" data-bs-toggle="tooltip" data-bs-placement="right" title="Increase Font Size"></i>
+                  <i style="cursor: pointer; font-size: 1.3rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Increase Font Size"></i>
                 </div>
                 <div class="mb-3" @click="fastForwardAudio(index)">
-                  <i class="bi bi-skip-forward-circle" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
+                  <i class="bi bi-skip-forward-circle-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
                 </div>
               </div>
             </div>
@@ -133,27 +133,27 @@
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle' : 'bi-play-circle'" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="rewindAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-backward-circle" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-dash-circle" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
+                  <i class="bi bi-dash-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="increaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-plus-circle" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
+                  <i class="bi bi-plus-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="fastForwardAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-forward-circle" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
+                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
                 </div>
               </div>
             </div>
@@ -163,35 +163,54 @@
     </div>
 
     <!-- Scroll to Top FAB -->
-    <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
+    <!-- <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
       <i class="bi bi-chevron-double-up pt-1 h2"></i>
     </button>
 
     <button v-if="isAudioPlaying.some(state => state)" class="fab_audio" @click="scrollToCurrentAudio">
       <i class="bi bi-reply h2"></i>
-    </button>
+    </button> -->
 
     <!-- Global Custom Audio Player -->
     <div v-if="isAudioPlaying.some(state => state)" class="audio-player-container">
       <div class="custom-audio-player">
-        <div class="progress-bar">
-          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
-        </div>
         <div class="controls">
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn">
+          <button @click="decreaseSpeed" class="control-btn" title="Decrease Speed">
+            <i class="bi bi-speedometer2"></i>
+          </button>
+          <button @click="increaseSpeed" class="control-btn" title="Increase Speed">
+            <i class="bi bi-speedometer"></i>
+          </button>
+          <button @click="downloadAudio(filteredAyahs[currentlyPlayingIndex]?.audio, `ayah_${surahDetails?.surahNumber}_${filteredAyahs[currentlyPlayingIndex]?.number}`)" class="control-btn" title="Download Ayah">
+            <i class="bi bi-download"></i>
+          </button>
+          <select v-model="selectedReciter" @change="updateReciter" class="form-select control-select" title="Select Reciter">
+            <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
+              {{ reciter.englishName }}
+            </option>
+          </select>
+          <select v-model="selectedTranslation" @change="updateTranslation" class="form-select control-select" title="Select Translation">
+            <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
+              {{ translation.englishName }}
+            </option>
+          </select>
+          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
             <i class="bi bi-skip-backward-fill"></i>
           </button>
-          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause">
+          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
             <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
             <i v-else class="bi bi-play-fill"></i>
           </button>
-          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn">
+          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
             <i class="bi bi-skip-forward-fill"></i>
           </button>
-          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn">
-            <i class="bi bi-x-circle-fill"></i>
+          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+            <i class="bi bi-x-circle-fill-fill"></i>
           </button>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
     </div>
@@ -215,7 +234,7 @@ export default {
       surahs: [],
       reciters: [],
       translations: [],
-      selectedSurah: "",
+      selectedSurah: "1", // Default to Surah Al-Fatiha
       selectedReciter: "ar.alafasy",
       selectedTranslation: "en.asad",
       selectedJuz: null,
@@ -231,12 +250,14 @@ export default {
       currentAyahIndex: 0,
       progress: [],
       audioElements: [],
+      playbackSpeed: 1.0,
     };
   },
   mounted() {
     this.audioElement = new Audio();
     this.prepareAyahText();
     window.addEventListener("scroll", this.handleScroll);
+    this.fetchSurahDetails(); // Load Surah Al-Fatiha by default
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -301,11 +322,14 @@ export default {
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) return;
       this.audioElements = this.$refs.audioCard.map((card, index) => {
         const audio = new Audio(this.filteredAyahs[index]?.audio || "");
-        audio.addEventListener("timeupdate", () => this.updateProgress(index));
-        audio.addEventListener("loadedmetadata", () => {
-          this.progress[index] = 0;
-        });
-        audio.addEventListener("ended", () => this.pauseAudio(index));
+        if (audio) {
+          audio.playbackRate = this.playbackSpeed;
+          audio.addEventListener("timeupdate", () => this.updateProgress(index));
+          audio.addEventListener("loadedmetadata", () => {
+            this.progress[index] = 0;
+          });
+          audio.addEventListener("ended", () => this.handleAyahEnd(index));
+        }
         return audio;
       });
     },
@@ -318,7 +342,7 @@ export default {
       }
     },
     playAudio(index) {
-      if (!this.audioElements[index]) return;
+      if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         this.currentlyPlaying.pause();
         this.currentlyPlaying.currentTime = 0;
@@ -326,7 +350,10 @@ export default {
       this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
       this.currentlyPlaying = this.audioElements[index];
       this.currentlyPlayingIndex = index;
-      this.currentlyPlaying.play().catch(err => console.error("Play error:", err));
+      this.currentlyPlaying.play().catch(err => {
+        console.error("Play error:", err);
+        this.handleAyahEnd(index); // Move to next if play fails
+      });
       this.isAudioPlaying[index] = true;
       const audioCards = this.$refs.audioCard;
       audioCards.forEach(card => card.classList.remove('highlighted'));
@@ -337,7 +364,6 @@ export default {
       if (this.audioElements[index]) {
         this.audioElements[index].pause();
         this.isAudioPlaying[index] = false;
-        this.currentlyPlaying = null;
       }
     },
     stopAudio(index) {
@@ -345,7 +371,6 @@ export default {
         this.audioElements[index].pause();
         this.audioElements[index].currentTime = 0;
         this.isAudioPlaying[index] = false;
-        this.currentlyPlaying = null;
         this.progress[index] = 0;
       }
     },
@@ -393,9 +418,6 @@ export default {
         this.currentlyPlaying.load();
         this.currentlyPlaying.play();
       }
-    },
-    checkIfAnyAudioPlaying() {
-      this.isAudioPlaying = this.audioElements.map(audio => audio && !audio.paused);
     },
     scrollToCurrentAudio() {
       const index = this.isAudioPlaying.findIndex(state => state);
@@ -540,6 +562,7 @@ export default {
         if (this.surahDetails.ayahs.length > 0) {
           this.currentAudioUrl = this.surahDetails.ayahs[0].audio;
         }
+        this.resetAllAudioPlayers();
       } catch (error) {
         console.error("Error fetching Surah details:", error);
       }
@@ -552,6 +575,7 @@ export default {
             audio.src = this.filteredAyahs[index]?.audio || "";
             audio.load();
             audio.currentTime = 0;
+            audio.playbackRate = this.playbackSpeed;
           }
         });
       });
@@ -579,6 +603,55 @@ export default {
       } catch (error) {
         console.error("Error fetching Juz details:", error);
       }
+    },
+    handleAyahEnd(index) {
+      if (this.isAudioPlaying[index]) {
+        this.stopAudio(index);
+        this.playNextAyah();
+      }
+    },
+    playNextAyah() {
+      if (this.filteredAyahs.length > 0) {
+        const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
+        this.playAudio(nextIndex);
+      }
+    },
+    stopAllAudio() {
+      this.audioElements.forEach((audio, index) => {
+        if (audio) {
+          audio.pause();
+          this.isAudioPlaying[index] = false;
+          this.progress[index] = 0;
+        }
+      });
+      this.currentlyPlaying = null;
+      this.currentlyPlayingIndex = null;
+    },
+    increaseSpeed() {
+      if (this.playbackSpeed < 2.0) {
+        this.playbackSpeed += 0.25;
+        this.updatePlaybackSpeed();
+      }
+    },
+    decreaseSpeed() {
+      if (this.playbackSpeed > 0.25) {
+        this.playbackSpeed -= 0.25;
+        this.updatePlaybackSpeed();
+      }
+    },
+    updatePlaybackSpeed() {
+      if (this.currentlyPlaying) {
+        this.currentlyPlaying.playbackRate = this.playbackSpeed;
+      }
+      this.audioElements.forEach(audio => {
+        if (audio) audio.playbackRate = this.playbackSpeed;
+      });
+    },
+    updateReciter() {
+      this.fetchSurahDetails();
+    },
+    updateTranslation() {
+      this.fetchSurahDetails();
     },
   },
 };
@@ -614,9 +687,9 @@ export default {
 
 .fab {
   position: fixed;
-  bottom: 20px;
+  bottom: 100px; /* Moved up to avoid covering audio player */
   right: 20px;
-  z-index: 1001; /* Above audio player */
+  z-index: 1002; /* Above audio player */
   background-color: #007bff;
   color: white;
   border: none;
@@ -631,9 +704,9 @@ export default {
 
 .fab_audio {
   position: fixed;
-  bottom: 80px;
+  bottom: 160px; /* Moved up to avoid covering audio player */
   right: 20px;
-  z-index: 1001; /* Above audio player */
+  z-index: 1002; /* Above audio player */
   background-color: #28a745;
   color: white;
   border: none;
@@ -661,11 +734,11 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 1000; /* Below FABs but above other content */
+  z-index: 1001; /* Below FABs but above other content */
   background-color: rgba(33, 33, 33, 0.7); /* Transparent background */
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Subtle upward shadow */
-  border-radius: 10px 10px 0 0; /* Rounded top corners */
-  padding: 5px 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3); /* Enhanced shadow */
+  border-radius: 15px 15px 0 0; /* Rounded top corners */
+  padding: 10px 20px;
 }
 
 .custom-audio-player {
@@ -673,45 +746,59 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: white;
-  font-size: 1rem;
-  padding: 5px 15px;
+  font-size: 1.5rem; /* Bigger text */
+  padding: 10px 20px;
 }
 
 .progress-bar {
   flex-grow: 1;
-  height: 5px;
+  height: 8px; /* Bigger progress bar */
   background-color: #666;
-  margin: 0 10px;
+  margin: 0 20px;
 }
 
 .progress {
   height: 100%;
-  background-color: #1ed760;
+  background-color: #00bfa6; /* Progress bar color */
   transition: width 0.1s linear;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 25px; /* Bigger gap for spacing */
 }
 
 .control-btn {
   background: none;
   border: none;
   color: white;
-  font-size: 1.2rem;
+  font-size: 2rem; /* Bigger icons */
   cursor: pointer;
-  padding: 5px;
+  padding: 10px;
   transition: color 0.2s;
 }
 
 .control-btn:hover {
-  color: #1ed760;
+  color: #00bfa6; /* Match progress bar color on hover */
+}
+
+.control-select {
+  font-size: 1.2rem; /* Match text size */
+  padding: 5px 10px;
+  background-color: rgba(33, 33, 33, 0.7);
+  color: white;
+  border: 1px solid #00bfa6;
+  border-radius: 5px;
+}
+
+.control-select:focus {
+  outline: none;
+  box-shadow: 0 0 5px #00bfa6;
 }
 
 .time {
-  font-size: 0.9rem;
-  margin-right: 10px;
+  font-size: 1.2rem; /* Bigger time text */
+  margin-right: 20px;
 }
 </style>
