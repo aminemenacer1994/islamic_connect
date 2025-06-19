@@ -201,6 +201,9 @@
           </div>
           <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
             formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
+            <i class="bi bi-x-lg"></i>
+          </button>
         </div>
         <div class="progress-bar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
@@ -730,6 +733,14 @@ export default {
       this.audioElements.forEach(audio => {
         if (audio) audio.volume = this.volume;
       });
+    },
+    closeAudioPlayer() {
+      if (this.currentlyPlayingIndex !== null) {
+        this.stopAudio(this.currentlyPlayingIndex);
+      }
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = null;
+      this.currentlyPlaying = null;
     },
   },
 };
