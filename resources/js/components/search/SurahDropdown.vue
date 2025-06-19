@@ -68,23 +68,23 @@ export default {
 </script>
 
 <style scoped>
-.surah-dropdown {
+/* .surah-dropdown {
     width: 100%;
-}
+} */
 
 .form-control {
     width: 100%;
-    padding: 8px 12px;
+    /* padding: 8px 12px; */
     font-size: 1rem;
     line-height: 1.5;
     background-color: #fff;
     border-radius: 8px;
 }
 
-.custom-dropdown {
+/* .custom-dropdown {
     appearance: auto;
     outline: none;
-}
+} */
 
 .card {
     display: flex;

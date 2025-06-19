@@ -5,8 +5,7 @@
         <h1 class="display-5 fw-bold">Quran Explorer</h1>
         <p class="lead">
           Explore the Quran in Arabic, accompanied by translations and recitations from world-renowned Qaris.
-          Listen to beautiful recitations to deepen your understanding. Select a Surah, choose an audio reciter, or view
-          the translation of a specific verse, and immerse yourself in the wisdom of the Quran.
+          Listen to beautiful recitations to deepen your understanding.
         </p>
       </div>
     </div>
@@ -20,7 +19,7 @@
       <div v-show="isVisible" class="row g-3" style="padding: 6px;">
         <div class="col-12 col-md-4 mt-3">
           <label for="surah-select" class="form-label text-white">Select Surah:</label>
-          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
+          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails()">
             <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
               {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
@@ -29,7 +28,7 @@
         </div>
         <div class="col-12 col-md-4">
           <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
-          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
+          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter" @change="fetchSurahDetails()">
             <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
               {{ reciter.englishName }}
@@ -38,8 +37,7 @@
         </div>
         <div class="col-12 col-md-4">
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
-          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
-            @change="fetchSurahDetails">
+          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation" @change="fetchSurahDetails()">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
               {{ translation.flag }} {{ translation.englishName }} ({{ translation.language }})
@@ -51,7 +49,7 @@
 
     <div class="row rtl-text">
       <div style="padding: 12px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
-        class="col-md-12 mb-2 mt-2">
+        class="col-md-12 mb-2 mt-2" :class="{ highlighted: currentlyPlayingIndex === index }">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
@@ -70,7 +68,6 @@
 
           <!-- Desktop Layout: Icons on Left -->
           <div class="row d-none d-md-flex">
-            <!-- <hr class="container" /> -->
             <div class="col-md-11">
               <div style="padding: 4px;">
                 <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
@@ -104,13 +101,13 @@
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
                 </div>
                 <div class="mb-3" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
+                  <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Share on WhatsApp"></i>
                 </div>
-                <div class="mb-3" @click="copyAyahToClipboard(ayah)">
+                <!-- <div class="mb-3" @click="copyAyahToClipboard(ayah)">
                   <i class="bi bi-clipboard2-check-fill" style="cursor: pointer; font-size: 1.3rem;"
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Copy to Clipboard"></i>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -125,49 +122,44 @@
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
                   <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-                    style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top"
+                    style="font-size: 1.7rem;" data-bs-toggle="tooltip" data-bs-placement="top"
                     :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="rewindAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Rewind"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-dash-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                  <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Decrease Font Size"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="increaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-plus-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                  <i class="bi bi-plus-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Increase Font Size"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="fastForwardAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Fast Forward"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
+              <div class="col-2 text-center" style="padding: 3px;">
                 <div class="mb-3" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
+                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Share on WhatsApp"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 5px;">
-                <div class="mb-3" @click="copyAyahToClipboard(ayah)">
-                  <i class="bi bi-clipboard2-check-fill" style="cursor: pointer; font-size: 1.3rem;"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Copy to Clipboard"></i>
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -177,14 +169,14 @@
     <!-- Scroll to Top FAB -->
     <!-- <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
       <i class="bi bi-chevron-double-up pt-1 h2"></i>
-    </button>
+    </button> -->
 
-    <button v-if="isAudioPlaying.some(state => state)" class="fab_audio" @click="scrollToCurrentAudio">
+    <!-- <button v-if="isAudioPlaying.some(state => state)" class="fab_audio" @click="scrollToCurrentAudio">
       <i class="bi bi-reply h2"></i>
     </button> -->
 
     <!-- Global Custom Audio Player -->
-    <div v-if="isAudioPlaying.some(state => state)" class="audio-player-container">
+    <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
           <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
@@ -238,9 +230,6 @@ export default {
       surahs: [],
       reciters: [],
       translations: [],
-      // selectedSurah: "1", // Default to Surah Al-Fatiha
-      // selectedReciter: "ar.alafasy",
-      // selectedTranslation: "en.asad",
       selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
@@ -255,8 +244,9 @@ export default {
       progress: [],
       audioElements: [],
       playbackSpeed: 1.0,
-      volume: 1.0, // Initial volume
-      showVolumeBar: false, // Toggle for volume bar visibility
+      volume: 1.0,
+      showVolumeBar: false,
+      showAudioPlayer: false,
     };
   },
   mounted() {
@@ -352,7 +342,7 @@ export default {
         const audio = new Audio(this.filteredAyahs[index]?.audio || "");
         if (audio) {
           audio.playbackRate = this.playbackSpeed;
-          audio.volume = this.volume; // Set initial volume
+          audio.volume = this.volume;
           audio.addEventListener("timeupdate", () => this.updateProgress(index));
           audio.addEventListener("loadedmetadata", () => {
             this.progress[index] = 0;
@@ -381,13 +371,11 @@ export default {
       this.currentlyPlayingIndex = index;
       this.currentlyPlaying.play().catch(err => {
         console.error("Play error:", err);
-        this.handleAyahEnd(index); // Move to next if play fails
+        this.handleAyahEnd(index);
       });
       this.isAudioPlaying[index] = true;
-      const audioCards = this.$refs.audioCard;
-      audioCards.forEach(card => card.classList.remove('highlighted'));
-      if (audioCards[index]) audioCards[index].classList.add('highlighted');
       this.scrollToCard(index);
+      this.showAudioPlayer = true;
     },
     pauseAudio(index) {
       if (this.audioElements[index]) {
@@ -436,7 +424,7 @@ export default {
       this.scrollTimeout = setTimeout(() => {
         audioCards[index].scrollIntoView({
           behavior: "smooth",
-          block: "nearest",
+          block: "center",
         });
       }, 100);
     },
@@ -458,7 +446,7 @@ export default {
       }
     },
     handleScroll() {
-      this.showScrollButton = window.scrollY > 200;
+      this.showScrollButton = window.scrollY > 220;
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -483,7 +471,7 @@ export default {
       });
       this.highlightedAyah = highlightedWords.join(" ");
     },
-    async copyAyah(ayah) {
+    async copyAyahToClipboard(ayah) {
       const ayahText = `Surah number: ${this.surahDetails.surahNumber}\n\nSurah name: ${this.surahDetails.englishName}\n\nAyah text: ${ayah.text}\n\nTranslation: ${ayah.translation}`;
       try {
         await navigator.clipboard.writeText(ayahText);
@@ -630,7 +618,7 @@ export default {
             audio.load();
             audio.currentTime = 0;
             audio.playbackRate = this.playbackSpeed;
-            audio.volume = this.volume; // Apply current volume
+            audio.volume = this.volume;
           }
         });
       });
@@ -783,11 +771,9 @@ export default {
 .fab {
   position: fixed;
   bottom: 100px;
-  /* Moved up to avoid covering audio player */
   right: 20px;
   z-index: 1002;
-  /* Above audio player */
-  background-color: #007bff;
+  background-color: #343a40;
   color: white;
   border: none;
   border-radius: 50%;
@@ -802,10 +788,8 @@ export default {
 .fab_audio {
   position: fixed;
   bottom: 160px;
-  /* Moved up to avoid covering audio player */
   right: 20px;
   z-index: 1002;
-  /* Above audio player */
   background-color: #28a745;
   color: white;
   border: none;
@@ -818,21 +802,15 @@ export default {
   cursor: pointer;
 }
 
-
-
 .audio-player-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   z-index: 1001;
-  /* Below FABs but above other content */
-  background-color: rgba(33, 33, 33, 0.7);
-  /* Transparent background */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3);
-  /* Enhanced shadow */
+  background-color: rgba(33, 33, 33, 0.862);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.674);
   border-radius: 15px 15px 0 0;
-  /* Rounded top corners */
   padding: 10px 20px;
 }
 
@@ -842,14 +820,12 @@ export default {
   justify-content: space-between;
   color: white;
   font-size: 1.5rem;
-  /* Bigger text */
   padding: 10px 20px;
 }
 
 .progress-bar {
   flex-grow: 1;
   height: 8px;
-  /* Bigger progress bar */
   background-color: #666;
   margin: 0 20px;
 }
@@ -857,7 +833,6 @@ export default {
 .progress {
   height: 100%;
   background-color: #00bfa6;
-  /* Progress bar color */
   transition: width 0.1s linear;
 }
 
@@ -865,7 +840,6 @@ export default {
   display: flex;
   align-items: center;
   gap: 25px;
-  /* Bigger gap for spacing */
 }
 
 .control-btn {
@@ -873,7 +847,6 @@ export default {
   border: none;
   color: white;
   font-size: 2rem;
-  /* Bigger icons */
   cursor: pointer;
   padding: 10px;
   transition: color 0.2s;
@@ -881,7 +854,6 @@ export default {
 
 .control-btn:hover {
   color: #00bfa6;
-  /* Match progress bar color on hover */
 }
 
 .volume-bar-container {
@@ -889,7 +861,6 @@ export default {
   left: 100%;
   padding: 5px;
   border-radius: 5px;
-  
 }
 
 .volume-slider {

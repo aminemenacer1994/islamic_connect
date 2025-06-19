@@ -44063,9 +44063,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       surahs: [],
       reciters: [],
       translations: [],
-      // selectedSurah: "1", // Default to Surah Al-Fatiha
-      // selectedReciter: "ar.alafasy",
-      // selectedTranslation: "en.asad",
       selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
@@ -44081,8 +44078,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       audioElements: [],
       playbackSpeed: 1.0,
       volume: 1.0,
-      // Initial volume
-      showVolumeBar: false // Toggle for volume bar visibility
+      showVolumeBar: false,
+      showAudioPlayer: false
     };
   },
   mounted: function mounted() {
@@ -44184,7 +44181,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         var audio = new Audio(((_this5$filteredAyahs$ = _this5.filteredAyahs[index]) === null || _this5$filteredAyahs$ === void 0 ? void 0 : _this5$filteredAyahs$.audio) || "");
         if (audio) {
           audio.playbackRate = _this5.playbackSpeed;
-          audio.volume = _this5.volume; // Set initial volume
+          audio.volume = _this5.volume;
           audio.addEventListener("timeupdate", function () {
             return _this5.updateProgress(index);
           });
@@ -44220,15 +44217,11 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentlyPlayingIndex = index;
       this.currentlyPlaying.play()["catch"](function (err) {
         console.error("Play error:", err);
-        _this6.handleAyahEnd(index); // Move to next if play fails
+        _this6.handleAyahEnd(index);
       });
       this.isAudioPlaying[index] = true;
-      var audioCards = this.$refs.audioCard;
-      audioCards.forEach(function (card) {
-        return card.classList.remove('highlighted');
-      });
-      if (audioCards[index]) audioCards[index].classList.add('highlighted');
       this.scrollToCard(index);
+      this.showAudioPlayer = true;
     },
     pauseAudio: function pauseAudio(index) {
       if (this.audioElements[index]) {
@@ -44277,7 +44270,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.scrollTimeout = setTimeout(function () {
         audioCards[index].scrollIntoView({
           behavior: "smooth",
-          block: "nearest"
+          block: "center"
         });
       }, 100);
     },
@@ -44301,7 +44294,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     handleScroll: function handleScroll() {
-      this.showScrollButton = window.scrollY > 200;
+      this.showScrollButton = window.scrollY > 220;
     },
     scrollToTop: function scrollToTop() {
       window.scrollTo({
@@ -44330,7 +44323,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       });
       this.highlightedAyah = highlightedWords.join(" ");
     },
-    copyAyah: function copyAyah(ayah) {
+    copyAyahToClipboard: function copyAyahToClipboard(ayah) {
       var _this8 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var ayahText;
@@ -44631,7 +44624,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             audio.load();
             audio.currentTime = 0;
             audio.playbackRate = _this13.playbackSpeed;
-            audio.volume = _this13.volume; // Apply current volume
+            audio.volume = _this13.volume;
           }
         });
       });
@@ -64790,18 +64783,17 @@ var _hoisted_23 = ["title"];
 var _hoisted_24 = ["onClick"];
 var _hoisted_25 = ["onClick"];
 var _hoisted_26 = ["onClick"];
-var _hoisted_27 = ["onClick"];
-var _hoisted_28 = {
+var _hoisted_27 = {
   "class": "d-block d-md-none"
 };
-var _hoisted_29 = {
+var _hoisted_28 = {
   style: {
     "padding": "2px"
   }
 };
+var _hoisted_29 = ["innerHTML"];
 var _hoisted_30 = ["innerHTML"];
-var _hoisted_31 = ["innerHTML"];
-var _hoisted_32 = {
+var _hoisted_31 = {
   "class": "row mb-3",
   style: {
     "display": "flex",
@@ -64809,85 +64801,78 @@ var _hoisted_32 = {
     "margin": "0 -5px"
   }
 };
-var _hoisted_33 = {
+var _hoisted_32 = {
   "class": "col-2 text-center",
   style: {
-    "padding": "5px"
+    "padding": "3px"
   }
 };
-var _hoisted_34 = ["onClick"];
-var _hoisted_35 = ["title"];
-var _hoisted_36 = {
+var _hoisted_33 = ["onClick"];
+var _hoisted_34 = ["title"];
+var _hoisted_35 = {
   "class": "col-2 text-center",
   style: {
-    "padding": "5px"
+    "padding": "3px"
   }
 };
-var _hoisted_37 = ["onClick"];
+var _hoisted_36 = ["onClick"];
+var _hoisted_37 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "3px"
+  }
+};
 var _hoisted_38 = {
   "class": "col-2 text-center",
   style: {
-    "padding": "5px"
+    "padding": "3px"
   }
 };
 var _hoisted_39 = {
   "class": "col-2 text-center",
   style: {
-    "padding": "5px"
+    "padding": "3px"
   }
 };
-var _hoisted_40 = {
+var _hoisted_40 = ["onClick"];
+var _hoisted_41 = {
   "class": "col-2 text-center",
   style: {
-    "padding": "5px"
+    "padding": "3px"
   }
 };
-var _hoisted_41 = ["onClick"];
-var _hoisted_42 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "5px"
-  }
-};
-var _hoisted_43 = ["onClick"];
-var _hoisted_44 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "5px"
-  }
-};
-var _hoisted_45 = ["onClick"];
-var _hoisted_46 = {
+var _hoisted_42 = ["onClick"];
+var _hoisted_43 = {
   key: 0,
   "class": "audio-player-container"
 };
-var _hoisted_47 = {
+var _hoisted_44 = {
   "class": "custom-audio-player"
 };
-var _hoisted_48 = {
+var _hoisted_45 = {
   "class": "controls"
 };
-var _hoisted_49 = {
+var _hoisted_46 = {
   key: 0,
   "class": "bi bi-pause-fill"
 };
-var _hoisted_50 = {
+var _hoisted_47 = {
   key: 1,
   "class": "bi bi-play-fill"
 };
-var _hoisted_51 = {
+var _hoisted_48 = {
   key: 0,
   "class": "volume-bar-container"
 };
-var _hoisted_52 = {
+var _hoisted_49 = {
   "class": "time"
 };
-var _hoisted_53 = {
+var _hoisted_50 = {
   "class": "progress-bar"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -64895,7 +64880,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-5 fw-bold"
   }, "Quran Explorer"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead"
-  }, " Explore the Quran in Arabic, accompanied by translations and recitations from world-renowned Qaris. Listen to beautiful recitations to deepen your understanding. Select a Surah, choose an audio reciter, or view the translation of a specific verse, and immerse yourself in the wisdom of the Quran. ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sticky Dropdowns Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Explore the Quran in Arabic, accompanied by translations and recitations from world-renowned Qaris. Listen to beautiful recitations to deepen your understanding. ")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sticky Dropdowns Container "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     onClick: _cache[0] || (_cache[0] = function () {
       return $options.toggleVisibility && $options.toggleVisibility.apply($options, arguments);
     }),
@@ -64903,7 +64888,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     }
-  }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -64912,10 +64897,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.selectedSurah = $event;
     }),
-    onChange: _cache[2] || (_cache[2] = function () {
-      return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
+    onChange: _cache[2] || (_cache[2] = function ($event) {
+      return $options.fetchSurahDetails();
     })
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.surahs, function (surah) {
@@ -64923,7 +64908,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -64931,8 +64916,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "form-select shadow-sm",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.selectedReciter = $event;
+    }),
+    onChange: _cache[4] || (_cache[4] = function ($event) {
+      return $options.fetchSurahDetails();
     })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reciters, function (reciter) {
@@ -64940,19 +64928,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "translation-select",
     "class": "form-select shadow-sm",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.selectedTranslation = $event;
     }),
-    onChange: _cache[5] || (_cache[5] = function () {
-      return $options.fetchSurahDetails && $options.fetchSurahDetails.apply($options, arguments);
+    onChange: _cache[6] || (_cache[6] = function ($event) {
+      return $options.fetchSurahDetails();
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.translations, function (translation) {
@@ -64971,18 +64959,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref_for: true,
       ref: "audioCard",
       key: ayah.number,
-      "class": "col-md-12 mb-2 mt-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-md-12 mb-2 mt-2", {
+        highlighted: $data.currentlyPlayingIndex === index
+      }])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -65009,7 +64999,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       }
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65020,10 +65010,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Rewind"
     }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
-      onClick: _cache[6] || (_cache[6] = function () {
+      onClick: _cache[7] || (_cache[7] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65034,10 +65024,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Decrease Font Size"
     }, null, -1 /* HOISTED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
-      onClick: _cache[7] || (_cache[7] = function () {
+      onClick: _cache[8] || (_cache[8] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65051,7 +65041,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       }
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65065,7 +65055,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill",
       style: {
         "cursor": "pointer",
@@ -65074,27 +65064,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Share on WhatsApp"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
-      onClick: function onClick($event) {
-        return _ctx.copyAyahToClipboard(ayah);
-      }
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-clipboard2-check-fill",
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.3rem"
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
-      title: "Copy to Clipboard"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_27)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mb-3\" @click=\"copyAyahToClipboard(ayah)\">\n                  <i class=\"bi bi-clipboard2-check-fill\" style=\"cursor: pointer; font-size: 1.3rem;\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Copy to Clipboard\"></i>\n                </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_30), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_29), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -65102,7 +65078,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_31)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_30)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
       },
@@ -65112,12 +65088,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
       style: {
-        "font-size": "1.3rem"
+        "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: $data.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_35)], 8 /* PROPS */, _hoisted_34)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_34)], 8 /* PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       },
@@ -65127,13 +65103,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
-        "font-size": "1.3rem"
+        "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Rewind"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      onClick: _cache[8] || (_cache[8] = function () {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: _cache[9] || (_cache[9] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       }),
       style: {
@@ -65142,13 +65118,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle-fill",
       style: {
-        "font-size": "1.3rem"
+        "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Decrease Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      onClick: _cache[9] || (_cache[9] = function () {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: _cache[10] || (_cache[10] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       }),
       style: {
@@ -65157,12 +65133,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle-fill",
       style: {
-        "font-size": "1.3rem"
+        "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Increase Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       },
@@ -65172,12 +65148,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
-        "font-size": "1.3rem"
+        "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Fast Forward"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
@@ -65186,79 +65162,63 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "bi bi-whatsapp",
       style: {
         "cursor": "pointer",
-        "font-size": "1.3rem"
+        "font-size": "1.5rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Share on WhatsApp"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "mb-3",
-      onClick: function onClick($event) {
-        return _ctx.copyAyahToClipboard(ayah);
-      }
-    }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-clipboard2-check-fill",
-      style: {
-        "cursor": "pointer",
-        "font-size": "1.3rem"
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "right",
-      title: "Copy to Clipboard"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_45)])])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollButton\" @click=\"scrollToTop\" class=\"fab\" title=\"Scroll to top\">\n      <i class=\"bi bi-chevron-double-up pt-1 h2\"></i>\n    </button>\n\n    <button v-if=\"isAudioPlaying.some(state => state)\" class=\"fab_audio\" @click=\"scrollToCurrentAudio\">\n      <i class=\"bi bi-reply h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), $data.isAudioPlaying.some(function (state) {
-    return state;
-  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[10] || (_cache[10] = function ($event) {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_42)])])])])], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollButton\" @click=\"scrollToTop\" class=\"fab\" title=\"Scroll to top\">\n      <i class=\"bi bi-chevron-double-up pt-1 h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAudioPlaying.some(state => state)\" class=\"fab_audio\" @click=\"scrollToCurrentAudio\">\n      <i class=\"bi bi-reply h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[11] || (_cache[11] = function ($event) {
       return $options.rewindAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[11] || (_cache[11] = function ($event) {
+    onClick: _cache[12] || (_cache[12] = function ($event) {
       return $options.toggleAudioPlayer($data.currentlyPlayingIndex);
     }),
     "class": "control-btn play-pause",
     title: "Play/Pause"
-  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_49)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_50))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[12] || (_cache[12] = function ($event) {
+  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_46)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[13] || (_cache[13] = function ($event) {
       return $options.fastForwardAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[13] || (_cache[13] = function ($event) {
+    onClick: _cache[14] || (_cache[14] = function ($event) {
       return $options.stopAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[14] || (_cache[14] = function () {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.toggleVolume && $options.toggleVolume.apply($options, arguments);
     }),
     "class": "control-btn",
     title: "Volume"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat($data.volume > 0.5 ? 'up' : $data.volume > 0 ? 'down' : 'mute', "-fill")])
-  }, null, 2 /* CLASS */)]), $data.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 2 /* CLASS */)]), $data.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
-    "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
+    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
       return $data.volume = $event;
     }),
     min: "0",
     max: "1",
     step: "0.1",
-    onInput: _cache[16] || (_cache[16] = function () {
+    onInput: _cache[17] || (_cache[17] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: $data.progress[$data.currentlyPlayingIndex] + '%'
@@ -167544,7 +167504,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 100px;\n  /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002;\n  /* Above audio player */\n  background-color: #007bff;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 160px;\n  /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002;\n  /* Above audio player */\n  background-color: #28a745;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  /* Below FABs but above other content */\n  background-color: rgba(33, 33, 33, 0.7);\n  /* Transparent background */\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3);\n  /* Enhanced shadow */\n  border-radius: 15px 15px 0 0;\n  /* Rounded top corners */\n  padding: 10px 20px;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: white;\n  font-size: 1.5rem;\n  /* Bigger text */\n  padding: 10px 20px;\n}\n.progress-bar[data-v-828f3036] {\n  flex-grow: 1;\n  height: 8px;\n  /* Bigger progress bar */\n  background-color: #666;\n  margin: 0 20px;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  /* Progress bar color */\n  transition: width 0.1s linear;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 25px;\n  /* Bigger gap for spacing */\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 2rem;\n  /* Bigger icons */\n  cursor: pointer;\n  padding: 10px;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n  /* Match progress bar color on hover */\n}\n.volume-bar-container[data-v-828f3036] {\n  bottom: 60px;\n  left: 100%;\n  padding: 5px;\n  border-radius: 5px;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100%;\n  vertical-align: middle;\n  margin: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  z-index: 1002;\n  background-color: #343a40;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 160px;\n  right: 20px;\n  z-index: 1002;\n  background-color: #28a745;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.862);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.674);\n  border-radius: 15px 15px 0 0;\n  padding: 10px 20px;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: white;\n  font-size: 1.5rem;\n  padding: 10px 20px;\n}\n.progress-bar[data-v-828f3036] {\n  flex-grow: 1;\n  height: 8px;\n  background-color: #666;\n  margin: 0 20px;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 25px;\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 2rem;\n  cursor: pointer;\n  padding: 10px;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.volume-bar-container[data-v-828f3036] {\n  bottom: 60px;\n  left: 100%;\n  padding: 5px;\n  border-radius: 5px;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100%;\n  vertical-align: middle;\n  margin: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168339,7 +168299,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.surah-dropdown[data-v-7416ffac] {\n    width: 100%;\n}\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    padding: 8px 12px;\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 8px;\n}\n.custom-dropdown[data-v-7416ffac] {\n    -webkit-appearance: auto;\n       -moz-appearance: auto;\n            appearance: auto;\n    outline: none;\n}\n.card[data-v-7416ffac] {\n    display: flex;\n    border-radius: 8px;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* .surah-dropdown {\n    width: 100%;\n} */\n.form-control[data-v-7416ffac] {\n    width: 100%;\n    /* padding: 8px 12px; */\n    font-size: 1rem;\n    line-height: 1.5;\n    background-color: #fff;\n    border-radius: 8px;\n}\n\n/* .custom-dropdown {\n    appearance: auto;\n    outline: none;\n} */\n.card[data-v-7416ffac] {\n    display: flex;\n    border-radius: 8px;\n}\n.card[data-v-7416ffac]:focus {\n    border-color: #00bfa6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
