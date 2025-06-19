@@ -777,6 +777,23 @@ export default {
   background-color: #343a40;
   padding: 10px;
   border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .sticky-dropdown {
+    top: 0;
+    padding: 8px;
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+  }
+
+  .form-select {
+    font-size: 0.9rem;
+    padding: 0.375rem 0.75rem;
+  }
 }
 
 .fab {
@@ -819,26 +836,82 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1001;
-  background-color: rgba(33, 33, 33, 0.862);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.674);
+  background-color: rgba(33, 33, 33, 0.95);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px 15px 0 0;
-  padding: 10px 20px;
+  padding: 10px;
 }
 
 .custom-audio-player {
   display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 5px 10px;
+}
+
+.controls {
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    gap: 10px;
+  }
+
+  .control-btn {
+    padding: 5px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .time {
+    font-size: 0.8rem !important;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .volume-bar-container {
+    position: fixed;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgba(33, 33, 33, 0.95);
+    padding: 10px;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .volume-slider {
+    width: 100%;
+  }
+}
+
+.control-btn {
+  background: none;
+  border: none;
   color: white;
   font-size: 1.5rem;
-  padding: 10px 20px;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  color: #00bfa6;
 }
 
 .progress-bar {
-  flex-grow: 1;
-  height: 8px;
-  background-color: #666;
-  margin: 0 20px;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .progress {
@@ -847,36 +920,104 @@ export default {
   transition: width 0.1s linear;
 }
 
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 25px;
-}
-
-.control-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-  padding: 10px;
-  transition: color 0.2s;
-}
-
-.control-btn:hover {
-  color: #00bfa6;
-}
-
-.volume-bar-container {
-  bottom: 60px;
-  left: 100%;
-  padding: 5px;
-  border-radius: 5px;
-}
-
 .volume-slider {
-  width: 100%;
-  vertical-align: middle;
-  margin: 0;
+  width: 100px;
+  height: 4px;
+}
+
+/* Card Styles */
+.ayah-card {
+  padding: 15px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  background-color: var(--bs-body-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .ayah-card {
+    padding: 10px;
+  }
+
+  .arabic-text {
+    font-size: 1.2rem !important;
+    line-height: 2;
+  }
+
+  .translation-text {
+    font-size: 0.9rem !important;
+    line-height: 1.6;
+  }
+
+  .mobile-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .mobile-controls .control-btn {
+    font-size: 1.3rem;
+  }
+}
+
+/* Responsive Typography */
+@media (max-width: 576px) {
+  .display-5 {
+    font-size: 1.8rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .ayah-card {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .sticky-dropdown {
+    background-color: rgba(52, 58, 64, 0.95);
+  }
+}
+
+/* Touch-friendly Controls */
+@media (hover: none) {
+  .control-btn {
+    padding: 12px;
+    margin: 0 5px;
+  }
+
+  .control-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Improved Scrolling */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Loading States */
+.loading-placeholder {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>
