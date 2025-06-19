@@ -15,7 +15,7 @@
     <div class="sticky-dropdown" style="top: 50px">
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
         <i v-if="isVisible" class="bi bi-x-lg"></i>
-        <i v-else class="bi bi-plus-lg"></i>
+        <i v-else class="bi bi-plus-lg h5"></i>
       </span>
       <div v-show="isVisible" class="row g-3" style="padding: 6px;">
         <div class="col-12 col-md-4">
@@ -49,9 +49,8 @@
     </div>
 
     <div class="row rtl-text">
-      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" :ref="'audioCard_' + index" class="col-md-12 mb-2 mt-2">
+      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
-            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
             border-bottom-left-radius: 20px;
@@ -66,11 +65,37 @@
               <img src="/images/art.png" width="35px" alt="Art Icon" />
               {{ surahDetails?.surahNumber }} : {{ index + 1 }}
             </h4>
+            <div class="dropdown">
+              <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-three-dots-vertical h2 mt-3"></i>
+              </div>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" @click="shareOnWhatsApp(ayah)">
+                    <div class="col text-center">
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="mt-1 ml-2" style="font-size: 1.2rem">Share Ayah</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="javascript:void(0)" @click="copyAyah(ayah)">
+                    <div class="col text-center">
+                      <div class="d-flex flex-column align-items-center">
+                        <span class="mt-1 ml-2 text-left" style="font-size: 1.2rem">Copy Ayah</span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <!-- Desktop Layout: Icons on Left -->
-          <div class="row d-none d-md-flex">
-            <div class="col-md-11">
+          <div class="row d-none d-md-flex" >
+            <!-- <hr class="container" /> -->
+            <div class="col-md-11" >
               <div style="padding: 4px;">
                 <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)" :style="{ fontSize: arabicFontSize + 'px' }"></p>
                 <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
@@ -78,21 +103,21 @@
               </div>
             </div>
             <div class="col-md-1 text-center">
-              <div class="d-flex flex-column align-items-center gap-3 pb-4">
-                <div class="icon-hover" @click="toggleAudioPlayer(index)">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle' : 'bi-play-circle'" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="right" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+              <div class="d-flex flex-column align-items-center">
+                <div class="mb-3" @click="toggleAudioPlayer(index)">
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
-                <div class="icon-hover" @click="decreaseFontSize">
-                  <i class="bi bi-dash-circle" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Decrease Font Size"></i>
+                <div class="mb-3" @click="rewindAudio(index)">
+                  <i class="bi bi-skip-backward-circle-fill" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
                 </div>
-                <div class="icon-hover" @click="increaseFontSize">
-                  <i class="bi bi-plus-circle" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Increase Font Size"></i>
+                <div class="mb-3" @click="decreaseFontSize">
+                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Decrease Font Size"></i>
                 </div>
-                <div class="icon-hover" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-share" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Share Ayah"></i>
+                <div class="mb-3" @click="increaseFontSize">
+                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Increase Font Size"></i>
                 </div>
-                <div class="icon-hover" @click="copyAyah(ayah)">
-                  <i class="bi bi-clipboard" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Copy Ayah"></i>
+                <div class="mb-3" @click="fastForwardAudio(index)">
+                  <i class="bi bi-skip-forward-circle-fill" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
                 </div>
               </div>
             </div>
@@ -107,28 +132,28 @@
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
               <div class="col-2 text-center" style="padding: 5px;">
-                <div class="icon-hover" @click="toggleAudioPlayer(index)" style="cursor: pointer;">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle' : 'bi-play-circle'" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
-                <div class="icon-hover" @click="decreaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-dash-circle" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
+                <div @click="rewindAudio(index)" style="cursor: pointer;">
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
-                <div class="icon-hover" @click="increaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-plus-circle" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
+                <div @click="decreaseFontSize" style="cursor: pointer;">
+                  <i class="bi bi-dash-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
-                <div class="icon-hover" @click="shareOnWhatsApp(ayah)" style="cursor: pointer;">
-                  <i class="bi bi-share" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Share Ayah"></i>
+                <div @click="increaseFontSize" style="cursor: pointer;">
+                  <i class="bi bi-plus-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
-                <div class="icon-hover" @click="copyAyah(ayah)" style="cursor: pointer;">
-                  <i class="bi bi-clipboard" style="font-size: 1.2rem; width: 1.2rem; height: 1.2rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Ayah"></i>
+                <div @click="fastForwardAudio(index)" style="cursor: pointer;">
+                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
                 </div>
               </div>
             </div>
@@ -137,31 +162,42 @@
       </div>
     </div>
 
+    <!-- Scroll to Top FAB -->
+    <!-- <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
+      <i class="bi bi-chevron-double-up pt-1 h2"></i>
+    </button>
+
+    <button v-if="isAudioPlaying.some(state => state)" class="fab_audio" @click="scrollToCurrentAudio">
+      <i class="bi bi-reply h2"></i>
+    </button> -->
+
     <!-- Global Custom Audio Player -->
     <div v-if="isAudioPlaying.some(state => state)" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <span class="time-display">-{{"-" + formatTime(audioElements[currentlyPlayingIndex]?.duration - (audioElements[currentlyPlayingIndex]?.currentTime || 0) || 0)}}</span>
-          <div class="progress-bar-container" @click="seekAudio($event)">
-            <div class="progress-bar">
-              <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
-            </div>
+          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
+            <i class="bi bi-skip-backward-fill"></i>
+          </button>
+          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
+            <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
+            <i v-else class="bi bi-play-fill"></i>
+          </button>
+          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
+            <i class="bi bi-skip-forward-fill"></i>
+          </button>
+          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+            <i class="bi bi-stop-fill"></i>
+          </button>
+          <button @click="toggleVolume" class="control-btn" title="Volume">
+            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+          </button>
+          <div v-if="showVolumeBar" class="volume-bar-container">
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider" />
           </div>
-          <div class="playback-controls">
-            <button @click="rewindAudio" class="control-btn rewind" title="Rewind 15s">
-              <i class="bi bi-rewind"></i>
-            </button>
-            <button @click="togglePlayPause" class="control-btn play-pause" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
-              <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-            </button>
-            <button @click="fastForwardAudio" class="control-btn fast-forward" title="Fast Forward 15s">
-              <i class="bi bi-fast-forward"></i>
-            </button>
-            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn stop" title="Stop">
-              <i class="bi bi-x-circle-fill"></i>
-            </button>
-          </div>
-          <span class="time-display">{{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
     </div>
@@ -173,6 +209,9 @@ export default {
   props: ["ayah", "arabicFontSize"],
   data() {
     return {
+      selectedSurah: localStorage.getItem("selectedSurah") || "1",
+      selectedReciter: "ar.alafasy",
+      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
       isAudioPlaying: [],
       currentlyPlaying: null,
       currentlyPlayingIndex: null,
@@ -185,9 +224,9 @@ export default {
       surahs: [],
       reciters: [],
       translations: [],
-      selectedSurah: localStorage.getItem("selectedSurah") || "1",
-      selectedReciter: "ar.alafasy",
-      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
+      // selectedSurah: "1", // Default to Surah Al-Fatiha
+      // selectedReciter: "ar.alafasy",
+      // selectedTranslation: "en.asad",
       selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
@@ -202,6 +241,8 @@ export default {
       progress: [],
       audioElements: [],
       playbackSpeed: 1.0,
+      volume: 1.0, // Initial volume
+      showVolumeBar: false, // Toggle for volume bar visibility
     };
   },
   mounted() {
@@ -281,7 +322,12 @@ export default {
       return (ayah) => {
         if (!ayah.text) return "";
         const words = ayah.text.split(" ");
-        return words.join(" ");
+        return words
+          .map((word, index) => {
+            const isHighlighted = index === this.highlightedWordIndex ? "highlighted-word" : "";
+            return `<span class="${isHighlighted}">${word}</span>`;
+          })
+          .join(" ");
       };
     },
   },
@@ -292,6 +338,7 @@ export default {
         const audio = new Audio(this.filteredAyahs[index]?.audio || "");
         if (audio) {
           audio.playbackRate = this.playbackSpeed;
+          audio.volume = this.volume; // Set initial volume
           audio.addEventListener("timeupdate", () => this.updateProgress(index));
           audio.addEventListener("loadedmetadata", () => {
             this.progress[index] = 0;
@@ -309,11 +356,6 @@ export default {
         this.pauseAudio(index);
       }
     },
-    togglePlayPause() {
-      if (this.currentlyPlayingIndex !== null) {
-        this.toggleAudioPlayer(this.currentlyPlayingIndex);
-      }
-    },
     playAudio(index) {
       if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
@@ -325,11 +367,12 @@ export default {
       this.currentlyPlayingIndex = index;
       this.currentlyPlaying.play().catch(err => {
         console.error("Play error:", err);
-        this.handleAyahEnd(index);
+        this.handleAyahEnd(index); // Move to next if play fails
       });
       this.isAudioPlaying[index] = true;
-      const audioCards = this.$refs[`audioCard_${index}`];
-      if (audioCards) audioCards[0].scrollIntoView({ behavior: "smooth", block: "center" });
+      const audioCards = this.$refs.audioCard;
+      audioCards.forEach(card => card.classList.remove('highlighted'));
+      if (audioCards[index]) audioCards[index].classList.add('highlighted');
       this.scrollToCard(index);
     },
     pauseAudio(index) {
@@ -346,18 +389,14 @@ export default {
         this.progress[index] = 0;
       }
     },
-    rewindAudio() {
-      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
-        const audio = this.audioElements[this.currentlyPlayingIndex];
-        audio.currentTime = Math.max(0, audio.currentTime - 15);
-        this.updateProgress(this.currentlyPlayingIndex);
+    rewindAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
       }
     },
-    fastForwardAudio() {
-      if (this.currentlyPlayingIndex !== null && this.audioElements[this.currentlyPlayingIndex]) {
-        const audio = this.audioElements[this.currentlyPlayingIndex];
-        audio.currentTime = Math.min(audio.duration, audio.currentTime + 15);
-        this.updateProgress(this.currentlyPlayingIndex);
+    fastForwardAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
       }
     },
     updateProgress(index) {
@@ -377,12 +416,32 @@ export default {
       return text.replace(regex, `<span class="highlight">$1</span>`);
     },
     scrollToCard(index) {
-      const audioCards = this.$refs[`audioCard_${index}`];
-      if (!audioCards || !audioCards.length) return;
-      if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
+      const audioCards = this.$refs.audioCard;
+      if (!audioCards || !audioCards[index]) return;
+      clearTimeout(this.scrollTimeout);
       this.scrollTimeout = setTimeout(() => {
-        audioCards[0].scrollIntoView({ behavior: "smooth", block: "center" });
+        audioCards[index].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
       }, 100);
+    },
+    resetAudioPlayer() {
+      if (this.currentlyPlaying) {
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.src = this.currentAudioUrl;
+        this.currentlyPlaying.load();
+        this.currentlyPlaying.play();
+      }
+    },
+    scrollToCurrentAudio() {
+      const index = this.isAudioPlaying.findIndex(state => state);
+      if (index !== -1 && this.$refs.audioCard[index]) {
+        window.scrollTo({
+          top: this.$refs.audioCard[index].offsetTop - 200,
+          behavior: "smooth",
+        });
+      }
     },
     handleScroll() {
       this.showScrollButton = window.scrollY > 200;
@@ -404,7 +463,9 @@ export default {
       if (!audio) return;
       let currentTime = audio.currentTime;
       let highlightedWords = this.words.map((word, index) => {
-        return currentTime >= this.timestamps[index] ? `<span class="highlight">${word}</span>` : word;
+        return currentTime >= this.timestamps[index]
+          ? `<span class="highlight">${word}</span>`
+          : word;
       });
       this.highlightedAyah = highlightedWords.join(" ");
     },
@@ -412,10 +473,10 @@ export default {
       const ayahText = `Surah number: ${this.surahDetails.surahNumber}\n\nSurah name: ${this.surahDetails.englishName}\n\nAyah text: ${ayah.text}\n\nTranslation: ${ayah.translation}`;
       try {
         await navigator.clipboard.writeText(ayahText);
-        this.showAlert("success", "Ayah & Translation copied to clipboard!");
+        window.alert("Ayah & Translation copied to clipboard");
       } catch (error) {
         console.error("Error copying text:", error);
-        this.showAlert("danger", "Failed to copy Ayah. Please try again.");
+        window.alert("Failed to copy Ayah. Please try again.");
       }
     },
     increaseFontSize() {
@@ -435,6 +496,27 @@ export default {
       const encodedMessage = encodeURIComponent(message);
       const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
       window.open(whatsappLink, "_blank");
+    },
+    async downloadAudio(audioUrl, filename) {
+      if (!audioUrl) {
+        alert("Audio not available for this Ayah.");
+        return;
+      }
+      try {
+        const response = await fetch(audioUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${filename}.mp3`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error downloading audio:", error);
+        alert("Failed to download audio.");
+      }
     },
     async fetchSurahs() {
       try {
@@ -456,24 +538,9 @@ export default {
           .map((reciter) => ({
             identifier: reciter.identifier,
             englishName: reciter.englishName || "Unknown Reciter",
-          }))
-          .filter(reciter => ![
-            'elmir kuliev by 1muslimapp',
-            'elmir kuliev 2 by 1muslimapp',
-            'elmir kuliev 1muslim',
-            'elmir kuliev 2muslim',
-            'chinese',
-            'ibrahim walk',
-            'fooladvand - hedayatfar',
-            'shamshad ali khan',
-            'youssouf leclerc'
-          ].includes(reciter.englishName.toLowerCase()));
-        if (this.reciters.length === 0) {
-          this.reciters.push({ identifier: "ar.alafasy", englishName: "Mishary Rashid Alafasy" });
-        }
+          }));
       } catch (error) {
         console.error("Error fetching Reciters:", error);
-        this.reciters = [{ identifier: "ar.alafasy", englishName: "Mishary Rashid Alafasy" }];
       }
     },
     async fetchTranslations() {
@@ -549,9 +616,34 @@ export default {
             audio.load();
             audio.currentTime = 0;
             audio.playbackRate = this.playbackSpeed;
+            audio.volume = this.volume; // Apply current volume
           }
         });
       });
+    },
+    selectReciter(reciterId) {
+      this.selectedReciter = reciterId;
+      this.savePreference("selectedReciter", reciterId);
+      this.fetchSurahDetails().then(() => {
+        if (this.currentlyPlayingIndex !== null) {
+          this.playAudio(this.currentlyPlayingIndex);
+        }
+      });
+    },
+    savePreference(key, value) {
+      localStorage.setItem(key, value);
+    },
+    loadPreferences() {
+      const savedReciter = localStorage.getItem("selectedReciter");
+      const savedTranslation = localStorage.getItem("selectedTranslation");
+      if (savedReciter) this.selectedReciter = savedReciter;
+      if (savedTranslation) this.selectedTranslation = savedTranslation;
+    },
+    resetToDefault() {
+      this.selectedSurah = "1";
+      this.savePreference("selectedSurah", "1");
+      this.fetchSurahDetails();
+      window.scrollTo({ top: 0, behavior: "auto" });
     },
     async fetchJuzDetails() {
       if (!this.selectedJuz || this.selectedJuz < 1 || this.selectedJuz > 30) return;
@@ -600,9 +692,17 @@ export default {
       this.currentlyPlaying = null;
       this.currentlyPlayingIndex = null;
     },
-    setSpeed(speed) {
-      this.playbackSpeed = speed;
-      this.updatePlaybackSpeed();
+    increaseSpeed() {
+      if (this.playbackSpeed < 2.0) {
+        this.playbackSpeed += 0.25;
+        this.updatePlaybackSpeed();
+      }
+    },
+    decreaseSpeed() {
+      if (this.playbackSpeed > 0.25) {
+        this.playbackSpeed -= 0.25;
+        this.updatePlaybackSpeed();
+      }
     },
     updatePlaybackSpeed() {
       if (this.currentlyPlaying) {
@@ -612,57 +712,33 @@ export default {
         if (audio) audio.playbackRate = this.playbackSpeed;
       });
     },
-    selectReciter(reciterId) {
-      this.selectedReciter = reciterId;
-      this.savePreference("selectedReciter", reciterId);
-      this.fetchSurahDetails().then(() => {
-        if (this.currentlyPlayingIndex !== null) {
-          this.playAudio(this.currentlyPlayingIndex);
-        }
-      });
-    },
-    seekAudio(event) {
-      if (this.audioElements[this.currentlyPlayingIndex] && this.audioElements[this.currentlyPlayingIndex].duration) {
-        const progressBar = event.currentTarget.querySelector(".progress-bar");
-        const rect = progressBar.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const width = rect.width;
-        const clickPercentage = (clickX / width) * 100;
-        const newTime = (clickPercentage / 100) * this.audioElements[this.currentlyPlayingIndex].duration;
-        this.audioElements[this.currentlyPlayingIndex].currentTime = newTime;
-        this.updateProgress(this.currentlyPlayingIndex);
-      }
-    },
-    showAlert(variant, message) {
-      this.$nextTick(() => {
-        const alertDiv = document.createElement("div");
-        alertDiv.className = `alert alert-${variant} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3`;
-        alertDiv.style.zIndex = 1050;
-        alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>`;
-        document.body.appendChild(alertDiv);
-        setTimeout(() => alertDiv.remove(), 3000);
-      });
-    },
-    savePreference(key, value) {
-      localStorage.setItem(key, value);
-    },
-    loadPreferences() {
-      const savedReciter = localStorage.getItem("selectedReciter");
-      const savedTranslation = localStorage.getItem("selectedTranslation");
-      if (savedReciter) this.selectedReciter = savedReciter;
-      if (savedTranslation) this.selectedTranslation = savedTranslation;
-    },
-    resetToDefault() {
-      this.selectedSurah = "1";
-      this.savePreference("selectedSurah", "1");
+    updateReciter() {
       this.fetchSurahDetails();
-      window.scrollTo({ top: 0, behavior: "auto" });
+    },
+    updateTranslation() {
+      this.fetchSurahDetails();
+    },
+    toggleVolume() {
+      this.showVolumeBar = !this.showVolumeBar;
+    },
+    updateVolume() {
+      if (this.currentlyPlaying) {
+        this.currentlyPlaying.volume = this.volume;
+      }
+      this.audioElements.forEach(audio => {
+        if (audio) audio.volume = this.volume;
+      });
     },
   },
 };
 </script>
 
 <style scoped>
+
+.highlighted {
+  background-color: #b5e6db; 
+  border-radius: 8px;
+}
 .rtl-text {
   direction: rtl;
 }
@@ -690,165 +766,111 @@ export default {
   border-radius: 8px;
 }
 
-.sticky-dropdown .row {
-  margin-left: 0;
-  margin-right: 0;
+.fab {
+  position: fixed;
+  bottom: 100px; /* Moved up to avoid covering audio player */
+  right: 20px;
+  z-index: 1002; /* Above audio player */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  .sticky-dropdown {
-    padding: 5px;
-  }
-  .sticky-dropdown .col-12 {
-    margin-bottom: 10px;
-  }
-  .sticky-dropdown .form-select {
-    font-size: 0.9rem;
-  }
-  .sticky-dropdown .form-label {
-    font-size: 0.9rem;
-  }
+.fab_audio {
+  position: fixed;
+  bottom: 160px; /* Moved up to avoid covering audio player */
+  right: 20px;
+  z-index: 1002; /* Above audio player */
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-@media (min-width: 769px) and (max-width: 991px) {
-  .sticky-dropdown {
-    padding: 8px;
-  }
-  .sticky-dropdown .col-md-4 {
-    margin-bottom: 10px;
-  }
-  .sticky-dropdown .form-select {
-    font-size: 1rem;
-  }
-  .sticky-dropdown .form-label {
-    font-size: 1rem;
-  }
-}
 
-@media (min-width: 992px) {
-  .sticky-dropdown {
-    padding: 10px;
-  }
-  .sticky-dropdown .col-md-4 {
-    margin-bottom: 0;
-  }
-  .sticky-dropdown .form-select {
-    font-size: 1.1rem;
-  }
-  .sticky-dropdown .form-label {
-    font-size: 1.1rem;
-  }
-}
-
-.icon-hover {
-  transition: all 0.3s ease;
-}
-
-.icon-hover:hover {
-  color: #00bfa6;
-  transform: scale(1.1);
-}
 
 .audio-player-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 1001;
-  background-color: #1a1a1a;
+  z-index: 1001; /* Below FABs but above other content */
+  background-color: rgba(33, 33, 33, 0.7); /* Transparent background */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3); /* Enhanced shadow */
+  border-radius: 15px 15px 0 0; /* Rounded top corners */
   padding: 10px 20px;
-  border-top: 1px solid #333;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-  animation: slideUp 0.5s ease-out;
 }
 
 .custom-audio-player {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #fff;
-  height: 60px;
-  background: transparent;
+  color: white;
+  font-size: 1.5rem; /* Bigger text */
+  padding: 10px 20px;
+}
+
+.progress-bar {
+  flex-grow: 1;
+  height: 8px; /* Bigger progress bar */
+  background-color: #666;
+  margin: 0 20px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #00bfa6; /* Progress bar color */
+  transition: width 0.1s linear;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.time-display {
-  font-size: 0.9rem;
-  color: #bbb;
-  min-width: 40px;
-  text-align: center;
-}
-
-.progress-bar-container {
-  flex-grow: 1;
-  margin: 0 15px;
-  height: 4px;
-  background-color: #333;
-  position: relative;
-  cursor: pointer;
-}
-
-.progress-bar {
-  height: 100%;
-  background-color: #00bfa6;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.progress {
-  height: 100%;
-  background-color: #00bfa6;
-  transition: width 0.1s linear;
-  animation: progressPulse 1s infinite alternate;
-}
-
-.playback-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+  gap: 25px; /* Bigger gap for spacing */
 }
 
 .control-btn {
   background: none;
   border: none;
-  color: #fff;
-  font-size: 1.5rem;
+  color: white;
+  font-size: 2rem; /* Bigger icons */
   cursor: pointer;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 10px;
   transition: color 0.2s;
 }
 
 .control-btn:hover {
-  color: #00bfa6;
+  color: #00bfa6; /* Match progress bar color on hover */
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.volume-bar-container {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  background-color: rgba(33, 33, 33, 0.9);
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 1003;
 }
 
-@keyframes progressPulse {
-  from {
-    background-color: #00bfa6;
-  }
-  to {
-    background-color: #009e8a;
-  }
+.volume-slider {
+  width: 100%;
+  vertical-align: middle;
+  margin: 0;
 }
 </style>
