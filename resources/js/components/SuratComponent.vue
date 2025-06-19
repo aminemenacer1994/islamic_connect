@@ -38,7 +38,8 @@
         </div>
         <div class="col-12 col-md-4">
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
-          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation" @change="fetchSurahDetails">
+          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation"
+            @change="fetchSurahDetails">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
               {{ translation.flag }} {{ translation.englishName }} ({{ translation.language }})
@@ -49,7 +50,8 @@
     </div>
 
     <div class="row rtl-text">
-      <div style="padding: 12px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number" class="col-md-12 mb-2 mt-2">
+      <div style="padding: 12px; border: 3px solid lightgray; border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
+        class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
@@ -65,59 +67,50 @@
               <img src="/images/art.png" width="35px" alt="Art Icon" />
               {{ surahDetails?.surahNumber }} : {{ index + 1 }}
             </h4>
-            <div class="dropdown">
-              <div type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-three-dots-vertical h2 mt-3"></i>
-              </div>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="javascript:void(0)" @click="shareOnWhatsApp(ayah)">
-                    <div class="col text-center">
-                      <div class="d-flex flex-column align-items-center">
-                        <span class="mt-1 ml-2" style="font-size: 1.2rem">Share Ayah</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="javascript:void(0)" @click="copyAyah(ayah)">
-                    <div class="col text-center">
-                      <div class="d-flex flex-column align-items-center">
-                        <span class="mt-1 ml-2 text-left" style="font-size: 1.2rem">Copy Ayah</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
 
           <!-- Desktop Layout: Icons on Left -->
-          <div class="row d-none d-md-flex" >
+          <div class="row d-none d-md-flex">
             <!-- <hr class="container" /> -->
-            <div class="col-md-11" >
+            <div class="col-md-11">
               <div style="padding: 4px;">
-                <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)" :style="{ fontSize: arabicFontSize + 'px' }"></p>
+                <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+                  :style="{ fontSize: arabicFontSize + 'px' }"></p>
                 <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
-                <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)" :style="{ fontSize: translationFontSize + 'px' }"></p>
+                <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+                  :style="{ fontSize: translationFontSize + 'px' }"></p>
               </div>
             </div>
             <div class="col-md-1 text-center">
               <div class="d-flex flex-column align-items-center">
                 <div class="mb-3" @click="toggleAudioPlayer(index)">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                    style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right"
+                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
                 <div class="mb-3" @click="rewindAudio(index)">
-                  <i class="bi bi-skip-backward-circle-fill" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
+                  <i class="bi bi-skip-backward-circle-fill" style="cursor: pointer; font-size: 1.5rem;"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
                 </div>
                 <div class="mb-3" @click="decreaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Decrease Font Size"></i>
+                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Decrease Font Size"></i>
                 </div>
                 <div class="mb-3" @click="increaseFontSize">
-                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip" data-bs-placement="right" title="Increase Font Size"></i>
+                  <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Increase Font Size"></i>
                 </div>
                 <div class="mb-3" @click="fastForwardAudio(index)">
-                  <i class="bi bi-skip-forward-circle-fill" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
+                  <i class="bi bi-skip-forward-circle-fill" style="cursor: pointer; font-size: 1.5rem;"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
+                </div>
+                <div class="mb-3" @click="shareOnWhatsApp(ayah)">
+                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Share on WhatsApp"></i>
+                </div>
+                <div class="mb-3" @click="copyAyahToClipboard(ayah)">
+                  <i class="bi bi-clipboard2-check-fill" style="cursor: pointer; font-size: 1.3rem;"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Copy to Clipboard"></i>
                 </div>
               </div>
             </div>
@@ -126,34 +119,54 @@
           <!-- Mobile/Tablet Layout: Text then Icons -->
           <div class="d-block d-md-none">
             <div style="padding: 2px;">
-              <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)" :style="{ fontSize: arabicFontSize + 'px' }"></p>
+              <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
+                :style="{ fontSize: arabicFontSize + 'px' }"></p>
               <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
-              <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)" :style="{ fontSize: translationFontSize + 'px' }"></p>
+              <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
+                :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="toggleAudioPlayer(index)" style="cursor: pointer;">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+                    style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top"
+                    :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="rewindAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
+                  <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Rewind"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-dash-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Decrease Font Size"></i>
+                  <i class="bi bi-dash-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Decrease Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="increaseFontSize" style="cursor: pointer;">
-                  <i class="bi bi-plus-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Increase Font Size"></i>
+                  <i class="bi bi-plus-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Increase Font Size"></i>
                 </div>
               </div>
               <div class="col-2 text-center" style="padding: 5px;">
                 <div @click="fastForwardAudio(index)" style="cursor: pointer;">
-                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
+                  <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.3rem;" data-bs-toggle="tooltip"
+                    data-bs-placement="top" title="Fast Forward"></i>
+                </div>
+              </div>
+              <div class="col-2 text-center" style="padding: 5px;">
+                <div class="mb-3" @click="shareOnWhatsApp(ayah)">
+                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Share on WhatsApp"></i>
+                </div>
+              </div>
+              <div class="col-2 text-center" style="padding: 5px;">
+                <div class="mb-3" @click="copyAyahToClipboard(ayah)">
+                  <i class="bi bi-clipboard2-check-fill" style="cursor: pointer; font-size: 1.3rem;"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Copy to Clipboard"></i>
                 </div>
               </div>
             </div>
@@ -192,9 +205,11 @@
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider" />
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
+              class="volume-slider" />
           </div>
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
+            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
         </div>
         <div class="progress-bar">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
@@ -734,11 +749,11 @@ export default {
 </script>
 
 <style scoped>
-
 .highlighted {
-  background-color: #b5e6db; 
+  background-color: #b5e6db;
   border-radius: 8px;
 }
+
 .rtl-text {
   direction: rtl;
 }
@@ -768,9 +783,11 @@ export default {
 
 .fab {
   position: fixed;
-  bottom: 100px; /* Moved up to avoid covering audio player */
+  bottom: 100px;
+  /* Moved up to avoid covering audio player */
   right: 20px;
-  z-index: 1002; /* Above audio player */
+  z-index: 1002;
+  /* Above audio player */
   background-color: #007bff;
   color: white;
   border: none;
@@ -785,9 +802,11 @@ export default {
 
 .fab_audio {
   position: fixed;
-  bottom: 160px; /* Moved up to avoid covering audio player */
+  bottom: 160px;
+  /* Moved up to avoid covering audio player */
   right: 20px;
-  z-index: 1002; /* Above audio player */
+  z-index: 1002;
+  /* Above audio player */
   background-color: #28a745;
   color: white;
   border: none;
@@ -807,10 +826,14 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index: 1001; /* Below FABs but above other content */
-  background-color: rgba(33, 33, 33, 0.7); /* Transparent background */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3); /* Enhanced shadow */
-  border-radius: 15px 15px 0 0; /* Rounded top corners */
+  z-index: 1001;
+  /* Below FABs but above other content */
+  background-color: rgba(33, 33, 33, 0.7);
+  /* Transparent background */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3);
+  /* Enhanced shadow */
+  border-radius: 15px 15px 0 0;
+  /* Rounded top corners */
   padding: 10px 20px;
 }
 
@@ -819,41 +842,47 @@ export default {
   align-items: center;
   justify-content: space-between;
   color: white;
-  font-size: 1.5rem; /* Bigger text */
+  font-size: 1.5rem;
+  /* Bigger text */
   padding: 10px 20px;
 }
 
 .progress-bar {
   flex-grow: 1;
-  height: 8px; /* Bigger progress bar */
+  height: 8px;
+  /* Bigger progress bar */
   background-color: #666;
   margin: 0 20px;
 }
 
 .progress {
   height: 100%;
-  background-color: #00bfa6; /* Progress bar color */
+  background-color: #00bfa6;
+  /* Progress bar color */
   transition: width 0.1s linear;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 25px; /* Bigger gap for spacing */
+  gap: 25px;
+  /* Bigger gap for spacing */
 }
 
 .control-btn {
   background: none;
   border: none;
   color: white;
-  font-size: 2rem; /* Bigger icons */
+  font-size: 2rem;
+  /* Bigger icons */
   cursor: pointer;
   padding: 10px;
   transition: color 0.2s;
 }
 
 .control-btn:hover {
-  color: #00bfa6; /* Match progress bar color on hover */
+  color: #00bfa6;
+  /* Match progress bar color on hover */
 }
 
 .volume-bar-container {

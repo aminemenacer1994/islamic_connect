@@ -64767,47 +64767,41 @@ var _hoisted_14 = {
   "class": "d-flex justify-content-between p-3 text-muted ltr-text"
 };
 var _hoisted_15 = {
-  "class": "dropdown"
-};
-var _hoisted_16 = {
-  "class": "dropdown-menu"
-};
-var _hoisted_17 = ["onClick"];
-var _hoisted_18 = ["onClick"];
-var _hoisted_19 = {
   "class": "row d-none d-md-flex"
 };
-var _hoisted_20 = {
+var _hoisted_16 = {
   "class": "col-md-11"
 };
-var _hoisted_21 = {
+var _hoisted_17 = {
   style: {
     "padding": "4px"
   }
 };
-var _hoisted_22 = ["innerHTML"];
-var _hoisted_23 = ["innerHTML"];
-var _hoisted_24 = {
+var _hoisted_18 = ["innerHTML"];
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = {
   "class": "col-md-1 text-center"
 };
-var _hoisted_25 = {
+var _hoisted_21 = {
   "class": "d-flex flex-column align-items-center"
 };
+var _hoisted_22 = ["onClick"];
+var _hoisted_23 = ["title"];
+var _hoisted_24 = ["onClick"];
+var _hoisted_25 = ["onClick"];
 var _hoisted_26 = ["onClick"];
-var _hoisted_27 = ["title"];
-var _hoisted_28 = ["onClick"];
-var _hoisted_29 = ["onClick"];
-var _hoisted_30 = {
+var _hoisted_27 = ["onClick"];
+var _hoisted_28 = {
   "class": "d-block d-md-none"
 };
-var _hoisted_31 = {
+var _hoisted_29 = {
   style: {
     "padding": "2px"
   }
 };
-var _hoisted_32 = ["innerHTML"];
-var _hoisted_33 = ["innerHTML"];
-var _hoisted_34 = {
+var _hoisted_30 = ["innerHTML"];
+var _hoisted_31 = ["innerHTML"];
+var _hoisted_32 = {
   "class": "row mb-3",
   style: {
     "display": "flex",
@@ -64815,33 +64809,40 @@ var _hoisted_34 = {
     "margin": "0 -5px"
   }
 };
-var _hoisted_35 = {
+var _hoisted_33 = {
   "class": "col-2 text-center",
   style: {
     "padding": "5px"
   }
 };
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = ["title"];
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = ["title"];
+var _hoisted_36 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_37 = ["onClick"];
 var _hoisted_38 = {
   "class": "col-2 text-center",
   style: {
     "padding": "5px"
   }
 };
-var _hoisted_39 = ["onClick"];
+var _hoisted_39 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "5px"
+  }
+};
 var _hoisted_40 = {
   "class": "col-2 text-center",
   style: {
     "padding": "5px"
   }
 };
-var _hoisted_41 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "5px"
-  }
-};
+var _hoisted_41 = ["onClick"];
 var _hoisted_42 = {
   "class": "col-2 text-center",
   style: {
@@ -64850,36 +64851,43 @@ var _hoisted_42 = {
 };
 var _hoisted_43 = ["onClick"];
 var _hoisted_44 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "5px"
+  }
+};
+var _hoisted_45 = ["onClick"];
+var _hoisted_46 = {
   key: 0,
   "class": "audio-player-container"
 };
-var _hoisted_45 = {
+var _hoisted_47 = {
   "class": "custom-audio-player"
 };
-var _hoisted_46 = {
-  "class": "controls"
-};
-var _hoisted_47 = {
-  key: 0,
-  "class": "bi bi-pause-fill"
-};
 var _hoisted_48 = {
-  key: 1,
-  "class": "bi bi-play-fill"
+  "class": "controls"
 };
 var _hoisted_49 = {
   key: 0,
-  "class": "volume-bar-container"
+  "class": "bi bi-pause-fill"
 };
 var _hoisted_50 = {
-  "class": "time"
+  key: 1,
+  "class": "bi bi-play-fill"
 };
 var _hoisted_51 = {
+  key: 0,
+  "class": "volume-bar-container"
+};
+var _hoisted_52 = {
+  "class": "time"
+};
+var _hoisted_53 = {
   "class": "progress-bar"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -64956,7 +64964,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     var _$data$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       style: {
-        "padding": "12px"
+        "padding": "12px",
+        "border": "3px solid lightgray",
+        "border-radius": "8px"
       },
       ref_for: true,
       ref: "audioCard",
@@ -64966,49 +64976,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      type: "button",
-      "data-bs-toggle": "dropdown",
-      "aria-expanded": "false"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-three-dots-vertical h2 mt-3"
-    })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "dropdown-item",
-      href: "javascript:void(0)",
-      onClick: function onClick($event) {
-        return $options.shareOnWhatsApp(ayah);
-      }
-    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "col text-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "d-flex flex-column align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": "mt-1 ml-2",
-      style: {
-        "font-size": "1.2rem"
-      }
-    }, "Share Ayah")])], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_17)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      "class": "dropdown-item",
-      href: "javascript:void(0)",
-      onClick: function onClick($event) {
-        return $options.copyAyah(ayah);
-      }
-    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "col text-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "d-flex flex-column align-items-center"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": "mt-1 ml-2 text-left",
-      style: {
-        "font-size": "1.2rem"
-      }
-    }, "Copy Ayah")])], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_18)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <hr class=\"container\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_22), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -65016,7 +64990,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_23)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_19)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
@@ -65030,12 +65004,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: $data.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_27)], 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_23)], 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       }
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65044,12 +65018,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Rewind"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_28), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: _cache[6] || (_cache[6] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65063,7 +65037,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[7] || (_cache[7] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65077,7 +65051,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       }
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65086,13 +65060,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Fast Forward"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_29)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-3",
+      onClick: function onClick($event) {
+        return $options.shareOnWhatsApp(ayah);
+      }
+    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-whatsapp",
+      style: {
+        "cursor": "pointer",
+        "font-size": "1.3rem"
+      },
+      "data-bs-toggle": "tooltip",
+      "data-bs-placement": "right",
+      title: "Share on WhatsApp"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-3",
+      onClick: function onClick($event) {
+        return _ctx.copyAyahToClipboard(ayah);
+      }
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clipboard2-check-fill",
+      style: {
+        "cursor": "pointer",
+        "font-size": "1.3rem"
+      },
+      "data-bs-toggle": "tooltip",
+      "data-bs-placement": "right",
+      title: "Copy to Clipboard"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_27)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_32), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_30), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
@@ -65100,7 +65102,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: $data.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_31)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
       },
@@ -65115,14 +65117,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: $data.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_37)], 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_35)], 8 /* PROPS */, _hoisted_34)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       },
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.3rem"
@@ -65130,14 +65132,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Rewind"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: _cache[8] || (_cache[8] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       }),
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.3rem"
@@ -65145,14 +65147,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Decrease Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: _cache[9] || (_cache[9] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       }),
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.3rem"
@@ -65160,14 +65162,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Increase Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       },
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.3rem"
@@ -65175,16 +65177,44 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Fast Forward"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_43)])])])])]);
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-3",
+      onClick: function onClick($event) {
+        return $options.shareOnWhatsApp(ayah);
+      }
+    }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-whatsapp",
+      style: {
+        "cursor": "pointer",
+        "font-size": "1.3rem"
+      },
+      "data-bs-toggle": "tooltip",
+      "data-bs-placement": "right",
+      title: "Share on WhatsApp"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-3",
+      onClick: function onClick($event) {
+        return _ctx.copyAyahToClipboard(ayah);
+      }
+    }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-clipboard2-check-fill",
+      style: {
+        "cursor": "pointer",
+        "font-size": "1.3rem"
+      },
+      "data-bs-toggle": "tooltip",
+      "data-bs-placement": "right",
+      title: "Copy to Clipboard"
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_45)])])])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollButton\" @click=\"scrollToTop\" class=\"fab\" title=\"Scroll to top\">\n      <i class=\"bi bi-chevron-double-up pt-1 h2\"></i>\n    </button>\n\n    <button v-if=\"isAudioPlaying.some(state => state)\" class=\"fab_audio\" @click=\"scrollToCurrentAudio\">\n      <i class=\"bi bi-reply h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), $data.isAudioPlaying.some(function (state) {
     return state;
-  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[10] || (_cache[10] = function ($event) {
       return $options.rewindAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[11] || (_cache[11] = function ($event) {
@@ -65192,13 +65222,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "control-btn play-pause",
     title: "Play/Pause"
-  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_48))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_49)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_50))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[12] || (_cache[12] = function ($event) {
       return $options.fastForwardAudio($data.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[13] || (_cache[13] = function ($event) {
@@ -65206,7 +65236,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[14] || (_cache[14] = function () {
@@ -65216,7 +65246,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Volume"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat($data.volume > 0.5 ? 'up' : $data.volume > 0 ? 'down' : 'mute', "-fill")])
-  }, null, 2 /* CLASS */)]), $data.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 2 /* CLASS */)]), $data.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
     "onUpdate:modelValue": _cache[15] || (_cache[15] = function ($event) {
       return $data.volume = $event;
@@ -65228,7 +65258,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: $data.progress[$data.currentlyPlayingIndex] + '%'
@@ -167514,7 +167544,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db; \n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 100px; /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002; /* Above audio player */\n  background-color: #007bff;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 160px; /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002; /* Above audio player */\n  background-color: #28a745;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001; /* Below FABs but above other content */\n  background-color: rgba(33, 33, 33, 0.7); /* Transparent background */\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3); /* Enhanced shadow */\n  border-radius: 15px 15px 0 0; /* Rounded top corners */\n  padding: 10px 20px;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: white;\n  font-size: 1.5rem; /* Bigger text */\n  padding: 10px 20px;\n}\n.progress-bar[data-v-828f3036] {\n  flex-grow: 1;\n  height: 8px; /* Bigger progress bar */\n  background-color: #666;\n  margin: 0 20px;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6; /* Progress bar color */\n  transition: width 0.1s linear;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 25px; /* Bigger gap for spacing */\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 2rem; /* Bigger icons */\n  cursor: pointer;\n  padding: 10px;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6; /* Match progress bar color on hover */\n}\n.volume-bar-container[data-v-828f3036] {\n  position: absolute;\n  bottom: 60px;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 40px;\n  background-color: rgba(33, 33, 33, 0.9);\n  padding: 5px;\n  border-radius: 5px;\n  z-index: 1003;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100%;\n  vertical-align: middle;\n  margin: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 100px;\n  /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002;\n  /* Above audio player */\n  background-color: #007bff;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 160px;\n  /* Moved up to avoid covering audio player */\n  right: 20px;\n  z-index: 1002;\n  /* Above audio player */\n  background-color: #28a745;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  /* Below FABs but above other content */\n  background-color: rgba(33, 33, 33, 0.7);\n  /* Transparent background */\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 191, 166, 0.3);\n  /* Enhanced shadow */\n  border-radius: 15px 15px 0 0;\n  /* Rounded top corners */\n  padding: 10px 20px;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  color: white;\n  font-size: 1.5rem;\n  /* Bigger text */\n  padding: 10px 20px;\n}\n.progress-bar[data-v-828f3036] {\n  flex-grow: 1;\n  height: 8px;\n  /* Bigger progress bar */\n  background-color: #666;\n  margin: 0 20px;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  /* Progress bar color */\n  transition: width 0.1s linear;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 25px;\n  /* Bigger gap for spacing */\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 2rem;\n  /* Bigger icons */\n  cursor: pointer;\n  padding: 10px;\n  transition: color 0.2s;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n  /* Match progress bar color on hover */\n}\n.volume-bar-container[data-v-828f3036] {\n  position: absolute;\n  bottom: 60px;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 40px;\n  background-color: rgba(33, 33, 33, 0.9);\n  padding: 5px;\n  border-radius: 5px;\n  z-index: 1003;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100%;\n  vertical-align: middle;\n  margin: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
