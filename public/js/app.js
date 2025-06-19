@@ -64719,7 +64719,7 @@ var _hoisted_1 = {
 var _hoisted_2 = {
   "class": "sticky-dropdown",
   style: {
-    "top": "50px"
+    "top": "80px"
   }
 };
 var _hoisted_3 = {
@@ -64737,7 +64737,7 @@ var _hoisted_5 = {
   }
 };
 var _hoisted_6 = {
-  "class": "col-12 col-md-4"
+  "class": "col-12 col-md-4 mt-3"
 };
 var _hoisted_7 = ["value"];
 var _hoisted_8 = {

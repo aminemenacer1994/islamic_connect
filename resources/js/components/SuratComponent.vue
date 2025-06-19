@@ -12,13 +12,13 @@
     </div>
 
     <!-- Sticky Dropdowns Container -->
-    <div class="sticky-dropdown" style="top: 50px">
+    <div class="sticky-dropdown" style="top: 80px">
       <span @click="toggleVisibility" class="text-white" style="cursor: pointer;">
         <i v-if="isVisible" class="bi bi-x-lg"></i>
         <i v-else class="bi bi-plus-lg h5"></i>
       </span>
       <div v-show="isVisible" class="row g-3" style="padding: 6px;">
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-4 mt-3">
           <label for="surah-select" class="form-label text-white">Select Surah:</label>
           <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
             <option value="" disabled>Select a Surah</option>
@@ -59,8 +59,7 @@
             border-bottom-right-radius: 20px;
             display: flex;
             flex-direction: column;
-            height: 100%;
-          ">
+            height: 100%;">
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between p-3 text-muted ltr-text">
             <h4>
