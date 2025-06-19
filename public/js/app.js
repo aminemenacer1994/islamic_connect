@@ -64965,7 +64965,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       style: {
         "padding": "12px",
-        "border": "3px solid lightgray",
+        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         "border-radius": "8px"
       },
       ref_for: true,

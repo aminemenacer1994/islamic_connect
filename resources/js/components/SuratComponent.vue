@@ -50,7 +50,7 @@
     </div>
 
     <div class="row rtl-text">
-      <div style="padding: 12px; border: 3px solid lightgray; border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
+      <div style="padding: 12px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
         class="col-md-12 mb-2 mt-2">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             border-top-left-radius: 25px;
