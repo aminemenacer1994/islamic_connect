@@ -105,7 +105,7 @@
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
                 </div>
                 <div class="mb-3" @click="shareOnWhatsApp(ayah)">
-                  <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
+                  <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem; " data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Share on WhatsApp"></i>
                 </div>
                 <div class="mb-3" @click="copyAyahToClipboard(ayah)">
@@ -886,15 +886,11 @@ export default {
 }
 
 .volume-bar-container {
-  position: absolute;
   bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  background-color: rgba(33, 33, 33, 0.9);
+  left: 100%;
   padding: 5px;
   border-radius: 5px;
-  z-index: 1003;
+  
 }
 
 .volume-slider {
