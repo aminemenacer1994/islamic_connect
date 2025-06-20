@@ -19,7 +19,7 @@
       <div v-show="isVisible" class="row g-3" style="padding: 6px;">
         <div class="col-12 col-md-4 mt-3">
           <label for="surah-select" class="form-label text-white">Select Surah:</label>
-          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails()">
+          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah">
             <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
               {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
@@ -28,7 +28,7 @@
         </div>
         <div class="col-12 col-md-4">
           <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
-          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter" @change="fetchSurahDetails()">
+          <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
             <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in reciters" :key="reciter.identifier" :value="reciter.identifier">
               {{ reciter.englishName }}
@@ -37,10 +37,10 @@
         </div>
         <div class="col-12 col-md-4">
           <label for="translation-select" class="form-label text-white">Select Translation:</label>
-          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation" @change="fetchSurahDetails()">
+          <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translations" :key="translation.identifier" :value="translation.identifier">
-              {{ translation.flag }} {{ translation.englishName }} ({{ translation.language }})
+              <span style="font-size: 1.2em; margin-right: 6px;">{{ translation.flag }}</span>{{ translation.englishName }} ({{ translation.language }})
             </option>
           </select>
         </div>
@@ -49,7 +49,7 @@
 
     <div class="row rtl-text">
       <div style="padding: 12px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; border-radius: 8px;" ref="audioCard" v-for="(ayah, index) in filteredAyahs" :key="ayah.number"
-        class="col-md-12 mb-2 mt-2" :class="{ highlighted: currentlyPlayingIndex === index }">
+        class="col-md-12 mb-2 mt-2 ayah-card-container" :class="{ highlighted: isHighlighted && currentlyPlayingIndex === index }">
         <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
@@ -104,10 +104,6 @@
                   <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Share on WhatsApp"></i>
                 </div>
-                <!-- <div class="mb-3" @click="copyAyahToClipboard(ayah)">
-                  <i class="bi bi-clipboard2-check-fill" style="cursor: pointer; font-size: 1.3rem;"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="Copy to Clipboard"></i>
-                </div> -->
               </div>
             </div>
           </div>
@@ -117,7 +113,7 @@
             <div style="padding: 2px;">
               <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
-              <h4 class="fw-bold pt-2 hide-on-mobile-tablet ml-2">Translation:</h4>
+              <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
               <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
@@ -159,21 +155,11 @@
                     data-bs-placement="right" title="Share on WhatsApp"></i>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Scroll to Top FAB -->
-    <!-- <button v-show="showScrollButton" @click="scrollToTop" class="fab" title="Scroll to top">
-      <i class="bi bi-chevron-double-up pt-1 h2"></i>
-    </button> -->
-
-    <!-- <button v-if="isAudioPlaying.some(state => state)" class="fab_audio" @click="scrollToCurrentAudio">
-      <i class="bi bi-reply h2"></i>
-    </button> -->
 
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
@@ -215,147 +201,161 @@
 
 <script>
 export default {
-  props: ["ayah", "arabicFontSize"],
-  data() {
+  name: 'SuratComponent',
+  data: function() {
     return {
-      selectedSurah: localStorage.getItem("selectedSurah") || "1",
+      selectedSurah: "1",
       selectedReciter: "ar.alafasy",
-      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
+      selectedTranslation: "en.ahmedali",
       isAudioPlaying: [],
       currentlyPlaying: null,
-      currentlyPlayingIndex: null,
+      currentlyPlayingIndex: 0,
       scrollTimeout: null,
       showScrollButton: false,
       isVisible: true,
-      loading: true,
-      displayedAyahs: [],
-      ayahBatchSize: 9,
       surahs: [],
       reciters: [],
       translations: [],
-      selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
       arabicFontSize: 23,
       translationFontSize: 19,
-      words: [],
-      timestamps: [],
-      highlightedAyah: "",
-      wordTimings: [],
       highlightedWordIndex: -1,
-      currentAyahIndex: 0,
       progress: [],
       audioElements: [],
       playbackSpeed: 1.0,
       volume: 1.0,
       showVolumeBar: false,
       showAudioPlayer: false,
+      isHighlighted: false,
+      wordTimings: []
     };
   },
-  mounted() {
-    this.audioElement = new Audio();
-    this.prepareAyahText();
-    window.addEventListener("scroll", this.handleScroll);
-    this.resetToDefault();
-    this.loadPreferences();
-    this.fetchReciters().then(() => {
-      if (!this.reciters.some(r => r.identifier === this.selectedReciter)) {
-        this.selectedReciter = this.reciters.length > 0 ? this.reciters[0].identifier : "ar.alafasy";
-      }
-    });
-  },
-  beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-    this.audioElements.forEach(audio => audio && audio.pause());
-  },
-  created() {
-    this.fetchSurahs();
-    this.fetchReciters();
-    this.fetchTranslations();
+  computed: {
+    filteredAyahs: function() {
+      if (!this.surahDetails) return [];
+      if (!this.searchQuery) return this.surahDetails.ayahs;
+      var query = this.searchQuery.toLowerCase();
+      return this.surahDetails.ayahs.filter(
+        function(ayah) {
+          return ayah.text.toLowerCase().includes(query) ||
+            (ayah.translation && ayah.translation.toLowerCase().includes(query));
+        }
+      );
+    }
   },
   watch: {
-    selectedReciter(newVal) {
+    selectedReciter: function(newVal) {
       if (newVal) {
         this.savePreference("selectedReciter", newVal);
+        this.selectedSurah = "1"; // Reset to Surah Al-Fatiha
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
-          if (this.currentlyPlayingIndex !== null) {
-            this.playAudio(this.currentlyPlayingIndex);
-          }
         });
       }
     },
-    selectedTranslation(newVal) {
+    selectedTranslation: function(newVal) {
       if (newVal) {
         this.savePreference("selectedTranslation", newVal);
-        this.fetchSurahDetails();
+        this.selectedSurah = "1"; // Reset to Surah Al-Fatiha
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
+        this.fetchSurahDetails().then(() => {
+        });
       }
     },
-    selectedSurah(newVal) {
+    selectedSurah: function(newVal) {
       if (newVal) {
         this.savePreference("selectedSurah", newVal);
-        this.fetchSurahDetails();
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
+        this.fetchSurahDetails().then(() => {
+        });
       }
     },
-    ayah: {
-      handler(newAyah) {
-        if (newAyah && newAyah.text) {
-          this.prepareAyahText();
-        }
-      },
-      immediate: true,
-    },
-    filteredAyahs(newAyahs) {
+    filteredAyahs: function(newAyahs) {
       this.isAudioPlaying = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
-      this.audioElements = new Array(newAyahs.length);
       this.$nextTick(() => {
         this.initializeAudioElements();
+        this.$nextTick(() => {
+          this.scrollToCard(0);
+        });
       });
-    },
-  },
-  computed: {
-    filteredAyahs() {
-      if (!this.surahDetails) return [];
-      if (!this.searchQuery) return this.surahDetails.ayahs;
-      const query = this.searchQuery.toLowerCase();
-      return this.surahDetails.ayahs.filter(
-        (ayah) =>
-          ayah.text.toLowerCase().includes(query) ||
-          ayah.translation.toLowerCase().includes(query)
-      );
-    },
-    highlightedText() {
-      return (ayah) => {
-        if (!ayah.text) return "";
-        const words = ayah.text.split(" ");
-        return words
-          .map((word, index) => {
-            const isHighlighted = index === this.highlightedWordIndex ? "highlighted-word" : "";
-            return `<span class="${isHighlighted}">${word}</span>`;
-          })
-          .join(" ");
-      };
-    },
+    }
   },
   methods: {
-    initializeAudioElements() {
+    highlightedText: function(ayah) {
+      if (!ayah.text) return "";
+      var words = ayah.text.split(" ");
+      var self = this;
+      return words
+        .map(function(word, index) {
+          var isHighlighted = index === self.highlightedWordIndex ? "highlighted-word" : "";
+          return '<span class="' + isHighlighted + '">' + word + '</span>';
+        })
+        .join(" ");
+    },
+    initializeAudioElements: function() {
+      var self = this;
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) return;
-      this.audioElements = this.$refs.audioCard.map((card, index) => {
-        const audio = new Audio(this.filteredAyahs[index]?.audio || "");
+      this.audioElements = this.filteredAyahs.map(function(ayah, index) {
+        var audio = new Audio(ayah && ayah.audio ? ayah.audio : "");
         if (audio) {
-          audio.playbackRate = this.playbackSpeed;
-          audio.volume = this.volume;
-          audio.addEventListener("timeupdate", () => this.updateProgress(index));
-          audio.addEventListener("loadedmetadata", () => {
-            this.progress[index] = 0;
-          });
-          audio.addEventListener("ended", () => this.handleAyahEnd(index));
+          audio.playbackRate = self.playbackSpeed;
+          audio.volume = self.volume;
+          audio.addEventListener("timeupdate", function() { self.updateProgress(index); });
+          audio.addEventListener("loadedmetadata", function() { self.progress[index] = 0; });
+          audio.addEventListener("ended", function() { self.handleAyahEnd(index); });
         }
         return audio;
       });
     },
-    toggleAudioPlayer(index) {
+    playAudio: function(index) {
+      if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
+      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0;
+      }
+      this.isAudioPlaying = this.isAudioPlaying.map(function(state, i) { return i === index; });
+      this.currentlyPlaying = this.audioElements[index];
+      this.currentlyPlayingIndex = index;
+      this.isHighlighted = true;
+      var ayah = this.filteredAyahs[index];
+      var self = this;
+      this.currentlyPlaying.onloadedmetadata = function() {
+        var duration = self.currentlyPlaying.duration;
+        var wordCount = ayah.text.split(' ').length;
+        if (wordCount > 0 && duration > 0) {
+          var step = duration / wordCount;
+          self.wordTimings = Array.from({length: wordCount}, function(_, i) { return i * step; });
+        } else {
+          self.wordTimings = [];
+        }
+      };
+      // If already loaded, trigger manually
+      if (this.currentlyPlaying.readyState >= 1) {
+        this.currentlyPlaying.onloadedmetadata();
+      }
+      this.highlightedWordIndex = -1;
+      this.currentlyPlaying.ontimeupdate = function() { self.syncHighlight(); };
+      this.currentlyPlaying.play().catch(function(err) {
+        console.error("Play error:", err);
+        self.handleAyahEnd(index);
+      });
+      this.isAudioPlaying[index] = true;
+      this.scrollToCard(index);
+      this.showAudioPlayer = true;
+    },
+    pauseAudio: function(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].pause();
+        this.isAudioPlaying[index] = false;
+      }
+    },
+    toggleAudioPlayer: function(index) {
       if (!this.audioElements[index]) return;
       if (!this.isAudioPlaying[index]) {
         this.playAudio(index);
@@ -363,386 +363,247 @@ export default {
         this.pauseAudio(index);
       }
     },
-    playAudio(index) {
-      if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
-      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
-      }
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-      this.currentlyPlaying = this.audioElements[index];
-      this.currentlyPlayingIndex = index;
-      this.currentlyPlaying.play().catch(err => {
-        console.error("Play error:", err);
-        this.handleAyahEnd(index);
-      });
-      this.isAudioPlaying[index] = true;
-      this.scrollToCard(index);
-      this.showAudioPlayer = true;
-    },
-    pauseAudio(index) {
-      if (this.audioElements[index]) {
-        this.audioElements[index].pause();
-        this.isAudioPlaying[index] = false;
-      }
-    },
-    stopAudio(index) {
+    stopAudio: function(index) {
       if (this.audioElements[index]) {
         this.audioElements[index].pause();
         this.audioElements[index].currentTime = 0;
         this.isAudioPlaying[index] = false;
         this.progress[index] = 0;
+        this.isHighlighted = false; // Remove highlight when stopped
       }
     },
-    rewindAudio(index) {
+    rewindAudio: function(index) {
       if (this.audioElements[index]) {
         this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
       }
     },
-    fastForwardAudio(index) {
+    fastForwardAudio: function(index) {
       if (this.audioElements[index]) {
         this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
       }
     },
-    updateProgress(index) {
+    updateProgress: function(index) {
       if (this.audioElements[index] && this.audioElements[index].duration) {
-        const progress = (this.audioElements[index].currentTime / this.audioElements[index].duration) * 100;
+        var progress = (this.audioElements[index].currentTime / this.audioElements[index].duration) * 100;
         this.progress[index] = Math.min(100, progress);
       }
     },
-    formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    formatTime: function(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var secs = Math.floor(seconds % 60);
+      return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
     },
-    highlightText(text) {
+    highlightText: function(text) {
       if (!this.searchQuery || !text) return text || "";
-      const regex = new RegExp(`(${this.searchQuery})`, "gi");
-      return text.replace(regex, `<span class="highlight">$1</span>`);
+      var regex = new RegExp('(' + this.searchQuery + ')', "gi");
+      return text.replace(regex, '<span class="highlight">$1</span>');
     },
-    scrollToCard(index) {
-      const audioCards = this.$refs.audioCard;
-      if (!audioCards || !audioCards[index]) return;
+    scrollToCard: function(index) {
+      var audioCards = this.$refs.audioCard;
+      if (!audioCards) return;
+      if (!Array.isArray(audioCards)) audioCards = [audioCards];
+      if (!audioCards[index]) return;
+      var self = this;
       clearTimeout(this.scrollTimeout);
-      this.scrollTimeout = setTimeout(() => {
+      this.scrollTimeout = setTimeout(function() {
         audioCards[index].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
+          behavior: 'smooth',
+          block: 'start',
         });
       }, 100);
     },
-    resetAudioPlayer() {
-      if (this.currentlyPlaying) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.src = this.currentAudioUrl;
-        this.currentlyPlaying.load();
-        this.currentlyPlaying.play();
-      }
-    },
-    scrollToCurrentAudio() {
-      const index = this.isAudioPlaying.findIndex(state => state);
-      if (index !== -1 && this.$refs.audioCard[index]) {
-        window.scrollTo({
-          top: this.$refs.audioCard[index].offsetTop - 200,
-          behavior: "smooth",
-        });
-      }
-    },
-    handleScroll() {
+    handleScroll: function() {
       this.showScrollButton = window.scrollY > 220;
     },
-    scrollToTop() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    },
-    toggleVisibility() {
+    toggleVisibility: function() {
       this.isVisible = !this.isVisible;
     },
-    prepareAyahText() {
-      if (!this.ayah || !this.ayah.text) return;
-      this.words = this.ayah.text.split(" ");
-      this.timestamps = this.words.map((_, index) => index * 0.5);
-      this.highlightedAyah = this.words.join(" ");
-    },
-    syncHighlight() {
-      const audio = this.currentlyPlaying;
-      if (!audio) return;
-      let currentTime = audio.currentTime;
-      let highlightedWords = this.words.map((word, index) => {
-        return currentTime >= this.timestamps[index]
-          ? `<span class="highlight">${word}</span>`
-          : word;
-      });
-      this.highlightedAyah = highlightedWords.join(" ");
-    },
-    async copyAyahToClipboard(ayah) {
-      const ayahText = `Surah number: ${this.surahDetails.surahNumber}\n\nSurah name: ${this.surahDetails.englishName}\n\nAyah text: ${ayah.text}\n\nTranslation: ${ayah.translation}`;
-      try {
-        await navigator.clipboard.writeText(ayahText);
-        window.alert("Ayah & Translation copied to clipboard");
-      } catch (error) {
-        console.error("Error copying text:", error);
-        window.alert("Failed to copy Ayah. Please try again.");
-      }
-    },
-    increaseFontSize() {
+    increaseFontSize: function() {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
     },
-    decreaseFontSize() {
+    decreaseFontSize: function() {
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
     },
-    shareOnWhatsApp(ayah) {
-      const message =
-        `Surah ${this.surahDetails.surahNumber} - ${this.surahDetails.englishName} (Ayah ${ayah.number})\n\n` +
-        `Arabic: ${ayah.text}\n\n` +
-        `Translation: ${ayah.translation}\n\n` +
-        `Listen here: ${ayah.audio}`;
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+    shareOnWhatsApp: function(ayah) {
+      var message =
+        'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' +
+        'Arabic: ' + ayah.text + '\n\n' +
+        'Translation: ' + ayah.translation + '\n\n' +
+        'Listen here: ' + ayah.audio;
+      var encodedMessage = encodeURIComponent(message);
+      var whatsappLink = 'https://api.whatsapp.com/send?text=' + encodedMessage;
       window.open(whatsappLink, "_blank");
     },
-    async downloadAudio(audioUrl, filename) {
-      if (!audioUrl) {
-        alert("Audio not available for this Ayah.");
-        return;
-      }
-      try {
-        const response = await fetch(audioUrl);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${filename}.mp3`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      } catch (error) {
-        console.error("Error downloading audio:", error);
-        alert("Failed to download audio.");
-      }
-    },
-    async fetchSurahs() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/surah");
-        if (!response.ok) throw new Error("Failed to fetch Surahs");
-        const data = await response.json();
-        this.surahs = data.data;
-      } catch (error) {
-        console.error("Error fetching Surahs:", error);
-      }
-    },
-    async fetchReciters() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
-        if (!response.ok) throw new Error("Failed to fetch Reciters");
-        const data = await response.json();
-        this.reciters = data.data
-          .filter((reciter) => reciter.identifier && reciter.englishName)
-          .map((reciter) => ({
-            identifier: reciter.identifier,
-            englishName: reciter.englishName || "Unknown Reciter",
-          }));
-      } catch (error) {
-        console.error("Error fetching Reciters:", error);
-      }
-    },
-    async fetchTranslations() {
-      try {
-        const response = await fetch("https://api.alquran.cloud/v1/edition/type/translation");
-        if (!response.ok) throw new Error("Failed to fetch Translations");
-        const data = await response.json();
-        this.translations = data.data.map(translation => ({
-          identifier: translation.identifier,
-          englishName: translation.englishName || "Unknown Translation",
-          language: translation.language || "Unknown",
-          flag: this.getFlagFromLanguage(translation.language || "Unknown")
-        })).filter(translation => translation.flag !== '🌐');
-      } catch (error) {
-        console.error("Error fetching Translations:", error);
-      }
-    },
-    getFlagFromLanguage(lang) {
-      const languageFlags = {
-        'en': '🇬🇧',
-        'ar': '🇸🇦',
-        'fr': '🇫🇷',
-        'es': '🇪🇸',
-        'ur': '🇵🇰',
-        'tr': '🇹🇷',
-        'id': '🇮🇩',
-        'bn': '🇧🇩',
-        'fa': '🇮🇷',
-        'ru': '🇷🇺',
-        'de': '🇩🇪',
-        'it': '🇮🇹',
-        'sw': '🇹🇿',
-        'zh': '🇨🇳',
-        'hi': '🇮🇳'
+    getFlagFromLanguage: function(lang) {
+      var languageFlags = {
+        'en': '🇬🇧', 'ar': '🇸🇦', 'fr': '🇫🇷', 'es': '🇪🇸', 'ur': '🇵🇰', 'tr': '🇹🇷',
+        'id': '🇮🇩', 'bn': '🇧🇩', 'fa': '🇮🇷', 'ru': '🇷🇺', 'de': '🇩🇪', 'it': '🇮🇹',
+        'sw': '🇹🇿', 'zh': '🇨🇳', 'hi': '🇮🇳'
       };
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
-    async fetchSurahDetails() {
-      if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return;
-      try {
-        const response = await fetch(
-          `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch Surah details");
-        const data = await response.json();
-        const arabicText = data.data[0];
-        const translation = data.data[1];
-        this.surahDetails = {
-          surahNumber: this.selectedSurah,
-          englishName: arabicText.englishName,
-          name: arabicText.name,
-          ayahs: arabicText.ayahs.map((ayah, index) => ({
-            number: ayah.number,
-            text: ayah.text,
-            translation: translation.ayahs[index]?.text || "Translation not available",
-            audio: ayah.audio || "",
-          })),
-        };
-        if (this.surahDetails.ayahs.length > 0) {
-          this.currentAudioUrl = this.surahDetails.ayahs[0].audio;
-        }
-        this.resetAllAudioPlayers();
-      } catch (error) {
-        console.error("Error fetching Surah details:", error);
-      }
+    fetchSurahs: function() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/surah")
+        .then(function(response) { return response.json(); })
+        .then(function(data) { self.surahs = data.data; })
+        .catch(function(error) { console.error("Error fetching Surahs:", error); });
     },
-    resetAllAudioPlayers() {
-      this.$nextTick(() => {
-        this.audioElements.forEach((audio, index) => {
-          if (audio) {
-            audio.pause();
-            audio.src = this.filteredAyahs[index]?.audio || "";
-            audio.load();
-            audio.currentTime = 0;
-            audio.playbackRate = this.playbackSpeed;
-            audio.volume = this.volume;
-          }
-        });
+    fetchReciters: function() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/edition/format/audio")
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          self.reciters = data.data
+            .filter(function(reciter) { return reciter.identifier && reciter.englishName; })
+            .map(function(reciter) {
+              return {
+                identifier: reciter.identifier,
+                englishName: reciter.englishName || "Unknown Reciter"
+              };
+            });
+        })
+        .catch(function(error) { console.error("Error fetching Reciters:", error); });
+    },
+    fetchTranslations: function() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/edition/type/translation")
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          let translations = data.data.map(function(translation) {
+            return {
+              identifier: translation.identifier,
+              englishName: translation.englishName || "Unknown Translation",
+              language: translation.language || "Unknown",
+              flag: self.getFlagFromLanguage(translation.language || "Unknown")
+            };
+          }).filter(function(translation) { return translation.flag !== '🌐'; });
+          // Sort by flag, then by englishName
+          translations.sort(function(a, b) {
+            if (a.flag < b.flag) return -1;
+            if (a.flag > b.flag) return 1;
+            // If flags are equal, sort by englishName
+            if (a.englishName < b.englishName) return -1;
+            if (a.englishName > b.englishName) return 1;
+            return 0;
+          });
+          self.translations = translations;
+        })
+        .catch(function(error) { console.error("Error fetching Translations:", error); });
+    },
+    fetchSurahDetails: function() {
+      var self = this;
+      if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
+      return fetch('https://api.alquran.cloud/v1/surah/' + this.selectedSurah + '/editions/' + this.selectedReciter + ',' + this.selectedTranslation)
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          var arabicText = data.data[0];
+          var translation = data.data[1];
+          self.surahDetails = {
+            surahNumber: self.selectedSurah,
+            englishName: arabicText.englishName,
+            name: arabicText.name,
+            ayahs: arabicText.ayahs.map(function(ayah, index) {
+              return {
+                number: ayah.number,
+                text: ayah.text,
+                translation: translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available",
+                audio: ayah.audio || ""
+              };
+            })
+          };
+          self.resetAllAudioPlayers();
+        })
+        .catch(function(error) { console.error("Error fetching Surah details:", error); });
+    },
+    resetAllAudioPlayers: function() {
+      var self = this;
+      this.$nextTick(function() {
+        if (self.currentlyPlaying) {
+          self.currentlyPlaying.pause();
+          self.currentlyPlaying = null;
+          self.currentlyPlayingIndex = 0;
+        }
+        if (self.audioElements && self.audioElements.forEach) {
+          self.audioElements.forEach(function(audio) { if (audio && audio.remove) audio.remove(); });
+        }
+        self.initializeAudioElements();
+        self.isAudioPlaying = new Array(self.filteredAyahs.length).fill(false);
+        self.progress = new Array(self.filteredAyahs.length).fill(0);
       });
     },
-    selectReciter(reciterId) {
-      this.selectedReciter = reciterId;
-      this.savePreference("selectedReciter", reciterId);
-      this.fetchSurahDetails().then(() => {
-        if (this.currentlyPlayingIndex !== null) {
-          this.playAudio(this.currentlyPlayingIndex);
-        }
-      });
-    },
-    savePreference(key, value) {
+    savePreference: function(key, value) {
       localStorage.setItem(key, value);
     },
-    loadPreferences() {
-      const savedReciter = localStorage.getItem("selectedReciter");
-      const savedTranslation = localStorage.getItem("selectedTranslation");
-      if (savedReciter) this.selectedReciter = savedReciter;
-      if (savedTranslation) this.selectedTranslation = savedTranslation;
-    },
-    resetToDefault() {
-      this.selectedSurah = "1";
-      this.savePreference("selectedSurah", "1");
-      this.fetchSurahDetails();
-      window.scrollTo({ top: 0, behavior: "auto" });
-    },
-    async fetchJuzDetails() {
-      if (!this.selectedJuz || this.selectedJuz < 1 || this.selectedJuz > 30) return;
-      try {
-        const response = await fetch(
-          `https://api.alquran.cloud/v1/juz/${this.selectedJuz}/editions/${this.selectedReciter},${this.selectedTranslation}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch Juz details");
-        const data = await response.json();
-        const arabicText = data.data[0];
-        const translation = data.data[1];
-        this.surahDetails = {
-          englishName: `Juz ${this.selectedJuz}`,
-          name: `Juz ${this.selectedJuz}`,
-          ayahs: arabicText.ayahs.map((ayah, index) => ({
-            number: ayah.number,
-            text: ayah.text,
-            translation: translation.ayahs[index]?.text || "Translation not available",
-            audio: ayah.audio || "",
-          })),
-        };
-      } catch (error) {
-        console.error("Error fetching Juz details:", error);
-      }
-    },
-    handleAyahEnd(index) {
+    handleAyahEnd: function(index) {
       if (this.isAudioPlaying[index]) {
         this.stopAudio(index);
         this.playNextAyah();
       }
     },
-    playNextAyah() {
+    playNextAyah: function() {
       if (this.filteredAyahs.length > 0) {
-        const nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
+        var nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
         this.playAudio(nextIndex);
       }
     },
-    stopAllAudio() {
-      this.audioElements.forEach((audio, index) => {
-        if (audio) {
-          audio.pause();
-          this.isAudioPlaying[index] = false;
-          this.progress[index] = 0;
-        }
-      });
-      this.currentlyPlaying = null;
-      this.currentlyPlayingIndex = null;
-    },
-    increaseSpeed() {
-      if (this.playbackSpeed < 2.0) {
-        this.playbackSpeed += 0.25;
-        this.updatePlaybackSpeed();
-      }
-    },
-    decreaseSpeed() {
-      if (this.playbackSpeed > 0.25) {
-        this.playbackSpeed -= 0.25;
-        this.updatePlaybackSpeed();
-      }
-    },
-    updatePlaybackSpeed() {
-      if (this.currentlyPlaying) {
-        this.currentlyPlaying.playbackRate = this.playbackSpeed;
-      }
-      this.audioElements.forEach(audio => {
-        if (audio) audio.playbackRate = this.playbackSpeed;
-      });
-    },
-    updateReciter() {
-      this.fetchSurahDetails();
-    },
-    updateTranslation() {
-      this.fetchSurahDetails();
-    },
-    toggleVolume() {
+    toggleVolume: function() {
       this.showVolumeBar = !this.showVolumeBar;
     },
-    updateVolume() {
+    updateVolume: function() {
       if (this.currentlyPlaying) {
         this.currentlyPlaying.volume = this.volume;
       }
-      this.audioElements.forEach(audio => {
-        if (audio) audio.volume = this.volume;
-      });
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach(function(audio) {
+          if (audio) audio.volume = this.volume;
+        }.bind(this));
+      }
     },
-    closeAudioPlayer() {
+    closeAudioPlayer: function() {
       if (this.currentlyPlayingIndex !== null) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
       this.showAudioPlayer = false;
-      this.currentlyPlayingIndex = null;
+      this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
+      this.isHighlighted = false;
     },
+    syncHighlight: function() {
+      var audio = this.currentlyPlaying;
+      if (!audio || !this.wordTimings.length) return;
+      var currentTime = audio.currentTime;
+      var index = this.wordTimings.findIndex(function(t, i, arr) {
+        return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
+      });
+      this.highlightedWordIndex = index;
+    }
   },
+  mounted: function() {
+    window.addEventListener("scroll", this.handleScroll);
+    // Clear localStorage to prevent loading previous selections
+    localStorage.removeItem("selectedSurah");
+    localStorage.removeItem("selectedReciter");
+    localStorage.removeItem("selectedTranslation");
+    // Explicitly set to Surah Al-Fatiha and Ayah 1 on page load
+    this.selectedSurah = "1";
+    this.selectedReciter = "ar.alafasy";
+    this.selectedTranslation = "en.ahmedali";
+    this.currentlyPlayingIndex = 0;
+    this.isHighlighted = false;
+    this.fetchReciters();
+    this.fetchSurahs();
+    this.fetchTranslations();
+    this.fetchSurahDetails();
+  },
+  beforeUnmount: function() {
+    window.removeEventListener("scroll", this.handleScroll);
+    if (this.audioElements && this.audioElements.forEach) {
+      this.audioElements.forEach(function(audio) { if (audio && audio.pause) audio.pause(); });
+    }
+  }
 };
 </script>
 
@@ -760,74 +621,25 @@ export default {
   direction: ltr;
 }
 
-.hide-on-mobile-tablet {
-  display: block;
-}
-
-@media (max-width: 991px) {
-  .hide-on-mobile-tablet {
-    display: none;
-  }
-}
-
 .sticky-dropdown {
   position: sticky;
-  top: 50px;
+  top: 80px;
   z-index: 1000;
   background-color: #343a40;
   padding: 10px;
   border-radius: 8px;
   margin-bottom: 1rem;
+  transition: top 0.3s ease;
 }
 
 @media (max-width: 768px) {
   .sticky-dropdown {
-    top: 0;
-    padding: 8px;
+    top: 60px; /* Adjust based on your mobile header height */
   }
-
-  .form-label {
-    font-size: 0.9rem;
+  
+  .container {
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
   }
-
-  .form-select {
-    font-size: 0.9rem;
-    padding: 0.375rem 0.75rem;
-  }
-}
-
-.fab {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  z-index: 1002;
-  background-color: #343a40;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.fab_audio {
-  position: fixed;
-  bottom: 160px;
-  right: 20px;
-  z-index: 1002;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
 .audio-player-container {
@@ -840,6 +652,18 @@ export default {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px 15px 0 0;
   padding: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Add padding to bottom of container when audio player is visible */
+.container {
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
+}
+
+/* Smooth scroll container */
+.row.rtl-text {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .custom-audio-player {
@@ -923,6 +747,16 @@ export default {
 .volume-slider {
   width: 100px;
   height: 4px;
+}
+
+.ayah-card-container {
+  scroll-margin-top: 120px; /* Sticky header height + margin */
+}
+
+@media (max-width: 768px) {
+  .ayah-card-container {
+    scroll-margin-top: 100px;
+  }
 }
 
 /* Card Styles */
@@ -1019,5 +853,20 @@ export default {
   100% {
     background-position: -200% 0;
   }
+}
+
+/* Hide on mobile */
+@media (max-width: 991px) {
+  .hide-on-mobile-tablet {
+    display: none;
+  }
+}
+
+.highlighted-word {
+  background: #00bfa6;
+  color: #fff;
+  border-radius: 4px;
+  padding: 0 2px;
+  transition: background 0.2s;
 }
 </style>

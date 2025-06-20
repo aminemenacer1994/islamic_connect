@@ -44040,116 +44040,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["ayah", "arabicFontSize"],
+  name: 'SuratComponent',
   data: function data() {
     return {
-      selectedSurah: localStorage.getItem("selectedSurah") || "1",
+      selectedSurah: "1",
       selectedReciter: "ar.alafasy",
-      selectedTranslation: localStorage.getItem("selectedTranslation") || "en.ahmedali",
+      selectedTranslation: "en.ahmedali",
       isAudioPlaying: [],
       currentlyPlaying: null,
-      currentlyPlayingIndex: null,
+      currentlyPlayingIndex: 0,
       scrollTimeout: null,
       showScrollButton: false,
       isVisible: true,
-      loading: true,
-      displayedAyahs: [],
-      ayahBatchSize: 9,
       surahs: [],
       reciters: [],
       translations: [],
-      selectedJuz: null,
       surahDetails: null,
       searchQuery: "",
       arabicFontSize: 23,
       translationFontSize: 19,
-      words: [],
-      timestamps: [],
-      highlightedAyah: "",
-      wordTimings: [],
       highlightedWordIndex: -1,
-      currentAyahIndex: 0,
       progress: [],
       audioElements: [],
       playbackSpeed: 1.0,
       volume: 1.0,
       showVolumeBar: false,
-      showAudioPlayer: false
+      showAudioPlayer: false,
+      isHighlighted: false,
+      wordTimings: []
     };
-  },
-  mounted: function mounted() {
-    var _this = this;
-    this.audioElement = new Audio();
-    this.prepareAyahText();
-    window.addEventListener("scroll", this.handleScroll);
-    this.resetToDefault();
-    this.loadPreferences();
-    this.fetchReciters().then(function () {
-      if (!_this.reciters.some(function (r) {
-        return r.identifier === _this.selectedReciter;
-      })) {
-        _this.selectedReciter = _this.reciters.length > 0 ? _this.reciters[0].identifier : "ar.alafasy";
-      }
-    });
-  },
-  beforeUnmount: function beforeUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
-    this.audioElements.forEach(function (audio) {
-      return audio && audio.pause();
-    });
-  },
-  created: function created() {
-    this.fetchSurahs();
-    this.fetchReciters();
-    this.fetchTranslations();
-  },
-  watch: {
-    selectedReciter: function selectedReciter(newVal) {
-      var _this2 = this;
-      if (newVal) {
-        this.savePreference("selectedReciter", newVal);
-        this.fetchSurahDetails().then(function () {
-          _this2.resetAllAudioPlayers();
-          if (_this2.currentlyPlayingIndex !== null) {
-            _this2.playAudio(_this2.currentlyPlayingIndex);
-          }
-        });
-      }
-    },
-    selectedTranslation: function selectedTranslation(newVal) {
-      if (newVal) {
-        this.savePreference("selectedTranslation", newVal);
-        this.fetchSurahDetails();
-      }
-    },
-    selectedSurah: function selectedSurah(newVal) {
-      if (newVal) {
-        this.savePreference("selectedSurah", newVal);
-        this.fetchSurahDetails();
-      }
-    },
-    ayah: {
-      handler: function handler(newAyah) {
-        if (newAyah && newAyah.text) {
-          this.prepareAyahText();
-        }
-      },
-      immediate: true
-    },
-    filteredAyahs: function filteredAyahs(newAyahs) {
-      var _this3 = this;
-      this.isAudioPlaying = new Array(newAyahs.length).fill(false);
-      this.progress = new Array(newAyahs.length).fill(0);
-      this.audioElements = new Array(newAyahs.length);
-      this.$nextTick(function () {
-        _this3.initializeAudioElements();
-      });
-    }
   },
   computed: {
     filteredAyahs: function filteredAyahs() {
@@ -44157,54 +44077,84 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (!this.searchQuery) return this.surahDetails.ayahs;
       var query = this.searchQuery.toLowerCase();
       return this.surahDetails.ayahs.filter(function (ayah) {
-        return ayah.text.toLowerCase().includes(query) || ayah.translation.toLowerCase().includes(query);
+        return ayah.text.toLowerCase().includes(query) || ayah.translation && ayah.translation.toLowerCase().includes(query);
       });
+    }
+  },
+  watch: {
+    selectedReciter: function selectedReciter(newVal) {
+      var _this = this;
+      if (newVal) {
+        this.savePreference("selectedReciter", newVal);
+        this.selectedSurah = "1"; // Reset to Surah Al-Fatiha
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
+        this.fetchSurahDetails().then(function () {
+          _this.resetAllAudioPlayers();
+        });
+      }
     },
-    highlightedText: function highlightedText() {
-      var _this4 = this;
-      return function (ayah) {
-        if (!ayah.text) return "";
-        var words = ayah.text.split(" ");
-        return words.map(function (word, index) {
-          var isHighlighted = index === _this4.highlightedWordIndex ? "highlighted-word" : "";
-          return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
-        }).join(" ");
-      };
+    selectedTranslation: function selectedTranslation(newVal) {
+      if (newVal) {
+        this.savePreference("selectedTranslation", newVal);
+        this.selectedSurah = "1"; // Reset to Surah Al-Fatiha
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
+        this.fetchSurahDetails().then(function () {});
+      }
+    },
+    selectedSurah: function selectedSurah(newVal) {
+      if (newVal) {
+        this.savePreference("selectedSurah", newVal);
+        this.currentlyPlayingIndex = 0; // Reset to first ayah
+        this.isHighlighted = false; // Reset highlight
+        this.fetchSurahDetails().then(function () {});
+      }
+    },
+    filteredAyahs: function filteredAyahs(newAyahs) {
+      var _this2 = this;
+      this.isAudioPlaying = new Array(newAyahs.length).fill(false);
+      this.progress = new Array(newAyahs.length).fill(0);
+      this.$nextTick(function () {
+        _this2.initializeAudioElements();
+        _this2.$nextTick(function () {
+          _this2.scrollToCard(0);
+        });
+      });
     }
   },
   methods: {
+    highlightedText: function highlightedText(ayah) {
+      if (!ayah.text) return "";
+      var words = ayah.text.split(" ");
+      var self = this;
+      return words.map(function (word, index) {
+        var isHighlighted = index === self.highlightedWordIndex ? "highlighted-word" : "";
+        return '<span class="' + isHighlighted + '">' + word + '</span>';
+      }).join(" ");
+    },
     initializeAudioElements: function initializeAudioElements() {
-      var _this5 = this;
+      var self = this;
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) return;
-      this.audioElements = this.$refs.audioCard.map(function (card, index) {
-        var _this5$filteredAyahs$;
-        var audio = new Audio(((_this5$filteredAyahs$ = _this5.filteredAyahs[index]) === null || _this5$filteredAyahs$ === void 0 ? void 0 : _this5$filteredAyahs$.audio) || "");
+      this.audioElements = this.filteredAyahs.map(function (ayah, index) {
+        var audio = new Audio(ayah && ayah.audio ? ayah.audio : "");
         if (audio) {
-          audio.playbackRate = _this5.playbackSpeed;
-          audio.volume = _this5.volume;
+          audio.playbackRate = self.playbackSpeed;
+          audio.volume = self.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this5.updateProgress(index);
+            self.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
-            _this5.progress[index] = 0;
+            self.progress[index] = 0;
           });
           audio.addEventListener("ended", function () {
-            return _this5.handleAyahEnd(index);
+            self.handleAyahEnd(index);
           });
         }
         return audio;
       });
     },
-    toggleAudioPlayer: function toggleAudioPlayer(index) {
-      if (!this.audioElements[index]) return;
-      if (!this.isAudioPlaying[index]) {
-        this.playAudio(index);
-      } else {
-        this.pauseAudio(index);
-      }
-    },
     playAudio: function playAudio(index) {
-      var _this6 = this;
       if (!this.audioElements[index] || index >= this.filteredAyahs.length) return;
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         this.currentlyPlaying.pause();
@@ -44215,9 +44165,34 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       });
       this.currentlyPlaying = this.audioElements[index];
       this.currentlyPlayingIndex = index;
+      this.isHighlighted = true;
+      var ayah = this.filteredAyahs[index];
+      var self = this;
+      this.currentlyPlaying.onloadedmetadata = function () {
+        var duration = self.currentlyPlaying.duration;
+        var wordCount = ayah.text.split(' ').length;
+        if (wordCount > 0 && duration > 0) {
+          var step = duration / wordCount;
+          self.wordTimings = Array.from({
+            length: wordCount
+          }, function (_, i) {
+            return i * step;
+          });
+        } else {
+          self.wordTimings = [];
+        }
+      };
+      // If already loaded, trigger manually
+      if (this.currentlyPlaying.readyState >= 1) {
+        this.currentlyPlaying.onloadedmetadata();
+      }
+      this.highlightedWordIndex = -1;
+      this.currentlyPlaying.ontimeupdate = function () {
+        self.syncHighlight();
+      };
       this.currentlyPlaying.play()["catch"](function (err) {
         console.error("Play error:", err);
-        _this6.handleAyahEnd(index);
+        self.handleAyahEnd(index);
       });
       this.isAudioPlaying[index] = true;
       this.scrollToCard(index);
@@ -44229,12 +44204,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.isAudioPlaying[index] = false;
       }
     },
+    toggleAudioPlayer: function toggleAudioPlayer(index) {
+      if (!this.audioElements[index]) return;
+      if (!this.isAudioPlaying[index]) {
+        this.playAudio(index);
+      } else {
+        this.pauseAudio(index);
+      }
+    },
     stopAudio: function stopAudio(index) {
       if (this.audioElements[index]) {
         this.audioElements[index].pause();
         this.audioElements[index].currentTime = 0;
         this.isAudioPlaying[index] = false;
         this.progress[index] = 0;
+        this.isHighlighted = false; // Remove highlight when stopped
       }
     },
     rewindAudio: function rewindAudio(index) {
@@ -44256,99 +44240,32 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     formatTime: function formatTime(seconds) {
       var minutes = Math.floor(seconds / 60);
       var secs = Math.floor(seconds % 60);
-      return "".concat(minutes.toString().padStart(2, '0'), ":").concat(secs.toString().padStart(2, '0'));
+      return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
     },
     highlightText: function highlightText(text) {
       if (!this.searchQuery || !text) return text || "";
-      var regex = new RegExp("(".concat(this.searchQuery, ")"), "gi");
-      return text.replace(regex, "<span class=\"highlight\">$1</span>");
+      var regex = new RegExp('(' + this.searchQuery + ')', "gi");
+      return text.replace(regex, '<span class="highlight">$1</span>');
     },
     scrollToCard: function scrollToCard(index) {
       var audioCards = this.$refs.audioCard;
-      if (!audioCards || !audioCards[index]) return;
+      if (!audioCards) return;
+      if (!Array.isArray(audioCards)) audioCards = [audioCards];
+      if (!audioCards[index]) return;
+      var self = this;
       clearTimeout(this.scrollTimeout);
       this.scrollTimeout = setTimeout(function () {
         audioCards[index].scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+          behavior: 'smooth',
+          block: 'start'
         });
       }, 100);
-    },
-    resetAudioPlayer: function resetAudioPlayer() {
-      if (this.currentlyPlaying) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.src = this.currentAudioUrl;
-        this.currentlyPlaying.load();
-        this.currentlyPlaying.play();
-      }
-    },
-    scrollToCurrentAudio: function scrollToCurrentAudio() {
-      var index = this.isAudioPlaying.findIndex(function (state) {
-        return state;
-      });
-      if (index !== -1 && this.$refs.audioCard[index]) {
-        window.scrollTo({
-          top: this.$refs.audioCard[index].offsetTop - 200,
-          behavior: "smooth"
-        });
-      }
     },
     handleScroll: function handleScroll() {
       this.showScrollButton = window.scrollY > 220;
     },
-    scrollToTop: function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    },
     toggleVisibility: function toggleVisibility() {
       this.isVisible = !this.isVisible;
-    },
-    prepareAyahText: function prepareAyahText() {
-      if (!this.ayah || !this.ayah.text) return;
-      this.words = this.ayah.text.split(" ");
-      this.timestamps = this.words.map(function (_, index) {
-        return index * 0.5;
-      });
-      this.highlightedAyah = this.words.join(" ");
-    },
-    syncHighlight: function syncHighlight() {
-      var _this7 = this;
-      var audio = this.currentlyPlaying;
-      if (!audio) return;
-      var currentTime = audio.currentTime;
-      var highlightedWords = this.words.map(function (word, index) {
-        return currentTime >= _this7.timestamps[index] ? "<span class=\"highlight\">".concat(word, "</span>") : word;
-      });
-      this.highlightedAyah = highlightedWords.join(" ");
-    },
-    copyAyahToClipboard: function copyAyahToClipboard(ayah) {
-      var _this8 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var ayahText;
-        return _regeneratorRuntime().wrap(function _callee$(_context) {
-          while (1) switch (_context.prev = _context.next) {
-            case 0:
-              ayahText = "Surah number: ".concat(_this8.surahDetails.surahNumber, "\n\nSurah name: ").concat(_this8.surahDetails.englishName, "\n\nAyah text: ").concat(ayah.text, "\n\nTranslation: ").concat(ayah.translation);
-              _context.prev = 1;
-              _context.next = 4;
-              return navigator.clipboard.writeText(ayahText);
-            case 4:
-              window.alert("Ayah & Translation copied to clipboard");
-              _context.next = 11;
-              break;
-            case 7:
-              _context.prev = 7;
-              _context.t0 = _context["catch"](1);
-              console.error("Error copying text:", _context.t0);
-              window.alert("Failed to copy Ayah. Please try again.");
-            case 11:
-            case "end":
-              return _context.stop();
-          }
-        }, _callee, null, [[1, 7]]);
-      }))();
     },
     increaseFontSize: function increaseFontSize() {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
@@ -44359,178 +44276,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
     },
     shareOnWhatsApp: function shareOnWhatsApp(ayah) {
-      var message = "Surah ".concat(this.surahDetails.surahNumber, " - ").concat(this.surahDetails.englishName, " (Ayah ").concat(ayah.number, ")\n\n") + "Arabic: ".concat(ayah.text, "\n\n") + "Translation: ".concat(ayah.translation, "\n\n") + "Listen here: ".concat(ayah.audio);
+      var message = 'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' + 'Arabic: ' + ayah.text + '\n\n' + 'Translation: ' + ayah.translation + '\n\n' + 'Listen here: ' + ayah.audio;
       var encodedMessage = encodeURIComponent(message);
-      var whatsappLink = "https://api.whatsapp.com/send?text=".concat(encodedMessage);
+      var whatsappLink = 'https://api.whatsapp.com/send?text=' + encodedMessage;
       window.open(whatsappLink, "_blank");
-    },
-    downloadAudio: function downloadAudio(audioUrl, filename) {
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, blob, url, a;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
-            case 0:
-              if (audioUrl) {
-                _context2.next = 3;
-                break;
-              }
-              alert("Audio not available for this Ayah.");
-              return _context2.abrupt("return");
-            case 3:
-              _context2.prev = 3;
-              _context2.next = 6;
-              return fetch(audioUrl);
-            case 6:
-              response = _context2.sent;
-              _context2.next = 9;
-              return response.blob();
-            case 9:
-              blob = _context2.sent;
-              url = window.URL.createObjectURL(blob);
-              a = document.createElement("a");
-              a.href = url;
-              a.download = "".concat(filename, ".mp3");
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-              window.URL.revokeObjectURL(url);
-              _context2.next = 24;
-              break;
-            case 20:
-              _context2.prev = 20;
-              _context2.t0 = _context2["catch"](3);
-              console.error("Error downloading audio:", _context2.t0);
-              alert("Failed to download audio.");
-            case 24:
-            case "end":
-              return _context2.stop();
-          }
-        }, _callee2, null, [[3, 20]]);
-      }))();
-    },
-    fetchSurahs: function fetchSurahs() {
-      var _this9 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-          while (1) switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.prev = 0;
-              _context3.next = 3;
-              return fetch("https://api.alquran.cloud/v1/surah");
-            case 3:
-              response = _context3.sent;
-              if (response.ok) {
-                _context3.next = 6;
-                break;
-              }
-              throw new Error("Failed to fetch Surahs");
-            case 6:
-              _context3.next = 8;
-              return response.json();
-            case 8:
-              data = _context3.sent;
-              _this9.surahs = data.data;
-              _context3.next = 15;
-              break;
-            case 12:
-              _context3.prev = 12;
-              _context3.t0 = _context3["catch"](0);
-              console.error("Error fetching Surahs:", _context3.t0);
-            case 15:
-            case "end":
-              return _context3.stop();
-          }
-        }, _callee3, null, [[0, 12]]);
-      }))();
-    },
-    fetchReciters: function fetchReciters() {
-      var _this10 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-          while (1) switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.prev = 0;
-              _context4.next = 3;
-              return fetch("https://api.alquran.cloud/v1/edition/format/audio");
-            case 3:
-              response = _context4.sent;
-              if (response.ok) {
-                _context4.next = 6;
-                break;
-              }
-              throw new Error("Failed to fetch Reciters");
-            case 6:
-              _context4.next = 8;
-              return response.json();
-            case 8:
-              data = _context4.sent;
-              _this10.reciters = data.data.filter(function (reciter) {
-                return reciter.identifier && reciter.englishName;
-              }).map(function (reciter) {
-                return {
-                  identifier: reciter.identifier,
-                  englishName: reciter.englishName || "Unknown Reciter"
-                };
-              });
-              _context4.next = 15;
-              break;
-            case 12:
-              _context4.prev = 12;
-              _context4.t0 = _context4["catch"](0);
-              console.error("Error fetching Reciters:", _context4.t0);
-            case 15:
-            case "end":
-              return _context4.stop();
-          }
-        }, _callee4, null, [[0, 12]]);
-      }))();
-    },
-    fetchTranslations: function fetchTranslations() {
-      var _this11 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var response, data;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              _context5.prev = 0;
-              _context5.next = 3;
-              return fetch("https://api.alquran.cloud/v1/edition/type/translation");
-            case 3:
-              response = _context5.sent;
-              if (response.ok) {
-                _context5.next = 6;
-                break;
-              }
-              throw new Error("Failed to fetch Translations");
-            case 6:
-              _context5.next = 8;
-              return response.json();
-            case 8:
-              data = _context5.sent;
-              _this11.translations = data.data.map(function (translation) {
-                return {
-                  identifier: translation.identifier,
-                  englishName: translation.englishName || "Unknown Translation",
-                  language: translation.language || "Unknown",
-                  flag: _this11.getFlagFromLanguage(translation.language || "Unknown")
-                };
-              }).filter(function (translation) {
-                return translation.flag !== '🌐';
-              });
-              _context5.next = 15;
-              break;
-            case 12:
-              _context5.prev = 12;
-              _context5.t0 = _context5["catch"](0);
-              console.error("Error fetching Translations:", _context5.t0);
-            case 15:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5, null, [[0, 12]]);
-      }))();
     },
     getFlagFromLanguage: function getFlagFromLanguage(lang) {
       var languageFlags = {
@@ -44552,166 +44301,108 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       };
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
-    fetchSurahDetails: function fetchSurahDetails() {
-      var _this12 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        var response, data, arabicText, translation;
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-          while (1) switch (_context6.prev = _context6.next) {
-            case 0:
-              if (!(!_this12.selectedSurah || !_this12.selectedReciter || !_this12.selectedTranslation)) {
-                _context6.next = 2;
-                break;
-              }
-              return _context6.abrupt("return");
-            case 2:
-              _context6.prev = 2;
-              _context6.next = 5;
-              return fetch("https://api.alquran.cloud/v1/surah/".concat(_this12.selectedSurah, "/editions/").concat(_this12.selectedReciter, ",").concat(_this12.selectedTranslation));
-            case 5:
-              response = _context6.sent;
-              if (response.ok) {
-                _context6.next = 8;
-                break;
-              }
-              throw new Error("Failed to fetch Surah details");
-            case 8:
-              _context6.next = 10;
-              return response.json();
-            case 10:
-              data = _context6.sent;
-              arabicText = data.data[0];
-              translation = data.data[1];
-              _this12.surahDetails = {
-                surahNumber: _this12.selectedSurah,
-                englishName: arabicText.englishName,
-                name: arabicText.name,
-                ayahs: arabicText.ayahs.map(function (ayah, index) {
-                  var _translation$ayahs$in;
-                  return {
-                    number: ayah.number,
-                    text: ayah.text,
-                    translation: ((_translation$ayahs$in = translation.ayahs[index]) === null || _translation$ayahs$in === void 0 ? void 0 : _translation$ayahs$in.text) || "Translation not available",
-                    audio: ayah.audio || ""
-                  };
-                })
-              };
-              if (_this12.surahDetails.ayahs.length > 0) {
-                _this12.currentAudioUrl = _this12.surahDetails.ayahs[0].audio;
-              }
-              _this12.resetAllAudioPlayers();
-              _context6.next = 21;
-              break;
-            case 18:
-              _context6.prev = 18;
-              _context6.t0 = _context6["catch"](2);
-              console.error("Error fetching Surah details:", _context6.t0);
-            case 21:
-            case "end":
-              return _context6.stop();
-          }
-        }, _callee6, null, [[2, 18]]);
-      }))();
-    },
-    resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this13 = this;
-      this.$nextTick(function () {
-        _this13.audioElements.forEach(function (audio, index) {
-          if (audio) {
-            var _this13$filteredAyahs;
-            audio.pause();
-            audio.src = ((_this13$filteredAyahs = _this13.filteredAyahs[index]) === null || _this13$filteredAyahs === void 0 ? void 0 : _this13$filteredAyahs.audio) || "";
-            audio.load();
-            audio.currentTime = 0;
-            audio.playbackRate = _this13.playbackSpeed;
-            audio.volume = _this13.volume;
-          }
-        });
+    fetchSurahs: function fetchSurahs() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        self.surahs = data.data;
+      })["catch"](function (error) {
+        console.error("Error fetching Surahs:", error);
       });
     },
-    selectReciter: function selectReciter(reciterId) {
-      var _this14 = this;
-      this.selectedReciter = reciterId;
-      this.savePreference("selectedReciter", reciterId);
-      this.fetchSurahDetails().then(function () {
-        if (_this14.currentlyPlayingIndex !== null) {
-          _this14.playAudio(_this14.currentlyPlayingIndex);
+    fetchReciters: function fetchReciters() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/edition/format/audio").then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        self.reciters = data.data.filter(function (reciter) {
+          return reciter.identifier && reciter.englishName;
+        }).map(function (reciter) {
+          return {
+            identifier: reciter.identifier,
+            englishName: reciter.englishName || "Unknown Reciter"
+          };
+        });
+      })["catch"](function (error) {
+        console.error("Error fetching Reciters:", error);
+      });
+    },
+    fetchTranslations: function fetchTranslations() {
+      var self = this;
+      fetch("https://api.alquran.cloud/v1/edition/type/translation").then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        var translations = data.data.map(function (translation) {
+          return {
+            identifier: translation.identifier,
+            englishName: translation.englishName || "Unknown Translation",
+            language: translation.language || "Unknown",
+            flag: self.getFlagFromLanguage(translation.language || "Unknown")
+          };
+        }).filter(function (translation) {
+          return translation.flag !== '🌐';
+        });
+        // Sort by flag, then by englishName
+        translations.sort(function (a, b) {
+          if (a.flag < b.flag) return -1;
+          if (a.flag > b.flag) return 1;
+          // If flags are equal, sort by englishName
+          if (a.englishName < b.englishName) return -1;
+          if (a.englishName > b.englishName) return 1;
+          return 0;
+        });
+        self.translations = translations;
+      })["catch"](function (error) {
+        console.error("Error fetching Translations:", error);
+      });
+    },
+    fetchSurahDetails: function fetchSurahDetails() {
+      var self = this;
+      if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
+      return fetch('https://api.alquran.cloud/v1/surah/' + this.selectedSurah + '/editions/' + this.selectedReciter + ',' + this.selectedTranslation).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        var arabicText = data.data[0];
+        var translation = data.data[1];
+        self.surahDetails = {
+          surahNumber: self.selectedSurah,
+          englishName: arabicText.englishName,
+          name: arabicText.name,
+          ayahs: arabicText.ayahs.map(function (ayah, index) {
+            return {
+              number: ayah.number,
+              text: ayah.text,
+              translation: translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available",
+              audio: ayah.audio || ""
+            };
+          })
+        };
+        self.resetAllAudioPlayers();
+      })["catch"](function (error) {
+        console.error("Error fetching Surah details:", error);
+      });
+    },
+    resetAllAudioPlayers: function resetAllAudioPlayers() {
+      var self = this;
+      this.$nextTick(function () {
+        if (self.currentlyPlaying) {
+          self.currentlyPlaying.pause();
+          self.currentlyPlaying = null;
+          self.currentlyPlayingIndex = 0;
         }
+        if (self.audioElements && self.audioElements.forEach) {
+          self.audioElements.forEach(function (audio) {
+            if (audio && audio.remove) audio.remove();
+          });
+        }
+        self.initializeAudioElements();
+        self.isAudioPlaying = new Array(self.filteredAyahs.length).fill(false);
+        self.progress = new Array(self.filteredAyahs.length).fill(0);
       });
     },
     savePreference: function savePreference(key, value) {
       localStorage.setItem(key, value);
-    },
-    loadPreferences: function loadPreferences() {
-      var savedReciter = localStorage.getItem("selectedReciter");
-      var savedTranslation = localStorage.getItem("selectedTranslation");
-      if (savedReciter) this.selectedReciter = savedReciter;
-      if (savedTranslation) this.selectedTranslation = savedTranslation;
-    },
-    resetToDefault: function resetToDefault() {
-      this.selectedSurah = "1";
-      this.savePreference("selectedSurah", "1");
-      this.fetchSurahDetails();
-      window.scrollTo({
-        top: 0,
-        behavior: "auto"
-      });
-    },
-    fetchJuzDetails: function fetchJuzDetails() {
-      var _this15 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7() {
-        var response, data, arabicText, translation;
-        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-          while (1) switch (_context7.prev = _context7.next) {
-            case 0:
-              if (!(!_this15.selectedJuz || _this15.selectedJuz < 1 || _this15.selectedJuz > 30)) {
-                _context7.next = 2;
-                break;
-              }
-              return _context7.abrupt("return");
-            case 2:
-              _context7.prev = 2;
-              _context7.next = 5;
-              return fetch("https://api.alquran.cloud/v1/juz/".concat(_this15.selectedJuz, "/editions/").concat(_this15.selectedReciter, ",").concat(_this15.selectedTranslation));
-            case 5:
-              response = _context7.sent;
-              if (response.ok) {
-                _context7.next = 8;
-                break;
-              }
-              throw new Error("Failed to fetch Juz details");
-            case 8:
-              _context7.next = 10;
-              return response.json();
-            case 10:
-              data = _context7.sent;
-              arabicText = data.data[0];
-              translation = data.data[1];
-              _this15.surahDetails = {
-                englishName: "Juz ".concat(_this15.selectedJuz),
-                name: "Juz ".concat(_this15.selectedJuz),
-                ayahs: arabicText.ayahs.map(function (ayah, index) {
-                  var _translation$ayahs$in2;
-                  return {
-                    number: ayah.number,
-                    text: ayah.text,
-                    translation: ((_translation$ayahs$in2 = translation.ayahs[index]) === null || _translation$ayahs$in2 === void 0 ? void 0 : _translation$ayahs$in2.text) || "Translation not available",
-                    audio: ayah.audio || ""
-                  };
-                })
-              };
-              _context7.next = 19;
-              break;
-            case 16:
-              _context7.prev = 16;
-              _context7.t0 = _context7["catch"](2);
-              console.error("Error fetching Juz details:", _context7.t0);
-            case 19:
-            case "end":
-              return _context7.stop();
-          }
-        }, _callee7, null, [[2, 16]]);
-      }))();
     },
     handleAyahEnd: function handleAyahEnd(index) {
       if (this.isAudioPlaying[index]) {
@@ -44725,64 +44416,61 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.playAudio(nextIndex);
       }
     },
-    stopAllAudio: function stopAllAudio() {
-      var _this16 = this;
-      this.audioElements.forEach(function (audio, index) {
-        if (audio) {
-          audio.pause();
-          _this16.isAudioPlaying[index] = false;
-          _this16.progress[index] = 0;
-        }
-      });
-      this.currentlyPlaying = null;
-      this.currentlyPlayingIndex = null;
-    },
-    increaseSpeed: function increaseSpeed() {
-      if (this.playbackSpeed < 2.0) {
-        this.playbackSpeed += 0.25;
-        this.updatePlaybackSpeed();
-      }
-    },
-    decreaseSpeed: function decreaseSpeed() {
-      if (this.playbackSpeed > 0.25) {
-        this.playbackSpeed -= 0.25;
-        this.updatePlaybackSpeed();
-      }
-    },
-    updatePlaybackSpeed: function updatePlaybackSpeed() {
-      var _this17 = this;
-      if (this.currentlyPlaying) {
-        this.currentlyPlaying.playbackRate = this.playbackSpeed;
-      }
-      this.audioElements.forEach(function (audio) {
-        if (audio) audio.playbackRate = _this17.playbackSpeed;
-      });
-    },
-    updateReciter: function updateReciter() {
-      this.fetchSurahDetails();
-    },
-    updateTranslation: function updateTranslation() {
-      this.fetchSurahDetails();
-    },
     toggleVolume: function toggleVolume() {
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume: function updateVolume() {
-      var _this18 = this;
       if (this.currentlyPlaying) {
         this.currentlyPlaying.volume = this.volume;
       }
-      this.audioElements.forEach(function (audio) {
-        if (audio) audio.volume = _this18.volume;
-      });
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach(function (audio) {
+          if (audio) audio.volume = this.volume;
+        }.bind(this));
+      }
     },
     closeAudioPlayer: function closeAudioPlayer() {
       if (this.currentlyPlayingIndex !== null) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
       this.showAudioPlayer = false;
-      this.currentlyPlayingIndex = null;
+      this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
+      this.isHighlighted = false;
+    },
+    syncHighlight: function syncHighlight() {
+      var audio = this.currentlyPlaying;
+      if (!audio || !this.wordTimings.length) return;
+      var currentTime = audio.currentTime;
+      var index = this.wordTimings.findIndex(function (t, i, arr) {
+        return currentTime >= t && (i === arr.length - 1 || currentTime < arr[i + 1]);
+      });
+      this.highlightedWordIndex = index;
+    }
+  },
+  mounted: function mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+    // Clear localStorage to prevent loading previous selections
+    localStorage.removeItem("selectedSurah");
+    localStorage.removeItem("selectedReciter");
+    localStorage.removeItem("selectedTranslation");
+    // Explicitly set to Surah Al-Fatiha and Ayah 1 on page load
+    this.selectedSurah = "1";
+    this.selectedReciter = "ar.alafasy";
+    this.selectedTranslation = "en.ahmedali";
+    this.currentlyPlayingIndex = 0;
+    this.isHighlighted = false;
+    this.fetchReciters();
+    this.fetchSurahs();
+    this.fetchTranslations();
+    this.fetchSurahDetails();
+  },
+  beforeUnmount: function beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+    if (this.audioElements && this.audioElements.forEach) {
+      this.audioElements.forEach(function (audio) {
+        if (audio && audio.pause) audio.pause();
+      });
     }
   }
 });
@@ -64750,9 +64438,15 @@ var _hoisted_10 = {
 };
 var _hoisted_11 = ["value"];
 var _hoisted_12 = {
-  "class": "row rtl-text"
+  style: {
+    "font-size": "1.2em",
+    "margin-right": "6px"
+  }
 };
 var _hoisted_13 = {
+  "class": "row rtl-text"
+};
+var _hoisted_14 = {
   "class": "shadow-xl h-100 rtl-text d-flex flex-column",
   style: {
     "border-top-left-radius": "25px",
@@ -64764,44 +64458,44 @@ var _hoisted_13 = {
     "height": "100%"
   }
 };
-var _hoisted_14 = {
+var _hoisted_15 = {
   "class": "d-flex justify-content-between p-3 text-muted ltr-text"
 };
-var _hoisted_15 = {
+var _hoisted_16 = {
   "class": "row d-none d-md-flex"
 };
-var _hoisted_16 = {
+var _hoisted_17 = {
   "class": "col-md-11"
 };
-var _hoisted_17 = {
+var _hoisted_18 = {
   style: {
     "padding": "4px"
   }
 };
-var _hoisted_18 = ["innerHTML"];
 var _hoisted_19 = ["innerHTML"];
-var _hoisted_20 = {
+var _hoisted_20 = ["innerHTML"];
+var _hoisted_21 = {
   "class": "col-md-1 text-center"
 };
-var _hoisted_21 = {
+var _hoisted_22 = {
   "class": "d-flex flex-column align-items-center"
 };
-var _hoisted_22 = ["onClick"];
-var _hoisted_23 = ["title"];
-var _hoisted_24 = ["onClick"];
+var _hoisted_23 = ["onClick"];
+var _hoisted_24 = ["title"];
 var _hoisted_25 = ["onClick"];
 var _hoisted_26 = ["onClick"];
-var _hoisted_27 = {
+var _hoisted_27 = ["onClick"];
+var _hoisted_28 = {
   "class": "d-block d-md-none"
 };
-var _hoisted_28 = {
+var _hoisted_29 = {
   style: {
     "padding": "2px"
   }
 };
-var _hoisted_29 = ["innerHTML"];
 var _hoisted_30 = ["innerHTML"];
-var _hoisted_31 = {
+var _hoisted_31 = ["innerHTML"];
+var _hoisted_32 = {
   "class": "row mb-3",
   style: {
     "display": "flex",
@@ -64809,27 +64503,21 @@ var _hoisted_31 = {
     "margin": "0 -5px"
   }
 };
-var _hoisted_32 = {
+var _hoisted_33 = {
   "class": "col-2 text-center",
   style: {
     "padding": "3px"
   }
 };
-var _hoisted_33 = ["onClick"];
-var _hoisted_34 = ["title"];
-var _hoisted_35 = {
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = ["title"];
+var _hoisted_36 = {
   "class": "col-2 text-center",
   style: {
     "padding": "3px"
   }
 };
-var _hoisted_36 = ["onClick"];
-var _hoisted_37 = {
-  "class": "col-2 text-center",
-  style: {
-    "padding": "3px"
-  }
-};
+var _hoisted_37 = ["onClick"];
 var _hoisted_38 = {
   "class": "col-2 text-center",
   style: {
@@ -64842,45 +64530,51 @@ var _hoisted_39 = {
     "padding": "3px"
   }
 };
-var _hoisted_40 = ["onClick"];
-var _hoisted_41 = {
+var _hoisted_40 = {
   "class": "col-2 text-center",
   style: {
     "padding": "3px"
   }
 };
-var _hoisted_42 = ["onClick"];
-var _hoisted_43 = {
+var _hoisted_41 = ["onClick"];
+var _hoisted_42 = {
+  "class": "col-2 text-center",
+  style: {
+    "padding": "3px"
+  }
+};
+var _hoisted_43 = ["onClick"];
+var _hoisted_44 = {
   key: 0,
   "class": "audio-player-container"
 };
-var _hoisted_44 = {
+var _hoisted_45 = {
   "class": "custom-audio-player"
 };
-var _hoisted_45 = {
+var _hoisted_46 = {
   "class": "controls"
 };
-var _hoisted_46 = {
+var _hoisted_47 = {
   key: 0,
   "class": "bi bi-pause-fill"
 };
-var _hoisted_47 = {
+var _hoisted_48 = {
   key: 1,
   "class": "bi bi-play-fill"
 };
-var _hoisted_48 = {
+var _hoisted_49 = {
   key: 0,
   "class": "volume-bar-container"
 };
-var _hoisted_49 = {
+var _hoisted_50 = {
   "class": "time"
 };
-var _hoisted_50 = {
+var _hoisted_51 = {
   "class": "progress-bar"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$audioElements$, _$data$audioElements$2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  var _ctx$audioElements$_c, _ctx$audioElements$_c2;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-10 col-xl-10"
@@ -64896,68 +64590,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "cursor": "pointer"
     }
-  }, [$data.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_3)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "surah-select",
     "class": "form-label text-white"
   }, "Select Surah:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "surah-select",
     "class": "form-select shadow-sm",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.selectedSurah = $event;
-    }),
-    onChange: _cache[2] || (_cache[2] = function ($event) {
-      return $options.fetchSurahDetails();
+      return _ctx.selectedSurah = $event;
     })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
-  }, "Select a Surah", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.surahs, function (surah) {
+  }, "Select a Surah", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, function (surah) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "reciter-select",
     "class": "form-label text-white"
   }, "Select Reciter:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "reciter-select",
     "class": "form-select shadow-sm",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.selectedReciter = $event;
-    }),
-    onChange: _cache[4] || (_cache[4] = function ($event) {
-      return $options.fetchSurahDetails();
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.selectedReciter = $event;
     })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
-  }, "Select a reciter", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.reciters, function (reciter) {
+  }, "Select a reciter", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.reciters, function (reciter) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "translation-select",
     "class": "form-label text-white"
   }, "Select Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "translation-select",
     "class": "form-select shadow-sm",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      return $data.selectedTranslation = $event;
-    }),
-    onChange: _cache[6] || (_cache[6] = function ($event) {
-      return $options.fetchSurahDetails();
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return _ctx.selectedTranslation = $event;
     })
-  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
-  }, "Select Translation", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.translations, function (translation) {
+  }, "Select Translation", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.translations, function (translation) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: translation.identifier,
       value: translation.identifier
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.language) + ") ", 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.isVisible]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
-    var _$data$surahDetails;
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.flag), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(translation.language) + ") ", 1 /* TEXT */)], 8 /* PROPS */, _hoisted_11);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredAyahs, function (ayah, index) {
+    var _ctx$surahDetails;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       style: {
         "padding": "12px",
@@ -64967,47 +64652,47 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref_for: true,
       ref: "audioCard",
       key: ayah.number,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-md-12 mb-2 mt-2", {
-        highlighted: $data.currentlyPlayingIndex === index
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-md-12 mb-2 mt-2 ayah-card-container", {
+        highlighted: _ctx.isHighlighted && _ctx.currentlyPlayingIndex === index
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$surahDetails = $data.surahDetails) === null || _$data$surahDetails === void 0 ? void 0 : _$data$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$surahDetails = _ctx.surahDetails) === null || _ctx$surahDetails === void 0 ? void 0 : _ctx$surahDetails.surahNumber) + " : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: $data.arabicFontSize + 'px'
+        fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_18), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_19), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
       innerHTML: $options.highlightText(ayah.translation),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: $data.translationFontSize + 'px'
+        fontSize: _ctx.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_19)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_20)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
-      title: $data.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_23)], 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
+    }, null, 10 /* CLASS, PROPS */, _hoisted_24)], 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       }
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65016,12 +64701,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Rewind"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
-      onClick: _cache[7] || (_cache[7] = function () {
+      onClick: _cache[4] || (_cache[4] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65032,10 +64717,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "Decrease Font Size"
     }, null, -1 /* HOISTED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
-      onClick: _cache[8] || (_cache[8] = function () {
+      onClick: _cache[5] || (_cache[5] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       })
-    }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       style: {
         "cursor": "pointer",
         "font-size": "1.5rem"
@@ -65049,7 +64734,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       }
-    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "cursor": "pointer",
@@ -65058,12 +64743,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Fast Forward"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
-    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill",
       style: {
         "cursor": "pointer",
@@ -65072,21 +64757,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Share on WhatsApp"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"mb-3\" @click=\"copyAyahToClipboard(ayah)\">\n                  <i class=\"bi bi-clipboard2-check-fill\" style=\"cursor: pointer; font-size: 1.3rem;\"\n                    data-bs-toggle=\"tooltip\" data-bs-placement=\"right\" title=\"Copy to Clipboard\"></i>\n                </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_27)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile/Tablet Layout: Text then Icons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "arabic-text p-2 rtl-text fw-bold text-end mb-3",
       innerHTML: $options.highlightedText(ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: $data.arabicFontSize + 'px'
+        fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_29), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
-      "class": "fw-bold pt-2 hide-on-mobile-tablet ml-2"
+    }, null, 12 /* STYLE, PROPS */, _hoisted_30), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      "class": "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, "Translation:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       "class": "fw-regular p-2 ltr-text flex-grow-1",
       innerHTML: $options.highlightText(ayah.translation),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: $data.translationFontSize + 'px'
+        fontSize: _ctx.translationFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_30)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_31)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.toggleAudioPlayer(index);
       },
@@ -65094,21 +64779,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "cursor": "pointer"
       }
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill']),
       style: {
         "font-size": "1.7rem"
       },
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
-      title: $data.isAudioPlaying[index] ? 'Pause' : 'Play'
-    }, null, 10 /* CLASS, PROPS */, _hoisted_34)], 8 /* PROPS */, _hoisted_33)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      title: _ctx.isAudioPlaying[index] ? 'Pause' : 'Play'
+    }, null, 10 /* CLASS, PROPS */, _hoisted_35)], 8 /* PROPS */, _hoisted_34)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.rewindAudio(index);
       },
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -65116,14 +64801,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Rewind"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      onClick: _cache[9] || (_cache[9] = function () {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_37)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: _cache[6] || (_cache[6] = function () {
         return $options.decreaseFontSize && $options.decreaseFontSize.apply($options, arguments);
       }),
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -65131,14 +64816,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Decrease Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      onClick: _cache[10] || (_cache[10] = function () {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      onClick: _cache[7] || (_cache[7] = function () {
         return $options.increaseFontSize && $options.increaseFontSize.apply($options, arguments);
       }),
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -65146,14 +64831,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Increase Font Size"
-    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       onClick: function onClick($event) {
         return $options.fastForwardAudio(index);
       },
       style: {
         "cursor": "pointer"
       }
-    }, _toConsumableArray(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.7rem"
@@ -65161,12 +64846,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
       title: "Fast Forward"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-3",
       onClick: function onClick($event) {
         return $options.shareOnWhatsApp(ayah);
       }
-    }, _toConsumableArray(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp",
       style: {
         "cursor": "pointer",
@@ -65175,59 +64860,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "right",
       title: "Share on WhatsApp"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_42)])])])])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollButton\" @click=\"scrollToTop\" class=\"fab\" title=\"Scroll to top\">\n      <i class=\"bi bi-chevron-double-up pt-1 h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAudioPlaying.some(state => state)\" class=\"fab_audio\" @click=\"scrollToCurrentAudio\">\n      <i class=\"bi bi-reply h2\"></i>\n    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), $data.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[11] || (_cache[11] = function ($event) {
-      return $options.rewindAudio($data.currentlyPlayingIndex);
+    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_43)])])])])], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $options.rewindAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Rewind"
-  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-backward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[12] || (_cache[12] = function ($event) {
-      return $options.toggleAudioPlayer($data.currentlyPlayingIndex);
+    onClick: _cache[9] || (_cache[9] = function ($event) {
+      return $options.toggleAudioPlayer(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn play-pause",
     title: "Play/Pause"
-  }, [$data.isAudioPlaying[$data.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_46)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[13] || (_cache[13] = function ($event) {
-      return $options.fastForwardAudio($data.currentlyPlayingIndex);
+  }, [_ctx.isAudioPlaying[_ctx.currentlyPlayingIndex] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_47)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_48))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[10] || (_cache[10] = function ($event) {
+      return $options.fastForwardAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Fast Forward"
-  }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-skip-forward-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[14] || (_cache[14] = function ($event) {
-      return $options.stopAudio($data.currentlyPlayingIndex);
+    onClick: _cache[11] || (_cache[11] = function ($event) {
+      return $options.stopAudio(_ctx.currentlyPlayingIndex);
     }),
     "class": "control-btn",
     title: "Stop"
-  }, _cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-stop-fill"
   }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[15] || (_cache[15] = function () {
+    onClick: _cache[12] || (_cache[12] = function () {
       return $options.toggleVolume && $options.toggleVolume.apply($options, arguments);
     }),
     "class": "control-btn",
     title: "Volume"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat($data.volume > 0.5 ? 'up' : $data.volume > 0 ? 'down' : 'mute', "-fill")])
-  }, null, 2 /* CLASS */)]), $data.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", "bi-volume-".concat(_ctx.volume > 0.5 ? 'up' : _ctx.volume > 0 ? 'down' : 'mute', "-fill")])
+  }, null, 2 /* CLASS */)]), _ctx.showVolumeBar ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "range",
-    "onUpdate:modelValue": _cache[16] || (_cache[16] = function ($event) {
-      return $data.volume = $event;
+    "onUpdate:modelValue": _cache[13] || (_cache[13] = function ($event) {
+      return _ctx.volume = $event;
     }),
     min: "0",
     max: "1",
     step: "0.1",
-    onInput: _cache[17] || (_cache[17] = function () {
+    onInput: _cache[14] || (_cache[14] = function () {
       return $options.updateVolume && $options.updateVolume.apply($options, arguments);
     }),
     "class": "volume-slider"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$ = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$ === void 0 ? void 0 : _$data$audioElements$.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_$data$audioElements$2 = $data.audioElements[$data.currentlyPlayingIndex]) === null || _$data$audioElements$2 === void 0 ? void 0 : _$data$audioElements$2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[18] || (_cache[18] = function () {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.volume]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c === void 0 ? void 0 : _ctx$audioElements$_c.currentTime) || 0)) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(((_ctx$audioElements$_c2 = _ctx.audioElements[_ctx.currentlyPlayingIndex]) === null || _ctx$audioElements$_c2 === void 0 ? void 0 : _ctx$audioElements$_c2.duration) || 0)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[15] || (_cache[15] = function () {
       return $options.closeAudioPlayer && $options.closeAudioPlayer.apply($options, arguments);
     }),
     "class": "control-btn",
@@ -65235,12 +64920,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-left": "auto"
     }
-  }, _cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
-  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "progress",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: $data.progress[$data.currentlyPlayingIndex] + '%'
+      width: _ctx.progress[_ctx.currentlyPlayingIndex] + '%'
     })
   }, null, 4 /* STYLE */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -167523,7 +167208,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.hide-on-mobile-tablet[data-v-828f3036] {\n  display: block;\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 50px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n}\n@media (max-width: 768px) {\n.sticky-dropdown[data-v-828f3036] {\n    top: 0;\n    padding: 8px;\n}\n.form-label[data-v-828f3036] {\n    font-size: 0.9rem;\n}\n.form-select[data-v-828f3036] {\n    font-size: 0.9rem;\n    padding: 0.375rem 0.75rem;\n}\n}\n.fab[data-v-828f3036] {\n  position: fixed;\n  bottom: 100px;\n  right: 20px;\n  z-index: 1002;\n  background-color: #343a40;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.fab_audio[data-v-828f3036] {\n  position: fixed;\n  bottom: 160px;\n  right: 20px;\n  z-index: 1002;\n  background-color: #28a745;\n  color: white;\n  border: none;\n  border-radius: 50%;\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls[data-v-828f3036] {\n    gap: 10px;\n}\n.control-btn[data-v-828f3036] {\n    padding: 5px !important;\n    font-size: 1.2rem !important;\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n\n/* Card Styles */\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.2rem !important;\n    line-height: 2;\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    line-height: 1.6;\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n\n/* Responsive Typography */\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n\n/* Dark Mode Support */\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n\n/* Touch-friendly Controls */\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n\n/* Improved Scrolling */\n.smooth-scroll[data-v-828f3036] {\n  scroll-behavior: smooth;\n  -webkit-overflow-scrolling: touch;\n}\n\n/* Loading States */\n.loading-placeholder[data-v-828f3036] {\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  top: 80px;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease;\n}\n@media (max-width: 768px) {\n.sticky-dropdown[data-v-828f3036] {\n    top: 60px; /* Adjust based on your mobile header height */\n}\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n\n/* Add padding to bottom of container when audio player is visible */\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n\n/* Smooth scroll container */\n.row.rtl-text[data-v-828f3036] {\n  scroll-behavior: smooth;\n  -webkit-overflow-scrolling: touch;\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls[data-v-828f3036] {\n    gap: 10px;\n}\n.control-btn[data-v-828f3036] {\n    padding: 5px !important;\n    font-size: 1.2rem !important;\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 120px; /* Sticky header height + margin */\n}\n@media (max-width: 768px) {\n.ayah-card-container[data-v-828f3036] {\n    scroll-margin-top: 100px;\n}\n}\n\n/* Card Styles */\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.2rem !important;\n    line-height: 2;\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    line-height: 1.6;\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n\n/* Responsive Typography */\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n\n/* Dark Mode Support */\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n\n/* Touch-friendly Controls */\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n\n/* Improved Scrolling */\n.smooth-scroll[data-v-828f3036] {\n  scroll-behavior: smooth;\n  -webkit-overflow-scrolling: touch;\n}\n\n/* Loading States */\n.loading-placeholder[data-v-828f3036] {\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n\n/* Hide on mobile */\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
