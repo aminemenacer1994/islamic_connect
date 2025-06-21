@@ -10,6 +10,7 @@ export const useThemeStore = defineStore('theme', {
             this.isDark = !this.isDark;
             localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
             this.applyTheme();
+
         },
 
         initTheme() {
@@ -26,4 +27,5 @@ export const useThemeStore = defineStore('theme', {
             document.documentElement.setAttribute('data-theme', this.isDark ? 'dark' : 'light');
         }
     }
+}); 
 }); 

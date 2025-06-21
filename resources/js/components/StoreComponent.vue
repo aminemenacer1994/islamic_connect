@@ -153,6 +153,9 @@ export default {
       lastSearchQuery: null,
       selectedRadius: 10000, // Default 10km radius
       bbox: null,
+      geocodedLocationName: null, // To store the accurate location name
+      // Replace with your own email for Nominatim API
+      nominatimEmail: 'your.email@example.com',
     };
   },
   computed: {
@@ -259,12 +262,13 @@ export default {
             limit: 1,
             'accept-language': 'en',
             featuretype: featuretype,
-            email: 'your.email@example.com',
+            email: this.nominatimEmail,
           }
         });
         if (response.data && response.data.length > 0) {
           const result = response.data[0];
           this.bbox = result.boundingbox ? result.boundingbox.map(Number) : null;
+          this.geocodedLocationName = result.display_name.split(',')[0] || query;
           return {
             lat: parseFloat(result.lat),
             lon: parseFloat(result.lon),
@@ -295,45 +299,30 @@ export default {
         Math.max(bbox[2], bbox[3]),
       ];
 
+      const unwantedShopTypes = "butcher|food|grocery|supermarket|convenience|restaurant|fast_food|deli|bakery|cafe|bar";
       const query = `
-        [out:json];
+        [out:json][timeout:30];
         (
-          node["shop"="books"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="books"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="clothes"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="clothes"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic]|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="religion"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="religion"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="gift"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="gift"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="variety_store"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="variety_store"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="general"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="general"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="jewelry"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="jewelry"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="electronics"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="electronics"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="stationery"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="stationery"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="art"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="art"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"="craft"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"="craft"]["name"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab|[Aa]rabic|[Dd]een"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["keywords"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["keywords"~"[Ii]slamic|[Mm]uslim|[Qq]uran|[Hh]ijab"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["description"~"[Ii]slamic|[Mm]uslim"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["description"~"[Ii]slamic|[Mm]uslim"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["products"~"[Ii]slamic|religious"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["products"~"[Ii]slamic|religious"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["specialty"="religious"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["specialty"="religious"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["destination"="religious"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["destination"="religious"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["access"~"public|customers"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["access"~"public|customers"]["religion"="islam"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          node["shop"]["name"~".*[Ii]slamic.*|.*[Mm]uslim.*"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
-          way["shop"]["name"~".*[Ii]slamic.*|.*[Mm]uslim.*"]["shop"!="butcher"]["shop"!="food"]["shop"!="grocery"]["shop"!="supermarket"]["shop"!="convenience"]["shop"!="restaurant"]["shop"!="fast_food"]["diet:halal"!="yes"](${south},${west},${north},${east});
+          nwr["shop"~"books|clothes|religion|gift|variety_store|general|jewelry|electronics|stationery|art|craft|perfumery|cosmetics|department_store|kiosk|textiles"]
+             ["name"~"islam|muslim|quran|hijab|arabic|deen|halal|sunnah|abaya|thobe|miswak|oud", "i"]
+             ["shop"!~"${unwantedShopTypes}"]
+             ["diet:halal"!="yes"]
+             (${south},${west},${north},${east});
+
+          nwr["shop"]["religion"="islam"]
+             ["shop"!~"${unwantedShopTypes}"]
+             ["diet:halal"!="yes"]
+             (${south},${west},${north},${east});
+
+          nwr["shop"]["keywords"~"islamic|muslim|quran|hijab|halal|religious", "i"]
+             ["shop"!~"${unwantedShopTypes}"]
+             ["diet:halal"!="yes"]
+             (${south},${west},${north},${east});
+
+          nwr["shop"]["description"~"islamic|muslim|halal|religious", "i"]
+             ["shop"!~"${unwantedShopTypes}"]
+             ["diet:halal"!="yes"]
+             (${south},${west},${north},${east});
         );
         out body;
       `;
@@ -353,7 +342,7 @@ export default {
         id: data.id,
         name: data.tags?.name || "Unnamed Store",
         address: this.getAddress(data.tags),
-        city: data.tags?.["addr:city"] || this.lastSearchQuery,
+        city: data.tags?.["addr:city"] || this.geocodedLocationName || this.lastSearchQuery,
         country: data.tags?.["addr:country"] || "",
         lat: data.lat || (data.center?.lat || coords.lat),
         lon: data.lon || (data.center?.lon || coords.lon),

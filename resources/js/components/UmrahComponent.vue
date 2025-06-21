@@ -1,29 +1,53 @@
 <template>
   <div class="container py-5">
-    <div class="text-center mb-3">
-      <h1 class="display-4 fw-bold mb-3">Hajj & Umrah Guides</h1>
-      <p class="lead mx-auto mb-3 description">
-        These guides provide essential knowledge on the rituals, historical background, spiritual significance,
-        logistical steps, and etiquette involved in performing both pilgrimages.
-      </p>
-      <ul class="nav nav-pills justify-content-center gap-3 fw-semibold" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'hajj' }"
-            @click="switchTab('hajj')" aria-controls="hajj-tab" role="tab">
-            Hajj Guides
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link custom-tab px-4 py-2 text-decoration-none" :class="{ active: currentTab === 'umrah' }"
-            @click="switchTab('umrah')" aria-controls="umrah-tab" role="tab">
-            Umrah Guides
-          </button>
-        </li>
-      </ul>
-    </div>
+    <div class="text-center mb-4">
+  <h1 class="display-4 fw-bold mb-3">Hajj & Umrah Guides</h1>
+  <p class="lead mx-auto description" style="max-width: 800px;">
+    These guides provide essential knowledge on the rituals, historical background, spiritual significance,
+    logistical steps, and etiquette involved in performing both pilgrimages.
+  </p>
+
+  <ul class="nav nav-pills justify-content-center gap-3 fw-semibold" role="tablist">
+    <li class="nav-item active" role="presentation">
+      <button
+      href="#"
+        class="nav-link custom-tab px-4 py-2"
+        :class="{ active: currentTab === 'hajj' }"
+        @click="switchTab('hajj')"
+        id="hajj-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#hajj"
+        type="button"
+        role="tab"
+        aria-controls="hajj"
+        :aria-selected="currentTab === 'hajj'"
+      >
+        Hajj Guides
+      </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link custom-tab px-4 py-2"
+        :class="{ active: currentTab === 'umrah' }"
+        @click="switchTab('umrah')"
+        id="umrah-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#umrah"
+        type="button"
+        role="tab"
+        aria-controls="umrah"
+        :aria-selected="currentTab === 'umrah'"
+      >
+        Umrah Guides
+      </button>
+    </li>
+  </ul>
+</div>
+
 
     <div class="row align-items-center">
-      <div class="col-md-6 ">
+      <div class="col-md-6">
         <img :src="currentContent.image" :alt="currentContent.alt"
           style="border: 3px solid lightgray; border-radius: 20px;" class="img-fluid shadow-sm w-100" loading="lazy" />
       </div>
@@ -41,10 +65,9 @@
 
               <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
               <strong>Word Count:</strong> {{ wordCount }} words
-
             </p>
           </div>
-          <p class="lead text-justify ">{{ currentContent.text1 }}</p>
+          <p class="lead text-justify">{{ currentContent.text1 }}</p>
           <p class="lead text-justify">{{ currentContent.text2 }}</p>
           <p class="lead text-justify">{{ currentContent.text3 }}</p>
 
@@ -53,15 +76,12 @@
           </div>
 
           <div class="d-flex justify-content-between align-items-center gap-2">
-            <!-- Get Directions Button -->
             <button class="btn d-flex align-items-center justify-content-center flex-grow-1" @click="copyText"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
               <span class="text-center w-100">
                 <b>Copy to Clipboard</b>
               </span>
             </button>
-
-            <!-- WhatsApp Share Button -->
             <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
               :href="`https://wa.me/?text=${encodeURIComponent(currentContent.title + '\n\n\n' + currentContent.text1 + '\n\n' + currentContent.text2 + '\n\n' + currentContent.text3)}`"
               target="_blank" rel="noopener"
@@ -72,7 +92,6 @@
         </div>
       </div>
 
-      <!-- Floating Action Buttons -->
       <div class="fab-container">
         <button class="fab-single" @click="toggleSpeech" :title="isSpeaking ? (isPaused ? 'Resume' : 'Pause') : 'Play'">
           <i :class="isSpeaking && !isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
@@ -88,20 +107,19 @@
             @click="copySuccess = false" aria-label="Close"></button>
         </div>
       </transition>
-
     </div>
   </div>
 </template>
 
-
 <script>
 export default {
+  name: 'HajjUmrahGuides',
   data() {
     return {
       utterance: null,
       isSpeaking: false,
       isPaused: false,
-      currentTab: 'hajj',
+      currentTab: 'hajj', // Default to 'hajj'
       copySuccess: false,
       guides: {
         hajj: {
@@ -114,7 +132,7 @@ export default {
         },
         umrah: {
           title: "Umrah Guide",
-          text1: "Umrah is a non-mandatory pilgrimage to Makkah that can be performed at any time of the year. Although it is shorter than Hajj, it holds immense spiritual value and involves specific rites including entering the state of Ihram, performing Tawaf around the Kaaba, praying at Maqam Ibrahim, and walking between the hills of Safa and Marwah (Sa’i).",
+          text1: "Umrah is a non-mandatory pilgrimage to Makkah that can be performed at any time of the year. Although it is shorter than Hajj, it holds immense spiritual value and involves specific rites including entering the state of Ihram, performing Tawaf around the Kaaba, praying at Maqam Ibrahim, and walking between the hills of Safa and Marwah (Sa'i).",
           text2: "Pilgrims also shave or trim their hair at the end of Umrah to mark the completion of the ritual. It is an act of devotion and purification, offering a deeply personal and spiritual experience. Many Muslims perform Umrah multiple times in their lives, especially during the holy month of Ramadan for added blessings.",
           text3: "Umrah encourages reflection, self-discipline, and a break from worldly distractions. It's a chance to renew one's faith, seek forgiveness, and strengthen the bond with Allah. With fewer logistical challenges than Hajj, it serves as a beautiful introduction to the sacred journey.",
           image: "/images/umra.jpg",
@@ -132,45 +150,42 @@ export default {
     }
   },
   mounted() {
+    this.calculateReadTimeAndWordCount(); // Initial calculation on mount
     window.addEventListener('beforeunload', this.stopSpeech);
     window.addEventListener('visibilitychange', this.handleTabChange);
-    this.calculateReadTimeAndWordCount();
   },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.stopSpeech);
     window.removeEventListener('visibilitychange', this.handleTabChange);
+    this.stopSpeech(); // Ensure speech is stopped when component is unmounted
   },
   methods: {
     switchTab(tab) {
+      if (this.currentTab === tab) {
+        return; // Do nothing if the tab is already active
+      }
       this.currentTab = tab;
-        this.stopSpeech();          
-        this.currentTab !== tab
-        this.$nextTick(() => {
-          this.calculateReadTimeAndWordCount(); 
-        });
-      },
+      this.stopSpeech();
+      this.$nextTick(() => {
+        this.calculateReadTimeAndWordCount();
+      });
+    },
 
     toggleSpeech() {
       const { title, text1, text2, text3 } = this.currentContent;
+      const text = `${title || ''} ${text1 || ''} ${text2 || ''} ${text3 || ''}`.trim();
 
-      if (!text1 && !text2) {
+      if (!text) {
         alert("No content available to read.");
         return;
       }
 
-      const text = (title || '') + ' ' + (text1 || '') + ' ' + (text2 || '') + ' ' + (text3 || '');
-
-      // If currently speaking and not paused
       if (this.isSpeaking && !this.isPaused) {
         window.speechSynthesis.pause();
         this.isPaused = true;
-
-        // If paused
       } else if (this.isSpeaking && this.isPaused) {
         window.speechSynthesis.resume();
         this.isPaused = false;
-
-        // Not speaking
       } else {
         this.stopSpeech();
         this.utterance = new SpeechSynthesisUtterance(text);
@@ -178,47 +193,57 @@ export default {
         this.utterance.onend = () => {
           this.isSpeaking = false;
           this.isPaused = false;
+          this.utterance = null;
         };
         window.speechSynthesis.speak(this.utterance);
         this.isSpeaking = true;
         this.isPaused = false;
       }
     },
+
     stopSpeech() {
-      window.speechSynthesis.cancel();
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
       this.isSpeaking = false;
       this.isPaused = false;
     },
+
     handleTabChange() {
       if (document.hidden) {
         this.stopSpeech();
       }
     },
+
     copyText() {
-      const textToCopy =
-        this.currentContent.text1 +
-        "\n\n" +
-        this.currentContent.text2 +
-        "\n\n" +
-        this.currentContent.text3;
+      const textToCopy = [
+        this.currentContent.text1,
+        this.currentContent.text2,
+        this.currentContent.text3
+      ].join("\n\n");
 
       navigator.clipboard.writeText(textToCopy).then(() => {
         this.copySuccess = true;
         setTimeout(() => {
           this.copySuccess = false;
-        }, 3000); // 3 seconds
+        }, 3000);
       });
     },
+
     calculateReadTimeAndWordCount() {
-      const text = (this.currentContent.text1 || '') + ' ' + (this.currentContent.text2 || '') + ' ' + (this.currentContent.text3 || '');
-      this.wordCount = text.split(' ').length;
-      this.readTime = Math.ceil(this.wordCount / 200); // Assuming an average reading speed of 200 words per minute
-      this.listeningTime = Math.ceil(this.wordCount / 150); // Assuming an average speaking rate of 150 words per minute
+      const text = [
+        this.currentContent.text1,
+        this.currentContent.text2,
+        this.currentContent.text3
+      ].join(" ");
+      
+      this.wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+      this.readTime = Math.ceil(this.wordCount / 200); // Avg reading speed: 200 WPM
+      this.listeningTime = Math.ceil(this.wordCount / 150); // Avg listening speed: 150 WPM
     }
   }
 };
 </script>
-
 
 <style scoped>
 .fab-single {
@@ -265,7 +290,6 @@ export default {
   height: 60px;
   border-radius: 50%;
   font-size: 1.4rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -355,3 +379,11 @@ img {
   object-fit: cover;
 }
 </style>
+
+<style>
+/* Non-scoped style for text selection */
+::selection {
+  background-color: rgb(13, 182, 145); /* A green that matches the theme */
+  color: white; /* White text for contrast */
+}
+</style> 

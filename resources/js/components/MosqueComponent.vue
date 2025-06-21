@@ -7,7 +7,7 @@
           Easily find nearby mosques based on your current location, complete with detailed directions to help you connect with your local community.
         </p>
 
-        <div class="shadow" style="border-radius: 8px; padding: 10px; ">
+        <div class="shadow" style="border-radius: 12px; padding: 10px; ">
           <!-- Search Section -->
           <div class="card-body container-fluid" style="padding: 5px;">
             <div class="row mb-4 justify-content-center">
@@ -370,7 +370,7 @@ export default {
 
 .card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
 }
 

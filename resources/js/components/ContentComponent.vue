@@ -98,16 +98,16 @@
 
                   <!-- Share -->
                   <div class="icon-container">
-                    <i class="bi bi-share icon-tooltip" @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
+                    <i class="bi bi-share icon-tooltip " @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
                       data-bs-placement="top" title="Share"></i>
                     <span class="icon-text">Share</span>
                   </div>
 
-                  <!-- Replay -->
+                  <!-- Play/Pause -->
                   <div class="icon-container">
-                    <i class="bi bi-repeat icon-tooltip" @click="replayAudio(index)" data-bs-toggle="tooltip"
-                      data-bs-placement="top" title="Replay"></i>
-                    <span class="icon-text">Replay</span>
+                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" @click="toggleAudioPlayer(index)"
+                      data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
+                    <span class="icon-text">{{ isAudioPlaying[index] ? 'Pause' : 'Play' }}</span>
                   </div>
 
                   <!-- Fast Forward -->
@@ -118,14 +118,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Audio Player -->
-              <audio ref="audioPlayers" :controls="true" :src="podcast.audioUrl" v-if="podcast.audioUrl"
-                class="w-100 audio"
-                style="height: 60px; font-size: 20px; border-bottom-right-radius: 8px;"
-                @play="onPlay(index)" @pause="onPause(index)" @ended="onEnded(index)">
-                Your browser does not support the audio element.
-              </audio>
 
             </div>
           </div>
@@ -164,6 +156,42 @@
     </div>
 
     <div v-else-if="!loading" class="text-center">No podcasts found</div>
+
+    <!-- Global Custom Audio Player -->
+    <div v-if="showAudioPlayer" class="audio-player-container">
+      <div class="custom-audio-player">
+        <div class="controls">
+          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
+            <i class="bi bi-skip-backward-fill"></i>
+          </button>
+          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
+            <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
+            <i v-else class="bi bi-play-fill"></i>
+          </button>
+          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
+            <i class="bi bi-skip-forward-fill"></i>
+          </button>
+          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+            <i class="bi bi-stop-fill"></i>
+          </button>
+          <button @click="toggleVolume" class="control-btn" title="Volume">
+            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+          </button>
+          <div v-if="showVolumeBar" class="volume-bar-container">
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
+              class="volume-slider" />
+          </div>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
+            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -319,6 +347,14 @@ export default {
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
       durationFilter: 'longest',
+      isAudioPlaying: [],
+      currentlyPlaying: null,
+      currentlyPlayingIndex: 0,
+      audioElements: [],
+      showAudioPlayer: false,
+      showVolumeBar: false,
+      volume: 1.0,
+      playbackSpeed: 1.0,
     };
   },
 
@@ -352,6 +388,9 @@ export default {
     let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
       new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    this.$nextTick(() => {
+      this.initializeAudioElements();
     });
   },
 
@@ -812,6 +851,112 @@ export default {
       const end = start + 9;
       this.paginatedPodcasts = this.podcasts.slice(start, end);
     },
+
+    // --- GLOBAL AUDIO PLAYER LOGIC ---
+    initializeAudioElements() {
+      this.audioElements = this.paginatedPodcasts.map((podcast, index) => {
+        const audio = new Audio(podcast.audioUrl || '');
+        audio.playbackRate = this.playbackSpeed;
+        audio.volume = this.volume;
+        audio.addEventListener('timeupdate', () => this.updateProgress(index));
+        audio.addEventListener('loadedmetadata', () => { this.progress[index] = 0; });
+        audio.addEventListener('ended', () => this.handlePodcastEnd(index));
+        return audio;
+      });
+    },
+    playAudio(index) {
+      if (!this.audioElements[index] || index >= this.paginatedPodcasts.length) return;
+      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
+        this.currentlyPlaying.pause();
+        this.currentlyPlaying.currentTime = 0;
+      }
+      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+      this.currentlyPlaying = this.audioElements[index];
+      this.currentlyPlayingIndex = index;
+      this.currentlyPlaying.play().catch((err) => {
+        console.error('Play error:', err);
+        this.handlePodcastEnd(index);
+      });
+      this.isAudioPlaying[index] = true;
+      this.showAudioPlayer = true;
+    },
+    pauseAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].pause();
+        this.isAudioPlaying[index] = false;
+      }
+    },
+    toggleAudioPlayer(index) {
+      if (!this.audioElements[index]) return;
+      if (!this.isAudioPlaying[index]) {
+        this.playAudio(index);
+      } else {
+        this.pauseAudio(index);
+      }
+    },
+    stopAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].pause();
+        this.audioElements[index].currentTime = 0;
+        this.isAudioPlaying[index] = false;
+        this.progress[index] = 0;
+      }
+    },
+    rewindAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
+      }
+    },
+    fastForwardAudio(index) {
+      if (this.audioElements[index]) {
+        this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
+      }
+    },
+    updateProgress(index) {
+      if (this.audioElements[index] && this.audioElements[index].duration) {
+        const progress = (this.audioElements[index].currentTime / this.audioElements[index].duration) * 100;
+        this.progress[index] = Math.min(100, progress);
+      }
+    },
+    formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
+    },
+    handlePodcastEnd(index) {
+      if (this.isAudioPlaying[index]) {
+        this.stopAudio(index);
+        this.playNextPodcast();
+      }
+    },
+    playNextPodcast() {
+      if (this.paginatedPodcasts.length > 0) {
+        const nextIndex = (this.currentlyPlayingIndex + 1) % this.paginatedPodcasts.length;
+        this.playAudio(nextIndex);
+      }
+    },
+    toggleVolume() {
+      this.showVolumeBar = !this.showVolumeBar;
+    },
+    updateVolume() {
+      if (this.currentlyPlaying) {
+        this.currentlyPlaying.volume = this.volume;
+      }
+      if (this.audioElements && this.audioElements.forEach) {
+        this.audioElements.forEach((audio) => {
+          if (audio) audio.volume = this.volume;
+        });
+      }
+    },
+    closeAudioPlayer() {
+      if (this.currentlyPlayingIndex !== null) {
+        this.stopAudio(this.currentlyPlayingIndex);
+      }
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = 0;
+      this.currentlyPlaying = null;
+    },
+    // --- END GLOBAL AUDIO PLAYER LOGIC ---
   },
 
   mounted() {
@@ -835,6 +980,13 @@ export default {
     sortOption: 'applyFilters',
     durationFilter: 'applyFilters',
     dateFilter: 'applyFilters',
+    paginatedPodcasts(newPodcasts) {
+      this.isAudioPlaying = new Array(newPodcasts.length).fill(false);
+      this.progress = new Array(newPodcasts.length).fill(0);
+      this.$nextTick(() => {
+        this.initializeAudioElements();
+      });
+    },
   },
 };
 </script>
@@ -855,12 +1007,17 @@ export default {
 }
 
 .icon-tooltip {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  transition: color 0.2s;
+}
+
+.icon-tooltip:hover, .icon-tooltip:focus {
+  color: #0db6a1;
 }
 
 .icon-text {
-  font-size: 0.875rem;
-  color: #333;
+  font-size: 0.85rem;
+  color: #555;
 }
 
 .icon-tooltip {
@@ -908,6 +1065,18 @@ img {
     /* Prevent wrapping */
     justify-content: center;
     /* Centre the pagination */
+  }
+  .card-title {
+    font-size: 1.1rem;
+  }
+  .icon-tooltip {
+    font-size: 1.2rem;
+  }
+  .icon-text {
+    font-size: 0.75rem;
+  }
+  .pagination {
+    font-size: 0.875rem;
   }
 }
 
@@ -976,5 +1145,101 @@ audio::-webkit-media-controls-panel {
     /* display: block; */
     text-align: center;
   }
+}
+
+.audio-player-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  background-color: rgba(33, 33, 33, 0.95);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 15px 15px 0 0;
+  padding: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.custom-audio-player {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  padding: 5px 10px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    gap: 10px;
+  }
+
+  .control-btn {
+    padding: 5px !important;
+    font-size: 1.2rem !important;
+  }
+
+  .time {
+    font-size: 0.8rem !important;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .volume-bar-container {
+    position: fixed;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgba(33, 33, 33, 0.95);
+    padding: 10px;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .volume-slider {
+    width: 100%;
+  }
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  color: #00bfa6;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #00bfa6;
+  transition: width 0.1s linear;
+}
+
+.volume-slider {
+  width: 100px;
+  height: 4px;
 }
 </style>

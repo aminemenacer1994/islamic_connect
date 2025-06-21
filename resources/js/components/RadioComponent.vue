@@ -1,236 +1,256 @@
 <template>
-  <div class="container py-5">
-    <h1 class="text-center fw-bold display-4 mb-4">Islamic Radio Stations</h1>
+  <div>
+    <div class="container py-5">
+      <h1 class="text-center fw-bold display-4 mb-4">Islamic Radio Stations</h1>
 
-    <p class="text-center mb-4 lead">
-      Discover live Quranic radio stations from renowned reciters worldwide.
-    </p>
+      <p class="text-center mb-4 lead">
+        Discover live Quranic radio stations from renowned reciters worldwide.
+      </p>
 
-    <!-- Search Bar and Category Dropdown -->
-    <section class=" mb-5">
-      
-      <div class="fixed-footer p-4 mb-5  border-md" style="border-radius: 8px;  ">
-        <h2 class="visually-hidden">Search Reciters</h2>
-        <div class="row g-4 align-items-end" >
-          <div class="col-md-8">
-            <div for="reciterSearch" style="font-size: 1.5em;" class="form-label fw-bold display-4  text-dark mb-2">Search by Name</div>
-            <div class="input-group align-items-center">
-              <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
-                class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
-                aria-label="Search reciters by name" style="background-color: #f8f9fa;" />
+      <!-- Search Bar and Category Dropdown -->
+      <section class=" mb-5">
+        
+        <div class="fixed-footer p-4 mb-5  border-md" style="border-radius: 8px;  ">
+          <h2 class="visually-hidden">Search Reciters</h2>
+          <div class="row g-4 align-items-end" >
+            <div class="col-md-8">
+              <div for="reciterSearch" style="font-size: 1.5em;" class="form-label fw-bold display-4  text-dark mb-2">Search by Name</div>
+              <div class="input-group align-items-center">
+                <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
+                  class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
+                  aria-label="Search reciters by name" style="background-color: #f8f9fa;" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div for="reciterCategory" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Select a Category</div>
+              <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
+                class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
+                style="background-color: #f8f9fa;">
+                <option value="All Categories">All Categories</option>
+                <option v-for="category in availableCategories" :key="category" :value="category">
+                  {{ category }}
+                </option>
+              </select>
             </div>
           </div>
-          <div class="col-md-4">
-            <div for="reciterCategory" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Select a Category</div>
-            <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-              class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
-              style="background-color: #f8f9fa;">
-              <option value="All Categories">All Categories</option>
-              <option v-for="category in availableCategories" :key="category" :value="category">
-                {{ category }}
-              </option>
-            </select>
-          </div>
         </div>
-      </div>
 
-      <!-- Popular Reciters Section with better visual hierarchy -->
-      <!-- <section class="popular-reciters mb-5 section-animate">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="fw-bold fs-4 text-heading">Popular Reciters</h2>
-          <button @click="toggleReciters" class="btn btn-outline-success d-flex align-items-center gap-2"
-            :aria-expanded="showReciters" aria-controls="reciterGrid"
-            :aria-label="showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'">
-            <i :class="showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
-            {{ showReciters ? 'Hide' : 'Show' }}
-          </button>
-        </div>
-        <div id="reciterGrid" class="popular-reciter-grid row g-4" v-show="showReciters">
-          <div v-for="(reciter, index) in popularReciters.slice(0, 6)" :key="reciter.id"
-            class="col-6 col-sm-3 col-md-3">
-            <div class="reciter-card rounded-3 overflow-hidden shadow-sm" :style="{ animationDelay: `${index * 0.1}s` }"
-              @click="playAndScrollToStation(reciter.id)" role="button" tabindex="0"
-              :aria-label="'Play ' + reciter.name + ' recitations'">
-              <div class="reciter-img-container position-relative">
-                <img v-if="reciter.imageLoaded !== false" :src="reciter.imageUrl" :alt="reciter.name + ' profile image'"
-                  class="reciter-image img-fluid" loading="lazy" @error="handleImageError(reciter)" />
-                <div v-else class="placeholder-img d-flex align-items-center justify-content-center bg-light">
-                  <div class="avatar-initials fs-2 fw-bold text-muted" aria-hidden="true">
-                    {{ getInitials(reciter.name) }}
+        <!-- Popular Reciters Section with better visual hierarchy -->
+        <!-- <section class="popular-reciters mb-5 section-animate">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold fs-4 text-heading">Popular Reciters</h2>
+            <button @click="toggleReciters" class="btn btn-outline-success d-flex align-items-center gap-2"
+              :aria-expanded="showReciters" aria-controls="reciterGrid"
+              :aria-label="showReciters ? 'Hide Popular Reciters' : 'Show Popular Reciters'">
+              <i :class="showReciters ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+              {{ showReciters ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+          <div id="reciterGrid" class="popular-reciter-grid row g-4" v-show="showReciters">
+            <div v-for="(reciter, index) in popularReciters.slice(0, 6)" :key="reciter.id"
+              class="col-6 col-sm-3 col-md-3">
+              <div class="reciter-card rounded-3 overflow-hidden shadow-sm" :style="{ animationDelay: `${index * 0.1}s` }"
+                @click="playAndScrollToStation(reciter.id)" role="button" tabindex="0"
+                :aria-label="'Play ' + reciter.name + ' recitations'">
+                <div class="reciter-img-container position-relative">
+                  <img v-if="reciter.imageLoaded !== false" :src="reciter.imageUrl" :alt="reciter.name + ' profile image'"
+                    class="reciter-image img-fluid" loading="lazy" @error="handleImageError(reciter)" />
+                  <div v-else class="placeholder-img d-flex align-items-center justify-content-center bg-light">
+                    <div class="avatar-initials fs-2 fw-bold text-muted" aria-hidden="true">
+                      {{ getInitials(reciter.name) }}
+                    </div>
+                  </div>
+                  <div class="play-overlay d-flex align-items-center justify-content-center">
+                    <i class="bi bi-play-circle-fill play-icon" style="font-size: 2.5rem; color: #fff;"></i>
                   </div>
                 </div>
-                <div class="play-overlay d-flex align-items-center justify-content-center">
-                  <i class="bi bi-play-circle-fill play-icon" style="font-size: 2.5rem; color: #fff;"></i>
+                <div class="reciter-content p-3 text-center">
+                  <h6 class="reciter-name fw-semibold fs-6 mb-1">{{ reciter.name }}</h6>
+                  <p class="text-style text-muted fs-6 mb-0">{{ reciter.style || 'Various styles' }}</p>
                 </div>
-              </div>
-              <div class="reciter-content p-3 text-center">
-                <h6 class="reciter-name fw-semibold fs-6 mb-1">{{ reciter.name }}</h6>
-                <p class="text-style text-muted fs-6 mb-0">{{ reciter.style || 'Various styles' }}</p>
               </div>
             </div>
           </div>
-        </div>
-      </section> -->
-    </section>
+        </section> -->
+      </section>
 
-    <!-- Liked Stations Section -->
-    <section v-if="likedStations.length" class="mb-5">
-      <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark" @click="showLiked = !showLiked"
-        role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`">
-        Liked Stations ({{ likedStations.length }})
-        <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
-      </h3>
+      <!-- Liked Stations Section -->
+      <section v-if="likedStations.length" class="mb-5">
+        <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark" @click="showLiked = !showLiked"
+          role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`">
+          Liked Stations ({{ likedStations.length }})
+          <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
+        </h3>
 
-      <div v-if="showLiked" class="section-animate" id="liked-stations">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          <div v-for="station in likedStations" :key="station.id" class="col">
-            <div class="card radio-card shadow-sm border-0"
-              :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id" role="article"
-              :aria-labelledby="'station-title-' + station.id">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h2 class="card-title mb-0 fw-bold text-truncate display-5 " :id="'station-title-' + station.id"
-                    v-html="highlightSearch(station.name)"></h2>
-                  <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                    :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
-                    <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                      class="like-icon fs-5"></i>
-                  </button>
-                </div>
-                <div class="audio-player" :class="{ playing: isPlaying(station.id) }" role="region"
-                  :aria-label="'Audio player for ' + station.name">
-                  <audio :ref="'audioPlayer-' + station.id" :src="station.url" @play="handlePlay(station.id, $event)"
-                    @pause="handlePause(station.id)" @timeupdate="updateTime(station.id)"
-                    @loadedmetadata="updateDuration(station.id)"
-                    :aria-label="'Audio stream for ' + station.name"></audio>
-                  <div class="playback-controls d-flex align-items-center gap-2 mb-3">
-                    <button class="btn btn-icon play-button p-2" @click="togglePlay(station.id)"
-                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
-                      :disabled="!!playbackErrors[station.id]">
-                      <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"
-                        class="play-icon fs-5"></i>
+        <div v-if="showLiked" class="section-animate" id="liked-stations">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div v-for="station in likedStations" :key="station.id" class="col">
+              <div class="card radio-card shadow-sm border-0"
+                :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id" role="article"
+                :aria-labelledby="'station-title-' + station.id">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
+                      v-html="highlightSearch(station.name)"></h5>
+                    <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                      <i class="bi fs-1"
+                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-primary' : 'bi-play-circle-fill'"></i>
                     </button>
-                    <span class="time-display fs-6" aria-live="polite">
-                      {{ formatTime(currentTimes[station.id] || 0) }}
-                    </span>
-                    <input type="range" min="0" :max="durations[station.id] || 100"
-                      :value="currentTimes[station.id] || 0" @input="seek($event, station.id)"
-                      class="seek-bar flex-grow-1" :disabled="isLive(station.id)"
-                      :aria-label="'Seek bar for ' + station.name" />
-                    <span class="time-display fs-6" aria-live="polite">
-                      {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
-                    </span>
-                  </div>
-                  <div v-if="playbackErrors[station.id]" class="text-danger fs-6 mb-3" role="alert">
-                    {{ playbackErrors[station.id] }}
-                  </div>
-                  <div class="volume-controls d-flex align-items-center gap-2 px-2 py-1">
-                    <button class="btn btn-icon volume-button p-2" @click="toggleMute(station.id)"
-                      :aria-label="volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'">
-                      <i :class="volumes[station.id] === 0 ? 'bi bi-volume-mute' : (volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up')"
-                        class="volume-icon fs-5"></i>
+                    <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
+                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                      <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                        class="like-icon fs-5"></i>
                     </button>
-                    <input type="range" min="0" max="100" v-model.number="volumes[station.id]"
-                      @input="setVolume($event, station.id)" class="volume-bar flex-grow-1"
-                      :aria-label="'Volume control for ' + station.name" />
+                    <div class="audio-player d-none">
+                      <audio :ref="'audioPlayer-' + station.id" :src="station.url" @play="handlePlay(station.id, $event)"
+                        @pause="handlePause(station.id)" @timeupdate="updateTime(station.id)"
+                        @loadedmetadata="updateDuration(station.id)"
+                        :aria-label="'Audio stream for ' + station.name"></audio>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-    </section>
-
-    <!-- All Radio Stations -->
-    <section class="mb-5">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Radio Stations:</h3>
-      </div>
-      <div v-if="isLoading" class="text-center my-4">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading stations...</span>
-        </div>
-      </div>
-      <div v-else-if="fetchError" class="alert alert-danger" role="alert">
-        {{ fetchError }}
-        <button class="btn btn-sm btn-outline-danger ms-2" @click="fetchStations" aria-label="Retry loading stations">
-          Retry
-        </button>
-      </div>
-      <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        <div v-for="station in paginatedStations" :key="station.id" class="col">
-          <div class="card radio-card shadow-sm border-0"
-            :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
-            role="article" :aria-labelledby="'station-title-' + station.id" style="border-radius: 25px; box-shadow: #00bfa6; ">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title mb-0 fw-semibold fs-5" :id="'station-title-' + station.id"
-                  v-html="highlightSearch(station.name)"></h5>
-                <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                  :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
-                  <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                    class="like-icon fs-5"></i>
-                </button>
-              </div>
-              <div class="audio-player" :class="{ playing: isPlaying(station.id) }" role="region"
-                :aria-label="'Audio player for ' + station.name">
-                <audio :ref="'audioPlayer-' + station.id" :src="station.url" @play="handlePlay(station.id, $event)"
-                  @pause="handlePause(station.id)" @timeupdate="updateTime(station.id)"
-                  @loadedmetadata="updateDuration(station.id)" @error="handleAudioError(station.id, $event)"
-                  :aria-label="'Audio stream for ' + station.name"></audio>
-                <div class="playback-controls d-flex align-items-center gap-2 mb-3">
-                  <button class="btn btn-icon play-button p-2" @click="togglePlay(station.id)"
-                    :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'"
-                    :disabled="!!playbackErrors[station.id]">
-                    <i :class="isPlaying(station.id) ? 'bi bi-pause-fill' : 'bi bi-play-fill'"
-                      class="play-icon fs-5"></i>
-                  </button>
-                  <input type="range" min="0" :max="durations[station.id] || 100" :value="currentTimes[station.id] || 0"
-                    @input="seek($event, station.id)" class="seek-bar flex-grow-1" :disabled="isLive(station.id)"
-                    :aria-label="'Seek bar for ' + station.name" />
-                  <span class="time-display fs-6" aria-live="polite">
-                    {{ isLive(station.id) ? 'LIVE' : formatTime(durations[station.id] || 0) }}
-                  </span>
-                </div>
-                <div v-if="playbackErrors[station.id]" class="text-danger fs-6 mb-3 d-flex align-items-center gap-2"
-                  role="alert">
+                <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
+                  class="text-danger fs-6 p-3 d-flex align-items-center gap-2" role="alert">
                   {{ playbackErrors[station.id] }}
                   <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
                     aria-label="Retry playback">
                     Retry
                   </button>
                 </div>
-                <div class="volume-controls d-flex align-items-center gap-2 px-2 py-1">
-                  <button class="btn btn-icon volume-button p-2" @click="toggleMute(station.id)"
-                    :aria-label="volumes[station.id] === 0 ? 'Unmute audio' : 'Mute audio'">
-                    <i :class="volumes[station.id] === 0 ? 'bi bi-volume-mute' : (volumes[station.id] < 50 ? 'bi bi-volume-down' : 'bi bi-volume-up')"
-                      class="volume-icon fs-5"></i>
-                  </button>
-                  <input type="range" min="0" max="100" v-model.number="volumes[station.id]"
-                    @input="setVolume($event, station.id)" class="volume-bar flex-grow-1"
-                    :aria-label="'Volume control for ' + station.name" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </section>
+
+      <!-- All Radio Stations -->
+      <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Radio Stations:</h3>
+        </div>
+        <div v-if="isLoading" class="text-center my-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading stations...</span>
+          </div>
+        </div>
+        <div v-else-if="fetchError" class="alert alert-danger" role="alert">
+          {{ fetchError }}
+          <button class="btn btn-sm btn-outline-danger ms-2" @click="fetchStations" aria-label="Retry loading stations">
+            Retry
+          </button>
+        </div>
+        <div v-else class="list-container">
+          <div v-for="station in paginatedStations" :key="station.id" class="station-list-item card mb-3"
+            :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id"
+            style="border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-2 col-3 text-center">
+                  <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
+                    class="img-fluid rounded-circle" style="width: 80px; height: 80px; object-fit: cover;"
+                    @error="($event.target.src = '/images/default-reciter.png')">
+                </div>
+                <div class="col-md-10 col-9">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
+                        v-html="highlightSearch(station.name)"></h5>
+                      <p class="text-muted mb-0">{{ station.category || 'Recitation' }}</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                        <i class="bi fs-2"
+                          :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-primary' : 'bi-play-circle-fill'"></i>
+                      </button>
+                      <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
+                        :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                        <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                          class="like-icon fs-5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="audio-player d-none">
+                    <audio :ref="'audioPlayer-' + station.id" :src="station.url" @play="handlePlay(station.id, $event)"
+                      @pause="handlePause(station.id)" @timeupdate="updateTime(station.id)"
+                      @loadedmetadata="updateDuration(station.id)" @error="handleAudioError(station.id, $event)"
+                      :aria-label="'Audio stream for ' + station.name"></audio>
+                  </div>
+                  <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
+                    class="text-danger fs-6 mt-2 d-flex align-items-center gap-2" role="alert">
+                    {{ playbackErrors[station.id] }}
+                    <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
+                      aria-label="Retry playback">
+                      Retry
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Pagination -->
-    <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-4 pagination-nav">
-      <button @click="previousPage" :disabled="currentPage === 1"
-        class="btn btn-outline-teal rounded-pill px-4 me-3 fs-6" aria-label="Previous page">
-        <b>Previous</b>
-      </button>
-      <span class="fw-semibold fs-6 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages"
-        class="btn btn-outline-teal rounded-pill px-4 ms-3 fs-6" aria-label="Next page">
-        <b>Next</b>
-      </button>
-    </nav>
+      <!-- Pagination -->
+      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-4 pagination-nav">
+        <button @click="previousPage" :disabled="currentPage === 1"
+          class="btn btn-outline-teal rounded-pill px-4 me-3 fs-6" aria-label="Previous page">
+          <b>Previous</b>
+        </button>
+        <span class="fw-semibold fs-6 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages"
+          class="btn btn-outline-teal rounded-pill px-4 ms-3 fs-6" aria-label="Next page">
+          <b>Next</b>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Global Audio Player -->
+    <transition name="global-audio-player">
+      <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg">
+        <div class="d-flex align-items-center">
+          <img :src="currentlyPlayingStation.imageUrl || '/images/default-reciter.png'"
+            :alt="currentlyPlayingStation.name" class="me-3"
+            style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+          <div>
+            <h6 class="mb-0 fw-bold text-dark">{{ currentlyPlayingStation.name }}</h6>
+            <small class="text-muted">{{ currentlyPlayingStation.category || 'Recitation' }}</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-center flex-grow-1 justify-content-center mx-4" style="max-width: 500px;">
+          <button @click="togglePlay(currentPlayingStationId)" class="control-btn play-pause fs-2 mx-2"
+            :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'">
+            <i class="bi" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+          </button>
+          <div class="progress-bar-container flex-grow-1">
+            <input type="range" min="0" :max="durations[currentPlayingStationId] || 100"
+              :value="currentTimes[currentPlayingStationId] || 0" @input="seek($event, currentPlayingStationId)"
+              class="progress-bar" :disabled="isLive(currentPlayingStationId)"
+              :aria-label="'Seek bar for ' + currentlyPlayingStation.name" />
+          </div>
+          <span class="time-display mx-2">{{ isLive(currentPlayingStationId) ? 'LIVE' :
+            formatTime(durations[currentPlayingStationId] || 0) }}</span>
+        </div>
+        <div class="d-flex align-items-center">
+          <button @click="toggleMute(currentPlayingStationId)" class="control-btn"
+            :aria-label="volumes[currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio'">
+            <i class="bi fs-4"
+              :class="`bi-volume-${volumes[currentPlayingStationId] > 50 ? 'up' : volumes[currentPlayingStationId] > 0 ? 'down' : 'mute'}-fill`"></i>
+          </button>
+          <input type="range" min="0" max="100" v-model.number="volumes[currentPlayingStationId]"
+            @input="setVolume($event, currentPlayingStationId)" class="volume-slider"
+            :aria-label="'Volume control for ' + currentlyPlayingStation.name" />
+          <button @click="closePlayer" class="control-btn ms-3" title="Close player">
+            <i class="bi bi-x-lg fs-5"></i>
+          </button>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -245,7 +265,7 @@ export default {
       searchQuery: '',
       selectedCategory: 'All Categories',
       currentPage: 1,
-      itemsPerPage: 9,
+      itemsPerPage: 8,
       stations: [],
       filteredStations: [],
       currentAudio: null,
@@ -379,8 +399,18 @@ export default {
       }
       return sorted;
     },
+    currentlyPlayingStation() {
+      if (!this.currentPlayingStationId) return null;
+      return this.stations.find(s => s.id === this.currentPlayingStationId);
+    }
   },
   methods: {
+    closePlayer() {
+      if (this.currentPlayingStationId) {
+        this.pauseAllAudio();
+        this.currentPlayingStationId = null;
+      }
+    },
     toggleReciters() {
       this.showReciters = !this.showReciters;
     },
@@ -428,7 +458,7 @@ export default {
       const audio = this.getAudioForStation(id);
       if (!audio) {
         console.error(`No audio element found for station ${id}`);
-        this.playbackErrors[id] = 'No audio element available';
+        this.playbackErrors[id] = 'This station is currently unavailable. Please try again later.';
         return;
       }
 
@@ -456,7 +486,7 @@ export default {
         this.applyVolume(id);
       } catch (error) {
         console.error(`Playback failed for station ${id}:`, error);
-        this.playbackErrors[id] = error.message || 'Failed to play audio';
+        this.playbackErrors[id] = 'This station is currently unavailable. Please try again later.';
         this.playingStates[id] = false;
         this.currentAudio = null;
         this.currentPlayingStationId = null;
@@ -476,7 +506,7 @@ export default {
             this.applyVolume(id);
           } catch (fallbackError) {
             console.error(`Fallback playback failed for station ${id}:`, fallbackError);
-            this.playbackErrors[id] = fallbackError.message || 'Failed to play fallback audio';
+            this.playbackErrors[id] = 'This station is currently unavailable. Please try again later.';
           }
         }
       }
@@ -648,7 +678,7 @@ export default {
         await current.play();
       } catch (error) {
         console.error(`Playback failed for station ${id}:`, error);
-        this.playbackErrors[id] = error.message || 'Failed to play audio';
+        this.playbackErrors[id] = 'This station is currently unavailable. Please try again later.';
         this.playingStates[id] = false;
         this.currentAudio = null;
         this.currentPlayingStationId = null;
@@ -671,19 +701,19 @@ export default {
       if (error) {
         switch (error.code) {
           case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMessage = "Audio source not supported or invalid.";
+            errorMessage = "The audio format is not supported by your browser.";
             break;
           case MediaError.MEDIA_ERR_NETWORK:
-            errorMessage = "Network error while loading audio.";
+            errorMessage = "A network error occurred. Please check your connection.";
             break;
           case MediaError.MEDIA_ERR_ABORTED:
-            errorMessage = "Audio playback was aborted.";
+            errorMessage = "Playback was aborted.";
             break;
           case MediaError.MEDIA_ERR_DECODE:
-            errorMessage = "Error decoding audio.";
+            errorMessage = "An error occurred while decoding the audio.";
             break;
           default:
-            errorMessage = `Audio error: ${error.message || 'Unknown error'}`;
+            errorMessage = 'This station is currently unavailable. Please try again later.';
         }
       }
       this.$set(this.playbackErrors, stationId, errorMessage);
@@ -1284,6 +1314,91 @@ mark {
   .row-cols-lg-3>.col {
     flex: 0 0 auto;
     width: 33.333333%;
+  }
+}
+
+.custom-audio-player {
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8f9fa;
+  margin-top: 10px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #00bfa6;
+}
+
+.play-pause {
+  font-size: 2rem;
+}
+
+.progress-bar-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar {
+  width: 100%;
+  accent-color: #00bfa6;
+}
+
+.time-display {
+  font-size: 0.9rem;
+  color: #6c757d;
+  min-width: 50px;
+}
+
+.volume-slider {
+  width: 80px;
+  accent-color: #00bfa6;
+}
+
+.global-audio-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 1050;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #dee2e6;
+  transform: translateY(0);
+}
+
+.global-audio-player-enter-active,
+.global-audio-player-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+
+.global-audio-player-enter-from,
+.global-audio-player-leave-to {
+  transform: translateY(100%);
+}
+
+@media (max-width: 768px) {
+  .global-audio-player {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+  .global-audio-player .mx-4 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
   }
 }
 </style>
