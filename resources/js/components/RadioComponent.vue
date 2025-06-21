@@ -101,7 +101,8 @@
       </section>
 
       <!-- Recently Played Section -->
-      <section v-if="recentlyPlayed.length" class="mb-5">
+      <!---
+       <section v-if="recentlyPlayed.length" class="mb-5">
         <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark"
           @click="showRecentlyPlayed = !showRecentlyPlayed" role="button" :aria-expanded="showRecentlyPlayed"
           :aria-controls="`recently-played-stations`">
@@ -151,17 +152,18 @@
         </div>
         <hr />
       </section>
+      -->
 
       <!-- All Radio Stations -->
       <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30px" class="mb-1" /> Radio Stations:</h3>
           <div class="d-flex align-items-center gap-2">
-            <button @click="viewMode = 'grid'" class="btn btn-outline-teal" :class="{ active: viewMode === 'grid' }"
+            <button @click="viewMode = 'grid'" class="btn btn-outline-dark" :class="{ active: viewMode === 'grid' }"
               aria-label="Grid View">
               <i class="bi bi-grid-fill"></i>
             </button>
-            <button @click="viewMode = 'list'" class="btn btn-outline-teal" :class="{ active: viewMode === 'list' }"
+            <button @click="viewMode = 'list'" class="btn btn-outline-dark" :class="{ active: viewMode === 'list' }"
               aria-label="List View">
               <i class="bi bi-list-ul"></i>
             </button>
@@ -180,8 +182,8 @@
         <div v-else>
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="row">
-            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4">
-              <div class="station-list-item h-100" :class="{ 'active-card': currentPlayingStationId === station.id }"
+            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4" >
+              <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;" :class="{ 'active-card': currentPlayingStationId === station.id }"
                 :id="'station-' + station.id">
                 <div class="card-body">
                   <div class="d-flex align-items-center gap-3">
@@ -203,10 +205,13 @@
                             class="like-icon fs-5"></i>
                         </button>
                       </div>
-                      <div class="d-flex align-items-center justify-content-between mt-2">
-                        <div class="d-flex align-items-center gap-3 text-muted fs-sm">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2 text-muted fs-sm">
                           <span :title="`${station.listeners} listeners`">
                             <i class="bi bi-headphones"></i> {{ station.listeners }}
+                          </span>
+                          <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="text-theme-teal fw-semibold">
+                            Currently listening
                           </span>
                           <span class="badge" :class="getStationStatus(station.id).class">
                             {{ getStationStatus(station.id).text }}
@@ -239,12 +244,10 @@
           </div>
           <!-- List View -->
           <div v-else class="list-container view-list">
-            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item"
-              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
+            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item" style="border:2px solid lightgrey; border-radius:8px;"
+              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id" >
               <div class="card-body">
                 <div class="d-flex align-items-center gap-3">
-                  <!-- <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
-                     class="station-image rounded-circle" @error="($event.target.src = '/images/default-reciter.png')"> -->
                   <div class="flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start">
                       <div>
@@ -262,9 +265,12 @@
                       </button>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-2">
-                      <div class="d-flex align-items-center gap-3 text-muted fs-sm">
+                      <div class="d-flex align-items-center gap-2 text-muted fs-sm">
                         <span :title="`${station.listeners} listeners`">
                           <i class="bi bi-headphones"></i> {{ station.listeners }}
+                        </span>
+                        <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="text-theme-teal fw-semibold">
+                          Currently listening
                         </span>
                         <span class="badge" :class="getStationStatus(station.id).class">
                           {{ getStationStatus(station.id).text }}
@@ -324,16 +330,14 @@
           </div>
         </div>
         <div class="d-flex align-items-center" style="flex: 2 1 0px; justify-content: center;">
-          <button @click="rewind(10)" class="control-btn mx-2" :disabled="isLive(currentPlayingStationId)"
-            title="Rewind 10s">
+          <button @click="previousStation" class="control-btn mx-2" title="Previous Station">
             <i class="bi bi-rewind-fill text-white"></i>
           </button>
           <button @click="togglePlay(currentPlayingStationId)" class="control-btn play-pause fs-2 mx-2"
             :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'">
             <i class="bi text-white" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
           </button>
-          <button @click="fastForward(10)" class="control-btn mx-2" :disabled="isLive(currentPlayingStationId)"
-            title="Fast Forward 10s">
+          <button @click="nextStation" class="control-btn mx-2" title="Next Station">
             <i class="bi bi-fast-forward-fill text-white"></i>
           </button>
           <button @click="stopPlayback" class="control-btn mx-2" title="Stop">
@@ -345,9 +349,6 @@
               class="progress-bar" :disabled="isLive(currentPlayingStationId)"
               :aria-label="'Seek bar for ' + currentlyPlayingStation.name" />
           </div>
-          <span class="time-display mx-3 text-white" style="font-size: 0.95rem; font-weight: 500;">{{
-            isLive(currentPlayingStationId) ? 'LIVE' :
-            formatTime(durations[currentPlayingStationId] || 0) }}</span>
         </div>
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-end;">
           <button @click="toggleMute(currentPlayingStationId)" class="control-btn"
@@ -637,6 +638,7 @@ const togglePlay = async (id) => {
   if (isPlaying(id)) {
     audio.pause();
     playingStates.value[id] = false;
+    // Don't close the player, just pause the audio
     return;
   }
 
@@ -988,21 +990,41 @@ const stopPlayback = () => {
   }
 };
 
-const rewind = (seconds) => {
-  if (currentPlayingStationId.value && !isLive(currentPlayingStationId.value)) {
-    const audio = getAudioForStation(currentPlayingStationId.value);
-    if (audio) {
-      audio.currentTime = Math.max(0, audio.currentTime - seconds);
-    }
+const previousStation = () => {
+  if (!currentPlayingStationId.value) return;
+  
+  // Get the current filtered stations
+  const currentStations = sortedStations.value;
+  const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
+  
+  if (currentIndex === -1) return;
+  
+  // Calculate previous index (wrap around to last if at beginning)
+  const prevIndex = currentIndex === 0 ? currentStations.length - 1 : currentIndex - 1;
+  const prevStation = currentStations[prevIndex];
+  
+  // Play the previous station
+  if (prevStation) {
+    togglePlay(prevStation.id);
   }
 };
 
-const fastForward = (seconds) => {
-  if (currentPlayingStationId.value && !isLive(currentPlayingStationId.value)) {
-    const audio = getAudioForStation(currentPlayingStationId.value);
-    if (audio) {
-      audio.currentTime = Math.min(audio.duration, audio.currentTime + seconds);
-    }
+const nextStation = () => {
+  if (!currentPlayingStationId.value) return;
+  
+  // Get the current filtered stations
+  const currentStations = sortedStations.value;
+  const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
+  
+  if (currentIndex === -1) return;
+  
+  // Calculate next index (wrap around to first if at end)
+  const nextIndex = (currentIndex + 1) % currentStations.length;
+  const nextStation = currentStations[nextIndex];
+  
+  // Play the next station
+  if (nextStation) {
+    togglePlay(nextStation.id);
   }
 };
 
@@ -1067,7 +1089,6 @@ body {
 .card-title {
   font-size: clamp(1.125rem, 3.5vw, 1.25rem);
   color: #1a3c34;
-  max-width: 85%;
 }
 
 .like-button {
@@ -1545,6 +1566,7 @@ mark {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: #00bfa6;
 }
 
 .control-btn {
@@ -1566,8 +1588,18 @@ mark {
 }
 
 .progress-bar {
-  width: 100%;
   accent-color: #00bfa6;
+  width: 100%;
+  height: 4px;
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #00bfa6;
+  transition: width 0.1s linear;
 }
 
 .volume-slider {
@@ -1638,7 +1670,7 @@ mark {
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
-  border: 1px solid #e9ecef;
+  border: 2px solid lightgrey;
 }
 
 .station-list-item:hover {
@@ -1647,8 +1679,9 @@ mark {
 }
 
 .station-list-item.active-card {
-  border-color: #0db691;
+  border-color: #00bfa6;
   box-shadow: 0 0 15px rgba(13, 182, 145, 0.3);
+  background-color: rgba(0, 191, 166, 0.05);
 }
 
 .station-image {
@@ -1695,7 +1728,7 @@ mark {
   margin-top: 0.5rem;
 }
 
-.view-grid .d-flex.align-items-center.justify-content-between.mt-2 {
+.view-grid .d-flex.align-items-center.justify-content-between {
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
