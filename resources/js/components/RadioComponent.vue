@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="container py-5">
-      <h1 class="text-center fw-bold display-4 mb-5">Islamic Radio Stations</h1>
+      <h1 class="text-center fw-bold display-3 mb-4">Islamic Radio Stations</h1>
 
-      <p class="text-center mb-5 lead">
+      <p class="text-center mb-5 lead" style="font-size: 1.25rem;">
         Discover live Quranic radio stations from renowned reciters worldwide.
       </p>
 
@@ -72,7 +72,59 @@
                     <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
                       :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
                       <i class="bi fs-1"
-                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-primary' : 'bi-play-circle-fill'"></i>
+                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                    </button>
+                    <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
+                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                      <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                        class="like-icon fs-5"></i>
+                    </button>
+                    <div class="audio-player d-none">
+                      <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
+                        @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
+                        @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                        :aria-label="'Audio stream for ' + station.name"></audio>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
+                  class="text-danger fs-6 p-3 d-flex align-items-center gap-2" role="alert">
+                  {{ playbackErrors[station.id] }}
+                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
+                    aria-label="Retry playback">Retry</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+      </section>
+
+      <!-- Recently Played Section -->
+      <section v-if="recentlyPlayed.length" class="mb-5">
+        <h3 class="fw-bold mb-3 fs-4 cursor-pointer section-header text-dark"
+          @click="showRecentlyPlayed = !showRecentlyPlayed" role="button" :aria-expanded="showRecentlyPlayed"
+          :aria-controls="`recently-played-stations`">
+          Recently Played ({{ recentlyPlayed.length }})
+          <i :class="showRecentlyPlayed ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
+        </h3>
+        <div v-if="showRecentlyPlayed" class="section-animate" id="recently-played-stations">
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <div v-for="station in recentlyPlayed" :key="station.id" class="col">
+              <div class="card radio-card shadow-sm border-0"
+                :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id"
+                role="article" :aria-labelledby="'station-title-' + station.id">
+                <div class="card-body d-flex justify-content-between align-items-center p-4">
+                  <div>
+                    <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
+                      v-html="highlightSearch(station.name)"></h5>
+                    <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                      <i class="bi fs-1"
+                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
                     </button>
                     <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
                       :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
@@ -125,55 +177,120 @@
           <button class="btn btn-sm btn-outline-danger ms-2" @click="fetchStations"
             aria-label="Retry loading stations">Retry</button>
         </div>
-        <div v-else class="list-container" :class="`view-${viewMode}`">
-          <div v-for="station in paginatedStations" :key="station.id" class="station-list-item"
-            :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
-            <div class="card-body">
-              <div class="d-flex align-items-center gap-3">
-                <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
-                  class="station-image rounded-circle" @error="($event.target.src = '/images/default-reciter.png')">
-                <div class="flex-grow-1">
-                  <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                      <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
-                        v-html="highlightSearch(station.name)"></h5>
-                      <p class="text-muted mb-1 fs-sm">{{ station.category || 'Recitation' }}</p>
+        <div v-else>
+          <!-- Grid View -->
+          <div v-if="viewMode === 'grid'" class="row">
+            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4">
+              <div class="station-list-item h-100" :class="{ 'active-card': currentPlayingStationId === station.id }"
+                :id="'station-' + station.id">
+                <div class="card-body">
+                  <div class="d-flex align-items-center gap-3">
+                    <!-- <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
+                       class="station-image rounded-circle" @error="($event.target.src = '/images/default-reciter.png')"> -->
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                          <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
+                            v-html="highlightSearch(station.name)"></h5>
+                          <p class="text-muted mb-1 fs-sm">
+                            {{ station.category || 'Recitation' }}
+                            <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
+                          </p>
+                        </div>
+                        <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
+                          :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                          <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                            class="like-icon fs-5"></i>
+                        </button>
+                      </div>
+                      <div class="d-flex align-items-center justify-content-between mt-2">
+                        <div class="d-flex align-items-center gap-3 text-muted fs-sm">
+                          <span :title="`${station.listeners} listeners`">
+                            <i class="bi bi-headphones"></i> {{ station.listeners }}
+                          </span>
+                          <span class="badge" :class="getStationStatus(station.id).class">
+                            {{ getStationStatus(station.id).text }}
+                          </span>
+                        </div>
+                        <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                          :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                          <i class="bi fs-1"
+                            :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                        </button>
+                      </div>
                     </div>
-                    <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
-                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
-                      <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                        class="like-icon fs-5"></i>
-                    </button>
                   </div>
-                  <div class="d-flex align-items-center justify-content-between mt-2">
-                    <div class="d-flex align-items-center gap-3 text-muted fs-sm">
-                      <span :title="`${station.listeners} listeners`">
-                        <i class="bi bi-headphones"></i> {{ station.listeners }}
-                      </span>
-                      <span class="badge" :class="getStationStatus(station.id).class">
-                        {{ getStationStatus(station.id).text }}
-                      </span>
-                    </div>
-                    <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
-                      <i class="bi fs-2"
-                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-primary' : 'bi-play-circle-fill'"></i>
-                    </button>
+                  <div class="audio-player d-none">
+                    <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
+                      @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
+                      @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                      @error="handleAudioError(station.id, $event)"
+                      :aria-label="'Audio stream for ' + station.name"></audio>
+                  </div>
+                  <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
+                    class="text-danger fs-6 mt-2 d-flex align-items-center gap-2" role="alert">
+                    {{ playbackErrors[station.id] }}
+                    <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
+                      aria-label="Retry playback">Retry</button>
                   </div>
                 </div>
               </div>
-              <div class="audio-player d-none">
-                <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
-                  @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
-                  @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
-                  @error="handleAudioError(station.id, $event)"
-                  :aria-label="'Audio stream for ' + station.name"></audio>
-              </div>
-              <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
-                class="text-danger fs-6 mt-2 d-flex align-items-center gap-2" role="alert">
-                {{ playbackErrors[station.id] }}
-                <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
-                  aria-label="Retry playback">Retry</button>
+            </div>
+          </div>
+          <!-- List View -->
+          <div v-else class="list-container view-list">
+            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item"
+              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3">
+                  <!-- <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
+                     class="station-image rounded-circle" @error="($event.target.src = '/images/default-reciter.png')"> -->
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h5 class="card-title mb-1 fw-semibold" :id="'station-title-' + station.id"
+                          v-html="highlightSearch(station.name)"></h5>
+                        <p class="text-muted mb-1 fs-sm">
+                          {{ station.category || 'Recitation' }}
+                          <span v-if="station.country" class="ms-1">· {{ station.country }}</span>
+                        </p>
+                      </div>
+                      <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
+                        :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
+                        <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
+                          class="like-icon fs-5"></i>
+                      </button>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                      <div class="d-flex align-items-center gap-3 text-muted fs-sm">
+                        <span :title="`${station.listeners} listeners`">
+                          <i class="bi bi-headphones"></i> {{ station.listeners }}
+                        </span>
+                        <span class="badge" :class="getStationStatus(station.id).class">
+                          {{ getStationStatus(station.id).text }}
+                        </span>
+                      </div>
+                      <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
+                        :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
+                        <i class="bi fs-1"
+                          :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="audio-player d-none">
+                  <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
+                    @play="handlePlay(station.id, $event)" @pause="handlePause(station.id)"
+                    @timeupdate="updateTime(station.id)" @loadedmetadata="updateDuration(station.id)"
+                    @error="handleAudioError(station.id, $event)"
+                    :aria-label="'Audio stream for ' + station.name"></audio>
+                </div>
+                <div v-if="playbackErrors[station.id] && currentPlayingStationId === station.id"
+                  class="text-danger fs-6 mt-2 d-flex align-items-center gap-2" role="alert">
+                  {{ playbackErrors[station.id] }}
+                  <button class="btn btn-sm btn-outline-danger" @click="retryPlayback(station.id)"
+                    aria-label="Retry playback">Retry</button>
+                </div>
               </div>
             </div>
           </div>
@@ -197,40 +314,52 @@
     <!-- Global Audio Player -->
     <transition name="global-audio-player">
       <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg">
-        <div class="d-flex align-items-center">
-          <img :src="currentlyPlayingStation.imageUrl || '/images/default-reciter.png'"
-            :alt="currentlyPlayingStation.name" class="me-3"
-            style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">
+        <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-start;">
+        
           <div>
-            <h6 class="mb-0 fw-bold text-dark">{{ currentlyPlayingStation.name }}</h6>
-            <small class="text-muted">{{ currentlyPlayingStation.category || 'Recitation' }}</small>
+            <h6 class="mb-0 fw-bold text-white" style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.4px;">{{
+              currentlyPlayingStation.name }}</h6>
+            <small class="text-white-50" style="letter-spacing: 0.4px;">{{ currentlyPlayingStation.category ||
+              'Recitation' }}</small>
           </div>
         </div>
-        <div class="d-flex align-items-center flex-grow-1 justify-content-center mx-4" style="max-width: 500px;">
+        <div class="d-flex align-items-center" style="flex: 2 1 0px; justify-content: center;">
+          <button @click="rewind(10)" class="control-btn mx-2" :disabled="isLive(currentPlayingStationId)"
+            title="Rewind 10s">
+            <i class="bi bi-rewind-fill text-white"></i>
+          </button>
           <button @click="togglePlay(currentPlayingStationId)" class="control-btn play-pause fs-2 mx-2"
             :aria-label="isPlaying(currentPlayingStationId) ? 'Pause playback' : 'Play playback'">
-            <i class="bi" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+            <i class="bi text-white" :class="isPlaying(currentPlayingStationId) ? 'bi-pause-fill' : 'bi-play-fill'"></i>
           </button>
-          <div class="progress-bar-container flex-grow-1">
+          <button @click="fastForward(10)" class="control-btn mx-2" :disabled="isLive(currentPlayingStationId)"
+            title="Fast Forward 10s">
+            <i class="bi bi-fast-forward-fill text-white"></i>
+          </button>
+          <button @click="stopPlayback" class="control-btn mx-2" title="Stop">
+            <i class="bi bi-stop-fill text-white"></i>
+          </button>
+          <div class="progress-bar-container flex-grow-1 mx-4">
             <input type="range" min="0" :max="durations[currentPlayingStationId] || 100"
               :value="currentTimes[currentPlayingStationId] || 0" @input="seek($event, currentPlayingStationId)"
               class="progress-bar" :disabled="isLive(currentPlayingStationId)"
               :aria-label="'Seek bar for ' + currentlyPlayingStation.name" />
           </div>
-          <span class="time-display mx-2">{{ isLive(currentPlayingStationId) ? 'LIVE' :
+          <span class="time-display mx-3 text-white" style="font-size: 0.95rem; font-weight: 500;">{{
+            isLive(currentPlayingStationId) ? 'LIVE' :
             formatTime(durations[currentPlayingStationId] || 0) }}</span>
         </div>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-end;">
           <button @click="toggleMute(currentPlayingStationId)" class="control-btn"
             :aria-label="volumes[currentPlayingStationId] === 0 ? 'Unmute audio' : 'Mute audio'">
-            <i class="bi fs-4"
+            <i class="bi fs-4 text-white"
               :class="`bi-volume-${volumes[currentPlayingStationId] > 50 ? 'up' : volumes[currentPlayingStationId] > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
           <input type="range" min="0" max="100" v-model.number="volumes[currentPlayingStationId]"
-            @input="setVolume($event, currentPlayingStationId)" class="volume-slider"
+            @input="setVolume($event, currentPlayingStationId)" class="volume-slider mx-3"
             :aria-label="'Volume control for ' + currentlyPlayingStation.name" />
-          <button @click="closePlayer" class="control-btn ms-3" title="Close player">
-            <i class="bi bi-x-lg fs-5"></i>
+          <button @click="closePlayer" class="control-btn ms-4" title="Close player">
+            <i class="bi bi-x-lg fs-5 text-white"></i>
           </button>
         </div>
       </div>
@@ -248,6 +377,7 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/mishary_alafasy',
     fallbackUrl: 'https://backup.qurango.net/mishary_alafasy.mp3',
     style: 'Murattal',
+    country: 'Kuwait',
     imageUrl: 'images/mra.jpeg',
     imageLoaded: true
   },
@@ -257,15 +387,17 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/yasser_aldosari',
     fallbackUrl: 'https://backup.qurango.net/yasser_aldosari.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/yad.webp',
     imageLoaded: true
   },
-  {  
+  {
     id: 6,
     name: 'Abdul Basit Abdul Samad',
     url: 'https://qurango.net/radio/abdulbasit_abdulsamad_mujawwad',
     fallbackUrl: 'https://backup.qurango.net/abdulbasit_abdulsamad.mp3',
     style: 'Mujawwad',
+    country: 'Egypt',
     imageUrl: 'images/abas.jpeg',
     imageLoaded: true
   },
@@ -275,6 +407,7 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/saad_alghamdi',
     fallbackUrl: 'https://backup.qurango.net/saad_alghamdi.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/sag.webp',
     imageLoaded: true
   },
@@ -284,6 +417,7 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/maher_almuaiqly',
     fallbackUrl: 'https://backup.qurango.net/maher_almuaiqly.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/mam.webp',
     imageLoaded: true
   },
@@ -293,16 +427,18 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/abdurrahman_alsudais',
     fallbackUrl: 'https://backup.qurango.net/abdurrahman_alsudais.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/asds.jpeg',
     imageLoaded: true
   },
-  
+
   {
     id: 7,
     name: 'Saud Al-Shuraim',
     url: 'https://qurango.net/radio/saud_alshuraim',
     fallbackUrl: 'https://backup.qurango.net/saud_alshuraim.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/sas.jpeg',
     imageLoaded: true
   },
@@ -312,7 +448,48 @@ const defaultPopularReciters = [
     url: 'https://qurango.net/radio/ahmad_alajmi',
     fallbackUrl: 'https://backup.qurango.net/ahmad_alajmi.mp3',
     style: 'Murattal',
+    country: 'Saudi Arabia',
     imageUrl: 'images/aaa.webp',
+    imageLoaded: true
+  },
+  {
+    id: 9,
+    name: 'Mahmoud Khalil Al-Hussary',
+    url: 'https://qurango.net/radio/mahmoud_khalil_alhussary',
+    fallbackUrl: 'https://backup.qurango.net/mahmoud_khalil_alhussary.mp3',
+    style: 'Murattal',
+    country: 'Egypt',
+    imageUrl: 'images/mkh.webp',
+    imageLoaded: true
+  },
+  {
+    id: 10,
+    name: 'Nasser Al Qatami',
+    url: 'https://qurango.net/radio/nasser_alqatami',
+    fallbackUrl: 'https://backup.qurango.net/nasser_alqatami.mp3',
+    style: 'Murattal',
+    country: 'Saudi Arabia',
+    imageUrl: 'images/naq.webp',
+    imageLoaded: true
+  },
+  {
+    id: 11,
+    name: 'Ali Jaber',
+    url: 'https://qurango.net/radio/ali_jaber',
+    fallbackUrl: 'https://backup.qurango.net/ali_jaber.mp3',
+    style: 'Murattal',
+    country: 'Saudi Arabia',
+    imageUrl: 'images/aj.webp',
+    imageLoaded: true
+  },
+  {
+    id: 12,
+    name: 'Muhammad Al-Luhaidan',
+    url: 'https://qurango.net/radio/muhammad_alluhaidan',
+    fallbackUrl: 'https://backup.qurango.net/muhammad_alluhaidan.mp3',
+    style: 'Murattal',
+    country: 'Saudi Arabia',
+    imageUrl: 'images/mal.webp',
     imageLoaded: true
   }
 ];
@@ -332,6 +509,7 @@ const volumes = ref({}); // Per-station volume
 const likedStations = ref([]);
 const recentlyPlayed = ref([]);
 const showLiked = ref(false);
+const showRecentlyPlayed = ref(false);
 const currentTimes = ref({});
 const durations = ref({});
 const playingStates = ref({});
@@ -378,7 +556,13 @@ const getAudioForStation = (id) => audioRefs[id];
 
 const closePlayer = () => {
   if (currentPlayingStationId.value) {
-    pauseAllAudio();
+    const audio = getAudioForStation(currentPlayingStationId.value);
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    playingStates.value[currentPlayingStationId.value] = false;
+    currentAudio.value = null;
     currentPlayingStationId.value = null;
   }
 };
@@ -406,6 +590,7 @@ const pauseAllAudio = () => {
     
     if (currentId) {
       currentAudio.value.pause();
+      currentAudio.value.currentTime = 0;
       playingStates.value[currentId] = false;
       playbackErrors.value[currentId] = null;
       currentPlayingStationId.value = null;
@@ -452,13 +637,17 @@ const togglePlay = async (id) => {
   if (isPlaying(id)) {
     audio.pause();
     playingStates.value[id] = false;
-    currentAudio.value = null;
-    currentPlayingStationId.value = null;
-    playbackErrors.value[id] = null;
     return;
   }
 
-  pauseAllAudio();
+  // If we are playing another station, pause it.
+  if (currentPlayingStationId.value && currentPlayingStationId.value !== id) {
+    const oldAudio = getAudioForStation(currentPlayingStationId.value);
+    if (oldAudio) {
+      oldAudio.pause();
+      playingStates.value[currentPlayingStationId.value] = false;
+    }
+  }
 
   try {
     await audio.play();
@@ -472,8 +661,6 @@ const togglePlay = async (id) => {
     console.error(`Playback failed for station ${id}:`, error);
     playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
     playingStates.value[id] = false;
-    currentAudio.value = null;
-    currentPlayingStationId.value = null;
     
     const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
     if (station?.fallbackUrl) {
@@ -684,9 +871,9 @@ const getStationStatus = (id) => {
     return { text: 'Offline', class: 'bg-danger' };
   }
   if (isPlaying(id)) {
-    return { text: 'Live', class: 'bg-success-subtle text-success-emphasis' };
+    return { text: 'live', class: 'bg-theme-teal text-white' };
   }
-  return { text: 'Stopped', class: 'bg-secondary-subtle text-secondary-emphasis' };
+  return { text: 'live', class: 'bg-theme-teal text-white' };
 };
 
 const isLive = (id) => isNaN(durations.value[id]) || durations.value[id] === Infinity;
@@ -788,6 +975,35 @@ const updateListenerCounts = () => {
     const change = Math.floor(Math.random() * 10) - 5; // Fluctuate by -5 to +4
     station.listeners = Math.max(0, (station.listeners || 0) + change);
   });
+};
+
+const stopPlayback = () => {
+  if (currentPlayingStationId.value) {
+    const audio = getAudioForStation(currentPlayingStationId.value);
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      playingStates.value[currentPlayingStationId.value] = false;
+    }
+  }
+};
+
+const rewind = (seconds) => {
+  if (currentPlayingStationId.value && !isLive(currentPlayingStationId.value)) {
+    const audio = getAudioForStation(currentPlayingStationId.value);
+    if (audio) {
+      audio.currentTime = Math.max(0, audio.currentTime - seconds);
+    }
+  }
+};
+
+const fastForward = (seconds) => {
+  if (currentPlayingStationId.value && !isLive(currentPlayingStationId.value)) {
+    const audio = getAudioForStation(currentPlayingStationId.value);
+    if (audio) {
+      audio.currentTime = Math.min(audio.duration, audio.currentTime + seconds);
+    }
+  }
 };
 
 onMounted(() => {
@@ -916,11 +1132,12 @@ body {
 }
 
 .time-display {
-  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  font-size: 0.95rem;
   color: #6c757d;
   font-family: 'Inter', monospace;
   min-width: 40px;
   text-align: center;
+  font-weight: 500;
 }
 
 .seek-bar,
@@ -1079,6 +1296,16 @@ mark {
   gap: 1rem;
 }
 
+.player-station-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.player-station-category {
+  letter-spacing: 0.4px;
+}
+
 /* Search and Filter Styles */
 .search-filter-container {
   display: flex;
@@ -1121,15 +1348,19 @@ mark {
 }
 
 .radio-card.active-card {
-  background-color: rgba(0, 191, 166, 0.161); /* Light blue background for active station */
-  border: 2px solid #007bff; /* Blue border to highlight */
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Subtle shadow for emphasis */
+  background-color: rgba(0, 191, 166, 0.161);
+  /* Light blue background for active station */
+  border: 2px solid #007bff;
+  /* Blue border to highlight */
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  /* Subtle shadow for emphasis */
 }
 
 
 
 .radio-card.active-card .play-icon {
-  color: #fff; /* Darker color for play icon when active */
+  color: #fff;
+  /* Darker color for play icon when active */
 }
 
 
@@ -1270,11 +1501,21 @@ mark {
     gap: 0.75rem;
   }
 }
+
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.02);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
+
 .radio-card.active-card {
   animation: pulse 1.5s infinite ease-in-out;
 }
@@ -1329,14 +1570,8 @@ mark {
   accent-color: #00bfa6;
 }
 
-.time-display {
-  font-size: 0.9rem;
-  color: #6c757d;
-  min-width: 50px;
-}
-
 .volume-slider {
-  width: 80px;
+  width: 120px;
   accent-color: #00bfa6;
 }
 
@@ -1344,15 +1579,15 @@ mark {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
-  background-color: #ffffff;
-  z-index: 1050;
-  padding: 1rem 1.5rem;
+  width: 100%;
+  background-color: rgba(33, 33, 33, 0.95);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 15px 15px 0 0;
+  padding: 1.25rem 2.5rem;
+  transition: transform 0.3s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid #dee2e6;
-  transform: translateY(0);
 }
 
 .global-audio-player-enter-active,
@@ -1368,12 +1603,13 @@ mark {
 @media (max-width: 768px) {
   .global-audio-player {
     flex-direction: column;
-    padding: 0.75rem;
-    gap: 0.5rem;
+    padding: 1rem;
+    gap: 0.75rem;
   }
+
   .global-audio-player .mx-4 {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: 0;
+    margin-right: 0;
     width: 100%;
   }
 }
@@ -1463,5 +1699,30 @@ mark {
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
+}
+
+.list-container.view-list .station-list-item {
+  margin-bottom: 1rem;
+}
+
+.station-list-item .card-body {
+  padding: 1.5rem;
+}
+
+.station-list-item .card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.station-list-item .fs-sm {
+  font-size: 1rem;
+}
+
+.bg-theme-teal {
+  background-color: #00bfa6;
+}
+
+.text-theme-teal {
+  color: #00bfa6;
 }
 </style>
