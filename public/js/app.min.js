@@ -40576,24 +40576,96 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       userLongitude: null,
       qiblaDirection: null,
       distanceToKaaba: null,
+      distanceToKaabaMiles: null,
+      qiblaCardinalDirection: null,
       compassRotation: 0,
       loading: false,
       error: '',
       isCalibrated: false,
       sensorSupported: false,
       accuracy: null,
-      darkMode: false
+      prayerTimes: null,
+      calculationMethod: '2',
+      calculationMethods: {
+        '1': 'Muslim World League',
+        '2': 'ISNA (North America)',
+        '3': 'Egyptian General Authority',
+        '4': 'Umm Al-Qura, Makkah',
+        '5': 'University of Karachi'
+      },
+      isFullscreen: false,
+      showTtsSettings: false,
+      availableVoices: [],
+      selectedVoiceUri: null,
+      speechRate: 1,
+      speechPitch: 1,
+      lastUpdated: null,
+      magneticDeclination: 0.5 // Placeholder, replace with real value if available
     };
-  },
-  mounted: function mounted() {
-    if (typeof DeviceOrientationEvent !== 'undefined') {
-      this.sensorSupported = true;
-      window.addEventListener('deviceorientation', this.handleOrientation, true);
-    }
   },
   computed: {
     hasData: function hasData() {
-      return this.userLatitude !== null || this.qiblaDirection !== null;
+      return this.userLatitude !== null;
+    },
+    qiblaBearing: function qiblaBearing() {
+      // Always positive, clockwise from North
+      if (this.qiblaDirection == null) return '';
+      var deg = this.qiblaDirection % 360;
+      if (deg < 0) deg += 360;
+      return deg.toFixed(1);
+    },
+    relativeDirection: function relativeDirection() {
+      if (this.qiblaDirection == null) return '';
+      var deg = this.qiblaDirection % 360;
+      if (deg < 0) deg += 360;
+      if (deg === 0) return 'Face North';
+      if (deg < 180) return "Turn ".concat(deg.toFixed(1), "\xB0 right from North");
+      if (deg > 180) return "Turn ".concat((360 - deg).toFixed(1), "\xB0 left from North");
+      return 'Face South';
+    },
+    directionIconClass: function directionIconClass() {
+      // Map cardinal direction to Bootstrap icon
+      var map = {
+        N: 'bi-arrow-up',
+        NNE: 'bi-arrow-up-right',
+        NE: 'bi-arrow-up-right',
+        ENE: 'bi-arrow-up-right',
+        E: 'bi-arrow-right',
+        ESE: 'bi-arrow-down-right',
+        SE: 'bi-arrow-down-right',
+        SSE: 'bi-arrow-down-right',
+        S: 'bi-arrow-down',
+        SSW: 'bi-arrow-down-left',
+        SW: 'bi-arrow-down-left',
+        WSW: 'bi-arrow-down-left',
+        W: 'bi-arrow-left',
+        WNW: 'bi-arrow-up-left',
+        NW: 'bi-arrow-up-left',
+        NNW: 'bi-arrow-up-left'
+      };
+      return map[this.qiblaCardinalDirection] || 'bi-arrow-up';
+    },
+    qiblaCardinalDirectionText: function qiblaCardinalDirectionText() {
+      // For display: 'East', 'North-East', etc.
+      var map = {
+        N: 'North',
+        NNE: 'North-East',
+        NE: 'North-East',
+        ENE: 'East-North-East',
+        E: 'East',
+        ESE: 'East-South-East',
+        SE: 'South-East',
+        SSE: 'South-South-East',
+        S: 'South',
+        SSW: 'South-South-West',
+        SW: 'South-West',
+        WSW: 'West-South-West',
+        W: 'West',
+        WNW: 'West-North-West',
+        NW: 'North-West',
+        NNW: 'North-North-West'
+      };
+      return map[this.qiblaCardinalDirection] || this.qiblaCardinalDirection;
     }
   },
   methods: {
@@ -40608,7 +40680,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context.next = 3;
                 break;
               }
-              _this.error = 'Enter a valid location';
+              _this.error = 'Please enter a location.';
               return _context.abrupt("return");
             case 3:
               _this.loading = true;
@@ -40626,15 +40698,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _this.userLatitude = parseFloat(data[0].lat);
                 _this.userLongitude = parseFloat(data[0].lon);
                 _this.calculateQibla();
+                _this.getPrayerTimes();
+                _this.lastUpdated = new Date().toLocaleString();
               } else {
-                _this.error = 'Location not found';
+                _this.error = 'Location not found. Please try another search.';
               }
               _context.next = 18;
               break;
             case 15:
               _context.prev = 15;
               _context.t0 = _context["catch"](5);
-              _this.error = 'Failed to find location';
+              _this.error = 'Failed to fetch location data. Please check your connection.';
             case 18:
               _context.prev = 18;
               _this.loading = false;
@@ -40646,16 +40720,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         }, _callee, null, [[5, 15, 18, 21]]);
       }))();
     },
-    clearSearch: function clearSearch() {
-      this.searchLocation = '';
-      this.$refs.searchInput.focus();
-    },
     getLocation: function getLocation() {
       var _this2 = this;
       this.loading = true;
       this.error = '';
       if (!navigator.geolocation) {
-        this.error = 'Geolocation not supported';
+        this.error = 'Geolocation is not supported by your browser.';
         this.loading = false;
         return;
       }
@@ -40664,16 +40734,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         _this2.userLongitude = position.coords.longitude;
         _this2.accuracy = position.coords.accuracy;
         _this2.calculateQibla();
-        _this2.loading = false;
+        _this2.getPrayerTimes();
+        _this2.lastUpdated = new Date().toLocaleString();
       }, function (error) {
-        _this2.error = "Location error: ".concat(error.message);
+        _this2.error = "Could not get location: ".concat(error.message);
         _this2.loading = false;
       }, {
-        enableHighAccuracy: true
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
       });
     },
     calculateQibla: function calculateQibla() {
-      if (!this.userLatitude || !this.userLongitude) return;
       var kaabaLat = 21.4225,
         kaabaLon = 39.8262;
       var lat1 = this.userLatitude * Math.PI / 180;
@@ -40682,48 +40754,186 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var lon2 = kaabaLon * Math.PI / 180;
       var y = Math.sin(lon2 - lon1) * Math.cos(lat2);
       var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
-      this.qiblaDirection = (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
-      var R = 6371;
+      var degrees = Math.atan2(y, x) * 180 / Math.PI;
+      this.qiblaDirection = degrees;
+      var directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+      var normalizedDegrees = degrees < 0 ? degrees + 360 : degrees;
+      var index = Math.round(normalizedDegrees % 360 / 22.5);
+      this.qiblaCardinalDirection = directions[index % 16];
+      var R = 6371; // Earth radius in km
       var dLat = lat2 - lat1;
       var dLon = lon2 - lon1;
       var a = Math.pow(Math.sin(dLat / 2), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dLon / 2), 2);
-      this.distanceToKaaba = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      this.isCalibrated = this.accuracy && this.accuracy <= 30;
+      var distanceInKm = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      this.distanceToKaaba = distanceInKm;
+      this.distanceToKaabaMiles = distanceInKm * 0.621371;
     },
     handleOrientation: function handleOrientation(event) {
-      this.compassRotation = event.webkitCompassHeading || 360 - event.alpha || 0;
-      this.accuracy = event.webkitCompassAccuracy || event.accuracy || null;
-      this.isCalibrated = this.accuracy && this.accuracy <= 30;
+      var alpha = event.alpha;
+      if (alpha === null) {
+        this.compassRotation = event.webkitCompassHeading || 360 - event.alpha;
+      } else {
+        this.compassRotation = 360 - alpha;
+      }
+      this.isCalibrated = event.webkitCompassAccuracy && event.webkitCompassAccuracy < 30 || this.accuracy < 30;
     },
     speakQiblaDirection: function speakQiblaDirection() {
+      var _this3 = this;
       if (!window.speechSynthesis || !this.qiblaDirection) return;
-      var utterance = new SpeechSynthesisUtterance("Qibla is ".concat(this.qiblaDirection.toFixed(2), " degrees from North."));
+      window.speechSynthesis.cancel();
+      var utterance = new SpeechSynthesisUtterance("The Qibla is at ".concat(this.qiblaDirection.toFixed(1), " degrees from North."));
+      if (this.selectedVoiceUri) {
+        utterance.voice = this.availableVoices.find(function (v) {
+          return v.voiceURI === _this3.selectedVoiceUri;
+        });
+      }
+      utterance.rate = this.speechRate;
+      utterance.pitch = this.speechPitch;
       window.speechSynthesis.speak(utterance);
     },
     shareLocation: function shareLocation() {
-      var _this$userLatitude, _this$userLongitude, _this$qiblaDirection, _navigator$share, _navigator;
-      var shareData = {
-        title: 'Qibla Direction',
-        text: "Qibla at ".concat((_this$userLatitude = this.userLatitude) === null || _this$userLatitude === void 0 ? void 0 : _this$userLatitude.toFixed(2), "\xB0 N, ").concat((_this$userLongitude = this.userLongitude) === null || _this$userLongitude === void 0 ? void 0 : _this$userLongitude.toFixed(2), "\xB0 E is ").concat((_this$qiblaDirection = this.qiblaDirection) === null || _this$qiblaDirection === void 0 ? void 0 : _this$qiblaDirection.toFixed(2), "\xB0 from North."),
-        url: window.location.href
-      };
-      (_navigator$share = (_navigator = navigator).share) === null || _navigator$share === void 0 || _navigator$share.call(_navigator, shareData)["catch"](function () {
-        return alert('Sharing not supported');
-      });
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var _this4$qiblaDirection, _this4$distanceToKaab;
+        var shareText, shareData;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              shareText = "My Qibla: ".concat((_this4$qiblaDirection = _this4.qiblaDirection) === null || _this4$qiblaDirection === void 0 ? void 0 : _this4$qiblaDirection.toFixed(1), "\xB0 from North. Distance: ").concat((_this4$distanceToKaab = _this4.distanceToKaaba) === null || _this4$distanceToKaab === void 0 ? void 0 : _this4$distanceToKaab.toFixed(0), " km.");
+              shareData = {
+                title: 'My Qibla Direction',
+                text: shareText,
+                url: window.location.href
+              };
+              if (!navigator.share) {
+                _context2.next = 7;
+                break;
+              }
+              _context2.next = 5;
+              return navigator.share(shareData)["catch"](function (err) {
+                return console.error('Share failed:', err);
+              });
+            case 5:
+              _context2.next = 16;
+              break;
+            case 7:
+              _context2.prev = 7;
+              _context2.next = 10;
+              return navigator.clipboard.writeText("".concat(shareText, " - Find yours at ").concat(window.location.href));
+            case 10:
+              alert('Qibla details copied to clipboard!');
+              _context2.next = 16;
+              break;
+            case 13:
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](7);
+              alert('Sharing failed.');
+            case 16:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[7, 13]]);
+      }))();
     },
-    resetData: function resetData() {
-      this.searchLocation = '';
-      this.userLatitude = null;
-      this.userLongitude = null;
-      this.qiblaDirection = null;
-      this.distanceToKaaba = null;
-      this.error = '';
-      this.isCalibrated = false;
-      this.accuracy = null;
+    getPrayerTimes: function getPrayerTimes() {
+      var _this5 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var response, data, _data$data$timings, Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              if (_this5.userLatitude) {
+                _context3.next = 2;
+                break;
+              }
+              return _context3.abrupt("return");
+            case 2:
+              _context3.prev = 2;
+              _context3.next = 5;
+              return fetch("https://api.aladhan.com/v1/timingsByCity?city=cairo&country=egypt&method=".concat(_this5.calculationMethod));
+            case 5:
+              response = _context3.sent;
+              _context3.next = 8;
+              return response.json();
+            case 8:
+              data = _context3.sent;
+              if (data.code === 200) {
+                _data$data$timings = data.data.timings, Fajr = _data$data$timings.Fajr, Sunrise = _data$data$timings.Sunrise, Dhuhr = _data$data$timings.Dhuhr, Asr = _data$data$timings.Asr, Maghrib = _data$data$timings.Maghrib, Isha = _data$data$timings.Isha;
+                _this5.prayerTimes = {
+                  Fajr: Fajr,
+                  Sunrise: Sunrise,
+                  Dhuhr: Dhuhr,
+                  Asr: Asr,
+                  Maghrib: Maghrib,
+                  Isha: Isha
+                };
+              } else {
+                _this5.error = 'Could not fetch prayer times.';
+              }
+              _context3.next = 15;
+              break;
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](2);
+              _this5.error = 'Failed to fetch prayer times.';
+            case 15:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[2, 12]]);
+      }))();
+    },
+    toggleFullscreen: function toggleFullscreen() {
+      var el = this.$refs.qiblaFinder;
+      if (!document.fullscreenElement) {
+        el.requestFullscreen()["catch"](function (err) {
+          return alert("Fullscreen failed: ".concat(err.message));
+        });
+        this.isFullscreen = true;
+      } else {
+        document.exitFullscreen();
+        this.isFullscreen = false;
+      }
+    },
+    populateVoiceList: function populateVoiceList() {
+      var voices = speechSynthesis.getVoices();
+      if (voices.length) {
+        this.availableVoices = voices.sort(function (a, b) {
+          return a.lang.localeCompare(b.lang);
+        });
+        if (!this.selectedVoiceUri) {
+          var _voices$;
+          var defaultVoice = voices.find(function (voice) {
+            return voice["default"];
+          }) || voices.find(function (v) {
+            return v.lang.startsWith('en');
+          });
+          this.selectedVoiceUri = defaultVoice ? defaultVoice.voiceURI : (_voices$ = voices[0]) === null || _voices$ === void 0 ? void 0 : _voices$.voiceURI;
+        }
+      }
+    }
+  },
+  mounted: function mounted() {
+    if (typeof DeviceOrientationEvent !== 'undefined' && 'ondeviceorientationabsolute' in window) {
+      this.sensorSupported = true;
+      window.addEventListener('deviceorientationabsolute', this.handleOrientation, true);
+    } else if (typeof DeviceOrientationEvent !== 'undefined') {
+      this.sensorSupported = true;
+      window.addEventListener('deviceorientation', this.handleOrientation, true);
+    }
+    this.populateVoiceList();
+    if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = this.populateVoiceList;
     }
   },
   beforeDestroy: function beforeDestroy() {
-    window.removeEventListener('deviceorientation', this.handleOrientation);
+    if (this.sensorSupported) {
+      window.removeEventListener('deviceorientationabsolute', this.handleOrientation, true);
+      window.removeEventListener('deviceorientation', this.handleOrientation, true);
+    }
+    if (typeof speechSynthesis !== 'undefined') {
+      speechSynthesis.onvoiceschanged = null;
+    }
   }
 });
 
@@ -61850,144 +62060,352 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "mb-4"
+  "class": "container py-5",
+  ref: "qiblaFinder"
 };
 var _hoisted_2 = {
-  "class": "input-group"
+  "class": "card shadow-sm mb-4"
 };
-var _hoisted_3 = ["disabled"];
-var _hoisted_4 = ["disabled"];
-var _hoisted_5 = {
-  key: 0,
-  "class": "card mb-4"
+var _hoisted_3 = {
+  "class": "container-fluid card-body p-4"
 };
-var _hoisted_6 = {
-  "class": "card-body"
+var _hoisted_4 = {
+  "class": "input-group mb-2"
 };
+var _hoisted_5 = ["disabled"];
+var _hoisted_6 = ["disabled"];
 var _hoisted_7 = {
   key: 0,
-  "class": "text-danger"
+  "class": "text-danger mt-3 mb-0"
 };
 var _hoisted_8 = {
-  key: 1,
-  "class": "row mb-0"
+  key: 0,
+  "class": "row g-4"
 };
 var _hoisted_9 = {
-  "class": "col-7"
+  "class": "col-lg-6"
 };
 var _hoisted_10 = {
-  "class": "col-7"
+  "class": "card shadow-sm h-100"
 };
 var _hoisted_11 = {
-  "class": "col-7"
+  "class": "container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
 };
 var _hoisted_12 = {
-  "class": "col-7"
+  "class": "d-flex justify-content-center align-items-center mb-3"
 };
 var _hoisted_13 = {
-  "class": "card"
+  "class": "qibla-compass-wrapper position-relative mx-auto"
 };
 var _hoisted_14 = {
-  "class": "card-body text-center"
+  "class": "list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
 };
-var _hoisted_15 = ["aria-label"];
+var _hoisted_15 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
 var _hoisted_16 = {
-  "class": "d-flex gap-2 mt-3 justify-content-center"
+  "class": "fw-bold d-flex align-items-center gap-2"
 };
-var _hoisted_17 = ["disabled"];
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = ["disabled"];
+var _hoisted_17 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_18 = {
+  "class": "fw-bold"
+};
+var _hoisted_19 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_20 = {
+  "class": "fw-bold"
+};
+var _hoisted_21 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_22 = {
+  "class": "fw-bold"
+};
+var _hoisted_23 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_24 = {
+  "class": "fw-bold"
+};
+var _hoisted_25 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_26 = {
+  "class": "fw-bold"
+};
+var _hoisted_27 = {
+  key: 0,
+  "class": "qibla-info-modern-card mb-4 mx-auto"
+};
+var _hoisted_28 = {
+  "class": "row g-0 align-items-center"
+};
+var _hoisted_29 = {
+  "class": "col-12 col-md-6 text-center text-md-start p-4"
+};
+var _hoisted_30 = {
+  "class": "display-5 fw-bold mb-2"
+};
+var _hoisted_31 = {
+  "class": "row g-2 mt-4"
+};
+var _hoisted_32 = {
+  "class": "col-6 text-end"
+};
+var _hoisted_33 = {
+  "class": "col-6 text-end"
+};
+var _hoisted_34 = {
+  "class": "col-6 text-end"
+};
+var _hoisted_35 = {
+  "class": "col-12 col-md-6 text-center p-4 border-md-start"
+};
+var _hoisted_36 = {
+  "class": "display-5 fw-bold mb-2"
+};
+var _hoisted_37 = {
+  "class": "col-lg-6"
+};
+var _hoisted_38 = {
+  "class": "card shadow-sm h-100"
+};
+var _hoisted_39 = {
+  "class": "container-fluid card-body p-4"
+};
+var _hoisted_40 = {
+  "class": "mb-3"
+};
+var _hoisted_41 = ["value"];
+var _hoisted_42 = {
+  key: 0,
+  "class": "list-group list-group-flush"
+};
+var _hoisted_43 = {
+  "class": "fw-bold"
+};
+var _hoisted_44 = {
+  key: 1,
+  "class": "card shadow-sm mt-4"
+};
+var _hoisted_45 = {
+  "class": "container-fluid card-body"
+};
+var _hoisted_46 = {
+  "class": "row g-2"
+};
+var _hoisted_47 = {
+  "class": "col-6 col-md-4"
+};
+var _hoisted_48 = ["disabled"];
+var _hoisted_49 = {
+  "class": "col-6 col-md-4"
+};
+var _hoisted_50 = ["disabled"];
+var _hoisted_51 = {
+  "class": "col-6 col-md-4"
+};
+var _hoisted_52 = ["aria-expanded"];
+var _hoisted_53 = {
+  "class": "card-footer"
+};
+var _hoisted_54 = {
+  "class": "row align-items-center"
+};
+var _hoisted_55 = {
+  "class": "col-lg-5 mb-3 mb-lg-0"
+};
+var _hoisted_56 = ["value"];
+var _hoisted_57 = {
+  "class": "col-lg-3 col-6"
+};
+var _hoisted_58 = {
+  "for": "tts-rate",
+  "class": "form-label small"
+};
+var _hoisted_59 = {
+  "class": "col-lg-4 col-6"
+};
+var _hoisted_60 = {
+  "for": "tts-pitch",
+  "class": "form-label small"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$userLatitude, _$data$userLongitude, _$data$qiblaDirection, _$data$distanceToKaab, _$data$qiblaDirection2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container py-4", {
-      'dark-mode': $data.darkMode
-    }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    "class": "text-center mb-4"
+  var _$data$qiblaDirection, _$data$distanceToKaab, _$data$distanceToKaab2, _$data$userLatitude, _$data$userLongitude, _$data$qiblaDirection2, _$data$userLatitude2, _$data$userLongitude2, _$data$distanceToKaab3;
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "fw-bold display-5"
-  }, "Qibla Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
-  }, "Find the Qibla direction easily.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "display-3 fw-bold mb-2"
+  }, "Qibla Compass"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "lead text-muted"
+  }, "Your guide to prayer direction and times.")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Location "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-3"
+  }, "Find Your Location", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     "class": "form-control",
-    placeholder: "Enter city or town",
+    placeholder: "Enter a city or address",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchLocation = $event;
     }),
     onKeyup: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }, ["enter"])),
-    "aria-label": "Search for Qibla",
     ref: "searchInput"
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), $data.searchLocation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    "class": "btn btn-link",
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.clearSearch && $options.clearSearch.apply($options, arguments);
-    }),
-    "aria-label": "Clear search"
-  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-x-lg"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchLocation]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
-    onClick: _cache[3] || (_cache[3] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchQibla && $options.searchQibla.apply($options, arguments);
     }),
-    disabled: $data.loading
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Searching...' : 'Search'), 9 /* TEXT, PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    disabled: $data.loading,
+    title: "Search"
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search"
+  }, null, -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-outline-secondary",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.resetData && $options.resetData.apply($options, arguments);
-    }),
-    disabled: !$options.hasData
-  }, " Reset ", 8 /* PROPS */, _hoisted_4)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Details "), $data.userLatitude || $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "fw-bold"
-  }, "Qibla Details", -1 /* HOISTED */)), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("dl", _hoisted_8, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
-    "class": "col-5"
-  }, "Coordinates", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(2)) + "° N, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(2)) + "° E", 1 /* TEXT */), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
-    "class": "col-5"
-  }, "Qibla Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(2)) + "° from North", 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
-    "class": "col-5"
-  }, "Distance to Kaaba", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km", 1 /* TEXT */), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dt", {
-    "class": "col-5"
-  }, "Compass", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("dd", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isCalibrated ? 'Calibrated' : 'Needs Calibration'), 1 /* TEXT */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "compass-wrapper rounded-circle shadow bg-white p-3 mx-auto",
-    "aria-label": "Compass showing Qibla at ".concat(((_$data$qiblaDirection2 = $data.qiblaDirection) === null || _$data$qiblaDirection2 === void 0 ? void 0 : _$data$qiblaDirection2.toFixed(2)) || 0, " degrees")
-  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Compass_Rose_English_North.svg/240px-Compass_Rose_English_North.svg.png\" alt=\"Compass Background\" class=\"compass-bg\" data-v-6d77f7a9><div class=\"compass-label north\" data-v-6d77f7a9>N</div><div class=\"compass-label south\" data-v-6d77f7a9>S</div><div class=\"compass-label east\" data-v-6d77f7a9>E</div><div class=\"compass-label west\" data-v-6d77f7a9>W</div>", 5)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "arrow bg-primary",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      transform: "translate(-50%, -100%) rotate(".concat(($data.qiblaDirection - $data.compassRotation + 360) % 360, "deg)")
-    })
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-primary",
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $options.getLocation && $options.getLocation.apply($options, arguments);
     }),
     disabled: $data.loading,
-    "aria-label": "Use current location"
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    title: "Use My Location"
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-geo-alt"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Location ")]), 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-primary",
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "d-none d-sm-inline"
+  }, "Use My Location", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_6)]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-3"
+  }, "Qibla Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      transform: "rotate(-".concat($data.compassRotation, "deg)")
+    })
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label position-absolute top-0 start-50 translate-middle-x"
+  }, "N", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label position-absolute bottom-0 start-50 translate-middle-x"
+  }, "S", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label position-absolute top-50 end-0 translate-middle-y"
+  }, "E", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "compass-label position-absolute top-50 start-0 translate-middle-y"
+  }, "W", -1 /* HOISTED */)]), 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arrow: Responsive, always points outward from center "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "qibla-arrow position-absolute top-50 start-50",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      transform: "translate(-50%, -60%) rotate(".concat($data.qiblaDirection - $data.compassRotation, "deg)")
+    })
+  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.directionIconClass])
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(1)) + "° (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaCardinalDirection) + ") ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_17, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Bearing from North", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.qiblaBearing) + "° clockwise", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_19, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Relative Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.relativeDirection), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_21, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Distance", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab2 = $data.distanceToKaabaMiles) === null || _$data$distanceToKaab2 === void 0 ? void 0 : _$data$distanceToKaab2.toFixed(0)) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_23, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Your Coordinates", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "°", 1 /* TEXT */)]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Kaaba Coordinates"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "fw-bold"
+  }, "21.4225°, 39.8262°")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_25, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Last Updated", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.lastUpdated), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Info Card (Modern Layout) "), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Direction "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-muted mb-1"
+  }, "Qibla Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection2 = $data.qiblaDirection) === null || _$data$qiblaDirection2 === void 0 ? void 0 : _$data$qiblaDirection2.toFixed(0)) + "° from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.qiblaCardinalDirectionText), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-6 text-muted"
+  }, "Latitude", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude2 = $data.userLatitude) === null || _$data$userLatitude2 === void 0 ? void 0 : _$data$userLatitude2.toFixed(6)), 1 /* TEXT */), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-6 text-muted"
+  }, "Longitude", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude2 = $data.userLongitude) === null || _$data$userLongitude2 === void 0 ? void 0 : _$data$userLongitude2.toFixed(6)), 1 /* TEXT */), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "col-6 text-muted"
+  }, "Magnetic Declination", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.magneticDeclination) + "°", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Distance "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-muted mb-1"
+  }, "Qibla Distance", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab3 = $data.distanceToKaaba) === null || _$data$distanceToKaab3 === void 0 ? void 0 : _$data$distanceToKaab3.toFixed(0)) + " KM ", 1 /* TEXT */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"alert alert-info small mb-0\" style=\"background:rgba(13,182,145,0.08);border-color:rgba(13,182,145,0.2);color:rgb(13,182,145);\">\n              <i class=\"bi bi-info-circle\"></i> Compass uses true north, not magnetic north. For best accuracy, calibrate your device.\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-3"
+  }, "Today's Prayer Times", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "class": "form-select",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.calculationMethod = $event;
+    }),
+    onChange: _cache[5] || (_cache[5] = function () {
+      return $options.getPrayerTimes && $options.getPrayerTimes.apply($options, arguments);
+    }),
+    "aria-label": "Prayer time calculation method"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.calculationMethods, function (name, id) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: id,
+      value: id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_41);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.calculationMethod]])]), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_42, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+      key: name
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-3 mt-4 ml-5"
+  }, "Actions & Settings", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn w-100 btn-outline-secondary",
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.speakQiblaDirection && $options.speakQiblaDirection.apply($options, arguments);
     }),
-    disabled: !$data.qiblaDirection,
-    "aria-label": "Speak Qibla direction"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    disabled: !$data.qiblaDirection
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-volume-up"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speak ")]), 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-outline-primary",
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speak Direction ")]), 8 /* PROPS */, _hoisted_48)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn w-100 btn-outline-secondary",
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.shareLocation && $options.shareLocation.apply($options, arguments);
     }),
-    disabled: !$options.hasData,
-    "aria-label": "Share Qibla details"
-  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    disabled: !$options.hasData
+  }, _cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-share"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")]), 8 /* PROPS */, _hoisted_19)])])])], 2 /* CLASS */);
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")]), 8 /* PROPS */, _hoisted_50)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-6 col-md-3\">\n            <button class=\"btn w-100 btn-outline-secondary\" @click=\"toggleFullscreen\">\n              <i class=\"bi\" :class=\"isFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'\"></i>\n              {{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}\n            </button>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn w-100 btn-tertiary",
+    onClick: _cache[8] || (_cache[8] = function ($event) {
+      return $data.showTtsSettings = !$data.showTtsSettings;
+    }),
+    "aria-expanded": $data.showTtsSettings
+  }, _cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speech Settings ")]), 8 /* PROPS */, _hoisted_52)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "tts-voice",
+    "class": "form-label small"
+  }, "Voice", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "tts-voice",
+    "class": "form-select",
+    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
+      return $data.selectedVoiceUri = $event;
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.availableVoices, function (voice) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: voice.voiceURI,
+      value: voice.voiceURI
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.lang) + ")", 9 /* TEXT, PROPS */, _hoisted_56);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoiceUri]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_58, "Rate: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechRate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "tts-rate",
+    type: "range",
+    "class": "form-range",
+    min: "0.5",
+    max: "2",
+    step: "0.1",
+    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+      return $data.speechRate = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechRate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_60, "Pitch: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechPitch), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "tts-pitch",
+    type: "range",
+    "class": "form-range",
+    min: "0",
+    max: "2",
+    step: "0.1",
+    "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
+      return $data.speechPitch = $event;
+    })
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechPitch]])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showTtsSettings]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
 }
 
 /***/ }),
@@ -167498,7 +167916,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.dark-mode[data-v-6d77f7a9] {\n  background: #1a1a1a;\n  color: #fff;\n}\n.dark-mode .card[data-v-6d77f7a9] { background: #333; border-color: #555;\n}\n.dark-mode .form-control[data-v-6d77f7a9] { background: #444; color: #fff; border-color: #666;\n}\n.dark-mode .form-control[data-v-6d77f7a9]::-moz-placeholder { color: #aaa;\n}\n.dark-mode .form-control[data-v-6d77f7a9]::placeholder { color: #aaa;\n}\n.dark-mode .btn-primary[data-v-6d77f7a9] { background: #007bff; border-color: #007bff;\n}\n.dark-mode .btn-outline-secondary[data-v-6d77f7a9] { color: #007bff; border-color: #007bff;\n}\n.btn-primary[data-v-6d77f7a9] { background: #007bff; border-color: #007bff;\n}\n.btn-primary[data-v-6d77f7a9]:disabled { opacity: 0.6;\n}\n.btn-outline-secondary[data-v-6d77f7a9] { border-color: #6c757d; color: #6c757d;\n}\n.btn-outline-secondary[data-v-6d77f7a9]:disabled { opacity: 0.6;\n}\n.btn-link[data-v-6d77f7a9] { color: #6c757d;\n}\n.compass-wrapper[data-v-6d77f7a9] {\n  width: 250px;\n  aspect-ratio: 1/1;\n  position: relative;\n}\n.compass-bg[data-v-6d77f7a9] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 100%;\n  opacity: 0.2;\n}\n.compass-label[data-v-6d77f7a9] {\n  position: absolute;\n  font-size: 1.5rem;\n  font-weight: bold;\n  color: #333;\n}\n.north[data-v-6d77f7a9] { top: 5%; left: 50%; transform: translateX(-50%);\n}\n.south[data-v-6d77f7a9] { bottom: 5%; left: 50%; transform: translateX(-50%);\n}\n.east[data-v-6d77f7a9] { top: 50%; right: 5%; transform: translateY(-50%);\n}\n.west[data-v-6d77f7a9] { top: 50%; left: 5%; transform: translateY(-50%);\n}\n.arrow[data-v-6d77f7a9] {\n  width: 10px;\n  height: 40%;\n  background: #007bff;\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform-origin: bottom;\n  border-radius: 5px;\n}\n.card[data-v-6d77f7a9] { border-radius: 8px;\n}\n.form-control[data-v-6d77f7a9] { padding: 0.5rem;\n}\n.text-danger[data-v-6d77f7a9] { font-weight: 500;\n}\n@media (max-width: 576px) {\n.compass-wrapper[data-v-6d77f7a9] { width: 200px;\n}\n.form-control[data-v-6d77f7a9] { font-size: 0.9rem;\n}\n.btn[data-v-6d77f7a9] { font-size: 0.9rem;\n}\n.compass-label[data-v-6d77f7a9] { font-size: 1.2rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n[data-v-6d77f7a9]:root {\n  --primary-color: rgb(13, 182, 145);\n  --primary-hover-color: rgb(11, 158, 127);\n  --primary-focus-color: rgba(13, 182, 145, 0.25);\n  --tertiary-bg-color: rgba(13, 182, 145, 0.1);\n  --tertiary-hover-bg-color: rgba(13, 182, 145, 0.2);\n}\n.btn-primary[data-v-6d77f7a9],\n.text-primary[data-v-6d77f7a9] {\n  --bs-btn-bg: rgb(13, 182, 145);\n  --bs-btn-border-color: rgb(13, 182, 145);\n  --bs-btn-hover-bg: rgb(11, 158, 127);\n  --bs-btn-hover-border-color: rgb(11, 158, 127);\n  --bs-btn-active-bg: rgb(11, 158, 127);\n  --bs-btn-active-border-color: rgb(11, 158, 127);\n  color: rgb(13, 182, 145) !important;\n}\n.btn-primary[data-v-6d77f7a9] {\n  color: #fff !important;\n}\n.btn-tertiary[data-v-6d77f7a9] {\n  background-color: var(--tertiary-bg-color) !important;\n  color: var(--primary-color) !important;\n  border: 1px solid var(--primary-color) !important;\n}\n.btn-tertiary[data-v-6d77f7a9]:hover, .btn-tertiary[data-v-6d77f7a9]:focus {\n  background-color: var(--tertiary-hover-bg-color) !important;\n  color: var(--primary-hover-color) !important;\n}\n.qibla-compass-wrapper[data-v-6d77f7a9] {\n  width: 90vw;\n  max-width: 220px;\n  height: 90vw;\n  max-height: 220px;\n}\n.compass-dial[data-v-6d77f7a9] {\n  background: linear-gradient(145deg, #ffffff, #e6e6e6);\n  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);\n  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);\n}\n.compass-label[data-v-6d77f7a9] {\n  font-weight: 600;\n  font-size: 1rem;\n  color: #6c757d;\n}\n.qibla-arrow[data-v-6d77f7a9] {\n  width: 0;\n  height: 0;\n  border-left: 7px solid transparent;\n  border-right: 7px solid transparent;\n  border-bottom: 70px solid var(--primary-color);\n  transform-origin: center bottom;\n  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);\n  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));\n}\n@media (max-width: 767.98px) {\n.qibla-compass-wrapper[data-v-6d77f7a9] {\n    max-width: 160px;\n    max-height: 160px;\n}\n.compass-label[data-v-6d77f7a9] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 575.98px) {\n.qibla-compass-wrapper[data-v-6d77f7a9] {\n    max-width: 120px;\n    max-height: 120px;\n}\n.compass-label[data-v-6d77f7a9] {\n    font-size: 0.8rem;\n}\n.list-group-item[data-v-6d77f7a9] {\n    font-size: 0.97rem;\n    padding-left: 0.7rem !important;\n    padding-right: 0.7rem !important;\n    padding-top: 0.6rem !important;\n    padding-bottom: 0.6rem !important;\n}\n}\n.qibla-info-modern-card[data-v-6d77f7a9] {\n  background: linear-gradient(135deg, #23405a 0%, #2b7a78 100%);\n  border-radius: 2rem;\n  color: #fff;\n  max-width: 700px;\n  box-shadow: 0 4px 32px rgba(44,62,80,0.10);\n  margin-bottom: 2rem;\n}\n.qibla-info-modern-card .display-5[data-v-6d77f7a9] {\n  color: #fff;\n}\n.qibla-info-modern-card .text-muted[data-v-6d77f7a9] {\n  color: #cfd8dc !important;\n}\n.qibla-info-modern-card .border-md-start[data-v-6d77f7a9] {\n  border-left: 1px solid rgba(255,255,255,0.15) !important;\n}\n@media (max-width: 767.98px) {\n.qibla-info-modern-card[data-v-6d77f7a9] {\n    border-radius: 1.2rem;\n    padding: 0.5rem;\n}\n.qibla-info-modern-card .border-md-start[data-v-6d77f7a9] {\n    border-left: none !important;\n    border-top: 1px solid rgba(255,255,255,0.15) !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
