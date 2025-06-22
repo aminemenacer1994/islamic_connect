@@ -1,163 +1,230 @@
 <template>
   <div class="container py-4">
-    <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
-    <!-- <ChatBot /> -->
-    <p class="text-center container mb-4 lead">
-      Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
-      thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your
-      understanding of Islam.
-    </p>
+    <!-- Header Section -->
+    <div class="header-section">
+      <h1 class="main-title">Islamic Podcasts</h1>
+      <p class="main-description">
+        Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
+        thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your
+        understanding of Islam.
+      </p>
+    </div>
 
-    <div class="container">
-      <h2 class="fw-bold text-left pt-2 pb-4">Select a Podcast:</h2>
+    <!-- Podcast Selection Section -->
+    <div class="selection-section">
+      <div class="section-header">
+        <h2 class="section-title">Choose Your Podcast</h2>
+        <p class="section-subtitle">Click on any podcast below to start listening</p>
+      </div>
 
-      <div class="row">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="col-6 col-md-2 mb-4 text-center"
-          @click="selectPodcast(podcast)" style="cursor: pointer;">
-          <img :src="podcast.image" alt="Podcast Logo" class="img-fluid"
-            style="height: 180px; width: 100%; object-fit: cover; border-radius: 18px; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
-          <h5 class="mt-3" style="font-size: 1.2rem; font-weight: 600;">
-            {{ podcast.name }}
-          </h5>
+      <div class="podcast-selection-grid">
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" 
+             class="podcast-selection-item" @click="selectPodcast(podcast)">
+          <div class="podcast-image-wrapper">
+            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image">
+            <div class="podcast-overlay">
+              <i class="bi bi-play-circle-fill"></i>
+              <span class="play-text">Click to Select</span>
+            </div>
+          </div>
+          <h5 class="podcast-selection-name">{{ podcast.name }}</h5>
         </div>
       </div>
-
-
     </div>
 
-
-
-
-    <div class="pt-3" v-if="selectedPodcast" ref="podcastDetailSection">
-      <hr class="container" />
-      <p class="fw-bold display-5 ">{{ selectedPodcast.name }}</p>
-      <img style=" border-radius: 15px;" class="col-md-2" :src="selectedPodcast.image" :alt="selectedPodcast.name">
-
-      <div class="d-flex justify-content-between align-items-start">
+    <!-- Selected Podcast Details -->
+    <div class="selected-podcast-section" v-if="selectedPodcast" ref="podcastDetailSection">
+      <div class="section-header">
+        <h2 class="section-title">Now Playing</h2>
+        <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
-      <h5 class="col-md-10 mt-3 pb-3 text-muted" style="line-height: 1.8em;">{{ selectedPodcast.desc }}</h5>
-      <h4 class="fw-bold ml-2 pb-3">
-        Amount of Episodes:
-        {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }}
-      </h4>
+      
+      <div class="selected-podcast-header">
+        <div class="selected-podcast-info">
+          <h3 class="selected-podcast-title">{{ selectedPodcast.name }}</h3>
+          <div class="selected-podcast-meta">
+            <span class="episode-count">
+              <i class="bi bi-collection-play"></i>
+              {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }} Episodes Available
+            </span>
+          </div>
+        </div>
+        <div class="selected-podcast-image-container">
+          <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image">
+        </div>
+      </div>
+      
+      <div class="selected-podcast-description">
+        <p>{{ selectedPodcast.desc }}</p>
+      </div>
     </div>
 
+    <!-- Podcast Episodes Section -->
+    <div v-if="!loading && paginatedPodcasts.length" class="episodes-section">
+      <div class="section-header">
+        <h2 class="section-title">Available Episodes</h2>
+        <p class="section-subtitle">Click the play button to start listening</p>
+      </div>
 
-    <div class="row pb-3 g-2 g-md-3">
-      <!-- <div class="col-md-6 px-2 px-md-3" v-if="selectedPodcast">
-        <h4 for="sortPodcasts" class="form-label fw-bold">Views:</h4>
-        <select id="sortPodcasts" class="form-select" v-model="sortBy" @change="sortPodcasts">
-          <option value="most-viewed">Most Viewed</option>
-          <option value="least-viewed">Least Viewed</option>
-        </select>
-      </div> -->
-
-      <!-- <div class="col-md-6 px-2 px-md-3 pb-2" v-if="selectedPodcast">
-        <h4 for="durationFilter" class="form-label fw-bold">Duration:</h4>
-        <select id="durationFilter" class="form-select" v-model="durationFilter" @change="filterPodcasts">
-          <option value="">All Durations</option>
-          <option value="longest">Longest</option>
-          <option value="shortest">Shortest</option>
-          <option value="0-10">0 - 10 min</option>
-          <option value="10-30">10 - 30 min</option>
-          <option value="30-60">30 - 60 min</option>
-          <option value="more-than-60">More than 1 hour</option>
-        </select>
-      </div> -->
-
-    </div>
-
-    <!-- Podcast Cards -->
-    <div v-if="!loading && paginatedPodcasts.length">
-      <div v-if="!loading && paginatedPodcasts.length">
-        <!-- Loading Spinner -->
-        <div v-if="loading" class="text-center mt-4">
-          <p class="mt-2 fw-bold">Loading podcasts, please wait...</p>
+      <!-- Loading State -->
+      <div v-if="loading" class="loading-container">
+        <div class="loading-spinner">
           <div class="spinner-border text-success" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4 mb-2">
-          <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="col">
-            <div :class="['card', { 'highlighted': playingIndex === index }]"
-              style=" border-radius: 8px;">
-
-              <div class="card-body">
-                <h4 class="card-title pb-2 display-5 fw-bold" v-html="highlightText(podcast.title)"></h4><br /><br />
-                <h6>Views: {{ podcast.views }}</h6>
-                <h6>Published on: {{ formatDate(podcast.pubDate) }}</h6>
-                <hr>
-
-                <div class=" text-center d-flex justify-content-between align-items-center">
-                  <!-- Rewind -->
-                  <div class="icon-container">
-                    <i class="bi bi-skip-backward-circle icon-tooltip" @click="rewindAudio(index)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Rewind"></i>
-                    <span class="icon-text">Rewind</span>
-                  </div>
-
-                  <!-- Share -->
-                  <div class="icon-container">
-                    <i class="bi bi-share icon-tooltip " @click="shareOnWhatsApp(podcast)" data-bs-toggle="tooltip"
-                      data-bs-placement="top" title="Share"></i>
-                    <span class="icon-text">Share</span>
-                  </div>
-
-                  <!-- Play/Pause -->
-                  <div class="icon-container">
-                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'" @click="toggleAudioPlayer(index)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
-                    <span class="icon-text">{{ isAudioPlaying[index] ? 'Pause' : 'Play' }}</span>
-                  </div>
-
-                  <!-- Fast Forward -->
-                  <div class="icon-container">
-                    <i class="bi bi-skip-forward-circle icon-tooltip" @click="fastForwardAudio(index)"
-                      data-bs-toggle="tooltip" data-bs-placement="top" title="Fast Forward"></i>
-                    <span class="icon-text">Forward</span>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-
+        <p class="loading-text">Loading episodes, please wait...</p>
+        <p class="loading-subtext">This may take a few moments</p>
       </div>
 
-      <!-- No Podcasts Found Message -->
-      <div v-else-if="!loading" class="text-center">No podcasts found</div>
+      <!-- Episodes Grid -->
+      <div v-else class="podcast-cards-grid">
+        <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="podcast-card-wrapper">
+          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]">
+            <div class="card-header">
+              <div class="podcast-meta">
+                <div class="views-badge">
+                  <i class="bi bi-eye-fill"></i>
+                  <span>{{ podcast.views }} views</span>
+                </div>
+                <div class="date-badge">
+                  <i class="bi bi-calendar3"></i>
+                  <span>{{ formatDate(podcast.pubDate) }}</span>
+                </div>
+              </div>
+            </div>
 
+            <div class="card-body">
+              <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
+              
+              <div class="audio-controls">
+                <button class="control-button rewind-btn" @click="rewindAudio(index)" 
+                        :title="`Rewind 15 seconds`">
+                  <i class="bi bi-skip-backward-fill"></i>
+                  <span class="control-label">Rewind</span>
+                </button>
 
-      <nav aria-label="Podcast pagination" class="mt-4">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-            <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)"
-              style="background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);">
-              Previous
-            </a>
-          </li>
-          <li v-for="page in pages" :key="page" class="page-item" :class="{ 'active': currentPage === page }">
-            <a class="page-link" href="#" @click.prevent="changePage(page)" :style="currentPage === page ? 'background-color: white; color: rgb(13, 182, 145); border-color: rgb(13, 182, 145);'
-              : 'background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);'">
-              {{ page }}
-            </a>
-          </li>
-          <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-            <a class="page-link" href="#" @click.prevent="changePage(currentPage + 1)"
-              style="background-color: rgb(13, 182, 145); color: white; border-color: rgb(13, 182, 145);">
-              Next
-            </a>
-          </li>
-        </ul>
+                <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
+                        :class="{ 'playing': isAudioPlaying[index] }">
+                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+                  <span class="control-label">{{ isAudioPlaying[index] ? 'Pause' : 'Play' }}</span>
+                </button>
+
+                <button class="control-button forward-btn" @click="fastForwardAudio(index)"
+                        :title="`Fast Forward 20 seconds`">
+                  <i class="bi bi-skip-forward-fill"></i>
+                  <span class="control-label">Forward</span>
+                </button>
+              </div>
+
+              <div class="action-buttons">
+                <button class="action-button share-btn" @click="shareOnWhatsApp(podcast)" title="Share on WhatsApp">
+                  <i class="bi bi-share-fill"></i>
+                  <span>Share Episode</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <nav v-if="totalPages > 1" class="pagination-container" aria-label="Episode pagination">
+        <div class="pagination-header">
+          <h3 class="pagination-title">Browse More Episodes</h3>
+          <p class="pagination-subtitle">Use the buttons below to see more episodes</p>
+        </div>
+        
+        <div class="pagination-wrapper">
+          <button 
+            @click="changePage(currentPage - 1)" 
+            :disabled="currentPage === 1"
+            class="pagination-btn pagination-btn-prev"
+            :class="{ 'disabled': currentPage === 1 }"
+            aria-label="Go to previous page">
+            <i class="bi bi-chevron-left"></i>
+            <span class="btn-text">Previous Page</span>
+          </button>
+
+          <div class="page-numbers">
+            <template v-if="totalPages <= 7">
+              <button 
+                v-for="page in totalPages" 
+                :key="page"
+                @click="changePage(page)"
+                class="page-number"
+                :class="{ 'active': currentPage === page }"
+                :aria-label="`Go to page ${page}`"
+                :aria-current="currentPage === page ? 'page' : null">
+                {{ page }}
+              </button>
+            </template>
+            
+            <template v-else>
+              <button 
+                @click="changePage(1)"
+                class="page-number"
+                :class="{ 'active': currentPage === 1 }"
+                aria-label="Go to page 1">
+                1
+              </button>
+              
+              <span v-if="currentPage > 4" class="page-ellipsis">...</span>
+              
+              <button 
+                v-for="page in getVisiblePages()" 
+                :key="page"
+                @click="changePage(page)"
+                class="page-number"
+                :class="{ 'active': currentPage === page }"
+                :aria-label="`Go to page ${page}`"
+                :aria-current="currentPage === page ? 'page' : null">
+                {{ page }}
+              </button>
+              
+              <span v-if="currentPage < totalPages - 3" class="page-ellipsis">...</span>
+              
+              <button 
+                @click="changePage(totalPages)"
+                class="page-number"
+                :class="{ 'active': currentPage === totalPages }"
+                :aria-label="`Go to page ${totalPages}`">
+                {{ totalPages }}
+              </button>
+            </template>
+          </div>
+
+          <button 
+            @click="changePage(currentPage + 1)" 
+            :disabled="currentPage === totalPages"
+            class="pagination-btn pagination-btn-next"
+            :class="{ 'disabled': currentPage === totalPages }"
+            aria-label="Go to next page">
+            <span class="btn-text">Next Page</span>
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+        
+        <div class="mobile-page-info">
+          <span class="page-info-text">Page {{ currentPage }} of {{ totalPages }}</span>
+        </div>
       </nav>
-
     </div>
 
-    <div v-else-if="!loading" class="text-center">No podcasts found</div>
+    <!-- Empty State -->
+    <div v-else-if="!loading && !paginatedPodcasts.length" class="empty-state">
+      <div class="empty-state-content">
+        <i class="bi bi-headphones empty-state-icon"></i>
+        <h3 class="empty-state-title">No Episodes Found</h3>
+        <p class="empty-state-description">Try selecting a different podcast or check back later for new episodes.</p>
+        <button class="empty-state-button" @click="selectedPodcast = null">
+          <i class="bi bi-arrow-left"></i>
+          <span>Choose Another Podcast</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- Global Custom Audio Player -->
+    <!-- Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
@@ -178,11 +245,9 @@
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
-              class="volume-slider" />
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider" />
           </div>
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
-            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
             <i class="bi bi-x-lg"></i>
           </button>
@@ -193,7 +258,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import ChatBot from './translation/ChatBot.vue';
@@ -355,6 +419,7 @@ export default {
       showVolumeBar: false,
       volume: 1.0,
       playbackSpeed: 1.0,
+      audioPlayerJustOpened: false,
     };
   },
 
@@ -392,6 +457,14 @@ export default {
     this.$nextTick(() => {
       this.initializeAudioElements();
     });
+
+    // Add keyboard event listener for closing audio player
+    document.addEventListener('keydown', this.handleKeydown);
+  },
+
+  beforeUnmount() {
+    // Remove keyboard event listener
+    document.removeEventListener('keydown', this.handleKeydown);
   },
 
   methods: {
@@ -846,6 +919,20 @@ export default {
       }
     },
 
+    getVisiblePages() {
+      const pages = [];
+      const start = Math.max(2, this.currentPage - 1);
+      const end = Math.min(this.totalPages - 1, this.currentPage + 1);
+      
+      for (let i = start; i <= end; i++) {
+        if (i > 1 && i < this.totalPages) {
+          pages.push(i);
+        }
+      }
+      
+      return pages;
+    },
+
     updatePaginatedPodcasts() {
       const start = (this.currentPage - 1) * 9; // Assuming 9 items per page
       const end = start + 9;
@@ -879,6 +966,14 @@ export default {
       });
       this.isAudioPlaying[index] = true;
       this.showAudioPlayer = true;
+      
+      // Set flag to prevent immediate dismissal
+      this.audioPlayerJustOpened = true;
+      
+      // Clear the flag after a short delay
+      setTimeout(() => {
+        this.audioPlayerJustOpened = false;
+      }, 300);
     },
     pauseAudio(index) {
       if (this.audioElements[index]) {
@@ -955,8 +1050,27 @@ export default {
       this.showAudioPlayer = false;
       this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
+      this.audioPlayerJustOpened = false;
     },
     // --- END GLOBAL AUDIO PLAYER LOGIC ---
+
+    handleAudioPlayerClick(event) {
+      // Prevent closing if the audio player was just opened
+      if (this.audioPlayerJustOpened) {
+        this.audioPlayerJustOpened = false;
+        return;
+      }
+      
+      // Close audio player when clicking on the backdrop
+      this.closeAudioPlayer();
+    },
+
+    handleKeydown(event) {
+      // Close audio player when pressing Escape key
+      if (event.key === 'Escape' && this.showAudioPlayer) {
+        this.closeAudioPlayer();
+      }
+    },
   },
 
   mounted() {
@@ -992,161 +1106,816 @@ export default {
 </script>
 
 <style scoped>
-.highlighted {
-  /* background-color: #f0f8ff; */
-  /* Light blue background to highlight */
-  box-shadow: rgba(0, 123, 255, 0.5) 0px 7px 29px 0px;
-  /* Example of highlight effect */
+/* Main Layout Styles */
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.icon-container {
+.main-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.main-description {
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #495057;
+  max-width: 900px;
+  margin: 0 auto;
+  font-weight: 400;
+}
+
+/* Section Headers */
+.selection-section,
+.episodes-section {
+  margin-bottom: 3rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Podcast Selection Grid */
+.podcast-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.podcast-selection-item {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.podcast-selection-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);
+  border-color: #0db6a1;
+}
+
+.podcast-selection-item:active {
+  transform: translateY(-4px);
+}
+
+.podcast-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.podcast-selection-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.podcast-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 182, 145, 0.9);
   display: flex;
   flex-direction: column;
   align-items: center;
-  cursor: pointer;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  gap: 0.5rem;
 }
 
-.icon-tooltip {
-  font-size: 1.4rem;
-  transition: color 0.2s;
+.podcast-overlay i {
+  font-size: 3.5rem;
+  color: white;
 }
 
-.icon-tooltip:hover, .icon-tooltip:focus {
+.play-text {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.podcast-selection-item:hover .podcast-overlay {
+  opacity: 1;
+}
+
+.podcast-selection-item:hover .podcast-selection-image {
+  transform: scale(1.1);
+}
+
+.podcast-selection-name {
+  padding: 1.5rem;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  text-align: center;
+  line-height: 1.4;
+  background: #ffffff;
+}
+
+/* Selected Podcast Section */
+.selected-podcast-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 24px;
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  border: 2px solid rgba(13, 182, 145, 0.1);
+}
+
+.selected-podcast-header {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.selected-podcast-info {
+  flex: 1;
+}
+
+.selected-podcast-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.selected-podcast-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.episode-count {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(13, 182, 145, 0.15);
+  border-radius: 30px;
+  color: #0db6a1;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid rgba(13, 182, 145, 0.2);
+}
+
+.episode-count i {
+  font-size: 1.2rem;
+}
+
+.selected-podcast-image-container {
+  flex-shrink: 0;
+}
+
+.selected-podcast-image {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 3px solid #ffffff;
+}
+
+.selected-podcast-description {
+  color: #495057;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.selected-podcast-description p {
+  margin: 0;
+}
+
+/* Enhanced Card Styles */
+.highlighted {
+  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);
+}
+
+.podcast-card {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.podcast-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+}
+
+.podcast-card.highlighted {
+  border-color: #0db6a1;
+  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.25), 0 15px 45px rgba(13, 182, 145, 0.2);
+}
+
+/* Card Header */
+.card-header {
+  padding: 20px 24px 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.podcast-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.views-badge, .date-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.views-badge i, .date-badge i {
+  font-size: 1rem;
   color: #0db6a1;
 }
 
-.icon-text {
-  font-size: 0.85rem;
-  color: #555;
+/* Card Body */
+.card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.icon-tooltip {
-  cursor: pointer;
-  font-size: 1.3rem;
-  transition: color 0.3s ease-in-out;
+.podcast-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #2c3e50;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 3.6rem;
 }
 
-.icon-tooltip:hover {
-  color: rgb(13, 182, 145);
-}
-
-img {
-  max-width: 180px;
-  /* Adjust as needed */
-  height: auto;
-}
-
-.highlighted {
-  border: 2px solid rgb(13, 182, 145);
-  /* Highlight border */
-  background-color: rgba(10, 228, 181, 0.232);
-  /* Light highlight effect */
-  transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out;
-}
-
-
-.mobile-padding {
-  padding: 10px;
-  /* Adjust as needed */
-}
-
-@media (min-width: 768px) {
-  .mobile-padding {
-    padding: 20px;
-    /* Increased padding for larger screens */
-  }
-}
-
-
-@media (max-width: 576px) {
-  .pagination {
-    /* display: flex; */
-    flex-wrap: nowrap;
-    /* Prevent wrapping */
-    justify-content: center;
-    /* Centre the pagination */
-  }
-  .card-title {
-    font-size: 1.1rem;
-  }
-  .icon-tooltip {
-    font-size: 1.2rem;
-  }
-  .icon-text {
-    font-size: 0.75rem;
-  }
-  .pagination {
-    font-size: 0.875rem;
-  }
-}
-
-@media (max-width: 767.98px) {
-  .mobile-padding {
-    margin-bottom: 1rem;
-    /* Adjust as needed */
-  }
-}
-
-.spinner-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0);
+/* Audio Controls */
+.audio-controls {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+  padding: 20px 0;
 }
 
-.toast-container {
-  z-index: 1050;
-}
-
-.audio {
-  border-bottom-left-radius: 8px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-bottom-right-radius: 20px;
-  background: rgb(13, 182, 145);
-}
-
-audio::-webkit-media-controls-panel {
-  background: rgb(13, 182, 145);
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 20px;
-}
-
-.card {
-  height: 100%;
-}
-
-.card-title {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.card-text {
-  font-size: 1rem;
-  color: #333;
-}
-
-.pagination .page-item.disabled .page-link {
-  cursor: not-allowed;
-}
-
-.pagination .page-link {
+.control-button {
+  background: none;
+  border: none;
+  padding: 16px;
+  border-radius: 50%;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 60px;
+  min-height: 60px;
+  gap: 4px;
 }
 
-@media (max-width: 767px) {
-  .pagination {
-    /* display: block; */
-    text-align: center;
+.control-button:hover {
+  background: rgba(13, 182, 145, 0.1);
+  transform: scale(1.05);
+}
+
+.control-button i {
+  font-size: 1.4rem;
+  color: #495057;
+  transition: color 0.2s ease;
+}
+
+.control-button:hover i {
+  color: #0db6a1;
+}
+
+.control-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6c757d;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.play-btn {
+  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.35);
+  min-width: 72px;
+  min-height: 72px;
+}
+
+.play-btn:hover {
+  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);
+  transform: scale(1.08);
+}
+
+.play-btn i {
+  color: white;
+  font-size: 1.6rem;
+}
+
+.play-btn .control-label {
+  color: white;
+  font-weight: 700;
+}
+
+.play-btn.playing {
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
+}
+
+.play-btn.playing:hover {
+  background: linear-gradient(135deg, #e74c3c 0%, #dc3545 100%);
+}
+
+.rewind-btn, .forward-btn {
+  background: rgba(108, 117, 125, 0.1);
+  border: 2px solid rgba(108, 117, 125, 0.1);
+}
+
+.rewind-btn:hover, .forward-btn:hover {
+  background: rgba(13, 182, 145, 0.15);
+  border-color: rgba(13, 182, 145, 0.2);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(13, 182, 145, 0.1);
+  border: 2px solid rgba(13, 182, 145, 0.2);
+  border-radius: 30px;
+  color: #0db6a1;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  min-height: 48px;
+}
+
+.action-button:hover {
+  background: rgba(13, 182, 145, 0.15);
+  border-color: rgba(13, 182, 145, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);
+}
+
+.action-button i {
+  font-size: 1.1rem;
+}
+
+.share-btn {
+  background: rgba(25, 135, 84, 0.1);
+  border-color: rgba(25, 135, 84, 0.2);
+  color: #198754;
+}
+
+.share-btn:hover {
+  background: rgba(25, 135, 84, 0.15);
+  border-color: rgba(25, 135, 84, 0.3);
+  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);
+}
+
+/* Enhanced Responsive Design for Cards */
+@media (max-width: 768px) {
+  .podcast-card {
+    border-radius: 12px;
+  }
+  
+  .card-header {
+    padding: 12px 16px 8px;
+  }
+  
+  .card-body {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .podcast-title {
+    font-size: 1rem;
+  }
+  
+  .audio-controls {
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .control-button {
+    padding: 10px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+  
+  .play-btn {
+    padding: 14px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+  
+  .control-button i {
+    font-size: 1.1rem;
+  }
+  
+  .play-btn i {
+    font-size: 1.3rem;
+  }
+  
+  .podcast-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .views-badge, .date-badge {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  .action-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-height: 40px;
   }
 }
 
+@media (max-width: 576px) {
+  .audio-controls {
+    gap: 8px;
+  }
+  
+  .control-button {
+    padding: 8px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .play-btn {
+    padding: 12px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .control-button i {
+    font-size: 1rem;
+  }
+  
+  .play-btn i {
+    font-size: 1.2rem;
+  }
+  
+  .action-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-height: 36px;
+  }
+}
+
+/* Mobile-Friendly Pagination Styles */
+.pagination-container {
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  min-width: 100px;
+  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);
+}
+
+.pagination-btn:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);
+  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);
+}
+
+.pagination-btn:active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);
+}
+
+.pagination-btn.disabled {
+  background: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.pagination-btn i {
+  font-size: 1rem;
+}
+
+.btn-text {
+  font-weight: 600;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #e9ecef;
+  background: white;
+  color: #6c757d;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.page-number:hover:not(.active) {
+  border-color: #0db6a1;
+  color: #0db6a1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);
+}
+
+.page-number.active {
+  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
+  border-color: #0db6a1;
+  color: white;
+  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);
+}
+
+.page-number:active:not(.active) {
+  transform: translateY(0);
+}
+
+.page-ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #6c757d;
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.mobile-page-info {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.page-info-text {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  background: rgba(13, 182, 145, 0.1);
+  border-radius: 20px;
+  display: inline-block;
+}
+
+/* Responsive Design for Pagination */
+@media (max-width: 768px) {
+  .pagination-wrapper {
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .pagination-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    min-width: 90px;
+    min-height: 40px;
+  }
+
+  .pagination-btn i {
+    font-size: 0.9rem;
+  }
+
+  .page-numbers {
+    gap: 0.2rem;
+  }
+
+  .page-number {
+    width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .page-ellipsis {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .page-info-text {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .pagination-wrapper {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pagination-btn {
+    width: 100%;
+    max-width: 200px;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+  }
+
+  .page-numbers {
+    order: -1;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-number {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8rem;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .page-ellipsis {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .mobile-page-info {
+    margin-top: 0.75rem;
+  }
+
+  .page-info-text {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .pagination-btn {
+    padding: 0.7rem 1.1rem;
+    font-size: 0.9rem;
+    min-width: 95px;
+  }
+
+  .page-number {
+    width: 42px;
+    height: 42px;
+    font-size: 0.9rem;
+    min-width: 42px;
+    min-height: 42px;
+  }
+}
+
+/* Focus states for accessibility */
+.pagination-btn:focus,
+.page-number:focus {
+  outline: 2px solid #0db6a1;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .pagination-btn {
+    border: 2px solid #0db6a1;
+  }
+  
+  .page-number {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .pagination-btn,
+  .page-number {
+    transition: none;
+  }
+  
+  .pagination-btn:hover:not(.disabled),
+  .page-number:hover:not(.active) {
+    transform: none;
+  }
+}
+
+/* Audio Player Container */
 .audio-player-container {
   position: fixed;
   bottom: 0;
@@ -1164,32 +1933,114 @@ audio::-webkit-media-controls-panel {
   display: flex;
   flex-direction: column;
   color: white;
-  padding: 5px 10px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.control-btn:hover {
+  background: rgba(0, 191, 166, 0.2);
+  color: #00bfa6;
+  transform: scale(1.1);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00bfa6 0%, #0db6a1 100%);
+  transition: width 0.1s linear;
+  border-radius: 3px;
+}
+
+.volume-slider {
+  width: 120px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00bfa6;
+  cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00bfa6;
+  cursor: pointer;
+  border: none;
+}
+
+.time {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 120px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
   .controls {
-    gap: 10px;
+    gap: 12px;
   }
 
   .control-btn {
-    padding: 5px !important;
-    font-size: 1.2rem !important;
+    padding: 8px;
+    font-size: 1.1rem;
+    min-width: 40px;
+    min-height: 40px;
   }
 
   .time {
-    font-size: 0.8rem !important;
+    font-size: 0.8rem;
     min-width: 100px;
-    text-align: center;
   }
 
   .volume-bar-container {
@@ -1197,9 +2048,10 @@ audio::-webkit-media-controls-panel {
     bottom: 100%;
     left: 0;
     width: 100%;
-    background-color: rgba(33, 33, 33, 0.95);
-    padding: 10px;
-    border-radius: 15px 15px 0 0;
+    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);
+    backdrop-filter: blur(20px);
+    padding: 12px;
+    border-radius: 20px 20px 0 0;
   }
 
   .volume-slider {
@@ -1207,39 +2059,188 @@ audio::-webkit-media-controls-panel {
   }
 }
 
-.control-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 8px;
-  transition: color 0.2s;
+@media (max-width: 576px) {
+  .audio-player-container {
+    padding: 5px;
+  }
+
+  .custom-audio-player {
+    border-radius: 12px 12px 0 0;
+    padding: 6px 10px;
+  }
+
+  .controls {
+    gap: 8px;
+  }
+
+  .control-btn {
+    padding: 6px;
+    font-size: 1rem;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .time {
+    font-size: 0.75rem;
+    min-width: 80px;
+  }
+}
+
+/* Remove old styles */
+.icon-container,
+.icon-tooltip,
+.icon-text {
+  display: none;
+}
+
+.card {
+  height: 100%;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+.mobile-padding {
+  padding: 10px;
+}
+
+@media (min-width: 768px) {
+  .mobile-padding {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mobile-padding {
+    margin-bottom: 1rem;
+  }
+}
+
+.spinner-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toast-container {
+  z-index: 1050;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.control-btn:hover {
-  color: #00bfa6;
+.loading-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-top: 1rem;
+  text-align: center;
 }
 
-.progress-bar {
-  width: 100%;
-  height: 4px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  overflow: hidden;
+.empty-state {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.progress {
-  height: 100%;
-  background-color: #00bfa6;
-  transition: width 0.1s linear;
+.empty-state-content {
+  text-align: center;
+  max-width: 400px;
 }
 
-.volume-slider {
-  width: 100px;
-  height: 4px;
+.empty-state-icon {
+  font-size: 4rem;
+  color: #0db6a1;
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+}
+
+.empty-state-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-description {
+  font-size: 1rem;
+  color: #6c757d;
+  line-height: 1.6;
+}
+
+/* Podcast Section */
+.podcast-section {
+  margin-top: 2rem;
+}
+
+/* Responsive Design for Loading and Empty States */
+@media (max-width: 768px) {
+  .loading-container,
+  .empty-state {
+    padding: 2rem 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .loading-text {
+    font-size: 1rem;
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .empty-state-title {
+    font-size: 1.5rem;
+  }
+
+  .empty-state-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .loading-container,
+  .empty-state {
+    padding: 1.5rem 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .empty-state-icon {
+    font-size: 2.5rem;
+  }
+
+  .empty-state-title {
+    font-size: 1.3rem;
+  }
+
+  .empty-state-description {
+    font-size: 0.85rem;
+  }
 }
 </style>

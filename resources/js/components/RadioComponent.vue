@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container py-5">
-      <h1 class="text-center fw-bold display-3 mb-4">Islamic Radio Stations</h1>
+    <div class="container py-4">
+      <h1 class="main-title fw-bold">Islamic Radio Stations</h1>
 
-      <p class="text-center mb-5 lead" style="font-size: 1.25rem;">
+      <p class="text-center lead" style="font-size: 1.25rem;">
         Discover live Quranic radio stations from renowned reciters worldwide.
       </p>
 
@@ -304,7 +304,7 @@
       </section>
 
       <!-- Pagination -->
-      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center mt-4 pagination-nav">
+      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center pagination-nav">
         <button @click="previousPage" :disabled="currentPage === 1"
           class="btn btn-outline-teal rounded-pill px-4 me-3 fs-6" aria-label="Previous page">
           <b>Previous</b>
@@ -522,6 +522,7 @@ const audioRefs = reactive({});
 const viewMode = ref('grid'); // 'grid' or 'list'
 const sortBy = ref('default'); // 'default', 'name_asc', 'name_desc', 'listeners_desc'
 let listenerInterval = null;
+const audioPlayerJustOpened = ref(false);
 
 // Computed
 const sortedStations = computed(() => {
@@ -1036,6 +1037,30 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearInterval(listenerInterval);
 });
+
+const handleAudioPlayerClick = (event) => {
+  // Prevent closing if the audio player was just opened
+  if (audioPlayerJustOpened.value) {
+    audioPlayerJustOpened.value = false;
+    return;
+  }
+  
+  // Close audio player when clicking on the backdrop
+  closeAudioPlayer();
+};
+
+const playAudio = (index) => {
+  // ... existing code ...
+  showAudioPlayer = true;
+  
+  // Set flag to prevent immediate dismissal
+  audioPlayerJustOpened.value = true;
+  
+  // Clear the flag after a short delay
+  setTimeout(() => {
+    audioPlayerJustOpened.value = false;
+  }, 300);
+}
 </script>
 
 <style scoped>
