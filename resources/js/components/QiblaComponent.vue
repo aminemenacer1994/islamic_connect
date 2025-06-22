@@ -32,12 +32,37 @@
       </div>
     </div>
 
+    <!-- Welcome / Initial Content -->
+    <div v-if="!hasData" class="card card-custom mb-4">
+      <div class="card-body p-lg-4">
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <p class="lead mb-4">This tool helps you find the Qibla direction and local prayer times accurately.</p>
+            <h5 class="text-primary fw-bold mb-3">How to Use:</h5>
+            <ol class="ps-3 mb-0">
+              <li class="mb-2">Enter a city or address in the search bar above.</li>
+              <li class="mb-2">Or, click <i class="bi bi-geo-alt"></i> <strong>Use My Location</strong> for automatic detection.</li>
+              <li class="mb-2">Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading.</li>
+            </ol>
+          </div>
+          <div class="col-lg-6">
+            <h5 class="h4 card-title text-primary fw-bold mb-3">The Significance of the Qibla</h5><br/><br/>
+            <p class="text-muted mb-3">The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer).</p>
+            <p class="text-muted mb-0">Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div v-if="hasData" class="row g-4">
       <div class="col-lg-6">
         <!-- Qibla & Compass -->
         <div class="card shadow-sm h-100">
+          <div class="card-header">
+            <h5 class="h4 card-title text-primary fw-bold mb-0">Qibla Direction</h5>
+          </div>  
           <div class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4">
-            <h5 class="h4 card-title text-primary fw-bold mb-3">Qibla Direction</h5>
+            
             <div class="d-flex justify-content-center align-items-center mb-3">
               <div class="qibla-compass-wrapper position-relative mx-auto">
                 <div class="compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light" :style="{ transform: `rotate(-${compassRotation}deg)` }">
@@ -52,35 +77,35 @@
             </div>
             <ul class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50">
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Direction</span>
-                <span class="text-muted d-flex align-items-center gap-2">
+                <span class="text-muted">Direction</span>
+                <span class="fw-bold d-flex align-items-center gap-2">
                   <i :class="['bi', directionIconClass]"></i>
                   {{ qiblaDirection?.toFixed(1) }}° ({{ qiblaCardinalDirection }})
                 </span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Bearing from North</span>
-                <span class="text-muted">{{ qiblaBearing }}° clockwise</span>
+                <span class="text-muted">Bearing from North</span>
+                <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Relative Direction</span>
-                <span class="text-muted">{{ relativeDirection }}</span>
+                <span class="text-muted">Relative Direction</span>
+                <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Distance</span>
-                <span class="text-muted">{{ distanceToKaaba?.toFixed(0) }} km / {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
+                <span class="text-muted">Distance</span>
+                <span class="fw-bold">{{ distanceToKaaba?.toFixed(0) }} km / {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Your Coordinates</span>
-                <span class="text-muted">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
+                <span class="text-muted">Your Coordinates</span>
+                <span class="fw-bold">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Kaaba Coordinates</span>
-                <span class="text-muted">21.4225°, 39.8262°</span>
+                <span class="text-muted">Kaaba Coordinates</span>
+                <span class="fw-bold">21.4225°, 39.8262°</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted fw-bold">Last Updated</span>
-                <span class="text-muted">{{ lastUpdated }}</span>
+                <span class="text-muted">Last Updated</span>
+                <span class="fw-bold">{{ lastUpdated }}</span>
               </li>
             </ul>
             <!-- Qibla Info Card (Modern Layout) -->          
@@ -92,30 +117,40 @@
 
         
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-6 d-flex">
         <!-- Prayer Times -->
-        <div class="card shadow-sm h-100">
-          <div class="container-fluid card-body p-4">
-            <h5 class="h4 card-title text-primary fw-bold mb-3">Today's Prayer Times</h5>
+        <div class="card card-custom h-100 w-100">
+          <div class="card-header">
+            <h5 class="h4 card-title text-primary fw-bold mb-0">Prayer Times</h5>
+          </div> 
+          <div class="card-body d-flex flex-column p-lg-4">
+             
+            <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
             <div class="mb-3">
               <select class="form-select" v-model="calculationMethod" @change="getPrayerTimes" aria-label="Prayer time calculation method">
                 <option v-for="(name, id) in calculationMethods" :key="id" :value="id">{{ name }}</option>
               </select>
             </div>
-            <ul v-if="prayerTimes" class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" v-for="(time, name) in prayerTimes" :key="name">
+            <ul v-if="prayerTimes" class="list-group list-group-flush flex-grow-1">
+              <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(time, name) in prayerTimes" :key="name">
                 <span class="text-muted fw-bold">{{ name }}</span>
                 <strong class="text-muted">{{ time }}</strong>
               </li>
             </ul>
+            <div v-else class="flex-grow-1 d-flex align-items-center justify-content-center">
+              <p class="text-muted">Prayer times will appear here.</p>
+            </div>
+            <p v-if="timezone" class="text-muted small mt-3 mb-0 text-center">Timezone: {{ timezone }}</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Controls -->
-    <div class="card shadow-sm mt-4" v-if="hasData">        
-      <h5 class="h4 card-title text-primary fw-bold mb-3 mt-4 ml-5">Actions & Settings</h5>
+    <div class="card shadow-sm mt-4" v-if="hasData">  
+      <div class="card-header">
+        <h5 class="h4 card-title text-primary fw-bold mb-0">Actions & Settings</h5>
+      </div>      
       <div class="container-fluid card-body">      
         <div class="row g-2">
           <div class="col-6 col-md-4">
@@ -160,6 +195,50 @@
         </div>
       </div>
     </div>
+
+    <!-- Calculation Method Explanations -->
+    <div v-if="hasData" class="card card-custom mt-4">
+      <div class="card-header">
+        <h5 class="h4 card-title text-primary fw-bold mb-0">About Prayer Time Methods</h5>
+      </div>
+      <div class="card-body p-lg-4">
+        <p class="text-muted mb-4">Different organizations use various conventions for calculating prayer times. Here are the methods available in this tool. Select the one most commonly used in your region.</p>
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="method-card p-3 border rounded">
+              <h6 class="text-primary fw-bold mb-2">Muslim World League</h6>
+              <p class="text-muted small mb-0">Uses Fajr angle of 18° and Isha angle of 17°. Widely used in Europe, the Far East, and parts of the US.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="method-card p-3 border rounded">
+              <h6 class="text-primary fw-bold mb-2">ISNA (North America)</h6>
+              <p class="text-muted small mb-0">Sets both Fajr and Isha angles to 15°. The standard method for North America.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="method-card p-3 border rounded">
+              <h6 class="text-primary fw-bold mb-2">Egyptian General Authority</h6>
+              <p class="text-muted small mb-0">Uses Fajr angle of 19.5° and Isha angle of 17.5°. Used in Africa, Syria, and parts of the US.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="method-card p-3 border rounded">
+              <h6 class="text-primary fw-bold mb-2">Umm Al-Qura, Makkah</h6>
+              <p class="text-muted small mb-0">Uses a Fajr angle of 18.5°. Isha is 90 minutes after Maghrib. Used in the Arabian Peninsula.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="method-card p-3 border rounded">
+              <h6 class="text-primary fw-bold mb-2">University of Karachi</h6>
+              <p class="text-muted small mb-0">Sets Fajr and Isha angles to 18°. Common in Pakistan, Bangladesh, India, and Afghanistan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
@@ -182,6 +261,8 @@ export default {
       sensorSupported: false,
       accuracy: null,
       prayerTimes: null,
+      hijriDate: null,
+      timezone: null,
       calculationMethod: '2',
       calculationMethods: {
         '1': 'Muslim World League',
@@ -381,19 +462,24 @@ export default {
     },
     async getPrayerTimes() {
       if (!this.userLatitude) return;
+      this.error = '';
       try {
         const response = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=cairo&country=egypt&method=${this.calculationMethod}`
+          `https://api.aladhan.com/v1/timings?latitude=${this.userLatitude}&longitude=${this.userLongitude}&method=${this.calculationMethod}`
         );
         const data = await response.json();
         if (data.code === 200) {
-          const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha } = data.data.timings;
-          this.prayerTimes = { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha };
+          const { Imsak, Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha, Midnight } = data.data.timings;
+          this.prayerTimes = { Imsak, Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha, Midnight };
+          this.hijriDate = data.data.date.hijri.date;
+          this.timezone = data.data.meta.timezone;
         } else {
           this.error = 'Could not fetch prayer times.';
+          this.prayerTimes = null;
         }
       } catch (e) {
         this.error = 'Failed to fetch prayer times.';
+        this.prayerTimes = null;
       }
     },
     toggleFullscreen() {

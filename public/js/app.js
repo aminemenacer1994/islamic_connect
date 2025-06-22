@@ -40585,6 +40585,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       sensorSupported: false,
       accuracy: null,
       prayerTimes: null,
+      hijriDate: null,
+      timezone: null,
       calculationMethod: '2',
       calculationMethods: {
         '1': 'Muslim World League',
@@ -40838,7 +40840,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     getPrayerTimes: function getPrayerTimes() {
       var _this5 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var response, data, _data$data$timings, Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha;
+        var response, data, _data$data$timings, Imsak, Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha, Midnight;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
@@ -40848,39 +40850,46 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               }
               return _context3.abrupt("return");
             case 2:
-              _context3.prev = 2;
-              _context3.next = 5;
-              return fetch("https://api.aladhan.com/v1/timingsByCity?city=cairo&country=egypt&method=".concat(_this5.calculationMethod));
-            case 5:
+              _this5.error = '';
+              _context3.prev = 3;
+              _context3.next = 6;
+              return fetch("https://api.aladhan.com/v1/timings?latitude=".concat(_this5.userLatitude, "&longitude=").concat(_this5.userLongitude, "&method=").concat(_this5.calculationMethod));
+            case 6:
               response = _context3.sent;
-              _context3.next = 8;
+              _context3.next = 9;
               return response.json();
-            case 8:
+            case 9:
               data = _context3.sent;
               if (data.code === 200) {
-                _data$data$timings = data.data.timings, Fajr = _data$data$timings.Fajr, Sunrise = _data$data$timings.Sunrise, Dhuhr = _data$data$timings.Dhuhr, Asr = _data$data$timings.Asr, Maghrib = _data$data$timings.Maghrib, Isha = _data$data$timings.Isha;
+                _data$data$timings = data.data.timings, Imsak = _data$data$timings.Imsak, Fajr = _data$data$timings.Fajr, Sunrise = _data$data$timings.Sunrise, Dhuhr = _data$data$timings.Dhuhr, Asr = _data$data$timings.Asr, Maghrib = _data$data$timings.Maghrib, Isha = _data$data$timings.Isha, Midnight = _data$data$timings.Midnight;
                 _this5.prayerTimes = {
+                  Imsak: Imsak,
                   Fajr: Fajr,
                   Sunrise: Sunrise,
                   Dhuhr: Dhuhr,
                   Asr: Asr,
                   Maghrib: Maghrib,
-                  Isha: Isha
+                  Isha: Isha,
+                  Midnight: Midnight
                 };
+                _this5.hijriDate = data.data.date.hijri.date;
+                _this5.timezone = data.data.meta.timezone;
               } else {
                 _this5.error = 'Could not fetch prayer times.';
+                _this5.prayerTimes = null;
               }
-              _context3.next = 15;
+              _context3.next = 17;
               break;
-            case 12:
-              _context3.prev = 12;
-              _context3.t0 = _context3["catch"](2);
+            case 13:
+              _context3.prev = 13;
+              _context3.t0 = _context3["catch"](3);
               _this5.error = 'Failed to fetch prayer times.';
-            case 15:
+              _this5.prayerTimes = null;
+            case 17:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[2, 12]]);
+        }, _callee3, null, [[3, 13]]);
       }))();
     },
     toggleFullscreen: function toggleFullscreen() {
@@ -62080,134 +62089,154 @@ var _hoisted_7 = {
 };
 var _hoisted_8 = {
   key: 0,
-  "class": "row g-4"
+  "class": "card card-custom mb-4"
 };
 var _hoisted_9 = {
-  "class": "col-lg-6"
+  key: 1,
+  "class": "row g-4"
 };
 var _hoisted_10 = {
-  "class": "card shadow-sm h-100"
-};
-var _hoisted_11 = {
-  "class": "container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
-};
-var _hoisted_12 = {
-  "class": "d-flex justify-content-center align-items-center mb-3"
-};
-var _hoisted_13 = {
-  "class": "qibla-compass-wrapper position-relative mx-auto"
-};
-var _hoisted_14 = {
-  "class": "list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
-};
-var _hoisted_15 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_16 = {
-  "class": "text-muted d-flex align-items-center gap-2"
-};
-var _hoisted_17 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_18 = {
-  "class": "text-muted"
-};
-var _hoisted_19 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_20 = {
-  "class": "text-muted"
-};
-var _hoisted_21 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_22 = {
-  "class": "text-muted"
-};
-var _hoisted_23 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_24 = {
-  "class": "text-muted"
-};
-var _hoisted_25 = {
-  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-};
-var _hoisted_26 = {
-  "class": "text-muted"
-};
-var _hoisted_27 = {
   "class": "col-lg-6"
 };
-var _hoisted_28 = {
+var _hoisted_11 = {
   "class": "card shadow-sm h-100"
 };
+var _hoisted_12 = {
+  "class": "container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
+};
+var _hoisted_13 = {
+  "class": "d-flex justify-content-center align-items-center mb-3"
+};
+var _hoisted_14 = {
+  "class": "qibla-compass-wrapper position-relative mx-auto"
+};
+var _hoisted_15 = {
+  "class": "list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
+};
+var _hoisted_16 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_17 = {
+  "class": "fw-bold d-flex align-items-center gap-2"
+};
+var _hoisted_18 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_19 = {
+  "class": "fw-bold"
+};
+var _hoisted_20 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_21 = {
+  "class": "fw-bold"
+};
+var _hoisted_22 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_23 = {
+  "class": "fw-bold"
+};
+var _hoisted_24 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_25 = {
+  "class": "fw-bold"
+};
+var _hoisted_26 = {
+  "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+};
+var _hoisted_27 = {
+  "class": "fw-bold"
+};
+var _hoisted_28 = {
+  "class": "col-lg-6 d-flex"
+};
 var _hoisted_29 = {
-  "class": "container-fluid card-body p-4"
+  "class": "card card-custom h-100 w-100"
 };
 var _hoisted_30 = {
+  "class": "card-body d-flex flex-column p-lg-4"
+};
+var _hoisted_31 = {
+  key: 0,
+  "class": "text-muted mb-3"
+};
+var _hoisted_32 = {
   "class": "mb-3"
 };
-var _hoisted_31 = ["value"];
-var _hoisted_32 = {
-  key: 0,
-  "class": "list-group list-group-flush"
-};
-var _hoisted_33 = {
-  "class": "text-muted fw-bold"
-};
+var _hoisted_33 = ["value"];
 var _hoisted_34 = {
-  "class": "text-muted"
+  key: 1,
+  "class": "list-group list-group-flush flex-grow-1"
 };
 var _hoisted_35 = {
-  key: 1,
-  "class": "card shadow-sm mt-4"
+  "class": "text-muted fw-bold"
 };
 var _hoisted_36 = {
-  "class": "container-fluid card-body"
+  "class": "text-muted"
 };
 var _hoisted_37 = {
-  "class": "row g-2"
+  key: 2,
+  "class": "flex-grow-1 d-flex align-items-center justify-content-center"
 };
 var _hoisted_38 = {
-  "class": "col-6 col-md-4"
+  key: 3,
+  "class": "text-muted small mt-3 mb-0 text-center"
 };
-var _hoisted_39 = ["disabled"];
+var _hoisted_39 = {
+  key: 2,
+  "class": "card shadow-sm mt-4"
+};
 var _hoisted_40 = {
-  "class": "col-6 col-md-4"
+  "class": "container-fluid card-body"
 };
-var _hoisted_41 = ["disabled"];
+var _hoisted_41 = {
+  "class": "row g-2"
+};
 var _hoisted_42 = {
   "class": "col-6 col-md-4"
 };
-var _hoisted_43 = ["aria-expanded"];
+var _hoisted_43 = ["disabled"];
 var _hoisted_44 = {
+  "class": "col-6 col-md-4"
+};
+var _hoisted_45 = ["disabled"];
+var _hoisted_46 = {
+  "class": "col-6 col-md-4"
+};
+var _hoisted_47 = ["aria-expanded"];
+var _hoisted_48 = {
   "class": "card-footer"
 };
-var _hoisted_45 = {
+var _hoisted_49 = {
   "class": "row align-items-center"
 };
-var _hoisted_46 = {
+var _hoisted_50 = {
   "class": "col-lg-5 mb-3 mb-lg-0"
 };
-var _hoisted_47 = ["value"];
-var _hoisted_48 = {
+var _hoisted_51 = ["value"];
+var _hoisted_52 = {
   "class": "col-lg-3 col-6"
 };
-var _hoisted_49 = {
+var _hoisted_53 = {
   "for": "tts-rate",
   "class": "form-label small"
 };
-var _hoisted_50 = {
+var _hoisted_54 = {
   "class": "col-lg-4 col-6"
 };
-var _hoisted_51 = {
+var _hoisted_55 = {
   "for": "tts-pitch",
   "class": "form-label small"
 };
+var _hoisted_56 = {
+  key: 3,
+  "class": "card card-custom mt-4"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$qiblaDirection, _$data$distanceToKaab, _$data$distanceToKaab2, _$data$userLatitude, _$data$userLongitude;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-3 fw-bold mb-2"
@@ -62246,14 +62275,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "bi bi-geo-alt"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "d-none d-sm-inline"
-  }, "Use My Location", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_6)]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "h4 card-title text-primary fw-bold mb-3"
-  }, "Qibla Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Use My Location", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_6)]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Welcome / Initial Content "), !$options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-body p-lg-4\" data-v-6d77f7a9><div class=\"row g-4\" data-v-6d77f7a9><div class=\"col-lg-6\" data-v-6d77f7a9><p class=\"lead mb-4\" data-v-6d77f7a9>This tool helps you find the Qibla direction and local prayer times accurately.</p><h5 class=\"text-primary fw-bold mb-3\" data-v-6d77f7a9>How to Use:</h5><ol class=\"ps-3 mb-0\" data-v-6d77f7a9><li class=\"mb-2\" data-v-6d77f7a9>Enter a city or address in the search bar above.</li><li class=\"mb-2\" data-v-6d77f7a9>Or, click <i class=\"bi bi-geo-alt\" data-v-6d77f7a9></i> <strong data-v-6d77f7a9>Use My Location</strong> for automatic detection.</li><li class=\"mb-2\" data-v-6d77f7a9>Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading.</li></ol></div><div class=\"col-lg-6\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-3\" data-v-6d77f7a9>The Significance of the Qibla</h5><br data-v-6d77f7a9><br data-v-6d77f7a9><p class=\"text-muted mb-3\" data-v-6d77f7a9>The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer).</p><p class=\"text-muted mb-0\" data-v-6d77f7a9>Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah.</p></div></div></div>", 1)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-0"
+  }, "Qibla Direction")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       transform: "rotate(-".concat($data.compassRotation, "deg)")
     })
-  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "compass-label position-absolute top-0 start-50 translate-middle-x"
   }, "N", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "compass-label position-absolute bottom-0 start-50 translate-middle-x"
@@ -62266,27 +62297,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       transform: "translate(-50%, -60%) rotate(".concat($data.qiblaDirection - $data.compassRotation, "deg)")
     })
-  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_16, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.directionIconClass])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(1)) + "° (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaCardinalDirection) + ") ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_17, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Bearing from North", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.qiblaBearing) + "° clockwise", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_19, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Relative Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.relativeDirection), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_21, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Distance", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab2 = $data.distanceToKaabaMiles) === null || _$data$distanceToKaab2 === void 0 ? void 0 : _$data$distanceToKaab2.toFixed(0)) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_23, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Your Coordinates", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "°", 1 /* TEXT */)]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$qiblaDirection = $data.qiblaDirection) === null || _$data$qiblaDirection === void 0 ? void 0 : _$data$qiblaDirection.toFixed(1)) + "° (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.qiblaCardinalDirection) + ") ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_18, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Bearing from North", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.qiblaBearing) + "° clockwise", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_20, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Relative Direction", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.relativeDirection), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_22, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Distance", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab = $data.distanceToKaaba) === null || _$data$distanceToKaab === void 0 ? void 0 : _$data$distanceToKaab.toFixed(0)) + " km / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$distanceToKaab2 = $data.distanceToKaabaMiles) === null || _$data$distanceToKaab2 === void 0 ? void 0 : _$data$distanceToKaab2.toFixed(0)) + " mi", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_24, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Your Coordinates", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLatitude = $data.userLatitude) === null || _$data$userLatitude === void 0 ? void 0 : _$data$userLatitude.toFixed(4)) + "°, " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$userLongitude = $data.userLongitude) === null || _$data$userLongitude === void 0 ? void 0 : _$data$userLongitude.toFixed(4)) + "°", 1 /* TEXT */)]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Kaaba Coordinates"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-muted"
-  }, "21.4225°, 39.8262°")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_25, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-muted fw-bold"
-  }, "Last Updated", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.lastUpdated), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Info Card (Modern Layout) "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Kaaba Coordinates"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "fw-bold"
+  }, "21.4225°, 39.8262°")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_26, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "text-muted"
+  }, "Last Updated", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.lastUpdated), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla Info Card (Modern Layout) "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "alert alert-info small mb-0",
     style: {
       "background": "rgba(13,182,145,0.08)",
@@ -62295,9 +62326,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-info-circle"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Compass uses true north, not magnetic north. For best accuracy, calibrate your device. ")], -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "h4 card-title text-primary fw-bold mb-3"
-  }, "Today's Prayer Times", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Compass uses true north, not magnetic north. For best accuracy, calibrate your device. ")], -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-0"
+  }, "Prayer Times")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [$data.hijriDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.hijriDate), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
       return $data.calculationMethod = $event;
@@ -62310,39 +62343,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: id,
       value: id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_31);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.calculationMethod]])]), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_33);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.calculationMethod]])]), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, function (time, name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      "class": "list-group-item d-flex justify-content-between align-items-center py-3 px-3",
+      "class": "list-group-item d-flex justify-content-between align-items-center",
       key: name
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "h4 card-title text-primary fw-bold mb-3 mt-4 ml-5"
-  }, "Actions & Settings", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, _cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-muted"
+  }, "Prayer times will appear here.", -1 /* HOISTED */)]))), $data.timezone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_38, "Timezone: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.timezone), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "card-header"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    "class": "h4 card-title text-primary fw-bold mb-0"
+  }, "Actions & Settings")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn w-100 btn-outline-secondary",
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.speakQiblaDirection && $options.speakQiblaDirection.apply($options, arguments);
     }),
     disabled: !$data.qiblaDirection
-  }, _cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-volume-up"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speak Direction ")]), 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speak Direction ")]), 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn w-100 btn-outline-secondary",
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.shareLocation && $options.shareLocation.apply($options, arguments);
     }),
     disabled: !$options.hasData
-  }, _cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-share"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")]), 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-6 col-md-3\">\n            <button class=\"btn w-100 btn-outline-secondary\" @click=\"toggleFullscreen\">\n              <i class=\"bi\" :class=\"isFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'\"></i>\n              {{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}\n            </button>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")]), 8 /* PROPS */, _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-6 col-md-3\">\n            <button class=\"btn w-100 btn-outline-secondary\" @click=\"toggleFullscreen\">\n              <i class=\"bi\" :class=\"isFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'\"></i>\n              {{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}\n            </button>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn w-100 btn-success",
     onClick: _cache[8] || (_cache[8] = function ($event) {
       return $data.showTtsSettings = !$data.showTtsSettings;
     }),
     "aria-expanded": $data.showTtsSettings
-  }, _cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-gear"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speech Settings ")]), 8 /* PROPS */, _hoisted_43)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Speech Settings ")]), 8 /* PROPS */, _hoisted_47)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "tts-voice",
     "class": "form-label small"
   }, "Voice", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -62355,8 +62392,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: voice.voiceURI,
       value: voice.voiceURI
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.lang) + ")", 9 /* TEXT, PROPS */, _hoisted_47);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoiceUri]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_49, "Rate: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechRate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(voice.lang) + ")", 9 /* TEXT, PROPS */, _hoisted_51);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedVoiceUri]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_53, "Rate: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechRate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "tts-rate",
     type: "range",
     "class": "form-range",
@@ -62366,7 +62403,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
       return $data.speechRate = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechRate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_51, "Pitch: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechPitch), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechRate]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_55, "Pitch: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.speechPitch), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "tts-pitch",
     type: "range",
     "class": "form-range",
@@ -62376,7 +62413,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[11] || (_cache[11] = function ($event) {
       return $data.speechPitch = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechPitch]])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showTtsSettings]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.speechPitch]])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showTtsSettings]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Calculation Method Explanations "), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-0\" data-v-6d77f7a9>About Prayer Time Methods</h5></div><div class=\"card-body p-lg-4\" data-v-6d77f7a9><p class=\"text-muted mb-4\" data-v-6d77f7a9>Different organizations use various conventions for calculating prayer times. Here are the methods available in this tool. Select the one most commonly used in your region.</p><div class=\"row g-3\" data-v-6d77f7a9><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>Muslim World League</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9>Uses Fajr angle of 18° and Isha angle of 17°. Widely used in Europe, the Far East, and parts of the US.</p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>ISNA (North America)</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9>Sets both Fajr and Isha angles to 15°. The standard method for North America.</p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>Egyptian General Authority</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9>Uses Fajr angle of 19.5° and Isha angle of 17.5°. Used in Africa, Syria, and parts of the US.</p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>Umm Al-Qura, Makkah</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9>Uses a Fajr angle of 18.5°. Isha is 90 minutes after Maghrib. Used in the Arabian Peninsula.</p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>University of Karachi</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9>Sets Fajr and Isha angles to 18°. Common in Pakistan, Bangladesh, India, and Afghanistan.</p></div></div></div></div>", 2)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
 }
 
 /***/ }),
