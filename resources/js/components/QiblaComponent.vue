@@ -52,67 +52,41 @@
             </div>
             <ul class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50">
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Direction</span>
-                <span class="fw-bold d-flex align-items-center gap-2">
+                <span class="text-muted fw-bold">Direction</span>
+                <span class="text-muted d-flex align-items-center gap-2">
                   <i :class="['bi', directionIconClass]"></i>
                   {{ qiblaDirection?.toFixed(1) }}° ({{ qiblaCardinalDirection }})
                 </span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Bearing from North</span>
-                <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
+                <span class="text-muted fw-bold">Bearing from North</span>
+                <span class="text-muted">{{ qiblaBearing }}° clockwise</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Relative Direction</span>
-                <span class="fw-bold">{{ relativeDirection }}</span>
+                <span class="text-muted fw-bold">Relative Direction</span>
+                <span class="text-muted">{{ relativeDirection }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Distance</span>
-                <span class="fw-bold">{{ distanceToKaaba?.toFixed(0) }} km / {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
+                <span class="text-muted fw-bold">Distance</span>
+                <span class="text-muted">{{ distanceToKaaba?.toFixed(0) }} km / {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Your Coordinates</span>
-                <span class="fw-bold">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
+                <span class="text-muted fw-bold">Your Coordinates</span>
+                <span class="text-muted">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Kaaba Coordinates</span>
-                <span class="fw-bold">21.4225°, 39.8262°</span>
+                <span class="text-muted fw-bold">Kaaba Coordinates</span>
+                <span class="text-muted">21.4225°, 39.8262°</span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Last Updated</span>
-                <span class="fw-bold">{{ lastUpdated }}</span>
+                <span class="text-muted fw-bold">Last Updated</span>
+                <span class="text-muted">{{ lastUpdated }}</span>
               </li>
             </ul>
-            <!-- Qibla Info Card (Modern Layout) -->
-            <div v-if="hasData" class="qibla-info-modern-card mb-4 mx-auto">
-              <div class="row g-0 align-items-center">
-                <!-- Qibla Direction -->
-                <div class="col-12 col-md-6 text-center text-md-start p-4">
-                  <div class="text-muted mb-1">Qibla Direction</div>
-                  <div class="display-5 fw-bold mb-2">
-                    {{ qiblaDirection?.toFixed(0) }}° from {{ qiblaCardinalDirectionText }}
-                  </div>
-                  <div class="row g-2 mt-4">
-                    <div class="col-6 text-muted">Latitude</div>
-                    <div class="col-6 text-end">{{ userLatitude?.toFixed(6) }}</div>
-                    <div class="col-6 text-muted">Longitude</div>
-                    <div class="col-6 text-end">{{ userLongitude?.toFixed(6) }}</div>
-                    <div class="col-6 text-muted">Magnetic Declination</div>
-                    <div class="col-6 text-end">{{ magneticDeclination }}°</div>
-                  </div>
-                </div>
-                <!-- Qibla Distance -->
-                <div class="col-12 col-md-6 text-center p-4 border-md-start">
-                  <div class="text-muted mb-1">Qibla Distance</div>
-                  <div class="display-5 fw-bold mb-2">
-                    {{ distanceToKaaba?.toFixed(0) }} KM
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- <div class="alert alert-info small mb-0" style="background:rgba(13,182,145,0.08);border-color:rgba(13,182,145,0.2);color:rgb(13,182,145);">
+            <!-- Qibla Info Card (Modern Layout) -->          
+            <div class="alert alert-info small mb-0" style="background:rgba(13,182,145,0.08);border-color:rgba(13,182,145,0.2);color:rgb(13,182,145);">
               <i class="bi bi-info-circle"></i> Compass uses true north, not magnetic north. For best accuracy, calibrate your device.
-            </div> -->
+            </div>
           </div>
         </div>
 
@@ -130,8 +104,8 @@
             </div>
             <ul v-if="prayerTimes" class="list-group list-group-flush">
               <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" v-for="(time, name) in prayerTimes" :key="name">
-                <span>{{ name }}</span>
-                <strong class="fw-bold">{{ time }}</strong>
+                <span class="text-muted fw-bold">{{ name }}</span>
+                <strong class="text-muted">{{ time }}</strong>
               </li>
             </ul>
           </div>
@@ -161,7 +135,7 @@
             </button>
           </div> -->
           <div class="col-6 col-md-4">
-            <button class="btn w-100 btn-tertiary" @click="showTtsSettings = !showTtsSettings" :aria-expanded="showTtsSettings">
+            <button class="btn w-100 btn-success" @click="showTtsSettings = !showTtsSettings" :aria-expanded="showTtsSettings">
               <i class="bi bi-gear"></i> Speech Settings
             </button>
           </div>
