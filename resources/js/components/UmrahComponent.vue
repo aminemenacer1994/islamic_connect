@@ -1,103 +1,83 @@
 <template>
   <div class="container py-5">
-    <div class="text-center mb-4">
-  <h1 class="display-4 fw-bold mb-3">Hajj & Umrah Guides</h1>
-  <p class="lead mx-auto description" style="max-width: 800px;">
-    These guides provide essential knowledge on the rituals, historical background, spiritual significance,
-    logistical steps, and etiquette involved in performing both pilgrimages.
-  </p>
-
-  <ul class="nav nav-pills justify-content-center gap-3 fw-semibold" role="tablist">
-    <li class="nav-item active" role="presentation">
-      <button
-      href="#"
-        class="nav-link custom-tab px-4 py-2"
-        :class="{ active: currentTab === 'hajj' }"
-        @click="switchTab('hajj')"
-        id="hajj-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#hajj"
-        type="button"
-        role="tab"
-        aria-controls="hajj"
-        :aria-selected="currentTab === 'hajj'"
-      >
-        Hajj Guides
-      </button>
-    </li>
-
-    <li class="nav-item" role="presentation">
-      <button
-        class="nav-link custom-tab px-4 py-2"
-        :class="{ active: currentTab === 'umrah' }"
-        @click="switchTab('umrah')"
-        id="umrah-tab"
-        data-bs-toggle="tab"
-        data-bs-target="#umrah"
-        type="button"
-        role="tab"
-        aria-controls="umrah"
-        :aria-selected="currentTab === 'umrah'"
-      >
-        Umrah Guides
-      </button>
-    </li>
-  </ul>
-</div>
-
-
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <img :src="currentContent.image" :alt="currentContent.alt"
-          style="border: 3px solid lightgray; border-radius: 20px;" class="img-fluid shadow-sm w-100" loading="lazy" />
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold mb-3">Hajj & Umrah Guides</h1>
+      <p class="lead mx-auto description" style="max-width: 800px;">
+        These guides provide essential knowledge on the rituals, historical background, spiritual significance,
+        logistical steps, and etiquette involved in performing both pilgrimages.
+      </p>
+      <ul class="nav nav-pills justify-content-center gap-3 fw-semibold mb-4" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link custom-tab px-4 py-2"
+            :class="{ active: currentTab === 'hajj' }"
+            @click="switchTab('hajj')"
+            id="hajj-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#hajj"
+            type="button"
+            role="tab"
+            aria-controls="hajj"
+            :aria-selected="currentTab === 'hajj'"
+          >
+            <i class="bi bi-moon-stars me-2"></i>Hajj Guides
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link custom-tab px-4 py-2"
+            :class="{ active: currentTab === 'umrah' }"
+            @click="switchTab('umrah')"
+            id="umrah-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#umrah"
+            type="button"
+            role="tab"
+            aria-controls="umrah"
+            :aria-selected="currentTab === 'umrah'"
+          >
+            <i class="bi bi-person-walking me-2"></i>Umrah Guides
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="row g-5 align-items-center justify-content-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden h-100">
+          <img :src="currentContent.image" :alt="currentContent.alt" class="img-fluid w-100 object-fit-cover" style="max-height: 400px;" loading="lazy" />
+        </div>
       </div>
-
-      <div class="col-md-6 mt-2">
-        <div class="container">
-          <p class="display-4 fw-bold pb-2 pt-2 text-center">{{ currentContent.title }}</p>
-          <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
-            <p style="display: inline-block; min-width: max-content;">
-              <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-              <strong>Read Time:</strong> {{ readTime }} minutes
-
-              <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-              <strong>Listen Time:</strong> {{ listeningTime }} minutes
-
-              <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-              <strong>Word Count:</strong> {{ wordCount }} words
-            </p>
+      <div class="col-lg-6">
+        <div class="card shadow-lg border-0 rounded-4 p-4 h-100">
+          <h2 class="h2 fw-bold text-center mb-3">{{ currentContent.title }}</h2>
+          <div class="d-flex flex-wrap justify-content-center gap-3 mb-3">
+            <span class="badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"><i class="bi bi-book me-2"></i><strong>Read Time:</strong> {{ readTime }} min</span>
+            <span class="badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"><i class="bi bi-headphones me-2"></i><strong>Listen:</strong> {{ listeningTime }} min</span>
+            <span class="badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"><i class="bi bi-file-earmark-word me-2"></i><strong>Words:</strong> {{ wordCount }}</span>
           </div>
-          <p class="lead text-justify">{{ currentContent.text1 }}</p>
-          <p class="lead text-justify">{{ currentContent.text2 }}</p>
-          <p class="lead text-justify">{{ currentContent.text3 }}</p>
-
+          <p class="lead text-justify mb-3">{{ currentContent.text1 }}</p>
+          <p class="lead text-justify mb-3">{{ currentContent.text2 }}</p>
+          <p class="lead text-justify mb-3">{{ currentContent.text3 }}</p>
           <div v-if="copySuccess" class="alert alert-success mt-3" role="alert">
-            Text copied to clipboard successfully!
+            <i class="bi bi-clipboard-check me-2"></i>Text copied to clipboard successfully!
           </div>
-
-          <div class="d-flex justify-content-between align-items-center gap-2">
-            <button class="btn d-flex align-items-center justify-content-center flex-grow-1" @click="copyText"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-              <span class="text-center w-100">
-                <b>Copy to Clipboard</b>
-              </span>
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4">
+            <button class="btn btn-success d-flex align-items-center justify-content-center flex-grow-1" @click="copyText">
+              <i class="bi bi-clipboard me-2"></i><b>Copy to Clipboard</b>
             </button>
-            <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+            <a class="btn btn-success d-flex align-items-center justify-content-center flex-grow-1"
               :href="`https://wa.me/?text=${encodeURIComponent(currentContent.title + '\n\n\n' + currentContent.text1 + '\n\n' + currentContent.text2 + '\n\n' + currentContent.text3)}`"
-              target="_blank" rel="noopener"
-              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-              <b>Share on WhatsApp</b>
+              target="_blank" rel="noopener">
+              <i class="bi bi-whatsapp me-2"></i><b>Share on WhatsApp</b>
             </a>
           </div>
         </div>
       </div>
-
       <div class="fab-container">
-        <button class="fab-single" @click="toggleSpeech" :title="isSpeaking ? (isPaused ? 'Resume' : 'Pause') : 'Play'">
+        <button class="fab-single shadow-lg" @click="toggleSpeech" :title="isSpeaking ? (isPaused ? 'Resume' : 'Pause') : 'Play'">
           <i :class="isSpeaking && !isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
         </button>
       </div>
-
       <transition name="fade">
         <div v-if="copySuccess"
           class="alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x"
@@ -253,9 +233,9 @@ export default {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: rgb(13, 182, 145);
+  background-color: var(--bs-success);
   color: white;
-  font-size: 1.8rem;
+  font-size: 2rem;
   border: none;
   outline: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -266,15 +246,12 @@ export default {
   z-index: 1050;
   transition: background-color 0.3s ease;
 }
-
 .fab-single:hover {
-  background-color: rgb(11, 160, 128);
+  background-color: #198754;
 }
-
 .fab-single i {
   color: white;
 }
-
 .fab-container {
   position: fixed;
   bottom: 2rem;
@@ -284,106 +261,37 @@ export default {
   gap: 1rem;
   z-index: 1050;
 }
-
-.fab {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* General link styles */
-a {
-  text-decoration: none;
-  color: #006958;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: rgb(13, 182, 145);
-  text-decoration: none;
-}
-
-/* Nav-link buttons */
-button.nav-link {
-  color: #006958;
-  text-decoration: none;
-  background-color: transparent;
-}
-
-button.nav-link:hover,
-button.nav-link:focus,
-button.nav-link:active {
-  color: #00997a;
-  text-decoration: none;
-  background-color: rgba(0, 153, 122, 0.1);
-}
-
-/* Custom tab styles */
 .custom-tab {
-  background-color: rgb(200, 245, 234);
-  color: rgb(0, 105, 92);
-  font-size: 1.3rem;
+  background-color: #e9f7f3;
+  color: #198754;
+  font-size: 1.2rem;
   padding: 0.8rem 2rem;
   border-radius: 50px;
   border: 2px solid transparent;
   transition: all 0.3s ease;
 }
-
 .custom-tab:hover {
-  background-color: rgb(183, 240, 226);
-  color: rgb(0, 85, 74);
+  background-color: #d1f2e7;
+  color: #146c43;
 }
-
 .custom-tab.active {
-  background-color: rgb(13, 182, 145);
+  background-color: #198754;
   color: #fff;
   font-weight: bold;
-  border-color: rgb(0, 122, 102);
-  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.4);
+  border-color: #146c43;
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
 }
-
-/* Custom button */
-.custom-btn-green {
-  background-color: rgb(13, 182, 145);
-  border: none;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.custom-btn-green:hover {
-  background-color: rgb(11, 160, 128);
-}
-
-/* Transitions */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Utilities */
 .text-justify {
   text-align: justify;
 }
-
-img {
-  max-height: 570px;
+img.object-fit-cover {
   object-fit: cover;
 }
 </style>
 
 <style>
-/* Non-scoped style for text selection */
 ::selection {
-  background-color: rgb(13, 182, 145); /* A green that matches the theme */
-  color: white; /* White text for contrast */
+  background-color: #198754;
+  color: white;
 }
 </style> 

@@ -36609,7 +36609,16 @@ __webpack_require__.r(__webpack_exports__);
       convertedDate: null,
       gregorianMonths: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       hijriMonths: ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Awwal', 'Jumada al-Thani', 'Rajab', 'Sha\'ban', 'Ramadan', 'Shawwal', 'Dhu al-Qi\'dah', 'Dhu al-Hijjah'],
-      weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      defaultState: {
+        sourceCalendar: 'gregorian',
+        targetCalendar: 'hijri',
+        day: currentDate.getDate(),
+        month: currentDate.getMonth() + 1,
+        year: currentGregorianYear
+      },
+      userAddress: '',
+      locationError: ''
     };
   },
   computed: {
@@ -36661,8 +36670,57 @@ __webpack_require__.r(__webpack_exports__);
     },
     targetDayName: function targetDayName() {
       if (!this.convertedDate) return '';
-      var date = this.targetCalendar === 'gregorian' ? new Date(this.convertedDate.year, this.convertedDate.month - 1, this.convertedDate.day) : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+      var date;
+      if (this.targetCalendar === 'gregorian') {
+        date = new Date(this.convertedDate.year, this.convertedDate.month - 1, this.convertedDate.day);
+      } else {
+        // Convert Hijri to Gregorian, then create a Date object
+        var greg = this.hijriToGregorian(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+        date = new Date(greg.year, greg.month - 1, greg.day);
+      }
       return this.weekdays[date.getDay()];
+    },
+    hijriMonthName: function hijriMonthName() {
+      if (!this.convertedDate) return '';
+      // Always show the Hijri month for the result
+      var hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+      return this.hijriMonths[hijri.month - 1];
+    },
+    hijriYear: function hijriYear() {
+      if (!this.convertedDate) return '';
+      var hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+      return hijri.year;
+    },
+    hijriMonthGrid: function hijriMonthGrid() {
+      if (!this.convertedDate) return [];
+      // Get the Hijri month and year for the result
+      var hijri = this.targetCalendar === 'hijri' ? this.convertedDate : this.gregorianToHijri(this.convertedDate.year, this.convertedDate.month, this.convertedDate.day);
+      var daysInMonth = this.getHijriMonthLength(hijri.year, hijri.month);
+      // Find the weekday of the 1st of this Hijri month
+      var gregDate = this.hijriToGregorian(hijri.year, hijri.month, 1);
+      var firstDay = new Date(gregDate.year, gregDate.month - 1, gregDate.day).getDay();
+      var grid = [];
+      var week = new Array(firstDay).fill({
+        day: ''
+      });
+      for (var d = 1; d <= daysInMonth; d++) {
+        var isCurrent = d === hijri.day;
+        week.push({
+          day: d,
+          isCurrent: isCurrent
+        });
+        if (week.length === 7) {
+          grid.push(week);
+          week = [];
+        }
+      }
+      if (week.length) {
+        while (week.length < 7) week.push({
+          day: ''
+        });
+        grid.push(week);
+      }
+      return grid;
     }
   },
   methods: {
@@ -36687,13 +36745,18 @@ __webpack_require__.r(__webpack_exports__);
         this.year = hijriDate.year;
       }
 
-      // Trigger your conversion
-      this.convertDate();
-      console.log('Current date set:', {
-        day: this.day,
-        month: this.month,
-        year: this.year
-      });
+      // No auto conversion
+      // this.convertDate();
+    },
+    resetForm: function resetForm() {
+      this.sourceCalendar = this.defaultState.sourceCalendar;
+      this.targetCalendar = this.defaultState.targetCalendar;
+      this.day = this.defaultState.day;
+      this.month = this.defaultState.month;
+      this.year = this.defaultState.year;
+      this.convertedDate = null;
+      this.userAddress = '';
+      this.locationError = '';
     },
     convertDate: function convertDate() {
       if (this.sourceCalendar === 'gregorian') {
@@ -36701,6 +36764,50 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.convertedDate = this.hijriToGregorian(this.year, this.month, this.day);
       }
+      this.getUserLocation();
+    },
+    getHijriMonthLength: function getHijriMonthLength(year, month) {
+      // Approximate Hijri month lengths (alternating 29/30 days)
+      var monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+      return monthLengths[(month - 1) % 12];
+    },
+    getUserLocation: function getUserLocation() {
+      var _this = this;
+      this.userAddress = '';
+      this.locationError = '';
+      if (!navigator.geolocation) {
+        this.locationError = 'Geolocation is not supported by your browser.';
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var _position$coords = position.coords,
+          latitude = _position$coords.latitude,
+          longitude = _position$coords.longitude;
+        // Use a free geocoding API (e.g., OpenStreetMap Nominatim)
+        fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=".concat(latitude, "&lon=").concat(longitude)).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          if (data.address) {
+            var _data$address = data.address,
+              city = _data$address.city,
+              town = _data$address.town,
+              village = _data$address.village,
+              state = _data$address.state,
+              country = _data$address.country;
+            _this.userAddress = [city || town || village, state, country].filter(Boolean).join(', ');
+          } else {
+            _this.userAddress = 'Location found, but address unavailable.';
+          }
+        })["catch"](function () {
+          _this.locationError = 'Could not retrieve address.';
+        });
+      }, function (error) {
+        if (error.code === error.PERMISSION_DENIED) {
+          _this.locationError = 'Location permission denied.';
+        } else {
+          _this.locationError = 'Could not retrieve location.';
+        }
+      });
     },
     gregorianToHijri: function gregorianToHijri(gYear, gMonth, gDay) {
       // This is a simplified conversion using the Um Al-Qura algorithm
@@ -36750,7 +36857,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.convertDate();
+    // No auto conversion on mount
+    // this.convertDate();
   }
 });
 
@@ -58355,7 +58463,7 @@ var _hoisted_4 = {
   "class": "col-md-12 col-lg-10"
 };
 var _hoisted_5 = {
-  "class": "card shadow"
+  "class": "card"
 };
 var _hoisted_6 = {
   "class": "card-body"
@@ -58376,7 +58484,7 @@ var _hoisted_11 = {
   "class": "form-floating"
 };
 var _hoisted_12 = {
-  "class": "row g-3 mb-4"
+  "class": "row g-3 mb-4 align-items-end"
 };
 var _hoisted_13 = {
   "class": "col-md-4"
@@ -58393,157 +58501,261 @@ var _hoisted_17 = {
 };
 var _hoisted_18 = ["value"];
 var _hoisted_19 = {
-  "class": "col-md-4"
+  "class": "col-md-4 d-flex flex-column flex-md-row align-items-stretch gap-2"
 };
 var _hoisted_20 = {
-  "class": "form-floating"
+  "class": "form-floating flex-fill"
 };
 var _hoisted_21 = ["value"];
 var _hoisted_22 = {
-  key: 0,
-  "class": "mt-4 p-3 bg-light rounded",
-  style: {
-    "border": "1px solid gray",
-    "border-radius": "20px",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-  }
+  "class": "d-flex justify-content-center gap-3 mt-3"
 };
 var _hoisted_23 = {
-  "class": "row"
+  key: 0,
+  "class": "container-fluid d-flex justify-content-center align-items-center mt-5 mb-5"
 };
 var _hoisted_24 = {
-  "class": "col-md-6 mb-2"
+  "class": "result-card w-100",
+  style: {
+    "max-width": "700px",
+    "background": "#f8f9fa",
+    "border": "1px solid #e0e0e0",
+    "border-radius": "18px",
+    "box-shadow": "0 2px 16px rgba(0,0,0,0.06)",
+    "padding": "2.5rem 1.5rem"
+  }
 };
 var _hoisted_25 = {
-  "class": "p-3 bg-white rounded border",
-  style: {
-    "border": "1px solid gray",
-    "border-radius": "20px",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-  }
+  "class": "row g-4 align-items-stretch mb-4"
 };
 var _hoisted_26 = {
-  "class": "h6 text-muted mb-2"
+  "class": "col-12 col-md-6"
 };
 var _hoisted_27 = {
-  "class": "mb-1"
-};
-var _hoisted_28 = {
-  "class": "col-md-6 mb-2"
-};
-var _hoisted_29 = {
-  "class": "p-3 bg-white rounded border",
+  "class": "p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center",
   style: {
-    "border": "1px solid gray",
-    "border-radius": "20px",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+    "border": "1px solid #e0e0e0",
+    "border-radius": "14px"
   }
 };
+var _hoisted_28 = {
+  "class": "fw-bold mb-2",
+  style: {
+    "color": "#00a792"
+  }
+};
+var _hoisted_29 = {
+  "class": "fs-4 mb-1"
+};
 var _hoisted_30 = {
-  "class": "h6 text-muted mb-2"
+  "class": "col-12 col-md-6"
 };
 var _hoisted_31 = {
-  "class": "mb-1"
+  "class": "p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center",
+  style: {
+    "border": "1px solid #e0e0e0",
+    "border-radius": "14px"
+  }
 };
 var _hoisted_32 = {
+  "class": "fw-bold mb-2",
+  style: {
+    "color": "#00a792"
+  }
+};
+var _hoisted_33 = {
+  "class": "fs-4 mb-1"
+};
+var _hoisted_34 = {
   "class": "mb-0 text-muted small"
 };
+var _hoisted_35 = {
+  "class": "d-flex flex-column align-items-center mb-4"
+};
+var _hoisted_36 = {
+  "class": "badge rounded-pill bg-light border px-3 py-2 mb-2",
+  style: {
+    "font-size": "1rem",
+    "color": "#333",
+    "border": "1px solid #e0e0e0"
+  }
+};
+var _hoisted_37 = {
+  key: 0
+};
+var _hoisted_38 = {
+  key: 1,
+  "class": "text-danger"
+};
+var _hoisted_39 = {
+  key: 2,
+  "class": "text-muted"
+};
+var _hoisted_40 = {
+  "class": "mb-2 text-center"
+};
+var _hoisted_41 = {
+  "class": "fw-bold align-middle ms-2"
+};
+var _hoisted_42 = {
+  "class": "d-flex justify-content-center"
+};
+var _hoisted_43 = {
+  "class": "table w-auto bg-white mb-0 calendar-table",
+  style: {
+    "border-radius": "0.75rem",
+    "overflow": "hidden",
+    "border": "1px solid #e0e0e0"
+  }
+};
+var _hoisted_44 = {
+  key: 0
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Date Converter", -1 /* HOISTED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-4 lead"
-  }, " A small Islamic date converter is a lightweight tool that allows users to quickly convert between the Gregorian (solar) calendar and the Hijri (Islamic lunar) calendar. It typically requires a simple input of a Gregorian date and outputs the corresponding Islamic date, or vice versa. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Welcome to the Date Converter! 🌙", -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center container mb-2 lead"
+  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "alert alert-info text-center mb-3 container-fluid"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "padding": "0.9rem",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "background": "#00a792"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold text-center"
-  }, "Islamic Date Converter")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, "Islamic Date Converter")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.convertDate && $options.convertDate.apply($options, arguments);
+    }, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "sourceCalendar",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.sourceCalendar = $event;
-    }),
-    onChange: _cache[1] || (_cache[1] = function () {
-      return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
   }, "Gregorian", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
-  }, "Hijri", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Hijri", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sourceCalendar]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "sourceCalendar"
   }, "Source Calendar", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "targetCalendar",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.targetCalendar = $event;
-    }),
-    onChange: _cache[3] || (_cache[3] = function () {
-      return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
-  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "hijri"
   }, "Hijri", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gregorian"
-  }, "Gregorian", -1 /* HOISTED */)]), 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Gregorian", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.targetCalendar]]), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "targetCalendar"
   }, "Target Calendar", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "day",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $data.day = $event;
-    }),
-    onChange: _cache[5] || (_cache[5] = function () {
-      return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.daysInMonth, function (d) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: d,
       key: d
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(d), 9 /* TEXT, PROPS */, _hoisted_15);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.day]]), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "day"
   }, "Day", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "month",
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.month = $event;
     }),
-    onChange: _cache[7] || (_cache[7] = function ($event) {
-      $options.updateDays;
-      $options.convertDate();
+    onChange: _cache[4] || (_cache[4] = function () {
+      return $options.updateDays && $options.updateDays.apply($options, arguments);
     })
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.months, function (m, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: index + 1,
       key: index
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(m), 9 /* TEXT, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.month]]), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "month"
   }, "Month", -1 /* HOISTED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-select",
     id: "year",
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.year = $event;
-    }),
-    onChange: _cache[9] || (_cache[9] = function () {
-      return $options.convertDate && $options.convertDate.apply($options, arguments);
     })
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.years, function (y) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: y,
       key: y
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(y), 9 /* TEXT, PROPS */, _hoisted_21);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.year]]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "year"
-  }, "Year", -1 /* HOISTED */))])])]), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "h5 text-center mb-3 fw-bold"
-  }, "Conversion Result", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"mb-0 text-muted small\">{{ sourceDayName }}</p> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Year", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-dark px-4",
+    type: "submit"
+  }, "Submit", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-secondary px-4",
+    type: "button",
+    onClick: _cache[6] || (_cache[6] = function () {
+      return $options.resetForm && $options.resetForm.apply($options, arguments);
+    })
+  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "fs-2 align-middle",
+    style: {
+      "color": "#00a792"
+    }
+  }, "📅"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "h4 fw-bold align-middle ms-2"
+  }, "Conversion Result")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-muted mb-1"
+  }, "Source", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-muted mb-1"
+  }, "Target", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    "class": "my-4",
+    style: {
+      "border-color": "#e0e0e0"
+    }
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "me-2",
+    style: {
+      "color": "#00a792"
+    }
+  }, "📍", -1 /* HOISTED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Your Location:", -1 /* HOISTED */)), $data.userAddress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.userAddress), 1 /* TEXT */)) : $data.locationError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.locationError), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_39, "Detecting location..."))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "fs-5 align-middle",
+    style: {
+      "color": "#00a792"
+    }
+  }, "🗓️", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], function (day) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
+      key: day,
+      "class": "text-center small",
+      style: {
+        "background": "#f8f9fa"
+      }
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day), 1 /* TEXT */);
+  }), 64 /* STABLE_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.hijriMonthGrid, function (week) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: week[0]
+    }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(week, function (cell) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", {
+        key: cell.day + '-' + cell.isCurrent,
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']),
+        style: {
+          "vertical-align": "middle",
+          "min-width": "36px",
+          "min-height": "36px"
+        }
+      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card-footer text-muted small text-center"
   }, " Date conversion based on astronomical calculations ", -1 /* HOISTED */))])])])])]);
 }
@@ -68323,14 +68535,14 @@ var _hoisted_1 = {
   "class": "container py-5"
 };
 var _hoisted_2 = {
-  "class": "text-center mb-4"
+  "class": "text-center mb-5"
 };
 var _hoisted_3 = {
-  "class": "nav nav-pills justify-content-center gap-3 fw-semibold",
+  "class": "nav nav-pills justify-content-center gap-3 fw-semibold mb-4",
   role: "tablist"
 };
 var _hoisted_4 = {
-  "class": "nav-item active",
+  "class": "nav-item",
   role: "presentation"
 };
 var _hoisted_5 = ["aria-selected"];
@@ -68340,58 +68552,59 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = ["aria-selected"];
 var _hoisted_8 = {
-  "class": "row align-items-center"
+  "class": "row g-5 align-items-center justify-content-center"
 };
 var _hoisted_9 = {
-  "class": "col-md-6"
+  "class": "col-lg-6 mb-4 mb-lg-0"
 };
-var _hoisted_10 = ["src", "alt"];
-var _hoisted_11 = {
-  "class": "col-md-6 mt-2"
+var _hoisted_10 = {
+  "class": "card shadow-lg border-0 rounded-4 overflow-hidden h-100"
 };
+var _hoisted_11 = ["src", "alt"];
 var _hoisted_12 = {
-  "class": "container"
+  "class": "col-lg-6"
 };
 var _hoisted_13 = {
-  "class": "display-4 fw-bold pb-2 pt-2 text-center"
+  "class": "card shadow-lg border-0 rounded-4 p-4 h-100"
 };
 var _hoisted_14 = {
-  "class": "container",
-  style: {
-    "overflow-x": "auto",
-    "white-space": "nowrap",
-    "-webkit-overflow-scrolling": "touch"
-  }
+  "class": "h2 fw-bold text-center mb-3"
 };
 var _hoisted_15 = {
-  style: {
-    "display": "inline-block",
-    "min-width": "max-content"
-  }
+  "class": "d-flex flex-wrap justify-content-center gap-3 mb-3"
 };
 var _hoisted_16 = {
-  "class": "lead text-justify"
+  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
 };
 var _hoisted_17 = {
-  "class": "lead text-justify"
+  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
 };
 var _hoisted_18 = {
-  "class": "lead text-justify"
+  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
 };
 var _hoisted_19 = {
+  "class": "lead text-justify mb-3"
+};
+var _hoisted_20 = {
+  "class": "lead text-justify mb-3"
+};
+var _hoisted_21 = {
+  "class": "lead text-justify mb-3"
+};
+var _hoisted_22 = {
   key: 0,
   "class": "alert alert-success mt-3",
   role: "alert"
 };
-var _hoisted_20 = {
-  "class": "d-flex justify-content-between align-items-center gap-2"
+var _hoisted_23 = {
+  "class": "d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4"
 };
-var _hoisted_21 = ["href"];
-var _hoisted_22 = {
+var _hoisted_24 = ["href"];
+var _hoisted_25 = {
   "class": "fab-container"
 };
-var _hoisted_23 = ["title"];
-var _hoisted_24 = {
+var _hoisted_26 = ["title"];
+var _hoisted_27 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x",
   role: "alert",
@@ -68403,15 +68616,14 @@ var _hoisted_24 = {
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold mb-3"
-  }, "Hajj & Umrah Guides", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Hajj & Umrah Guides", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead mx-auto description",
     style: {
       "max-width": "800px"
     }
   }, " These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    href: "#",
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2", {
       active: $data.currentTab === 'hajj'
     }]),
@@ -68425,7 +68637,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "hajj",
     "aria-selected": $data.currentTab === 'hajj'
-  }, " Hajj Guides ", 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-moon-stars me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ")]), 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2", {
       active: $data.currentTab === 'umrah'
     }]),
@@ -68439,70 +68653,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "umrah",
     "aria-selected": $data.currentTab === 'umrah'
-  }, " Umrah Guides ", 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-person-walking me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: $options.currentContent.image,
     alt: $options.currentContent.alt,
+    "class": "img-fluid w-100 object-fit-cover",
     style: {
-      "border": "3px solid lightgray",
-      "border-radius": "20px"
+      "max-height": "400px"
     },
-    "class": "img-fluid shadow-sm w-100",
     loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-book pr-2 pt-3",
-    style: {
-      "font-size": "20px",
-      "cursor": "pointer"
-    }
-  }, null, -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " minutes ", 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-headphones pl-3 pr-2 pt-3",
-    style: {
-      "font-size": "20px",
-      "cursor": "pointer"
-    }
-  }, null, -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " minutes ", 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-file-earmark-word pl-3 pr-2 pt-3",
-    style: {
-      "font-size": "20px",
-      "cursor": "pointer"
-    }
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Word Count:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount) + " words ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Text copied to clipboard successfully! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+  }, null, 8 /* PROPS */, _hoisted_11)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-2"
+  }, null, -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-headphones me-2"
+  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-earmark-word me-2"
+  }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-clipboard-check me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Text copied to clipboard successfully! ")]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-success d-flex align-items-center justify-content-center flex-grow-1",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.copyText && $options.copyText.apply($options, arguments);
-    }),
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px"
-    }
-  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+    })
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-clipboard me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "btn btn-success d-flex align-items-center justify-content-center flex-grow-1",
     href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
     target: "_blank",
-    rel: "noopener",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px"
-    }
-  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_21)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "fab-single",
+    rel: "noopener"
+  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-whatsapp me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_24)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fab-single shadow-lg",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
     title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_26)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close position-absolute top-50 end-0 translate-middle-y me-3",
         onClick: _cache[4] || (_cache[4] = function ($event) {
@@ -167643,7 +167838,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n.calendar-table th[data-v-548c1d14], .calendar-table td[data-v-548c1d14] {\n  text-align: center;\n  vertical-align: middle;\n  padding: 0.5rem 0.7rem;\n}\n.calendar-day-cell[data-v-548c1d14] {\n  border-radius: 8px;\n  transition: background 0.2s;\n}\n.calendar-day-cell.bg-success[data-v-548c1d14] {\n  box-shadow: 0 2px 8px rgba(0,167,146,0.08);\n}\n@media (max-width: 768px) {\n.result-card[data-v-548c1d14] {\n    padding: 1.2rem 0.2rem !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168442,7 +168637,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-single[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background-color: rgb(13, 182, 145);\n  color: white;\n  font-size: 1.8rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 1050;\n  transition: background-color 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: rgb(11, 160, 128);\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1050;\n}\n.fab[data-v-2c27c8a7] {\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  font-size: 1.4rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n/* General link styles */\na[data-v-2c27c8a7] {\n  text-decoration: none;\n  color: #006958;\n  transition: color 0.3s ease;\n}\na[data-v-2c27c8a7]:hover {\n  color: rgb(13, 182, 145);\n  text-decoration: none;\n}\n\n/* Nav-link buttons */\nbutton.nav-link[data-v-2c27c8a7] {\n  color: #006958;\n  text-decoration: none;\n  background-color: transparent;\n}\nbutton.nav-link[data-v-2c27c8a7]:hover,\nbutton.nav-link[data-v-2c27c8a7]:focus,\nbutton.nav-link[data-v-2c27c8a7]:active {\n  color: #00997a;\n  text-decoration: none;\n  background-color: rgba(0, 153, 122, 0.1);\n}\n\n/* Custom tab styles */\n.custom-tab[data-v-2c27c8a7] {\n  background-color: rgb(200, 245, 234);\n  color: rgb(0, 105, 92);\n  font-size: 1.3rem;\n  padding: 0.8rem 2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: rgb(183, 240, 226);\n  color: rgb(0, 85, 74);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  color: #fff;\n  font-weight: bold;\n  border-color: rgb(0, 122, 102);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.4);\n}\n\n/* Custom button */\n.custom-btn-green[data-v-2c27c8a7] {\n  background-color: rgb(13, 182, 145);\n  border: none;\n  color: white;\n  transition: background-color 0.3s ease;\n}\n.custom-btn-green[data-v-2c27c8a7]:hover {\n  background-color: rgb(11, 160, 128);\n}\n\n/* Transitions */\n.fade-enter-active[data-v-2c27c8a7],\n.fade-leave-active[data-v-2c27c8a7] {\n  transition: opacity 0.5s;\n}\n.fade-enter-from[data-v-2c27c8a7],\n.fade-leave-to[data-v-2c27c8a7] {\n  opacity: 0;\n}\n\n/* Utilities */\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\nimg[data-v-2c27c8a7] {\n  max-height: 570px;\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-single[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background-color: var(--bs-success);\n  color: white;\n  font-size: 2rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 1050;\n  transition: background-color 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: #198754;\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1050;\n}\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e9f7f3;\n  color: #198754;\n  font-size: 1.2rem;\n  padding: 0.8rem 2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1f2e7;\n  color: #146c43;\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #198754;\n  color: #fff;\n  font-weight: bold;\n  border-color: #146c43;\n  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);\n}\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\nimg.object-fit-cover[data-v-2c27c8a7] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168466,7 +168661,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Non-scoped style for text selection */\n::-moz-selection {\n  background-color: rgb(13, 182, 145); /* A green that matches the theme */\n  color: white; /* White text for contrast */\n}\n::selection {\n  background-color: rgb(13, 182, 145); /* A green that matches the theme */\n  color: white; /* White text for contrast */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n::-moz-selection {\n  background-color: #198754;\n  color: white;\n}\n::selection {\n  background-color: #198754;\n  color: white;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
