@@ -80,7 +80,7 @@
             <div class="input-group filter-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
               <select v-model="durationFilter" class="form-select border-start-0">
-                <option value="">All Durations</option>
+                <option value="" disabled selected hidden>Select Duration</option>
                 <option value="0-10">0-10 min</option>
                 <option value="10-30">10-30 min</option>
                 <option value="30-60">30-60 min</option>
@@ -434,7 +434,7 @@ export default {
       favourites: JSON.parse(localStorage.getItem('favourites')) || [],
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
-      durationFilter: 'longest',
+      durationFilter: '',
       isAudioPlaying: [],
       currentlyPlaying: null,
       currentlyPlayingIndex: 0,
