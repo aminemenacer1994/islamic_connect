@@ -1486,8 +1486,6 @@ export default {
 /* Card Header */
 .card-header {
   padding: 20px 24px 16px;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 }
 
 .podcast-meta {
@@ -1575,7 +1573,7 @@ export default {
 }
 
 .control-button i {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   color: #495057;
   transition: color 0.2s ease;
 }
@@ -2397,9 +2395,8 @@ export default {
 }
 
 .episode-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   margin-right: 1rem;
   box-shadow: none;
