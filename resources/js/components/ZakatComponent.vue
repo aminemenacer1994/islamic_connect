@@ -2,182 +2,236 @@
   <div class="zakat-calculator">
     <!-- Hero Section -->
     <div class="hero-section text-center py-4">
-      <h1 class="display-4 fw-bold mb-4">Zakat Calculator</h1>
+      <h1 class="display-4 fw-bold ">Zakat Calculator</h1>
       <p class="lead text-muted mx-auto col-md-8">
         Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab threshold
         and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
       </p>
     </div>
 
+    <!-- About Zakat Accordion -->
+    <div class="container my-4">
+      <div class="accordion container" id="zakatAccordion">
+        <div class="accordion-item rounded-4 shadow-sm">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <i class="bi bi-info-circle-fill me-2"></i>Learn About Zakat
+            </button>
+          </h2>
+          <div id="collapseOne" style="padding:10px" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#zakatAccordion">
+            <div class="accordion-body" >
+              <h4 class="fw-bold text-dark mb-3">Understanding Zakat</h4>
+              <p>Zakat, one of the Five Pillars of Islam, is a mandatory charitable donation that financially able Muslims are required to make to the needy. It is a spiritual and social obligation that purifies wealth and fosters economic justice within the community.</p>
+              <h5 class="fw-bold mt-4">Key Principles:</h5>
+              <ul>
+                <li><strong>Nisab:</strong> The minimum amount of wealth a Muslim must possess for a full lunar year before Zakat becomes due. It is traditionally based on the value of 85 grams of gold or 595 grams of silver.</li>
+                <li><strong>Hawl:</strong> The passage of one Islamic lunar year. Zakat is only due on wealth that has been held for at least this duration.</li>
+                <li><strong>Rate:</strong> The standard Zakat rate on cash, gold, silver, and business assets is 2.5%. Rates for agricultural produce vary (5% or 10%).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container-fluid">
-      <div class="row g-4">
-        <div class="col-lg-8">
-          <div class="calculator-card card shadow-md">
-            <div class="card-body ">
+      <div class="row g-4 justify-content-center">
+        <div :class="zakatCalculated ? 'col-lg-7' : 'col-lg-9'" class="calculator-column">
+          <div class="card shadow-md rounded-4">
+            <div class="card-body p-lg-5">
               <!-- Currency and Nisab Selection -->
-              <h4 class="mb-4 fw-bold text-dark">Zakat Calculator</h4>
+              <h2 class="mb-4 fw-bold text-dark text-left">Zakat Calculator</h2>
 
               <div class="row g-3 ">
                 <div class="col-md-6">
-                  <label for="currency" class="form-label fw-semibold">Currency</label>
+                  <label for="currency" class="form-label fw-bold">Currency</label>
                   <select id="currency" class="form-select" v-model="selectedCurrency" aria-describedby="currencyHelp">
                     <option v-for="(symbol, currency) in currencySymbols" :key="currency" :value="currency">
                       {{ currency }} ({{ symbol }})
                     </option>
                   </select>
-                  <small id="currencyHelp" class="form-text text-muted">Select your preferred currency for calculations.</small>
                 </div>
                 <div class="col-md-6 mb-2">
-                  <label for="nisab" class="form-label fw-semibold">Nisab Standard</label>
+                  <label for="nisab" class="form-label fw-bold">Nisab Standard</label>
                   <select id="nisab" class="form-select" v-model="nisabType" aria-describedby="nisabHelp">
                     <option value="gold">Gold (85g)</option>
                     <option value="silver">Silver (595g)</option>
                   </select>
-                  <small id="nisabHelp" class="form-text text-muted">Choose gold or silver standard for Nisab threshold.</small>
                 </div>
               </div>
 
+              
+
               <!-- Asset Inputs -->
-              <h5 class="mt-3 fw-semibold text-dark section-title">
-                <i class="bi bi-coin me-2 mt-2"></i>Your Assets
+              <h5 class="mt-5 fw-bold text-dark border-bottom pb-2 mb-4">
+                <i class="bi bi-coin me-2"></i>Your Assets
               </h5>
+              <!-- <div class="form-check form-switch my-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="hawlCheck" v-model="hawlMet">
+                <label class="form-check-label" for="hawlCheck">My assets have been held for one lunar year (Hawl).</label>
+              </div> -->
 
               <!-- Gold Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
-                  <i class="bi bi-gem text-warning me-2"></i>Gold
+                <label class="col-md-3 col-form-label fw-bold">
+                  <i class="bi bi-gem fw-bold text-warning me-2"></i>Gold
                 </label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams" min="0" required
                     :class="{ 'is-invalid': errors.goldGrams }" aria-describedby="goldGramsError">
-                  <div v-if="errors.goldGrams" class="invalid-feedback" id="goldGramsError">{{ errors.goldGrams }}</div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
                     <input type="number" class="form-control" v-model.number="goldPrice" placeholder="Price per gram" min="0"
                       :class="{ 'is-invalid': errors.goldPrice }" aria-describedby="goldPriceError">
-                    <div v-if="errors.goldPrice" class="invalid-feedback" id="goldPriceError">{{ errors.goldPrice }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Silver Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
+                <label class="col-md-3 col-form-label fw-bold">
                   <i class="bi bi-gem text-secondary me-2"></i>Silver
                 </label>
                 <div class="col-md-4">
                   <input type="number" class="form-control" v-model.number="silverGrams" placeholder="Grams" min="0"
                     :class="{ 'is-invalid': errors.silverGrams }" aria-describedby="silverGramsError">
-                  <div v-if="errors.silverGrams" class="invalid-feedback" id="silverGramsError">{{ errors.silverGrams }}</div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
                     <input type="number" class="form-control" v-model.number="silverPrice" placeholder="Price per gram" min="0"
                       :class="{ 'is-invalid': errors.silverPrice }" aria-describedby="silverPriceError">
-                    <div v-if="errors.silverPrice" class="invalid-feedback" id="silverPriceError">{{ errors.silverPrice }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Cash Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
+                <label class="col-md-3 col-form-label fw-bold">
                   <i class="bi bi-cash-coin text-success me-2"></i>Cash
                 </label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="cash" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="cash" placeholder="Amount in hand & bank" min="0"
                       :class="{ 'is-invalid': errors.cash }" aria-describedby="cashError">
-                    <div v-if="errors.cash" class="invalid-feedback" id="cashError">{{ errors.cash }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Investments Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
+                <label class="col-md-3 col-form-label fw-bold">
                   <i class="bi bi-graph-up text-info me-2"></i>Investments
                 </label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="investments" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="investments" placeholder="Stocks, shares, etc." min="0"
                       :class="{ 'is-invalid': errors.investments }" aria-describedby="investmentsError">
-                    <div v-if="errors.investments" class="invalid-feedback" id="investmentsError">{{ errors.investments }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Business Assets Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
+                <label class="col-md-3 col-form-label fw-bold">
                   <i class="bi bi-briefcase text-dark me-2"></i>Business Assets
                 </label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="businessAssets" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="businessAssets" placeholder="Value of inventory" min="0"
                       :class="{ 'is-invalid': errors.businessAssets }" aria-describedby="businessAssetsError">
-                    <div v-if="errors.businessAssets" class="invalid-feedback" id="businessAssetsError">{{ errors.businessAssets }}</div>
                   </div>
                 </div>
               </div>
 
               <!-- Real Estate Input -->
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
+                <label class="col-md-3 col-form-label fw-bold">
                   <i class="bi bi-house text-warning me-2"></i>Real Estate
                 </label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="realEstate" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="realEstate" placeholder="Investment properties only" min="0"
                       :class="{ 'is-invalid': errors.realEstate }" aria-describedby="realEstateError">
-                    <div v-if="errors.realEstate" class="invalid-feedback" id="realEstateError">{{ errors.realEstate }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Other Assets Input -->
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label fw-bold">
+                  <i class="bi bi-plus-circle-dotted text-primary me-2"></i>Other Assets
+                </label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="otherAssets" placeholder="Receivables, etc." min="0"
+                      :class="{ 'is-invalid': errors.otherAssets }" aria-describedby="otherAssetsError">
                   </div>
                 </div>
               </div>
 
               <!-- Agricultural Produce Input -->
+              <h5 class="mt-5 fw-bold text-dark border-bottom pb-2 mb-4">
+                <i class="bi bi-wheat text-success me-2"></i>Agricultural Produce
+              </h5>
               <div class="row mb-3 align-items-center">
-                <label class="col-md-3 col-form-label">
-                  <i class="bi bi-wheat text-success me-2"></i>Agricultural Produce
-                </label>
-                <div class="col-md-9">
+                <div class="col-md-6">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="agriculturalProduce" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="agriculturalProduce" placeholder="Value of Produce" min="0"
                       :class="{ 'is-invalid': errors.agriculturalProduce }" aria-describedby="agriculturalProduceError">
-                    <div v-if="errors.agriculturalProduce" class="invalid-feedback" id="agriculturalProduceError">{{ errors.agriculturalProduce }}</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="irrigated" value="irrigated" v-model="agriculturalProduceType">
+                    <label class="form-check-label" for="irrigated">Irrigated (5% Zakat)</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="rain-fed" value="rain-fed" v-model="agriculturalProduceType">
+                    <label class="form-check-label" for="rain-fed">Rain-fed (10% Zakat)</label>
                   </div>
                 </div>
               </div>
 
               <!-- Liabilities Input -->
-              <div class="row mb-4 align-items-center">
-                <label class="col-md-3 col-form-label">
-                  <i class="bi bi-credit-card text-danger me-2"></i>Liabilities
-                </label>
+              <h5 class="mt-5 fw-bold text-dark border-bottom pb-2 mb-4">
+                <i class="bi bi-credit-card text-danger me-2"></i>Liabilities
+              </h5>
+              <div class="row mb-3 align-items-center">
+                <label class="col-md-3 col-form-label fw-bold">Short-term Debts</label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <span class="input-group-text">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="liabilities" placeholder="Amount" min="0"
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="liabilities" placeholder="Due within a year" min="0"
                       :class="{ 'is-invalid': errors.liabilities }" aria-describedby="liabilitiesError">
-                    <div v-if="errors.liabilities" class="invalid-feedback" id="liabilitiesError">{{ errors.liabilities }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-4 align-items-center">
+                <label class="col-md-3 col-form-label fw-bold">Other Liabilities</label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">{{ currencySymbol }}</span>
+                    <input type="number" class="form-control" v-model.number="otherLiabilities" placeholder="Taxes, rents, etc." min="0"
+                      :class="{ 'is-invalid': errors.otherLiabilities }" aria-describedby="otherLiabilitiesError">
                   </div>
                 </div>
               </div>
 
               <!-- Action Buttons -->
-              <div class="d-flex flex-column flex-md-row gap-3">
-                <button class="btn flex-fill" :disabled="!isFormValid"
+              <div class="d-flex flex-column flex-md-row gap-3 mt-5">
+                <button class="btn btn-dark flex-fill" :disabled="!isFormValid"
                   :style="{ opacity: isFormValid ? 1 : 0.5, cursor: isFormValid ? 'pointer' : 'not-allowed' }"
-                  style="background: rgb(13, 182, 145); color: #fff;" @click="calculateZakat">
+                  @click="calculateZakat">
                   <i class="bi bi-calculator me-2"></i><strong>Calculate Zakat</strong>
                 </button>
                 <button class="btn btn-outline-secondary flex-fill" @click="resetCalculator">
@@ -189,90 +243,105 @@
         </div>
 
         <!-- Results Panel -->
-        <div class="col-lg-4" ref="zakatSummary" v-if="zakatCalculated">
-          <div class="results-card card shadow-md sticky-top">
-            <div class="card-body p-4">
-              <h4 class="mb-4 fw-bold text-dark">Zakat Summary</h4>
+        <transition name="fade">
+          <div class="col-lg-5" ref="zakatSummary" v-if="zakatCalculated">
+            <div class="card shadow-md rounded-4 sticky-top">
+              <div class="card-body p-4">
+                <h4 class="mb-4 fw-bold text-dark">Zakat Summary</h4>
 
-              <!-- Asset Breakdown -->
-              <div class="summary-item mb-4">
-                <h6 class="mb-3">Asset Breakdown</h6>
-                <div v-for="(value, key) in assetBreakdown" :key="key" class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">{{ key }}:</span>
-                  <strong>{{ currencySymbol }}{{ value.toLocaleString() }}</strong>
-                </div>
-                <div class="progress mb-3" style="height: 8px;">
-                  <div class="progress-bar bg-success" role="progressbar" :style="{ width: '100%' }"></div>
-                </div>
-              </div>
-
-              <!-- Liabilities -->
-              <div class="summary-item mb-4">
-                <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Liabilities:</span>
-                  <strong class="text-danger">{{ currencySymbol }}{{ liabilities.toLocaleString() }}</strong>
-                </div>
-                <div class="progress mb-3" style="height: 8px;">
-                  <div class="progress-bar bg-danger" role="progressbar" :style="{ width: '100%' }"></div>
-                </div>
-              </div>
-
-              <!-- Zakatable Amount -->
-              <div class="summary-item mb-4">
-                <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Zakatable Amount:</span>
-                  <strong class="text-dark">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
-                </div>
-                <div class="progress mb-3" style="height: 8px;">
-                  <div class="progress-bar bg-dark" role="progressbar" :style="{ width: '100%' }"></div>
-                </div>
-              </div>
-
-              <!-- Zakat Due -->
-              <div class="summary-item bg-light p-3 rounded mb-4">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 class="mb-1">Zakat Due (2.5%)</h6>
-                    <small class="text-muted">Your annual obligation</small>
-                    <h4 class="text-success mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString() }}</h4>
+                <!-- Asset Breakdown -->
+                <div class="summary-item mb-4">
+                  <h6 class="mb-3 fw-bold">Asset Breakdown</h6>
+                  <div v-for="(value, key) in assetBreakdown" :key="key" class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">{{ key }}:</span>
+                    <strong>{{ currencySymbol }}{{ value.toLocaleString() }}</strong>
+                  </div>
+                  <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" :style="{ width: '100%' }"></div>
                   </div>
                 </div>
-              </div>
 
-              <!-- Chart -->
-              <canvas ref="zakatChart" id="zakatChart" class="mb-4"></canvas>
-
-              <!-- Nisab Threshold -->
-              <div class="summary-item mb-4">
-                <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Nisab Threshold ({{ nisabTypeLabel }}):</span>
-                  <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
+                <!-- Liabilities -->
+                <div class="summary-item mb-4">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Liabilities:</span>
+                    <strong class="text-danger">{{ currencySymbol }}{{ totalLiabilities.toLocaleString() }}</strong>
+                  </div>
+                  <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-danger" role="progressbar" :style="{ width: '100%' }"></div>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Eligibility -->
-              <div class="eligibility-badge text-center p-3 rounded mt-4"
-                :class="isEligible ? 'bg-success-light' : 'bg-light'">
-                <h5 :class="isEligible ? 'text-success' : 'text-muted'">
-                  <i :class="isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'" class="me-2"></i>
-                  {{ isEligible ? 'Zakat is Obligatory' : 'Below Nisab' }}
-                </h5>
-                <p class="small mb-0" v-if="isEligible">Your assets exceed the Nisab threshold.</p>
-                <p class="small mb-0" v-else>Your assets are below the Nisab threshold.</p>
-              </div>
+                <!-- Zakatable Amount -->
+                <div class="summary-item mb-4">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Zakatable Amount:</span>
+                    <strong class="text-dark">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
+                  </div>
+                  <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-dark" role="progressbar" :style="{ width: '100%' }"></div>
+                  </div>
+                </div>
 
-              <!-- Action Buttons -->
-              <div class="d-flex flex-column gap-2 mt-4">
-                <button class="btn w-100" style="background: rgb(13, 182, 145); color: #fff;" @click="printSummary">
-                  <i class="bi bi-download me-2"></i><b>Download Summary</b>
-                </button>
-                <button class="btn btn-outline-dark w-100" @click="shareSummary">
-                  <i class="bi bi-share me-2"></i><b>Share Summary</b>
-                </button>
+                <!-- Zakat Due Breakdown -->
+                <div v-if="isEligible" class="summary-item mb-4">
+                  <h6 class="mb-3 fw-bold">Zakat Breakdown</h6>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted">On General Assets (2.5%):</span>
+                    <strong>{{ currencySymbol }}{{ wealthZakat.toLocaleString() }}</strong>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="text-muted">On Agricultural Produce:</span>
+                    <strong>{{ currencySymbol }}{{ agriculturalZakat.toLocaleString() }}</strong>
+                  </div>
+                </div>
+
+                <!-- Zakat Due -->
+                <div class="summary-item bg-success-light p-3 rounded mb-4">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h6 class="mb-1 text-success fw-bold">Total Zakat Due</h6>
+                      <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
+                    </div>
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                  </div>
+                </div>
+
+                <!-- Chart -->
+                <canvas ref="zakatChart" id="zakatChart" class="mb-4"></canvas>
+
+                <!-- Nisab Threshold -->
+                <div class="summary-item mb-4">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Nisab Threshold ({{ nisabTypeLabel }}):</span>
+                    <strong>{{ currencySymbol }}{{ nisabThreshold.toLocaleString() }}</strong>
+                  </div>
+                </div>
+
+                <!-- Eligibility -->
+                <div class="eligibility-badge text-center p-3 rounded mt-4"
+                  :class="isEligible ? 'bg-success-light' : 'bg-light'">
+                  <h5 :class="isEligible ? 'text-success' : 'text-muted'" class="fw-bold">
+                    <i :class="isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'" class="me-2"></i>
+                    {{ isEligible ? 'Zakat is Obligatory' : 'Below Nisab' }}
+                  </h5>
+                  <p class="small mb-0" v-if="isEligible">Your assets exceed the Nisab threshold.</p>
+                  <p class="small mb-0" v-else>Your assets are below the Nisab threshold.</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex flex-column gap-2 mt-4">
+                  <button class="btn btn-dark w-100" @click="printSummary">
+                    <i class="bi bi-download me-2"></i><b>Download Summary</b>
+                  </button>
+                  <button class="btn btn-outline-dark w-100" @click="shareSummary">
+                    <i class="bi bi-share me-2"></i><b>Share Summary</b>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -296,7 +365,8 @@ export default {
     return {
       chartInstance: null,
       zakatCalculated: false,
-      showAboutZakat: false,
+      isLoadingPrices: false,
+      hawlMet: true,
       goldGrams: 0,
       goldPrice: 0,
       silverGrams: 0,
@@ -305,8 +375,11 @@ export default {
       investments: 0,
       businessAssets: 0,
       realEstate: 0,
+      otherAssets: 0,
       agriculturalProduce: 0,
+      agriculturalProduceType: 'irrigated',
       liabilities: 0,
+      otherLiabilities: 0,
       selectedCurrency: 'GBP',
       nisabType: 'gold',
       errors: {},
@@ -329,6 +402,7 @@ export default {
       return this.currencySymbols[this.selectedCurrency] || '$';
     },
     totalAssets() {
+      if (!this.hawlMet) return 0;
       return (
         this.goldGrams * this.goldPrice +
         this.silverGrams * this.silverPrice +
@@ -336,24 +410,40 @@ export default {
         this.investments +
         this.businessAssets +
         this.realEstate +
-        this.agriculturalProduce
+        this.otherAssets
       );
     },
+    totalLiabilities() {
+      return this.liabilities + this.otherLiabilities;
+    },
     zakatableAmount() {
-      const amount = this.totalAssets - this.liabilities;
+      const amount = this.totalAssets - this.totalLiabilities;
       return amount > 0 ? amount : 0;
     },
-    zakatDue() {
+    wealthZakat() {
       return this.zakatableAmount * 0.025;
     },
+    agriculturalZakat() {
+      if (this.agriculturalProduce <= 0) return 0;
+      const rate = this.agriculturalProduceType === 'rain-fed' ? 0.10 : 0.05;
+      return this.agriculturalProduce * rate;
+    },
+    zakatDue() {
+      return this.wealthZakat + this.agriculturalZakat;
+    },
     nisabThreshold() {
-      return this.nisabType === 'gold' ? 85 * this.goldPrice : 595 * this.silverPrice;
+      if (this.nisabType === 'gold' && this.goldPrice > 0) {
+        return 85 * this.goldPrice;
+      } else if (this.nisabType === 'silver' && this.silverPrice > 0) {
+        return 595 * this.silverPrice;
+      }
+      return 0;
     },
     nisabTypeLabel() {
       return this.nisabType === 'gold' ? 'Based on Gold (85g)' : 'Based on Silver (595g)';
     },
     isEligible() {
-      return this.zakatableAmount >= this.nisabThreshold;
+      return this.zakatableAmount >= this.nisabThreshold || this.agriculturalZakat > 0;
     },
     isFormValid() {
       return this.validateForm();
@@ -367,6 +457,7 @@ export default {
         'Business Assets': this.businessAssets,
         'Real Estate': this.realEstate,
         'Agricultural Produce': this.agriculturalProduce,
+        'Other Assets': this.otherAssets,
       };
     },
   },
@@ -407,12 +498,20 @@ export default {
         this.errors.realEstate = 'Amount cannot be negative';
         isValid = false;
       }
+      if (this.otherAssets < 0) {
+        this.errors.otherAssets = 'Amount cannot be negative';
+        isValid = false;
+      }
       if (this.agriculturalProduce < 0) {
         this.errors.agriculturalProduce = 'Amount cannot be negative';
         isValid = false;
       }
       if (this.liabilities < 0) {
         this.errors.liabilities = 'Amount cannot be negative';
+        isValid = false;
+      }
+      if (this.otherLiabilities < 0) {
+        this.errors.otherLiabilities = 'Amount cannot be negative';
         isValid = false;
       }
 
@@ -439,18 +538,18 @@ export default {
       const ctx = this.$refs.zakatChart?.getContext('2d');
       if (!ctx) return;
 
-      const assetValues = Object.values(this.assetBreakdown);
-      const assetLabels = Object.keys(this.assetBreakdown);
+      const assetValues = Object.values(this.assetBreakdown).filter(v => v > 0);
+      const assetLabels = Object.keys(this.assetBreakdown).filter(k => this.assetBreakdown[k] > 0);
 
       this.chartInstance = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: [...assetLabels, 'Zakat Due'],
+          labels: assetLabels,
           datasets: [{
-            data: [...assetValues, this.zakatDue],
+            data: assetValues,
             backgroundColor: [
               '#f1c40f', '#7f8c8d', '#2ecc71', '#3498db',
-              '#9b59b6', '#e74c3c', '#27ae60', '#e67e22',
+              '#9b59b6', '#e74c3c', '#27ae60', '#e67e22', '#1abc9c',
             ],
             borderColor: '#fff',
             borderWidth: 2,
@@ -539,6 +638,7 @@ export default {
         this.chartInstance = null;
       }
 
+      this.hawlMet = true;
       this.goldGrams = 0;
       this.goldPrice = 0;
       this.silverGrams = 0;
@@ -547,8 +647,10 @@ export default {
       this.investments = 0;
       this.businessAssets = 0;
       this.realEstate = 0;
+      this.otherAssets = 0;
       this.agriculturalProduce = 0;
       this.liabilities = 0;
+      this.otherLiabilities = 0;
       this.zakatCalculated = false;
       this.errors = {};
 
@@ -556,6 +658,7 @@ export default {
     },
     saveToLocalStorage() {
       const data = {
+        hawlMet: this.hawlMet,
         goldGrams: this.goldGrams,
         goldPrice: this.goldPrice,
         silverGrams: this.silverGrams,
@@ -565,9 +668,12 @@ export default {
         businessAssets: this.businessAssets,
         realEstate: this.realEstate,
         agriculturalProduce: this.agriculturalProduce,
+        otherAssets: this.otherAssets,
         liabilities: this.liabilities,
+        otherLiabilities: this.otherLiabilities,
         selectedCurrency: this.selectedCurrency,
         nisabType: this.nisabType,
+        agriculturalProduceType: this.agriculturalProduceType,
       };
       localStorage.setItem('zakatData', JSON.stringify(data));
     },
@@ -578,8 +684,41 @@ export default {
         Object.assign(this, data);
       }
     },
+    async fetchLivePrices() {
+      this.isLoadingPrices = true;
+      try {
+        // Note: Most free APIs require an API key. This is a placeholder URL.
+        // Replace with a real API endpoint. For example: `https://api.metals.dev/v1/latest?api_key=YOUR_API_KEY&currency=${this.selectedCurrency}&units=gram`
+        const response = await fetch(`https://api.nbp.pl/api/cenyzlota/today/?format=json`);
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        
+        // This example uses a specific API (NBP - Polish National Bank) which returns gold price in PLN.
+        // You would need to adjust this logic based on your chosen API and convert currencies if necessary.
+        if (data && data.length > 0 && data[0].cena) {
+            this.goldPrice = data[0].cena;
+        }
+
+        // Silver price would be fetched from a similar or different endpoint
+        // For demonstration, we'll use a static ratio to gold.
+        this.silverPrice = this.goldPrice / 75; // Placeholder ratio
+
+        alert('Live prices fetched successfully! Please verify them before calculating.');
+
+      } catch (error) {
+        console.error('Failed to fetch live prices:', error);
+        alert('Could not fetch live prices. Please enter them manually.');
+      } finally {
+        this.isLoadingPrices = false;
+      }
+    },
   },
   watch: {
+    hawlMet: 'saveToLocalStorage',
     goldGrams: 'saveToLocalStorage',
     goldPrice: 'saveToLocalStorage',
     silverGrams: 'saveToLocalStorage',
@@ -589,9 +728,12 @@ export default {
     businessAssets: 'saveToLocalStorage',
     realEstate: 'saveToLocalStorage',
     agriculturalProduce: 'saveToLocalStorage',
+    otherAssets: 'saveToLocalStorage',
     liabilities: 'saveToLocalStorage',
+    otherLiabilities: 'saveToLocalStorage',
     selectedCurrency: 'saveToLocalStorage',
     nisabType: 'saveToLocalStorage',
+    agriculturalProduceType: 'saveToLocalStorage',
   },
   mounted() {
     this.loadFromLocalStorage();
@@ -606,36 +748,37 @@ export default {
   padding-bottom: 4rem;
 }
 
-.hero-section {
-  margin-bottom: 2.5rem;
+.calculator-column {
+  transition: all 0.5s ease-in-out;
 }
 
-.calculator-card,
-.results-card {
-  border-radius: 8px;
-  overflow: hidden;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 
-
-.section-title::after {
-  content: '';
-  position: 4px;
-  width: 60px;
-  height: 4px;
-  background: rgb(13, 182, 145);
-  border-radius: 8px;
-}
-
-.input-group-text {
-  min-width: 60px;
-  font-weight: 500;
-  background-color: #f1f3f5;
+.accordion-button:not(.collapsed) {
+  color: #0c63e4;
+  background-color: #e7f1ff;
 }
 
 .summary-item {
-  margin-bottom: 2rem;
   animation: fadeIn 0.5s ease forwards;
+}
+
+.bg-success-light {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive Design */
@@ -643,23 +786,6 @@ export default {
   .results-card {
     position: static !important;
     margin-top: 3rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section h1 {
-    font-size: 2.5rem;
-  }
-
-  .input-group-text {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .form-control,
-  .form-select {
-    font-size: 0.95rem;
   }
 }
 
