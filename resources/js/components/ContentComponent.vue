@@ -68,21 +68,49 @@
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
 
-      <div class="episodes-filters-bar d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
-        <input v-model="searchQuery" type="text" class="form-control flex-grow-1" style="max-width: 260px;" placeholder="Search episodes..." />
-        <select v-model="durationFilter" class="form-select" style="max-width: 180px;">
-          <option value="">All Durations</option>
-          <option value="0-10">0-10 min</option>
-          <option value="10-30">10-30 min</option>
-          <option value="30-60">30-60 min</option>
-          <option value="more-than-60">60+ min</option>
-        </select>
-        <select v-model="languageFilter" class="form-select" style="max-width: 180px;">
-          <option value="">All Languages</option>
-          <option value="English">English</option>
-          <option value="Arabic">Arabic</option>
-          <option value="Unknown">Unknown</option>
-        </select>
+      <div class="episodes-filters-bar-wrapper">
+        <div class="row g-3">
+          <div class="col-12 col-md-3">
+            <div class="input-group search-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input v-model="searchQuery" type="text" class="form-control border-start-0" placeholder="Search episodes..." />
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="input-group filter-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-hourglass-split"></i></span>
+              <select v-model="durationFilter" class="form-select border-start-0">
+                <option value="">All Durations</option>
+                <option value="0-10">0-10 min</option>
+                <option value="10-30">10-30 min</option>
+                <option value="30-60">30-60 min</option>
+                <option value="more-than-60">60+ min</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="input-group filter-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-translate"></i></span>
+              <select v-model="languageFilter" class="form-select border-start-0">
+                <option value="">All Languages</option>
+                <option value="English">English</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Unknown">Unknown</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-3">
+            <div class="input-group filter-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-funnel"></i></span>
+              <select v-model="sortOption" class="form-select border-start-0">
+                <option value="mostViewed">Most Viewed</option>
+                <option value="leastViewed">Least Viewed</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Loading State -->
@@ -462,6 +490,21 @@ export default {
       // Filter by language
       if (this.languageFilter) {
         podcasts = podcasts.filter(p => p.language === this.languageFilter);
+      }
+      // Sort
+      switch (this.sortOption) {
+        case 'mostViewed':
+          podcasts = podcasts.slice().sort((a, b) => b.views - a.views);
+          break;
+        case 'leastViewed':
+          podcasts = podcasts.slice().sort((a, b) => a.views - b.views);
+          break;
+        case 'newest':
+          podcasts = podcasts.slice().sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+          break;
+        case 'oldest':
+          podcasts = podcasts.slice().sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+          break;
       }
       return podcasts;
     },
@@ -2454,15 +2497,54 @@ export default {
   margin-left: auto;
 }
 
+.episodes-filters-bar-wrapper {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(13,182,145,0.07);
+  padding: 1.2rem 1.5rem 1rem 1.5rem;
+  margin-bottom: 2.2rem;
+}
 .episodes-filters-bar {
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.2rem;
+}
+.input-group-text {
+  background: #fff;
+  border-radius: 12px 0 0 12px;
+  border: 1px solid #e9ecef;
+  border-right: none;
+  color: #0db6a1;
+  font-size: 1.2rem;
+}
+.search-group .form-control,
+.filter-group .form-select {
+  border-radius: 0 12px 12px 0;
+  border: 1px solid #e9ecef;
+  border-left: none;
+  background: #fff;
+  font-size: 1rem;
+}
+.filter-group .form-select {
+  min-width: 120px;
+}
+@media (max-width: 900px) {
+  .episodes-filters-bar-wrapper {
+    padding: 1rem 0.7rem 0.7rem 0.7rem;
+  }
+  .episodes-filters-bar {
+    gap: 0.7rem;
+  }
 }
 @media (max-width: 768px) {
   .episodes-filters-bar {
     flex-direction: column;
     align-items: stretch;
     gap: 0.7rem;
+  }
+  .episodes-filters-bar-wrapper {
+    padding: 0.7rem 0.3rem 0.3rem 0.3rem;
+  }
+  .row.g-3 > [class^='col-'] {
+    margin-bottom: 0.7rem;
   }
 }
 </style>
