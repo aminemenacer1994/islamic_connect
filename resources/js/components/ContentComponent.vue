@@ -1,11 +1,12 @@
 <template>
   <div class="container py-4">
     <!-- Header Section -->
-    <div class="header-section">
-      <h1 class="main-title">Islamic Podcasts</h1>
-      <p class="main-description">
+    <div>
+      <h1 h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
+      <p class="text-center container mb-4 lead">
         Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
-        thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen your
+        thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
+        your
         understanding of Islam.
       </p>
     </div>
@@ -18,8 +19,8 @@
       </div>
 
       <div class="podcast-selection-grid">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" 
-             class="podcast-selection-item" @click="selectPodcast(podcast)">
+        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
+          @click="selectPodcast(podcast)">
           <div class="podcast-image-wrapper">
             <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image">
             <div class="podcast-overlay">
@@ -38,14 +39,15 @@
         <h2 class="section-title">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
-      
+
       <div class="selected-podcast-header">
         <div class="selected-podcast-info">
           <h3 class="selected-podcast-title">{{ selectedPodcast.name }}</h3>
           <div class="selected-podcast-meta">
             <span class="episode-count">
               <i class="bi bi-collection-play"></i>
-              {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }} Episodes Available
+              {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }} Episodes
+              Available
             </span>
           </div>
         </div>
@@ -53,7 +55,7 @@
           <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image">
         </div>
       </div>
-      
+
       <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
@@ -64,6 +66,23 @@
       <div class="section-header">
         <h2 class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
+      </div>
+
+      <div class="episodes-filters-bar d-flex flex-wrap align-items-center justify-content-between mb-4 gap-3">
+        <input v-model="searchQuery" type="text" class="form-control flex-grow-1" style="max-width: 260px;" placeholder="Search episodes..." />
+        <select v-model="durationFilter" class="form-select" style="max-width: 180px;">
+          <option value="">All Durations</option>
+          <option value="0-10">0-10 min</option>
+          <option value="10-30">10-30 min</option>
+          <option value="30-60">30-60 min</option>
+          <option value="more-than-60">60+ min</option>
+        </select>
+        <select v-model="languageFilter" class="form-select" style="max-width: 180px;">
+          <option value="">All Languages</option>
+          <option value="English">English</option>
+          <option value="Arabic">Arabic</option>
+          <option value="Unknown">Unknown</option>
+        </select>
       </div>
 
       <!-- Loading State -->
@@ -78,50 +97,48 @@
       </div>
 
       <!-- Episodes Grid -->
-      <div v-else class="podcast-cards-grid">
+      <div v-else class="podcast-cards-grid border-md" style="padding: 5px;">
         <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]">
+          <div :class="['podcast-card', { 'highlighted': playingIndex === index }]" style="padding: 1.2rem;">
             <div class="card-header">
               <div class="podcast-meta">
-                <div class="views-badge">
-                  <i class="bi bi-eye-fill"></i>
-                  <span>{{ podcast.views }} views</span>
+                <div class="views-badge" :title="'Views'">
+                  <i class="bi bi-eye-fill" style="font-size:1.2rem;"></i>
+                  <span class="meta-text">{{ podcast.views }} views</span>
                 </div>
-                <div class="date-badge">
-                  <i class="bi bi-calendar3"></i>
-                  <span>{{ formatDate(podcast.pubDate) }}</span>
+                <div class="date-badge" :title="'Published date'">
+                  <i class="bi bi-calendar3" style="font-size:1.2rem;"></i>
+                  <span class="meta-text">{{ formatDate(podcast.pubDate) }}</span>
+                  <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
                 </div>
               </div>
             </div>
-
-            <div class="card-body">
-              <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
-              
-              <div class="audio-controls">
-                <button class="control-button rewind-btn" @click="rewindAudio(index)" 
-                        :title="`Rewind 15 seconds`">
-                  <i class="bi bi-skip-backward-fill"></i>
-                  <span class="control-label">Rewind</span>
-                </button>
-
-                <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
-                        :class="{ 'playing': isAudioPlaying[index] }">
-                  <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-                  <span class="control-label">{{ isAudioPlaying[index] ? 'Pause' : 'Play' }}</span>
-                </button>
-
-                <button class="control-button forward-btn" @click="fastForwardAudio(index)"
-                        :title="`Fast Forward 20 seconds`">
-                  <i class="bi bi-skip-forward-fill"></i>
-                  <span class="control-label">Forward</span>
-                </button>
-              </div>
-
-              <div class="action-buttons">
-                <button class="action-button share-btn" @click="shareOnWhatsApp(podcast)" title="Share on WhatsApp">
-                  <i class="bi bi-share-fill"></i>
-                  <span>Share Episode</span>
-                </button>
+            <div class="card-body ">
+              <div class="podcast-card-top">
+                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
+                  :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
+                  @click="scrollToFirstEpisode" style="cursor:pointer;" />
+                <div class="podcast-card-info">
+                  <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
+                  <div class="podcast-extra-info">
+                    <span class="duration-badge" :title="'Duration'">
+                      <i class="bi bi-clock" style="font-size:1.1rem;"></i>
+                      {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}
+                    </span>
+                    <span class="lang-badge" :title="'Language'">
+                      <i class="bi bi-translate" style="font-size:1.1rem;"></i>
+                      {{ podcast.language }}
+                    </span>
+                  </div>
+                </div>
+                <div class="audio-controls-inline">
+                  <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
+                    :class="{ 'playing': isAudioPlaying[index] }"
+                    :aria-label="isAudioPlaying[index] ? 'Pause' : 'Play'">
+                    <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'"
+                      style="font-size:1.5rem;"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -134,13 +151,10 @@
           <h3 class="pagination-title">Browse More Episodes</h3>
           <p class="pagination-subtitle">Use the buttons below to see more episodes</p>
         </div>
-        
+
         <div class="pagination-wrapper">
-          <button 
-            @click="changePage(currentPage - 1)" 
-            :disabled="currentPage === 1"
-            class="pagination-btn pagination-btn-prev"
-            :class="{ 'disabled': currentPage === 1 }"
+          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
+            class="pagination-btn pagination-btn-prev" :class="{ 'disabled': currentPage === 1 }"
             aria-label="Go to previous page">
             <i class="bi bi-chevron-left"></i>
             <span class="btn-text">Previous Page</span>
@@ -148,63 +162,44 @@
 
           <div class="page-numbers">
             <template v-if="totalPages <= 7">
-              <button 
-                v-for="page in totalPages" 
-                :key="page"
-                @click="changePage(page)"
-                class="page-number"
-                :class="{ 'active': currentPage === page }"
-                :aria-label="`Go to page ${page}`"
+              <button v-for="page in totalPages" :key="page" @click="changePage(page)" class="page-number"
+                :class="{ 'active': currentPage === page }" :aria-label="`Go to page ${page}`"
                 :aria-current="currentPage === page ? 'page' : null">
                 {{ page }}
               </button>
             </template>
-            
+
             <template v-else>
-              <button 
-                @click="changePage(1)"
-                class="page-number"
-                :class="{ 'active': currentPage === 1 }"
+              <button @click="changePage(1)" class="page-number" :class="{ 'active': currentPage === 1 }"
                 aria-label="Go to page 1">
                 1
               </button>
-              
+
               <span v-if="currentPage > 4" class="page-ellipsis">...</span>
-              
-              <button 
-                v-for="page in getVisiblePages()" 
-                :key="page"
-                @click="changePage(page)"
-                class="page-number"
-                :class="{ 'active': currentPage === page }"
-                :aria-label="`Go to page ${page}`"
+
+              <button v-for="page in getVisiblePages()" :key="page" @click="changePage(page)" class="page-number"
+                :class="{ 'active': currentPage === page }" :aria-label="`Go to page ${page}`"
                 :aria-current="currentPage === page ? 'page' : null">
                 {{ page }}
               </button>
-              
+
               <span v-if="currentPage < totalPages - 3" class="page-ellipsis">...</span>
-              
-              <button 
-                @click="changePage(totalPages)"
-                class="page-number"
-                :class="{ 'active': currentPage === totalPages }"
-                :aria-label="`Go to page ${totalPages}`">
+
+              <button @click="changePage(totalPages)" class="page-number"
+                :class="{ 'active': currentPage === totalPages }" :aria-label="`Go to page ${totalPages}`">
                 {{ totalPages }}
               </button>
             </template>
           </div>
 
-          <button 
-            @click="changePage(currentPage + 1)" 
-            :disabled="currentPage === totalPages"
-            class="pagination-btn pagination-btn-next"
-            :class="{ 'disabled': currentPage === totalPages }"
+          <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
+            class="pagination-btn pagination-btn-next" :class="{ 'disabled': currentPage === totalPages }"
             aria-label="Go to next page">
             <span class="btn-text">Next Page</span>
             <i class="bi bi-chevron-right"></i>
           </button>
         </div>
-        
+
         <div class="mobile-page-info">
           <span class="page-info-text">Page {{ currentPage }} of {{ totalPages }}</span>
         </div>
@@ -245,14 +240,16 @@
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider" />
+            <input type="range" v-model="volume" min="0" max="1" step="0.01" @input="updateVolume" class="volume-slider"
+              :style="{ background: `linear-gradient(to right, #0db6a1 0%, #0db6a1 ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%, rgba(255,255,255,0.2) 100%)` }" />
           </div>
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
+            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        <div class="progress-bar">
+        <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
         </div>
       </div>
@@ -300,14 +297,13 @@ export default {
                 The topics range from faith, Islamic history, and jurisprudence to social justice, current affairs, and political challenges faced by Muslims today.`,
           image: "./images/mad_mamluk.jpg",
         },
-
-        {
-          name: "The Deen Show",
-          rssUrl: "https://thedeenshow.com/feed/podcast/",
-          desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
-                With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
-          image: "./images/deen_show.png",
-        },
+        // {
+        //   name: "The Deen Show",
+        //   rssUrl: "https://thedeenshow.com/feed/podcast/",
+        //   desc: `The Deen Show is an American Islamic talk show hosted by Eddie, a convert to Islam, who engages with scholars, experts, and influential speakers to educate both Muslims and non-Muslims about Islam.  
+        //         With a focus on dawah (Islamic outreach), Eddie explores fundamental beliefs, misconceptions about Islam, and the lives of prominent Muslim figures.`,
+        //   image: "./images/deen_show.png",
+        // },
         {
           name: "Yaqeen",
           rssUrl: "https://feeds.buzzsprout.com/1014445.rss",
@@ -420,28 +416,54 @@ export default {
       volume: 1.0,
       playbackSpeed: 1.0,
       audioPlayerJustOpened: false,
+      isSeeking: false,
+      languageFilter: '',
     };
   },
 
   computed: {
     totalPages() {
-      return Math.ceil(this.filteredPodcasts.length / this.podcastsPerPage);
+      return Math.ceil(this.filteredAndSearchedPodcasts.length / this.podcastsPerPage);
     },
     pages() {
       return Array.from({ length: Math.min(this.totalPages, 8) }, (_, i) => i + 1);
     },
     paginatedPodcasts() {
       const start = (this.currentPage - 1) * this.podcastsPerPage;
-      return this.filteredPodcasts.slice(start, start + this.podcastsPerPage);
+      return this.filteredAndSearchedPodcasts.slice(start, start + this.podcastsPerPage);
     },
-    // filteredPodcasts() {
-    //   // Filter out podcasts with the specific phrase in the description
-    //   return this.islamicPodcasts.filter(podcast =>
-    //     !podcast.description.includes("No audio available for this podcast.")
-    //   );
-    // },
-    filteredPodcasts() {
-      return this.applyDurationFilter(this.islamicPodcasts);
+    filteredAndSearchedPodcasts() {
+      let podcasts = this.filteredPodcasts;
+      // Filter by search
+      if (this.searchQuery) {
+        const q = this.searchQuery.toLowerCase();
+        podcasts = podcasts.filter(p =>
+          (p.title && p.title.toLowerCase().includes(q)) ||
+          (p.description && p.description.toLowerCase().includes(q))
+        );
+      }
+      // Filter by duration
+      if (this.durationFilter) {
+        switch (this.durationFilter) {
+          case '0-10':
+            podcasts = podcasts.filter(p => p.duration <= 10);
+            break;
+          case '10-30':
+            podcasts = podcasts.filter(p => p.duration > 10 && p.duration <= 30);
+            break;
+          case '30-60':
+            podcasts = podcasts.filter(p => p.duration > 30 && p.duration <= 60);
+            break;
+          case 'more-than-60':
+            podcasts = podcasts.filter(p => p.duration > 60);
+            break;
+        }
+      }
+      // Filter by language
+      if (this.languageFilter) {
+        podcasts = podcasts.filter(p => p.language === this.languageFilter);
+      }
+      return podcasts;
     },
     sortedPodcasts() {
       return this.applySorting([...this.filteredPodcasts]);
@@ -700,40 +722,37 @@ export default {
     },
 
     playAudio(index) {
-      // Check if there's another audio playing
-      if (this.currentlyPlaying !== null && this.currentlyPlaying !== index) {
-        const currentAudio = this.$refs.audioPlayer[this.currentlyPlaying];
-        if (currentAudio) {
-          currentAudio.pause(); // Pause the currently playing audio
-          currentAudio.currentTime = 0; // Reset the time
+      // Only one audio at a time
+      if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
+        if (this.currentlyPlaying.pause) {
+          this.currentlyPlaying.pause();
+          this.currentlyPlaying.currentTime = 0;
         }
       }
-
-      // Play the new audio
-      const audio = this.$refs.audioPlayer[index];
-      if (audio) {
-        audio.currentTime = 0; // Reset playback
-        audio.play().catch((err) => console.error("Audio play error:", err));
-
-        // Set the currently playing audio index and highlight the card
-        this.currentlyPlaying = index;
-        this.playingIndex = index;
-      }
+      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+      this.currentlyPlaying = this.audioElements[index];
+      this.currentlyPlayingIndex = index;
+      this.playingIndex = index;
+      this.currentlyPlaying.play().catch((err) => {
+        console.error('Play error:', err);
+        this.handlePodcastEnd(index);
+      });
+      this.isAudioPlaying[index] = true;
+      this.showAudioPlayer = true;
+      this.$nextTick(() => {
+        const player = document.querySelector('.audio-player-container');
+        if (player) player.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
+      this.audioPlayerJustOpened = true;
+      setTimeout(() => {
+        this.audioPlayerJustOpened = false;
+      }, 300);
     },
-
-    handleAudioEnd(index) {
-      // Repeat audio if the repeat state is true
-      if (this.repeatStates[index]) {
-        const audioElement = this.$refs.audioPlayer[index];
-        if (audioElement) {
-          audioElement.currentTime = 0;
-          audioElement.play();
-        }
-      }
-
-      // Reset the highlighted card when the audio ends
-      if (this.currentlyPlaying === index) {
-        this.playingIndex = null; // Reset the playing index
+    handlePodcastEnd(index) {
+      if (this.isAudioPlaying[index]) {
+        this.stopAudio(index);
+        this.playingIndex = null;
+        this.playNextPodcast();
       }
     },
 
@@ -923,13 +942,13 @@ export default {
       const pages = [];
       const start = Math.max(2, this.currentPage - 1);
       const end = Math.min(this.totalPages - 1, this.currentPage + 1);
-      
+
       for (let i = start; i <= end; i++) {
         if (i > 1 && i < this.totalPages) {
           pages.push(i);
         }
       }
-      
+
       return pages;
     },
 
@@ -951,30 +970,6 @@ export default {
         return audio;
       });
     },
-    playAudio(index) {
-      if (!this.audioElements[index] || index >= this.paginatedPodcasts.length) return;
-      if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
-        this.currentlyPlaying.pause();
-        this.currentlyPlaying.currentTime = 0;
-      }
-      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
-      this.currentlyPlaying = this.audioElements[index];
-      this.currentlyPlayingIndex = index;
-      this.currentlyPlaying.play().catch((err) => {
-        console.error('Play error:', err);
-        this.handlePodcastEnd(index);
-      });
-      this.isAudioPlaying[index] = true;
-      this.showAudioPlayer = true;
-      
-      // Set flag to prevent immediate dismissal
-      this.audioPlayerJustOpened = true;
-      
-      // Clear the flag after a short delay
-      setTimeout(() => {
-        this.audioPlayerJustOpened = false;
-      }, 300);
-    },
     pauseAudio(index) {
       if (this.audioElements[index]) {
         this.audioElements[index].pause();
@@ -985,8 +980,10 @@ export default {
       if (!this.audioElements[index]) return;
       if (!this.isAudioPlaying[index]) {
         this.playAudio(index);
+        this.playingIndex = index;
       } else {
         this.pauseAudio(index);
+        this.playingIndex = null;
       }
     },
     stopAudio(index) {
@@ -1014,13 +1011,19 @@ export default {
       }
     },
     formatTime(seconds) {
-      const minutes = Math.floor(seconds / 60);
+      const hrs = Math.floor(seconds / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
       const secs = Math.floor(seconds % 60);
-      return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
+      return (
+        (hrs < 10 ? '0' : '') + hrs + ':' +
+        (mins < 10 ? '0' : '') + mins + ':' +
+        (secs < 10 ? '0' : '') + secs
+      );
     },
     handlePodcastEnd(index) {
       if (this.isAudioPlaying[index]) {
         this.stopAudio(index);
+        this.playingIndex = null;
         this.playNextPodcast();
       }
     },
@@ -1042,6 +1045,13 @@ export default {
           if (audio) audio.volume = this.volume;
         });
       }
+      // Dynamically update the seek color for the volume slider
+      this.$nextTick(() => {
+        const slider = document.querySelector('.volume-slider');
+        if (slider) {
+          slider.style.setProperty('--val', this.volume);
+        }
+      });
     },
     closeAudioPlayer() {
       if (this.currentlyPlayingIndex !== null) {
@@ -1060,7 +1070,7 @@ export default {
         this.audioPlayerJustOpened = false;
         return;
       }
-      
+
       // Close audio player when clicking on the backdrop
       this.closeAudioPlayer();
     },
@@ -1070,6 +1080,46 @@ export default {
       if (event.key === 'Escape' && this.showAudioPlayer) {
         this.closeAudioPlayer();
       }
+    },
+    isNewEpisode(pubDate) {
+      const now = new Date();
+      const published = new Date(pubDate);
+      const diffDays = (now - published) / (1000 * 60 * 60 * 24);
+      return diffDays <= 7;
+    },
+    scrollToFirstEpisode() {
+      this.$nextTick(() => {
+        const firstEpisode = document.querySelector('.podcast-cards-grid .podcast-card-wrapper');
+        if (firstEpisode) {
+          firstEpisode.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    },
+    seekAudio(event) {
+      const bar = event.currentTarget;
+      const rect = bar.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const percent = Math.max(0, Math.min(1, x / rect.width));
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (audio && audio.duration) {
+        audio.currentTime = percent * audio.duration;
+      }
+    },
+    startSeek(event) {
+      this.isSeeking = true;
+      this.seekAudio(event);
+      window.addEventListener('mousemove', this.onSeekMove);
+      window.addEventListener('mouseup', this.stopSeek);
+    },
+    onSeekMove(event) {
+      if (this.isSeeking) {
+        this.seekAudio(event);
+      }
+    },
+    stopSeek() {
+      this.isSeeking = false;
+      window.removeEventListener('mousemove', this.onSeekMove);
+      window.removeEventListener('mouseup', this.stopSeek);
     },
   },
 
@@ -1106,12 +1156,15 @@ export default {
 </script>
 
 <style scoped>
+.podcast-card-wrapper {
+  padding: 10px;
+}
+
 /* Main Layout Styles */
 .header-section {
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
@@ -1340,23 +1393,51 @@ export default {
 
 .podcast-card {
   background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-  border: 2px solid rgba(0, 0, 0, 0.05);
+  border-radius: 35px;
+  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);
+  border: 5px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   height: 100%;
   position: relative;
+  padding: 2rem 1.5rem;
 }
 
 .podcast-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.18);
+  transform: none;
+  box-shadow: none;
 }
 
 .podcast-card.highlighted {
   border-color: #0db6a1;
-  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.25), 0 15px 45px rgba(13, 182, 145, 0.2);
+  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);
+  border-width: 2.5px;
+  outline: 2px solid #0db6a1;
+  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);
+  z-index: 2;
+}
+
+.podcast-card.highlighted::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);
+  animation: playing-glow 1.5s infinite alternate;
+}
+
+@keyframes playing-glow {
+  0% {
+    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);
+  }
+
+  100% {
+    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);
+  }
 }
 
 /* Card Header */
@@ -1373,7 +1454,8 @@ export default {
   gap: 16px;
 }
 
-.views-badge, .date-badge {
+.views-badge,
+.date-badge {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1388,7 +1470,8 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.views-badge i, .date-badge i {
+.views-badge i,
+.date-badge i {
   font-size: 1rem;
   color: #0db6a1;
 }
@@ -1402,9 +1485,9 @@ export default {
 }
 
 .podcast-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.5;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.4;
   color: #2c3e50;
   margin: 0;
   display: -webkit-box;
@@ -1415,13 +1498,15 @@ export default {
   min-height: 3.6rem;
 }
 
+.meta-text {
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
 /* Audio Controls */
 .audio-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 0;
+  display: none !important;
 }
 
 .control-button {
@@ -1464,44 +1549,16 @@ export default {
   line-height: 1.2;
 }
 
-.play-btn {
-  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.35);
-  min-width: 72px;
-  min-height: 72px;
-}
 
-.play-btn:hover {
-  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);
-  transform: scale(1.08);
-}
 
-.play-btn i {
-  color: white;
-  font-size: 1.6rem;
-}
-
-.play-btn .control-label {
-  color: white;
-  font-weight: 700;
-}
-
-.play-btn.playing {
-  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
-  box-shadow: 0 6px 20px rgba(220, 53, 69, 0.35);
-}
-
-.play-btn.playing:hover {
-  background: linear-gradient(135deg, #e74c3c 0%, #dc3545 100%);
-}
-
-.rewind-btn, .forward-btn {
+.rewind-btn,
+.forward-btn {
   background: rgba(108, 117, 125, 0.1);
   border: 2px solid rgba(108, 117, 125, 0.1);
 }
 
-.rewind-btn:hover, .forward-btn:hover {
+.rewind-btn:hover,
+.forward-btn:hover {
   background: rgba(13, 182, 145, 0.15);
   border-color: rgba(13, 182, 145, 0.2);
 }
@@ -1558,52 +1615,46 @@ export default {
   .podcast-card {
     border-radius: 12px;
   }
-  
+
   .card-header {
     padding: 12px 16px 8px;
   }
-  
+
   .card-body {
     padding: 16px;
     gap: 16px;
   }
-  
+
   .podcast-title {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
-  
+
   .audio-controls {
     gap: 12px;
     padding: 12px 0;
   }
-  
+
   .control-button {
     padding: 10px;
     min-width: 40px;
     min-height: 40px;
   }
-  
-  .play-btn {
-    padding: 14px;
-    min-width: 48px;
-    min-height: 48px;
-  }
-  
+
+
+
   .control-button i {
     font-size: 1.1rem;
   }
-  
-  .play-btn i {
-    font-size: 1.3rem;
-  }
-  
+
+
   .podcast-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
-  .views-badge, .date-badge {
+
+  .views-badge,
+  .date-badge {
     font-size: 0.8rem;
     padding: 4px 10px;
   }
@@ -1619,27 +1670,20 @@ export default {
   .audio-controls {
     gap: 8px;
   }
-  
+
   .control-button {
     padding: 8px;
     min-width: 36px;
     min-height: 36px;
   }
-  
-  .play-btn {
-    padding: 12px;
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
+
+
+
   .control-button i {
     font-size: 1rem;
   }
-  
-  .play-btn i {
-    font-size: 1.2rem;
-  }
-  
+
+
   .action-button {
     padding: 8px 12px;
     font-size: 0.85rem;
@@ -1896,7 +1940,7 @@ export default {
   .pagination-btn {
     border: 2px solid #0db6a1;
   }
-  
+
   .page-number {
     border-width: 2px;
   }
@@ -1904,11 +1948,12 @@ export default {
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
+
   .pagination-btn,
   .page-number {
     transition: none;
   }
-  
+
   .pagination-btn:hover:not(.disabled),
   .page-number:hover:not(.active) {
     transform: none;
@@ -1923,7 +1968,6 @@ export default {
   width: 100%;
   z-index: 1001;
   background-color: rgba(33, 33, 33, 0.95);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 15px 15px 0 0;
   padding: 10px;
   transition: transform 0.3s ease-in-out;
@@ -1934,12 +1978,8 @@ export default {
   flex-direction: column;
   color: white;
   padding: 8px 12px;
-  background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);
-  backdrop-filter: blur(20px);
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.3);
   border-radius: 20px 20px 0 0;
   width: 100%;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .controls {
@@ -1957,13 +1997,11 @@ export default {
   color: white;
   font-size: 1.3rem;
   cursor: pointer;
-  padding: 10px;
   border-radius: 50%;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
   min-width: 44px;
   min-height: 44px;
 }
@@ -1994,28 +2032,98 @@ export default {
   width: 120px;
   height: 4px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(to right, #0db6a1 0%, #0db6a1 calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) 100%);
   outline: none;
   -webkit-appearance: none;
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
+/* Webkit (Chrome, Safari) */
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #00bfa6;
+  background: #0db6a1;
   cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(13, 182, 145, 0.15);
+  margin-top: -6px;
+  /* Center the thumb on the 4px track */
 }
 
+/* Firefox */
 .volume-slider::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #00bfa6;
+  background: #0db6a1;
   cursor: pointer;
   border: none;
+  margin-top: -6px;
+}
+
+.volume-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* IE/Edge */
+.volume-slider::-ms-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0db6a1;
+  cursor: pointer;
+  border: none;
+  margin-top: 0px;
+}
+
+.volume-slider::-ms-fill-lower {
+  background: #0db6a1;
+}
+
+.volume-slider::-ms-fill-upper {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.volume-slider:focus {
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.volume-slider::-ms-tooltip {
+  display: none;
+}
+
+/* Make the play button in the audio player more visible */
+.custom-audio-player .play-pause {
+  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);
+  border: 2.5px solid #fff;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.custom-audio-player .play-pause:hover {
+  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);
+  transform: scale(1.08);
 }
 
 .time {
@@ -2032,7 +2140,6 @@ export default {
   }
 
   .control-btn {
-    padding: 8px;
     font-size: 1.1rem;
     min-width: 40px;
     min-height: 40px;
@@ -2200,6 +2307,7 @@ export default {
 
 /* Responsive Design for Loading and Empty States */
 @media (max-width: 768px) {
+
   .loading-container,
   .empty-state {
     padding: 2rem 1rem;
@@ -2225,6 +2333,7 @@ export default {
 }
 
 @media (max-width: 576px) {
+
   .loading-container,
   .empty-state {
     padding: 1.5rem 0.5rem;
@@ -2241,6 +2350,119 @@ export default {
 
   .empty-state-description {
     font-size: 0.85rem;
+  }
+}
+
+.episode-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+  box-shadow: none;
+  border: 2px solid #e9ecef;
+}
+
+.podcast-card-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+}
+
+.podcast-card-info {
+  flex: 1;
+}
+
+.podcast-extra-info {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 0.2rem;
+  font-size: 0.98rem;
+  color: #6c757d;
+}
+
+.duration-badge,
+.lang-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 2px 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.new-badge {
+  background: #0db6a1;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-left: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.podcast-desc {
+  color: #495057;
+  font-size: 1.02rem;
+  margin: 0.5rem 0 0.7rem 0;
+  line-height: 1.5;
+  min-height: 2.2em;
+}
+
+@media (max-width: 768px) {
+  .episode-avatar {
+    width: 56px;
+    height: 56px;
+    margin-right: 0.7rem;
+  }
+
+  .podcast-desc {
+    font-size: 0.92rem;
+  }
+
+  .podcast-extra-info {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .podcast-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .episode-avatar {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.5rem;
+  }
+
+  .podcast-desc {
+    font-size: 0.85rem;
+  }
+}
+
+.audio-controls-inline {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.episodes-filters-bar {
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 768px) {
+  .episodes-filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
   }
 }
 </style>
