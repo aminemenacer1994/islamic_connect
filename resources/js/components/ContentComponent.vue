@@ -73,7 +73,8 @@
           <div class="col-12 col-md-3">
             <div class="input-group search-group">
               <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-              <input v-model="searchQuery" type="text" class="form-control border-start-0" placeholder="Search episodes..." />
+              <input v-model="searchQuery" type="text" class="form-control border-start-0"
+                placeholder="Search episodes..." />
             </div>
           </div>
           <div class="col-12 col-md-3">
@@ -2497,13 +2498,15 @@ export default {
 .episodes-filters-bar-wrapper {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(13,182,145,0.07);
+  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);
   padding: 1.2rem 1.5rem 1rem 1.5rem;
   margin-bottom: 2.2rem;
 }
+
 .episodes-filters-bar {
   gap: 1.2rem;
 }
+
 .input-group-text {
   background: #fff;
   border-radius: 12px 0 0 12px;
@@ -2512,6 +2515,7 @@ export default {
   color: #0db6a1;
   font-size: 1.2rem;
 }
+
 .search-group .form-control,
 .filter-group .form-select {
   border-radius: 0 12px 12px 0;
@@ -2520,27 +2524,33 @@ export default {
   background: #fff;
   font-size: 1rem;
 }
+
 .filter-group .form-select {
   min-width: 120px;
 }
+
 @media (max-width: 900px) {
   .episodes-filters-bar-wrapper {
     padding: 1rem 0.7rem 0.7rem 0.7rem;
   }
+
   .episodes-filters-bar {
     gap: 0.7rem;
   }
 }
+
 @media (max-width: 768px) {
   .episodes-filters-bar {
     flex-direction: column;
     align-items: stretch;
     gap: 0.7rem;
   }
+
   .episodes-filters-bar-wrapper {
     padding: 0.7rem 0.3rem 0.3rem 0.3rem;
   }
-  .row.g-3 > [class^='col-'] {
+
+  .row.g-3>[class^='col-'] {
     margin-bottom: 0.7rem;
   }
 }

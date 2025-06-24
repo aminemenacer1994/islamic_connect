@@ -451,21 +451,31 @@ export default {
         .then(function(data) { self.surahs = data.data; })
         .catch(function(error) { console.error("Error fetching Surahs:", error); });
     },
-    fetchReciters: function() {
-      var self = this;
-      fetch("https://api.alquran.cloud/v1/edition/format/audio")
-        .then(function(response) { return response.json(); })
-        .then(function(data) {
-          self.reciters = data.data
-            .filter(function(reciter) { return reciter.identifier && reciter.englishName; })
-            .map(function(reciter) {
-              return {
-                identifier: reciter.identifier,
-                englishName: reciter.englishName || "Unknown Reciter"
-              };
-            });
-        })
-        .catch(function(error) { console.error("Error fetching Reciters:", error); });
+    async fetchReciters() {
+      try {
+        const response = await fetch("https://api.alquran.cloud/v1/edition/format/audio");
+        if (!response.ok) throw new Error("Failed to fetch Reciters");
+        const data = await response.json();
+        this.reciters = data.data
+          .filter((reciter) => reciter.identifier && reciter.englishName)
+          .map((reciter) => ({
+            identifier: reciter.identifier,
+            englishName: reciter.englishName || "Unknown Reciter",
+          }))
+          .filter(reciter => ![
+            'elmir kuliev by 1muslimapp',
+            'elmir kuliev 2 by 1muslimapp',
+            'elmir kuliev 1muslim',
+            'elmir kuliev 2muslim',
+            'chinese',
+            'ibrahim walk',
+            'fooladvand - hedayatfar',
+            'shamshad ali khan',
+            'youssouf leclerc'
+          ].includes(reciter.englishName.toLowerCase()));
+      } catch (error) {
+        console.error("Error fetching Reciters:", error);
+      }
     },
     fetchTranslations: function() {
       var self = this;
