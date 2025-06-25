@@ -4,45 +4,51 @@
     <p class="text-center container mb-4 lead d-none d-md-block">
       The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). This timeline is
       designed to provide users with an accessible, interactive way to explore key moments in Islamic history, helping
-      them better understand the significance of each event.</p>
+      them better understand the significance of each event.
+    </p>
 
     <div class="timeline-wrapper">
       <div class="timeline">
         <div v-for="(event, index) in events" :key="index" class="timeline-point" ref="eventRefs">
-          <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }"
-            @click="selectEvent(index)">
+          <span class="badge fs-6 timeline-badge" :class="{ active: index === currentIndex }" @click="selectEvent(index)">
             {{ event.year }}
           </span>
         </div>
       </div>
     </div>
 
-
     <transition name="fade" mode="out-in">
       <div v-if="events.length" :key="currentIndex" class="event-box event-details animate__animated">
-
-
         <div v-if="copySuccess" class="alert alert-success" role="alert">
           Text copied to clipboard!
         </div>
 
-        <div class="fw-bold display-6 pb-3 text-center">{{ events[currentIndex].title }}</div>
+        <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
 
-        <div class="container" style="overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch;">
-          <p style="display: inline-block; min-width: max-content;">
-            <i class="bi bi-book pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Read Time:</strong> {{ readTime }} minutes
+        <div class="time-estimates d-flex justify-content-center gap-4 mb-3">
+          <span>
+            <i class="bi bi-book me-1" style="font-size: 1.25rem;"></i>
+            <strong>Read:</strong> {{ readTime }} min
+          </span>
+          <span>
+            <i class="bi bi-headphones me-1" style="font-size: 1.25rem;"></i>
+            <strong>Listen:</strong> {{ listenTime }} min
+          </span>
+          <span>
+            <i class="bi bi-file-earmark-word me-1" style="font-size: 1.25rem;"></i>
+            <strong>Words:</strong> {{ wordCount }}
+          </span>
+        </div>
 
-            <i class="bi bi-headphones pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Listen Time:</strong> {{ listenTime }} minutes
-
-            <i class="bi bi-file-earmark-word pl-3 pr-2 pt-3" style="font-size: 20px; cursor: pointer;"></i>
-            <strong>Word Count:</strong> {{ wordCount }} words
-          </p>
+        <!-- Toggle Audio Player -->
+        <div class="text-center mb-3">
+          <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+            style="cursor: pointer; font-size: 2rem;" data-bs-toggle="tooltip" data-bs-placement="top"
+            :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'" @click="toggleAudioPlayer(currentIndex)"></i>
         </div>
 
         <!-- Styled Text desc -->
-        <h5 class="fw-medium p-3 rounded" :style="{
+        <h5 class="fw-medium rounded" :style="{
           lineHeight: '1.7em',
           fontSize: fontSize + 'px',
           backgroundColor: fontSettings.backgroundColor,
@@ -51,9 +57,8 @@
           textShadow: fontSettings.textShadow,
           textDecoration: fontSettings.textDecoration,
           fontFamily: fontSettings.fontFamily,
-        }" v-html="highlightedDescription">
-        </h5>
-
+          padding: '1rem'
+        }" v-html="highlightedDescription"></h5>
 
         <!-- Offcanvas Settings Panel -->
         <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
@@ -63,35 +68,26 @@
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
               aria-label="Close"></button>
           </div>
-          <div class="offcanvas-body d-flex flex-column gap-3">
-
+          <div class="d-flex flex-column">
             <form @submit.prevent="saveSettings" class="text-white">
               <div class="d-flex flex-column gap-3">
-
-                <div v-if="showSuccess" class="alert alert-success mt-3" role="alert">
+                <div v-if="showSuccess" class="alert alert-success">
                   Changes saved successfully!
                 </div>
-
                 <div>
                   <label class="form-label fw-bold fs-4">Background Color</label>
                   <input type="color" v-model="fontSettings.backgroundColor" class="form-control form-control-color" />
                 </div>
-
                 <div>
                   <label class="form-label fw-bold fs-4">Text Color</label>
                   <input type="color" v-model="fontSettings.color" class="form-control form-control-color" />
                 </div>
-
                 <label class="form-label fw-bold fs-4">Font Size:</label>
                 <div class="d-flex align-items-center gap-3">
-                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="decreaseFontSize">−</button>
-
-                  <span class="fw-bold fs-5">{{ tempFontSize }}px</span>
-
-                  <button class="btn btn-outline-light px-2 py-1" @click.stop.prevent="increaseFontSize">+</button>
+                  <div class="btn btn-outline-light px-2 py-0" @click.stop="decreaseFontSize">−</div>
+                  <div class="fw-bold fs-5">{{ fontSize }}px</div>
+                  <div class="btn btn-outline-light px-2 py-1" @click.stop="increaseFontSize">+</div>
                 </div>
-
-
                 <div>
                   <label class="form-label fw-bold fs-4">Font Style</label>
                   <select v-model="fontSettings.fontStyle" class="form-select">
@@ -99,18 +95,16 @@
                     <option value="italic">Italic</option>
                   </select>
                 </div>
-
                 <div>
                   <label class="form-label fw-bold fs-4">Text Shadow</label>
                   <select v-model="fontSettings.textShadow" class="form-select">
                     <option value="none">None</option>
-                    <option value="1px 1px 2px gray">Soft Shadow</option>
-                    <option value="2px 2px 4px black">Dark Shadow</option>
+                    <option value="1px 1px 2px gray">Small Shadow</option>
+                    <option value="2px 2px 4px black">Medium Shadow</option>
                     <option value="1px 1px 2px red">Red Shadow</option>
                     <option value="1px 1px 2px blue">Blue Shadow</option>
                   </select>
                 </div>
-
                 <div>
                   <label class="form-label fw-bold fs-4">Underline</label>
                   <select v-model="fontSettings.textDecoration" class="form-select">
@@ -118,7 +112,6 @@
                     <option value="underline">Underline</option>
                   </select>
                 </div>
-
                 <div>
                   <label class="form-label fw-bold fs-4">Font Family</label>
                   <select v-model="fontSettings.fontFamily" class="form-select">
@@ -135,25 +128,15 @@
                     <option value="'Poppins', sans-serif">Poppins</option>
                   </select>
                 </div>
-
-
-
-              </div><button class="btn btn-success text-right mt-3" @click="submitFontSize">
+              </div>
+              <button class="btn btn-success mt-3" @click="submitFontSize">
                 Submit Changes
               </button>
             </form>
-
           </div>
         </div>
 
-        <!-- First your new Play/Pause FAB -->
-        <div @click="handleTTS" class="fab btn btn-light rounded-circle shadow container"
-          style="position: fixed; bottom: 100px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;">
-          <i v-if="ttsState === 'playing'" class="bi bi-pause-fill fs-4"></i>
-          <i v-else class="bi bi-play-fill fs-4"></i>
-        </div>
-
-        <div class="fab btn btn-light rounded-circle shadow container"
+        <div class="fab btn btn-light rounded-circle shadow"
           style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;"
           data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas" aria-controls="settingsOffcanvas">
           <i class="bi bi-gear-fill fs-4"></i>
@@ -163,12 +146,41 @@
           <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>
           <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary">Next</button>
         </div>
-
       </div>
     </transition>
 
+    <!-- Global Custom Audio Player -->
+    <div v-if="showAudioPlayer" class="audio-player-container">
+      <div class="custom-audio-player">
+        <div class="controls">
+          <i class="bi bi-skip-backward-fill control-icon" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s"
+            data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Rewind 10 seconds"></i>
+          <i class="bi control-icon" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"
+            @click="toggleAudioPlayer(currentlyPlayingIndex)" :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
+            data-bs-toggle="tooltip" data-bs-placement="top" :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"></i>
+          <i class="bi bi-skip-forward-fill control-icon" @click="fastForwardAudio(currentlyPlayingIndex)"
+            title="Fast Forward 10s" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Fast forward 10 seconds"></i>
+          <i class="bi bi-stop-fill control-icon" @click="stopAudio(currentlyPlayingIndex)" title="Stop"
+            data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Stop"></i>
+          <i class="bi control-icon"
+            :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`" @click="toggleVolume"
+            title="Volume" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Adjust volume"></i>
+          <div v-if="showVolumeBar" class="volume-bar-container">
+            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
+              class="volume-slider" aria-label="Volume control" />
+          </div>
+          <span class="time">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+          <i class="bi bi-x control-icon close-icon" @click="closeAudioPlayer" title="Close" data-bs-toggle="tooltip"
+            data-bs-placement="top" aria-label="Close audio player"></i>
+        </div>
+        <div class="progress-bar" @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
 import { events } from './prophet_events.json';
 
@@ -178,73 +190,46 @@ export default {
     return {
       isOffcanvasOpen: true,
       fontSettings: {
-        backgroundColor: "#ffffff",
-        color: "#000000",
-        fontStyle: "normal",
-        textShadow: "none",
-        textDecoration: "none",
-        fontFamily: "Arial, sans-serif",
+        backgroundColor: '#ffffff',
+        color: '#000000',
+        fontStyle: 'normal',
+        textShadow: 'none',
+        textDecoration: '',
+        fontFamily: 'Arial, sans-serif',
       },
       events: [],
+      originalEvents: [],
       showSuccess: false,
       currentIndex: 0,
       selectedVoice: null,
       ttsState: 'stopped', // 'playing' | 'paused' | 'stopped'
       utterance: null,
+      pausedWordIndex: 0,
+      currentTtsText: '',
       synth: window.speechSynthesis,
       copySuccess: false,
       searchTerm: '',
-      isPlaying: false,
-      textToRead: '',
-      speechInstance: null,
-      currentIndex: 0,
-      events: [],
-      originalEvents: [],
-      fontSize: 18,         // Final applied value
+      showAudioPlayer: false,
+      isAudioPlaying: {},
+      currentlyPlayingIndex: null,
+      progress: {},
+      currentTime: 0,
+      totalTime: 0,
+      volume: 1,
+      showVolumeBar: false,
+      fontSize: 18,
       tempFontSize: 18,
       scrollDirection: 'up',
-      speech: null,
       searchQuery: '',
-      currentEvent: null,
     };
   },
   computed: {
     offcanvasStyle() {
       return {
-        backgroundColor: "#10584f",
-        width: window.innerWidth < 576 ? "100%" : "40%",
+        backgroundColor: '#10584f',
+        width: window.innerWidth < 576 ? '100%' : '400px',
       };
-    }
-  },
-  mounted() {
-    const saved = localStorage.getItem("userFontSettings");
-    if (saved) {
-      this.fontSettings = JSON.parse(saved);
-    }
-    const savedSettings = localStorage.getItem("fontSettings");
-    if (savedSettings) {
-      this.fontSettings = JSON.parse(savedSettings);
-    }
-    window.addEventListener("resize", this.updateOffcanvasWidth);
-
-    if (typeof speechSynthesis !== 'undefined') {
-      speechSynthesis.onvoiceschanged = this.loadVoices;
-      this.loadVoices();
-    }
-
-    // Listen for tab visibility change
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    this.events = events;
-    this.originalEvents = events;
-    this.textToRead = this.events[this.currentIndex]?.description || '';
-  },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.updateOffcanvasWidth);
-    speechSynthesis.onvoiceschanged = null;
-    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-    window.removeEventListener("keydown", this.handleKey);
-  },
-  computed: {
+    },
     wordCount() {
       const div = document.createElement('div');
       div.innerHTML = this.highlightedDescription || '';
@@ -254,51 +239,293 @@ export default {
     highlightedDescription() {
       const currentDescription = this.events[this.currentIndex]?.description || '';
       if (!this.searchTerm) return currentDescription;
-
-      const escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape regex
+      const escapedTerm = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const regex = new RegExp(`(${escapedTerm})`, 'gi');
       return currentDescription.replace(
         regex,
-        '<mark style="background-color: #0db691; color: white; border-radius: 2px; padding: 0 2px;">$1</mark>'
+        '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>'
       );
     },
-    // Calculate Read Time (words per minute: 200)
     readTime() {
       const wordCount = this.countWords(this.highlightedDescription);
       const wordsPerMinute = 200;
       return Math.ceil(wordCount / wordsPerMinute);
     },
-    // Calculate Listen Time (words per minute: 150)
     listenTime() {
       const wordCount = this.countWords(this.highlightedDescription);
       const wordsPerMinute = 150;
       return Math.ceil(wordCount / wordsPerMinute);
+    },
+  },
+  mounted() {
+    const saved = localStorage.getItem('userFontSettings');
+    if (saved) {
+      this.fontSettings = JSON.parse(saved);
+    }
+    window.addEventListener('resize', this.updateOffcanvasWidth);
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+    this.synth.onvoiceschanged = this.loadVoices;
+    this.loadVoices();
+    this.events = events;
+    this.originalEvents = events;
+    this.initializeAudioStates();
+    this.initializeTooltips();
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateOffcanvasWidth);
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    this.synth.onvoiceschanged = null;
+    if (this.utterance) {
+      this.synth.cancel();
     }
   },
   methods: {
+    initializeAudioStates() {
+      this.events.forEach((_, index) => {
+        this.isAudioPlaying[index] = false;
+        this.progress[index] = 0;
+      });
+    },
+    initializeTooltips() {
+      this.$nextTick(() => {
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+      });
+    },
+    loadVoices() {
+      const voices = this.synth.getVoices();
+      if (voices.length) {
+        this.selectedVoice = voices.find(voice =>
+          voice.lang === 'en-US' &&
+          (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'))
+        ) || voices.find(voice => voice.lang === 'en-US') || voices[0];
+      }
+    },
+    toggleAudioPlayer(index) {
+      if (!this.selectedVoice) {
+        this.loadVoices();
+        return;
+      }
+      this.currentlyPlayingIndex = index;
+      this.showAudioPlayer = true;
+      if (this.isAudioPlaying[index]) {
+        this.synth.cancel();
+        const wordCount = this.countWords(this.currentTtsText);
+        const wordsPerSecond = 150 / 60;
+        const currentProgress = this.progress[index] / 100;
+        this.currentTime = currentProgress * (wordCount / wordsPerSecond);
+        this.pausedWordIndex = Math.round(currentProgress * wordCount);
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'paused';
+      } else {
+        this.playAudio(index, this.pausedWordIndex);
+      }
+    },
+    playAudio(index, startWordIndex = 0) {
+      if (this.utterance && this.synth.speaking) {
+        this.synth.cancel();
+      }
+      const description = this.stripHtml(this.events[index]?.description || '');
+      const title = this.events[index]?.title || '';
+      const ttsText = `${title}. Read time ${this.readTime} minutes. Listen time ${this.listenTime} minutes. Word count ${this.wordCount}. ${description}`;
+      this.currentTtsText = ttsText;
+      const words = ttsText.split(/\s+/).filter(Boolean);
+      const newText = startWordIndex > 0 ? words.slice(startWordIndex).join(' ') : ttsText;
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = () => {
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'stopped';
+        this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = (event) => this.updateProgress(event, index, startWordIndex);
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.updateTotalTime();
+      if (startWordIndex > 0) {
+        const wordCount = this.countWords(ttsText);
+        this.progress[index] = (startWordIndex / wordCount) * 100;
+        this.currentTime = (startWordIndex / wordCount) * this.totalTime;
+      }
+    },
+    stopAudio(index) {
+      if (this.synth.speaking || this.synth.paused) {
+        this.synth.cancel();
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'stopped';
+        this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      }
+    },
+    rewindAudio(index) {
+      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      this.synth.cancel();
+      const wordCount = this.countWords(this.currentTtsText);
+      const wordsPerSecond = 150 / 60;
+      const currentProgress = this.progress[index] / 100;
+      const currentSecond = currentProgress * (wordCount / wordsPerSecond);
+      const newSecond = Math.max(0, currentSecond - 10);
+      const newWordIndex = Math.round(newSecond * wordsPerSecond);
+      const words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      const newText = words.slice(newWordIndex).join(' ');
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = () => {
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'stopped';
+        this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = (event) => this.updateProgress(event, index, newWordIndex);
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.progress[index] = (newWordIndex / wordCount) * 100;
+      this.currentTime = newSecond;
+      this.pausedWordIndex = newWordIndex;
+    },
+    fastForwardAudio(index) {
+      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      this.synth.cancel();
+      const wordCount = this.countWords(this.currentTtsText);
+      const wordsPerSecond = 150 / 60;
+      const currentProgress = this.progress[index] / 100;
+      const currentSecond = currentProgress * (wordCount / wordsPerSecond);
+      const newSecond = Math.min(this.totalTime, currentSecond + 10);
+      const newWordIndex = Math.round(newSecond * wordsPerSecond);
+      const words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      const newText = words.slice(newWordIndex).join(' ');
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = () => {
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'stopped';
+        this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = (event) => this.updateProgress(event, index, newWordIndex);
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.progress[index] = (newWordIndex / wordCount) * 100;
+      this.currentTime = newSecond;
+      this.pausedWordIndex = newWordIndex;
+    },
+    seekAudio(event, index) {
+      if (!this.utterance || !this.isAudioPlaying[index]) return;
+      this.synth.cancel();
+      const progressBar = event.currentTarget;
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const barWidth = rect.width;
+      const clickRatio = clickX / barWidth;
+      const wordCount = this.countWords(this.currentTtsText);
+      const wordsPerSecond = 150 / 60;
+      const newSecond = clickRatio * this.totalTime;
+      const newWordIndex = Math.round(newSecond * wordsPerSecond);
+      const words = this.currentTtsText.split(/\s+/).filter(Boolean);
+      const newText = words.slice(newWordIndex).join(' ');
+      this.utterance = new SpeechSynthesisUtterance(newText);
+      this.utterance.voice = this.selectedVoice;
+      this.utterance.volume = this.volume;
+      this.utterance.onend = () => {
+        this.isAudioPlaying[index] = false;
+        this.ttsState = 'stopped';
+        this.progress[index] = 0;
+        this.currentTime = 0;
+        this.pausedWordIndex = 0;
+        this.showAudioPlayer = false;
+      };
+      this.utterance.onboundary = (event) => this.updateProgress(event, index, newWordIndex);
+      this.synth.speak(this.utterance);
+      this.isAudioPlaying[index] = true;
+      this.ttsState = 'playing';
+      this.progress[index] = (newWordIndex / wordCount) * 100;
+      this.currentTime = newSecond;
+      this.pausedWordIndex = newWordIndex;
+    },
+    updateProgress(event, index, startWordIndex = 0) {
+      if (event.name === 'word' && this.utterance) {
+        const text = this.currentTtsText;
+        const words = text.split(/\s+/).filter(Boolean);
+        const currentWordIndex = startWordIndex + Math.round((event.charIndex / this.utterance.text.length) * (words.length - startWordIndex));
+        this.progress[index] = (currentWordIndex / words.length) * 100;
+        this.currentTime = (currentWordIndex / words.length) * this.totalTime;
+      }
+    },
+    toggleVolume() {
+      this.showVolumeBar = !this.showVolumeBar;
+    },
+    updateVolume() {
+      if (this.utterance) {
+        this.utterance.volume = this.volume;
+      }
+    },
+    updateTotalTime() {
+      const wordCount = this.countWords(this.highlightedDescription);
+      const wordsPerSecond = 150 / 60;
+      this.totalTime = Math.ceil(wordCount / wordsPerSecond);
+    },
+    formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    },
+    closeAudioPlayer() {
+      this.stopAudio(this.currentlyPlayingIndex);
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = null;
+    },
+    selectEvent(index) {
+      if (this.synth.speaking || this.synth.paused) {
+        this.stopAudio(this.currentlyPlayingIndex);
+      }
+      this.currentIndex = index;
+      this.scrollToEvent(index);
+      this.updateTotalTime();
+    },
+    scrollToEvent(index) {
+      const refs = this.$refs.eventRefs;
+      if (refs && refs[index]) {
+        refs[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    },
     prev() {
       if (this.currentIndex > 0) {
+        this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex--;
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.updateTotalTime();
       }
     },
     next() {
       if (this.currentIndex < this.events.length - 1) {
+        this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex++;
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.updateTotalTime();
       }
     },
     saveSettings() {
-      localStorage.setItem("userFontSettings", JSON.stringify(this.fontSettings));
+      localStorage.setItem('userFontSettings', JSON.stringify(this.fontSettings));
       this.showSuccess = true;
-
-      // Hide alert & close offcanvas after 3s
       setTimeout(() => {
         this.showSuccess = false;
-
-        // Bootstrap Offcanvas API
         const offcanvas = bootstrap.Offcanvas.getInstance(
-          document.getElementById("settingsOffcanvas")
+          document.getElementById('settingsOffcanvas')
         );
         if (offcanvas) {
           offcanvas.hide();
@@ -306,140 +533,21 @@ export default {
       }, 3000);
     },
     updateOffcanvasWidth() {
-      this.$forceUpdate(); // trigger recompute
+      this.$forceUpdate();
     },
     handleVisibilityChange() {
-      // If the tab is hidden and audio is still playing, stop it
-      if (document.hidden && speechSynthesis.speaking) {
-        speechSynthesis.cancel(); // Stop speech immediately
-        this.ttsState = 'stopped'; // Update the TTS state
+      if (document.hidden && this.synth.speaking) {
+        this.stopAudio(this.currentlyPlayingIndex);
       }
     },
-
-    loadVoices() {
-      const voices = speechSynthesis.getVoices();
-      if (voices.length) {
-        this.selectedVoice = voices.find(voice =>
-          voice.lang === 'en-US' &&
-          (voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Jenny') || voice.name.includes('Samantha'))
-        ) || voices.find(voice => voice.lang === 'en-US');
-      }
-    },
-
-    // Handle TTS play, pause, and resume
-    handleTTS() {
-      if (!this.selectedVoice) {
-        this.loadVoices();
-        return;
-      }
-
-      const description = this.stripHtml(this.highlightedDescription);
-      const title = this.events[this.currentIndex]?.title || '';
-      const ttsText = `${title}. Read time ${this.readTime} minutes. Listen time ${this.listenTime} minutes. Word count ${this.wordCount}. ${description}`;
-
-      if (this.ttsState === 'stopped' || this.ttsState === 'paused') {
-        // Start or Resume
-        if (this.ttsState === 'paused') {
-          speechSynthesis.resume();
-        } else {
-          this.utterance = new SpeechSynthesisUtterance(ttsText);
-          this.utterance.voice = this.selectedVoice;
-          this.utterance.rate = 1;
-          this.utterance.pitch = 1;
-          this.utterance.onend = () => {
-            this.ttsState = 'stopped'; // When finished
-          };
-          speechSynthesis.speak(this.utterance);
-        }
-        this.ttsState = 'playing';
-      } else if (this.ttsState === 'playing') {
-        // Pause
-        speechSynthesis.pause();
-        this.ttsState = 'paused';
-      }
-    },
-
-    // Stop TTS immediately
-    stopTTS() {
-      if (speechSynthesis.speaking || speechSynthesis.stop) {
-        speechSynthesis.cancel(); // Stop speaking or pause immediately
-        this.ttsState = 'stopped'; // Reset the state to stopped
-      }
-    },
-
-    selectEvent(index) {
-      this.currentIndex = index;
-      if (speechSynthesis.speaking || speechSynthesis.paused) {
-        speechSynthesis.cancel(); // Cancel speaking immediately
-        this.ttsState = 'stopped';
-      }
-      this.scrollToEvent(index); // Optional if you want scroll effect
-    },
-
     countWords(text) {
       if (!text) return 0;
       return text.split(/\s+/).filter(Boolean).length;
     },
-
-    filterEvents() {
-      const query = this.searchQuery.trim().toLowerCase();
-      if (!query) {
-        this.events = this.originalEvents;
-        this.currentIndex = 0;
-        return;
-      }
-
-      const filtered = this.originalEvents.filter(e =>
-        e.title.toLowerCase().includes(query) ||
-        e.description.toLowerCase().includes(query) ||
-        e.year.toLowerCase().includes(query)
-      );
-
-      this.events = filtered;
-      this.currentIndex = 0;
-    },
-    selectEvent(index) {
-      if (speechSynthesis.speaking || speechSynthesis.paused) {
-        speechSynthesis.cancel(); // Immediately cancel any speaking
-        if (this.utterance) {
-          this.utterance = null;  // Clear the utterance reference
-        }
-        this.ttsState = 'stopped'; // Reset the state
-      }
-
-      this.currentIndex = index;
-      this.scrollToEvent(index); // Scroll to the selected event
-    },
-
-    // Method to scroll to the selected event
-    scrollToEvent(index) {
-      const refs = this.$refs.eventRefs;
-
-      if (refs && refs[index]) {
-        refs[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    },
-
-    scrollToBadge() {
-      this.$nextTick(() => {
-        const badges = this.$el.querySelectorAll('.timeline-badge');
-        if (badges[this.currentIndex]) {
-          badges[this.currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-        }
-      });
-    },
-    handleKey(e) {
-      if (e.key === 'ArrowRight') this.next();
-      else if (e.key === 'ArrowLeft') this.prev();
-    },
-    toggleScroll() {
-      if (this.scrollDirection === 'up') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        this.scrollDirection = 'down';
-      } else {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        this.scrollDirection = 'up';
-      }
+    stripHtml(html) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
     },
     increaseFontSize() {
       this.tempFontSize += 1;
@@ -450,65 +558,30 @@ export default {
     submitFontSize() {
       this.fontSize = this.tempFontSize;
       this.showSuccess = true;
-
       setTimeout(() => {
         this.showSuccess = false;
       }, 2000);
     },
-    togglePlayStop() {
-      if (this.isPlaying) {
-        this.stopTTS();
-      } else {
-        this.startTTS();
+    filterEvents() {
+      const query = this.searchQuery.trim().toLowerCase();
+      if (!query) {
+        this.events = this.originalEvents;
+        this.currentIndex = 0;
+        this.updateTotalTime();
+        return;
       }
-      this.isPlaying = !this.isPlaying;
-    },
-    startTTS() {
-      if ('speechSynthesis' in window) {
-        // Ensure there is no previous speech in progress
-        if (this.speechInstance) {
-          window.speechSynthesis.cancel();  // Stop any ongoing speech before starting new
-        }
-
-        this.speechInstance = new SpeechSynthesisUtterance(this.textToRead);
-        window.speechSynthesis.speak(this.speechInstance);
-
-        // Event listener for when speech ends
-        this.speechInstance.onend = () => {
-          this.isPlaying = false;  // Reset state when speech ends
-        };
-      } else {
-        console.error('TTS not supported in this browser.');
-      }
-    },
-    stopTTS() {
-      window.speechSynthesis.cancel();  // Stop the speech synthesis
-      this.isPlaying = false;  // Reset state
-    },
-    stripHtml(html) {
-      const div = document.createElement('div');
-      div.innerHTML = html;
-      return div.textContent || div.innerText || '';
-    },
-    next() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      this.stopTTS();
-      this.currentIndex++;
-    },
-    prev() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      this.stopTTS();
-      this.currentIndex--;
-    },
-    stripHtmlTags(html) {
-      const div = document.createElement('div');
-      div.innerHTML = html;
-      return div.textContent || div.innerText || '';
+      const filtered = this.originalEvents.filter(e =>
+        e.title.toLowerCase().includes(query) ||
+        e.description.toLowerCase().includes(query) ||
+        e.year.toLowerCase().includes(query)
+      );
+      this.events = filtered;
+      this.currentIndex = 0;
+      this.updateTotalTime();
     },
     copyToClipboard() {
       const rawHtml = this.events[this.currentIndex]?.description || '';
-      const plainText = this.stripHtmlTags(rawHtml);
-
+      const plainText = this.stripHtml(rawHtml);
       navigator.clipboard.writeText(plainText).then(() => {
         this.copySuccess = true;
         setTimeout(() => {
@@ -516,12 +589,8 @@ export default {
         }, 2000);
       });
     },
-    stripHTML(text) {
-      const doc = new DOMParser().parseFromString(text, "text/html");
-      return doc.body.textContent || "";
-    },
     shareOnWhatsApp() {
-      const message = encodeURIComponent(this.stripHTML(this.events[this.currentIndex].description));
+      const message = encodeURIComponent(this.stripHtml(this.events[this.currentIndex].description));
       const url = `https://wa.me/?text=${message}`;
       window.open(url, '_blank');
     },
@@ -529,15 +598,315 @@ export default {
   watch: {
     fontSettings: {
       handler(newVal) {
-        localStorage.setItem("fontSettings", JSON.stringify(newVal));
+        localStorage.setItem('fontSettings', JSON.stringify(newVal));
       },
-      deep: true
-    }
-  }
-}
+      deep: true,
+    },
+    currentIndex() {
+      this.updateTotalTime();
+    },
+  },
+};
 </script>
+
 <style scoped>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
+
+.audio-player-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  background-color: rgba(33, 33, 33, 0.98);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+.custom-audio-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.control-icon {
+  color: #ffffff;
+  font-size: 1.75rem;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s ease-in-out;
+  padding: 8px;
+}
+
+.control-icon:hover,
+.control-icon:active,
+.control-icon:focus {
+  color: #0db691;
+  transform: scale(1.1);
+  outline: none;
+}
+
+.close-icon {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+.volume-bar-container {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  width: 100px;
+}
+
+.volume-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #666;
+  outline: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  border-radius: 12px;
+}
+
+.volume-slider:hover {
+  opacity: 1;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #0db691;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #0db691;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.time {
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  margin-left: 12px;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #555;
+  border-radius: 12px;
+  margin-top: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress {
+  height: 100%;
+  background: #0db691;
+  transition: width 0.3s ease;
+}
+
+.event-box {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.time-estimates {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.time-estimates span {
+  display: flex;
+  align-items: center;
+}
+
+/* Extra Small Screens (<400px) */
+@media (max-width: 399px) {
+  .controls {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  .control-icon {
+    font-size: 1.5rem;
+    padding: 6px;
+  }
+  .close-icon {
+    margin-left: 0;
+    margin-right: 4px;
+  }
+  .volume-bar-container {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 80px;
+  }
+  .volume-slider {
+    width: 100%;
+  }
+  .time {
+    margin-left: 0;
+    margin-top: 8px;
+    font-size: 0.8rem;
+  }
+  .audio-player-container {
+    padding: 8px;
+  }
+  .custom-audio-player {
+    padding: 8px;
+  }
+  .progress-bar {
+    height: 6px;
+    margin-top: 8px;
+  }
+  .event-box {
+    padding: 12px;
+  }
+  .time-estimates {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Small Screens (400px–575px) */
+@media (min-width: 400px) and (max-width: 575px) {
+  .controls {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .control-icon {
+    font-size: 1.5rem;
+    padding: 6px;
+  }
+  .close-icon {
+    margin-left: auto;
+    margin-right: 6px;
+  }
+  .volume-bar-container {
+    margin-left: 8px;
+    width: 80px;
+  }
+  .volume-slider {
+    width: 100%;
+  }
+  .time {
+    margin-left: 8px;
+    font-size: 0.8rem;
+  }
+  .audio-player-container {
+    padding: 10px;
+  }
+  .custom-audio-player {
+    padding: 10px;
+  }
+  .progress-bar {
+    height: 6px;
+    margin-top: 10px;
+  }
+  .event-box {
+    padding: 16px;
+  }
+  .time-estimates {
+    font-size: 0.85rem;
+  }
+}
+
+/* Medium Screens (576px–767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .controls {
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .control-icon {
+    font-size: 1.75rem;
+    padding: 8px;
+  }
+  .close-icon {
+    margin-left: auto;
+    margin-right: 6px;
+  }
+  .volume-bar-container {
+    margin-left: 10px;
+    width: 90px;
+  }
+  .volume-slider {
+    width: 100%;
+  }
+  .time {
+    margin-left: 10px;
+    font-size: 0.85rem;
+  }
+  .audio-player-container {
+    padding: 10px 14px;
+  }
+  .custom-audio-player {
+    padding: 10px 14px;
+  }
+  .progress-bar {
+    margin-top: 10px;
+  }
+  .event-box {
+    padding: 18px;
+  }
+}
+
+/* Large Screens (≥768px) */
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+  .control-icon {
+    font-size: 1.75rem;
+    padding: 8px;
+  }
+  .close-icon {
+    margin-left: auto;
+    margin-right: 8px;
+  }
+  .volume-bar-container {
+    margin-left: 12px;
+    width: 100px;
+  }
+  .volume-slider {
+    width: 100%;
+  }
+  .time {
+    margin-left: 12px;
+    font-size: 0.9rem;
+  }
+  .progress-bar {
+    margin-top: 12px;
+  }
+}
 
 @media (max-width: 767px) {
   #settingsOffcanvas {
@@ -545,19 +914,16 @@ export default {
   }
 }
 
-/* Offcanvas 40% Width on Larger Screens (tablet and above) */
 @media (min-width: 768px) {
   #settingsOffcanvas {
-    width: 40% !important;
+    width: 400px !important;
   }
 }
-
-
 
 .custom-offcanvas {
   background-color: #10584f;
   color: white;
-  min-width: 30%;
+  min-width: 300px;
 }
 
 .fab {
@@ -576,56 +942,13 @@ export default {
 
 .action-button:hover {
   color: #0db691;
-  /* Bootstrap primary */
-  transform: translateY(-2px);
-}
-
-.time-estimates {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.time-estimates p {
-  margin: 5px 0;
 }
 
 mark {
   background-color: #0db691;
   color: white;
-  padding: 0 2px;
-  border-radius: 2px;
-}
-
-.btn-play {
-  background-color: #0db691;
-  /* Green color for play */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-play:hover {
-  background-color: #17a085;
-  /* Slightly darker green */
-}
-
-.btn-stop {
-  background-color: #e74c3c;
-  /* Red color for stop */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-stop:hover {
-  background-color: #c0392b;
-  /* Slightly darker red */
+  padding: 0 4px;
+  border-radius: 4px;
 }
 
 .timeline::-webkit-scrollbar {
@@ -636,12 +959,10 @@ mark {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  /* Firefox */
 }
 
 .timeline-wrapper::-webkit-scrollbar {
   display: none;
-  /* Chrome/Safari */
 }
 
 .timeline {
@@ -683,17 +1004,6 @@ mark {
   box-shadow: 0 8px 14px rgba(0, 0, 0, 0.2);
 }
 
-.event-box {
-  padding: 15px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.controls {
-  margin-top: 20px;
-}
-
 .controls button {
   margin: 5px;
   padding: 10px 20px;
@@ -707,7 +1017,6 @@ mark {
 }
 
 .controls button:disabled {
-  /* background-color: #bdc3c7; */
   cursor: not-allowed;
 }
 
@@ -715,20 +1024,16 @@ mark {
   background-color: #0db691;
 }
 
-/* FAB Button Styles */
 .fab {
   position: fixed;
   bottom: 20px;
   right: 20px;
   background-color: #20c997;
   color: white;
-  font-size: 24px;
   border: none;
-  padding: 20px;
   border-radius: 50%;
-  /* Rounded circle */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
   cursor: pointer;
 }
 
@@ -737,10 +1042,9 @@ mark {
   transform: scale(1.1);
 }
 
-/* Transition */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.3s;
 }
 
 .fade-enter,
