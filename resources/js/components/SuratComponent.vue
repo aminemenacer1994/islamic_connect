@@ -204,6 +204,7 @@ export default {
   name: 'SuratComponent',
   data: function() {
     return {
+      isInitialLoad: true,
       selectedSurah: "1",
       selectedReciter: "ar.alafasy",
       selectedTranslation: "en.ahmedali",
@@ -272,6 +273,13 @@ export default {
         this.currentlyPlayingIndex = 0; // Reset to first ayah
         this.isHighlighted = false; // Reset highlight
         this.fetchSurahDetails().then(() => {
+          if (!this.isInitialLoad) {
+            // Only scroll if not initial load
+            this.$nextTick(() => {
+              this.scrollToCard(0);
+            });
+          }
+          this.isInitialLoad = false; // Set to false after first load
         });
       }
     },
@@ -280,9 +288,6 @@ export default {
       this.progress = new Array(newAyahs.length).fill(0);
       this.$nextTick(() => {
         this.initializeAudioElements();
-        this.$nextTick(() => {
-          this.scrollToCard(0);
-        });
       });
     }
   },
@@ -606,7 +611,9 @@ export default {
     this.fetchReciters();
     this.fetchSurahs();
     this.fetchTranslations();
-    this.fetchSurahDetails();
+    this.fetchSurahDetails().then(() => {
+      this.isInitialLoad = false; // Ensure initial load flag is reset after fetching
+    });
   },
   beforeUnmount: function() {
     window.removeEventListener("scroll", this.handleScroll);

@@ -28,7 +28,7 @@
               <span class="play-text">Click to Select</span>
             </div>
           </div>
-          <h5 class="podcast-selection-name">{{ podcast.name }}</h5>
+          <h5 class="podcast-selection-name fw-bold">{{ podcast.name }}</h5>
         </div>
       </div>
     </div>
@@ -1345,7 +1345,7 @@ export default {
   padding: 1.5rem;
   margin: 0;
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 300;
   color: #2c3e50;
   text-align: center;
   line-height: 1.4;
@@ -1485,9 +1485,9 @@ export default {
 }
 
 /* Card Header */
-.card-header {
+/* .card-header {
   padding: 20px 24px 16px;
-}
+} */
 
 .podcast-meta {
   display: flex;
@@ -1521,9 +1521,9 @@ export default {
 /* Card Body */
 .card-body {
   padding: 24px;
-  display: flex;
+   display: flex;
   flex-direction: column;
-  gap: 24px;
+  /*gap: 24px; */
 }
 
 .podcast-title {
@@ -1662,10 +1662,10 @@ export default {
     padding: 12px 16px 8px;
   }
 
-  .card-body {
+  /* .card-body {
     padding: 16px;
     gap: 16px;
-  }
+  } */
 
   .podcast-title {
     font-size: 1.05rem;
@@ -2456,11 +2456,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .episode-avatar {
-    width: 56px;
-    height: 56px;
-    margin-right: 0.7rem;
-  }
 
   .podcast-desc {
     font-size: 0.92rem;
@@ -2478,11 +2473,7 @@ export default {
     gap: 0.5rem;
   }
 
-  .episode-avatar {
-    width: 32px;
-    height: 32px;
-    margin-right: 0.5rem;
-  }
+
 
   .podcast-desc {
     font-size: 0.85rem;

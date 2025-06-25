@@ -36976,6 +36976,7 @@ function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Sym
 function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'DuaCollection',
   data: function data() {
     return {
       duaCollection: [],
@@ -37002,13 +37003,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         Peace: ['tranquility', 'calm', 'serenity'],
         Provision: ['sustenance', 'wealth', 'blessings'],
         Strength: ['power', 'resilience', 'fortitude'],
-        Repentance: ['regret', 'atonement', 'penitence'],
-        Faith: ['belief', 'trust', 'devotion'],
-        Knowledge: ['wisdom', 'understanding', 'learning'],
-        Family: ['kin', 'household', 'relatives'],
-        Justice: ['fairness', 'equity', 'righteousness'],
-        Hope: ['optimism', 'aspiration', 'expectation'],
-        Charity: ['generosity', 'almsgiving', 'benevolence']
+        Repentance: ['regret', 'atonement', 'penitence']
       },
       showScrollToTop: false,
       actionFeedback: {},
@@ -37020,15 +37015,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       var references = new Set();
       this.duaCollection.forEach(function (category) {
         category.duas.forEach(function (dua) {
-          if (dua.reference) {
-            references.add(dua.reference);
-          }
+          if (dua.reference) references.add(dua.reference);
         });
       });
       return _toConsumableArray(references).map(function (ref) {
         return {
           full: ref,
-          display: ref.split(',')[0].trim() // Shortened name for dropdown
+          display: ref.split(',')[0].trim()
         };
       }).sort(function (a, b) {
         return a.display.localeCompare(b.display);
@@ -37036,19 +37029,17 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     likedDuasCount: function likedDuasCount() {
       var _this = this;
-      var validIds = this.likedDuas.filter(function (id) {
+      return this.likedDuas.filter(function (id) {
         var _id$split = id.split('-'),
-          _id$split2 = _slicedToArray(_id$split, 2),
-          categoryId = _id$split2[0],
-          duaId = _id$split2[1];
+          _id$split2 = _slicedToArray(_id$split, 1),
+          categoryId = _id$split2[0];
         var category = _this.duaCollection.find(function (c) {
           return c.id === parseInt(categoryId);
         });
         return category && category.duas.some(function (dua) {
           return dua.id === id;
         });
-      });
-      return validIds.length;
+      }).length;
     },
     filteredCategories: function filteredCategories() {
       var _this2 = this;
@@ -37081,9 +37072,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           return category.duas.length > 0;
         });
       }
-      if (!this.searchQuery.trim() && !this.selectedTag) {
-        return filteredCollection;
-      }
+      if (!this.searchQuery.trim() && !this.selectedTag) return filteredCollection;
       return filteredCollection.map(function (category) {
         var filteredDuas = category.duas.filter(function (dua) {
           var searchQueryLower = _this2.searchQuery.trim().toLowerCase();
@@ -37122,18 +37111,36 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   },
   methods: {
+    getTagIcon: function getTagIcon(tag) {
+      var iconMap = {
+        All: 'bi bi-grid-fill',
+        Forgiveness: 'bi bi-heart',
+        Protection: 'bi bi-shield',
+        Gratitude: 'bi bi-hand-thumbs-up',
+        Healing: 'bi bi-band-aid',
+        Guidance: 'bi bi-compass',
+        Patience: 'bi bi-hourglass',
+        Success: 'bi bi-trophy',
+        Mercy: 'bi bi-droplet',
+        Peace: 'bi bi-peace',
+        Provision: 'bi bi-wallet',
+        Strength: 'bi bi-lightning',
+        Repentance: 'bi bi-arrow-repeat'
+      };
+      return iconMap[tag] || 'bi bi-tag';
+    },
     highlightText: function highlightText(text) {
       if (!this.searchQuery.trim() && !this.selectedTag) return text;
       var highlightedText = text;
       var searchTerms = this.searchQuery.trim() ? [this.searchQuery] : [];
       searchTerms.forEach(function (term) {
         var regex = new RegExp("(".concat(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), ")"), 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-search">$1</mark>');
+        highlightedText = highlightedText.replace(regex, '<mark class="mark-search">$1</mark>');
       });
       var tagTerms = this.selectedTag ? [this.selectedTag].concat(_toConsumableArray(this.tagSynonyms[this.selectedTag] || [])) : [];
       tagTerms.forEach(function (term) {
         var regex = new RegExp("(".concat(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), ")"), 'gi');
-        highlightedText = highlightedText.replace(regex, '<mark style="background:#0db691;color:white" class="mark-tag">$1</mark>');
+        highlightedText = highlightedText.replace(regex, '<mark class="mark-tag">$1</mark>');
       });
       return highlightedText;
     },
@@ -37160,10 +37167,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       navigator.clipboard.writeText(text).then(function () {
         _this4.showCopyMessage = true;
         setTimeout(function () {
-          _this4.showCopyMessage = false;
+          return _this4.showCopyMessage = false;
         }, 2000);
       })["catch"](function (err) {
-        console.error('Failed to copy content: ', err);
+        return console.error('Failed to copy content: ', err);
       });
     },
     shareOnWhatsApp: function shareOnWhatsApp(dua) {
@@ -37206,7 +37213,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       this.likedDuas = updatedLikedDuas;
       localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
       setTimeout(function () {
-        _this5.actionFeedback[categoryId] = false;
+        return _this5.actionFeedback[categoryId] = false;
       }, 1000);
     },
     clearAllLikedDuas: function clearAllLikedDuas() {
@@ -37215,28 +37222,31 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       this.likedDuas = [];
       localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
       setTimeout(function () {
-        _this6.actionFeedback['clearAll'] = false;
+        return _this6.actionFeedback['clearAll'] = false;
       }, 1000);
     },
     toggleCategoryCollapse: function toggleCategoryCollapse(categoryId) {
       var category = this.duaCollection.find(function (c) {
         return c.id === categoryId;
       });
-      if (category) {
-        category.collapsed = !category.collapsed;
-      }
+      if (category) category.collapsed = !category.collapsed;
     },
     scrollToTop: function scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
+      var categoryId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      if (categoryId) {
+        var element = document.getElementById("category-".concat(categoryId));
+        if (element) element.scrollIntoView({
+          behavior: 'smooth'
+        });
+      } else {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
     },
     handleScroll: function handleScroll() {
-      var scrollPosition = window.scrollY;
-      var windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var scrollThreshold = windowHeight * 0.05; // 5% of page height
-      this.showScrollToTop = scrollPosition > scrollThreshold;
+      this.showScrollToTop = window.scrollY > document.documentElement.scrollHeight * 0.05;
     },
     getPaginatedDuas: function getPaginatedDuas(duas) {
       if (!duas || !duas.length) return [];
@@ -37262,21 +37272,16 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       var _this7 = this;
       this.currentPage = {};
       this.duaCollection.forEach(function (category) {
-        _this7.currentPage[category.id] = 1;
+        return _this7.currentPage[category.id] = 1;
       });
     }
   },
   created: function created() {
     var _this8 = this;
-    // Initialize likedDuas from localStorage
     var storedLikedDuas = localStorage.getItem('likedDuas');
-    if (storedLikedDuas) {
-      this.likedDuas = JSON.parse(storedLikedDuas);
-    }
+    if (storedLikedDuas) this.likedDuas = JSON.parse(storedLikedDuas);
     fetch('/duaCollection.json').then(function (response) {
-      if (!response.ok) {
-        throw new Error("HTTP error! Status: ".concat(response.status));
-      }
+      if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
       return response.json();
     }).then(function (data) {
       if (!data.categories || !Array.isArray(data.categories)) {
@@ -37287,18 +37292,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           collapsed: false,
           duas: category.duas.map(function (dua, index) {
             return _objectSpread(_objectSpread({}, dua), {}, {
-              id: "".concat(category.id, "-").concat(dua.id || index + 1) // Ensure unique ID
+              id: "".concat(category.id, "-").concat(dua.id || index + 1)
             });
           })
-        });
-      });
-      var ids = new Set();
-      _this8.duaCollection.forEach(function (category) {
-        category.duas.forEach(function (dua) {
-          if (ids.has(dua.id)) {
-            console.warn("Duplicate dua ID found: ".concat(dua.id));
-          }
-          ids.add(dua.id);
         });
       });
       _this8.resetPagination();
@@ -39404,7 +39400,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         name: "Ar-Raheem",
         arabic: "الرَّحِيمُ",
         translation: "The Merciful",
-        description: "He who acts with extreme kindness and bestows His mercy."
+        description: "He who acts with extreme kindness and bestទ0bestows His mercy."
       }, {
         number: 3,
         name: "Al-Malik",
@@ -39994,7 +39990,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       showDescription: false,
       filteredNames: [],
       currentPage: 1,
-      pageSize: 12
+      pageSize: 12,
+      showScrollButton: false
     };
   },
   computed: {
@@ -40008,8 +40005,13 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     }
   },
   created: function created() {
-    // Initialize filteredNames with all names
     this.filteredNames = _toConsumableArray(this.names);
+  },
+  mounted: function mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeUnmount: function beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
     copyToClipboard: function copyToClipboard(name) {
@@ -40022,7 +40024,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     generateWhatsAppLink: function generateWhatsAppLink(name) {
       var text = "*".concat(name.name, "*\n\n\uD83D\uDD4B Arabic: ").concat(name.arabic, "\n\uD83D\uDCDD Meaning: ").concat(name.translation, "\n\uD83D\uDCD6 Description: ").concat(name.description);
-      return "https://web.whatsapp.com/send?text=".concat(encodeURIComponent(text));
+      return "https://api.whatsapp.com/send?text=".concat(encodeURIComponent(text));
     },
     filterNames: function filterNames() {
       var namesList = _toConsumableArray(this.names);
@@ -40037,10 +40039,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       });
       this.currentPage = 1;
     },
-    resetFilters: function resetFilters() {
+    clearSearch: function clearSearch() {
       this.searchQuery = '';
-      this.filteredNames = _toConsumableArray(this.names);
-      this.currentPage = 1;
+      this.filterNames();
     },
     scrollToTop: function scrollToTop() {
       window.scrollTo({
@@ -40048,9 +40049,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         behavior: 'smooth'
       });
     },
-    clearSearch: function clearSearch() {
-      this.searchQuery = '';
-      this.filterNames();
+    handleScroll: function handleScroll() {
+      this.showScrollButton = window.scrollY > 300;
     }
   }
 });
@@ -44705,6 +44705,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   name: 'SuratComponent',
   data: function data() {
     return {
+      isInitialLoad: true,
       selectedSurah: "1",
       selectedReciter: "ar.alafasy",
       selectedTranslation: "en.ahmedali",
@@ -44765,22 +44766,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     selectedSurah: function selectedSurah(newVal) {
+      var _this2 = this;
       if (newVal) {
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0; // Reset to first ayah
         this.isHighlighted = false; // Reset highlight
-        this.fetchSurahDetails().then(function () {});
+        this.fetchSurahDetails().then(function () {
+          if (!_this2.isInitialLoad) {
+            // Only scroll if not initial load
+            _this2.$nextTick(function () {
+              _this2.scrollToCard(0);
+            });
+          }
+          _this2.isInitialLoad = false; // Set to false after first load
+        });
       }
     },
     filteredAyahs: function filteredAyahs(newAyahs) {
-      var _this2 = this;
+      var _this3 = this;
       this.isAudioPlaying = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.$nextTick(function () {
-        _this2.initializeAudioElements();
-        _this2.$nextTick(function () {
-          _this2.scrollToCard(0);
-        });
+        _this3.initializeAudioElements();
       });
     }
   },
@@ -44973,7 +44980,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       });
     },
     fetchReciters: function fetchReciters() {
-      var _this3 = this;
+      var _this4 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -44994,7 +45001,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 8:
               data = _context.sent;
-              _this3.reciters = data.data.filter(function (reciter) {
+              _this4.reciters = data.data.filter(function (reciter) {
                 return reciter.identifier && reciter.englishName;
               }).map(function (reciter) {
                 return {
@@ -45138,6 +45145,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   mounted: function mounted() {
+    var _this5 = this;
     window.addEventListener("scroll", this.handleScroll);
     // Clear localStorage to prevent loading previous selections
     localStorage.removeItem("selectedSurah");
@@ -45152,7 +45160,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     this.fetchReciters();
     this.fetchSurahs();
     this.fetchTranslations();
-    this.fetchSurahDetails();
+    this.fetchSurahDetails().then(function () {
+      _this5.isInitialLoad = false; // Ensure initial load flag is reset after fetching
+    });
   },
   beforeUnmount: function beforeUnmount() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -48886,6 +48896,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'HajjUmrahGuides',
   data: function data() {
@@ -48893,25 +48907,23 @@ __webpack_require__.r(__webpack_exports__);
       utterance: null,
       isSpeaking: false,
       isPaused: false,
+      isCopying: false,
+      isSpeechAvailable: !!window.speechSynthesis,
+      settingsOpen: false,
       currentTab: 'hajj',
-      // Default to 'hajj'
       copySuccess: false,
       guides: {
         hajj: {
           title: "Hajj Guide",
-          text1: "Hajj is the annual pilgrimage to Makkah that every Muslim must perform at least once in their lifetime if they are able. It takes place during Dhul Hijjah, the 12th month of the Islamic calendar, and involves a series of sacred rituals performed over several days. These include wearing Ihram, performing Tawaf around the Kaaba, standing at Arafat, stoning the pillars at Mina, and sacrificing an animal in remembrance of Prophet Ibrahim's devotion.",
+          text1: "Hajj is the annual pilgrimage to MakkMBAah that every Muslim must perform at least once in their lifetime if they are able. It takes place during Dhul Hijjah, the 12th month of the Islamic calendar, and involves a series of sacred rituals performed over several days. These include wearing Ihram, performing Tawaf around the Kaaba, standing at Arafat, stoning the pillars at Mina, and sacrificing an animal in remembrance of Prophet Ibrahim's devotion.",
           text2: "Pilgrims also trim or shave their hair, drink Zamzam water, and follow a specific route that symbolizes humility, unity, and devotion to Allah. The journey fosters spiritual renewal, repentance, and brotherhood among Muslims from around the world. It's essential to prepare spiritually, financially, and physically before undertaking this profound act of worship.",
-          text3: "Modern logistics and guides make Hajj more accessible, but it is vital to approach it with sincerity, knowledge of the rites, and an understanding of its deeper spiritual significance. The Hajj experience is life-changing, instilling patience, humility, and immense gratitude in those who complete it.",
-          image: "/images/umrah.jpg",
-          alt: "Pilgrims performing Hajj rituals in Makkah"
+          text3: "Modern logistics and guides make Hajj more accessible, but it is vital to approach it with sincerity, knowledge of the rites, and an understanding of its deeper spiritual significance. The Hajj experience is life-changing, instilling patience, humility, and immense gratitude in those who complete it."
         },
         umrah: {
           title: "Umrah Guide",
           text1: "Umrah is a non-mandatory pilgrimage to Makkah that can be performed at any time of the year. Although it is shorter than Hajj, it holds immense spiritual value and involves specific rites including entering the state of Ihram, performing Tawaf around the Kaaba, praying at Maqam Ibrahim, and walking between the hills of Safa and Marwah (Sa'i).",
           text2: "Pilgrims also shave or trim their hair at the end of Umrah to mark the completion of the ritual. It is an act of devotion and purification, offering a deeply personal and spiritual experience. Many Muslims perform Umrah multiple times in their lives, especially during the holy month of Ramadan for added blessings.",
-          text3: "Umrah encourages reflection, self-discipline, and a break from worldly distractions. It's a chance to renew one's faith, seek forgiveness, and strengthen the bond with Allah. With fewer logistical challenges than Hajj, it serves as a beautiful introduction to the sacred journey.",
-          image: "/images/umra.jpg",
-          alt: "Muslims performing Umrah rituals at the Grand Mosque"
+          text3: "Umrah encourages reflection, self-discipline, and a break from worldly distractions. It's a chance to renew one's faith, seek forgiveness, and strengthen the bond with Allah. With fewer logistical challenges than Hajj, it serves as a beautiful introduction to the sacred journey."
         }
       },
       readTime: 0,
@@ -48921,90 +48933,164 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     currentContent: function currentContent() {
-      return this.guides[this.currentTab];
+      return this.guides[this.currentTab] || {};
     }
   },
   mounted: function mounted() {
-    this.calculateReadTimeAndWordCount(); // Initial calculation on mount
+    this.calculateReadTimeAndWordCount();
     window.addEventListener('beforeunload', this.stopSpeech);
     window.addEventListener('visibilitychange', this.handleTabChange);
   },
   beforeUnmount: function beforeUnmount() {
     window.removeEventListener('beforeunload', this.stopSpeech);
     window.removeEventListener('visibilitychange', this.handleTabChange);
-    this.stopSpeech(); // Ensure speech is stopped when component is unmounted
+    this.stopSpeech();
   },
   methods: {
     switchTab: function switchTab(tab) {
       var _this = this;
-      if (this.currentTab === tab) {
-        return; // Do nothing if the tab is already active
-      }
+      if (this.currentTab === tab) return;
       this.currentTab = tab;
       this.stopSpeech();
+      this.settingsOpen = false;
       this.$nextTick(function () {
         _this.calculateReadTimeAndWordCount();
       });
     },
     toggleSpeech: function toggleSpeech() {
       var _this2 = this;
-      var _this$currentContent = this.currentContent,
-        title = _this$currentContent.title,
-        text1 = _this$currentContent.text1,
-        text2 = _this$currentContent.text2,
-        text3 = _this$currentContent.text3;
-      var text = "".concat(title || '', " ").concat(text1 || '', " ").concat(text2 || '', " ").concat(text3 || '').trim();
-      if (!text) {
-        alert("No content available to read.");
-        return;
-      }
-      if (this.isSpeaking && !this.isPaused) {
-        window.speechSynthesis.pause();
-        this.isPaused = true;
-      } else if (this.isSpeaking && this.isPaused) {
-        window.speechSynthesis.resume();
-        this.isPaused = false;
-      } else {
-        this.stopSpeech();
-        this.utterance = new SpeechSynthesisUtterance(text);
-        this.utterance.lang = 'en-US';
-        this.utterance.onend = function () {
-          _this2.isSpeaking = false;
-          _this2.isPaused = false;
-          _this2.utterance = null;
-        };
-        window.speechSynthesis.speak(this.utterance);
-        this.isSpeaking = true;
-        this.isPaused = false;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var _this2$currentContent, title, text1, text2, text3, text;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              if (_this2.isSpeechAvailable) {
+                _context.next = 3;
+                break;
+              }
+              alert("Text-to-speech is not supported in this browser.");
+              return _context.abrupt("return");
+            case 3:
+              _this2$currentContent = _this2.currentContent, title = _this2$currentContent.title, text1 = _this2$currentContent.text1, text2 = _this2$currentContent.text2, text3 = _this2$currentContent.text3;
+              text = "".concat(title || '', " ").concat(text1 || '', " ").concat(text2 || '', " ").concat(text3 || '').trim();
+              if (text) {
+                _context.next = 8;
+                break;
+              }
+              alert("No content available to read.");
+              return _context.abrupt("return");
+            case 8:
+              if (_this2.isSpeaking && !_this2.isPaused) {
+                try {
+                  window.speechSynthesis.pause();
+                  _this2.isPaused = true;
+                } catch (error) {
+                  console.error('Speech pause error:', error);
+                  _this2.stopSpeech();
+                }
+              } else if (_this2.isSpeaking && _this2.isPaused) {
+                try {
+                  window.speechSynthesis.resume();
+                  _this2.isPaused = false;
+                } catch (error) {
+                  console.error('Speech resume error:', error);
+                  _this2.stopSpeech();
+                }
+              } else {
+                _this2.stopSpeech();
+                try {
+                  _this2.utterance = new SpeechSynthesisUtterance(text);
+                  _this2.utterance.lang = 'en-US';
+                  _this2.utterance.rate = 1.0;
+                  _this2.utterance.pitch = 1.0;
+                  _this2.utterance.volume = 1.0;
+                  _this2.utterance.onend = function () {
+                    _this2.isSpeaking = false;
+                    _this2.isPaused = false;
+                    _this2.utterance = null;
+                  };
+                  _this2.utterance.onerror = function (event) {
+                    console.error('Speech synthesis error:', event);
+                    _this2.stopSpeech();
+                    alert('An error occurred during speech synthesis.');
+                  };
+                  window.speechSynthesis.speak(_this2.utterance);
+                  _this2.isSpeaking = true;
+                  _this2.isPaused = false;
+                } catch (error) {
+                  console.error('Speech synthesis failed:', error);
+                  alert('Failed to start speech synthesis.');
+                  _this2.stopSpeech();
+                }
+              }
+            case 9:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee);
+      }))();
     },
     stopSpeech: function stopSpeech() {
       if (window.speechSynthesis) {
-        window.speechSynthesis.cancel();
+        try {
+          window.speechSynthesis.cancel();
+        } catch (error) {
+          console.error('Speech cancel error:', error);
+        }
       }
       this.isSpeaking = false;
       this.isPaused = false;
+      this.utterance = null;
     },
     handleTabChange: function handleTabChange() {
-      if (document.hidden) {
+      if (document.hidden && this.isSpeaking) {
         this.stopSpeech();
       }
     },
     copyText: function copyText() {
       var _this3 = this;
-      var textToCopy = [this.currentContent.text1, this.currentContent.text2, this.currentContent.text3].join("\n\n");
-      navigator.clipboard.writeText(textToCopy).then(function () {
-        _this3.copySuccess = true;
-        setTimeout(function () {
-          _this3.copySuccess = false;
-        }, 3000);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var textToCopy;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this3.isCopying = true;
+              textToCopy = [_this3.currentContent.text1, _this3.currentContent.text2, _this3.currentContent.text3].filter(Boolean).join("\n\n");
+              _context2.prev = 2;
+              _context2.next = 5;
+              return navigator.clipboard.writeText(textToCopy);
+            case 5:
+              _this3.copySuccess = true;
+              setTimeout(function () {
+                _this3.copySuccess = false;
+              }, 3000);
+              _context2.next = 13;
+              break;
+            case 9:
+              _context2.prev = 9;
+              _context2.t0 = _context2["catch"](2);
+              console.error('Failed to copy text:', _context2.t0);
+              alert('Failed to copy text to clipboard.');
+            case 13:
+              _context2.prev = 13;
+              _this3.isCopying = false;
+              return _context2.finish(13);
+            case 16:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[2, 9, 13, 16]]);
+      }))();
     },
     calculateReadTimeAndWordCount: function calculateReadTimeAndWordCount() {
-      var text = [this.currentContent.text1, this.currentContent.text2, this.currentContent.text3].join(" ");
+      var text = [this.currentContent.text1, this.currentContent.text2, this.currentContent.text3].filter(Boolean).join(" ");
       this.wordCount = text.trim().split(/\s+/).filter(Boolean).length;
-      this.readTime = Math.ceil(this.wordCount / 200); // Avg reading speed: 200 WPM
-      this.listeningTime = Math.ceil(this.wordCount / 150); // Avg listening speed: 150 WPM
+      this.readTime = Math.ceil(this.wordCount / 200);
+      this.listeningTime = Math.ceil(this.wordCount / 150);
+    },
+    toggleSettings: function toggleSettings() {
+      this.settingsOpen = !this.settingsOpen;
+      console.log('Settings toggled:', this.settingsOpen);
     }
   }
 });
@@ -58093,7 +58179,7 @@ var _hoisted_5 = {
 };
 var _hoisted_6 = ["src", "alt"];
 var _hoisted_7 = {
-  "class": "podcast-selection-name"
+  "class": "podcast-selection-name fw-bold"
 };
 var _hoisted_8 = {
   key: 0,
@@ -59003,28 +59089,31 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container-fluid py-4"
+  "class": "container-fluid py-4 dua-collection"
 };
 var _hoisted_2 = {
   key: 0,
   "class": "alert alert-danger text-center",
-  role: "alert"
+  role: "alert",
+  "aria-live": "assertive"
 };
 var _hoisted_3 = {
-  "class": "container mb-4"
+  "class": "container mb-5"
 };
 var _hoisted_4 = {
-  "class": "search-tags d-flex overflow-auto pb-2"
+  "class": "search-tags d-flex flex-nowrap gap-2 pb-3",
+  role: "listbox",
+  "aria-label": "Filter tags"
 };
-var _hoisted_5 = ["onClick", "aria-label"];
+var _hoisted_5 = ["onClick", "aria-label", "aria-pressed", "aria-selected"];
 var _hoisted_6 = {
-  "class": "container mb-4"
+  "class": "container mb-5"
 };
 var _hoisted_7 = {
   "class": "row justify-content-center"
 };
 var _hoisted_8 = {
-  "class": "col-12 col-md-10"
+  "class": "col-12 col-md-10 col-lg-8"
 };
 var _hoisted_9 = {
   "class": "search-container mb-3"
@@ -59033,147 +59122,153 @@ var _hoisted_10 = {
   "class": "input-group"
 };
 var _hoisted_11 = {
-  "class": "container mb-4"
+  "class": "container mb-5"
 };
 var _hoisted_12 = {
-  "class": "nav nav-tabs justify-content-center gap-2"
+  "class": "nav nav-tabs justify-content-center gap-2",
+  role: "tablist"
 };
 var _hoisted_13 = {
-  "class": "nav-item"
+  "class": "nav-item",
+  role: "presentation"
 };
-var _hoisted_14 = {
-  "class": "nav-item"
-};
+var _hoisted_14 = ["aria-selected"];
 var _hoisted_15 = {
-  key: 0,
-  "class": "badge ms-1"
+  "class": "nav-item",
+  role: "presentation"
 };
-var _hoisted_16 = {
+var _hoisted_16 = ["aria-selected"];
+var _hoisted_17 = {
+  key: 0,
+  "class": "badge bg-accent ms-1"
+};
+var _hoisted_18 = {
   key: 0,
   "class": "text-center mt-3"
 };
-var _hoisted_17 = {
+var _hoisted_19 = ["disabled"];
+var _hoisted_20 = {
   key: 1,
-  "class": "container mb-4"
+  "class": "container mb-5"
 };
-var _hoisted_18 = {
-  "class": "row"
-};
-var _hoisted_19 = {
-  "class": "col-md-6 mb-3"
-};
-var _hoisted_20 = ["value"];
 var _hoisted_21 = {
-  "class": "col-md-6 mb-3"
+  "class": "row g-3"
 };
-var _hoisted_22 = ["value"];
-var _hoisted_23 = {
+var _hoisted_22 = {
+  "class": "col-md-6"
+};
+var _hoisted_23 = ["value"];
+var _hoisted_24 = {
+  "class": "col-md-6"
+};
+var _hoisted_25 = ["value"];
+var _hoisted_26 = {
   key: 2,
   "class": "alert alert-success alert-dismissible fade show mx-auto",
-  role: "alert"
-};
-var _hoisted_24 = {
-  "class": "container"
-};
-var _hoisted_25 = {
-  key: 0,
-  "class": "alert alert-info text-center"
-};
-var _hoisted_26 = {
-  "class": "d-flex align-items-center justify-content-between"
+  role: "alert",
+  "aria-live": "polite"
 };
 var _hoisted_27 = {
-  "class": "fw-semibold text-start mb-3 category-title"
+  "class": "container"
 };
 var _hoisted_28 = {
-  "class": "d-flex align-items-center"
-};
-var _hoisted_29 = ["onClick", "title", "aria-label"];
-var _hoisted_30 = ["onClick", "title", "aria-label"];
-var _hoisted_31 = {
   key: 0,
-  "class": "row"
+  "class": "alert alert-info text-center",
+  role: "alert"
+};
+var _hoisted_29 = ["id"];
+var _hoisted_30 = ["onClick", "aria-expanded", "aria-controls", "onKeydown"];
+var _hoisted_31 = {
+  "class": "fw-bold mb-0 category-title"
 };
 var _hoisted_32 = {
-  "class": "card-body"
+  "class": "d-flex align-items-center gap-3"
 };
-var _hoisted_33 = ["innerHTML"];
-var _hoisted_34 = ["innerHTML"];
-var _hoisted_35 = ["innerHTML"];
-var _hoisted_36 = ["innerHTML"];
+var _hoisted_33 = ["onClick", "title", "aria-label"];
+var _hoisted_34 = ["aria-label"];
+var _hoisted_35 = ["id"];
+var _hoisted_36 = {
+  "class": "row g-4"
+};
 var _hoisted_37 = {
-  "class": "card-footer d-flex justify-content-between align-items-center"
+  "class": "dua- h-100 border-light"
 };
 var _hoisted_38 = {
-  "class": "icon-wrapper"
+  "class": "-body"
 };
-var _hoisted_39 = {
-  "class": "icon-wrapper"
+var _hoisted_39 = ["innerHTML"];
+var _hoisted_40 = ["innerHTML"];
+var _hoisted_41 = ["innerHTML"];
+var _hoisted_42 = ["innerHTML"];
+var _hoisted_43 = {
+  "class": "-footer bg-transparent d-flex justify-content-start gap-3 flex-wrap"
 };
-var _hoisted_40 = {
-  "class": "icon-wrapper"
+var _hoisted_44 = ["onClick"];
+var _hoisted_45 = ["onClick"];
+var _hoisted_46 = ["onClick", "title", "aria-label"];
+var _hoisted_47 = {
+  "class": "d-flex justify-content-between align-items-center mt-4"
 };
-var _hoisted_41 = ["onClick"];
-var _hoisted_42 = {
-  "class": "icon-wrapper"
-};
-var _hoisted_43 = ["onClick"];
-var _hoisted_44 = {
-  "class": "icon-wrapper"
-};
-var _hoisted_45 = ["onClick", "title", "aria-label"];
-var _hoisted_46 = {
-  key: 1,
-  "class": "pagination d-flex justify-content-center align-items-center mt-3"
-};
-var _hoisted_47 = ["disabled", "onClick"];
 var _hoisted_48 = {
-  "class": "pagination-text"
+  "class": "pagination d-flex align-items-center"
 };
 var _hoisted_49 = ["disabled", "onClick"];
+var _hoisted_50 = {
+  "class": "pagination-text"
+};
+var _hoisted_51 = ["disabled", "onClick"];
+var _hoisted_52 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "fw-bold text-center mb-3"
-  }, "Dua Collection", -1 /* HOISTED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container lead text-muted mb-4"
-  }, " Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchTags, function (tag) {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book-half me-2",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dua Collection ")], -1 /* HOISTED */)), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center lead text-muted mb-5"
+  }, " Explore a curated collection of Islamic supplications, organized by themes such as forgiveness, protection, and gratitude. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags with Sideways Scroll "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.searchTags, function (tag) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: tag,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tag-btn me-2", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["tag-btn", {
         active: $data.selectedTag === tag || tag === 'All' && !$data.selectedTag
       }]),
       onClick: function onClick($event) {
         return $options.toggleTag(tag);
       },
-      "aria-label": "Filter by ".concat(tag)
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 11 /* TEXT, CLASS, PROPS */, _hoisted_5);
+      "aria-label": "Filter by ".concat(tag),
+      "aria-pressed": $data.selectedTag === tag || tag === 'All' && !$data.selectedTag,
+      role: "option",
+      "aria-selected": $data.selectedTag === tag || tag === 'All' && !$data.selectedTag
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getTagIcon(tag), "me-1"]),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_5);
   }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "input-group-text text-white",
-    style: {
-      "background-color": "#0db691"
-    }
+    "class": "input-group-text text-white bg-teal"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-search"
+    "class": "bi bi-search",
+    "aria-hidden": "true"
   })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.searchQuery = $event;
     }),
     type: "text",
     "class": "form-control search-input",
-    placeholder: "Search duas by title, Arabic words, paragraphs, translation or reference",
+    placeholder: "Search duas by title, Arabic, translation, or reference",
     "aria-label": "Search Duas",
     onInput: _cache[1] || (_cache[1] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
     })
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), $data.searchQuery || $data.selectedTag || $data.selectedReference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    "class": "btn btn-outline-secondary",
+    "class": "btn btn-outline-teal",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
     }),
     "aria-label": "Clear search"
   }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-x"
+    "class": "bi bi-x-lg",
+    "aria-hidden": "true"
   }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Tabs for All Duas and Liked Duas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
       active: $data.viewMode === 'all'
@@ -59183,8 +59278,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       $data.viewMode = 'all';
       $options.resetPagination();
     }, ["prevent"])),
-    "aria-current": "page"
-  }, " All Duas ", 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    role: "tab",
+    "aria-selected": $data.viewMode === 'all',
+    "aria-controls": "all-duas"
+  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-list-ul me-1",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("All Duas ")]), 10 /* CLASS, PROPS */, _hoisted_14)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link", {
       active: $data.viewMode === 'liked'
     }]),
@@ -59192,8 +59292,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
       $data.viewMode = 'liked';
       $options.resetPagination();
-    }, ["prevent"]))
-  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Duas ")), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clear All Liked Duas Button "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, ["prevent"])),
+    role: "tab",
+    "aria-selected": $data.viewMode === 'liked',
+    "aria-controls": "liked-duas"
+  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-heart-fill me-1",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Duas ")), $options.likedDuasCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likedDuasCount), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_16)])]), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn", {
       disabled: $options.likedDuasCount === 0
     }]),
@@ -59204,44 +59310,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "data-bs-placement": "top",
     title: "Clear all liked duas",
     "aria-label": "Clear all liked duas",
-    role: "button"
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-trash me-1"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 1 /* TEXT */)], 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    disabled: $options.likedDuasCount === 0
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-trash me-1",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback['clearAll'] ? 'Cleared!' : 'Clear All Liked Duas'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_19)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category and Reference Dropdowns "), $data.viewMode === 'all' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "category-select",
     "class": "form-label fw-bold"
-  }, "Select a Category:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-tags me-1",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Select a Category:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
       return $data.selectedCategory = $event;
     }),
+    id: "category-select",
     "class": "form-select",
     onChange: _cache[7] || (_cache[7] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
-    })
-  }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }),
+    "aria-label": "Select a category"
+  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All Categories", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.duaCollection, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: category.id,
       value: category.id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_20);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.duas.length) + ") ", 9 /* TEXT, PROPS */, _hoisted_23);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "reference-select",
     "class": "form-label fw-bold"
-  }, "Select a Reference:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-1",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Select a Reference:")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[8] || (_cache[8] = function ($event) {
       return $data.selectedReference = $event;
     }),
+    id: "reference-select",
     "class": "form-select",
     onChange: _cache[9] || (_cache[9] = function () {
       return $options.resetPagination && $options.resetPagination.apply($options, arguments);
-    })
-  }, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    }),
+    "aria-label": "Select a reference"
+  }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
   }, "All References", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.uniqueReferences, function (reference) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: reference.full,
       value: reference.full
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.display), 9 /* TEXT, PROPS */, _hoisted_22);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copied to clipboard ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.display), 9 /* TEXT, PROPS */, _hoisted_25);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedReference]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy Success Message "), $data.showCopyMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-check-circle me-1",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Copied to clipboard ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn-close",
     onClick: _cache[10] || (_cache[10] = function ($event) {
@@ -59250,146 +59372,178 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Close"
   })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Scroll to Top FAB "), $data.showScrollToTop ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 3,
-    "class": "fab btn",
-    style: {
-      "background-color": "#0db691"
-    },
+    "class": "fab btn btn-teal",
     onClick: _cache[11] || (_cache[11] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
     "aria-label": "Scroll to top"
-  }, _cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi-arrow-up-circle fab-icon text-white"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, _cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-up-circle-fill fab-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas Display "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas!' : 'No duas found.') + " ", 1 /* TEXT */), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    "class": "btn btn-link p-0 ms-1",
+    "class": "btn btn-link p-0 ms-1 text-teal",
     onClick: _cache[12] || (_cache[12] = function ($event) {
       $data.viewMode = 'all';
       $options.resetPagination();
-    })
+    }),
+    "aria-label": "Explore All Duas"
   }, " Explore All Duas ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, function (category) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
-      "class": "mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_27, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: "images/art.png",
-      width: "30px",
-      "class": "mb-1 mr-2"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn me-2", {
-        disabled: !category.duas.length
-      }]),
-      onClick: function onClick($event) {
-        return $options.toggleAllInCategory(category.id);
-      },
-      "data-bs-toggle": "tooltip",
-      "data-bs-placement": "top",
-      title: $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category',
-      "aria-label": $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category',
-      role: "button"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1')
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback[category.id] ? $options.allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!' : $options.allDuasLikedInCategory(category.id) ? 'Unlike All' : 'Like All'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'),
+      "class": "mb-5 category-section",
+      id: 'category-' + category.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "-header bg-white d-flex align-items-center justify-content-between sticky-header",
       onClick: function onClick($event) {
         return $options.toggleCategoryCollapse(category.id);
       },
+      role: "button",
+      "aria-expanded": !category.collapsed,
+      "aria-controls": 'category-content-' + category.id,
+      tabindex: "0",
+      onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+        return $options.toggleCategoryCollapse(category.id);
+      }, ["enter"])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_31, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-bookmark-star me-2",
+      "aria-hidden": "true"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn me-2", {
+        disabled: !category.duas.length
+      }]),
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.toggleAllInCategory(category.id);
+      }, ["stop"]),
       "data-bs-toggle": "tooltip",
       "data-bs-placement": "top",
-      title: category.collapsed ? 'Expand Category' : 'Collapse Category',
-      "aria-label": category.collapsed ? 'Expand Category' : 'Collapse Category',
-      role: "button"
-    }, null, 10 /* CLASS, PROPS */, _hoisted_30)])]), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: dua.id,
-        "class": "col-12 col-md-6 mb-3"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-        "class": "card dua-card shadow-sm",
-        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-          '--font-size-base': $data.fontSize + 'px'
-        })
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-        "class": "fw-semibold text-start title-text mb-3",
-        innerHTML: $options.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        "class": "text-end arabic-text mb-3",
-        innerHTML: $options.highlightText(dua.arabic)
-      }, null, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        "class": "text-start translation-text mb-3",
-        innerHTML: $options.highlightText(dua.translation)
-      }, null, 8 /* PROPS */, _hoisted_35), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-        "class": "text-start reference-text text-muted mb-0",
-        innerHTML: $options.highlightText('- ' + dua.reference)
-      }, null, 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-dash-circle action-icon",
-        onClick: _cache[13] || (_cache[13] = function ($event) {
-          return $options.changeFontSize('decrease');
-        }),
-        "data-bs-toggle": "tooltip",
-        "data-bs-placement": "top",
-        title: "Decrease Font Size",
-        "aria-label": "Decrease Font Size",
-        role: "button"
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-plus-circle action-icon",
-        onClick: _cache[14] || (_cache[14] = function ($event) {
-          return $options.changeFontSize('increase');
-        }),
-        "data-bs-toggle": "tooltip",
-        "data-bs-placement": "top",
-        title: "Increase Font Size",
-        "aria-label": "Increase Font Size",
-        role: "button"
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-share action-icon",
-        onClick: function onClick($event) {
-          return $options.shareOnWhatsApp(dua);
-        },
-        "data-bs-toggle": "tooltip",
-        "data-bs-placement": "top",
-        title: "Share Content",
-        "aria-label": "Share Content",
-        role: "button"
-      }, null, 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-clipboard action-icon",
-        onClick: function onClick($event) {
-          return $options.copyContent(dua);
-        },
-        "data-bs-toggle": "tooltip",
-        "data-bs-placement": "top",
-        title: "Copy Content",
-        "aria-label": "Copy Content",
-        role: "button"
-      }, null, 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill action-icon liked' : 'bi bi-heart action-icon'),
-        onClick: function onClick($event) {
-          return $options.toggleLike(dua.id);
-        },
-        "data-bs-toggle": "tooltip",
-        "data-bs-placement": "top",
-        title: $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
-        "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
-        role: "button"
-      }, null, 10 /* CLASS, PROPS */, _hoisted_45)])])], 4 /* STYLE */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary me-2",
-      disabled: $data.currentPage[category.id] === 1,
-      onClick: function onClick($event) {
-        return $options.changePage('prev', category.id);
-      },
-      "aria-label": "Previous Page"
-    }, _toConsumableArray(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-chevron-left"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn btn-outline-secondary ms-2",
-      disabled: $data.currentPage[category.id] >= $options.totalPages(category.duas),
-      onClick: function onClick($event) {
-        return $options.changePage('next', category.id);
-      },
-      "aria-label": "Next Page"
-    }, _toConsumableArray(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      "class": "bi bi-chevron-right"
-    }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+      title: $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category',
+      "aria-label": $options.allDuasLikedInCategory(category.id) ? 'Unlike all duas in this category' : 'Like all duas in this category'
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.allDuasLikedInCategory(category.id) ? 'bi bi-heart-fill me-1' : 'bi bi-heart me-1'),
+      "aria-hidden": "true"
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.actionFeedback[category.id] ? $options.allDuasLikedInCategory(category.id) ? 'Unliked!' : 'Liked!' : 'Like All'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_33), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'),
+      "aria-label": category.collapsed ? 'Expand Category' : 'Collapse Category'
+    }, null, 10 /* CLASS, PROPS */, _hoisted_34)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+      name: "fade"
+    }, {
+      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+        return [!category.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+          key: 0,
+          "class": "-body",
+          id: 'category-content-' + category.id
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.getPaginatedDuas(category.duas), function (dua) {
+          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+            key: dua.id,
+            "class": "col-12 col-md-6 col-lg-4"
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+            "class": "fw-semibold text-start title-text mb-3",
+            innerHTML: $options.highlightText(dua.title)
+          }, null, 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+            "class": "text-end arabic-text mb-3",
+            innerHTML: $options.highlightText(dua.arabic)
+          }, null, 8 /* PROPS */, _hoisted_40), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+            "class": "text-start translation-text mb-3",
+            innerHTML: $options.highlightText(dua.translation)
+          }, null, 8 /* PROPS */, _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+            "class": "text-start reference-text text-muted mb-0",
+            innerHTML: $options.highlightText('- ' + dua.reference)
+          }, null, 8 /* PROPS */, _hoisted_42)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "icon-btn",
+            onClick: _cache[13] || (_cache[13] = function ($event) {
+              return $options.changeFontSize('decrease');
+            }),
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "top",
+            title: "Decrease Font Size",
+            "aria-label": "Decrease Font Size"
+          }, _toConsumableArray(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-dash-circle",
+            "aria-hidden": "true"
+          }, null, -1 /* HOISTED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "icon-btn",
+            onClick: _cache[14] || (_cache[14] = function ($event) {
+              return $options.changeFontSize('increase');
+            }),
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "top",
+            title: "Increase Font Size",
+            "aria-label": "Increase Font Size"
+          }, _toConsumableArray(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-plus-circle",
+            "aria-hidden": "true"
+          }, null, -1 /* HOISTED */)]))), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "icon-btn",
+            onClick: function onClick($event) {
+              return $options.shareOnWhatsApp(dua);
+            },
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "top",
+            title: "Share on WhatsApp",
+            "aria-label": "Share on WhatsApp"
+          }, _toConsumableArray(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-whatsapp",
+            "aria-hidden": "true"
+          }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_44), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "icon-btn",
+            onClick: function onClick($event) {
+              return $options.copyContent(dua);
+            },
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "top",
+            title: "Copy Content",
+            "aria-label": "Copy Content"
+          }, _toConsumableArray(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-clipboard",
+            "aria-hidden": "true"
+          }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_45), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "icon-btn",
+            onClick: function onClick($event) {
+              return $options.toggleLike(dua.id);
+            },
+            "data-bs-toggle": "tooltip",
+            "data-bs-placement": "top",
+            title: $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua',
+            "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill liked' : 'bi bi-heart'),
+            "aria-hidden": "true"
+          }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_46)])])]);
+        }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          "class": "btn btn-outline-teal me-2",
+          disabled: $data.currentPage[category.id] === 1,
+          onClick: function onClick($event) {
+            return $options.changePage('prev', category.id);
+          },
+          "aria-label": "Previous Page"
+        }, _toConsumableArray(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          "class": "bi bi-chevron-left",
+          "aria-hidden": "true"
+        }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.currentPage[category.id]) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPages(category.duas)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          "class": "btn btn-outline-teal ms-2",
+          disabled: $data.currentPage[category.id] >= $options.totalPages(category.duas),
+          onClick: function onClick($event) {
+            return $options.changePage('next', category.id);
+          },
+          "aria-label": "Next Page"
+        }, _toConsumableArray(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          "class": "bi bi-chevron-right",
+          "aria-hidden": "true"
+        }, null, -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+          href: "#",
+          "class": "text-teal small",
+          onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+            return $options.scrollToTop(category.id);
+          }, ["prevent"]),
+          "aria-label": "Back to top of category"
+        }, _toConsumableArray(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          "class": "bi bi-arrow-up me-1",
+          "aria-hidden": "true"
+        }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Back to Top ")])), 8 /* PROPS */, _hoisted_52)])], 8 /* PROPS */, _hoisted_35)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }),
+      _: 2 /* DYNAMIC */
+    }, 1024 /* DYNAMIC_SLOTS */)])], 8 /* PROPS */, _hoisted_29);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 
@@ -61028,45 +61182,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Names")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/hug.png",
-    alt: "Hajj & Umrah guides",
-    "class": "w-100 pt-3",
-    style: {
-      "object-fit": "contain"
-    }
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Hajj & Umrah guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Hajj and Umrah are two important Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "form-control",
-    onclick: "window.location.href='/umrah'",
-    style: {
-      "background": "#00bfa6",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
-    type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read Guides")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Names")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/hug.png\" alt=\"Hajj & Umrah guides\" class=\"w-100 pt-3\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Hajj & Umrah guides</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Hajj and Umrah are two important\n              Islamic pilgrimages to the holy city of Makkah, with Hajj being mandatory once in a lifetime</p>\n\n            <button class=\"form-control\" onclick=\"window.location.href='/umrah'\"\n              style=\"background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Read Guides</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "card custom-card shadow-sm rounded-4 overflow-hidden",
@@ -61934,13 +62050,16 @@ function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "names-container container py-5"
+  "class": "container py-4 py-md-5"
 };
 var _hoisted_2 = {
   "class": "controls-row-clean"
 };
 var _hoisted_3 = {
-  "class": "toggle-bar-clean"
+  "class": "toggle-bar-clean",
+  style: {
+    "padding": "15px"
+  }
 };
 var _hoisted_4 = {
   "class": "search-bar-clean"
@@ -61955,23 +62074,18 @@ var _hoisted_7 = {
   "class": "clean-card-body"
 };
 var _hoisted_8 = {
-  "class": "clean-arabic",
-  style: {
-    "font-size": "2.1rem"
-  }
+  key: 0,
+  "class": "clean-arabic"
 };
 var _hoisted_9 = {
-  "class": "clean-name",
-  style: {
-    "font-size": "1.4rem"
-  }
+  "class": "clean-name"
 };
 var _hoisted_10 = {
-  key: 0,
+  key: 1,
   "class": "clean-meaning"
 };
 var _hoisted_11 = {
-  key: 1,
+  key: 2,
   "class": "clean-description"
 };
 var _hoisted_12 = {
@@ -61984,40 +62098,49 @@ var _hoisted_15 = {
   "class": "pagination-clean"
 };
 var _hoisted_16 = ["disabled"];
-var _hoisted_17 = ["onClick"];
+var _hoisted_17 = ["onClick", "aria-label", "aria-current"];
 var _hoisted_18 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center mb-5"
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center mb-4 mb-md-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-dark"
   }, "99 Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead"
-  }, " The 99 Names of Allah, also known as Asma'ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur'an and Sunnah. Each Name reflects a distinct aspect of Allah's nature and actions. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Row: Toggles and Search Bar Side by Side "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "lead text-muted"
+  }, " The 99 Names of Allah, also known as Asma'ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur'an and Sunnah. Each Name reflects a distinct aspect of Allah's nature and actions. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Row: Toggles and Search Bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['toggle-pill-clean', $data.showArabic ? 'active' : '']),
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.showArabic = !$data.showArabic;
     }),
-    "aria-label": "Toggle Arabic"
-  }, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-label": "Toggle Arabic text",
+    "aria-pressed": "showArabic"
+  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-translate"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Arabic ")]), 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "d-none d-sm-inline"
+  }, "Arabic", -1 /* HOISTED */)]), 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['toggle-pill-clean', $data.showTranslation ? 'active' : '']),
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.showTranslation = !$data.showTranslation;
     }),
-    "aria-label": "Toggle Meaning"
-  }, _cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-label": "Toggle Meaning text",
+    "aria-pressed": "showTranslation"
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-lightbulb"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Meaning ")]), 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "d-none d-sm-inline"
+  }, "Meaning", -1 /* HOISTED */)]), 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['toggle-pill-clean', $data.showDescription ? 'active' : '']),
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $data.showDescription = !$data.showDescription;
     }),
-    "aria-label": "Toggle Description"
-  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "aria-label": "Toggle Description text",
+    "aria-pressed": "showDescription"
+  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-card-text"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Description ")]), 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "d-none d-sm-inline"
+  }, "Description", -1 /* HOISTED */)]), 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "search-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
@@ -62039,19 +62162,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.clearSearch && $options.clearSearch.apply($options, arguments);
     }),
     "aria-label": "Clear search"
-  }, _cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Clean Names Grid (no Bootstrap wrappers) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedNames, function (name) {
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.paginatedNames, function (name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: name.number,
       "class": "clean-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showArabic ? name.arabic : ''), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "clean-btn copy-btn",
       onClick: function onClick($event) {
         return $options.copyToClipboard(name);
       },
-      "aria-label": "Copy to clipboard"
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Copy name details to clipboard"
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-clipboard"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "d-none d-md-inline"
@@ -62060,8 +62183,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: $options.generateWhatsAppLink(name),
       target: "_blank",
       rel: "noopener",
-      "aria-label": "Share on WhatsApp"
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "aria-label": "Share name on WhatsApp"
+    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-whatsapp"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "d-none d-md-inline"
@@ -62071,8 +62194,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.currentPage === 1,
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $data.currentPage--;
-    })
-  }, "Prev", 8 /* PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
+    }),
+    "aria-label": "Previous page"
+  }, " Prev ", 8 /* PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: page,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['pagination-btn', {
@@ -62080,15 +62204,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       onClick: function onClick($event) {
         return $data.currentPage = page;
-      }
+      },
+      "aria-label": "Go to page ".concat(page),
+      "aria-current": $data.currentPage === page ? 'page' : null
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_17);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "pagination-btn",
     disabled: $data.currentPage === $options.totalPages,
     onClick: _cache[7] || (_cache[7] = function ($event) {
       return $data.currentPage++;
-    })
-  }, "Next", 8 /* PROPS */, _hoisted_18)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }),
+    "aria-label": "Next page"
+  }, " Next ", 8 /* PROPS */, _hoisted_18)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button for Scroll to Top "), $data.showScrollButton ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    "class": "floating-action-btn",
+    onClick: _cache[8] || (_cache[8] = function () {
+      return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
+    }),
+    "aria-label": "Scroll to top"
+  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-arrow-up"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -68702,13 +68838,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container py-5"
+  "class": "container-fluid py-4"
 };
 var _hoisted_2 = {
   "class": "text-center mb-5"
 };
 var _hoisted_3 = {
-  "class": "nav nav-pills justify-content-center gap-3 fw-semibold mb-4",
+  "class": "nav nav-pills justify-content-center gap-3 fw-semibold mb-5",
   role: "tablist"
 };
 var _hoisted_4 = {
@@ -68722,78 +68858,82 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = ["aria-selected"];
 var _hoisted_8 = {
-  "class": "row g-5 align-items-center justify-content-center"
+  "class": "row g-4 align-items-stretch justify-content-center"
 };
 var _hoisted_9 = {
-  "class": "col-lg-6 mb-4 mb-lg-0"
+  "class": "col-12 col-lg-8"
 };
 var _hoisted_10 = {
-  "class": "card shadow-lg border-0 rounded-4 overflow-hidden h-100"
+  "class": "p-4 p-md-5 animate__animated animate__fadeInRight"
 };
-var _hoisted_11 = ["src", "alt"];
+var _hoisted_11 = {
+  "class": "h2 fw-bold text-center mb-4"
+};
 var _hoisted_12 = {
-  "class": "col-lg-6"
+  "class": "d-flex flex-wrap justify-content-center gap-2 mb-4"
 };
 var _hoisted_13 = {
-  "class": "card shadow-lg border-0 rounded-4 p-4 h-100"
+  "class": "badge bg-light text-dark px-3 py-2"
 };
 var _hoisted_14 = {
-  "class": "h2 fw-bold text-center mb-3"
+  "class": "badge bg-light text-dark px-3 py-2"
 };
 var _hoisted_15 = {
-  "class": "d-flex flex-wrap justify-content-center gap-3 mb-3"
+  "class": "badge bg-light text-dark px-3 py-2"
 };
 var _hoisted_16 = {
-  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
+  "class": "content-text"
 };
 var _hoisted_17 = {
-  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
+  "class": "text-justify mb-4",
+  style: {
+    "font-size": "1.2rem"
+  }
 };
 var _hoisted_18 = {
-  "class": "badge bg-light text-dark fs-6 px-3 py-2 shadow-sm"
+  "class": "text-justify mb-4",
+  style: {
+    "font-size": "1.2rem"
+  }
 };
 var _hoisted_19 = {
-  "class": "lead text-justify mb-3"
+  "class": "text-justify mb-4",
+  style: {
+    "font-size": "1.2rem"
+  }
 };
 var _hoisted_20 = {
-  "class": "lead text-justify mb-3"
+  "class": "d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4"
 };
-var _hoisted_21 = {
-  "class": "lead text-justify mb-3"
-};
-var _hoisted_22 = {
-  key: 0,
-  "class": "alert alert-success mt-3",
-  role: "alert"
-};
+var _hoisted_21 = ["disabled"];
+var _hoisted_22 = ["href"];
 var _hoisted_23 = {
-  "class": "d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 mt-4"
-};
-var _hoisted_24 = ["href"];
-var _hoisted_25 = {
   "class": "fab-container"
 };
-var _hoisted_26 = ["title"];
-var _hoisted_27 = {
+var _hoisted_24 = ["title", "disabled"];
+var _hoisted_25 = {
   key: 0,
-  "class": "alert alert-success alert-dismissible fs-5 p-4 text-center shadow-sm border-0 position-absolute top-0 start-50 translate-middle-x",
+  "class": "alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x",
   role: "alert",
   style: {
-    "background-color": "rgb(223, 250, 241)",
-    "color": "rgb(0, 105, 92)",
-    "z-index": "10",
-    "width": "90%"
+    "background-color": "rgba(223, 250, 241, 0.9)",
+    "color": "#00bfa6",
+    "z-index": "1100",
+    "max-width": "500px"
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 fw-bold mb-3"
-  }, "Hajj & Umrah Guides", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "lead mx-auto description",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold mb-4 animate__animated animate__fadeIn"
+  }, " Hajj & Umrah Guides ", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mx-auto description text-muted",
     style: {
-      "max-width": "800px"
+      "max-width": "900px",
+      "font-size": "1.2rem"
     }
-  }, " These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-info-circle me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("These guides provide essential knowledge on the rituals, historical background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2", {
       active: $data.currentTab === 'hajj'
     }]),
@@ -68807,7 +68947,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "hajj",
     "aria-selected": $data.currentTab === 'hajj'
-  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-moon-stars me-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ")]), 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2", {
@@ -68823,54 +68963,64 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "umrah",
     "aria-selected": $data.currentTab === 'umrah'
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-person-walking me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $options.currentContent.image,
-    alt: $options.currentContent.alt,
-    "class": "img-fluid w-100 object-fit-cover",
-    style: {
-      "max-height": "400px"
-    },
-    loading: "lazy"
-  }, null, 8 /* PROPS */, _hoisted_11)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-book me-2"
-  }, null, -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-2"
+  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-headphones me-2"
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-file-earmark-word me-2"
-  }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */), $data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-clipboard-check me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Text copied to clipboard successfully! ")]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn btn-success d-flex align-items-center justify-content-center flex-grow-1",
+  }, null, -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-circle-fill me-2 text-custom"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-circle-fill me-2 text-custom"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-circle-fill me-2 text-custom"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "custom-tab px-3 py-2",
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.copyText && $options.copyText.apply($options, arguments);
-    })
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }),
+    disabled: $data.isCopying
+  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-clipboard me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard", -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "btn btn-success d-flex align-items-center justify-content-center flex-grow-1",
-    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isCopying ? 'Copying...' : 'Copy to Clipboard'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "custom-tab px-3 py-2 text-center",
+    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
     target: "_blank",
     rel: "noopener"
-  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-whatsapp me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)]), 8 /* PROPS */, _hoisted_24)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "fab-single shadow-lg",
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Share on WhatsApp ")]), 8 /* PROPS */, _hoisted_22)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fab-single",
     onClick: _cache[3] || (_cache[3] = function () {
       return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
     }),
-    title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play'
+    title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play',
+    disabled: !$data.isSpeechAvailable
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_26)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "fab-single mt-2",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.toggleSettings && $options.toggleSettings.apply($options, arguments);
+    }),
+    title: "Settings"
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-gear-fill"
+  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ✅ ")), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-check-circle-fill me-2"
+      }, null, -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
-        "class": "btn-close position-absolute top-50 end-0 translate-middle-y me-3",
-        onClick: _cache[4] || (_cache[4] = function ($event) {
+        "class": "btn-close",
+        onClick: _cache[5] || (_cache[5] = function ($event) {
           return $data.copySuccess = false;
         }),
         "aria-label": "Close"
@@ -167960,7 +168110,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n.card-header[data-v-e4489e22] {\n  padding: 20px 24px 16px;\n}\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  gap: 24px;\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 4px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-button:hover i[data-v-e4489e22] {\n  color: #0db6a1;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (max-width: 768px) {\n.podcast-card[data-v-e4489e22] {\n    border-radius: 12px;\n}\n.card-header[data-v-e4489e22] {\n    padding: 12px 16px 8px;\n}\n.card-body[data-v-e4489e22] {\n    padding: 16px;\n    gap: 16px;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.05rem;\n}\n.audio-controls[data-v-e4489e22] {\n    gap: 12px;\n    padding: 12px 0;\n}\n.control-button[data-v-e4489e22] {\n    padding: 10px;\n    min-width: 40px;\n    min-height: 40px;\n}\n.control-button i[data-v-e4489e22] {\n    font-size: 1.1rem;\n}\n.podcast-meta[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 8px;\n}\n.views-badge[data-v-e4489e22],\n  .date-badge[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 4px 10px;\n}\n.action-button[data-v-e4489e22] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n    min-height: 40px;\n}\n}\n@media (max-width: 576px) {\n.audio-controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-button[data-v-e4489e22] {\n    padding: 8px;\n    min-width: 36px;\n    min-height: 36px;\n}\n.control-button i[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.action-button[data-v-e4489e22] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n    min-height: 36px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Container */\n.audio-player-container[data-v-e4489e22] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.custom-audio-player[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 8px 12px;\n  border-radius: 20px 20px 0 0;\n  width: 100%;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 12px;\n}\n.control-btn[data-v-e4489e22] {\n  background: rgba(255, 255, 255, 0.1);\n  border: none;\n  color: white;\n  font-size: 1.3rem;\n  cursor: pointer;\n  border-radius: 50%;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(0, 191, 166, 0.2);\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 6px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  overflow: hidden;\n  margin-top: 8px;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #0db6a1 100%);\n  transition: width 0.1s linear;\n  border-radius: 3px;\n}\n.volume-slider[data-v-e4489e22] {\n  width: 120px;\n  height: 4px;\n  border-radius: 2px;\n  background: linear-gradient(to right, #0db6a1 0%, #0db6a1 calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) 100%);\n  outline: none;\n  -webkit-appearance: none;\n  position: relative;\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n/* Webkit (Chrome, Safari) */\n.volume-slider[data-v-e4489e22]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 6px rgba(13, 182, 145, 0.15);\n  margin-top: -6px;\n  /* Center the thumb on the 4px track */\n}\n\n/* Firefox */\n.volume-slider[data-v-e4489e22]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: -6px;\n}\n.volume-slider[data-v-e4489e22]::-moz-range-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n\n/* IE/Edge */\n.volume-slider[data-v-e4489e22]::-ms-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: 0px;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-lower {\n  background: #0db6a1;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-upper {\n  background: rgba(255, 255, 255, 0.2);\n}\n.volume-slider[data-v-e4489e22]:focus {\n  outline: none;\n}\n.volume-slider[data-v-e4489e22]::-webkit-slider-runnable-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n.volume-slider[data-v-e4489e22]::-ms-tooltip {\n  display: none;\n}\n\n/* Make the play button in the audio player more visible */\n.custom-audio-player .play-pause[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  color: #fff;\n  border-radius: 50%;\n  width: 56px;\n  height: 56px;\n  font-size: 2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);\n  border: 2.5px solid #fff;\n  transition: background 0.2s, transform 0.2s;\n}\n.custom-audio-player .play-pause[data-v-e4489e22]:hover {\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n  transform: scale(1.08);\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.8);\n  min-width: 120px;\n  text-align: center;\n}\n@media (max-width: 768px) {\n.controls[data-v-e4489e22] {\n    gap: 12px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 100px;\n}\n.volume-bar-container[data-v-e4489e22] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);\n    -webkit-backdrop-filter: blur(20px);\n            backdrop-filter: blur(20px);\n    padding: 12px;\n    border-radius: 20px 20px 0 0;\n}\n.volume-slider[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 1rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n\n/* Podcast Section */\n.podcast-section[data-v-e4489e22] {\n  margin-top: 2rem;\n}\n\n/* Responsive Design for Loading and Empty States */\n@media (max-width: 768px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 2rem 1rem;\n    margin: 1.5rem 0;\n}\n.loading-text[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 3rem;\n    margin-bottom: 1rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 1.5rem 0.5rem;\n    margin: 1rem 0;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 2.5rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.3rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  margin-left: 0.5rem;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.episode-avatar[data-v-e4489e22] {\n    width: 56px;\n    height: 56px;\n    margin-right: 0.7rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.92rem;\n}\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.episode-avatar[data-v-e4489e22] {\n    width: 32px;\n    height: 32px;\n    margin-right: 0.5rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  margin-left: auto;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.1rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n\n/* .card-header {\n  padding: 20px 24px 16px;\n} */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n   display: flex;\n  flex-direction: column;\n  /*gap: 24px; */\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 4px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-button:hover i[data-v-e4489e22] {\n  color: #0db6a1;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (max-width: 768px) {\n.podcast-card[data-v-e4489e22] {\n    border-radius: 12px;\n}\n.card-header[data-v-e4489e22] {\n    padding: 12px 16px 8px;\n}\n\n  /* .card-body {\n    padding: 16px;\n    gap: 16px;\n  } */\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.05rem;\n}\n.audio-controls[data-v-e4489e22] {\n    gap: 12px;\n    padding: 12px 0;\n}\n.control-button[data-v-e4489e22] {\n    padding: 10px;\n    min-width: 40px;\n    min-height: 40px;\n}\n.control-button i[data-v-e4489e22] {\n    font-size: 1.1rem;\n}\n.podcast-meta[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 8px;\n}\n.views-badge[data-v-e4489e22],\n  .date-badge[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 4px 10px;\n}\n.action-button[data-v-e4489e22] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n    min-height: 40px;\n}\n}\n@media (max-width: 576px) {\n.audio-controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-button[data-v-e4489e22] {\n    padding: 8px;\n    min-width: 36px;\n    min-height: 36px;\n}\n.control-button i[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.action-button[data-v-e4489e22] {\n    padding: 8px 12px;\n    font-size: 0.85rem;\n    min-height: 36px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Container */\n.audio-player-container[data-v-e4489e22] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.custom-audio-player[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 8px 12px;\n  border-radius: 20px 20px 0 0;\n  width: 100%;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 12px;\n}\n.control-btn[data-v-e4489e22] {\n  background: rgba(255, 255, 255, 0.1);\n  border: none;\n  color: white;\n  font-size: 1.3rem;\n  cursor: pointer;\n  border-radius: 50%;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(0, 191, 166, 0.2);\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 6px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  overflow: hidden;\n  margin-top: 8px;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #0db6a1 100%);\n  transition: width 0.1s linear;\n  border-radius: 3px;\n}\n.volume-slider[data-v-e4489e22] {\n  width: 120px;\n  height: 4px;\n  border-radius: 2px;\n  background: linear-gradient(to right, #0db6a1 0%, #0db6a1 calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) 100%);\n  outline: none;\n  -webkit-appearance: none;\n  position: relative;\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n/* Webkit (Chrome, Safari) */\n.volume-slider[data-v-e4489e22]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 6px rgba(13, 182, 145, 0.15);\n  margin-top: -6px;\n  /* Center the thumb on the 4px track */\n}\n\n/* Firefox */\n.volume-slider[data-v-e4489e22]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: -6px;\n}\n.volume-slider[data-v-e4489e22]::-moz-range-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n\n/* IE/Edge */\n.volume-slider[data-v-e4489e22]::-ms-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: 0px;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-lower {\n  background: #0db6a1;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-upper {\n  background: rgba(255, 255, 255, 0.2);\n}\n.volume-slider[data-v-e4489e22]:focus {\n  outline: none;\n}\n.volume-slider[data-v-e4489e22]::-webkit-slider-runnable-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n.volume-slider[data-v-e4489e22]::-ms-tooltip {\n  display: none;\n}\n\n/* Make the play button in the audio player more visible */\n.custom-audio-player .play-pause[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  color: #fff;\n  border-radius: 50%;\n  width: 56px;\n  height: 56px;\n  font-size: 2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);\n  border: 2.5px solid #fff;\n  transition: background 0.2s, transform 0.2s;\n}\n.custom-audio-player .play-pause[data-v-e4489e22]:hover {\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n  transform: scale(1.08);\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.8);\n  min-width: 120px;\n  text-align: center;\n}\n@media (max-width: 768px) {\n.controls[data-v-e4489e22] {\n    gap: 12px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 100px;\n}\n.volume-bar-container[data-v-e4489e22] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);\n    -webkit-backdrop-filter: blur(20px);\n            backdrop-filter: blur(20px);\n    padding: 12px;\n    border-radius: 20px 20px 0 0;\n}\n.volume-slider[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 1rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n\n/* Podcast Section */\n.podcast-section[data-v-e4489e22] {\n  margin-top: 2rem;\n}\n\n/* Responsive Design for Loading and Empty States */\n@media (max-width: 768px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 2rem 1rem;\n    margin: 1.5rem 0;\n}\n.loading-text[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 3rem;\n    margin-bottom: 1rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 1.5rem 0.5rem;\n    margin: 1rem 0;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 2.5rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.3rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  margin-left: 0.5rem;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.92rem;\n}\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  margin-left: auto;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168031,10 +168181,10 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nbody[data-v-7926cb50] {\n  background-color: #ffffff;\n  font-family: 'Inter', sans-serif;\n  color: #000000;\n}\n.fab[data-v-7926cb50] {\n  position: fixed;\n  bottom: 20px;\n  right: 20px;\n  border-radius: 50%;\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);\n}\n.fab-icon[data-v-7926cb50] {\n  font-size: 1.7rem;\n}\n.action-icon[data-v-7926cb50] {\n  cursor: pointer;\n  font-size: 1.2rem;\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n}\n.btn-outline.interactive-btn[data-v-7926cb50] {\n  border-color: #0db691;\n  color: #0db691;\n  transition: all 0.3s ease;\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db69162;\n  color: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:active {\n  transform: scale(0.95);\n}\n.btn-outline.interactive-btn[data-v-7926cb50]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.icon-btn[data-v-7926cb50] {\n  /* border: 1px solid #0db691; */\n  color: #000000;\n  font-weight: bold;\n  padding: 0.5rem 0.5rem;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: inline-flex;\n  align-items: center;\n  /* font-weight: 500; */\n  font-size: 1em;\n}\n.icon-btn[data-v-7926cb50]:hover:not(.disabled) {\n  background-color: #0db69162;\n  color: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);\n}\n.icon-btn[data-v-7926cb50]:active:not(.disabled) {\n  transform: scale(0.95);\n}\n.icon-btn.disabled[data-v-7926cb50] {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n.icon-btn i[data-v-7926cb50] {\n  font-size: 1.2rem;\n}\nh1[data-v-7926cb50] {\n  font-size: clamp(2.25rem, 5vw, 3.25rem);\n  font-weight: 600;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.lead[data-v-7926cb50] {\n  font-size: clamp(1.125rem, 3vw, 1.25rem);\n  font-weight: 400;\n  line-height: 1.5;\n}\n.dua-card[data-v-7926cb50] {\n  background-color: #ffffff;\n  border: none;\n  border-radius: 18px;\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.dua-card[data-v-7926cb50]:hover {\n  transform: translateY(-4px);\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);\n}\n.card-body[data-v-7926cb50] {\n  /* padding: 2.0rem; */\n}\n.card-footer[data-v-7926cb50] {\n  border-top: none;\n}\n.title-text[data-v-7926cb50] {\n  font-size: clamp(1.25rem, 3vw, 1.5rem);\n  font-weight: 500;\n  line-height: 1.4;\n  letter-spacing: 0.01em;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-weight: 400;\n  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 26px);\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(16px, calc(var(--font-size-base) * 1.0), 24px);\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-weight: 400;\n  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 22px);\n  line-height: 1.4;\n}\n.category-title[data-v-7926cb50] {\n  font-size: clamp(1.5rem, 4vw, 1.75rem);\n  font-weight: 500;\n  letter-spacing: 0.02em;\n  line-height: 1.3;\n}\n.icon-wrapper[data-v-7926cb50] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin: 0 0.75rem;\n}\n.action-icon[data-v-7926cb50] {\n  color: #6b7280;\n  cursor: pointer;\n  padding: 10px;\n  font-size: 1.5em;\n  transition: transform 0.3s ease, color 0.3s ease;\n}\n.action-icon[data-v-7926cb50]:hover {\n  color: #0db69165;\n  transform: scale(1.15);\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n  animation: pulse-7926cb50 0.3s ease;\n}\n.action-icon.liked[data-v-7926cb50]:hover {\n  color: #c82333;\n}\n@keyframes pulse-7926cb50 {\n0% {\n    transform: scale(1);\n}\n50% {\n    transform: scale(1.2);\n}\n100% {\n    transform: scale(1);\n}\n}\n.nav-tabs[data-v-7926cb50] {\n  border: none;\n}\n.nav-link[data-v-7926cb50] {\n  font-weight: 500;\n  color: #000000;\n  background-color: #e5e7eb;\n  padding: 0.75rem 1.5rem;\n  border-radius: 10px;\n  letter-spacing: 0.02em;\n  transition: all 0.3s ease;\n  text-decoration: none;\n}\n.nav-link[data-v-7926cb50]:hover {\n  color: #000000;\n}\n.nav-link.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n  transform: scale(1.05);\n}\n.badge[data-v-7926cb50] {\n  background-color: #b60d0d;\n  font-size: 0.875rem;\n  padding: 0.375rem 0.75rem;\n  border-radius: 999px;\n  vertical-align: middle;\n}\n.pagination button[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  padding: 0.5rem 1rem;\n  border-radius: 8px;\n  min-height: 44px;\n  border-color: #d1d5db;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.pagination-text[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 3vw, 1rem);\n  color: #6b7280;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.3s ease;\n}\n.input-group[data-v-7926cb50] {\n  height: 48px;\n}\n.input-group-text[data-v-7926cb50] {\n  border: none;\n  border-radius: 8px 0 0 8px;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.search-input[data-v-7926cb50] {\n  font-size: 1.125rem;\n  padding: 0.75rem 1rem;\n  border-radius: 0;\n  border-color: #d1d5db;\n  height: 48px;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.btn-outline-secondary[data-v-7926cb50] {\n  border-radius: 0 8px 8px 0;\n  padding: 0.75rem;\n  height: 48px;\n  display: flex;\n  align-items: center;\n  border-color: #d1d5db;\n}\n.btn-outline-secondary[data-v-7926cb50]:hover {\n  background-color: #0db691;\n  color: white;\n  border-color: #0db691;\n}\n.btn-outline-secondary i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.form-select[data-v-7926cb50] {\n  font-size: 1rem;\n  padding: 0.75rem;\n  border-radius: 8px;\n  border-color: #d1d5db;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.alert[data-v-7926cb50] {\n  max-width: 500px;\n  margin: 0 auto 1rem;\n  border-radius: 8px;\n}\n.search-tags[data-v-7926cb50] {\n  display: flex;\n  white-space: nowrap;\n  scroll-behavior: smooth;\n  -ms-overflow-style: none;\n  scrollbar-width: none;\n}\n.search-tags[data-v-7926cb50]::-webkit-scrollbar {\n  display: none;\n}\n.tag-btn[data-v-7926cb50] {\n  background-color: #e5e7eb;\n  color: #000000;\n  border: none;\n  border-radius: 10px;\n  padding: 0.625rem 1.25rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  text-align: center;\n  white-space: nowrap;\n}\n.tag-btn[data-v-7926cb50]:hover {\n  background-color: #12d6a0;\n  color: white;\n}\n.tag-btn.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n}\n@media (max-width: 767.98px) {\n.action-icon[data-v-7926cb50] {\n    font-size: 1.5rem;\n}\n.icon-wrapper[data-v-7926cb50] {\n    width: 46px;\n    height: 46px;\n}\n.dua-card[data-v-7926cb50] {\n    margin-bottom: 1rem;\n}\n.pagination button[data-v-7926cb50] {\n    padding: 0.5rem 0.75rem;\n}\n.nav-link[data-v-7926cb50] {\n    font-size: 1rem;\n    padding: 0.5rem 1rem;\n}\n.tag-btn[data-v-7926cb50] {\n    font-size: 0.875rem;\n    padding: 0.5rem 1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.dua-collection[data-v-7926cb50] {\n  background: #ffffff;\n  font-family: 'Inter', sans-serif;\n  color: #333;\n  padding: 2rem 1rem;\n  min-height: 100vh;\n}\n.fab[data-v-7926cb50] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  border-radius: 50%;\n  width: 3.5rem;\n  height: 3.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  background-color: #0db691;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  transition: transform 0.3s ease;\n}\n.fab[data-v-7926cb50]:hover {\n  transform: scale(1.1);\n}\n.fab-icon[data-v-7926cb50] {\n  font-size: 1.8rem;\n  color: white;\n}\n.action-icon[data-v-7926cb50] {\n  font-size: 1.4rem;\n  color: #333;\n  transition: transform 0.3s ease, color 0.3s ease;\n}\n.action-icon[data-v-7926cb50]:hover {\n  transform: scale(1.15);\n  color: #0db691;\n}\n.action-icon.liked[data-v-7926cb50] {\n  color: #dc3545;\n  animation: pulse-7926cb50 0.3s ease;\n}\n@keyframes pulse-7926cb50 {\n0% { transform: scale(1);\n}\n50% { transform: scale(1.2);\n}\n100% { transform: scale(1);\n}\n}\n.icon-btn[data-v-7926cb50] {\n  background: none;\n  border: 1px solid #0db691;\n  color: #0db691;\n  padding: 0.6rem 1.2rem;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: inline-flex;\n  align-items: center;\n  font-size: 1rem;\n  font-weight: 500;\n  min-width: 48px;\n  min-height: 48px;\n}\n.icon-btn[data-v-7926cb50]:hover:not(.disabled) {\n  background-color: #0db691;\n  color: white;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n}\n.icon-btn[data-v-7926cb50]:active:not(.disabled) {\n  transform: scale(0.95);\n}\n.icon-btn.disabled[data-v-7926cb50] {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\nh1[data-v-7926cb50] {\n  font-size: clamp(2.25rem, 5vw, 3rem);\n  font-weight: 700;\n  letter-spacing: 0.02em;\n}\nh2.category-title[data-v-7926cb50] {\n  font-size: clamp(1.75rem, 4vw, 2.25rem);\n  font-weight: 700;\n}\nh3.title-text[data-v-7926cb50] {\n  font-size: clamp(1.25rem, 3vw, 1.5rem);\n  font-weight: 600;\n}\n.lead[data-v-7926cb50] {\n  font-size: clamp(1rem, 2.5vw, 1.25rem);\n  font-weight: 400;\n  max-width: 600px;\n  margin: 0 auto;\n}\n.category-[data-v-7926cb50] {\n  border-radius: 12px;\n  border: 1px solid #e9ecef;\n  background: #ffffff;\n}\n.-header[data-v-7926cb50] {\n  cursor: pointer;\n  padding: 1.5rem;\n  background: #ffffff;\n  border-bottom: 1px solid #e9ecef;\n}\n.sticky-header[data-v-7926cb50] {\n  position: sticky;\n  top: 0;\n  z-index: 10;\n}\n.dua-[data-v-7926cb50] {\n  border-radius: 10px;\n  border: 1px solid #e9ecef;\n  background: #ffffff;\n  transition: transform 0.3s ease;\n}\n.dua-[data-v-7926cb50]:hover {\n  transform: translateY(-3px);\n}\n.-body[data-v-7926cb50] {\n  padding: 1.5rem;\n}\n.-footer[data-v-7926cb50] {\n  padding: 1rem 1.5rem;\n  border-top: none;\n  background: transparent;\n}\n.arabic-text[data-v-7926cb50] {\n  font-family: 'Amiri', serif;\n  font-size: clamp(18px, calc(var(--font-size-base) * 1.1), 26px);\n  line-height: 1.6;\n  direction: rtl;\n}\n.translation-text[data-v-7926cb50] {\n  font-size: clamp(16px, calc(var(--font-size-base) * 1), 24px);\n  line-height: 1.5;\n}\n.reference-text[data-v-7926cb50] {\n  font-size: clamp(14px, calc(var(--font-size-base) * 0.9), 22px);\n  line-height: 1.4;\n}\n.nav-tabs[data-v-7926cb50] {\n  border: none;\n}\n.nav-link[data-v-7926cb50] {\n  font-weight: 500;\n  color: #333;\n  background-color: #e9ecef;\n  padding: 0.75rem 1.5rem;\n  border-radius: 10px;\n  transition: all 0.3s ease;\n}\n.nav-link[data-v-7926cb50]:hover {\n  background-color: #dee2e6;\n}\n.nav-link.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n}\n.badge.bg-accent[data-v-7926cb50] {\n  background-color: #dc3545;\n  font-size: 0.8rem;\n  padding: 0.4rem 0.6rem;\n  border-radius: 999px;\n}\n.pagination button[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  padding: 0.6rem 1.2rem;\n  border-radius: 8px;\n  border-color: #0db691;\n  color: #0db691;\n  min-width: 48px;\n  min-height: 48px;\n  transition: all 0.3s ease;\n}\n.pagination button[data-v-7926cb50]:hover:not(:disabled) {\n  background-color: #0db691;\n  color: white;\n}\n.pagination-text[data-v-7926cb50] {\n  font-size: clamp(0.875rem, 2.5vw, 1rem);\n  color: #6b7280;\n  margin: 0 1rem;\n}\n.search-container[data-v-7926cb50] {\n  transition: transform 0.3s ease;\n}\n.input-group[data-v-7926cb50] {\n  height: 3.2rem;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.input-group-text.bg-teal[data-v-7926cb50] {\n  background-color: #0db691;\n  border: none;\n  padding: 0.8rem;\n  height: 3.2rem;\n}\n.input-group-text i[data-v-7926cb50] {\n  font-size: 1.5rem;\n  color: white;\n}\n.search-input[data-v-7926cb50] {\n  font-size: clamp(1rem, 2.5vw, 1.125rem);\n  padding: 0.8rem 1rem;\n  border: 1px solid #0db691;\n  height: 3.2rem;\n}\n.search-input[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.btn-outline-teal[data-v-7926cb50] {\n  padding: 0.8rem;\n  height: 3.2rem;\n  border: 1px solid #0db691;\n  color: #0db691;\n}\n.btn-outline-teal[data-v-7926cb50]:hover {\n  background-color: #0db691;\n  color: white;\n}\n.btn-outline-teal i[data-v-7926cb50] {\n  font-size: 1.5rem;\n}\n.form-select[data-v-7926cb50] {\n  font-size: clamp(1rem, 2.5vw, 1.125rem);\n  padding: 0.8rem;\n  border-radius: 10px;\n  border-color: #0db691;\n}\n.form-select[data-v-7926cb50]:focus {\n  border-color: #0db691;\n  box-shadow: 0 0 0 3px rgba(13, 182, 145, 0.1);\n}\n.alert[data-v-7926cb50] {\n  max-width: 600px;\n  margin: 0 auto 1rem;\n  border-radius: 10px;\n}\n.search-tags[data-v-7926cb50] {\n  overflow-x: auto;\n  white-space: nowrap;\n  padding: 0 0.5rem;\n  scroll-behavior: smooth;\n  -ms-overflow-style: none;\n  scrollbar-width: none;\n  position: relative;\n}\n.search-tags[data-v-7926cb50]::-webkit-scrollbar {\n  display: none;\n}\n.search-tags[data-v-7926cb50]::before,\n.search-tags[data-v-7926cb50]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 20px;\n  z-index: 1;\n}\n.search-tags[data-v-7926cb50]::before {\n  left: 0;\n  background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);\n}\n.search-tags[data-v-7926cb50]::after {\n  right: 0;\n  background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);\n}\n.tag-btn[data-v-7926cb50] {\n  background-color: #e9ecef;\n  color: #333;\n  border: 1px solid #0db691;\n  border-radius: 10px;\n  padding: 0.6rem 1.2rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  display: inline-flex;\n  align-items: center;\n  min-height: 44px;\n  margin-right: 0.5rem;\n}\n.tag-btn[data-v-7926cb50]:hover {\n  background-color: #0db691;\n  color: white;\n}\n.tag-btn.active[data-v-7926cb50] {\n  background-color: #0db691;\n  color: white;\n}\n.text-teal[data-v-7926cb50] {\n  color: #0db691;\n  transition: color 0.3s ease;\n}\n.text-teal[data-v-7926cb50]:hover {\n  color: #0a8c6b;\n}\n.mark-search[data-v-7926cb50], .mark-tag[data-v-7926cb50] {\n  background: #0db691 !important;\n  color: white !important;\n  padding: 0.1rem 0.3rem;\n  border-radius: 4px;\n}\n.fade-enter-active[data-v-7926cb50], .fade-leave-active[data-v-7926cb50] {\n  transition: opacity 0.3s ease;\n}\n.fade-enter-from[data-v-7926cb50], .fade-leave-to[data-v-7926cb50] {\n  opacity: 0;\n}\n@media (max-width: 767.98px) {\n.dua-collection[data-v-7926cb50] {\n    padding: 1.5rem 0.5rem;\n}\nh1[data-v-7926cb50] {\n    font-size: clamp(1.75rem, 4.5vw, 2.25rem);\n}\nh2.category-title[data-v-7926cb50] {\n    font-size: clamp(1.5rem, 3.5vw, 1.75rem);\n}\nh3.title-text[data-v-7926cb50] {\n    font-size: clamp(1.125rem, 2.5vw, 1.25rem);\n}\n.action-icon[data-v-7926cb50] {\n    font-size: 1.2rem;\n}\n.icon-btn[data-v-7926cb50] {\n    padding: 0.5rem 1rem;\n    font-size: 0.9rem;\n    min-width: 44px;\n    min-height: 44px;\n}\n.dua-[data-v-7926cb50] {\n    margin-bottom: 1rem;\n}\n.pagination button[data-v-7926cb50] {\n    padding: 0.5rem 1rem;\n    min-width: 44px;\n    min-height: 44px;\n}\n.nav-link[data-v-7926cb50] {\n    font-size: clamp(0.9rem, 2.5vw, 1rem);\n    padding: 0.6rem 1.2rem;\n}\n.tag-btn[data-v-7926cb50] {\n    font-size: clamp(0.85rem, 2.5vw, 0.95rem);\n    padding: 0.5rem 1rem;\n    min-height: 40px;\n}\n.fab[data-v-7926cb50] {\n    width: 3rem;\n    height: 3rem;\n    bottom: 1.5rem;\n    right: 1.5rem;\n}\n.fab-icon[data-v-7926cb50] {\n    font-size: 1.5rem;\n}\n.col-lg-4[data-v-7926cb50] {\n    flex: 0 0 100%;\n    max-width: 100%;\n}\n}\n@media (min-width: 768px) and (max-width: 991.98px) {\n.col-lg-4[data-v-7926cb50] {\n    flex: 0 0 50%;\n    max-width: 50%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168372,7 +168522,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 8px;\n  overflow: hidden;\n  font-size: 1.1rem;\n  box-shadow: 0 2px 12px rgba(0,0,0,0.08);\n  transition: box-shadow 0.3s, transform 0.3s;\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:hover {\n  box-shadow: 0 6px 24px rgba(0,0,0,0.16);\n  transform: translateY(-6px) scale(1.03);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #0a9678;\n  font-size: 2.4rem;\n  letter-spacing: 1px;\n  text-shadow: 0 2px 8px rgba(10,150,120,0.08);\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 24px;\n  right: 24px;\n  z-index: 1000;\n  width: 56px !important;\n  height: 56px !important;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color, #0a9678);\n  border-color: var(--primary-color, #0a9678);\n  box-shadow: 0 4px 16px rgba(0,0,0,0.15);\n  transition: background 0.2s, box-shadow 0.2s;\n}\n.floating-action-btn[data-v-062ee157]:hover {\n  background-color: #00bfa6;\n  box-shadow: 0 8px 32px rgba(0,0,0,0.18);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n    gap: 16px;\n    padding: 10px 0;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2rem;\n}\n.floating-action-btn[data-v-062ee157] {\n    bottom: 16px;\n    right: 16px;\n    width: 44px !important;\n    height: 44px !important;\n    font-size: 1.2rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n.toggle-pill-group[data-v-062ee157] {\n  gap: 0.5rem;\n}\n.toggle-pill[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: #e0f7fa;\n  color: #009688;\n  padding: 0.4rem 1.1rem;\n  border-radius: 999px;\n  font-size: 1.1rem;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.2s, color 0.2s, box-shadow 0.2s;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  cursor: pointer;\n}\n.toggle-pill.active[data-v-062ee157], .toggle-pill[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n  box-shadow: 0 2px 8px rgba(0,150,136,0.10);\n}\n@media (max-width: 768px) {\n.toggle-pill[data-v-062ee157] {\n    font-size: 1rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n.simple-card[data-v-062ee157] {\n  background: #fafdff;\n  border-radius: 8px;\n  box-shadow: 0 2px 8px rgba(0,150,136,0.07);\n  padding: 1.5rem 1rem 1rem 1rem;\n  margin-bottom: 1.5rem;\n  min-height: 210px;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  transition: box-shadow 0.2s;\n}\n.simple-card[data-v-062ee157]:hover {\n  box-shadow: 0 6px 24px rgba(0,150,136,0.13);\n}\n.simple-card-body[data-v-062ee157] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  font-size: 2.1rem;\n  color: #009688;\n  font-weight: 700;\n  letter-spacing: 1px;\n}\n.simple-name[data-v-062ee157] {\n  font-size: 1.3rem;\n  color: #222;\n  font-weight: 600;\n}\n.simple-meaning[data-v-062ee157] {\n  font-size: 1.1rem;\n  color: #009688;\n  font-weight: 500;\n}\n.simple-btn[data-v-062ee157] {\n  background: #e0f7fa;\n  color: #009688;\n  border: none;\n  border-radius: 50%;\n  width: 38px;\n  height: 38px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.3rem;\n  transition: background 0.2s, color 0.2s;\n  margin: 0 2px;\n}\n.simple-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.copy-btn[data-v-062ee157] {\n  background: #e0f7fa;\n}\n.whatsapp-btn[data-v-062ee157] {\n  background: #d0f8ce;\n  color: #25d366;\n}\n.whatsapp-btn[data-v-062ee157]:hover {\n  background: #25d366;\n  color: #fff;\n}\n@media (max-width: 768px) {\n.simple-card[data-v-062ee157] {\n    padding: 1rem 0.5rem 0.7rem 0.5rem;\n    min-height: 170px;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 1.4rem;\n}\n.simple-name[data-v-062ee157] {\n    font-size: 1.1rem;\n}\n.simple-meaning[data-v-062ee157] {\n    font-size: 1rem;\n}\n}\n/* Toggle Bar */\n.toggle-bar[data-v-062ee157] {\n  display: flex;\n  justify-content: center;\n  gap: 1rem;\n  margin-bottom: 2rem;\n}\n.toggle-pill[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: #e0f7fa;\n  color: #009688;\n  padding: 0.6rem 1.5rem;\n  border-radius: 999px;\n  font-size: 1.1rem;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.2s, color 0.2s, box-shadow 0.2s;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  cursor: pointer;\n}\n.toggle-pill.active[data-v-062ee157], .toggle-pill[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n  box-shadow: 0 2px 8px rgba(0,150,136,0.10);\n}\n/* Modern Names Grid */\n.names-grid-modern[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));\n  gap: 2rem;\n  padding: 0 0.5rem;\n}\n.modern-card[data-v-062ee157] {\n  background: #fff;\n  border-radius: 10px;\n  box-shadow: 0 4px 24px rgba(0,150,136,0.10);\n  padding: 2.2rem 1.2rem 1.5rem 1.2rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transition: box-shadow 0.2s, transform 0.2s;\n  min-height: 220px;\n}\n.modern-card[data-v-062ee157]:hover {\n  box-shadow: 0 8px 32px rgba(0,150,136,0.16);\n  transform: translateY(-4px) scale(1.02);\n}\n.modern-card-body[data-v-062ee157] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.7rem;\n}\n.modern-arabic[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  font-size: 2.2rem;\n  color: #009688;\n  font-weight: 700;\n  letter-spacing: 1px;\n  margin-bottom: 0.2rem;\n  text-align: center;\n}\n.modern-name[data-v-062ee157] {\n  font-size: 1.3rem;\n  color: #222;\n  font-weight: 600;\n  margin-bottom: 0.1rem;\n  text-align: center;\n}\n.modern-meaning[data-v-062ee157] {\n  font-size: 1.1rem;\n  color: #009688;\n  font-weight: 500;\n  text-align: center;\n}\n.modern-btn-row[data-v-062ee157] {\n  display: flex;\n  gap: 0.7rem;\n  margin-top: 1.1rem;\n  justify-content: center;\n}\n.modern-btn[data-v-062ee157] {\n  background: #e0f7fa;\n  color: #009688;\n  border: none;\n  border-radius: 999px;\n  padding: 0.6rem 1.2rem;\n  font-size: 1.1rem;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.2s, color 0.2s;\n  cursor: pointer;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n}\n.modern-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.copy-btn[data-v-062ee157] {\n  background: #e0f7fa;\n  color: #009688;\n}\n.copy-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.whatsapp-btn[data-v-062ee157] {\n  background: #d0f8ce;\n  color: #25d366;\n}\n.whatsapp-btn[data-v-062ee157]:hover {\n  background: #25d366;\n  color: #fff;\n}\n@media (max-width: 768px) {\n.names-grid-modern[data-v-062ee157] {\n    grid-template-columns: 1fr;\n    gap: 1.2rem;\n    padding: 0;\n}\n.modern-card[data-v-062ee157] {\n    padding: 1.2rem 0.5rem 1rem 0.5rem;\n    min-height: 150px;\n}\n.modern-arabic[data-v-062ee157] {\n    font-size: 1.4rem;\n}\n.modern-name[data-v-062ee157] {\n    font-size: 1.1rem;\n}\n.modern-meaning[data-v-062ee157] {\n    font-size: 1rem;\n}\n.modern-btn[data-v-062ee157] {\n    padding: 0.5rem 0.8rem;\n    font-size: 1rem;\n}\n}\n/* Clean Toggle Bar */\n.toggle-bar-clean[data-v-062ee157] {\n  display: flex;\n  justify-content: center;\n  gap: 1.2rem;\n  margin-bottom: 2.2rem;\n  background: #f5f7fa;\n  padding: 1.1rem 0 1.1rem 0;\n  border-radius: 18px;\n}\n.toggle-pill-clean[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: #fff;\n  color: #009688;\n  padding: 0.7rem 1.7rem;\n  border-radius: 999px;\n  font-size: 1.13rem;\n  font-weight: 600;\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  transition: background 0.2s, color 0.2s, box-shadow 0.2s;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  cursor: pointer;\n}\n.toggle-pill-clean.active[data-v-062ee157], .toggle-pill-clean[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n  box-shadow: 0 2px 8px rgba(0,150,136,0.10);\n}\n/* Clean Names Grid */\n.names-grid-clean[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));\n  gap: 1.7rem;\n  padding: 0 0.5rem;\n  background: #f5f7fa;\n  border-radius: 18px;\n}\n.clean-card[data-v-062ee157] {\n  background: #fff;\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(0,150,136,0.07);\n  padding: 2rem 1.1rem 1.3rem 1.1rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transition: box-shadow 0.2s, transform 0.2s;\n  min-height: 180px;\n}\n.clean-card[data-v-062ee157]:hover {\n  box-shadow: 0 8px 32px rgba(0,150,136,0.13);\n  transform: translateY(-2px) scale(1.01);\n}\n.clean-card-body[data-v-062ee157] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.6rem;\n}\n.clean-arabic[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  font-size: 2rem;\n  color: #009688;\n  font-weight: 700;\n  letter-spacing: 1px;\n  margin-bottom: 0.1rem;\n  text-align: center;\n}\n.clean-name[data-v-062ee157] {\n  font-size: 1.2rem;\n  color: #222;\n  font-weight: 600;\n  margin-bottom: 0.1rem;\n  text-align: center;\n}\n.clean-meaning[data-v-062ee157] {\n  font-size: 1.05rem;\n  color: #009688;\n  font-weight: 500;\n  text-align: center;\n}\n.clean-btn-row[data-v-062ee157] {\n  display: flex;\n  gap: 0.7rem;\n  margin-top: 1.1rem;\n  justify-content: center;\n}\n.clean-btn[data-v-062ee157] {\n  background: #f5f7fa;\n  color: #009688;\n  border: none;\n  border-radius: 999px;\n  padding: 0.6rem 1.2rem;\n  font-size: 1.1rem;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  transition: background 0.2s, color 0.2s;\n  cursor: pointer;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n}\n.clean-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.copy-btn[data-v-062ee157] {\n  background: #f5f7fa;\n  color: #009688;\n}\n.copy-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.whatsapp-btn[data-v-062ee157] {\n  background: #e9fbe5;\n  color: #25d366;\n}\n.whatsapp-btn[data-v-062ee157]:hover {\n  background: #25d366;\n  color: #fff;\n}\n@media (max-width: 768px) {\n.names-grid-clean[data-v-062ee157] {\n    grid-template-columns: 1fr;\n    gap: 1.1rem;\n    padding: 0;\n}\n.clean-card[data-v-062ee157] {\n    padding: 1.1rem 0.5rem 0.8rem 0.5rem;\n    min-height: 120px;\n}\n.clean-arabic[data-v-062ee157] {\n    font-size: 1.2rem;\n}\n.clean-name[data-v-062ee157] {\n    font-size: 1rem;\n}\n.clean-meaning[data-v-062ee157] {\n    font-size: 0.95rem;\n}\n.clean-btn[data-v-062ee157] {\n    padding: 0.5rem 0.8rem;\n    font-size: 1rem;\n}\n}\n/* Clean Search Bar */\n.search-bar-clean[data-v-062ee157] {\n  display: flex;\n  justify-content: center;\n  margin-bottom: 2.2rem;\n}\n.search-bar-inner[data-v-062ee157] {\n  display: flex;\n  align-items: center;\n  background: #fff;\n  border-radius: 999px;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  padding: 0.2rem 1.1rem;\n  min-width: 260px;\n  max-width: 400px;\n  width: 100%;\n}\n.search-icon[data-v-062ee157] {\n  color: #b0b8be;\n  font-size: 1.2rem;\n  margin-right: 0.5rem;\n}\n.search-input[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: transparent;\n  font-size: 1.1rem;\n  flex: 1;\n  padding: 0.5rem 0;\n  color: #222;\n}\n.clear-btn[data-v-062ee157] {\n  background: none;\n  border: none;\n  color: #b0b8be;\n  font-size: 1.1rem;\n  cursor: pointer;\n  margin-left: 0.5rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s;\n  padding: 0.2rem 0.4rem;\n}\n.clear-btn[data-v-062ee157]:hover {\n  background: #f5f7fa;\n  color: #009688;\n}\n.clean-description[data-v-062ee157] {\n  font-size: 0.98rem;\n  color: #666;\n  font-weight: 400;\n  text-align: center;\n  margin-top: 0.3rem;\n  margin-bottom: 0.2rem;\n  line-height: 1.5;\n}\n@media (max-width: 768px) {\n.search-bar-inner[data-v-062ee157] {\n    min-width: 0;\n    max-width: 100%;\n    padding: 0.2rem 0.7rem;\n}\n.search-input[data-v-062ee157] {\n    font-size: 1rem;\n}\n.clean-description[data-v-062ee157] {\n    font-size: 0.92rem;\n}\n}\n/* Clean Pagination */\n.pagination-clean[data-v-062ee157] {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 2.2rem 0 1.2rem 0;\n}\n.pagination-btn[data-v-062ee157] {\n  background: #fff;\n  color: #009688;\n  border: 1.5px solid #e0e0e0;\n  border-radius: 999px;\n  padding: 0.45rem 1.1rem;\n  font-size: 1.08rem;\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.2s, color 0.2s, border 0.2s;\n  outline: none;\n}\n.pagination-btn.active[data-v-062ee157], .pagination-btn[data-v-062ee157]:hover:not(:disabled) {\n  background: #009688;\n  color: #fff;\n  border-color: #009688;\n}\n.pagination-btn[data-v-062ee157]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n/* Controls Row: Toggles and Search Bar Side by Side */\n.controls-row-clean[data-v-062ee157] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 2rem;\n  margin-bottom: 2.2rem;\n  flex-wrap: wrap;\n}\n.controls-row-clean .toggle-bar-clean[data-v-062ee157] {\n  margin-bottom: 0;\n}\n.controls-row-clean .search-bar-clean[data-v-062ee157] {\n  margin-bottom: 0;\n}\n@media (max-width: 900px) {\n.controls-row-clean[data-v-062ee157] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 1.2rem;\n}\n.controls-row-clean .toggle-bar-clean[data-v-062ee157],\n  .controls-row-clean .search-bar-clean[data-v-062ee157] {\n    width: 100%;\n    justify-content: center;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Global styles */\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* Toggle Bar */\n.toggle-bar-clean[data-v-062ee157] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  gap: 0.5rem;\n  background: #f5f7fa;\n  padding: 0.5rem;\n  border-radius: 12px;\n  width: 100%;\n}\n.toggle-pill-clean[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: #fff;\n  color: #009688;\n  padding: 0.5rem 1rem;\n  border-radius: 999px;\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  transition: background 0.2s, color 0.2s, box-shadow 0.2s;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  cursor: pointer;\n  min-height: 44px; /* Accessibility: minimum touch target size */\n}\n.toggle-pill-clean.active[data-v-062ee157],\n.toggle-pill-clean[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n  box-shadow: 0 2px 8px rgba(0,150,136,0.1);\n}\n.toggle-pill-clean[data-v-062ee157]:active {\n  transform: scale(0.95); /* Touch feedback */\n}\n/* Search Bar */\n.search-bar-clean[data-v-062ee157] {\n  padding: 10px;\n  display: flex;\n  justify-content: center;\n  width: 100%;\n  max-width: 400px;\n}\n.search-bar-inner[data-v-062ee157] {\n  display: flex;\n  align-items: center;\n  background: #fff;\n  border-radius: 999px;\n  box-shadow: 0 1px 4px rgba(0,150,136,0.04);\n  padding: 0.3rem 0.8rem;\n  width: 100%;\n  min-height: 44px; /* Accessibility */\n}\n.search-icon[data-v-062ee157] {\n  color: #b0b8be;\n  font-size: 1rem;\n  margin-right: 0.5rem;\n}\n.search-input[data-v-062ee157] {\n  border: none;\n  outline: none;\n  background: transparent;\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  flex: 1;\n  padding: 0.4rem 0;\n  color: #222;\n}\n.clear-btn[data-v-062ee157] {\n  background: none;\n  border: none;\n  color: #b0b8be;\n  font-size: 1rem;\n  cursor: pointer;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s;\n  padding: 0.3rem;\n  min-height: 44px;\n  min-width: 44px;\n}\n.clear-btn[data-v-062ee157]:hover {\n  background: #f5f7fa;\n  color: #009688;\n}\n.clear-btn[data-v-062ee157]:active {\n  transform: scale(0.95);\n}\n/* Names Grid */\n.names-grid-clean[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 1rem;\n  padding: 0.5rem;\n  background: #f5f7fa;\n  border-radius: 12px;\n}\n.clean-card[data-v-062ee157] {\n  background: #fff;\n  border-radius: 12px;\n  box-shadow: 0 2px 12px rgba(0,150,136,0.07);\n  padding: 1.5rem 1rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transition: box-shadow 0.2s, transform 0.2s;\n  min-height: 160px;\n  animation: fadeIn-062ee157 0.5s ease forwards;\n}\n.clean-card[data-v-062ee157]:hover {\n  box-shadow: 0 6px 24px rgba(0,150,136,0.1);\n  transform: translateY(-2px);\n}\n.clean-card-body[data-v-062ee157] {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 0.5rem;\n}\n.clean-arabic[data-v-062ee157] {\n  font-family: 'Amiri', 'Traditional Arabic', 'Arial', sans-serif;\n  font-size: clamp(1.2rem, 4vw, 1.8rem);\n  color: #009688;\n  font-weight: 700;\n  letter-spacing: 0.5px;\n  text-align: center;\n}\n.clean-name[data-v-062ee157] {\n  font-size: clamp(1rem, 3vw, 1.2rem);\n  color: #222;\n  font-weight: 600;\n  text-align: center;\n}\n.clean-meaning[data-v-062ee157] {\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  color: #009688;\n  font-weight: 500;\n  text-align: center;\n}\n.clean-description[data-v-062ee157] {\n  font-size: clamp(0.85rem, 2.5vw, 0.95rem);\n  color: #666;\n  font-weight: 400;\n  text-align: center;\n  line-height: 1.5;\n}\n.clean-btn-row[data-v-062ee157] {\n  display: flex;\n  gap: 0.5rem;\n  margin-top: 0.8rem;\n  justify-content: center;\n}\n.clean-btn[data-v-062ee157] {\n  background: #f5f7fa;\n  color: #009688;\n  border: none;\n  border-radius: 999px;\n  padding: 0.5rem 1rem;\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n  transition: background 0.2s, color 0.2s, transform 0.2s;\n  cursor: pointer;\n  min-height: 44px;\n  min-width: 44px;\n}\n.clean-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.clean-btn[data-v-062ee157]:active {\n  transform: scale(0.95);\n}\n.copy-btn[data-v-062ee157] {\n  background: #f5f7fa;\n  color: #009688;\n}\n.copy-btn[data-v-062ee157]:hover {\n  background: #009688;\n  color: #fff;\n}\n.whatsapp-btn[data-v-062ee157] {\n  background: #e9fbe5;\n  color: #25d366;\n}\n.whatsapp-btn[data-v-062ee157]:hover {\n  background: #25d366;\n  color: #fff;\n}\n/* Pagination */\n.pagination-clean[data-v-062ee157] {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  align-items: center;\n  gap: 0.5rem;\n  margin: 1.5rem 0;\n}\n.pagination-btn[data-v-062ee157] {\n  background: #fff;\n  color: #009688;\n  border: 1px solid #e0e0e0;\n  border-radius: 999px;\n  padding: 0.4rem 1rem;\n  font-size: clamp(0.9rem, 2.5vw, 1rem);\n  font-weight: 500;\n  cursor: pointer;\n  transition: background 0.2s, color 0.2s, border 0.2s;\n  min-height: 44px;\n  min-width: 44px;\n}\n.pagination-btn.active[data-v-062ee157],\n.pagination-btn[data-v-062ee157]:hover:not(:disabled) {\n  background: #009688;\n  color: #fff;\n  border-color: #009688;\n}\n.pagination-btn[data-v-062ee157]:disabled {\n  opacity: 0.5;\n  cursor: not-allowed;\n}\n/* Floating Action Button */\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: calc(1rem + env(safe-area-inset-bottom));\n  right: calc(1rem + env(safe-area-inset-right));\n  z-index: 1000;\n  width: 48px;\n  height: 48px;\n  font-size: 1.2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: #009688;\n  border-color: #009688;\n  border-radius: 50%;\n  box-shadow: 0 4px 16px rgba(0,0,0,0.15);\n  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;\n}\n.floating-action-btn[data-v-062ee157]:hover {\n  background-color: #00bfa6;\n  box-shadow: 0 6px 24px rgba(0,0,0,0.2);\n}\n.floating-action-btn[data-v-062ee157]:active {\n  transform: scale(0.95);\n}\n/* Animations */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n/* Media Queries */\n@media (max-width: 768px) {\n.toggle-bar-clean[data-v-062ee157] {\n    gap: 0.3rem;\n    padding: 0.3rem;\n}\n.search-bar-inner[data-v-062ee157] {\n    padding: 0.2rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-062ee157] {\n    font-size: 1.8rem;\n}\n.lead[data-v-062ee157] {\n    font-size: 0.9rem;\n}\n.names-grid-clean[data-v-062ee157] {\n    padding: 0;\n}\n.clean-card[data-v-062ee157] {\n    padding: 0.8rem 0.5rem;\n}\n.toggle-pill-clean[data-v-062ee157] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n}\n.clean-btn[data-v-062ee157] {\n    padding: 0.4rem 0.8rem;\n    font-size: 0.9rem;\n}\n.pagination-btn[data-v-062ee157] {\n    padding: 0.3rem 0.8rem;\n    font-size: 0.9rem;\n}\n.floating-action-btn[data-v-062ee157] {\n    width: 44px;\n    height: 44px;\n    font-size: 1rem;\n}\n}\n@media (max-width: 400px) {\n.controls-row-clean[data-v-062ee157] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.8rem;\n}\n.search-bar-clean[data-v-062ee157] {\n    padding: 10px;\n    max-width: 100%;\n}\n}\n/* Accessibility */\n@media (prefers-reduced-motion: reduce) {\n.clean-card[data-v-062ee157],\n  .toggle-pill-clean[data-v-062ee157],\n  .clean-btn[data-v-062ee157],\n  .pagination-btn[data-v-062ee157],\n  .floating-action-btn[data-v-062ee157] {\n    transition: none;\n}\n.clean-card[data-v-062ee157] {\n    animation: none;\n}\n}\n/* Dark Mode */\n@media (prefers-color-scheme: dark) {\n.names-container[data-v-062ee157] {\n    background-color: #121212;\n}\n.clean-card[data-v-062ee157] {\n    background-color: white;\n    color: #bebebe;\n    border-radius: 20px;\n    border:2px solid black;\n}\n.clean-name[data-v-062ee157] {\n    color: #e0e0e0;\n}\n.clean-description[data-v-062ee157] {\n    color: #b0b0b0;\n}\n.search-input[data-v-062ee157] {\n    color: #e0e0e0;\n}\n.search-icon[data-v-062ee157],\n  .clear-btn[data-v-062ee157] {\n    color: #b0b8be;\n}\n.pagination-btn[data-v-062ee157] {\n    border-color: #444;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168807,7 +168957,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-single[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  width: 60px;\n  height: 60px;\n  border-radius: 50%;\n  background-color: var(--bs-success);\n  color: white;\n  font-size: 2rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  z-index: 1050;\n  transition: background-color 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: #198754;\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1050;\n}\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e9f7f3;\n  color: #198754;\n  font-size: 1.2rem;\n  padding: 0.8rem 2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1f2e7;\n  color: #146c43;\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #198754;\n  color: #fff;\n  font-weight: bold;\n  border-color: #146c43;\n  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);\n}\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\nimg.object-fit-cover[data-v-2c27c8a7] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1200;\n}\n.fab-single[data-v-2c27c8a7] {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background-color: #00bfa6;\n  color: white;\n  font-size: 0.9rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: #009688;\n  transform: scale(1.1);\n}\n.fab-single[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  cursor: not-allowed;\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.3rem;\n  padding: 0.5rem 1.5rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 8px rgba(0, 191, 166, 0.2);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\n.fade-enter-active[data-v-2c27c8a7],\n.fade-leave-active[data-v-2c27c8a7] {\n  transition: opacity 0.3s ease;\n}\n.fade-enter-from[data-v-2c27c8a7],\n.fade-leave-to[data-v-2c27c8a7] {\n  opacity: 0;\n}\n.content-text[data-v-2c27c8a7] {\n  max-height: 400px;\n  overflow-y: hidden;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.alert-success[data-v-2c27c8a7] {\n  background-color: rgba(223, 250, 241, 0.9) !important;\n  color: #00bfa6 !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168830,8 +168980,9 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n::-moz-selection {\n  background-color: #198754;\n  color: white;\n}\n::selection {\n  background-color: #198754;\n  color: white;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n::-moz-selection {\n  background-color: #00bfa6;\n  color: white;\n}\n::selection {\n  background-color: #00bfa6;\n  color: white;\n}\na {\n  color: #00bfa6;\n  text-decoration: none;\n}\na:hover {\n  color: #009688;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
