@@ -49148,7 +49148,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       videos: [],
       query: 'mosque',
       loading: false,
-      filters: ['Islamic', 'islamic animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture'],
+      filters: ['Islamic', 'Islamic Animation', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture'],
       activeFilter: null,
       currentPage: 1,
       perPage: 9,
@@ -49175,6 +49175,23 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   methods: {
+    getFilterIcon: function getFilterIcon(filter) {
+      var iconMap = {
+        'Islamic': 'fas fa-mosque',
+        'Islamic Animation': 'fas fa-film',
+        'Calligraphy': 'fas fa-pen-nib',
+        'Quran': 'fas fa-book-quran',
+        'Kaaba': 'fas fa-kaaba',
+        'Mecca': 'fas fa-place-of-worship',
+        'Madina': 'fas fa-mosque',
+        'Hijab': 'fas fa-headscarf',
+        'Ramadan': 'fas fa-moon',
+        'Eid': 'fas fa-star-and-crescent',
+        'Arabic Art': 'fas fa-palette',
+        'Islamic Architecture': 'fas fa-archway'
+      };
+      return iconMap[filter] || 'fas fa-video';
+    },
     goToPage: function goToPage(page) {
       if (page >= 1 && page <= this.totalPages) {
         this.currentPage = page;
@@ -49206,15 +49223,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               data = _context.sent;
               _this.totalResults = data.total_results || 0;
               _this.videos = data.videos.map(function (video) {
-                var _video$user;
+                var _video$video_tags;
                 var file = video.video_files.find(function (f) {
                   return f.quality === 'hd';
                 }) || video.video_files[0];
+                var tag = ((_video$video_tags = video.video_tags) === null || _video$video_tags === void 0 || (_video$video_tags = _video$video_tags[0]) === null || _video$video_tags === void 0 ? void 0 : _video$video_tags.tag) || _this.query.toLowerCase();
                 return {
                   id: video.id,
                   url: file === null || file === void 0 ? void 0 : file.link,
                   thumbnail: video.image,
-                  description: ((_video$user = video.user) === null || _video$user === void 0 ? void 0 : _video$user.name) || 'No description',
+                  description: "A video capturing the essence of ".concat(tag, " in Islamic culture"),
                   metadata: {
                     width: null,
                     height: null,
@@ -49264,11 +49282,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     applyFilter: function applyFilter(filter) {
       this.activeFilter = filter;
       this.query = filter;
+      this.currentPage = 1;
       this.searchVideos();
     }
   },
   mounted: function mounted() {
-    this.searchVideos(); // Load initial set
+    this.searchVideos();
   }
 });
 
@@ -69121,74 +69140,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 
 var _hoisted_1 = {
-  "class": "container py-4"
+  "class": "container py-5"
 };
 var _hoisted_2 = {
-  "class": "row container justify-content-center mb-3"
+  "class": "row justify-content-center mb-4 animate__animated animate__fadeIn"
 };
 var _hoisted_3 = {
-  "class": "col-12 col-md-12"
+  "class": "col-12 col-md-10"
 };
 var _hoisted_4 = {
-  "class": "input-group"
+  "class": "input-group shadow-sm search-container"
 };
 var _hoisted_5 = {
-  "class": "mb-4 text-center"
+  "class": "mb-3 text-center animate__animated animate__fadeIn"
 };
 var _hoisted_6 = {
   "class": "filter-scroll-wrapper position-relative"
 };
 var _hoisted_7 = {
-  "class": "filter-scroll d-flex justify-content-start gap-2 px-2 py-2",
-  style: {
-    "overflow-x": "auto",
-    "cursor": "pointer",
-    "white-space": "nowrap",
-    "-ms-overflow-style": "none",
-    "scrollbar-width": "none"
-  }
+  "class": "filter-scroll d-flex justify-content-start gap-2 px-3 py-2"
 };
 var _hoisted_8 = ["onClick"];
 var _hoisted_9 = {
   key: 0,
-  "class": "row g-3"
+  "class": "row g-4"
 };
 var _hoisted_10 = {
-  "class": "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video",
-  style: {
-    "border": "2px solid lightgray"
-  }
+  "class": "ratio ratio-16x9 video-container"
 };
 var _hoisted_11 = ["src", "poster", "onLoadedmetadata"];
 var _hoisted_12 = {
-  "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
+  "class": "card-body d-flex flex-column"
 };
-var _hoisted_13 = ["href"];
-var _hoisted_14 = ["href", "download"];
-var _hoisted_15 = {
+var _hoisted_13 = {
+  "class": "d-flex gap-2 mt-auto"
+};
+var _hoisted_14 = ["href"];
+var _hoisted_15 = ["href", "download"];
+var _hoisted_16 = {
   key: 1,
-  "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
+  "class": "d-flex justify-content-center align-items-center gap-2 flex-wrap animate__animated animate__fadeIn"
 };
-var _hoisted_16 = ["disabled"];
 var _hoisted_17 = ["onClick"];
-var _hoisted_18 = ["disabled"];
-var _hoisted_19 = {
+var _hoisted_18 = {
   key: 2,
-  "class": "text-center py-3"
+  "class": "text-center py-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Animated Videos", -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center text-muted mb-4",
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    "class": "mb-3 text-center fw-bold display-5 display-md-4 animate__animated animate__fadeInDown"
+  }, " Islamic Animated Videos ", -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center text-muted mb-5 lead animate__animated animate__fadeInUp",
     style: {
-      "font-size": "18px"
+      "font-size": "1.2rem"
     }
-  }, " Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "fw-bold text-left pt-2 pb-2 container"
-  }, "Search Animated Videos:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, " Discover a captivating collection of Islamic animated videos, bringing to life the beauty and spirituality of Islamic culture. From the grandeur of mosques and intricate calligraphy to the serenity of nature and historical landmarks. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold text-left pt-3 pb-2"
+  }, "Search Animated Videos", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "input-group-text border-light"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-search"
+  })], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.query = $event;
     }),
@@ -69196,48 +69216,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.searchVideos && $options.searchVideos.apply($options, arguments);
     }, ["enter"])),
     type: "text",
-    "class": "form-control",
+    "class": "form-control border-light search-input",
     placeholder: "Search for Islamic videos..."
   }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $options.searchVideos && $options.searchVideos.apply($options, arguments);
     }),
-    "class": "btn",
-    type: "button",
-    style: {
-      "background-color": "#0db691",
-      "color": "white"
-    }
-  }, " Search ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, function (filter) {
+    "class": "btn btn-custom search-btn",
+    type: "button"
+  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-search me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search ")]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, function (filter, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge flex-shrink-0 px-3 py-2", {
-        'bg-dark text-white': $data.activeFilter === filter,
-        'bg-light text-dark': $data.activeFilter !== filter
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge filter-badge animate__animated animate__bounceIn", {
+        'bg-custom text-white': $data.activeFilter === filter,
+        'bg-light text-dark border-custom': $data.activeFilter !== filter
       }]),
       key: filter,
       onClick: function onClick($event) {
         return $options.applyFilter(filter);
-      }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 11 /* TEXT, CLASS, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video) {
+      },
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        animationDelay: "".concat(index * 0.1, "s")
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getFilterIcon(filter) || 'fas fa-video', "me-1"])
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 1 /* TEXT */)], 14 /* CLASS, STYLE, PROPS */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), !$data.loading && $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.videos, function (video, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id,
       "class": "col-12 col-sm-6 col-md-4 col-lg-4 mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      "class": "ratio ratio-16x9 video-container",
-      style: {
-        "height": "500px",
-        "object-fit": "cover",
-        "border-top-left-radius": "5px",
-        "border-top-right-radius": "5px"
-      },
-      onMouseenter: _cache[3] || (_cache[3] = function ($event) {
-        return $options.playOnHover($event);
-      }),
-      onMouseleave: _cache[4] || (_cache[4] = function ($event) {
-        return $options.pauseOnLeave($event);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "card border-light shadow-sm h-100 card-video animate__animated animate__fadeInUp",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        animationDelay: "".concat(index * 0.1, "s")
       })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
       src: video.url,
       poster: video.thumbnail,
       "class": "w-100 rounded-top video-hover",
@@ -69248,58 +69262,74 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       playsinline: "",
       onLoadedmetadata: function onLoadedmetadata($event) {
         return $options.updateMetadata($event, video);
-      }
-    }, " Your browser does not support the video tag. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_11)], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      },
+      onMouseenter: _cache[3] || (_cache[3] = function ($event) {
+        return $options.playOnHover($event);
+      }),
+      onMouseleave: _cache[4] || (_cache[4] = function ($event) {
+        return $options.pauseOnLeave($event);
+      })
+    }, " Your browser does not support the video tag. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_11), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "video-overlay"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-play-circle fa-3x"
+    })], -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: "https://wa.me/?text=".concat(encodeURIComponent(video.url)),
       target: "_blank",
-      "class": "btn btn-sm w-100 custom-btn",
-      style: {
-        "font-size": "18px"
-      }
-    }, "Share", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "btn btn-sm btn-outline-custom w-50"
+    }, _toConsumableArray(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-share-alt me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Share ")])), 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: video.url,
       download: "video-".concat(video.id, ".mp4"),
-      "class": "btn btn-sm w-100 custom-btn",
-      style: {
-        "font-size": "18px"
-      },
+      "class": "btn btn-sm btn-custom w-50",
       target: "_blank"
-    }, " Download ", 8 /* PROPS */, _hoisted_14)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === 1,
+    }, _toConsumableArray(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "fas fa-download me-2"
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Download ")])), 8 /* PROPS */, _hoisted_15)])])], 4 /* STYLE */)]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-custom pagination-btn", {
+      'disabled': $data.currentPage === 1
+    }]),
     onClick: _cache[5] || (_cache[5] = function ($event) {
       return $options.goToPage($data.currentPage - 1);
     })
-  }, " Previous ", 12 /* STYLE, PROPS */, _hoisted_16), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visiblePages, function (page) {
+  }, _cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-chevron-left me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Previous ")]), 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visiblePages, function (page) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: page,
       onClick: function onClick($event) {
         return $options.goToPage(page);
       },
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn", page === $data.currentPage ? '' : 'btn-outline-success']),
-      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(page === $data.currentPage ? 'background-color: #17a085; color: white;' : '')
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 15 /* TEXT, CLASS, STYLE, PROPS */, _hoisted_17);
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn pagination-btn", {
+        'btn-custom text-white': page === $data.currentPage,
+        'btn-outline-custom': page !== $data.currentPage
+      }])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 11 /* TEXT, CLASS, PROPS */, _hoisted_17);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "btn",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === $options.totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),
-    disabled: $data.currentPage === $options.totalPages,
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-custom pagination-btn", {
+      'disabled': $data.currentPage === $options.totalPages
+    }]),
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.goToPage($data.currentPage + 1);
     })
-  }, " Next ", 12 /* STYLE, PROPS */, _hoisted_18)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "spinner-border text-primary",
+  }, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-chevron-right ms-2"
+  }, null, -1 /* HOISTED */)]), 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-custom",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* HOISTED */)]))) : !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "text-center py-5 text-muted"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "text-center py-5 text-muted animate__animated animate__fadeIn"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "fs-5"
-  }, "No videos found. Try another keyword.")], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "fas fa-exclamation-circle me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("No videos found. Try another keyword.")])], -1 /* HOISTED */))], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -169060,8 +169090,10 @@ __webpack_require__.r(__webpack_exports__);
 // Imports
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.video-container[data-v-26d38626] {\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;\n}\n.video-container[data-v-26d38626]:hover {\n  transform: scale(1.05);\n  /* Slight zoom effect on hover */\n  opacity: 0.9;\n  /* Slight fade effect on hover */\n}\n.video-container video[data-v-26d38626] {\n  transition: opacity 0.3s ease-in-out;\n}\n.video-container video[data-v-26d38626]:hover {\n  opacity: 1;\n  /* Ensure video stays visible during hover */\n}\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover {\n  background-color: #0aa07f;\n  transform: translateY(-2px);\n  color: #fff;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  display: none;\n  cursor: pointer;\n}\n.scroll-fade[data-v-26d38626] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 40px;\n  pointer-events: none;\n  z-index: 1;\n}\n.scroll-fade-left[data-v-26d38626] {\n  left: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0.11), transparent);\n}\n.scroll-fade-right[data-v-26d38626] {\n  right: 0;\n  background: linear-gradient(to left, rgba(255, 255, 255, 0.11), transparent);\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-26d38626] {\n  max-width: 1400px;\n}\n.card-video[data-v-26d38626] {\n  border: 1px solid #e9ecef;\n  border-radius: 10px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease;\n  animation-duration: 0.6s;\n  min-height: 500px;\n}\n.card-video[data-v-26d38626]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);\n}\n.video-container[data-v-26d38626] {\n  position: relative;\n  border-radius: 10px 10px 0 0;\n  z-index: 1;\n  min-height: 300px;\n}\n.video-container:hover .video-overlay[data-v-26d38626] {\n  opacity: 0.8;\n}\n.video-overlay[data-v-26d38626] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 0, 0, 0.4);\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  border-radius: 10px 10px 0 0;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n  border-radius: 10px 10px 0 0;\n  z-index: 2;\n  height: 100%;\n}\n.video-container:hover .video-hover[data-v-26d38626] {\n  transform: scale(1);\n}\n.filter-scroll-wrapper[data-v-26d38626] {\n  position: relative;\n}\n.filter-scroll[data-v-26d38626] {\n  overflow-x: auto;\n  white-space: nowrap;\n  scrollbar-width: none;\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  display: none;\n}\n.filter-badge[data-v-26d38626] {\n  border-radius: 10px;\n  padding: 12px 20px;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid #0db691;\n}\n.filter-badge[data-v-26d38626]:hover {\n  transform: scale(1.05);\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n.bg-custom[data-v-26d38626] {\n  background-color: #0db691;\n  border: 2px solid #0db691;\n}\n.border-custom[data-v-26d38626] {\n  border: 2px solid #0db691;\n}\n.btn-custom[data-v-26d38626] {\n  background-color: #0db691;\n  color: white;\n  border: 2px solid #0db691;\n  border-radius: 10px;\n  padding: 10px 20px;\n  transition: all 0.3s ease;\n  font-size: 1rem;\n  font-weight: 500;\n}\n.btn-outline-custom[data-v-26d38626] {\n  border: 2px solid #0db691;\n  color: #0db691;\n  border-radius: 10px;\n  padding: 10px 20px;\n  transition: all 0.3s ease;\n  font-size: 1rem;\n  font-weight: 500;\n}\n.btn-custom[data-v-26d38626]:hover, .btn-outline-custom[data-v-26d38626]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n  background-color: #0aa07f;\n  border-color: #0aa07f;\n}\n.btn-outline-custom[data-v-26d38626]:hover {\n  background-color: #0db691;\n  color: white;\n}\n.text-custom[data-v-26d38626] {\n  color: #0db691;\n}\n.spinner-border.text-custom[data-v-26d38626] {\n  border-color: #0db691;\n  border-right-color: transparent;\n}\n.search-container[data-v-26d38626] {\n  border-radius: 10px;\n  transition: box-shadow 0.3s ease;\n  background: transparent;\n}\n.search-container[data-v-26d38626]:hover {\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.search-input[data-v-26d38626] {\n  border-radius: 10px 0 0 10px;\n  font-size: 1.1rem;\n  padding: 12px;\n  background: transparent;\n}\n.search-btn[data-v-26d38626] {\n  border-radius: 0 10px 10px 0;\n}\n.description-text[data-v-26d38626] {\n  font-size: 1.25rem;\n  line-height: 1.5;\n  font-weight: 700;\n  color: #6c757d;\n  letter-spacing: 0.02em;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
