@@ -50358,7 +50358,6 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       var _this = this;
       if (!this.validateForm()) return;
       this.zakatCalculated = true;
-      this.saveToLocalStorage();
       this.$nextTick(function () {
         if (window.innerWidth <= 768 && _this.$refs.zakatSummary) {
           _this.$refs.zakatSummary.scrollIntoView({
@@ -50418,23 +50417,33 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
     },
     printSummary: function printSummary() {
       var content = this.$refs.zakatSummary.innerHTML;
+      var currentDate = new Date().toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
       var printWindow = window.open('', '', '');
-      printWindow.document.write("\n        <html>\n          <head>\n            <title>Zakat Summary</title>\n            <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n            <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css\">\n            <style>\n              body { font-family: 'Segoe UI', sans-serif; padding: 20px; }\n              .results-card { max-width: 800px; margin: 0 auto; }\n              .summary-item { margin-bottom: 20px; }\n              .progress { height: 8px; }\n              @media print {\n                .results-card { border: none; box-shadow: none; }\n                .btn { display: none; }\n              }\n            </style>\n          </head>\n          <body>\n            <div class=\"results-card\">".concat(content, "</div>\n          </body>\n        </html>\n      "));
+      printWindow.document.write("\n        <html>\n          <head>\n            <title>Zakat Summary</title>\n            <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n            <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css\">\n            <style>\n              body {\n                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n                margin: 0;\n                padding: 2.5rem;\n                color: #333;\n                background-color: #fff;\n              }\n              .print-container {\n                max-width: 900px;\n                margin: 0 auto;\n                padding: 2rem;\n                background-color: #fff;\n              }\n              .header {\n                text-align: center;\n                margin-bottom: 2.5rem;\n                padding-bottom: 1.5rem;\n                border-bottom: 2px solid #dee2e6;\n              }\n              .header h1 {\n                font-size: 2.25rem;\n                font-weight: 700;\n                margin: 0 0 0.5rem 0;\n                color: #212529;\n              }\n              .header p {\n                font-size: 1rem;\n                color: #6c757d;\n                margin: 0;\n              }\n              .summary-section {\n                margin-bottom: 2rem;\n                padding: 1.5rem;\n                border: 1px solid #e9ecef;\n                border-radius: 0.75rem;\n                background-color: #f8f9fa;\n              }\n              .summary-section h6 {\n                font-size: 1.2rem;\n                font-weight: 600;\n                margin-bottom: 1.5rem;\n                color: #343a40;\n              }\n              .summary-item {\n                display: flex;\n                justify-content: space-between;\n                align-items: center;\n                margin-bottom: 1rem;\n                font-size: 1rem;\n                line-height: 1.6;\n              }\n              .summary-item span:first-child {\n                color: #6c757d;\n                flex: 0 0 60%;\n                padding-right: 1rem;\n              }\n              .summary-item strong {\n                color: #212529;\n                flex: 0 0 40%;\n                text-align: right;\n              }\n              .progress {\n                height: 8px;\n                margin: 1rem 0 1.5rem 0;\n                background-color: #e9ecef;\n                border-radius: 4px;\n              }\n              .bg-success-light {\n                background-color: #e6f4ea !important;\n                border-color: #d4edda !important;\n                padding: 1.5rem !important;\n              }\n              .eligibility-badge {\n                text-align: center;\n                padding: 1.5rem;\n                border-radius: 0.75rem;\n                margin: 2rem 0;\n                background-color: #f8f9fa;\n              }\n              .eligibility-badge h5 {\n                font-size: 1.3rem;\n                margin-bottom: 0.75rem;\n                font-weight: 600;\n              }\n              .eligibility-badge p {\n                font-size: 0.9rem;\n                margin: 0;\n              }\n              .chart-container {\n                margin: 2.5rem 0;\n                max-width: 400px;\n                margin-left: auto;\n                margin-right: auto;\n              }\n              canvas {\n                max-width: 100%;\n                height: auto;\n                display: block;\n              }\n              @media print {\n                body {\n                  padding: 1.5cm;\n                }\n                .print-container {\n                  border: none;\n                  box-shadow: none;\n                  padding: 0;\n                }\n                .btn, .btn-outline-dark {\n                  display: none;\n                }\n                .header {\n                  border-bottom: 1px solid #000;\n                  margin-bottom: 2rem;\n                }\n                .summary-section {\n                  border: none;\n                  background-color: transparent;\n                  page-break-inside: avoid;\n                  margin-bottom: 1.5rem;\n                  padding: 1rem;\n                }\n                .chart-container {\n                  page-break-inside: avoid;\n                  max-width: 350px;\n                }\n                .progress {\n                  background-color: #f0f0f0;\n                }\n                @page {\n                  margin: 1.5cm;\n                }\n              }\n            </style>\n          </head>\n          <body>\n            <div class=\"print-container\">\n              <div class=\"header\">\n                <h1>Zakat Summary</h1>\n                <p>Generated on ".concat(currentDate, "</p>\n              </div>\n              ").concat(content, "\n            </div>\n          </body>\n        </html>\n      "));
       printWindow.document.close();
       printWindow.focus();
       printWindow.print();
       printWindow.close();
     },
     shareSummary: function shareSummary() {
-      var summaryText = "\n        Zakat Summary\n        Currency: ".concat(this.selectedCurrency, " (").concat(this.currencySymbol, ")\n        Total Assets: ").concat(this.currencySymbol).concat(this.totalAssets.toLocaleString(), "\n        Liabilities: ").concat(this.currencySymbol).concat(this.liabilities.toLocaleString(), "\n        Zakatable Amount: ").concat(this.currencySymbol).concat(this.zakatableAmount.toLocaleString(), "\n        Zakat Due: ").concat(this.currencySymbol).concat(this.zakatDue.toLocaleString(), "\n        Nisab Threshold: ").concat(this.currencySymbol).concat(this.nisabThreshold.toLocaleString(), " (").concat(this.nisabTypeLabel, ")\n        Status: ").concat(this.isEligible ? 'Zakat is Obligatory' : 'Below Nisab', "\n      ");
+      var summaryText = "\n        Zakat Summary\n        Currency: ".concat(this.selectedCurrency, " (").concat(this.currencySymbol, ")\n        Total Assets: ").concat(this.currencySymbol).concat(this.totalAssets.toLocaleString(), "\n        Liabilities: ").concat(this.currencySymbol).concat(this.totalLiabilities.toLocaleString(), "\n        Zakatable Amount: ").concat(this.currencySymbol).concat(this.zakatableAmount.toLocaleString(), "\n        Zakat Due: ").concat(this.currencySymbol).concat(this.zakatDue.toLocaleString(), "\n        Nisab Threshold: ").concat(this.currencySymbol).concat(this.nisabThreshold.toLocaleString(), " (").concat(this.nisabTypeLabel, ")\n        Status: ").concat(this.isEligible ? 'Zakat is Obligatory' : 'Below Nisab', "\n      ");
       if (navigator.share) {
         navigator.share({
           title: 'Zakat Calculation Summary',
           text: summaryText
-        })["catch"](console.error);
+        })["catch"](function (error) {
+          console.error('Error sharing summary:', error);
+        });
       } else {
-        navigator.clipboard.writeText(summaryText);
-        alert('Summary copied to clipboard!');
+        navigator.clipboard.writeText(summaryText).then(function () {
+          alert('Summary copied to clipboard!');
+        })["catch"](function (error) {
+          console.error('Error copying to clipboard:', error);
+        });
       }
     },
     resetCalculator: function resetCalculator() {
@@ -50453,39 +50462,13 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       this.realEstate = 0;
       this.otherAssets = 0;
       this.agriculturalProduce = 0;
+      this.agriculturalProduceType = 'irrigated';
       this.liabilities = 0;
       this.otherLiabilities = 0;
+      this.selectedCurrency = 'GBP';
+      this.nisabType = 'gold';
       this.zakatCalculated = false;
       this.errors = {};
-      localStorage.removeItem('zakatCalculatorData');
-    },
-    saveToLocalStorage: function saveToLocalStorage() {
-      var data = {
-        hawlMet: this.hawlMet,
-        goldGrams: this.goldGrams,
-        goldPrice: this.goldPrice,
-        silverGrams: this.silverGrams,
-        silverPrice: this.silverPrice,
-        cash: this.cash,
-        investments: this.investments,
-        businessAssets: this.businessAssets,
-        realEstate: this.realEstate,
-        agriculturalProduce: this.agriculturalProduce,
-        otherAssets: this.otherAssets,
-        liabilities: this.liabilities,
-        otherLiabilities: this.otherLiabilities,
-        selectedCurrency: this.selectedCurrency,
-        nisabType: this.nisabType,
-        agriculturalProduceType: this.agriculturalProduceType
-      };
-      localStorage.setItem('zakatData', JSON.stringify(data));
-    },
-    loadFromLocalStorage: function loadFromLocalStorage() {
-      var savedData = localStorage.getItem('zakatData');
-      if (savedData) {
-        var data = JSON.parse(savedData);
-        Object.assign(this, data);
-      }
     },
     fetchLivePrices: function fetchLivePrices() {
       var _this3 = this;
@@ -50510,16 +50493,10 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
               return response.json();
             case 9:
               data = _context.sent;
-              // This example uses a specific API (NBP - Polish National Bank) which returns gold price in PLN.
-              // You would need to adjust this logic based on your chosen API and convert currencies if necessary.
               if (data && data.length > 0 && data[0].cena) {
                 _this3.goldPrice = data[0].cena;
               }
-
-              // Silver price would be fetched from a similar or different endpoint
-              // For demonstration, we'll use a static ratio to gold.
-              _this3.silverPrice = _this3.goldPrice / 75; // Placeholder ratio
-
+              _this3.silverPrice = _this3.goldPrice / 75;
               alert('Live prices fetched successfully! Please verify them before calculating.');
               _context.next = 19;
               break;
@@ -50540,27 +50517,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_0__.Chart.register.apply(chart_js__WEBPACK_IMP
       }))();
     }
   },
-  watch: {
-    hawlMet: 'saveToLocalStorage',
-    goldGrams: 'saveToLocalStorage',
-    goldPrice: 'saveToLocalStorage',
-    silverGrams: 'saveToLocalStorage',
-    silverPrice: 'saveToLocalStorage',
-    cash: 'saveToLocalStorage',
-    investments: 'saveToLocalStorage',
-    businessAssets: 'saveToLocalStorage',
-    realEstate: 'saveToLocalStorage',
-    agriculturalProduce: 'saveToLocalStorage',
-    otherAssets: 'saveToLocalStorage',
-    liabilities: 'saveToLocalStorage',
-    otherLiabilities: 'saveToLocalStorage',
-    selectedCurrency: 'saveToLocalStorage',
-    nisabType: 'saveToLocalStorage',
-    agriculturalProduceType: 'saveToLocalStorage'
-  },
+  watch: {},
   mounted: function mounted() {
     var _this$$refs$zakatCalc;
-    this.loadFromLocalStorage();
     (_this$$refs$zakatCalc = this.$refs.zakatCalculator) === null || _this$$refs$zakatCalc === void 0 || _this$$refs$zakatCalc.focus();
   }
 });
@@ -70522,7 +70481,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" About Zakat Accordion "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container my-4\">\n          <div class=\"accordion container\" id=\"zakatAccordion\">\n            <div class=\"accordion-item rounded-4 shadow-sm\">\n              <h2 class=\"accordion-header\" id=\"headingOne\">\n                <button class=\"accordion-button collapsed fw-bold\" type=\"button\" data-bs-toggle=\"collapse\"\n                  data-bs-target=\"#collapseOne\" aria-expanded=\"false\" aria-controls=\"collapseOne\">\n                  <i class=\"bi bi-info-circle-fill me-2\"></i>Learn About Zakat\n                </button>\n              </h2>\n              <div id=\"collapseOne\" style=\"padding:10px\" class=\"accordion-collapse collapse\"\n                aria-labelledby=\"headingOne\" data-bs-parent=\"#zakatAccordion\">\n                <div class=\"accordion-body\">\n                  <h4 class=\"fw-bold text-dark mb-3\">Understanding Zakat</h4>\n                  <p>Zakat, one of the Five Pillars of Islam, is a mandatory charitable donation that financially able\n                    Muslims are required to make to the needy. It is a spiritual and social obligation that purifies\n                    wealth and fosters economic justice within the community.</p>\n                  <h5 class=\"fw-bold mt-4\">Key Principles:</h5>\n                  <ul>\n                    <li><strong>Nisab:</strong> The minimum amount of wealth a Muslim must possess for a full lunar year\n                      before Zakat becomes due. It is traditionally based on the value of 85 grams of gold or 595 grams\n                      of silver.</li>\n                    <li><strong>Hawl:</strong> The passage of one Islamic lunar year. Zakat is only due on wealth that\n                      has been held for at least this duration.</li>\n                    <li><strong>Rate:</strong> The standard Zakat rate on cash, gold, silver, and business assets is\n                      2.5%. Rates for agricultural produce vary (5% or 10%).</li>\n                  </ul>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ")]))])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -169312,7 +169271,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #0c63e4;\n  background-color: #e7f1ff;\n}\n.summary-item[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.5s ease forwards;\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n\n/* Responsive Design */\n@media (max-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #0c63e4;\n  background-color: #e7f1ff;\n}\n.summary-item[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.5s ease forwards;\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

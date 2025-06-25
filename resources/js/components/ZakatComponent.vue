@@ -2,16 +2,12 @@
   <div class="zakat-calculator">
     <!-- Hero Section -->
     <div class="hero-section text-center py-4">
-      <h1 class="display-4 fw-bold ">Zakat Calculator</h1>
+      <h1 class="display-4 fw-bold">Zakat Calculator</h1>
       <p class="lead text-muted mx-auto col-md-8">
         Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
-        threshold
-        and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
+        threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
       </p>
     </div>
-
-
-
     <div class="container-fluid">
       <div class="row g-4 justify-content-center">
         <div :class="zakatCalculated ? 'col-lg-7' : 'col-lg-9'" class="calculator-column">
@@ -20,7 +16,7 @@
               <!-- Currency and Nisab Selection -->
               <h2 class="mb-4 fw-bold text-dark text-left">Zakat Calculator</h2>
 
-              <div class="row g-3 ">
+              <div class="row g-3">
                 <div class="col-md-6">
                   <label for="currency" class="form-label fw-bold">Currency</label>
                   <select id="currency" class="form-select" v-model="selectedCurrency" aria-describedby="currencyHelp">
@@ -42,7 +38,6 @@
               <h5 class="mt-5 fw-bold text-dark border-bottom pb-2 mb-4">
                 <i class="bi bi-coin me-2"></i>Your Assets
               </h5>
-
 
               <!-- Gold Input -->
               <div class="row mb-3 align-items-center">
@@ -221,42 +216,8 @@
                 </button>
               </div>
             </div>
-
-            
           </div>
         </div>
-        <!-- About Zakat Accordion -->
-        <!-- <div class="container my-4">
-          <div class="accordion container" id="zakatAccordion">
-            <div class="accordion-item rounded-4 shadow-sm">
-              <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                  <i class="bi bi-info-circle-fill me-2"></i>Learn About Zakat
-                </button>
-              </h2>
-              <div id="collapseOne" style="padding:10px" class="accordion-collapse collapse"
-                aria-labelledby="headingOne" data-bs-parent="#zakatAccordion">
-                <div class="accordion-body">
-                  <h4 class="fw-bold text-dark mb-3">Understanding Zakat</h4>
-                  <p>Zakat, one of the Five Pillars of Islam, is a mandatory charitable donation that financially able
-                    Muslims are required to make to the needy. It is a spiritual and social obligation that purifies
-                    wealth and fosters economic justice within the community.</p>
-                  <h5 class="fw-bold mt-4">Key Principles:</h5>
-                  <ul>
-                    <li><strong>Nisab:</strong> The minimum amount of wealth a Muslim must possess for a full lunar year
-                      before Zakat becomes due. It is traditionally based on the value of 85 grams of gold or 595 grams
-                      of silver.</li>
-                    <li><strong>Hawl:</strong> The passage of one Islamic lunar year. Zakat is only due on wealth that
-                      has been held for at least this duration.</li>
-                    <li><strong>Rate:</strong> The standard Zakat rate on cash, gold, silver, and business assets is
-                      2.5%. Rates for agricultural produce vary (5% or 10%).</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <!-- Results Panel -->
         <transition name="fade">
           <div class="col-lg-5" ref="zakatSummary" v-if="zakatCalculated">
@@ -537,7 +498,6 @@ export default {
       if (!this.validateForm()) return;
 
       this.zakatCalculated = true;
-      this.saveToLocalStorage();
 
       this.$nextTick(() => {
         if (window.innerWidth <= 768 && this.$refs.zakatSummary) {
@@ -596,6 +556,11 @@ export default {
     },
     printSummary() {
       const content = this.$refs.zakatSummary.innerHTML;
+      const currentDate = new Date().toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
       const printWindow = window.open('', '', '');
 
       printWindow.document.write(`
@@ -605,18 +570,149 @@ export default {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
             <style>
-              body { font-family: 'Segoe UI', sans-serif; padding: 20px; }
-              .results-card { max-width: 800px; margin: 0 auto; }
-              .summary-item { margin-bottom: 20px; }
-              .progress { height: 8px; }
+              body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+                padding: 2.5rem;
+                color: #333;
+                background-color: #fff;
+              }
+              .print-container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 2rem;
+                background-color: #fff;
+              }
+              .header {
+                text-align: center;
+                margin-bottom: 2.5rem;
+                padding-bottom: 1.5rem;
+                border-bottom: 2px solid #dee2e6;
+              }
+              .header h1 {
+                font-size: 2.25rem;
+                font-weight: 700;
+                margin: 0 0 0.5rem 0;
+                color: #212529;
+              }
+              .header p {
+                font-size: 1rem;
+                color: #6c757d;
+                margin: 0;
+              }
+              .summary-section {
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+                border: 1px solid #e9ecef;
+                border-radius: 0.75rem;
+                background-color: #f8f9fa;
+              }
+              .summary-section h6 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 1.5rem;
+                color: #343a40;
+              }
+              .summary-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                font-size: 1rem;
+                line-height: 1.6;
+              }
+              .summary-item span:first-child {
+                color: #6c757d;
+                flex: 0 0 60%;
+                padding-right: 1rem;
+              }
+              .summary-item strong {
+                color: #212529;
+                flex: 0 0 40%;
+                text-align: right;
+              }
+              .progress {
+                height: 8px;
+                margin: 1rem 0 1.5rem 0;
+                background-color: #e9ecef;
+                border-radius: 4px;
+              }
+              .bg-success-light {
+                background-color: #e6f4ea !important;
+                border-color: #d4edda !important;
+                padding: 1.5rem !important;
+              }
+              .eligibility-badge {
+                text-align: center;
+                padding: 1.5rem;
+                border-radius: 0.75rem;
+                margin: 2rem 0;
+                background-color: #f8f9fa;
+              }
+              .eligibility-badge h5 {
+                font-size: 1.3rem;
+                margin-bottom: 0.75rem;
+                font-weight: 600;
+              }
+              .eligibility-badge p {
+                font-size: 0.9rem;
+                margin: 0;
+              }
+              .chart-container {
+                margin: 2.5rem 0;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+              }
+              canvas {
+                max-width: 100%;
+                height: auto;
+                display: block;
+              }
               @media print {
-                .results-card { border: none; box-shadow: none; }
-                .btn { display: none; }
+                body {
+                  padding: 1.5cm;
+                }
+                .print-container {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0;
+                }
+                .btn, .btn-outline-dark {
+                  display: none;
+                }
+                .header {
+                  border-bottom: 1px solid #000;
+                  margin-bottom: 2rem;
+                }
+                .summary-section {
+                  border: none;
+                  background-color: transparent;
+                  page-break-inside: avoid;
+                  margin-bottom: 1.5rem;
+                  padding: 1rem;
+                }
+                .chart-container {
+                  page-break-inside: avoid;
+                  max-width: 350px;
+                }
+                .progress {
+                  background-color: #f0f0f0;
+                }
+                @page {
+                  margin: 1.5cm;
+                }
               }
             </style>
           </head>
           <body>
-            <div class="results-card">${content}</div>
+            <div class="print-container">
+              <div class="header">
+                <h1>Zakat Summary</h1>
+                <p>Generated on ${currentDate}</p>
+              </div>
+              ${content}
+            </div>
           </body>
         </html>
       `);
@@ -631,7 +727,7 @@ export default {
         Zakat Summary
         Currency: ${this.selectedCurrency} (${this.currencySymbol})
         Total Assets: ${this.currencySymbol}${this.totalAssets.toLocaleString()}
-        Liabilities: ${this.currencySymbol}${this.liabilities.toLocaleString()}
+        Liabilities: ${this.currencySymbol}${this.totalLiabilities.toLocaleString()}
         Zakatable Amount: ${this.currencySymbol}${this.zakatableAmount.toLocaleString()}
         Zakat Due: ${this.currencySymbol}${this.zakatDue.toLocaleString()}
         Nisab Threshold: ${this.currencySymbol}${this.nisabThreshold.toLocaleString()} (${this.nisabTypeLabel})
@@ -642,10 +738,15 @@ export default {
         navigator.share({
           title: 'Zakat Calculation Summary',
           text: summaryText,
-        }).catch(console.error);
+        }).catch((error) => {
+          console.error('Error sharing summary:', error);
+        });
       } else {
-        navigator.clipboard.writeText(summaryText);
-        alert('Summary copied to clipboard!');
+        navigator.clipboard.writeText(summaryText).then(() => {
+          alert('Summary copied to clipboard!');
+        }).catch((error) => {
+          console.error('Error copying to clipboard:', error);
+        });
       }
     },
     resetCalculator() {
@@ -665,46 +766,17 @@ export default {
       this.realEstate = 0;
       this.otherAssets = 0;
       this.agriculturalProduce = 0;
+      this.agriculturalProduceType = 'irrigated';
       this.liabilities = 0;
       this.otherLiabilities = 0;
+      this.selectedCurrency = 'GBP';
+      this.nisabType = 'gold';
       this.zakatCalculated = false;
       this.errors = {};
-
-      localStorage.removeItem('zakatCalculatorData');
-    },
-    saveToLocalStorage() {
-      const data = {
-        hawlMet: this.hawlMet,
-        goldGrams: this.goldGrams,
-        goldPrice: this.goldPrice,
-        silverGrams: this.silverGrams,
-        silverPrice: this.silverPrice,
-        cash: this.cash,
-        investments: this.investments,
-        businessAssets: this.businessAssets,
-        realEstate: this.realEstate,
-        agriculturalProduce: this.agriculturalProduce,
-        otherAssets: this.otherAssets,
-        liabilities: this.liabilities,
-        otherLiabilities: this.otherLiabilities,
-        selectedCurrency: this.selectedCurrency,
-        nisabType: this.nisabType,
-        agriculturalProduceType: this.agriculturalProduceType,
-      };
-      localStorage.setItem('zakatData', JSON.stringify(data));
-    },
-    loadFromLocalStorage() {
-      const savedData = localStorage.getItem('zakatData');
-      if (savedData) {
-        const data = JSON.parse(savedData);
-        Object.assign(this, data);
-      }
     },
     async fetchLivePrices() {
       this.isLoadingPrices = true;
       try {
-        // Note: Most free APIs require an API key. This is a placeholder URL.
-        // Replace with a real API endpoint. For example: `https://api.metals.dev/v1/latest?api_key=YOUR_API_KEY&currency=${this.selectedCurrency}&units=gram`
         const response = await fetch(`https://api.nbp.pl/api/cenyzlota/today/?format=json`);
 
         if (!response.ok) {
@@ -713,18 +785,13 @@ export default {
 
         const data = await response.json();
 
-        // This example uses a specific API (NBP - Polish National Bank) which returns gold price in PLN.
-        // You would need to adjust this logic based on your chosen API and convert currencies if necessary.
         if (data && data.length > 0 && data[0].cena) {
           this.goldPrice = data[0].cena;
         }
 
-        // Silver price would be fetched from a similar or different endpoint
-        // For demonstration, we'll use a static ratio to gold.
-        this.silverPrice = this.goldPrice / 75; // Placeholder ratio
+        this.silverPrice = this.goldPrice / 75;
 
         alert('Live prices fetched successfully! Please verify them before calculating.');
-
       } catch (error) {
         console.error('Failed to fetch live prices:', error);
         alert('Could not fetch live prices. Please enter them manually.');
@@ -733,26 +800,8 @@ export default {
       }
     },
   },
-  watch: {
-    hawlMet: 'saveToLocalStorage',
-    goldGrams: 'saveToLocalStorage',
-    goldPrice: 'saveToLocalStorage',
-    silverGrams: 'saveToLocalStorage',
-    silverPrice: 'saveToLocalStorage',
-    cash: 'saveToLocalStorage',
-    investments: 'saveToLocalStorage',
-    businessAssets: 'saveToLocalStorage',
-    realEstate: 'saveToLocalStorage',
-    agriculturalProduce: 'saveToLocalStorage',
-    otherAssets: 'saveToLocalStorage',
-    liabilities: 'saveToLocalStorage',
-    otherLiabilities: 'saveToLocalStorage',
-    selectedCurrency: 'saveToLocalStorage',
-    nisabType: 'saveToLocalStorage',
-    agriculturalProduceType: 'saveToLocalStorage',
-  },
+  watch: {},
   mounted() {
-    this.loadFromLocalStorage();
     this.$refs.zakatCalculator?.focus();
   },
 };
@@ -778,7 +827,6 @@ export default {
   opacity: 0;
 }
 
-
 .accordion-button:not(.collapsed) {
   color: #0c63e4;
   background-color: #e7f1ff;
@@ -797,15 +845,13 @@ export default {
     opacity: 0;
     transform: translateY(10px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
+@media (min-width: 992px) {
   .results-card {
     position: static !important;
     margin-top: 3rem;
