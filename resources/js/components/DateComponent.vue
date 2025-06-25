@@ -1,7 +1,7 @@
 <template>
   <div class="container my-5">
     <div class="row justify-content-center">
-      <h1 class="display-5 fw-bold text-center">Welcome to the Date Converter! 🌙</h1>
+      <h1 class="display-5 fw-bold text-center">Date Converter</h1>
       <p class="text-center container mb-2 lead">
         Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars!
       </p>

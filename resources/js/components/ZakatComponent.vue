@@ -4,35 +4,13 @@
     <div class="hero-section text-center py-4">
       <h1 class="display-4 fw-bold ">Zakat Calculator</h1>
       <p class="lead text-muted mx-auto col-md-8">
-        Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab threshold
+        Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
+        threshold
         and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
       </p>
     </div>
 
-    <!-- About Zakat Accordion -->
-    <div class="container my-4">
-      <div class="accordion container" id="zakatAccordion">
-        <div class="accordion-item rounded-4 shadow-sm">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-              <i class="bi bi-info-circle-fill me-2"></i>Learn About Zakat
-            </button>
-          </h2>
-          <div id="collapseOne" style="padding:10px" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#zakatAccordion">
-            <div class="accordion-body" >
-              <h4 class="fw-bold text-dark mb-3">Understanding Zakat</h4>
-              <p>Zakat, one of the Five Pillars of Islam, is a mandatory charitable donation that financially able Muslims are required to make to the needy. It is a spiritual and social obligation that purifies wealth and fosters economic justice within the community.</p>
-              <h5 class="fw-bold mt-4">Key Principles:</h5>
-              <ul>
-                <li><strong>Nisab:</strong> The minimum amount of wealth a Muslim must possess for a full lunar year before Zakat becomes due. It is traditionally based on the value of 85 grams of gold or 595 grams of silver.</li>
-                <li><strong>Hawl:</strong> The passage of one Islamic lunar year. Zakat is only due on wealth that has been held for at least this duration.</li>
-                <li><strong>Rate:</strong> The standard Zakat rate on cash, gold, silver, and business assets is 2.5%. Rates for agricultural produce vary (5% or 10%).</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <div class="container-fluid">
       <div class="row g-4 justify-content-center">
@@ -60,16 +38,11 @@
                 </div>
               </div>
 
-              
-
               <!-- Asset Inputs -->
               <h5 class="mt-5 fw-bold text-dark border-bottom pb-2 mb-4">
                 <i class="bi bi-coin me-2"></i>Your Assets
               </h5>
-              <!-- <div class="form-check form-switch my-3">
-                <input class="form-check-input" type="checkbox" role="switch" id="hawlCheck" v-model="hawlMet">
-                <label class="form-check-label" for="hawlCheck">My assets have been held for one lunar year (Hawl).</label>
-              </div> -->
+
 
               <!-- Gold Input -->
               <div class="row mb-3 align-items-center">
@@ -77,14 +50,14 @@
                   <i class="bi bi-gem fw-bold text-warning me-2"></i>Gold
                 </label>
                 <div class="col-md-4">
-                  <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams" min="0" required
-                    :class="{ 'is-invalid': errors.goldGrams }" aria-describedby="goldGramsError">
+                  <input type="number" class="form-control" v-model.number="goldGrams" placeholder="Grams" min="0"
+                    required :class="{ 'is-invalid': errors.goldGrams }" aria-describedby="goldGramsError">
                 </div>
                 <div class="col-md-5">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="goldPrice" placeholder="Price per gram" min="0"
-                      :class="{ 'is-invalid': errors.goldPrice }" aria-describedby="goldPriceError">
+                    <input type="number" class="form-control" v-model.number="goldPrice" placeholder="Price per gram"
+                      min="0" :class="{ 'is-invalid': errors.goldPrice }" aria-describedby="goldPriceError">
                   </div>
                 </div>
               </div>
@@ -101,8 +74,8 @@
                 <div class="col-md-5">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="silverPrice" placeholder="Price per gram" min="0"
-                      :class="{ 'is-invalid': errors.silverPrice }" aria-describedby="silverPriceError">
+                    <input type="number" class="form-control" v-model.number="silverPrice" placeholder="Price per gram"
+                      min="0" :class="{ 'is-invalid': errors.silverPrice }" aria-describedby="silverPriceError">
                   </div>
                 </div>
               </div>
@@ -115,8 +88,8 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="cash" placeholder="Amount in hand & bank" min="0"
-                      :class="{ 'is-invalid': errors.cash }" aria-describedby="cashError">
+                    <input type="number" class="form-control" v-model.number="cash" placeholder="Amount in hand & bank"
+                      min="0" :class="{ 'is-invalid': errors.cash }" aria-describedby="cashError">
                   </div>
                 </div>
               </div>
@@ -129,8 +102,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="investments" placeholder="Stocks, shares, etc." min="0"
-                      :class="{ 'is-invalid': errors.investments }" aria-describedby="investmentsError">
+                    <input type="number" class="form-control" v-model.number="investments"
+                      placeholder="Stocks, shares, etc." min="0" :class="{ 'is-invalid': errors.investments }"
+                      aria-describedby="investmentsError">
                   </div>
                 </div>
               </div>
@@ -143,8 +117,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="businessAssets" placeholder="Value of inventory" min="0"
-                      :class="{ 'is-invalid': errors.businessAssets }" aria-describedby="businessAssetsError">
+                    <input type="number" class="form-control" v-model.number="businessAssets"
+                      placeholder="Value of inventory" min="0" :class="{ 'is-invalid': errors.businessAssets }"
+                      aria-describedby="businessAssetsError">
                   </div>
                 </div>
               </div>
@@ -157,8 +132,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="realEstate" placeholder="Investment properties only" min="0"
-                      :class="{ 'is-invalid': errors.realEstate }" aria-describedby="realEstateError">
+                    <input type="number" class="form-control" v-model.number="realEstate"
+                      placeholder="Investment properties only" min="0" :class="{ 'is-invalid': errors.realEstate }"
+                      aria-describedby="realEstateError">
                   </div>
                 </div>
               </div>
@@ -171,8 +147,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="otherAssets" placeholder="Receivables, etc." min="0"
-                      :class="{ 'is-invalid': errors.otherAssets }" aria-describedby="otherAssetsError">
+                    <input type="number" class="form-control" v-model.number="otherAssets"
+                      placeholder="Receivables, etc." min="0" :class="{ 'is-invalid': errors.otherAssets }"
+                      aria-describedby="otherAssetsError">
                   </div>
                 </div>
               </div>
@@ -185,17 +162,20 @@
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="agriculturalProduce" placeholder="Value of Produce" min="0"
-                      :class="{ 'is-invalid': errors.agriculturalProduce }" aria-describedby="agriculturalProduceError">
+                    <input type="number" class="form-control" v-model.number="agriculturalProduce"
+                      placeholder="Value of Produce" min="0" :class="{ 'is-invalid': errors.agriculturalProduce }"
+                      aria-describedby="agriculturalProduceError">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" id="irrigated" value="irrigated" v-model="agriculturalProduceType">
+                    <input class="form-check-input" type="radio" id="irrigated" value="irrigated"
+                      v-model="agriculturalProduceType">
                     <label class="form-check-label" for="irrigated">Irrigated (5% Zakat)</label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" id="rain-fed" value="rain-fed" v-model="agriculturalProduceType">
+                    <input class="form-check-input" type="radio" id="rain-fed" value="rain-fed"
+                      v-model="agriculturalProduceType">
                     <label class="form-check-label" for="rain-fed">Rain-fed (10% Zakat)</label>
                   </div>
                 </div>
@@ -210,8 +190,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="liabilities" placeholder="Due within a year" min="0"
-                      :class="{ 'is-invalid': errors.liabilities }" aria-describedby="liabilitiesError">
+                    <input type="number" class="form-control" v-model.number="liabilities"
+                      placeholder="Due within a year" min="0" :class="{ 'is-invalid': errors.liabilities }"
+                      aria-describedby="liabilitiesError">
                   </div>
                 </div>
               </div>
@@ -221,8 +202,9 @@
                 <div class="col-md-9">
                   <div class="input-group">
                     <span class="input-group-text bg-light">{{ currencySymbol }}</span>
-                    <input type="number" class="form-control" v-model.number="otherLiabilities" placeholder="Taxes, rents, etc." min="0"
-                      :class="{ 'is-invalid': errors.otherLiabilities }" aria-describedby="otherLiabilitiesError">
+                    <input type="number" class="form-control" v-model.number="otherLiabilities"
+                      placeholder="Taxes, rents, etc." min="0" :class="{ 'is-invalid': errors.otherLiabilities }"
+                      aria-describedby="otherLiabilitiesError">
                   </div>
                 </div>
               </div>
@@ -239,15 +221,48 @@
                 </button>
               </div>
             </div>
+
+            
           </div>
         </div>
-
+        <!-- About Zakat Accordion -->
+        <!-- <div class="container my-4">
+          <div class="accordion container" id="zakatAccordion">
+            <div class="accordion-item rounded-4 shadow-sm">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  <i class="bi bi-info-circle-fill me-2"></i>Learn About Zakat
+                </button>
+              </h2>
+              <div id="collapseOne" style="padding:10px" class="accordion-collapse collapse"
+                aria-labelledby="headingOne" data-bs-parent="#zakatAccordion">
+                <div class="accordion-body">
+                  <h4 class="fw-bold text-dark mb-3">Understanding Zakat</h4>
+                  <p>Zakat, one of the Five Pillars of Islam, is a mandatory charitable donation that financially able
+                    Muslims are required to make to the needy. It is a spiritual and social obligation that purifies
+                    wealth and fosters economic justice within the community.</p>
+                  <h5 class="fw-bold mt-4">Key Principles:</h5>
+                  <ul>
+                    <li><strong>Nisab:</strong> The minimum amount of wealth a Muslim must possess for a full lunar year
+                      before Zakat becomes due. It is traditionally based on the value of 85 grams of gold or 595 grams
+                      of silver.</li>
+                    <li><strong>Hawl:</strong> The passage of one Islamic lunar year. Zakat is only due on wealth that
+                      has been held for at least this duration.</li>
+                    <li><strong>Rate:</strong> The standard Zakat rate on cash, gold, silver, and business assets is
+                      2.5%. Rates for agricultural produce vary (5% or 10%).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
         <!-- Results Panel -->
         <transition name="fade">
           <div class="col-lg-5" ref="zakatSummary" v-if="zakatCalculated">
             <div class="card shadow-md rounded-4 sticky-top">
               <div class="card-body p-4">
-                <h4 class="mb-4 fw-bold text-dark">Zakat Summary</h4>
+                <h2 class="fw-bold text-dark">Zakat Summary</h2>
 
                 <!-- Asset Breakdown -->
                 <div class="summary-item mb-4">
@@ -301,7 +316,8 @@
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <h6 class="mb-1 text-success fw-bold">Total Zakat Due</h6>
-                      <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
+                      <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, {
+                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
                     </div>
                     <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
                   </div>
@@ -694,13 +710,13 @@ export default {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        
+
         const data = await response.json();
-        
+
         // This example uses a specific API (NBP - Polish National Bank) which returns gold price in PLN.
         // You would need to adjust this logic based on your chosen API and convert currencies if necessary.
         if (data && data.length > 0 && data[0].cena) {
-            this.goldPrice = data[0].cena;
+          this.goldPrice = data[0].cena;
         }
 
         // Silver price would be fetched from a similar or different endpoint
@@ -773,12 +789,19 @@ export default {
 }
 
 .bg-success-light {
-    background-color: rgba(25, 135, 84, 0.1);
+  background-color: rgba(25, 135, 84, 0.1);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive Design */
@@ -788,5 +811,4 @@ export default {
     margin-top: 3rem;
   }
 }
-
 </style>

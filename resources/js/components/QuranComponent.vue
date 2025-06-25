@@ -2111,7 +2111,7 @@ p {
 }
 
 .selected {
-    background-color: #e0f7fa;
+    background-color: #0db6a1;
 }
 
 .highlighted {
@@ -2121,7 +2121,7 @@ p {
 }
 
 .selected {
-    background-color: #d1e7dd;
+    background-color: #0db6a1;
     /* Change this to your selected color */
 }
 

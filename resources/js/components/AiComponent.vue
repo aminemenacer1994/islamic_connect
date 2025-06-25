@@ -24,17 +24,19 @@
 
     <!-- Filters -->
     <div class="mb-4 text-center">
-      <div class="d-flex text-center overflow-x-auto gap-2 px-1 py-2" style="cursor: pointer; white-space: nowrap;">
-        <span class="badge flex-shrink-0 text-center px-3 py-2" v-for="filter in filters" :key="filter"
-          @click="applyFilter(filter)" :class="{
-            ' text-white': activeFilter === filter,
+      <div class="d-flex text-center overflow-x-auto gap-2 px-1 py-2 filter-scroll"
+        style="cursor: pointer; white-space: nowrap;">
+        <span class="badge flex-shrink-0 text-center px-3 py-2 d-flex align-items-center gap-2"
+          v-for="filter in filters" :key="filter" @click="applyFilter(filter)" :class="{
+            'active text-white': activeFilter === filter,
             'bg-light text-dark': activeFilter !== filter
           }">
-          {{ filter }}
+          <i :class="getFilterIcon(filter)"></i> {{ filter }}
         </span>
       </div>
     </div>
 
+    <!-- Image Grid -->
     <div v-if="loading" class="text-center my-5">
       <div class="spinner-border text-success mb-3" role="status">
         <span class="visually-hidden">Loading...</span>
@@ -42,63 +44,57 @@
       <p class="fw-semibold fs-4 text-muted">Images loading, please wait...</p>
     </div>
 
-    <!-- Image Grid -->
     <div class="row g-3" v-if="!loading">
       <div v-for="(image, index) in paginatedImages" :key="image.id || index"
         class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
-        <div class="card d-flex flex-column shadow-md p-1 w-100 h-100" style="transition: box-shadow 0.3s; border: 2px solid lightgray;">
-          <!-- Image -->
-          <img :src="image.src.large" :alt="image.alt" class="img-fluid" loading="lazy"
-            style="height: 480px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;"
-            data-bs-toggle="modal" data-bs-target="#imageModal" @click="selectedImage = image" />
-
-          <!-- Caption -->
+        <div class="card d-flex flex-column shadow-sm p-2 w-100 h-100 animate__animated animate__fadeIn"
+          style=" border-radius: 10px; transition: all 0.5s; overflow: hidden;"
+          @mouseover="hoverCard(index)" @mouseleave="leaveCard(index)">
+          <div class="image-wrapper" style="overflow: hidden; border-radius: 8px;">
+            <img :src="image.src.large" :alt="image.alt" class="img-fluid image-zoom" loading="lazy"
+              style="height: 480px; object-fit: cover; transition: transform 0.5s ease;" data-bs-toggle="modal"
+              data-bs-target="#imageModal" @click="selectedImage = image" />
+          </div>
           <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
             {{ image.alt || 'Islamic Image' }}
           </p>
-
-          <!-- Push buttons to bottom -->
           <div class="flex-grow-1"></div>
-
-          <!-- Bottom Buttons -->
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
-            <!-- Share Button -->
             <a :href="`https://wa.me/?text=${encodeURIComponent(image.src.original)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
-              Share
+              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
+              style="font-size: 18px;">
+              <i class="bi bi-share-fill"></i> Share
             </a>
-            <a :download="`image-${image.id}.mp4`" :href="image.src.original" download :title="image.alt || 'Islamic Image'"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">
-              Download
+            <a :download="`image-${image.id}.jpg`" :href="image.src.original" download
+              :title="image.alt || 'Islamic Image'"
+              class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
+              style="font-size: 18px;">
+              <i class="bi bi-download"></i> Download
             </a>
-            
           </div>
         </div>
       </div>
     </div>
 
-
+    <!-- Pagination -->
     <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
       <button class="btn"
         :style="currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
         :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
         Previous
       </button>
-
       <button v-for="page in totalPages" :key="page" @click="goToPage(page)" class="btn"
         :style="page === currentPage ? 'background-color: #17a085; color: white;' : ''"
         :class="page === currentPage ? '' : 'btn-outline-success'">
         {{ page }}
       </button>
-
       <button class="btn"
         :style="currentPage === totalPages ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'"
         :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
         Next
       </button>
     </div>
-
 
     <!-- Modal -->
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -109,10 +105,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-
             <img :src="selectedImage?.src?.original" :alt="selectedImage?.alt" class="img-fluid mx-auto d-block"
               style="max-width: 100%; max-height: 80vh; object-fit: contain; padding: 5px;" />
-
             <p class="mt-2 text-center" style="padding: 0 5px; font-size: 20px; color: #444;">
               {{ selectedImage?.alt || 'Islamic Image' }}
             </p>
@@ -136,7 +130,6 @@ export default {
       images: [],
       currentPage: 1,
       itemsPerPage: 9,
-
       activeFilter: 'Islamic',
       isModalOpen: false,
       loading: true,
@@ -154,56 +147,87 @@ export default {
       return this.allImages.slice(start, end);
     },
     totalPages() {
-      return Math.ceil(this.allImages.length / this.itemsPerPage);
+  return Math.ceil(this.allImages.length / this.itemsPerPage);
+}
+  },
+mounted() {
+  this.fetchGallery();
+},
+methods: {
+    async fetchGallery() {
+    this.loading = true;
+    try {
+      const query = `Islamic ${this.searchTerm}`.trim();
+      const response = await fetch(
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
+        {
+          headers: {
+            Authorization: this.apiKey,
+          },
+        }
+      );
+      const data = await response.json();
+      this.allImages = data.photos;
+      this.currentPage = 1;
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    } finally {
+      this.loading = false;
     }
   },
-  mounted() {
+  applyFilter(keyword) {
+    this.activeFilter = keyword;
+    this.searchTerm = keyword;
     this.fetchGallery();
   },
-  methods: {
-    async fetchGallery() {
-      this.loading = true;
-      try {
-        // Always prepend "Islamic" to the search term
-        const query = `Islamic ${this.searchTerm}`.trim();
-        const response = await fetch(
-          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
-          {
-            headers: {
-              Authorization: this.apiKey,
-            },
-          }
-        );
-        const data = await response.json();
-        this.allImages = data.photos;
-        this.currentPage = 1;
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      } finally {
-        this.loading = false;
-      }
-    },
-    applyFilter(keyword) {
-      this.activeFilter = keyword;
-      this.searchTerm = keyword;
-      this.fetchGallery();
-    },
-    openModal(image) {
-      this.selectedImage = image;
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      this.isModalOpen = false;
-    },
-    goToPage(page) {
-      if (page >= 1 && page <= this.totalPages) {
-        this.currentPage = page;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    },
+  openModal(image) {
+    this.selectedImage = image;
+    this.isModalOpen = true;
   },
+  closeModal() {
+    this.isModalOpen = false;
+  },
+  goToPage(page) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  },
+  hoverCard(index) {
+    const card = document.querySelectorAll('.card')[index];
+    if (card) {
+      card.style.transform = 'scale(1.03)';
+      card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+    }
+  },
+  leaveCard(index) {
+    const card = document.querySelectorAll('.card')[index];
+    if (card) {
+      card.style.transform = 'scale(1)';
+      card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+    }
+  },
+  getFilterIcon(filter) {
+    const iconMap = {
+      'Islamic': 'bi-star-fill',
+      'Mosque': 'bi-building',
+      'Calligraphy': 'bi-pen-nib',
+      'Quran': 'bi-book',
+      'Kaaba': 'bi-box',
+      'Mecca': 'bi-geo-alt',
+      'Madina': 'bi-geo-alt-fill',
+      'Hijab': 'bi-person',
+      'Ramadan': 'bi-moon-stars',
+      'Eid': 'bi-gift',
+      'Arabic Art': 'bi-brush',
+      'Islamic Architecture': 'bi-columns'
+    };
+    return iconMap[filter] || 'bi-image';
+  }
+},
 };
 </script>
+
 <style scoped>
 .img-fluid {
   width: 100%;
@@ -214,22 +238,46 @@ export default {
   background-color: #0db691;
   color: white;
   padding: 10px;
-  transition: background-color 0.3s, transform 0.2s;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .custom-btn:hover {
   background-color: #0aa07f;
   transform: translateY(-2px);
-  color: #fff;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.custom-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.custom-btn:hover::after {
+  width: 200px;
+  height: 200px;
+}
+
+.image-zoom:hover {
+  transform: scale(1.1);
 }
 
 .scrollmenu {
   white-space: nowrap;
   overflow-x: auto;
   scrollbar-width: thin;
-  /* Firefox */
   scrollbar-color: transparent transparent;
-  /* Firefox */
 }
 
 .scrollmenu::-webkit-scrollbar {
@@ -251,36 +299,31 @@ export default {
   text-decoration: none;
 }
 
-.badge.active {
-  background-color: rgba(0, 191, 166, 0.2);
-  color: rgb(5, 32, 29);
-  border: 1px solid rgba(0, 191, 166);
-
+.badge {
+  background-color: black;
+  color: #0d6e5a;
+  font-size: 1em;
+  border: 1px solid #0db69175;
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.3s ease;
 }
 
-.badge {
-  background-color: rgba(0, 191, 166);
-  font-size: 1em;
-  color: #fff;
-  border: 1px solid rgba(0, 191, 166);
-  border-radius: 2px;
-  border-radius: 6px;
-  padding: 8px;
+.badge.active {
+  background-color: #0db691;
+  color: white;
+  transform: scale(1.05);
 }
 
 .badge:hover {
-  font-size: 1em;
+  background-color: #0aa07f;
   color: white;
-  border-radius: 6px;
-  padding: 8px;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.shadow-lg {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.hover-shadow:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+.shadow-sm {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .filter-scroll {
@@ -288,7 +331,6 @@ export default {
   scrollbar-width: thin;
 }
 
-/* For Webkit (Chrome, Edge, Safari) */
 .filter-scroll::-webkit-scrollbar {
   height: 8px;
 }
@@ -308,5 +350,22 @@ export default {
 
 .modal-backdrop {
   display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__fadeIn {
+  animation: fadeIn 0.5s ease-out;
+  animation-fill-mode: backwards;
 }
 </style>
