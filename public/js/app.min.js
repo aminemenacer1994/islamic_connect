@@ -39637,7 +39637,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         name: "Al-Alim",
         arabic: "الْعَلِيمُ",
         translation: "The All-Knowing",
-        description: "The Knowledgeable; The One nothing is absent from His knowledge."
+        description: "The Knowledgeable; The One nothing is absent His knowledge."
       }, {
         number: 20,
         name: "Al-Qabid",
@@ -40119,6 +40119,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         translation: "The Patient",
         description: "The One who does not quickly punish the sinners."
       }],
+      isCollapsed: false,
       searchQuery: '',
       activeLetter: '',
       showArabic: true,
@@ -40128,6 +40129,24 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       filteredNames: []
     };
+  },
+  mounted: function mounted() {
+    var _this = this;
+    var collapseElement = document.getElementById('likedNamesCollapse');
+    collapseElement.addEventListener('shown.bs.collapse', function () {
+      _this.isCollapsed = false;
+    });
+    collapseElement.addEventListener('hidden.bs.collapse', function () {
+      _this.isCollapsed = true;
+    });
+  },
+  computed: {
+    favoriteNamesData: function favoriteNamesData() {
+      var _this2 = this;
+      return this.names.filter(function (name) {
+        return _this2.favoriteNames.includes(name.number);
+      });
+    }
   },
   created: function created() {
     // Initialize filteredNames with all names
@@ -40150,10 +40169,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     generateWhatsAppLink: function generateWhatsAppLink(name) {
       var text = "*".concat(name.name, "*\n\n\uD83D\uDD4B Arabic: ").concat(name.arabic, "\n\uD83D\uDCDD Meaning: ").concat(name.translation, "\n\uD83D\uDCD6 Description: ").concat(name.description);
-      return "https://web.whatsapp.com/send?text=".concat(encodeURIComponent(text));
+      return "https://api.whatsapp.com/send?text=".concat(encodeURIComponent(text));
     },
     filterNames: function filterNames() {
-      var _this = this;
+      var _this3 = this;
       if (!this.searchQuery && !this.activeLetter) {
         this.filteredNames = _toConsumableArray(this.names);
         return;
@@ -40161,7 +40180,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       var query = this.searchQuery.toLowerCase();
       this.filteredNames = this.names.filter(function (name) {
         var matchesSearch = !query || name.name.toLowerCase().includes(query) || name.translation.toLowerCase().includes(query) || name.description.toLowerCase().includes(query);
-        var matchesLetter = !_this.activeLetter || name.name.startsWith(_this.activeLetter);
+        var matchesLetter = !_this3.activeLetter || name.name.startsWith(_this3.activeLetter);
         return matchesSearch && matchesLetter;
       });
     },
@@ -40181,8 +40200,10 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       } else {
         this.favoriteNames.splice(index, 1);
       }
-
-      // Save to localStorage
+      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    },
+    clearAllFavorites: function clearAllFavorites() {
+      this.favoriteNames = [];
       localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
     },
     isFavorited: function isFavorited(number) {
@@ -62279,72 +62300,163 @@ var _hoisted_9 = {
   }
 };
 var _hoisted_10 = {
-  "class": "row g-4"
+  "class": "mb-5"
 };
 var _hoisted_11 = {
+  "class": "d-flex flex-row align-items-center mb-3 gap-3"
+};
+var _hoisted_12 = {
+  "class": "fw-bold mb-0"
+};
+var _hoisted_13 = {
+  "class": "badge bg-success"
+};
+var _hoisted_14 = {
+  "class": "ms-auto"
+};
+var _hoisted_15 = ["disabled"];
+var _hoisted_16 = {
+  key: 1,
+  "class": "btn btn-outline-primary",
+  type: "button",
+  "data-bs-toggle": "collapse",
+  "data-bs-target": "#likedNamesCollapse",
+  "aria-expanded": "true",
+  "aria-controls": "likedNamesCollapse"
+};
+var _hoisted_17 = {
+  "class": "collapse show",
+  id: "likedNamesCollapse"
+};
+var _hoisted_18 = {
+  "class": "row g-4"
+};
+var _hoisted_19 = {
   "class": "card h-100",
   style: {
     "border-radius": "8px"
   }
 };
-var _hoisted_12 = {
+var _hoisted_20 = {
   "class": "card-body"
 };
-var _hoisted_13 = {
+var _hoisted_21 = {
   "class": "d-flex justify-content-between align-items-start"
 };
-var _hoisted_14 = {
+var _hoisted_22 = {
   "class": "badge bg-secondary fs-6"
 };
-var _hoisted_15 = {
+var _hoisted_23 = ["onClick"];
+var _hoisted_24 = {
   "class": "mt-3 mb-2",
   style: {
     "font-size": "1.6rem",
     "color": "black"
   }
 };
-var _hoisted_16 = {
-  key: 0,
+var _hoisted_25 = {
   "class": "display-5 text-end",
   dir: "rtl"
 };
-var _hoisted_17 = {
+var _hoisted_26 = {
   "class": "medium text-muted",
   style: {
     "font-size": "2.4rem"
   }
 };
-var _hoisted_18 = {
+var _hoisted_27 = {
+  key: 0,
+  "class": "mt-3"
+};
+var _hoisted_28 = {
+  "class": "small text-muted",
+  style: {
+    "font-size": "1.2rem"
+  }
+};
+var _hoisted_29 = {
+  key: 1,
+  "class": "mt-2"
+};
+var _hoisted_30 = {
+  "class": "small text-muted",
+  style: {
+    "font-size": "1.2rem"
+  }
+};
+var _hoisted_31 = {
+  "class": "d-flex justify-content-between align-items-center gap-2"
+};
+var _hoisted_32 = ["onClick"];
+var _hoisted_33 = ["href"];
+var _hoisted_34 = {
+  "class": "row g-4 mt-2 container-fluid"
+};
+var _hoisted_35 = {
+  "class": "card h-100",
+  style: {
+    "border-radius": "8px"
+  }
+};
+var _hoisted_36 = {
+  "class": "card-body"
+};
+var _hoisted_37 = {
+  "class": "d-flex justify-content-between align-items-start"
+};
+var _hoisted_38 = {
+  "class": "badge bg-secondary fs-6"
+};
+var _hoisted_39 = ["onClick"];
+var _hoisted_40 = {
+  "class": "mt-3 mb-2",
+  style: {
+    "font-size": "1.6rem",
+    "color": "black"
+  }
+};
+var _hoisted_41 = {
+  key: 0,
+  "class": "display-5 text-end",
+  dir: "rtl"
+};
+var _hoisted_42 = {
+  "class": "medium text-muted",
+  style: {
+    "font-size": "2.4rem"
+  }
+};
+var _hoisted_43 = {
   key: 1,
   "class": "mt-3"
 };
-var _hoisted_19 = {
+var _hoisted_44 = {
   "class": "small text-muted",
   style: {
     "font-size": "1.2rem"
   }
 };
-var _hoisted_20 = {
+var _hoisted_45 = {
   key: 2,
   "class": "mt-2"
 };
-var _hoisted_21 = {
+var _hoisted_46 = {
   "class": "small text-muted",
   style: {
     "font-size": "1.2rem"
   }
 };
-var _hoisted_22 = {
+var _hoisted_47 = {
   "class": "d-flex justify-content-between align-items-center gap-2"
 };
-var _hoisted_23 = ["onClick"];
-var _hoisted_24 = ["href"];
-var _hoisted_25 = {
+var _hoisted_48 = ["onClick"];
+var _hoisted_49 = ["href"];
+var _hoisted_50 = {
   key: 0,
   "class": "text-center py-5"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-dark"
@@ -62357,7 +62469,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.showArabic = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "arabicToggle"
   }, "Arabic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -62368,7 +62480,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.showTranslation = $event;
     }),
     checked: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "translationToggle"
   }, "Meaning", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -62379,10 +62491,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.showDescription = $event;
     }),
     checked: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "descToggle"
-  }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
@@ -62396,19 +62508,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[4] || (_cache[4] = function () {
       return $options.filterNames && $options.filterNames.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Names ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    "class": "btn btn-outline-danger me-2",
+    disabled: $data.favoriteNames.length === 0,
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.clearAllFavorites && $options.clearAllFavorites.apply($options, arguments);
+    })
+  }, " Unlike All ", 8 /* PROPS */, _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up')
+  }, null, 2 /* CLASS */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.favoriteNamesData, function (name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: name.number,
-      "class": "col-12 col-md-6 col-lg-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      key: 'fav-' + name.number,
+      "class": "col-12 col-md-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-heart-fill text-danger fs-4 cursor-pointer",
+      onClick: function onClick($event) {
+        return $options.toggleFavorite(name.number);
+      }
+    }, null, 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)]), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       onClick: function onClick($event) {
         return $options.copyToClipboard(name);
@@ -62418,9 +62544,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
       href: $options.generateWhatsAppLink(name),
       target: "_blank",
@@ -62430,16 +62556,65 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_24)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    "class": "container"
+  }, null, -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "fw-bold mb-3"
+  }, "All Allah's Names", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: name.number,
+      "class": "col-12 col-md-6 col-lg-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4', 'cursor-pointer']),
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        color: $options.isFavorited(name.number) ? 'red' : 'black'
+      }),
+      onClick: function onClick($event) {
+        return $options.toggleFavorite(name.number);
+      }
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      style: {
+        "font-size": "1.6rem"
+      }
+    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      style: {
+        "font-size": "1.6rem"
+      }
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      onClick: function onClick($event) {
+        return $options.copyToClipboard(name);
+      },
+      style: {
+        "background": "#00bfa6",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      "class": "text-center w-100"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+      href: $options.generateWhatsAppLink(name),
+      target: "_blank",
+      rel: "noopener",
+      style: {
+        "background": "#00bfa6",
+        "color": "white",
+        "height": "38px"
+      }
+    }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    "class": "container"
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-muted"
   }, "No names found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function () {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.resetFilters && $options.resetFilters.apply($options, arguments);
     }),
     "class": "btn btn-outline-dark mt-3"
   }, "Reset Filters")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[7] || (_cache[7] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
     "class": "btn position-fixed rounded-circle d-flex align-items-center justify-content-center",
@@ -62452,7 +62627,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "color": "white"
     },
     title: "Back to Top"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-chevron-double-up fs-5"
   }, null, -1 /* HOISTED */)]))])]);
 }
@@ -168681,7 +168856,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');\n@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.header[data-v-062ee157] {\n  background-color: var(--secondary-color);\n}\nh1[data-v-062ee157],\nh2[data-v-062ee157],\nh3[data-v-062ee157],\nh4[data-v-062ee157],\nh5[data-v-062ee157],\nh6[data-v-062ee157] {\n  color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157] {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid var(--primary-color);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: var(--primary-hover);\n  border-color: var(--primary-hover);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n/* Animation for cards */\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n/* Delay animations for each card */\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n/* ... and so on for all cards ... */\n/* Larger font sizes */\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n/* CSS for mobile view */\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    /* Make each toggle switch full-width on mobile */\n    margin-bottom: 12px;\n}\n}\n/* CSS for larger screens */\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n    /* Keep the toggle switch at its original size */\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important;\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: rgb(10, 150, 120);\n  color: rgb(255, 255, 255);\n\n  border-color: rgb(10, 150, 120);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: rgb(255, 255, 255);\n  color: rgb(255, 255, 255);\n  border-color: rgb(8, 120, 96);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: rgb(8, 120, 96);\n  border-color: rgb(10, 150, 120);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid rgb(10, 150, 120);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: rgb(8, 120, 96);\n  border-color: rgb(8, 120, 96);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    margin-bottom: 12px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

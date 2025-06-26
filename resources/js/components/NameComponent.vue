@@ -1,6 +1,8 @@
 <template>
   <div class="names-container container py-5">
 
+
+
     <!-- Header -->
     <div class="text-center mb-5">
       <h2 class="display-5 fw-bold text-dark">99 Names of Allah</h2>
@@ -13,7 +15,6 @@
 
     <!-- Search & Filters -->
     <div>
-
       <div class="row text-center">
         <!-- Toggle switches (left column) -->
         <div class="container col-12 col-lg-6 mb-3">
@@ -23,16 +24,17 @@
               <label class="form-check-label text-dark" for="arabicToggle">Arabic</label>
             </div>
             <div class="form-check form-switch fs-5 text-white">
-              <input class="form-check-input custom-success" type="checkbox" id="translationToggle" v-model="showTranslation" checked>
+              <input class="form-check-input custom-success" type="checkbox" id="translationToggle"
+                v-model="showTranslation" checked>
               <label class="form-check-label text-dark" for="translationToggle">Meaning</label>
             </div>
             <div class="form-check form-switch fs-5 text-white">
-              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription" checked>
+              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription"
+                checked>
               <label class="form-check-label text-dark" for="descToggle">Description</label>
             </div>
           </div>
         </div>
-
 
         <!-- Search bar (right column) -->
         <div class="col-12 col-lg-6 mb-3">
@@ -44,24 +46,92 @@
         </div>
       </div>
 
+      <!-- Liked Names Section -->
+      <div class="mb-5">
+        <div class="d-flex flex-row align-items-center mb-3 gap-3">
+          <h3 class="fw-bold mb-0">Liked Names <span class="badge bg-success">{{ favoriteNames.length }}</span></h3>
+          <div class="ms-auto">
+            <button class="btn btn-outline-danger me-2" :disabled="favoriteNames.length === 0"
+              @click="clearAllFavorites" v-if="favoriteNames.length > 0">
+              Unlike All
+            </button>
+            <button v-if="favoriteNames.length > 0" class="btn btn-outline-primary" type="button"
+              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" aria-expanded="true"
+              aria-controls="likedNamesCollapse">
+              <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
+            </button>
+          </div>
+        </div>
+        <div class="collapse show" id="likedNamesCollapse">
+          <div class="row g-4">
+            <div v-for="name in favoriteNamesData" :key="'fav-' + name.number" class="col-12 col-md-4">
+              <div class="card h-100" style="border-radius: 8px;">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <span class="badge bg-secondary fs-6">{{ name.number }}</span>
+                    <i class="bi bi-heart-fill text-danger fs-4 cursor-pointer"
+                      @click="toggleFavorite(name.number)"></i>
+                  </div>
+                  <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+                  <div class="display-5 text-end" dir="rtl">
+                    <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
+                  </div>
+                  <div v-if="showTranslation" class="mt-3">
+                    <strong style="font-size: 1.6rem;">Meaning:</strong>
+                    <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
+                  </div>
+
+                  <div v-if="showDescription" class="mt-2">
+                    <strong style="font-size: 1.6rem;">Description:</strong>
+                    <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center gap-2">
+                    <!-- Get Directions Button -->
+                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                      @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
+                      <span class="text-center w-100">
+                        <b>Copy to Clipboard</b>
+                      </span>
+                    </button>
+
+                    <!-- WhatsApp Share Button -->
+                    <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                      :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
+                      style="background: #00bfa6; color: white; height: 38px">
+                      <b>Share on WhatsApp</b>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="container" />
+
+      <h3 class="fw-bold mb-3">All Allah's Names</h3>
 
       <!-- Names Grid -->
-      <div class="row g-4">
+      <div class="row g-4 mt-2 container-fluid">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100 " style="border-radius: 8px;">
+          <div class="card h-100" style="border-radius: 8px;">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
+                <i :class="['bi', isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4', 'cursor-pointer']"
+                  :style="{ color: isFavorited(name.number) ? 'red' : 'black' }"
+                  @click="toggleFavorite(name.number)"></i>
               </div>
 
               <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
-
 
               <div v-if="showArabic" class="display-5 text-end" dir="rtl">
                 <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
               </div>
 
-              <div v-if="showTranslation" class="mt-3 ">
+              <div v-if="showTranslation" class="mt-3">
                 <strong style="font-size: 1.6rem;">Meaning:</strong>
                 <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
               </div>
@@ -74,8 +144,7 @@
               <div class="d-flex justify-content-between align-items-center gap-2">
                 <!-- Get Directions Button -->
                 <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                  @click="copyToClipboard(name)"
-                  style="background: #00bfa6;  color: white; height: 38px">
+                  @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
                   <span class="text-center w-100">
                     <b>Copy to Clipboard</b>
                   </span>
@@ -87,13 +156,13 @@
                   style="background: #00bfa6; color: white; height: 38px">
                   <b>Share on WhatsApp</b>
                 </a>
-
               </div>
-
             </div>
           </div>
         </div>
       </div>
+
+      <hr class="container" />
 
       <!-- No Results -->
       <div v-if="filteredNames.length === 0" class="text-center py-5">
@@ -103,17 +172,14 @@
 
       <!-- Floating Action Button -->
       <button @click="scrollToTop"
-        class="btn  position-fixed rounded-circle d-flex align-items-center justify-content-center"
+        class="btn position-fixed rounded-circle d-flex align-items-center justify-content-center"
         style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
         title="Back to Top">
         <i class="bi bi-chevron-double-up fs-5"></i>
       </button>
-
     </div>
   </div>
-
 </template>
-
 
 <script>
 export default {
@@ -252,7 +318,7 @@ export default {
           name: "Al-Alim",
           arabic: "الْعَلِيمُ",
           translation: "The All-Knowing",
-          description: "The Knowledgeable; The One nothing is absent from His knowledge."
+          description: "The Knowledgeable; The One nothing is absent His knowledge."
         },
         {
           number: 20,
@@ -815,6 +881,7 @@ export default {
           description: "The One who does not quickly punish the sinners."
         }
       ],
+      isCollapsed: false,
       searchQuery: '',
       activeLetter: '',
       showArabic: true,
@@ -823,6 +890,20 @@ export default {
       favoriteNames: [],
       alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
       filteredNames: []
+    }
+  },
+  mounted() {
+    const collapseElement = document.getElementById('likedNamesCollapse');
+    collapseElement.addEventListener('shown.bs.collapse', () => {
+      this.isCollapsed = false;
+    });
+    collapseElement.addEventListener('hidden.bs.collapse', () => {
+      this.isCollapsed = true;
+    });
+  },
+  computed: {
+    favoriteNamesData() {
+      return this.names.filter(name => this.favoriteNames.includes(name.number));
     }
   },
   created() {
@@ -844,7 +925,7 @@ export default {
     },
     generateWhatsAppLink(name) {
       const text = `*${name.name}*\n\n🕋 Arabic: ${name.arabic}\n📝 Meaning: ${name.translation}\n📖 Description: ${name.description}`;
-      return `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     },
     filterNames() {
       if (!this.searchQuery && !this.activeLetter) {
@@ -881,8 +962,10 @@ export default {
       } else {
         this.favoriteNames.splice(index, 1);
       }
-
-      // Save to localStorage
+      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    },
+    clearAllFavorites() {
+      this.favoriteNames = [];
       localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
     },
     isFavorited(number) {
@@ -900,15 +983,17 @@ export default {
 
 <style scoped>
 .custom-success:checked {
-  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */
+  background-color: rgb(10, 150, 120) !important;
   border-color: rgb(10, 150, 120) !important;
 }
+
 html {
   scroll-behavior: smooth;
 }
 
-/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */
+.cursor-pointer {
+  cursor: pointer;
+}
 
 .hover-zoom:hover {
   transform: scale(1.02);
@@ -920,44 +1005,33 @@ html {
   border-left: 5px solid rgb(10, 150, 120);
 }
 
-
 .names-container {
   max-width: 1400px;
   margin: 0 auto;
   font-size: 1.1rem;
 }
 
-.header {
-  background-color: var(--secondary-color);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--primary-color);
-}
-
 .btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: rgb(10, 150, 120);
+  color: rgb(255, 255, 255);
+
+  border-color: rgb(10, 150, 120);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
+  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+  border-color: rgb(8, 120, 96);
 }
 
 .btn-outline-primary {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+  color: rgb(8, 120, 96);
+  border-color: rgb(10, 150, 120);
 }
 
 .btn-outline-primary:hover {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: rgb(10, 150, 120);
+  border-color: rgb(10, 150, 120);
 }
 
 .names-grid {
@@ -979,7 +1053,7 @@ h6 {
 }
 
 .featured-card {
-  border: 3px solid var(--primary-color);
+  border: 3px solid rgb(10, 150, 120);
 }
 
 .arabic-name {
@@ -1002,13 +1076,13 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: rgb(10, 150, 120);
+  border-color: rgb(10, 150, 120);
 }
 
 .floating-action-btn button:hover {
-  background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
+  background-color: rgb(8, 120, 96);
+  border-color: rgb(8, 120, 96);
 }
 
 @media (max-width: 768px) {
@@ -1029,7 +1103,6 @@ h6 {
   }
 }
 
-/* Animation for cards */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1047,7 +1120,6 @@ h6 {
   opacity: 0;
 }
 
-/* Delay animations for each card */
 .name-card:nth-child(1) {
   animation-delay: 0.1s;
 }
@@ -1060,9 +1132,6 @@ h6 {
   animation-delay: 0.3s;
 }
 
-/* ... and so on for all cards ... */
-
-/* Larger font sizes */
 .card-title {
   font-size: 1.8rem;
 }
@@ -1084,7 +1153,6 @@ h6 {
   font-size: 1.2rem;
 }
 
-/* CSS for mobile view */
 @media (max-width: 768px) {
   .toggle-switches-container {
     padding: 10px;
@@ -1092,12 +1160,10 @@ h6 {
 
   .form-check {
     flex: 1 1 100%;
-    /* Make each toggle switch full-width on mobile */
     margin-bottom: 12px;
   }
 }
 
-/* CSS for larger screens */
 @media (min-width: 769px) {
   .toggle-switches-container {
     padding: 12px;
@@ -1105,7 +1171,6 @@ h6 {
 
   .form-check {
     flex: 0 0 auto;
-    /* Keep the toggle switch at its original size */
   }
 }
 </style>
