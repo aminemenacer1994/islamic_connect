@@ -51,12 +51,12 @@
               data-bs-placement="top" title="Decrease text size">
             </i>
 
-            <p class="d-inline-flex gap-1">
+            <!-- <p class="d-inline-flex gap-1">
               <i style="cursor: pointer;" class="bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease"
                 data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
                 aria-controls="collapseExample" @click="toggleIcon" data-bs-placement="top" title="Toggle collapse">
               </i>
-            </p>
+            </p> -->
           </div>
 
         </div>

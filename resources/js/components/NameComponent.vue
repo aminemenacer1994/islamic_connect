@@ -1,137 +1,119 @@
 <template>
-  <div class=" container py-4 py-md-5">
+  <div class="names-container container py-5">
+
     <!-- Header -->
-    <div class="text-center mb-4 mb-md-5">
+    <div class="text-center mb-5">
       <h2 class="display-5 fw-bold text-dark">99 Names of Allah</h2>
-      <p class="lead text-muted">
-        The 99 Names of Allah, also known as Asma'ul Husna, represent the beautiful
-        attributes and qualities of Allah mentioned in the Qur'an and Sunnah. Each Name reflects a distinct aspect of
-        Allah's nature and actions.
+      <p class="lead">
+        The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful
+        attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of
+        Allah’s nature and actions.
       </p>
     </div>
 
-    <!-- Controls Row: Toggles and Search Bar -->
-    <div class="controls-row-clean">
-      <div class="toggle-bar-clean" style="padding: 15px;">
-        <button
-          :class="['toggle-pill-clean', showArabic ? 'active' : '']"
-          @click="showArabic = !showArabic"
-          aria-label="Toggle Arabic text"
-          aria-pressed="showArabic"
-        >
-          <i class="bi bi-translate"></i> <span class="d-none d-sm-inline">Arabic</span>
-        </button>
-        <button
-          :class="['toggle-pill-clean', showTranslation ? 'active' : '']"
-          @click="showTranslation = !showTranslation"
-          aria-label="Toggle Meaning text"
-          aria-pressed="showTranslation"
-        >
-          <i class="bi bi-lightbulb"></i> <span class="d-none d-sm-inline">Meaning</span>
-        </button>
-        <button
-          :class="['toggle-pill-clean', showDescription ? 'active' : '']"
-          @click="showDescription = !showDescription"
-          aria-label="Toggle Description text"
-          aria-pressed="showDescription"
-        >
-          <i class="bi bi-card-text"></i> <span class="d-none d-sm-inline">Description</span>
-        </button>
-      </div>
-      <div class="search-bar-clean">
-        <div class="search-bar-inner">
-          <span class="search-icon"><i class="bi bi-search"></i></span>
-          <input
-            type="text"
-            class="search-input"
-            placeholder="Search names..."
-            v-model="searchQuery"
-            @input="filterNames"
-            aria-label="Search names"
-          />
-          <button
-            v-if="searchQuery"
-            class="clear-btn"
-            @click="clearSearch"
-            aria-label="Clear search"
-          >
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- Search & Filters -->
+    <div>
 
-    <!-- Names Grid -->
-    <div class="names-grid-clean">
-      <div v-for="name in paginatedNames" :key="name.number" class="clean-card">
-        <div class="clean-card-body">
-          <div v-if="showArabic" class="clean-arabic">{{ name.arabic }}</div>
-          <div class="clean-name">{{ name.name }}</div>
-          <div v-if="showTranslation" class="clean-meaning">{{ name.translation }}</div>
-          <div v-if="showDescription" class="clean-description">{{ name.description }}</div>
-          <div class="clean-btn-row">
-            <button
-              class="clean-btn copy-btn"
-              @click="copyToClipboard(name)"
-              aria-label="Copy name details to clipboard"
-            >
-              <i class="bi bi-clipboard"></i> <span class="d-none d-md-inline">Copy</span>
-            </button>
-            <a
-              class="clean-btn whatsapp-btn"
-              :href="generateWhatsAppLink(name)"
-              target="_blank"
-              rel="noopener"
-              aria-label="Share name on WhatsApp"
-            >
-              <i class="bi bi-whatsapp"></i> <span class="d-none d-md-inline">WhatsApp</span>
-            </a>
+      <div class="row text-center">
+        <!-- Toggle switches (left column) -->
+        <div class="container col-12 col-lg-6 mb-3">
+          <div class="d-flex gap-4 justify-content-center p-3 rounded">
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="arabicToggle" v-model="showArabic">
+              <label class="form-check-label text-dark" for="arabicToggle">Arabic</label>
+            </div>
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="translationToggle" v-model="showTranslation" checked>
+              <label class="form-check-label text-dark" for="translationToggle">Meaning</label>
+            </div>
+            <div class="form-check form-switch fs-5 text-white">
+              <input class="form-check-input custom-success" type="checkbox" id="descToggle" v-model="showDescription" checked>
+              <label class="form-check-label text-dark" for="descToggle">Description</label>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Search bar (right column) -->
+        <div class="col-12 col-lg-6 mb-3">
+          <div class="input-group input-group-lg" style="border-radius: 8px;">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Search names..." v-model="searchQuery"
+              @input="filterNames" />
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Pagination Controls -->
-    <div v-if="totalPages > 1" class="pagination-clean">
-      <button
-        class="pagination-btn"
-        :disabled="currentPage === 1"
-        @click="currentPage--"
-        aria-label="Previous page"
-      >
-        Prev
-      </button>
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        :class="['pagination-btn', { active: currentPage === page }]"
-        @click="currentPage = page"
-        :aria-label="`Go to page ${page}`"
-        :aria-current="currentPage === page ? 'page' : null"
-      >
-        {{ page }}
-      </button>
-      <button
-        class="pagination-btn"
-        :disabled="currentPage === totalPages"
-        @click="currentPage++"
-        aria-label="Next page"
-      >
-        Next
-      </button>
-    </div>
 
-    <!-- Floating Action Button for Scroll to Top -->
-    <button
-      v-if="showScrollButton"
-      class="floating-action-btn"
-      @click="scrollToTop"
-      aria-label="Scroll to top"
-    >
-      <i class="bi bi-arrow-up"></i>
-    </button>
+      <!-- Names Grid -->
+      <div class="row g-4">
+        <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 " style="border-radius: 8px;">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <span class="badge bg-secondary fs-6">{{ name.number }}</span>
+              </div>
+
+              <p class="mt-3 mb-2" style="font-size: 1.6rem;color:black"><b>{{ name.name }}</b></p>
+
+
+              <div v-if="showArabic" class="display-5 text-end" dir="rtl">
+                <strong class="medium text-muted" style="font-size: 2.4rem;">{{ name.arabic }}</strong>
+              </div>
+
+              <div v-if="showTranslation" class="mt-3 ">
+                <strong style="font-size: 1.6rem;">Meaning:</strong>
+                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.translation }}</p>
+              </div>
+
+              <div v-if="showDescription" class="mt-2">
+                <strong style="font-size: 1.6rem;">Description:</strong>
+                <p class="small text-muted" style="font-size: 1.2rem;">{{ name.description }}</p>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center gap-2">
+                <!-- Get Directions Button -->
+                <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                  @click="copyToClipboard(name)"
+                  style="background: #00bfa6;  color: white; height: 38px">
+                  <span class="text-center w-100">
+                    <b>Copy to Clipboard</b>
+                  </span>
+                </button>
+
+                <!-- WhatsApp Share Button -->
+                <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                  :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
+                  style="background: #00bfa6; color: white; height: 38px">
+                  <b>Share on WhatsApp</b>
+                </a>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div v-if="filteredNames.length === 0" class="text-center py-5">
+        <h3 class="text-muted">No names found</h3>
+        <button @click="resetFilters" class="btn btn-outline-dark mt-3">Reset Filters</button>
+      </div>
+
+      <!-- Floating Action Button -->
+      <button @click="scrollToTop"
+        class="btn  position-fixed rounded-circle d-flex align-items-center justify-content-center"
+        style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
+        title="Back to Top">
+        <i class="bi bi-chevron-double-up fs-5"></i>
+      </button>
+
+    </div>
   </div>
+
 </template>
+
 
 <script>
 export default {
@@ -151,7 +133,7 @@ export default {
           name: "Ar-Raheem",
           arabic: "الرَّحِيمُ",
           translation: "The Merciful",
-          description: "He who acts with extreme kindness and bestទ0bestows His mercy."
+          description: "He who acts with extreme kindness and bestows His mercy."
         },
         {
           number: 3,
@@ -834,33 +816,24 @@ export default {
         }
       ],
       searchQuery: '',
+      activeLetter: '',
       showArabic: true,
       showTranslation: true,
-      showDescription: false,
-      filteredNames: [],
-      currentPage: 1,
-      pageSize: 12,
-      showScrollButton: false
-    }
-  },
-  computed: {
-    paginatedNames() {
-      const start = (this.currentPage - 1) * this.pageSize;
-      const end = start + this.pageSize;
-      return this.filteredNames.slice(start, end);
-    },
-    totalPages() {
-      return Math.ceil(this.filteredNames.length / this.pageSize) || 1;
+      showDescription: true,
+      favoriteNames: [],
+      alphabet: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+      filteredNames: []
     }
   },
   created() {
+    // Initialize filteredNames with all names
     this.filteredNames = [...this.names];
-  },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+
+    // Load favorites from localStorage if available
+    const savedFavorites = localStorage.getItem('favoriteNames');
+    if (savedFavorites) {
+      this.favoriteNames = JSON.parse(savedFavorites);
+    }
   },
   methods: {
     copyToClipboard(name) {
@@ -871,460 +844,268 @@ export default {
     },
     generateWhatsAppLink(name) {
       const text = `*${name.name}*\n\n🕋 Arabic: ${name.arabic}\n📝 Meaning: ${name.translation}\n📖 Description: ${name.description}`;
-      return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+      return `https://web.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     },
     filterNames() {
-      let namesList = [...this.names];
-      if (!this.searchQuery) {
-        this.filteredNames = namesList;
-        this.currentPage = 1;
+      if (!this.searchQuery && !this.activeLetter) {
+        this.filteredNames = [...this.names];
         return;
       }
+
       const query = this.searchQuery.toLowerCase();
-      this.filteredNames = namesList.filter(name => {
-        return (
+      this.filteredNames = this.names.filter(name => {
+        const matchesSearch = !query ||
           name.name.toLowerCase().includes(query) ||
           name.translation.toLowerCase().includes(query) ||
-          name.description.toLowerCase().includes(query)
-        );
+          name.description.toLowerCase().includes(query);
+
+        const matchesLetter = !this.activeLetter ||
+          name.name.startsWith(this.activeLetter);
+
+        return matchesSearch && matchesLetter;
       });
-      this.currentPage = 1;
     },
-    clearSearch() {
-      this.searchQuery = '';
+    filterByLetter(letter) {
+      this.activeLetter = this.activeLetter === letter ? '' : letter;
       this.filterNames();
+    },
+    resetFilters() {
+      this.searchQuery = '';
+      this.activeLetter = '';
+      this.filteredNames = [...this.names];
+    },
+    toggleFavorite(number) {
+      const index = this.favoriteNames.indexOf(number);
+      if (index === -1) {
+        this.favoriteNames.push(number);
+      } else {
+        this.favoriteNames.splice(index, 1);
+      }
+
+      // Save to localStorage
+      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    },
+    isFavorited(number) {
+      return this.favoriteNames.includes(number);
     },
     scrollToTop() {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
-    },
-    handleScroll() {
-      this.showScrollButton = window.scrollY > 300;
     }
   }
 }
 </script>
 
 <style scoped>
-/* Global styles */
+.custom-success:checked {
+  background-color: rgb(10, 150, 120) !important; /* Bootstrap bg-success */
+  border-color: rgb(10, 150, 120) !important;
+}
 html {
   scroll-behavior: smooth;
 }
 
+/* @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css'); */
 
-
-
-
-/* Toggle Bar */
-.toggle-bar-clean {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  background: #f5f7fa;
-  padding: 0.5rem;
-  border-radius: 12px;
-  width: 100%;
+.hover-zoom:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
 }
 
-.toggle-pill-clean {
-  border: none;
-  outline: none;
-  background: #fff;
-  color: #009688;
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 4px rgba(0,150,136,0.04);
-  cursor: pointer;
-  min-height: 44px; /* Accessibility: minimum touch target size */
+.featured-card {
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  border-left: 5px solid rgb(10, 150, 120);
 }
 
-.toggle-pill-clean.active,
-.toggle-pill-clean:hover {
-  background: #009688;
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(0,150,136,0.1);
+
+.names-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 1.1rem;
 }
 
-.toggle-pill-clean:active {
-  transform: scale(0.95); /* Touch feedback */
+.header {
+  background-color: var(--secondary-color);
 }
 
-/* Search Bar */
-.search-bar-clean {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 400px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary-color);
 }
 
-.search-bar-inner {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 999px;
-  box-shadow: 0 1px 4px rgba(0,150,136,0.04);
-  padding: 0.3rem 0.8rem;
-  width: 100%;
-  min-height: 44px; /* Accessibility */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.search-icon {
-  color: #b0b8be;
-  font-size: 1rem;
-  margin-right: 0.5rem;
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
-.search-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  flex: 1;
-  padding: 0.4rem 0;
-  color: #222;
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.clear-btn {
-  background: none;
-  border: none;
-  color: #b0b8be;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
-  padding: 0.3rem;
-  min-height: 44px;
-  min-width: 44px;
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.clear-btn:hover {
-  background: #f5f7fa;
-  color: #009688;
-}
-
-.clear-btn:active {
-  transform: scale(0.95);
-}
-
-/* Names Grid */
-.names-grid-clean {
+.names-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 0.5rem;
-  background: #f5f7fa;
-  border-radius: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  padding: 25px 0;
 }
 
-.clean-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,150,136,0.07);
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: box-shadow 0.2s, transform 0.2s;
-  min-height: 160px;
-  animation: fadeIn 0.5s ease forwards;
-}
-
-.clean-card:hover {
-  box-shadow: 0 6px 24px rgba(0,150,136,0.1);
-  transform: translateY(-2px);
-}
-
-.clean-card-body {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.clean-arabic {
-  font-family: 'Amiri', 'Traditional Arabic', 'Arial', sans-serif;
-  font-size: clamp(1.2rem, 4vw, 1.8rem);
-  color: #009688;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
-
-.clean-name {
-  font-size: clamp(1rem, 3vw, 1.2rem);
-  color: #222;
-  font-weight: 600;
-  text-align: center;
-}
-
-.clean-meaning {
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  color: #009688;
-  font-weight: 500;
-  text-align: center;
-}
-
-.clean-description {
-  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
-  color: #666;
-  font-weight: 400;
-  text-align: center;
-  line-height: 1.5;
-}
-
-.clean-btn-row {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-  justify-content: center;
-}
-
-.clean-btn {
-  background: #f5f7fa;
-  color: #009688;
+.name-card {
   border: none;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
-  cursor: pointer;
-  min-height: 44px;
-  min-width: 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 1.1rem;
 }
 
-.clean-btn:hover {
-  background: #009688;
-  color: #fff;
+.name-card:hover {
+  transform: translateY(-8px);
 }
 
-.clean-btn:active {
-  transform: scale(0.95);
+.featured-card {
+  border: 3px solid var(--primary-color);
 }
 
-.copy-btn {
-  background: #f5f7fa;
-  color: #009688;
+.arabic-name {
+  font-family: 'Traditional Arabic', 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
 }
 
-.copy-btn:hover {
-  background: #009688;
-  color: #fff;
-}
-
-.whatsapp-btn {
-  background: #e9fbe5;
-  color: #25d366;
-}
-
-.whatsapp-btn:hover {
-  background: #25d366;
-  color: #fff;
-}
-
-/* Pagination */
-.pagination-clean {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 1.5rem 0;
-}
-
-.pagination-btn {
-  background: #fff;
-  color: #009688;
-  border: 1px solid #e0e0e0;
-  border-radius: 999px;
-  padding: 0.4rem 1rem;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s;
-  min-height: 44px;
-  min-width: 44px;
-}
-
-.pagination-btn.active,
-.pagination-btn:hover:not(:disabled) {
-  background: #009688;
-  color: #fff;
-  border-color: #009688;
-}
-
-.pagination-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Floating Action Button */
 .floating-action-btn {
   position: fixed;
-  bottom: calc(1rem + env(safe-area-inset-bottom));
-  right: calc(1rem + env(safe-area-inset-right));
+  bottom: 40px;
+  right: 40px;
   z-index: 1000;
-  width: 48px;
-  height: 48px;
-  font-size: 1.2rem;
+}
+
+.floating-action-btn button {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #009688;
-  border-color: #009688;
-  border-radius: 50%;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.floating-action-btn:hover {
-  background-color: #00bfa6;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+.floating-action-btn button:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
-.floating-action-btn:active {
-  transform: scale(0.95);
+@media (max-width: 768px) {
+  .names-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header {
+    padding: 25px 0;
+  }
+
+  h1.display-3 {
+    font-size: 2.2rem;
+  }
+
+  .arabic-name {
+    font-size: 2.5rem;
+  }
 }
 
-/* Animations */
+/* Animation for cards */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Media Queries */
+.name-card {
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+/* Delay animations for each card */
+.name-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.name-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.name-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* ... and so on for all cards ... */
+
+/* Larger font sizes */
+.card-title {
+  font-size: 1.8rem;
+}
+
+.arabic-name {
+  font-size: 3rem;
+}
+
+.translation,
+.description {
+  font-size: 1.2rem;
+}
+
+.badge {
+  font-size: 1rem;
+}
+
+.form-check-label {
+  font-size: 1.2rem;
+}
+
+/* CSS for mobile view */
 @media (max-width: 768px) {
-  
-
-  .toggle-bar-clean {
-    gap: 0.3rem;
-    padding: 0.3rem;
-  }
-
-  .search-bar-inner {
-    padding: 0.2rem 0.6rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .display-5 {
-    font-size: 1.8rem;
-  }
-
-  .lead {
-    font-size: 0.9rem;
-  }
-
-  .names-grid-clean {
-    padding: 0;
-  }
-
-  .clean-card {
-    padding: 0.8rem 0.5rem;
-  }
-
-  .toggle-pill-clean {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  .clean-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  .pagination-btn {
-    padding: 0.3rem 0.8rem;
-    font-size: 0.9rem;
-  }
-
-  .floating-action-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .controls-row-clean {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.8rem;
-  }
-
-  .search-bar-clean {
+  .toggle-switches-container {
     padding: 10px;
-    max-width: 100%;
+  }
+
+  .form-check {
+    flex: 1 1 100%;
+    /* Make each toggle switch full-width on mobile */
+    margin-bottom: 12px;
   }
 }
 
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .clean-card,
-  .toggle-pill-clean,
-  .clean-btn,
-  .pagination-btn,
-  .floating-action-btn {
-    transition: none;
-  }
-  .clean-card {
-    animation: none;
-  }
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  .names-container {
-    background-color: #121212;
+/* CSS for larger screens */
+@media (min-width: 769px) {
+  .toggle-switches-container {
+    padding: 12px;
   }
 
-  .clean-card {
-    background-color: white;
-    color: #bebebe;
-    border-radius: 20px;
-    border:2px solid black;
-  }
-
-  .clean-name {
-    color: #e0e0e0;
-  }
-
-  .clean-description {
-    color: #b0b0b0;
-  }
-
-
-  .search-input {
-    color: #e0e0e0;
-  }
-
-  .search-icon,
-  .clear-btn {
-    color: #b0b8be;
-  }
-
-  .pagination-btn {
-    border-color: #444;
+  .form-check {
+    flex: 0 0 auto;
+    /* Keep the toggle switch at its original size */
   }
 }
 </style>
