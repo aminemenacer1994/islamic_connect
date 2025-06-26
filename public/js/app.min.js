@@ -40119,6 +40119,7 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
         translation: "The Patient",
         description: "The One who does not quickly punish the sinners."
       }],
+      showScrollToTop: false,
       isCollapsed: false,
       searchQuery: '',
       activeLetter: '',
@@ -40132,7 +40133,9 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   },
   mounted: function mounted() {
     var _this = this;
+    this.handleScroll();
     var collapseElement = document.getElementById('likedNamesCollapse');
+    window.addEventListener('scroll', this.handleScroll);
     collapseElement.addEventListener('shown.bs.collapse', function () {
       _this.isCollapsed = false;
     });
@@ -40208,6 +40211,44 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
     },
     isFavorited: function isFavorited(number) {
       return this.favoriteNames.includes(number);
+    },
+    debounce: function debounce(fn, wait) {
+      var timeout;
+      return function () {
+        var _this4 = this;
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(function () {
+          return fn.apply(_this4, args);
+        }, wait);
+      };
+    },
+    handleScroll: function handleScroll() {
+      // Get current scroll position and document height
+      var scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      var documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+      // Ensure documentHeight is valid to avoid division by zero
+      if (documentHeight <= 0) {
+        this.showScrollToTop = false;
+        return;
+      }
+
+      // Calculate scroll percentage
+      var scrollPercentage = scrollPosition / documentHeight * 100;
+
+      // Show button only if scrolled past 20%
+      this.showScrollToTop = scrollPercentage >= 20;
+
+      // Debugging: Log values to verify behavior
+      console.log({
+        scrollPosition: scrollPosition,
+        documentHeight: documentHeight,
+        scrollPercentage: scrollPercentage,
+        showScrollToTop: this.showScrollToTop
+      });
     },
     scrollToTop: function scrollToTop() {
       window.scrollTo({
@@ -62390,13 +62431,10 @@ var _hoisted_31 = {
 var _hoisted_32 = ["onClick"];
 var _hoisted_33 = ["href"];
 var _hoisted_34 = {
-  "class": "row g-4 mt-2 container-fluid"
+  "class": "row g-4 mt-2"
 };
 var _hoisted_35 = {
-  "class": "card h-100",
-  style: {
-    "border-radius": "8px"
-  }
+  "class": "card h-100"
 };
 var _hoisted_36 = {
   "class": "card-body"
@@ -62462,7 +62500,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "display-5 fw-bold text-dark"
   }, "99 Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "lead"
-  }, " The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of Allah’s nature and actions. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle switches (left column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, " The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur’an and Sunnah. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search & Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle switches (left column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "class": "form-check-input custom-success",
     type: "checkbox",
     id: "arabicToggle",
@@ -62508,7 +62546,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[4] || (_cache[4] = function () {
       return $options.filterNames && $options.filterNames.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Names ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Allah’s Names ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-outline-danger me-2",
     disabled: $data.favoriteNames.length === 0,
@@ -62534,8 +62572,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy to Clipboard Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1 me-2",
       onClick: function onClick($event) {
         return $options.copyToClipboard(name);
       },
@@ -62564,7 +62602,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "All Allah's Names", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: name.number,
-      "class": "col-12 col-md-6 col-lg-4"
+      "class": "col-12 col-md-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.isFavorited(name.number) ? 'bi-heart-fill' : 'bi-heart', 'fs-4', 'cursor-pointer']),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -62581,8 +62619,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Get Directions Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
+    }, "Description:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.description), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Copy to Clipboard Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "btn d-flex align-items-center justify-content-center flex-grow-1 me-2",
       onClick: function onClick($event) {
         return $options.copyToClipboard(name);
       },
@@ -62613,7 +62651,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.resetFilters && $options.resetFilters.apply($options, arguments);
     }),
     "class": "btn btn-outline-dark mt-3"
-  }, "Reset Filters")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Reset Filters")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[7] || (_cache[7] = function () {
       return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
     }),
@@ -62628,8 +62666,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     },
     title: "Back to Top"
   }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-chevron-double-up fs-5"
-  }, null, -1 /* HOISTED */)]))])]);
+    "class": "bi bi-chevron-up h3 fs-5"
+  }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showScrollToTop]])])]);
 }
 
 /***/ }),
@@ -168856,7 +168894,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important;\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: rgb(10, 150, 120);\n  color: rgb(255, 255, 255);\n\n  border-color: rgb(10, 150, 120);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: rgb(255, 255, 255);\n  color: rgb(255, 255, 255);\n  border-color: rgb(8, 120, 96);\n}\n.btn-outline-primary[data-v-062ee157] {\n  color: rgb(8, 120, 96);\n  border-color: rgb(10, 150, 120);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid rgb(10, 150, 120);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: rgb(8, 120, 96);\n  border-color: rgb(8, 120, 96);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    margin-bottom: 12px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-success[data-v-062ee157]:checked {\n  background-color: rgb(10, 150, 120) !important;\n  border-color: rgb(10, 150, 120) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid rgb(10, 150, 120);\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: rgb(10, 150, 120);\n  color: rgb(255, 255, 255);\n\n  border-color: rgb(10, 150, 120);\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: rgb(255, 255, 255);\n  color: rgb(255, 255, 255);\n  border-color: rgb(8, 120, 96);\n}\n.btn-outline-primary[data-v-062ee157] {\n  border-color: rgb(10, 150, 120);\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 12px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid rgb(10, 150, 120);\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: rgb(10, 150, 120);\n  border-color: rgb(10, 150, 120);\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: rgb(8, 120, 96);\n  border-color: rgb(8, 120, 96);\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n.form-check-label[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 10px;\n}\n.form-check[data-v-062ee157] {\n    flex: 1 1 100%;\n    margin-bottom: 12px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

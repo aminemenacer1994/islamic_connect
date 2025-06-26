@@ -1,15 +1,11 @@
 <template>
   <div class="names-container container py-5">
-
-
-
     <!-- Header -->
     <div class="text-center mb-5">
       <h2 class="display-5 fw-bold text-dark">99 Names of Allah</h2>
       <p class="lead">
         The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful
-        attributes and qualities of Allah mentioned in the Qur’an and Sunnah. Each Name reflects a distinct aspect of
-        Allah’s nature and actions.
+        attributes and qualities of Allah mentioned in the Qur’an and Sunnah.
       </p>
     </div>
 
@@ -49,7 +45,8 @@
       <!-- Liked Names Section -->
       <div class="mb-5">
         <div class="d-flex flex-row align-items-center mb-3 gap-3">
-          <h3 class="fw-bold mb-0">Liked Names <span class="badge bg-success">{{ favoriteNames.length }}</span></h3>
+          <h3 class="fw-bold mb-0">Liked Allah’s Names <span class="badge bg-success">{{ favoriteNames.length }}</span>
+          </h3>
           <div class="ms-auto">
             <button class="btn btn-outline-danger me-2" :disabled="favoriteNames.length === 0"
               @click="clearAllFavorites" v-if="favoriteNames.length > 0">
@@ -87,8 +84,8 @@
                   </div>
 
                   <div class="d-flex justify-content-between align-items-center gap-2">
-                    <!-- Get Directions Button -->
-                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                    <!-- Copy to Clipboard Button -->
+                    <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
                       @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
                       <span class="text-center w-100">
                         <b>Copy to Clipboard</b>
@@ -114,9 +111,9 @@
       <h3 class="fw-bold mb-3">All Allah's Names</h3>
 
       <!-- Names Grid -->
-      <div class="row g-4 mt-2 container-fluid">
-        <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-6 col-lg-4">
-          <div class="card h-100" style="border-radius: 8px;">
+      <div class="row g-4 mt-2">
+        <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
+          <div class="card h-100">
             <div class="card-body">
               <div class="d-flex justify-content-between align-items-start">
                 <span class="badge bg-secondary fs-6">{{ name.number }}</span>
@@ -142,8 +139,8 @@
               </div>
 
               <div class="d-flex justify-content-between align-items-center gap-2">
-                <!-- Get Directions Button -->
-                <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
+                <!-- Copy to Clipboard Button -->
+                <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
                   @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
                   <span class="text-center w-100">
                     <b>Copy to Clipboard</b>
@@ -171,11 +168,11 @@
       </div>
 
       <!-- Floating Action Button -->
-      <button @click="scrollToTop"
+      <button v-show="showScrollToTop" @click="scrollToTop"
         class="btn position-fixed rounded-circle d-flex align-items-center justify-content-center"
         style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
         title="Back to Top">
-        <i class="bi bi-chevron-double-up fs-5"></i>
+        <i class="bi bi-chevron-up h3 fs-5"></i>
       </button>
     </div>
   </div>
@@ -881,6 +878,7 @@ export default {
           description: "The One who does not quickly punish the sinners."
         }
       ],
+      showScrollToTop: false,
       isCollapsed: false,
       searchQuery: '',
       activeLetter: '',
@@ -893,7 +891,9 @@ export default {
     }
   },
   mounted() {
+    this.handleScroll();
     const collapseElement = document.getElementById('likedNamesCollapse');
+    window.addEventListener('scroll', this.handleScroll);
     collapseElement.addEventListener('shown.bs.collapse', () => {
       this.isCollapsed = false;
     });
@@ -901,6 +901,7 @@ export default {
       this.isCollapsed = true;
     });
   },
+
   computed: {
     favoriteNamesData() {
       return this.names.filter(name => this.favoriteNames.includes(name.number));
@@ -917,6 +918,7 @@ export default {
     }
   },
   methods: {
+
     copyToClipboard(name) {
       const text = `Name: ${name.name}\nArabic: ${name.arabic}\nMeaning: ${name.translation}\nDescription: ${name.description}`;
       navigator.clipboard.writeText(text)
@@ -971,11 +973,40 @@ export default {
     isFavorited(number) {
       return this.favoriteNames.includes(number);
     },
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    debounce(fn, wait) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn.apply(this, args), wait);
+      };
+    },
+    handleScroll() {
+      // Get current scroll position and document height
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+      // Ensure documentHeight is valid to avoid division by zero
+      if (documentHeight <= 0) {
+        this.showScrollToTop = false;
+        return;
+      }
+
+      // Calculate scroll percentage
+      const scrollPercentage = (scrollPosition / documentHeight) * 100;
+
+      // Show button only if scrolled past 20%
+      this.showScrollToTop = scrollPercentage >= 20;
+
+      // Debugging: Log values to verify behavior
+      console.log({
+        scrollPosition,
+        documentHeight,
+        scrollPercentage,
+        showScrollToTop: this.showScrollToTop,
       });
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 }
@@ -1025,7 +1056,6 @@ html {
 }
 
 .btn-outline-primary {
-  color: rgb(8, 120, 96);
   border-color: rgb(10, 150, 120);
 }
 
