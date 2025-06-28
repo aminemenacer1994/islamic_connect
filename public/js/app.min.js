@@ -34683,6 +34683,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      downloading: false,
       searchTerm: '',
       selectedImage: null,
       allImages: [],
@@ -34710,45 +34711,96 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     this.fetchGallery();
   },
   methods: {
-    fetchGallery: function fetchGallery() {
+    downloadImage: function downloadImage(url, filename) {
       var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var query, response, data;
+        var response, blob, link;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this.loading = true;
+              _this.downloading = true;
               _context.prev = 1;
-              query = "Islamic ".concat(_this.searchTerm).trim();
-              _context.next = 5;
-              return fetch("https://api.pexels.com/v1/search?query=".concat(encodeURIComponent(query), "&per_page=30"), {
-                headers: {
-                  Authorization: _this.apiKey
-                }
+              _context.next = 4;
+              return fetch(url, {
+                method: 'GET',
+                mode: 'cors'
               });
-            case 5:
+            case 4:
               response = _context.sent;
-              _context.next = 8;
-              return response.json();
-            case 8:
-              data = _context.sent;
-              _this.allImages = data.photos;
-              _this.currentPage = 1;
-              _context.next = 16;
+              if (response.ok) {
+                _context.next = 7;
+                break;
+              }
+              throw new Error('Failed to fetch image');
+            case 7:
+              _context.next = 9;
+              return response.blob();
+            case 9:
+              blob = _context.sent;
+              link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = filename;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              URL.revokeObjectURL(link.href);
+              _context.next = 23;
               break;
-            case 13:
-              _context.prev = 13;
-              _context.t0 = _context["catch"](1);
-              console.error('Error fetching images:', _context.t0);
-            case 16:
-              _context.prev = 16;
-              _this.loading = false;
-              return _context.finish(16);
             case 19:
+              _context.prev = 19;
+              _context.t0 = _context["catch"](1);
+              console.error('Download failed:', _context.t0);
+              alert('Unable to download the image. Please try again later.');
+            case 23:
+              _context.prev = 23;
+              _this.downloading = false;
+              return _context.finish(23);
+            case 26:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[1, 13, 16, 19]]);
+        }, _callee, null, [[1, 19, 23, 26]]);
+      }))();
+    },
+    fetchGallery: function fetchGallery() {
+      var _this2 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var query, response, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              _this2.loading = true;
+              _context2.prev = 1;
+              query = "Islamic ".concat(_this2.searchTerm).trim();
+              _context2.next = 5;
+              return fetch("https://api.pexels.com/v1/search?query=".concat(encodeURIComponent(query), "&per_page=30"), {
+                headers: {
+                  Authorization: _this2.apiKey
+                }
+              });
+            case 5:
+              response = _context2.sent;
+              _context2.next = 8;
+              return response.json();
+            case 8:
+              data = _context2.sent;
+              _this2.allImages = data.photos;
+              _this2.currentPage = 1;
+              _context2.next = 16;
+              break;
+            case 13:
+              _context2.prev = 13;
+              _context2.t0 = _context2["catch"](1);
+              console.error('Error fetching images:', _context2.t0);
+            case 16:
+              _context2.prev = 16;
+              _this2.loading = false;
+              return _context2.finish(16);
+            case 19:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[1, 13, 16, 19]]);
       }))();
     },
     applyFilter: function applyFilter(keyword) {
@@ -56716,7 +56768,7 @@ var _hoisted_14 = {
   "class": "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
 };
 var _hoisted_15 = ["href"];
-var _hoisted_16 = ["download", "href", "title"];
+var _hoisted_16 = ["onClick", "title"];
 var _hoisted_17 = {
   "class": "mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap"
 };
@@ -56828,9 +56880,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "data-bs-toggle": "modal",
       "data-bs-target": "#imageModal",
-      onClick: function onClick($event) {
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
         return $data.selectedImage = image;
-      }
+      }, ["stop"])
     }, null, 8 /* PROPS */, _hoisted_12)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "flex-grow-1"
     }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
@@ -56843,8 +56895,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, _toConsumableArray(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-share-fill"
     }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      download: "image-".concat(image.id, ".jpg"),
-      href: image.src.original,
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.downloadImage(image.src.original, "image-".concat(image.id, ".jpg"));
+      }, ["prevent"]),
       title: image.alt || 'Islamic Image',
       "class": "btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2",
       style: {
@@ -56852,7 +56905,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }
     }, _toConsumableArray(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-download"
-    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Download ")])), 8 /* PROPS */, _hoisted_16)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)]);
+    }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)('Download'))])), 8 /* PROPS */, _hoisted_16)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_10)]);
   }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.currentPage === 1 ? 'color: gray; border-color: gray;' : 'color: #17a085; border-color: #17a085;'),

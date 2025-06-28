@@ -48,12 +48,12 @@
       <div v-for="(image, index) in paginatedImages" :key="image.id || index"
         class="col-12 col-sm-4 col-md-4 col-lg-4 d-flex">
         <div class="card d-flex flex-column shadow-sm p-2 w-100 h-100 animate__animated animate__fadeIn"
-          style=" border-radius: 10px; transition: all 0.5s; overflow: hidden;"
-          @mouseover="hoverCard(index)" @mouseleave="leaveCard(index)">
+          style="border-radius: 10px; transition: all 0.5s; overflow: hidden;" @mouseover="hoverCard(index)"
+          @mouseleave="leaveCard(index)">
           <div class="image-wrapper" style="overflow: hidden; border-radius: 8px;">
             <img :src="image.src.large" :alt="image.alt" class="img-fluid image-zoom" loading="lazy"
               style="height: 480px; object-fit: cover; transition: transform 0.5s ease;" data-bs-toggle="modal"
-              data-bs-target="#imageModal" @click="selectedImage = image" />
+              data-bs-target="#imageModal" @click.stop="selectedImage = image" />
           </div>
           <p class="mt-2 text-center" style="padding: 0 10px; font-size: 20px; color: #444;">
             {{ image.alt || 'Islamic Image' }}
@@ -66,11 +66,11 @@
               style="font-size: 18px;">
               <i class="bi bi-share-fill"></i> Share
             </a>
-            <a :download="`image-${image.id}.jpg`" :href="image.src.original" download
+            <a @click.prevent="downloadImage(image.src.original, `image-${image.id}.jpg`)"
               :title="image.alt || 'Islamic Image'"
               class="btn btn-sm w-100 custom-btn d-flex align-items-center justify-content-center gap-2"
               style="font-size: 18px;">
-              <i class="bi bi-download"></i> Download
+              <i class="bi bi-download"></i> {{ 'Download' }}
             </a>
           </div>
         </div>
@@ -124,6 +124,7 @@
 export default {
   data() {
     return {
+      downloading: false,
       searchTerm: '',
       selectedImage: null,
       allImages: [],
@@ -147,84 +148,104 @@ export default {
       return this.allImages.slice(start, end);
     },
     totalPages() {
-  return Math.ceil(this.allImages.length / this.itemsPerPage);
-}
-  },
-mounted() {
-  this.fetchGallery();
-},
-methods: {
-    async fetchGallery() {
-    this.loading = true;
-    try {
-      const query = `Islamic ${this.searchTerm}`.trim();
-      const response = await fetch(
-        `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
-        {
-          headers: {
-            Authorization: this.apiKey,
-          },
-        }
-      );
-      const data = await response.json();
-      this.allImages = data.photos;
-      this.currentPage = 1;
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      this.loading = false;
+      return Math.ceil(this.allImages.length / this.itemsPerPage);
     }
   },
-  applyFilter(keyword) {
-    this.activeFilter = keyword;
-    this.searchTerm = keyword;
+  mounted() {
     this.fetchGallery();
   },
-  openModal(image) {
-    this.selectedImage = image;
-    this.isModalOpen = true;
-  },
-  closeModal() {
-    this.isModalOpen = false;
-  },
-  goToPage(page) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  methods: {
+    async downloadImage(url, filename) {
+      this.downloading = true;
+      try {
+        const response = await fetch(url, { method: 'GET', mode: 'cors' });
+        if (!response.ok) throw new Error('Failed to fetch image');
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+      } catch (error) {
+        console.error('Download failed:', error);
+        alert('Unable to download the image. Please try again later.');
+      } finally {
+        this.downloading = false;
+      }
+    },
+    async fetchGallery() {
+      this.loading = true;
+      try {
+        const query = `Islamic ${this.searchTerm}`.trim();
+        const response = await fetch(
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=30`,
+          {
+            headers: {
+              Authorization: this.apiKey,
+            },
+          }
+        );
+        const data = await response.json();
+        this.allImages = data.photos;
+        this.currentPage = 1;
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    applyFilter(keyword) {
+      this.activeFilter = keyword;
+      this.searchTerm = keyword;
+      this.fetchGallery();
+    },
+    openModal(image) {
+      this.selectedImage = image;
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    goToPage(page) {
+      if (page >= 1 && page <= this.totalPages) {
+        this.currentPage = page;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
+    hoverCard(index) {
+      const card = document.querySelectorAll('.card')[index];
+      if (card) {
+        card.style.transform = 'scale(1.03)';
+        card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+      }
+    },
+    leaveCard(index) {
+      const card = document.querySelectorAll('.card')[index];
+      if (card) {
+        card.style.transform = 'scale(1)';
+        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+      }
+    },
+    getFilterIcon(filter) {
+      const iconMap = {
+        'Islamic': 'bi-star-fill',
+        'Mosque': 'bi-building',
+        'Calligraphy': 'bi-pen-nib',
+        'Quran': 'bi-book',
+        'Kaaba': 'bi-box',
+        'Mecca': 'bi-geo-alt',
+        'Madina': 'bi-geo-alt-fill',
+        'Hijab': 'bi-person',
+        'Ramadan': 'bi-moon-stars',
+        'Eid': 'bi-gift',
+        'Arabic Art': 'bi-brush',
+        'Islamic Architecture': 'bi-columns'
+      };
+      return iconMap[filter] || 'bi-image';
     }
   },
-  hoverCard(index) {
-    const card = document.querySelectorAll('.card')[index];
-    if (card) {
-      card.style.transform = 'scale(1.03)';
-      card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
-    }
-  },
-  leaveCard(index) {
-    const card = document.querySelectorAll('.card')[index];
-    if (card) {
-      card.style.transform = 'scale(1)';
-      card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-    }
-  },
-  getFilterIcon(filter) {
-    const iconMap = {
-      'Islamic': 'bi-star-fill',
-      'Mosque': 'bi-building',
-      'Calligraphy': 'bi-pen-nib',
-      'Quran': 'bi-book',
-      'Kaaba': 'bi-box',
-      'Mecca': 'bi-geo-alt',
-      'Madina': 'bi-geo-alt-fill',
-      'Hijab': 'bi-person',
-      'Ramadan': 'bi-moon-stars',
-      'Eid': 'bi-gift',
-      'Arabic Art': 'bi-brush',
-      'Islamic Architecture': 'bi-columns'
-    };
-    return iconMap[filter] || 'bi-image';
-  }
-},
 };
 </script>
 
