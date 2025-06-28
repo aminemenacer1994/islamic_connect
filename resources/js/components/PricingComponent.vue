@@ -3,9 +3,9 @@
     <section class="py-5">
       <div class="container pt-3 pb-3">
         <div class="row gx-4 align-items-center justify-content-between">
-          <div class="col-md-8 order-2 order-md-1 pb-3">
+          <div class="col-md-10 order-2 order-md-1 pb-3">
             <div class="mt-3 mt-md-0">
-              <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim — With Your Help</h2>
+              <h2 class="display-5 fw-bold pb-3">Unlock Islamic Knowledge for Every Muslim With Your Help</h2>
 
               <p class="lead lh-base mb-3">
                 🌍 Around the world, millions of Muslims are still struggling to access the Quran and authentic Islamic
@@ -64,9 +64,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4 order-2 d-none d-lg-block">
-            <img src="/images/heart.png" width="80%" alt="Support Islamic Connect" />
-          </div>
+          
         </div>
       </div>
     </section>
