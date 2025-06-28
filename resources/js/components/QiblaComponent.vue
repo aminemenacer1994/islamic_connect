@@ -8,32 +8,16 @@
     </header>
 
     <!-- Search & Location -->
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-md mb-4">
       <div class="container-fluid card-body p-4">
         <h5 class="h4 card-title text-primary fw-bold mb-3">Find Your Location</h5>
         <div class="input-group mb-2">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter a city or address"
-            v-model="searchLocation"
-            @keyup.enter="searchQibla"
-            ref="searchInput"
-          />
-          <button
-            class="btn btn-primary"
-            @click="searchQibla"
-            :disabled="loading"
-            title="Search"
-          >
+          <input type="text" class="form-control" placeholder="Enter a city or address" v-model="searchLocation"
+            @keyup.enter="searchQibla" ref="searchInput" />
+          <button class="btn btn-primary" @click="searchQibla" :disabled="loading" title="Search">
             <i class="bi bi-search"></i>
           </button>
-          <button
-            class="btn btn-outline-secondary"
-            @click="getLocation"
-            :disabled="loading"
-            title="Use My Location"
-          >
+          <button class="btn btn-outline-secondary" @click="getLocation" :disabled="loading" title="Use My Location">
             <i class="bi bi-geo-alt"></i>
             <span class="d-none d-sm-inline">Use My Location</span>
           </button>
@@ -90,146 +74,91 @@
         <!-- Qibla & Compass -->
         <div class="card shadow-sm h-100">
           <div class="card-header">
-            <h5 class="h4 card-title text-primary fw-bold mb-0">
+            <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Qibla Direction
             </h5>
           </div>
-          <div
-            class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
-          >
+          <div class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4">
             <div class="d-flex justify-content-center align-items-center mb-3">
               <div class="qibla-compass-wrapper position-relative mx-auto">
                 <div
                   class="compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light"
-                  :style="{ transform: `rotate(-${compassRotation}deg)` }"
-                >
-                  <div
-                    class="compass-label position-absolute top-0 start-50 translate-middle-x"
-                  >
+                  :style="{ transform: `rotate(-${compassRotation}deg)` }">
+                  <div class="compass-label position-absolute top-0 start-50 translate-middle-x">
                     N
                   </div>
-                  <div
-                    class="compass-label position-absolute bottom-0 start-50 translate-middle-x"
-                  >
+                  <div class="compass-label position-absolute bottom-0 start-50 translate-middle-x">
                     S
                   </div>
-                  <div
-                    class="compass-label position-absolute top-50 end-0 translate-middle-y"
-                  >
+                  <div class="compass-label position-absolute top-50 end-0 translate-middle-y">
                     E
                   </div>
-                  <div
-                    class="compass-label position-absolute top-50 start-0 translate-middle-y"
-                  >
+                  <div class="compass-label position-absolute top-50 start-0 translate-middle-y">
                     W
                   </div>
                 </div>
                 <!-- Arrow: Responsive, always points outward from center -->
-                <div
-                  class="qibla-arrow position-absolute top-50 start-50"
-                  :style="{
-                    transform: `translate(-50%, -60%) rotate(${
-                      qiblaDirection - compassRotation
+                <div class="qibla-arrow position-absolute top-50 start-50" :style="{
+                  transform: `translate(-50%, -60%) rotate(${qiblaDirection - compassRotation
                     }deg)`,
-                  }"
-                ></div>
+                }"></div>
               </div>
             </div>
-            <ul
-              class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
-            >
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+            <ul class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50">
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Direction</span>
                 <span class="fw-bold d-flex align-items-center gap-2">
                   <i :class="['bi', directionIconClass]"></i>
                   {{ qiblaDirection?.toFixed(1) }}° ({{ qiblaCardinalDirection }})
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Bearing from North</span>
                 <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
-                <span class="text-muted">Relative Direction</span>
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+                <span class="text-muted">Relative Dir</span>
                 <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Distance</span>
-                <span class="fw-bold"
-                  >{{ distanceToKaaba?.toFixed(0) }} km /
-                  {{ distanceToKaabaMiles?.toFixed(0) }} mi</span
-                >
+                <span class="fw-bold">{{ distanceToKaaba?.toFixed(0) }} km /
+                  {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Your Coordinates</span>
-                <span class="fw-bold"
-                  >{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span
-                >
+                <span class="fw-bold">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Kaaba Coordinates</span>
                 <span class="fw-bold">21.4225°, 39.8262°</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
                 <span class="text-muted">Last Updated</span>
                 <span class="fw-bold">{{ lastUpdated }}</span>
               </li>
             </ul>
             <!-- Qibla Info Card (Modern Layout) -->
-            <div
-              class="alert alert-info small mb-0"
-              style="
+            <div class="alert alert-info small mb-0" style="
                 background: rgba(13, 182, 145, 0.08);
                 border-color: rgba(13, 182, 145, 0.2);
                 color: rgb(13, 182, 145);
-              "
-            >
+              ">
               <i class="bi bi-info-circle"></i> Compass uses true north, not
               magnetic north. For best accuracy, calibrate your device.
             </div>
 
             <div class="container-fluid card-body">
               <div class="row g-2">
-                <div class="col-6 col-md-4">
-                  <button
-                    class="btn w-100 btn-outline-secondary"
-                    @click="speakQiblaDirection"
-                    :disabled="!qiblaDirection"
-                  >
-                    <i class="bi bi-volume-up"></i> Speak Direction
+                <div class="col-6 col-md-6">
+                  <button class="btn w-100 btn-outline-secondary" @click="speakQiblaDirection"
+                    :disabled="!qiblaDirection">
+                    <i class="bi bi-volume-up"></i> Speak
                   </button>
                 </div>
-                <div class="col-6 col-md-4">
-                  <button
-                    class="btn w-100 btn-outline-secondary"
-                    @click="shareLocation"
-                    :disabled="!hasData"
-                  >
+                <div class="col-6 col-md-6">
+                  <button class="btn w-100 btn-outline-secondary" @click="shareLocation" :disabled="!hasData">
                     <i class="bi bi-share"></i> Share
-                  </button>
-                </div>
-                <div class="col-6 col-md-4" v-show="false">
-                  <button
-                    class="btn w-100 btn-success"
-                    @click="showTtsSettings = !showTtsSettings"
-                    :aria-expanded="showTtsSettings"
-                    aria-label="Toggle Speech Settings"
-                  >
-                    <i class="bi bi-gear"></i> Speech Settings
                   </button>
                 </div>
               </div>
@@ -237,158 +166,35 @@
           </div>
         </div>
 
-        <div class="shadow" style="border-radius: 8px; padding: 10px;">
-          <div class="container-fluid card-body">
-            <div class="row g-2">
-              <div class="col-6 col-md-4">
-                <button
-                  class="btn w-100 btn-outline-secondary"
-                  @click="speakQiblaDirection"
-                  :disabled="!qiblaDirection"
-                  aria-label="Speak Qibla Direction"
-                >
-                  <i class="bi bi-volume-up"></i> Speak Direction
-                </button>
-              </div>
-              <div class="col-6 col-md-4">
-                <button
-                  class="btn w-100 btn-outline-secondary"
-                  @click="shareLocation"
-                  :disabled="!hasData"
-                  aria-label="Share Location"
-                >
-                  <i class="bi bi-share"></i> Share
-                </button>
-              </div>
-              <div class="col-6 col-md-4">
-                <button
-                  class="btn w-100 btn-outline-secondary"
-                  @click="toggleFullscreen"
-                  :aria-label="isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'"
-                >
-                  <i
-                    class="bi"
-                    :class="isFullscreen ? 'bi-fullscreen-exit' : 'bi-fullscreen'"
-                  ></i>
-                  {{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}
-                </button>
-              </div>
-              <div class="col-6 col-md-4">
-                <button
-                  class="btn w-100 btn-outline-secondary"
-                  @click="copyToClipboard"
-                  :disabled="!hasData"
-                  aria-label="Copy to Clipboard"
-                >
-                  <i class="bi bi-clipboard"></i> Copy
-                </button>
-              </div>
-            </div>
-            <!-- Success message for copy action -->
-            <div v-if="copySuccess" class="alert alert-success mt-3 mb-0" role="alert">
-              <i class="bi bi-check-circle"></i> Copied to clipboard!
-            </div>
-          </div>
-          <div class="card-footer" v-show="showTtsSettings">
-            <div class="row align-items-center">
-              <div class="col-lg-5 mb-3 mb-lg-0">
-                <label for="tts-voice" class="form-label small">Voice</label>
-                <select
-                  id="tts-voice"
-                  class="form-select"
-                  v-model="selectedVoiceUri"
-                >
-                  <option value="" disabled>Select a voice</option>
-                  <option
-                    v-for="voice in availableVoices"
-                    :key="voice.voiceURI"
-                    :value="voice.voiceURI"
-                  >
-                    {{ voice.name }} ({{ voice.lang }})
-                  </option>
-                </select>
-              </div>
-              <div class="col-lg-3 col-6">
-                <label for="tts-rate" class="form-label small"
-                  >Rate: {{ speechRate }}</label
-                >
-                <input
-                  id="tts-rate"
-                  type="range"
-                  class="form-range"
-                  min="0.5"
-                  max="2"
-                  step="0.1"
-                  v-model.number="speechRate"
-                />
-              </div>
-              <div class="col-lg-4 col-6">
-                <label for="tts-pitch" class="form-label small"
-                  >Pitch: {{ speechPitch }}</label
-                >
-                <input
-                  id="tts-pitch"
-                  type="range"
-                  class="form-range"
-                  min="0"
-                  max="2"
-                  step="0.1"
-                  v-model.number="speechPitch"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="col-lg-6 d-flex">
         <!-- Prayer Times -->
-        <div class="card card-custom h-100 w-100">
-          <div class="card-header">
-            <h5 class="h4 card-title text-primary fw-bold mb-0">
+        <div class="card w-100 ">
+          <div class="card-header" style="padding: 10px;">
+            <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Prayer Times
             </h5>
           </div>
-          <div class="card-body d-flex flex-column p-lg-4">
-            <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
-            <div class="mb-3">
-              <select
-                class="form-select"
-                v-model="calculationMethod"
-                @change="getPrayerTimes"
-                aria-label="Prayer time calculation method"
-              >
-                <option
-                  v-for="(name, id) in calculationMethods"
-                  :key="id"
-                  :value="id"
-                >
+          <div class=" mt-2 d-flex flex-column" style="padding: 10px;">
+            <div class="mb-3 mt-3">
+              <select class="form-select" style="padding: 10px;" v-model="calculationMethod" @change="getPrayerTimes"
+                aria-label="Prayer time calculation method">
+                <option v-for="(name, id) in calculationMethods" :key="id" :value="id">
                   {{ name }}
                 </option>
               </select>
             </div>
-            <ul
-              v-if="prayerTimes"
-              class="list-group list-group-flush flex-grow-1"
-            >
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-                v-for="(time, name) in prayerTimes"
-                :key="name"
-              >
+            <ul v-if="prayerTimes" class="list-group list-group-flush flex-grow-1">
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                v-for="(time, name) in prayerTimes" :key="name">
                 <span class="text-muted fw-bold">{{ name }}</span>
                 <strong class="text-muted">{{ time }}</strong>
               </li>
             </ul>
-            <div
-              v-else
-              class="flex-grow-1 d-flex align-items-center justify-content-center"
-            >
+            <div v-else class="flex-grow-1 d-flex align-items-center justify-content-center">
               <p class="text-muted">Prayer times will appear here.</p>
             </div>
-            <p
-              v-if="timezone"
-              class="text-muted small mt-3 mb-0 text-center"
-            >
+            <p v-if="timezone" class="text-muted small mt-3 mb-0 text-center">
               Timezone: {{ timezone }}
             </p>
           </div>
@@ -398,8 +204,8 @@
 
     <!-- Calculation Method Explanations -->
     <div v-if="hasData" class="card card-custom mt-4">
-      <div class="card-header">
-        <h5 class="h4 card-title text-primary fw-bold mb-0">
+      <div class="card-header" style="padding: 10px;">
+        <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
           About Prayer Time Methods
         </h5>
       </div>
@@ -776,7 +582,7 @@ export default {
 
       try {
         const textToCopy = `Qibla Direction: ${this.qiblaDirection.toFixed(1)}°\nLocation: ${this.location.lat}, ${this.location.lon}\nhttps://www.google.com/maps?q=${this.location.lat},${this.location.lon}`;
-        
+
         if (navigator.clipboard) {
           await navigator.clipboard.writeText(textToCopy);
         } else {
@@ -808,8 +614,7 @@ export default {
       this.error = "";
       try {
         const response = await fetch(
-          `https://api.aladhan.com/v1/timings?latitude=${
-            this.userLatitude
+          `https://api.aladhan.com/v1/timings?latitude=${this.userLatitude
           }&longitude=${this.userLongitude}&method=${this.calculationMethod}`
         );
         const data = await response.json();
