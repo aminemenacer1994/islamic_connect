@@ -48,7 +48,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 " style="border: 1px solid grey;">
-          <img src="/images/radio1.png" alt="Radio stations" class="w-100" style="object-fit: contain;" />
+          <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Radio Stations</h5>
             <p class="card-text text-muted text-wrap text-center"

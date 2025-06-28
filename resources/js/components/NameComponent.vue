@@ -162,18 +162,18 @@
       <hr class="container" />
 
       <!-- No Results -->
-      <div v-if="filteredNames.length === 0" class="text-center py-5">
+      <!-- <div v-if="filteredNames.length === 0" class="text-center py-5">
         <h3 class="text-muted">No names found</h3>
         <button @click="resetFilters" class="btn btn-outline-dark mt-3">Reset Filters</button>
-      </div>
+      </div> -->
 
       <!-- Floating Action Button -->
-      <button v-show="showScrollToTop" @click="scrollToTop"
+      <!-- <button v-show="showScrollToTop" @click="scrollToTop"
         class="btn position-fixed rounded-circle d-flex align-items-center justify-content-center"
         style="bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;"
         title="Back to Top">
         <i class="bi bi-chevron-up h3 fs-5"></i>
-      </button>
+      </button> -->
     </div>
   </div>
 </template>

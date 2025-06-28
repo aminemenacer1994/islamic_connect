@@ -40272,11 +40272,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
@@ -40289,554 +40285,267 @@ function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
-
-
-// Common timezones for override
-var TIMEZONES = ['UTC', 'GMT', 'BST', 'EST', 'EDT', 'CST', 'CDT', 'MST', 'MDT', 'PST', 'PDT', 'Asia/Riyadh', 'Asia/Dubai', 'Asia/Karachi', 'Asia/Kolkata', 'Asia/Jakarta', 'Europe/Paris', 'Europe/Moscow', 'Australia/Sydney', 'Pacific/Auckland'];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PrayerTimes',
   data: function data() {
     return {
       city: '',
       country: '',
-      method: '',
-      methods: {
-        '2': 'Muslim World League',
-        '1': 'Islamic Society of North America (ISNA)',
-        '3': 'Egyptian General Authority',
-        '4': 'Umm al-Qura University',
-        '5': 'University of Islamic Sciences, Karachi'
+      latitude: null,
+      longitude: null,
+      method: '2',
+      methodOptions: {
+        0: 'Shia Ithna-Ashari (Jafari)',
+        1: 'University of Islamic Sciences, Karachi',
+        2: 'Islamic Society of North America (ISNA)',
+        3: 'Muslim World League (MWL)',
+        4: 'Umm Al-Qura University, Makkah',
+        5: 'Egyptian General Authority of Survey',
+        7: 'Institute of Geophysics, University of Tehran',
+        8: 'Gulf Region',
+        9: 'Kuwait',
+        10: 'Qatar',
+        11: 'Majlis Ugama Islam Singapura, Singapore',
+        12: 'Union Organization Islamic de France',
+        13: 'Diyanet İşleri Başkanlığı, Turkey',
+        14: 'Spiritual Administration of Muslims of Russia'
       },
-      school: '',
-      adjustments: {
-        Fajr: 0,
-        Sunrise: 0,
-        Dhuhr: 0,
-        Asr: 0,
-        Maghrib: 0,
-        Isha: 0
-      },
-      customAngles: {
-        fajr: null,
-        isha: null
-      },
-      prayerNames: ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'],
       prayerData: [],
-      monthYear: '',
-      monthName: '',
-      year: '',
-      timezone: '',
-      timezoneOverride: '',
-      timezones: TIMEZONES,
-      submitted: false,
       loading: false,
-      errorMessage: '',
-      showAdvanced: false,
-      debugLogs: [],
-      monthCheckInterval: null
+      submitted: false,
+      useCurrentLocation: true,
+      monthName: '',
+      year: ''
     };
   },
-  computed: {
-    displayTimezone: function displayTimezone() {
-      return this.timezoneOverride || this.timezone;
-    }
-  },
   mounted: function mounted() {
-    this.startMonthCheckInterval();
+    this.getCurrentLocation();
   },
-  beforeUnmount: function beforeUnmount() {
-    if (this.monthCheckInterval) {
-      clearInterval(this.monthCheckInterval);
-    }
-  },
-  methods: {
-    logDebug: function logDebug(message) {
-      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-      var logEntry = {
-        timestamp: new Date().toISOString(),
-        message: message,
-        data: data
-      };
-      this.debugLogs.push(logEntry);
-      console.log("[DEBUG ".concat(logEntry.timestamp, "] ").concat(message), data || '');
+  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+    formatTime: function formatTime(time) {
+      return time ? time.split(' ')[0] : '--:--';
     },
-    fetchWithRetry: function fetchWithRetry(url) {
-      var _arguments = arguments,
-        _this = this;
+    getCurrentLocation: function getCurrentLocation() {
+      var _this = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var retries, delay, _loop, _ret, i;
-        return _regeneratorRuntime().wrap(function _callee$(_context2) {
+        var position, _position$coords, latitude, longitude, location;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              if (navigator.geolocation) {
+                _context.next = 3;
+                break;
+              }
+              _this.setDefaultLocation();
+              return _context.abrupt("return");
+            case 3:
+              _this.loading = true;
+              _context.prev = 4;
+              _context.next = 7;
+              return new Promise(function (resolve, reject) {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+              });
+            case 7:
+              position = _context.sent;
+              _position$coords = position.coords, latitude = _position$coords.latitude, longitude = _position$coords.longitude;
+              _context.next = 11;
+              return _this.reverseGeocode(latitude, longitude);
+            case 11:
+              location = _context.sent;
+              _this.city = location.city;
+              _this.country = location.country;
+              _this.latitude = latitude;
+              _this.longitude = longitude;
+              _this.useCurrentLocation = true;
+              _context.next = 19;
+              return _this.fetchPrayerTimes();
+            case 19:
+              _context.next = 25;
+              break;
+            case 21:
+              _context.prev = 21;
+              _context.t0 = _context["catch"](4);
+              console.error('Geolocation failed:', _context.t0);
+              _this.setDefaultLocation();
+            case 25:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[4, 21]]);
+      }))();
+    },
+    reverseGeocode: function reverseGeocode(lat, lon) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var res, data;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              retries = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 3;
-              delay = _arguments.length > 2 && _arguments[2] !== undefined ? _arguments[2] : 1000;
-              _loop = /*#__PURE__*/_regeneratorRuntime().mark(function _loop(i) {
-                var response, data;
-                return _regeneratorRuntime().wrap(function _loop$(_context) {
-                  while (1) switch (_context.prev = _context.next) {
-                    case 0:
-                      _context.prev = 0;
-                      _this.logDebug("Fetching URL (attempt ".concat(i + 1, "/").concat(retries, ")"), {
-                        url: url
-                      });
-                      _context.next = 4;
-                      return fetch(url, {
-                        signal: AbortSignal.timeout(5000)
-                      });
-                    case 4:
-                      response = _context.sent;
-                      if (response.ok) {
-                        _context.next = 7;
-                        break;
-                      }
-                      throw new Error("HTTP ".concat(response.status, ": ").concat(response.statusText));
-                    case 7:
-                      _context.next = 9;
-                      return response.json();
-                    case 9:
-                      data = _context.sent;
-                      _this.logDebug('Fetch successful', {
-                        status: response.status,
-                        data: data
-                      });
-                      return _context.abrupt("return", {
-                        v: data
-                      });
-                    case 14:
-                      _context.prev = 14;
-                      _context.t0 = _context["catch"](0);
-                      _this.logDebug('Fetch attempt failed', {
-                        error: _context.t0.message
-                      });
-                      if (!(i < retries - 1)) {
-                        _context.next = 21;
-                        break;
-                      }
-                      _context.next = 20;
-                      return new Promise(function (resolve) {
-                        return setTimeout(resolve, delay * Math.pow(2, i));
-                      });
-                    case 20:
-                      return _context.abrupt("return", 0);
-                    case 21:
-                      throw _context.t0;
-                    case 22:
-                    case "end":
-                      return _context.stop();
-                  }
-                }, _loop, null, [[0, 14]]);
+              _context2.next = 2;
+              return fetch("https://nominatim.openstreetmap.org/reverse?lat=".concat(lat, "&lon=").concat(lon, "&format=json"));
+            case 2:
+              res = _context2.sent;
+              _context2.next = 5;
+              return res.json();
+            case 5:
+              data = _context2.sent;
+              return _context2.abrupt("return", {
+                city: data.address.city || data.address.town || data.address.village || 'Unknown',
+                country: (data.address.country_code || 'us').toUpperCase()
               });
-              i = 0;
-            case 4:
-              if (!(i < retries)) {
-                _context2.next = 14;
-                break;
-              }
-              return _context2.delegateYield(_loop(i), "t0", 6);
-            case 6:
-              _ret = _context2.t0;
-              if (!(_ret === 0)) {
-                _context2.next = 9;
-                break;
-              }
-              return _context2.abrupt("continue", 11);
-            case 9:
-              if (!_ret) {
-                _context2.next = 11;
-                break;
-              }
-              return _context2.abrupt("return", _ret.v);
-            case 11:
-              i++;
-              _context2.next = 4;
-              break;
-            case 14:
+            case 7:
             case "end":
               return _context2.stop();
           }
-        }, _callee);
+        }, _callee2);
       }))();
     },
-    sanitizeInput: function sanitizeInput(input) {
-      var sanitized = input.replace(/[^a-zA-Z0-9\s,-]/g, '').trim();
-      this.logDebug('Sanitized input', {
-        input: input,
-        sanitized: sanitized
-      });
-      return sanitized;
-    },
-    applyTimezoneOffset: function applyTimezoneOffset(time, sourceTimezone, targetTimezone) {
-      if (!time || !sourceTimezone || !targetTimezone || sourceTimezone === targetTimezone) {
-        return time;
-      }
-      try {
-        // Extract time without timezone (e.g., "04:30" from "04:30 (BST)")
-        var cleanTime = time.replace(/\s*\(.*\)/, '');
-        var _cleanTime$split$map = cleanTime.split(':').map(Number),
-          _cleanTime$split$map2 = _slicedToArray(_cleanTime$split$map, 2),
-          hours = _cleanTime$split$map2[0],
-          minutes = _cleanTime$split$map2[1];
-        if (isNaN(hours) || isNaN(minutes)) return time;
-
-        // Create date objects in source and target timezones
-        var sourceDate = new Date(Date.UTC(2025, 0, 1, hours, minutes));
-        var sourceStr = sourceDate.toLocaleString('en-US', {
-          timeZone: sourceTimezone
-        });
-        var targetStr = sourceDate.toLocaleString('en-US', {
-          timeZone: targetTimezone
-        });
-        var targetDate = new Date(targetStr);
-        var adjustedTime = "".concat(targetDate.getHours().toString().padStart(2, '0'), ":").concat(targetDate.getMinutes().toString().padStart(2, '0'));
-        this.logDebug('Applied timezone offset', {
-          time: time,
-          sourceTimezone: sourceTimezone,
-          targetTimezone: targetTimezone,
-          adjustedTime: adjustedTime
-        });
-        return adjustedTime;
-      } catch (error) {
-        this.logDebug('Timezone offset error', {
-          error: error.message
-        });
-        return time;
-      }
-    },
-    applyCustomAngles: function applyCustomAngles(data, fajrAngle, ishaAngle) {
+    fetchPrayerTimes: function fetchPrayerTimes() {
       var _this2 = this;
-      if (!fajrAngle && !ishaAngle) return data;
-      this.logDebug('Applying custom angles', {
-        fajrAngle: fajrAngle,
-        ishaAngle: ishaAngle
-      });
-      // Note: Aladhan API doesn't support direct angle overrides in calendarByCity
-      // For simplicity, log intent; actual angle adjustment requires a custom calculation
-      // This would need a prayer time calculation library (e.g., Adhan.js) for precision
-      return data.map(function (day) {
-        return _objectSpread(_objectSpread({}, day), {}, {
-          fajr: fajrAngle ? _this2.adjustPrayerTime(day.fajr, fajrAngle, 'fajr') : day.fajr,
-          isha: ishaAngle ? _this2.adjustPrayerTime(day.isha, ishaAngle, 'isha') : day.isha
-        });
-      });
-    },
-    adjustPrayerTime: function adjustPrayerTime(time, angle, prayer) {
-      // Placeholder: Real adjustment requires astronomical calculations
-      this.logDebug("Adjusting ".concat(prayer, " time with custom angle (placeholder)"), {
-        time: time,
-        angle: angle
-      });
-      return time; // Implement with Adhan.js for accurate angle-based adjustments
-    },
-    applyAdjustment: function applyAdjustment(time, adjustment) {
-      if (!time || typeof time !== 'string' || isNaN(adjustment)) {
-        this.logDebug('Skipping adjustment due to invalid input', {
-          time: time,
-          adjustment: adjustment
-        });
-        return time || '--:--';
-      }
-      try {
-        var cleanTime = time.replace(/\s*\(.*\)/, '');
-        var _cleanTime$split$map3 = cleanTime.split(':').map(Number),
-          _cleanTime$split$map4 = _slicedToArray(_cleanTime$split$map3, 2),
-          hours = _cleanTime$split$map4[0],
-          minutes = _cleanTime$split$map4[1];
-        if (isNaN(hours) || isNaN(minutes)) return time;
-        var date = new Date(0, 0, 0, hours, minutes + adjustment);
-        var adjustedTime = "".concat(date.getHours().toString().padStart(2, '0'), ":").concat(date.getMinutes().toString().padStart(2, '0'));
-        this.logDebug('Applied time adjustment', {
-          time: time,
-          adjustment: adjustment,
-          adjustedTime: adjustedTime
-        });
-        return adjustedTime;
-      } catch (error) {
-        this.logDebug('Adjustment error', {
-          error: error.message
-        });
-        return time;
-      }
-    },
-    getPrayerTimes: (0,lodash__WEBPACK_IMPORTED_MODULE_0__.debounce)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-      var _this3 = this;
-      var city, country, year, month, _this$monthYear$split, _this$monthYear$split2, cacheKey, cachedData, _parsedData$, parsedData, _parsedData$2, prayerTimes, aladhanUrl, aladhanData, muslimSalatUrl, muslimSalatData;
-      return _regeneratorRuntime().wrap(function _callee2$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
-          case 0:
-            city = this.sanitizeInput(this.city);
-            country = this.sanitizeInput(this.country);
-            if (this.monthYear) {
-              _this$monthYear$split = this.monthYear.split('-').map(Number);
-              _this$monthYear$split2 = _slicedToArray(_this$monthYear$split, 2);
-              year = _this$monthYear$split2[0];
-              month = _this$monthYear$split2[1];
-            }
-            if (!(!city || !country || !year || !month || !this.method || !this.school)) {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+        var date, month, year, timezone, url, response, data;
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              _this2.loading = true;
+              date = new Date();
+              month = date.getMonth() + 1;
+              year = date.getFullYear();
+              timezone = 'Europe/London'; // Explicitly set timezone
+              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this2.latitude, "&longitude=").concat(_this2.longitude, "&method=").concat(_this2.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(timezone), "&school=0");
+              _context3.prev = 6;
               _context3.next = 9;
+              return fetch(url);
+            case 9:
+              response = _context3.sent;
+              _context3.next = 12;
+              return response.json();
+            case 12:
+              data = _context3.sent;
+              console.log('API Response:', data); // Log the response
+              if (data.code === 200 && data.data) {
+                _this2.prayerData = data.data;
+              } else {
+                _this2.prayerData = [];
+              }
+              _context3.next = 21;
               break;
-            }
-            this.errorMessage = 'Please provide city, country, month/year, calculation method, and school of thought.';
-            this.submitted = true;
-            this.loading = false;
-            this.logDebug('Validation failed: missing required fields');
-            return _context3.abrupt("return");
-          case 9:
-            this.loading = true;
-            this.errorMessage = '';
-            this.submitted = true;
-            this.monthName = new Date(year, month - 1).toLocaleString('en-US', {
-              month: 'long'
-            });
-            this.year = year;
-            this.timezone = '';
-            this.logDebug('Starting prayer times fetch', {
-              city: city,
-              country: country,
-              year: year,
-              month: month,
-              method: this.method,
-              school: this.school
-            });
-
-            // Cache key
-            cacheKey = "prayer-".concat(city, "-").concat(country, "-").concat(this.method, "-").concat(this.school, "-").concat(year, "-").concat(month, "-").concat(this.customAngles.fajr, "-").concat(this.customAngles.isha);
-            cachedData = localStorage.getItem(cacheKey);
-            if (!cachedData) {
-              _context3.next = 37;
-              break;
-            }
-            _context3.prev = 19;
-            parsedData = JSON.parse(cachedData);
-            if (!((_parsedData$ = parsedData[0]) !== null && _parsedData$ !== void 0 && _parsedData$.date.startsWith("".concat(year, "-").concat(month.toString().padStart(2, '0'))) && parsedData.length > 0)) {
-              _context3.next = 29;
-              break;
-            }
-            this.prayerData = parsedData;
-            this.timezone = ((_parsedData$2 = parsedData[0]) === null || _parsedData$2 === void 0 ? void 0 : _parsedData$2.timezone) || '';
-            this.loading = false;
-            this.logDebug('Loaded data from cache', {
-              cacheKey: cacheKey,
-              dataLength: parsedData.length
-            });
-            return _context3.abrupt("return");
-          case 29:
-            localStorage.removeItem(cacheKey);
-            this.logDebug('Removed invalid cache', {
-              cacheKey: cacheKey
-            });
-          case 31:
-            _context3.next = 37;
-            break;
-          case 33:
-            _context3.prev = 33;
-            _context3.t0 = _context3["catch"](19);
-            localStorage.removeItem(cacheKey);
-            this.logDebug('Removed corrupt cache', {
-              cacheKey: cacheKey
-            });
-          case 37:
-            _context3.prev = 37;
-            // Primary API: Aladhan
-            prayerTimes = [];
-            _context3.prev = 39;
-            aladhanUrl = "http://api.aladhan.com/v1/calendarByCity/".concat(year, "/").concat(month, "?city=").concat(encodeURIComponent(city), "&country=").concat(encodeURIComponent(country), "&method=").concat(this.method, "&school=").concat(this.school).concat(this.customAngles.fajr ? "&fajrAngle=".concat(this.customAngles.fajr) : '').concat(this.customAngles.isha ? "&ishaAngle=".concat(this.customAngles.isha) : '');
-            _context3.next = 43;
-            return this.fetchWithRetry(aladhanUrl);
-          case 43:
-            aladhanData = _context3.sent;
-            if (!(aladhanData.code === 200 && aladhanData.data && aladhanData.data.length)) {
-              _context3.next = 50;
-              break;
-            }
-            prayerTimes = aladhanData.data.map(function (dayData, index) {
-              var day = index + 1;
-              var date = "".concat(year, "-").concat(month.toString().padStart(2, '0'), "-").concat(day.toString().padStart(2, '0'));
-              var timings = dayData.timings;
-              var timezoneMatch = timings.Fajr.match(/\((.*?)\)/);
-              var timezone = timezoneMatch ? timezoneMatch[1] : '';
-              return {
-                date: date,
-                fajr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Fajr, _this3.adjustments.Fajr), timezone, _this3.timezoneOverride),
-                sunrise: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Sunrise, _this3.adjustments.Sunrise), timezone, _this3.timezoneOverride),
-                dhuhr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Dhuhr, _this3.adjustments.Dhuhr), timezone, _this3.timezoneOverride),
-                asr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Asr, _this3.adjustments.Asr), timezone, _this3.timezoneOverride),
-                maghrib: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Maghrib, _this3.adjustments.Maghrib), timezone, _this3.timezoneOverride),
-                isha: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.Isha, _this3.adjustments.Isha), timezone, _this3.timezoneOverride),
-                timezone: timezone,
-                source: 'Aladhan'
-              };
-            });
-            this.timezone = prayerTimes[0].timezone;
-            this.logDebug('Aladhan API data processed', {
-              dataLength: prayerTimes.length,
-              timezone: this.timezone
-            });
-            _context3.next = 51;
-            break;
-          case 50:
-            throw new Error(aladhanData.status || 'Invalid Aladhan response');
-          case 51:
-            _context3.next = 74;
-            break;
-          case 53:
-            _context3.prev = 53;
-            _context3.t1 = _context3["catch"](39);
-            this.logDebug('Aladhan API failed, attempting MuslimSalat', {
-              error: _context3.t1.message
-            });
-            // Secondary API: MuslimSalat
-            muslimSalatUrl = "https://www.muslimsalat.com/api/v1/prayer_times?city=".concat(encodeURIComponent(city), "&country=").concat(encodeURIComponent(country), "&year=").concat(year, "&month=").concat(month, "&method=").concat(this.method);
-            _context3.prev = 57;
-            _context3.next = 60;
-            return this.fetchWithRetry(muslimSalatUrl);
-          case 60:
-            muslimSalatData = _context3.sent;
-            if (!(muslimSalatData.status === 'success' && muslimSalatData.data)) {
-              _context3.next = 67;
-              break;
-            }
-            prayerTimes = muslimSalatData.data.map(function (dayData, index) {
-              var day = index + 1;
-              var date = "".concat(year, "-").concat(month.toString().padStart(2, '0'), "-").concat(day.toString().padStart(2, '0'));
-              var timings = dayData.times;
-              var timezone = muslimSalatData.timezone || '';
-              return {
-                date: date,
-                fajr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.fajr, _this3.adjustments.Fajr), timezone, _this3.timezoneOverride),
-                sunrise: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.sunrise, _this3.adjustments.Sunrise), timezone, _this3.timezoneOverride),
-                dhuhr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.dhuhr, _this3.adjustments.Dhuhr), timezone, _this3.timezoneOverride),
-                asr: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.asr, _this3.adjustments.Asr), timezone, _this3.timezoneOverride),
-                maghrib: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.maghrib, _this3.adjustments.Maghrib), timezone, _this3.timezoneOverride),
-                isha: _this3.applyTimezoneOffset(_this3.applyAdjustment(timings.isha, _this3.adjustments.Isha), timezone, _this3.timezoneOverride),
-                timezone: timezone,
-                source: 'MuslimSalat'
-              };
-            });
-            this.timezone = prayerTimes[0].timezone;
-            this.logDebug('MuslimSalat API data processed', {
-              dataLength: prayerTimes.length,
-              timezone: this.timezone
-            });
-            _context3.next = 68;
-            break;
-          case 67:
-            throw new Error('Invalid MuslimSalat response');
-          case 68:
-            _context3.next = 74;
-            break;
-          case 70:
-            _context3.prev = 70;
-            _context3.t2 = _context3["catch"](57);
-            this.logDebug('MuslimSalat API failed', {
-              error: _context3.t2.message
-            });
-            throw new Error("Both APIs failed: Aladhan (".concat(_context3.t1.message, "), MuslimSalat (").concat(_context3.t2.message, ")"));
-          case 74:
-            if (!prayerTimes.length) {
-              _context3.next = 80;
-              break;
-            }
-            this.prayerData = prayerTimes;
-            localStorage.setItem(cacheKey, JSON.stringify(this.prayerData));
-            this.logDebug('Prayer times saved to cache', {
-              cacheKey: cacheKey,
-              dataLength: prayerTimes.length
-            });
-            _context3.next = 81;
-            break;
-          case 80:
-            throw new Error('No prayer times retrieved from either API');
-          case 81:
-            _context3.next = 88;
-            break;
-          case 83:
-            _context3.prev = 83;
-            _context3.t3 = _context3["catch"](37);
-            this.errorMessage = "Failed to fetch prayer times: ".concat(_context3.t3.message, ". Please check inputs or try again.");
-            this.prayerData = [];
-            this.logDebug('Fetch error', {
-              error: _context3.t3.message
-            });
-          case 88:
-            _context3.prev = 88;
-            this.loading = false;
-            return _context3.finish(88);
-          case 91:
-          case "end":
-            return _context3.stop();
-        }
-      }, _callee2, this, [[19, 33], [37, 83, 88, 91], [39, 53], [57, 70]]);
-    })), 300),
-    formatDate: function formatDate(dateStr) {
-      try {
-        var date = new Date(dateStr);
-        if (isNaN(date.getTime())) return dateStr;
-        var formatted = new Intl.DateTimeFormat('en-GB', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        }).format(date);
-        this.logDebug('Formatted date', {
-          dateStr: dateStr,
-          formatted: formatted
-        });
-        return formatted;
-      } catch (_unused2) {
-        return dateStr;
-      }
+            case 17:
+              _context3.prev = 17;
+              _context3.t0 = _context3["catch"](6);
+              console.error('Failed to fetch prayer times:', _context3.t0);
+              _this2.prayerData = [];
+            case 21:
+              _context3.prev = 21;
+              _this2.loading = false;
+              _this2.submitted = true;
+              return _context3.finish(21);
+            case 25:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, null, [[6, 17, 21, 25]]);
+      }))();
     },
-    isToday: function isToday(dateStr) {
-      try {
-        var today = new Date().toISOString().split('T')[0];
-        var isToday = dateStr === today;
-        this.logDebug('Checked if date is today', {
-          dateStr: dateStr,
-          isToday: isToday
-        });
-        return isToday;
-      } catch (_unused3) {
-        return false;
-      }
-    },
-    resetFields: function resetFields() {
-      this.city = '';
-      this.country = '';
-      this.method = '';
-      this.school = '';
-      this.monthYear = '';
-      this.timezoneOverride = '';
-      this.adjustments = Object.fromEntries(this.prayerNames.map(function (name) {
-        return [name, 0];
-      }));
-      this.customAngles = {
-        fajr: null,
-        isha: null
-      };
-      this.prayerData = [];
-      this.submitted = false;
-      this.errorMessage = '';
-      this.showAdvanced = false;
-      this.timezone = '';
-      this.debugLogs = [];
-      this.logDebug('Fields reset');
-    },
-    startMonthCheckInterval: function startMonthCheckInterval() {
-      var _this4 = this;
-      this.monthCheckInterval = setInterval(function () {
-        var today = new Date();
-        var newMonth = today.getMonth() + 1;
-        var newYear = today.getFullYear();
-        var currentMonthYear = "".concat(newYear, "-").concat(newMonth.toString().padStart(2, '0'));
-        if (_this4.submitted && _this4.monthYear && _this4.monthYear !== currentMonthYear) {
-          _this4.monthYear = currentMonthYear;
-          _this4.getPrayerTimes();
-          _this4.logDebug('Month check triggered refresh', {
-            newMonthYear: currentMonthYear
-          });
-        }
-      }, 24 * 60 * 60 * 1000);
+    isDST: function isDST() {
+      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
+      var jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
+      var jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
+      return Math.max(jan, jul) !== date.getTimezoneOffset();
     }
-  }
+  }, "formatTime", function formatTime(time) {
+    if (!time) return '--:--';
+    var _time$split$0$split = time.split(' ')[0].split(':'),
+      _time$split$0$split2 = _slicedToArray(_time$split$0$split, 2),
+      hourStr = _time$split$0$split2[0],
+      minuteStr = _time$split$0$split2[1];
+    var hour = parseInt(hourStr, 10);
+    var minute = parseInt(minuteStr, 10);
+
+    // ✅ FIXED HERE
+    if (this.isDST()) {
+      hour += 1;
+    }
+    var period = hour >= 12 ? 'PM' : 'AM';
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour > 12) {
+      hour -= 12;
+    }
+    return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
+  }), "submitSearch", function submitSearch() {
+    var _this3 = this;
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+      var geo;
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
+          case 0:
+            _context4.prev = 0;
+            _this3.useCurrentLocation = false;
+            _context4.next = 4;
+            return _this3.geocodeCity(_this3.city);
+          case 4:
+            geo = _context4.sent;
+            _this3.latitude = geo.lat;
+            _this3.longitude = geo.lon;
+            _context4.next = 9;
+            return _this3.fetchPrayerTimes();
+          case 9:
+            _context4.next = 16;
+            break;
+          case 11:
+            _context4.prev = 11;
+            _context4.t0 = _context4["catch"](0);
+            console.error('Geocoding error:', _context4.t0);
+            _this3.prayerData = [];
+            _this3.submitted = true;
+          case 16:
+          case "end":
+            return _context4.stop();
+        }
+      }, _callee4, null, [[0, 11]]);
+    }))();
+  }), "geocodeCity", function geocodeCity(city) {
+    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+      var url, res, data;
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(city), "&format=json&limit=1");
+            _context5.next = 3;
+            return fetch(url);
+          case 3:
+            res = _context5.sent;
+            _context5.next = 6;
+            return res.json();
+          case 6:
+            data = _context5.sent;
+            if (data.length) {
+              _context5.next = 9;
+              break;
+            }
+            throw new Error('Invalid location');
+          case 9:
+            return _context5.abrupt("return", {
+              lat: parseFloat(data[0].lat),
+              lon: parseFloat(data[0].lon)
+            });
+          case 10:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5);
+    }))();
+  }), "resetFields", function resetFields() {
+    this.useCurrentLocation = true;
+    this.getCurrentLocation();
+  }), "setDefaultLocation", function setDefaultLocation() {
+    this.city = 'Nottingham';
+    this.country = 'UK';
+    this.latitude = 52.9548;
+    this.longitude = -1.1581;
+    this.useCurrentLocation = false;
+    this.fetchPrayerTimes();
+  })
 });
 
 /***/ }),
@@ -60710,10 +60419,7 @@ var _hoisted_2 = {
   }
 };
 var _hoisted_3 = {
-  "class": "py-5",
-  style: {
-    "background": "#e3e3e3"
-  }
+  "class": "py-5"
 };
 var _hoisted_4 = {
   "class": "container-fluid"
@@ -60806,28 +60512,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "carousel-item active",
     "data-bs-interval": "3000"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/quran.png",
+    src: "/images/companion2.png",
     "class": "d-block w-100 img-mobile-bigger",
     alt: "Quran companion"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item",
     "data-bs-interval": "3000"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/surat.png",
+    src: "/images/surat2.png",
     "class": "d-block w-100 img-mobile-bigger",
     alt: "Quran explorer"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item",
     "data-bs-interval": "3000"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/podcast1.png",
+    src: "/images/podcast2.png",
     "class": "d-block w-100 img-mobile-bigger",
     alt: "Audio podcasts"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "carousel-item",
     "data-bs-interval": "3000"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/seerah_main1.png",
+    src: "/images/seerah2.png",
+    "class": "d-block w-100 img-mobile-bigger",
+    alt: "Seerah timeline"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "carousel-item",
+    "data-bs-interval": "3000"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/radio2.png",
+    "class": "d-block w-100 img-mobile-bigger",
+    alt: "Seerah timeline"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "carousel-item",
+    "data-bs-interval": "3000"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/locator2.png",
     "class": "d-block w-100 img-mobile-bigger",
     alt: "Seerah timeline"
   })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -61041,7 +60761,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     src: "/images/surat.png",
     "class": "d-block text-right w-100 img-mobile-bigger",
     alt: "Quran companion"
-  })])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"140px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" faq "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-5\" data-v-2ba25654><div class=\"col-lg-8 col-xxl-7\" data-v-2ba25654><h1 class=\"display-5 fw-bold mb-3\" data-v-2ba25654>Frequently Asked Questions</h1><p class=\"lead text-muted fw-normal lh-base\" data-v-2ba25654> Have questions or need assistance? We&#39;re here to help! Reach out to Islamic Connect via email for support, feedback, or inquiries about our content and services. </p></div></div><div class=\"accordion\" id=\"faqAccordion\" data-v-2ba25654><!-- Question 1 --><div class=\"accordion-item mb-3\" data-v-2ba25654><h2 class=\"accordion-header\" id=\"faqHeading1\" data-v-2ba25654><button class=\"accordion-button fw-medium\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#faqCollapse1\" aria-expanded=\"true\" aria-controls=\"faqCollapse1\" data-v-2ba25654> What is Islamic Connect and how can it benefit me? </button></h2><div id=\"faqCollapse1\" class=\"accordion-collapse collapse show\" aria-labelledby=\"faqHeading1\" data-bs-parent=\"#faqAccordion\" data-v-2ba25654><div class=\"accordion-body lh-base pt-2\" data-v-2ba25654><strong data-v-2ba25654>Islamic Connect</strong> is a digital platform offering Quranic content, live streams, articles, and more — designed to improve your learning and spiritual experience with accessibility-first features. </div></div></div><!-- Question 2 --><div class=\"accordion-item mb-3\" data-v-2ba25654><h2 class=\"accordion-header\" id=\"faqHeading2\" data-v-2ba25654><button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#faqCollapse2\" aria-expanded=\"false\" aria-controls=\"faqCollapse2\" data-v-2ba25654> How can I listen to Quran recitations on your platform? </button></h2><div id=\"faqCollapse2\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading2\" data-bs-parent=\"#faqAccordion\" data-v-2ba25654><div class=\"accordion-body lh-base pt-2\" data-v-2ba25654> You can browse any Surah and tap the play icon beside a verse to hear its recitation. Features like auto-scroll and synced highlighting enhance the experience. </div></div></div><!-- Question 3 --><div class=\"accordion-item mb-3\" data-v-2ba25654><h2 class=\"accordion-header\" id=\"faqHeading3\" data-v-2ba25654><button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#faqCollapse3\" aria-expanded=\"false\" aria-controls=\"faqCollapse3\" data-v-2ba25654> Is Islamic Connect accessible for visually impaired users? </button></h2><div id=\"faqCollapse3\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading3\" data-bs-parent=\"#faqAccordion\" data-v-2ba25654><div class=\"accordion-body lh-base pt-2\" data-v-2ba25654> Yes. Our platform supports screen readers, keyboard navigation, gesture controls, and text-to-speech so all users — especially the visually impaired — can benefit. </div></div></div><!-- Question 4 --><div class=\"accordion-item mb-3\" data-v-2ba25654><h2 class=\"accordion-header\" id=\"faqHeading4\" data-v-2ba25654><button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#faqCollapse4\" aria-expanded=\"false\" aria-controls=\"faqCollapse4\" data-v-2ba25654> Can I bookmark or save verses for later? </button></h2><div id=\"faqCollapse4\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading4\" data-bs-parent=\"#faqAccordion\" data-v-2ba25654><div class=\"accordion-body lh-base pt-2\" data-v-2ba25654> Yes, you can bookmark ayahs, organize them into collections with custom names, colors, and even add dates. Bookmarks are saved locally or to your profile if logged in. </div></div></div><!-- Question 5 --><div class=\"accordion-item mb-3\" data-v-2ba25654><h2 class=\"accordion-header\" id=\"faqHeading5\" data-v-2ba25654><button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#faqCollapse5\" aria-expanded=\"false\" aria-controls=\"faqCollapse5\" data-v-2ba25654> How do I report errors or suggest improvements? </button></h2><div id=\"faqCollapse5\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading5\" data-bs-parent=\"#faqAccordion\" data-v-2ba25654><div class=\"accordion-body lh-base pt-2\" data-v-2ba25654> Please email us at <a href=\"mailto:support@islamicconnect.org\" data-v-2ba25654>support@islamicconnect.org</a> to report issues, bugs, or to suggest new features. Your feedback helps us grow. </div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI tools & features "), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" class=\"py-5\" data-v-2ba25654><div class=\"container pt-3\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>AI Tools and Their Impact</h1></div></div><div class=\"row pt-3 g-4 g-md-5\" data-v-2ba25654><h3 class=\"lead container pt-3 text-center\" style=\"line-height:1.8em;\" data-v-2ba25654> At Islamic Connect, our mission is deeply rooted in making the Quran and Islamic knowledge accessible to everyone, regardless of their abilities or learning needs. By harnessing the power of advanced AI tools, we are creating a platform that’s not just about providing information, but about empowering individuals through an inclusive and personalized learning experience. they benefit users: </h3><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/podcasting.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speech-to-Text for Islamic Notes and Reflections </h4><p data-v-2ba25654> Capture your spoken reflections, making it easier to document your thoughts and reflections on Islamic teachings, while ensuring accessibility for those who prefer audio to written text. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/voice-recognition.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Speak, explore, and connect deeply with Quranic teachings. </h4><p data-v-2ba25654> Effortlessly search Quranic verses, teachings, and guidance using your voice. Experience a seamless, accessible way to connect with Islam. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/elearning.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Versatile Note Editor with Advanced Customization Features </h4><p data-v-2ba25654> A powerful and adaptable note editor designed to meet diverse user needs, combining advanced editing capabilities with extensive customization options. This tool emphasizes seamless accessibility. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/attached-file.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Export Quranic Verses in multiple file Formats </h4><p data-v-2ba25654> Easily export Quranic verses in multiple formats for study, research, and sharing, offering flexibility and convenience for personal reflection or educational purposes. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/highlighter.png\" width=\"100px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Audio Synchronization with Word-by-Word Quranic Highlighting </h4><p data-v-2ba25654> Enhance the Quranic recitation experience by synchronizing the audio with the Quranic text. Each word is highlighted as it is recited, helping users follow along with the pronunciation and meaning of the words. </p></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"d-flex\" data-v-2ba25654><div class=\"text-primary me-4\" data-v-2ba25654><img src=\"images/chat.png\" width=\"140px\" data-v-2ba25654></div><div data-v-2ba25654><h4 class=\"mb-2 mb-lg-3 fw-bold\" data-v-2ba25654> Text-to-Speech for English Translation and Tafsir </h4><p data-v-2ba25654> High-quality, spoken translations and Tafsir of the Quranic verses, making the Divine message more accessible, gaining a clearer understanding of the meanings and scholarly interpretations of the Quran and enriching connection to the sacred text. </p></div></div></div></div></div></section>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" faq "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section class=\"py-5\">\n      <div class=\"container\">\n        <div class=\"row justify-content-center text-center mb-5\">\n          <div class=\"col-lg-8 col-xxl-7\">\n            <h1 class=\"display-5 fw-bold  mb-3\">Frequently Asked Questions</h1>\n            <p class=\"lead text-muted fw-normal lh-base\">\n              Have questions or need assistance? We're here to help! Reach out to Islamic Connect via email for support,\n              feedback, or inquiries about our content and services.\n            </p>\n          </div>\n        </div>\n\n        <div class=\"accordion\" id=\"faqAccordion\">\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading1\">\n              <button class=\"accordion-button fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse1\" aria-expanded=\"true\" aria-controls=\"faqCollapse1\">\n                What is Islamic Connect and how can it benefit me?\n              </button>\n            </h2>\n            <div id=\"faqCollapse1\" class=\"accordion-collapse collapse show\" aria-labelledby=\"faqHeading1\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                <strong>Islamic Connect</strong> is a digital platform offering Quranic content, live streams, articles,\n                and more — designed to improve your learning and spiritual experience with accessibility-first features.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading2\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse2\" aria-expanded=\"false\" aria-controls=\"faqCollapse2\">\n                How can I listen to Quran recitations on your platform?\n              </button>\n            </h2>\n            <div id=\"faqCollapse2\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading2\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                You can browse any Surah and tap the play icon beside a verse to hear its recitation. Features like\n                auto-scroll and synced highlighting enhance the experience.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading3\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse3\" aria-expanded=\"false\" aria-controls=\"faqCollapse3\">\n                Is Islamic Connect accessible for visually impaired users?\n              </button>\n            </h2>\n            <div id=\"faqCollapse3\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading3\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes. Our platform supports screen readers, keyboard navigation, gesture controls, and text-to-speech so\n                all users — especially the visually impaired — can benefit.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading4\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse4\" aria-expanded=\"false\" aria-controls=\"faqCollapse4\">\n                Can I bookmark or save verses for later?\n              </button>\n            </h2>\n            <div id=\"faqCollapse4\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading4\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Yes, you can bookmark ayahs, organize them into collections with custom names, colors, and even add\n                dates. Bookmarks are saved locally or to your profile if logged in.\n              </div>\n            </div>\n          </div>\n\n          <div class=\"accordion-item mb-3\">\n            <h2 class=\"accordion-header\" id=\"faqHeading5\">\n              <button class=\"accordion-button collapsed fw-medium\" type=\"button\" data-bs-toggle=\"collapse\"\n                data-bs-target=\"#faqCollapse5\" aria-expanded=\"false\" aria-controls=\"faqCollapse5\">\n                How do I report errors or suggest improvements?\n              </button>\n            </h2>\n            <div id=\"faqCollapse5\" class=\"accordion-collapse collapse\" aria-labelledby=\"faqHeading5\"\n              data-bs-parent=\"#faqAccordion\">\n              <div class=\"accordion-body lh-base pt-2\">\n                Please email us at <a href=\"mailto:support@islamicconnect.org\">support@islamicconnect.org</a> to report\n                issues, bugs, or to suggest new features. Your feedback helps us grow.\n              </div>\n            </div>\n          </div>\n        </div> \n      </div>\n    </section>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" contact "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row justify-content-center text-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "col-lg-8 col-xxl-7"
@@ -61117,7 +60837,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "48px"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:black;\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Send message")])])], -1 /* HOISTED */))])], 32 /* NEED_HYDRATION */)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" footer "), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-4\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><footer data-v-2ba25654><div class=\"container-fluid\" data-v-2ba25654><div class=\"row align-items-center text-center text-lg-start\" data-v-2ba25654><!-- Copyright --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><h5 class=\"mb-0 fs-5\" data-v-2ba25654>© 2025 Islamic Connect. All rights reserved.</h5></div><!-- Navigation Links --><div class=\"col-12 col-lg-4 mb-3 mb-lg-0 px-4\" data-v-2ba25654><!-- &lt;div class=&quot;d-flex justify-content-center flex-wrap gap-3&quot;&gt;\n                &lt;a href=&quot;/home&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Home&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/about&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;About Us&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/faq&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;FAQ&lt;/h6&gt;\n                &lt;/a&gt;\n                &lt;a href=&quot;/contact&quot; class=&quot;text-dark text-decoration-none&quot;&gt;\n                  &lt;h6 class=&quot;mb-0 fs-6&quot;&gt;Contact&lt;/h6&gt;\n                &lt;/a&gt;\n\n              &lt;/div&gt; --></div><!-- Social Icons --><div class=\"col-12 col-lg-4 px-4\" data-v-2ba25654><div class=\"d-flex justify-content-center justify-content-lg-end gap-3\" data-v-2ba25654><a href=\"https://www.instagram.com/islamicconnect24/\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-instagram h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.tiktok.com/@islamic_connect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-tiktok h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://www.linkedin.com/company/islamic-connect/?viewAsMember=true\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-linkedin h4\" style=\"color:black;\" data-v-2ba25654></i></a><a href=\"https://x.com/islamiconnect24\" class=\"text-decoration-none\" data-v-2ba25654><i class=\"bi bi-twitter-x h4\" style=\"color:black;\" data-v-2ba25654></i></a></div></div></div></div></footer></section>", 1))]);
 }
 
 /***/ }),
@@ -61520,7 +61240,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "border": "1px solid grey"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/radio1.png",
+    src: "/images/radio5.jpg",
     alt: "Radio stations",
     "class": "w-100",
     style: {
@@ -62489,12 +62209,8 @@ var _hoisted_47 = {
 };
 var _hoisted_48 = ["onClick"];
 var _hoisted_49 = ["href"];
-var _hoisted_50 = {
-  key: 0,
-  "class": "text-center py-5"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "display-5 fw-bold text-dark"
@@ -62507,7 +62223,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.showArabic = $event;
     })
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showArabic]]), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "arabicToggle"
   }, "Arabic", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -62518,7 +62234,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.showTranslation = $event;
     }),
     checked: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showTranslation]]), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "translationToggle"
   }, "Meaning", -1 /* HOISTED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -62529,10 +62245,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.showDescription = $event;
     }),
     checked: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showDescription]]), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "class": "form-check-label text-dark",
     "for": "descToggle"
-  }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Description", -1 /* HOISTED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search bar (right column) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text bg-white border-end-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search"
@@ -62546,7 +62262,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onInput: _cache[4] || (_cache[4] = function () {
       return $options.filterNames && $options.filterNames.apply($options, arguments);
     })
-  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Allah’s Names ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Names Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_12, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liked Allah’s Names ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.favoriteNames.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [$data.favoriteNames.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     "class": "btn btn-outline-danger me-2",
     disabled: $data.favoriteNames.length === 0,
@@ -62564,11 +62280,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.toggleFavorite(name.number);
       }
-    }, null, 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)]), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 8 /* PROPS */, _hoisted_23)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)]), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
@@ -62582,7 +62298,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
@@ -62594,10 +62310,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    }, _toConsumableArray(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_33)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
-  }, null, -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* HOISTED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold mb-3"
   }, "All Allah's Names", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Names Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filteredNames, function (name) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -62611,11 +62327,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: function onClick($event) {
         return $options.toggleFavorite(name.number);
       }
-    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 14 /* CLASS, STYLE, PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.name), 1 /* TEXT */)]), $data.showArabic ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.arabic), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showTranslation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
-    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Meaning:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name.translation), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.showDescription ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       style: {
         "font-size": "1.6rem"
       }
@@ -62629,7 +62345,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, _toConsumableArray(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "class": "text-center w-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Copy to Clipboard")], -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" WhatsApp Share Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       "class": "btn d-flex align-items-center justify-content-center flex-grow-1",
@@ -62641,33 +62357,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "color": "white",
         "height": "38px"
       }
-    }, _toConsumableArray(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+    }, _toConsumableArray(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share on WhatsApp", -1 /* HOISTED */)])), 8 /* PROPS */, _hoisted_49)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "container"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), $data.filteredNames.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    "class": "text-muted"
-  }, "No names found", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[6] || (_cache[6] = function () {
-      return $options.resetFilters && $options.resetFilters.apply($options, arguments);
-    }),
-    "class": "btn btn-outline-dark mt-3"
-  }, "Reset Filters")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[7] || (_cache[7] = function () {
-      return $options.scrollToTop && $options.scrollToTop.apply($options, arguments);
-    }),
-    "class": "btn position-fixed rounded-circle d-flex align-items-center justify-content-center",
-    style: {
-      "bottom": "1.5rem",
-      "right": "1.5rem",
-      "width": "3.5rem",
-      "height": "3.5rem",
-      "background": "rgb(13, 182, 145)",
-      "color": "white"
-    },
-    title: "Back to Top"
-  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-chevron-up h3 fs-5"
-  }, null, -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showScrollToTop]])])]);
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No Results "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"filteredNames.length === 0\" class=\"text-center py-5\">\n        <h3 class=\"text-muted\">No names found</h3>\n        <button @click=\"resetFilters\" class=\"btn btn-outline-dark mt-3\">Reset Filters</button>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Floating Action Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-show=\"showScrollToTop\" @click=\"scrollToTop\"\n        class=\"btn position-fixed rounded-circle d-flex align-items-center justify-content-center\"\n        style=\"bottom: 1.5rem; right: 1.5rem; width: 3.5rem; height: 3.5rem; background: rgb(13, 182, 145); color: white;\"\n        title=\"Back to Top\">\n        <i class=\"bi bi-chevron-up h3 fs-5\"></i>\n      </button> ")])]);
 }
 
 /***/ }),
@@ -62684,338 +62377,109 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* binding */ render)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 
 var _hoisted_1 = {
-  "class": "min-vh-100 bg-light py-5"
+  "class": "container-fluid my-3 d-flex justify-content-center"
 };
 var _hoisted_2 = {
-  "class": "container"
+  "class": "card shadow p-4 w-100",
+  style: {
+    "max-width": "1500px"
+  }
 };
 var _hoisted_3 = {
-  "class": "card shadow-lg rounded-3 p-4 p-md-5"
+  "class": "flex-grow-1"
 };
 var _hoisted_4 = {
-  "class": "col-md-3"
+  "class": "flex-grow-1"
 };
-var _hoisted_5 = {
-  "class": "col-md-3"
-};
+var _hoisted_5 = ["value"];
 var _hoisted_6 = {
-  "class": "col-md-3"
+  "class": "d-flex gap-2"
 };
 var _hoisted_7 = {
-  "class": "col-md-3"
+  key: 0,
+  "class": "text-center my-5"
 };
-var _hoisted_8 = ["value"];
+var _hoisted_8 = {
+  key: 1,
+  "class": "alert alert-light text-center py-2 shadow-sm border-lg"
+};
 var _hoisted_9 = {
-  "class": "col-md-3"
+  "class": "table-responsive table-scroll mt-3"
 };
 var _hoisted_10 = {
-  "class": "col-md-3"
+  "class": "table table-hover table-bordered text-center align-middle"
 };
-var _hoisted_11 = ["value"];
+var _hoisted_11 = {
+  "class": "fw-semibold"
+};
 var _hoisted_12 = {
-  "class": "col-md-3 d-flex align-items-end gap-2"
-};
-var _hoisted_13 = ["disabled"];
-var _hoisted_14 = {
-  key: 0,
-  "class": "spinner-border spinner-border-sm",
-  role: "status",
-  "aria-hidden": "true"
-};
-var _hoisted_15 = {
-  "class": "mb-4"
-};
-var _hoisted_16 = {
-  key: 0,
-  "class": "mt-3"
-};
-var _hoisted_17 = {
-  "class": "row g-3 mb-4"
-};
-var _hoisted_18 = ["for"];
-var _hoisted_19 = ["id", "onUpdate:modelValue", "aria-label"];
-var _hoisted_20 = {
-  "class": "row g-3"
-};
-var _hoisted_21 = {
-  "class": "col-md-3 col-6"
-};
-var _hoisted_22 = {
-  "class": "col-md-3 col-6"
-};
-var _hoisted_23 = {
-  key: 0,
-  "class": "alert alert-danger d-flex align-items-center gap-2 mb-4",
-  role: "alert"
-};
-var _hoisted_24 = {
-  key: 1,
-  "class": "mt-4",
-  "aria-live": "polite"
-};
-var _hoisted_25 = {
-  "class": "h4 text-center fw-semibold text-primary mb-3"
-};
-var _hoisted_26 = {
-  key: 0,
-  "class": "text-muted ms-2"
-};
-var _hoisted_27 = {
-  "class": "table-responsive rounded-3 border"
-};
-var _hoisted_28 = {
-  "class": "table table-hover table-bordered align-middle mb-0"
-};
-var _hoisted_29 = {
-  "class": "text-center"
-};
-var _hoisted_30 = {
-  "class": "text-center"
-};
-var _hoisted_31 = {
-  "class": "text-center"
-};
-var _hoisted_32 = {
-  "class": "text-center"
-};
-var _hoisted_33 = {
-  "class": "text-center"
-};
-var _hoisted_34 = {
-  "class": "text-center"
-};
-var _hoisted_35 = {
-  "class": "text-center"
+  key: 2,
+  "class": "alert alert-warning text-center mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 text-center fw-bold text-primary mb-3"
-  }, " Prayer Times Calendar ", -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center lead text-muted mb-5 mx-auto",
-    style: {
-      "max-width": "600px"
-    }
-  }, " Get accurate Salah times worldwide. Enter city, country, and month, and customize settings for precise local results. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
-      return $options.getPrayerTimes && $options.getPrayerTimes.apply($options, arguments);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "text-center fw-bold display-4 py-2 mt-4 mb-2"
+  }, "Prayer Times Calendar", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "text-center mb-4 lead container"
+  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.submitSearch && $options.submitSearch.apply($options, arguments);
     }, ["prevent"])),
-    "class": "row g-3 mb-4",
-    "aria-label": "Prayer Times Search Form"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "class": "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "city",
-    "class": "form-label fw-medium"
+    "class": "form-label fw-bold"
   }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.city = $event;
     }),
-    type: "text",
     "class": "form-control",
-    placeholder: "e.g., London",
-    required: "",
-    "aria-label": "City name",
-    autofocus: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city, void 0, {
-    trim: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "country",
-    "class": "form-label fw-medium"
-  }, "Country", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "country",
+    required: ""
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "methodSelect"
+  }, "Select Calculation Method:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "methodSelect",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.country = $event;
-    }),
-    type: "text",
-    "class": "form-control",
-    placeholder: "e.g., United Kingdom",
-    required: "",
-    "aria-label": "Country name"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.country, void 0, {
-    trim: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "monthYear",
-    "class": "form-label fw-medium"
-  }, "Month/Year", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "monthYear",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.monthYear = $event;
-    }),
-    type: "month",
-    "class": "form-control",
-    required: "",
-    "aria-label": "Select month and year"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.monthYear]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "method",
-    "class": "form-label fw-medium"
-  }, "Calculation Method", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "method",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $data.method = $event;
     }),
-    "class": "form-select",
-    required: "",
-    "aria-label": "Prayer calculation method"
-  }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    disabled: "",
-    value: ""
-  }, "Select Method", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(Object.entries($data.methods), function (_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      value = _ref2[0],
-      name = _ref2[1];
+    "class": "form-select"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.methodOptions, function (name, id) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: value,
-      value: value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "school",
-    "class": "form-label fw-medium"
-  }, "School of Thought", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "school",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.school = $event;
-    }),
-    "class": "form-select",
-    required: "",
-    "aria-label": "School of thought"
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "0"
-  }, "Shafi'i/Maliki/Hanbali", -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: "1"
-  }, "Hanafi", -1 /* HOISTED */)]), 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.school]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "timezone",
-    "class": "form-label fw-medium"
-  }, "Timezone Override", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "timezone",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
-      return $data.timezoneOverride = $event;
-    }),
-    "class": "form-select",
-    "aria-label": "Timezone override"
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: ""
-  }, "Use API Timezone", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.timezones, function (tz) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      key: tz,
-      value: tz
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tz), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.timezoneOverride]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      key: id,
+      value: id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-primary px-4", {
-      'd-flex align-items-center gap-2': $data.loading
-    }]),
-    disabled: $data.loading
-  }, [$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_14)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loading ? 'Loading...' : 'Get Times'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_13), $data.submitted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+    "class": "btn btn-primary px-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-outline-secondary px-4",
-    onClick: _cache[6] || (_cache[6] = function () {
+    onClick: _cache[2] || (_cache[2] = function () {
       return $options.resetFields && $options.resetFields.apply($options, arguments);
     })
-  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Advanced Settings "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    "class": "btn btn-link text-primary text-decoration-none d-flex align-items-center gap-2",
-    onClick: _cache[8] || (_cache[8] = function ($event) {
-      return $data.showAdvanced = !$data.showAdvanced;
-    }),
-    "aria-label": "Toggle advanced settings"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.showAdvanced ? 'bi bi-chevron-up' : 'bi bi-chevron-down'),
-    "aria-hidden": "true"
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.showAdvanced ? 'Hide Advanced Settings' : 'Show Advanced Settings'), 1 /* TEXT */)]), $data.showAdvanced ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Time Adjustments "), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    "class": "fw-bold mb-3"
-  }, "Time Adjustments (minutes)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerNames, function (prayer) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: prayer,
-      "class": "col-md-2 col-6"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      "for": prayer,
-      "class": "form-label"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer) + " (min)", 9 /* TEXT, PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      id: prayer,
-      "onUpdate:modelValue": function onUpdateModelValue($event) {
-        return $data.adjustments[prayer] = $event;
-      },
-      type: "number",
-      "class": "form-control",
-      placeholder: "0",
-      "aria-label": "".concat(prayer, " time adjustment in minutes")
-    }, null, 8 /* PROPS */, _hoisted_19), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.adjustments[prayer], void 0, {
-      number: true
-    }]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Angles "), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    "class": "fw-bold mb-3"
-  }, "Custom Angles (degrees)", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "fajrAngle",
-    "class": "form-label"
-  }, "Fajr Angle", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "fajrAngle",
-    "onUpdate:modelValue": _cache[9] || (_cache[9] = function ($event) {
-      return $data.customAngles.fajr = $event;
-    }),
-    type: "number",
-    step: "0.1",
-    "class": "form-control",
-    placeholder: "e.g., 18",
-    "aria-label": "Fajr angle in degrees"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.customAngles.fajr, void 0, {
-    number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    "for": "ishaAngle",
-    "class": "form-label"
-  }, "Isha Angle", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "ishaAngle",
-    "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
-      return $data.customAngles.isha = $event;
-    }),
-    type: "number",
-    step: "0.1",
-    "class": "form-control",
-    placeholder: "e.g., 17",
-    "aria-label": "Isha angle in degrees"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.customAngles.isha, void 0, {
-    number: true
-  }]])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-exclamation-circle-fill",
-    "aria-hidden": "true"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results "), $data.prayerData.length && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Prayer Times for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " ", 1 /* TEXT */), $options.displayTimezone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_26, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.displayTimezone) + ")", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_28, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
-    "class": "table-primary sticky-top"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
-    scope: "col",
-    "class": "text-center"
-  }, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
+  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-geo-alt me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" My Location ")]))])], 32 /* NEED_HYDRATION */), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "spinner-border text-primary",
+    role: "status"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    "class": "visually-hidden"
+  }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "mt-2"
+  }, "Fetching prayer times for your location...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? ' (Current Location)' : ' (Search Results)') + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+    "class": "table-secondary sticky-top"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
-      key: day.date,
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        'table-info fw-semibold': $options.isToday(day.date)
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatDate(day.date)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.fajr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.sunrise), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dhuhr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.asr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.maghrib), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.isha), 1 /* TEXT */)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+      key: day.date.gregorian.date
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.gregorian.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length === 0 && $data.submitted && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-exclamation-triangle-fill me-2"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No prayer times found. Please check your city/country or try another method. ")]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -168482,7 +167946,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.1rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n\n/* .card-header {\n  padding: 20px 24px 16px;\n} */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  /*gap: 24px; */\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 4px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-button:hover i[data-v-e4489e22] {\n  color: #0db6a1;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (max-width: 768px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 8px;\n    font-size: 0.9rem;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n.volume-slider[data-v-e4489e22] {\n    height: 3px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Container */\n.audio-player-container[data-v-e4489e22] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #fff;\n  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);\n  z-index: 1000;\n}\n.custom-audio-player[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 10px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 10px;\n}\n.control-btn[data-v-e4489e22] {\n  background: rgba(255, 255, 255, 0.1);\n  border: none;\n  color: white;\n  font-size: 1.3rem;\n  cursor: pointer;\n  border-radius: 50%;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n}\n.control-btn[data-v-e4489e22]:hover {\n  background: rgba(0, 191, 166, 0.2);\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 6px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  overflow: hidden;\n  margin-top: 8px;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #0db6a1 100%);\n  transition: width 0.1s linear;\n  border-radius: 3px;\n}\n.volume-slider[data-v-e4489e22] {\n  width: 120px;\n  height: 4px;\n  border-radius: 2px;\n  background: linear-gradient(to right, #0db6a1 0%, #0db6a1 calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) calc(var(--val, 0) * 100%), rgba(255, 255, 255, 0.2) 100%);\n  outline: none;\n  -webkit-appearance: none;\n  position: relative;\n  margin-top: 8px;\n  margin-bottom: 8px;\n}\n\n/* Webkit (Chrome, Safari) */\n.volume-slider[data-v-e4489e22]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 6px rgba(13, 182, 145, 0.15);\n  margin-top: -6px;\n  /* Center the thumb on the 4px track */\n}\n\n/* Firefox */\n.volume-slider[data-v-e4489e22]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: -6px;\n}\n.volume-slider[data-v-e4489e22]::-moz-range-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n\n/* IE/Edge */\n.volume-slider[data-v-e4489e22]::-ms-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #0db6a1;\n  cursor: pointer;\n  border: none;\n  margin-top: 0px;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-lower {\n  background: #0db6a1;\n}\n.volume-slider[data-v-e4489e22]::-ms-fill-upper {\n  background: rgba(255, 255, 255, 0.2);\n}\n.volume-slider[data-v-e4489e22]:focus {\n  outline: none;\n}\n.volume-slider[data-v-e4489e22]::-webkit-slider-runnable-track {\n  height: 4px;\n  border-radius: 2px;\n  background: transparent;\n}\n.volume-slider[data-v-e4489e22]::-ms-tooltip {\n  display: none;\n}\n\n/* Make the play button in the audio player more visible */\n.custom-audio-player .play-pause[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  color: #fff;\n  border-radius: 50%;\n  width: 56px;\n  height: 56px;\n  font-size: 2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);\n  border: 2.5px solid #fff;\n  transition: background 0.2s, transform 0.2s;\n}\n.custom-audio-player .play-pause[data-v-e4489e22]:hover {\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n  transform: scale(1.08);\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.8);\n  min-width: 120px;\n  text-align: center;\n}\n@media (max-width: 768px) {\n.controls[data-v-e4489e22] {\n    gap: 12px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 100px;\n}\n.volume-bar-container[data-v-e4489e22] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);\n    -webkit-backdrop-filter: blur(20px);\n            backdrop-filter: blur(20px);\n    padding: 12px;\n    border-radius: 20px 20px 0 0;\n}\n.volume-slider[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 1rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n\n/* Podcast Section */\n.podcast-section[data-v-e4489e22] {\n  margin-top: 2rem;\n}\n\n/* Responsive Design for Loading and Empty States */\n@media (max-width: 768px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 2rem 1rem;\n    margin: 1.5rem 0;\n}\n.loading-text[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 3rem;\n    margin-bottom: 1rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 1.5rem 0.5rem;\n    margin: 1rem 0;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 2.5rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.3rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  margin-left: 0.5rem;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.2rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  font-size: 1rem;\n  padding: 10px;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.search-group .form-control[data-v-e4489e22],\n  .filter-group .form-select[data-v-e4489e22] {\n      font-size: 0.9rem;\n      padding: 8px;\n}\n}\n.podcast-image[data-v-e4489e22] {\n  width: 100%;\n  height: auto;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 100%;\n}\n.action-button[data-v-e4489e22] {\n  padding: 10px 20px;\n  font-size: 1rem;\n  min-height: 44px;\n  min-width: 100px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  margin-left: auto;\n}\n.podcast-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.podcast-card-wrapper[data-v-e4489e22] {\n  padding: 10px;\n}\n\n/* Main Layout Styles */\n.header-section[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 3rem;\n  padding: 2rem 1rem;\n  border-radius: 20px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.main-title[data-v-e4489e22] {\n  font-size: 2.8rem;\n  font-weight: 800;\n  color: #2c3e50;\n  margin-bottom: 1.5rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n  letter-spacing: -0.02em;\n}\n.main-description[data-v-e4489e22] {\n  text-align: center;\n  font-size: 1.2rem;\n  line-height: 1.8;\n  color: #495057;\n  max-width: 900px;\n  margin: 0 auto;\n  font-weight: 400;\n}\n\n/* Section Headers */\n.selection-section[data-v-e4489e22],\n.episodes-section[data-v-e4489e22] {\n  margin-bottom: 3rem;\n}\n.section-header[data-v-e4489e22] {\n  text-align: center;\n  margin-bottom: 2.5rem;\n  padding: 0 1rem;\n}\n.section-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.75rem;\n  letter-spacing: -0.01em;\n}\n.section-subtitle[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 500;\n  color: #6c757d;\n  margin: 0;\n  line-height: 1.5;\n}\n\n/* Podcast Selection Grid */\n.podcast-selection-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.podcast-selection-item[data-v-e4489e22] {\n  cursor: pointer;\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  border-radius: 20px;\n  overflow: hidden;\n  background: #ffffff;\n  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);\n  border: 2px solid transparent;\n  position: relative;\n}\n.podcast-selection-item[data-v-e4489e22]:hover {\n  transform: translateY(-8px);\n  box-shadow: 0 25px 50px rgba(13, 182, 145, 0.2);\n  border-color: #0db6a1;\n}\n.podcast-selection-item[data-v-e4489e22]:active {\n  transform: translateY(-4px);\n}\n.podcast-image-wrapper[data-v-e4489e22] {\n  position: relative;\n  overflow: hidden;\n  aspect-ratio: 1;\n}\n.podcast-selection-image[data-v-e4489e22] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  transition: transform 0.3s ease;\n}\n.podcast-overlay[data-v-e4489e22] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(13, 182, 145, 0.9);\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  opacity: 0;\n  transition: opacity 0.3s ease;\n  gap: 0.5rem;\n}\n.podcast-overlay i[data-v-e4489e22] {\n  font-size: 3.5rem;\n  color: white;\n}\n.play-text[data-v-e4489e22] {\n  color: white;\n  font-weight: 600;\n  font-size: 1rem;\n  text-align: center;\n}\n.podcast-selection-item:hover .podcast-overlay[data-v-e4489e22] {\n  opacity: 1;\n}\n.podcast-selection-item:hover .podcast-selection-image[data-v-e4489e22] {\n  transform: scale(1.1);\n}\n.podcast-selection-name[data-v-e4489e22] {\n  padding: 1.5rem;\n  margin: 0;\n  font-size: 1.1rem;\n  font-weight: 300;\n  color: #2c3e50;\n  text-align: center;\n  line-height: 1.4;\n  background: #ffffff;\n}\n\n/* Selected Podcast Section */\n.selected-podcast-section[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 24px;\n  padding: 2.5rem;\n  margin-bottom: 3rem;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);\n  border: 2px solid rgba(13, 182, 145, 0.1);\n}\n.selected-podcast-header[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 2.5rem;\n  margin-bottom: 2rem;\n}\n.selected-podcast-info[data-v-e4489e22] {\n  flex: 1;\n}\n.selected-podcast-title[data-v-e4489e22] {\n  font-size: 2.2rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 1rem;\n  line-height: 1.3;\n}\n.selected-podcast-meta[data-v-e4489e22] {\n  display: flex;\n  gap: 1rem;\n  flex-wrap: wrap;\n}\n.episode-count[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem 1.5rem;\n  background: rgba(13, 182, 145, 0.15);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  border: 2px solid rgba(13, 182, 145, 0.2);\n}\n.episode-count i[data-v-e4489e22] {\n  font-size: 1.2rem;\n}\n.selected-podcast-image-container[data-v-e4489e22] {\n  flex-shrink: 0;\n}\n.selected-podcast-image[data-v-e4489e22] {\n  width: 140px;\n  height: 140px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 20px;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);\n  border: 3px solid #ffffff;\n}\n.selected-podcast-description[data-v-e4489e22] {\n  color: #495057;\n  line-height: 1.8;\n  font-size: 1.1rem;\n  font-weight: 400;\n}\n.selected-podcast-description p[data-v-e4489e22] {\n  margin: 0;\n}\n\n/* Enhanced Card Styles */\n.highlighted[data-v-e4489e22] {\n  box-shadow: 0 0 0 4px rgba(13, 182, 145, 0.3), 0 15px 40px rgba(13, 182, 145, 0.25);\n  transform: translateY(-3px);\n  background: linear-gradient(135deg, #ffffff 0%, #f0fffd 100%);\n}\n.podcast-card[data-v-e4489e22] {\n  background: #ffffff;\n  border-radius: 35px;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  border: 5px solid rgba(0, 0, 0, 0.05);\n  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);\n  overflow: hidden;\n  height: 100%;\n  position: relative;\n  padding: 2rem 1.5rem;\n}\n.podcast-card[data-v-e4489e22]:hover {\n  transform: none;\n  box-shadow: none;\n}\n.podcast-card.highlighted[data-v-e4489e22] {\n  border-color: #0db6a1;\n  background: linear-gradient(135deg, #f2fffc 0%, #e6fcf7 100%);\n  border-width: 2.5px;\n  outline: 2px solid #0db6a1;\n  box-shadow: 0 8px 32px 0 rgba(13, 182, 145, 0.10), 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);\n  z-index: 2;\n}\n.podcast-card.highlighted[data-v-e4489e22]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  border-radius: 20px;\n  pointer-events: none;\n  box-shadow: 0 0 16px 4px rgba(13, 182, 145, 0.18);\n  animation: playing-glow-e4489e22 1.5s infinite alternate;\n}\n@keyframes playing-glow-e4489e22 {\n0% {\n    box-shadow: 0 0 8px 2px rgba(13, 182, 145, 0.10);\n}\n100% {\n    box-shadow: 0 0 24px 8px rgba(13, 182, 145, 0.22);\n}\n}\n\n/* Card Header */\n\n/* .card-header {\n  padding: 20px 24px 16px;\n} */\n.podcast-meta[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 16px;\n}\n.views-badge[data-v-e4489e22],\n.date-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 16px;\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 25px;\n  font-size: 0.9rem;\n  font-weight: 600;\n  color: #495057;\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  border: 2px solid rgba(0, 0, 0, 0.05);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.views-badge i[data-v-e4489e22],\n.date-badge i[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #0db6a1;\n}\n\n/* Card Body */\n.card-body[data-v-e4489e22] {\n  padding: 24px;\n  display: flex;\n  flex-direction: column;\n  /*gap: 24px; */\n}\n.podcast-title[data-v-e4489e22] {\n  font-size: 1.35rem;\n  font-weight: 800;\n  line-height: 1.4;\n  color: #2c3e50;\n  margin: 0;\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  min-height: 3.6rem;\n}\n.meta-text[data-v-e4489e22] {\n  font-size: 0.98rem;\n  font-weight: 500;\n  color: #6c757d;\n}\n\n/* Audio Controls */\n.audio-controls[data-v-e4489e22] {\n  display: none !important;\n}\n.control-button[data-v-e4489e22] {\n  background: none;\n  border: none;\n  padding: 16px;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  position: relative;\n  min-width: 60px;\n  min-height: 60px;\n  gap: 4px;\n}\n.control-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.1);\n  transform: scale(1.05);\n}\n.control-button i[data-v-e4489e22] {\n  font-size: 1.8rem;\n  color: #495057;\n  transition: color 0.2s ease;\n}\n.control-button:hover i[data-v-e4489e22] {\n  color: #0db6a1;\n}\n.control-label[data-v-e4489e22] {\n  font-size: 0.75rem;\n  font-weight: 600;\n  color: #6c757d;\n  text-align: center;\n  line-height: 1.2;\n}\n.rewind-btn[data-v-e4489e22],\n.forward-btn[data-v-e4489e22] {\n  background: rgba(108, 117, 125, 0.1);\n  border: 2px solid rgba(108, 117, 125, 0.1);\n}\n.rewind-btn[data-v-e4489e22]:hover,\n.forward-btn[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.2);\n}\n\n/* Action Buttons */\n.action-buttons[data-v-e4489e22] {\n  display: flex;\n  justify-content: center;\n  gap: 16px;\n}\n.action-button[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  padding: 12px 20px;\n  background: rgba(13, 182, 145, 0.1);\n  border: 2px solid rgba(13, 182, 145, 0.2);\n  border-radius: 30px;\n  color: #0db6a1;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  text-decoration: none;\n  min-height: 48px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.action-button i[data-v-e4489e22] {\n  font-size: 1.1rem;\n}\n.share-btn[data-v-e4489e22] {\n  background: rgba(25, 135, 84, 0.1);\n  border-color: rgba(25, 135, 84, 0.2);\n  color: #198754;\n}\n.share-btn[data-v-e4489e22]:hover {\n  background: rgba(25, 135, 84, 0.15);\n  border-color: rgba(25, 135, 84, 0.3);\n  box-shadow: 0 6px 16px rgba(25, 135, 84, 0.25);\n}\n\n/* Enhanced Responsive Design for Cards */\n@media (max-width: 768px) {\n.custom-audio-player[data-v-e4489e22] {\n    padding: 8px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 8px;\n    font-size: 0.9rem;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 6px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n.volume-slider[data-v-e4489e22] {\n    height: 3px;\n}\n}\n\n/* Mobile-Friendly Pagination Styles */\n.pagination-container[data-v-e4489e22] {\n  margin-top: 2rem;\n  padding: 1rem 0;\n}\n.pagination-wrapper[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.5rem;\n  flex-wrap: wrap;\n  margin-bottom: 1rem;\n}\n.pagination-btn[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  padding: 0.75rem 1.25rem;\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border: none;\n  border-radius: 25px;\n  color: white;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-height: 44px;\n  min-width: 100px;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 6px 20px rgba(13, 182, 145, 0.4);\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n}\n.pagination-btn[data-v-e4489e22]:active:not(.disabled) {\n  transform: translateY(0);\n  box-shadow: 0 2px 8px rgba(13, 182, 145, 0.3);\n}\n.pagination-btn.disabled[data-v-e4489e22] {\n  background: #e9ecef;\n  color: #6c757d;\n  cursor: not-allowed;\n  box-shadow: none;\n  opacity: 0.6;\n}\n.pagination-btn i[data-v-e4489e22] {\n  font-size: 1rem;\n}\n.btn-text[data-v-e4489e22] {\n  font-weight: 600;\n}\n.page-numbers[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.25rem;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n.page-number[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  border: 2px solid #e9ecef;\n  background: white;\n  color: #6c757d;\n  border-radius: 50%;\n  font-weight: 600;\n  font-size: 0.9rem;\n  cursor: pointer;\n  transition: all 0.2s ease;\n  min-width: 44px;\n  min-height: 44px;\n}\n.page-number[data-v-e4489e22]:hover:not(.active) {\n  border-color: #0db6a1;\n  color: #0db6a1;\n  transform: translateY(-1px);\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.2);\n}\n.page-number.active[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  border-color: #0db6a1;\n  color: white;\n  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);\n}\n.page-number[data-v-e4489e22]:active:not(.active) {\n  transform: translateY(0);\n}\n.page-ellipsis[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  color: #6c757d;\n  font-weight: 600;\n  font-size: 1rem;\n  min-width: 44px;\n  min-height: 44px;\n}\n.mobile-page-info[data-v-e4489e22] {\n  text-align: center;\n  margin-top: 1rem;\n}\n.page-info-text[data-v-e4489e22] {\n  color: #6c757d;\n  font-weight: 500;\n  font-size: 0.9rem;\n  padding: 0.5rem 1rem;\n  background: rgba(13, 182, 145, 0.1);\n  border-radius: 20px;\n  display: inline-block;\n}\n\n/* Responsive Design for Pagination */\n@media (max-width: 768px) {\n.pagination-wrapper[data-v-e4489e22] {\n    gap: 0.25rem;\n    margin-bottom: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.6rem 1rem;\n    font-size: 0.85rem;\n    min-width: 90px;\n    min-height: 40px;\n}\n.pagination-btn i[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n.page-numbers[data-v-e4489e22] {\n    gap: 0.2rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.85rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 40px;\n    height: 40px;\n    font-size: 0.9rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.85rem;\n    padding: 0.4rem 0.8rem;\n}\n}\n@media (max-width: 576px) {\n.pagination-wrapper[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.75rem;\n}\n.pagination-btn[data-v-e4489e22] {\n    width: 100%;\n    max-width: 200px;\n    justify-content: center;\n    padding: 0.75rem 1rem;\n    min-height: 44px;\n}\n.page-numbers[data-v-e4489e22] {\n    order: -1;\n    margin-bottom: 0.5rem;\n}\n.page-number[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.8rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.page-ellipsis[data-v-e4489e22] {\n    width: 36px;\n    height: 36px;\n    font-size: 0.85rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.mobile-page-info[data-v-e4489e22] {\n    margin-top: 0.75rem;\n}\n.page-info-text[data-v-e4489e22] {\n    font-size: 0.8rem;\n    padding: 0.3rem 0.6rem;\n}\n}\n@media (min-width: 769px) and (max-width: 1024px) {\n.pagination-btn[data-v-e4489e22] {\n    padding: 0.7rem 1.1rem;\n    font-size: 0.9rem;\n    min-width: 95px;\n}\n.page-number[data-v-e4489e22] {\n    width: 42px;\n    height: 42px;\n    font-size: 0.9rem;\n    min-width: 42px;\n    min-height: 42px;\n}\n}\n\n/* Focus states for accessibility */\n.pagination-btn[data-v-e4489e22]:focus,\n.page-number[data-v-e4489e22]:focus {\n  outline: 2px solid #0db6a1;\n  outline-offset: 2px;\n}\n\n/* High contrast mode support */\n@media (prefers-contrast: high) {\n.pagination-btn[data-v-e4489e22] {\n    border: 2px solid #0db6a1;\n}\n.page-number[data-v-e4489e22] {\n    border-width: 2px;\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.pagination-btn[data-v-e4489e22],\n  .page-number[data-v-e4489e22] {\n    transition: none;\n}\n.pagination-btn[data-v-e4489e22]:hover:not(.disabled),\n  .page-number[data-v-e4489e22]:hover:not(.active) {\n    transform: none;\n}\n}\n\n/* Audio Player Container */\n.audio-player-container[data-v-e4489e22] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  background: #fff;\n  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);\n  z-index: 1000;\n}\n.custom-audio-player[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 10px;\n}\n.controls[data-v-e4489e22] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n}\n.control-btn[data-v-e4489e22] {\n  background: rgba(255, 255, 255, 0.1);\n  border: none;\n  color: white;\n  font-size: 1.3rem;\n  cursor: pointer;\n  border-radius: 50%;\n  transition: all 0.2s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 44px;\n  min-height: 44px;\n  outline: none;\n}\n.control-btn[data-v-e4489e22]:focus-visible {\n  outline: 2px solid #00bfa6;\n  outline-offset: 2px;\n}\n.control-btn[data-v-e4489e22]:hover,\n.control-btn[data-v-e4489e22]:active {\n  background: rgba(0, 191, 166, 0.2);\n  color: #00bfa6;\n  transform: scale(1.1);\n}\n.progress-bar[data-v-e4489e22] {\n  width: 100%;\n  height: 6px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 3px;\n  overflow: hidden;\n  margin-top: 8px;\n}\n.progress[data-v-e4489e22] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #23405a 100%);\n  transition: width 0.3s ease;\n}\n.title[data-v-e4489e22], .subtitle[data-v-e4489e22] {\n  color: #23405a;\n  margin-bottom: 0.5rem;\n  font-weight: bold;\n  word-break: break-word;\n}\n.text-content[data-v-e4489e22] {\n  color: #333;\n  font-size: 1rem;\n  line-height: 1.6;\n  margin-bottom: 1rem;\n  word-break: break-word;\n}\n@media (max-width: 768px) {\n.container[data-v-e4489e22], .content-container[data-v-e4489e22] {\n    padding: 0.5rem;\n}\n.controls[data-v-e4489e22] {\n    flex-direction: column;\n    gap: 0.5rem;\n    align-items: stretch;\n}\n.control-btn[data-v-e4489e22] {\n    width: 100%;\n    min-width: 48px;\n    min-height: 48px;\n    font-size: 1.1rem;\n}\n.progress-bar[data-v-e4489e22] {\n    height: 8px;\n}\n.title[data-v-e4489e22] {\n    font-size: 1.3rem;\n}\n.subtitle[data-v-e4489e22] {\n    font-size: 1.1rem;\n}\n.text-content[data-v-e4489e22] {\n    font-size: 0.98rem;\n}\n}\n@media (max-width: 480px) {\n.container[data-v-e4489e22], .content-container[data-v-e4489e22] {\n    padding: 0.25rem;\n}\n.title[data-v-e4489e22] {\n    font-size: 1.1rem;\n}\n.subtitle[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.text-content[data-v-e4489e22] {\n    font-size: 0.95rem;\n}\n.controls[data-v-e4489e22] {\n    gap: 0.25rem;\n}\n}\n.mt-1[data-v-e4489e22] { margin-top: 0.25rem;\n}\n.mt-2[data-v-e4489e22] { margin-top: 0.5rem;\n}\n.mt-3[data-v-e4489e22] { margin-top: 1rem;\n}\n.mb-1[data-v-e4489e22] { margin-bottom: 0.25rem;\n}\n.mb-2[data-v-e4489e22] { margin-bottom: 0.5rem;\n}\n.mb-3[data-v-e4489e22] { margin-bottom: 1rem;\n}\n.text-center[data-v-e4489e22] { text-align: center;\n}\n.w-100[data-v-e4489e22] { width: 100%;\n}\n\n/* Make the play button in the audio player more visible */\n.custom-audio-player .play-pause[data-v-e4489e22] {\n  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);\n  color: #fff;\n  border-radius: 50%;\n  width: 56px;\n  height: 56px;\n  font-size: 2rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);\n  border: 2.5px solid #fff;\n  transition: background 0.2s, transform 0.2s;\n}\n.custom-audio-player .play-pause[data-v-e4489e22]:hover {\n  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);\n  transform: scale(1.08);\n}\n.time[data-v-e4489e22] {\n  font-size: 0.9rem;\n  font-weight: 500;\n  color: rgba(255, 255, 255, 0.8);\n  min-width: 120px;\n  text-align: center;\n}\n@media (max-width: 768px) {\n.controls[data-v-e4489e22] {\n    gap: 12px;\n}\n.control-btn[data-v-e4489e22] {\n    font-size: 1.1rem;\n    min-width: 40px;\n    min-height: 40px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.8rem;\n    min-width: 100px;\n}\n.volume-bar-container[data-v-e4489e22] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);\n    -webkit-backdrop-filter: blur(20px);\n            backdrop-filter: blur(20px);\n    padding: 12px;\n    border-radius: 20px 20px 0 0;\n}\n.volume-slider[data-v-e4489e22] {\n    width: 100%;\n}\n}\n@media (max-width: 576px) {\n.audio-player-container[data-v-e4489e22] {\n    padding: 5px;\n}\n.custom-audio-player[data-v-e4489e22] {\n    border-radius: 12px 12px 0 0;\n    padding: 6px 10px;\n}\n.controls[data-v-e4489e22] {\n    gap: 8px;\n}\n.control-btn[data-v-e4489e22] {\n    padding: 6px;\n    font-size: 1rem;\n    min-width: 36px;\n    min-height: 36px;\n}\n.time[data-v-e4489e22] {\n    font-size: 0.75rem;\n    min-width: 80px;\n}\n}\n\n/* Remove old styles */\n.icon-container[data-v-e4489e22],\n.icon-tooltip[data-v-e4489e22],\n.icon-text[data-v-e4489e22] {\n  display: none;\n}\n.card[data-v-e4489e22] {\n  height: 100%;\n}\n.card-title[data-v-e4489e22] {\n  font-size: 1.2rem;\n  font-weight: bold;\n}\n.card-text[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #333;\n}\n.mobile-padding[data-v-e4489e22] {\n  padding: 10px;\n}\n@media (min-width: 768px) {\n.mobile-padding[data-v-e4489e22] {\n    padding: 20px;\n}\n}\n@media (max-width: 767.98px) {\n.mobile-padding[data-v-e4489e22] {\n    margin-bottom: 1rem;\n}\n}\n.spinner-container[data-v-e4489e22] {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: rgba(255, 255, 255, 0.95);\n  -webkit-backdrop-filter: blur(10px);\n          backdrop-filter: blur(10px);\n  padding: 24px;\n  border-radius: 16px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.toast-container[data-v-e4489e22] {\n  z-index: 1050;\n}\n.loading-container[data-v-e4489e22] {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  padding: 3rem 1rem;\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  margin: 2rem 0;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.loading-text[data-v-e4489e22] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #2c3e50;\n  margin-top: 1rem;\n  text-align: center;\n}\n.empty-state[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 16px;\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);\n}\n.empty-state-content[data-v-e4489e22] {\n  text-align: center;\n  max-width: 400px;\n}\n.empty-state-icon[data-v-e4489e22] {\n  font-size: 4rem;\n  color: #0db6a1;\n  margin-bottom: 1.5rem;\n  opacity: 0.7;\n}\n.empty-state-title[data-v-e4489e22] {\n  font-size: 1.8rem;\n  font-weight: 700;\n  color: #2c3e50;\n  margin-bottom: 0.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n  font-size: 1rem;\n  color: #6c757d;\n  line-height: 1.6;\n}\n\n/* Podcast Section */\n.podcast-section[data-v-e4489e22] {\n  margin-top: 2rem;\n}\n\n/* Responsive Design for Loading and Empty States */\n@media (max-width: 768px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 2rem 1rem;\n    margin: 1.5rem 0;\n}\n.loading-text[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 3rem;\n    margin-bottom: 1rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.5rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.loading-container[data-v-e4489e22],\n  .empty-state[data-v-e4489e22] {\n    padding: 1.5rem 0.5rem;\n    margin: 1rem 0;\n}\n.empty-state-icon[data-v-e4489e22] {\n    font-size: 2.5rem;\n}\n.empty-state-title[data-v-e4489e22] {\n    font-size: 1.3rem;\n}\n.empty-state-description[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n}\n.episode-avatar[data-v-e4489e22] {\n  width: 100px;\n  height: 100px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  margin-right: 1rem;\n  box-shadow: none;\n  border: 2px solid #e9ecef;\n}\n.podcast-card-top[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 1rem;\n  margin-bottom: 0.5rem;\n  justify-content: space-between;\n}\n.podcast-card-info[data-v-e4489e22] {\n  flex: 1;\n}\n.podcast-extra-info[data-v-e4489e22] {\n  display: flex;\n  gap: 1.2rem;\n  margin-top: 0.2rem;\n  font-size: 0.98rem;\n  color: #6c757d;\n}\n.duration-badge[data-v-e4489e22],\n.lang-badge[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  gap: 0.3rem;\n  background: #f8f9fa;\n  border-radius: 12px;\n  padding: 2px 10px;\n  font-size: 0.95rem;\n  font-weight: 500;\n}\n.new-badge[data-v-e4489e22] {\n  background: #0db6a1;\n  color: #fff;\n  font-size: 0.8rem;\n  font-weight: 700;\n  border-radius: 10px;\n  padding: 2px 8px;\n  margin-left: 0.5rem;\n  letter-spacing: 0.5px;\n}\n.podcast-desc[data-v-e4489e22] {\n  color: #495057;\n  font-size: 1.02rem;\n  margin: 0.5rem 0 0.7rem 0;\n  line-height: 1.5;\n  min-height: 2.2em;\n}\n@media (max-width: 768px) {\n.podcast-extra-info[data-v-e4489e22] {\n    font-size: 0.85rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1.2rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 576px) {\n.podcast-card-top[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.podcast-title[data-v-e4489e22] {\n    font-size: 1rem;\n}\n.podcast-desc[data-v-e4489e22] {\n    font-size: 0.8rem;\n}\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  font-size: 1rem;\n  padding: 10px;\n  border-radius: 12px;\n}\n@media (max-width: 768px) {\n.search-group .form-control[data-v-e4489e22],\n  .filter-group .form-select[data-v-e4489e22] {\n      font-size: 0.9rem;\n      padding: 8px;\n}\n}\n.podcast-image[data-v-e4489e22] {\n  width: 100%;\n  height: auto;\n  -o-object-fit: cover;\n     object-fit: cover;\n  max-width: 100%;\n}\n.action-button[data-v-e4489e22] {\n  padding: 10px 20px;\n  font-size: 1rem;\n  min-height: 44px;\n  min-width: 100px;\n}\n.action-button[data-v-e4489e22]:hover {\n  background: rgba(13, 182, 145, 0.15);\n  border-color: rgba(13, 182, 145, 0.3);\n  transform: translateY(-2px);\n  box-shadow: 0 6px 16px rgba(13, 182, 145, 0.25);\n}\n.audio-controls-inline[data-v-e4489e22] {\n  display: flex;\n  align-items: center;\n  margin-left: auto;\n}\n.podcast-grid[data-v-e4489e22] {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));\n  gap: 2rem;\n  margin-bottom: 3rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border-radius: 18px;\n  box-shadow: 0 2px 12px rgba(13, 182, 145, 0.07);\n  padding: 1.2rem 1.5rem 1rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n  gap: 1.2rem;\n}\n.input-group-text[data-v-e4489e22] {\n  background: #fff;\n  border-radius: 12px 0 0 12px;\n  border: 1px solid #e9ecef;\n  border-right: none;\n  color: #0db6a1;\n  font-size: 1.2rem;\n}\n.search-group .form-control[data-v-e4489e22],\n.filter-group .form-select[data-v-e4489e22] {\n  border-radius: 0 12px 12px 0;\n  border: 1px solid #e9ecef;\n  border-left: none;\n  background: #fff;\n  font-size: 1rem;\n}\n.filter-group .form-select[data-v-e4489e22] {\n  min-width: 120px;\n}\n@media (max-width: 900px) {\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 1rem 0.7rem 0.7rem 0.7rem;\n}\n.episodes-filters-bar[data-v-e4489e22] {\n    gap: 0.7rem;\n}\n}\n@media (max-width: 768px) {\n.episodes-filters-bar[data-v-e4489e22] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 0.7rem;\n}\n.episodes-filters-bar-wrapper[data-v-e4489e22] {\n    padding: 0.7rem 0.3rem 0.3rem 0.3rem;\n}\n.row.g-3>[class^='col-'][data-v-e4489e22] {\n    margin-bottom: 0.7rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -168918,7 +168382,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border: none;\n  border-radius: 1rem;\n  background: #fff;\n}\n.table-responsive[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-responsive[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-responsive[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: #6c757d;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\n.table-info[data-v-02228b8a] {\n  background-color: #e7f1ff !important;\n}\n@media (max-width: 576px) {\n.table thead th[data-v-02228b8a],\n  .table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.5rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

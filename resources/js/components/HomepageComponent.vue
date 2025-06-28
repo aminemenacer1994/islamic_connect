@@ -34,16 +34,22 @@
               <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item active" data-bs-interval="3000">
-                    <img src="/images/quran.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
+                    <img src="/images/companion2.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
                   </div>
                   <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/surat.png" class="d-block w-100 img-mobile-bigger" alt="Quran explorer">
+                    <img src="/images/surat2.png" class="d-block w-100 img-mobile-bigger" alt="Quran explorer">
                   </div>
                   <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/podcast1.png" class="d-block w-100 img-mobile-bigger" alt="Audio podcasts">
+                    <img src="/images/podcast2.png" class="d-block w-100 img-mobile-bigger" alt="Audio podcasts">
                   </div>
                   <div class="carousel-item" data-bs-interval="3000">
-                    <img src="/images/seerah_main1.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
+                    <img src="/images/seerah2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="3000">
+                    <img src="/images/radio2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="3000">
+                    <img src="/images/locator2.png" class="d-block w-100 img-mobile-bigger" alt="Seerah timeline">
                   </div>
                 </div>
                 <button class="carousel-control-prev text-dark" type="button" data-bs-target="#carouselExampleInterval"
@@ -91,7 +97,7 @@
       </hr>
     </div>
 
-    
+
     <section>
 
       <div class="py-5 service-1">
@@ -433,7 +439,7 @@
     </section>
 
     <!-- faq -->
-    <section class="py-5">
+    <!-- <section class="py-5">
       <div class="container">
         <div class="row justify-content-center text-center mb-5">
           <div class="col-lg-8 col-xxl-7">
@@ -446,7 +452,6 @@
         </div>
 
         <div class="accordion" id="faqAccordion">
-          <!-- Question 1 -->
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="faqHeading1">
               <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse"
@@ -463,7 +468,6 @@
             </div>
           </div>
 
-          <!-- Question 2 -->
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="faqHeading2">
               <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
@@ -480,7 +484,6 @@
             </div>
           </div>
 
-          <!-- Question 3 -->
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="faqHeading3">
               <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
@@ -497,7 +500,6 @@
             </div>
           </div>
 
-          <!-- Question 4 -->
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="faqHeading4">
               <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
@@ -514,7 +516,6 @@
             </div>
           </div>
 
-          <!-- Question 5 -->
           <div class="accordion-item mb-3">
             <h2 class="accordion-header" id="faqHeading5">
               <button class="accordion-button collapsed fw-medium" type="button" data-bs-toggle="collapse"
@@ -530,13 +531,13 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
-    </section>
+    </section>-->
 
 
     <!-- contact -->
-    <section class="py-5" style="background: #e3e3e3">
+    <section class="py-5" >
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
