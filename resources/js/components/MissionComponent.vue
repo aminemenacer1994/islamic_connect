@@ -136,11 +136,11 @@
           </div>
         </div>
 
-        <div class="fab btn btn-light rounded-circle shadow"
+        <!-- <div class="fab btn btn-light rounded-circle shadow"
           style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer;"
           data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas" aria-controls="settingsOffcanvas">
           <i class="bi bi-gear-fill fs-4"></i>
-        </div>
+        </div> -->
 
         <div class="controls text-center mt-4">
           <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>

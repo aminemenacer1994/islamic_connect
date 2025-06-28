@@ -30,13 +30,14 @@
                 class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
                 style="background-color: #f8f9fa;">
                 <option value="All Categories">All Categories</option>
-                <option v-for="category in availableCategories" :key="category" :value="category">{{ category }}</option>
+                <option v-for="category in availableCategories" :key="category" :value="category">{{ category }}
+                </option>
               </select>
             </div>
             <!-- Sort By Filter -->
             <div class="col-md-3">
-              <label for="sortBy" style="font-size: 1.5em;"
-                class="form-label fw-bold display-4 text-dark mb-2">Sort By</label>
+              <label for="sortBy" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Sort
+                By</label>
               <select v-model="sortBy" id="sortBy" class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6"
                 aria-label="Sort stations">
                 <option value="default">Default</option>
@@ -182,9 +183,9 @@
         <div v-else>
           <!-- Grid View -->
           <div v-if="viewMode === 'grid'" class="row">
-            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4" >
-              <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;" :class="{ 'active-card': currentPlayingStationId === station.id }"
-                :id="'station-' + station.id">
+            <div v-for="station in paginatedStations" :key="station.id" class="col-md-4 mb-4">
+              <div class="station-list-item h-100" style="border:2px solid lightgrey; border-radius:8px;"
+                :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
                 <div class="card-body">
                   <div class="d-flex align-items-center gap-3">
                     <!-- <img :src="station.imageUrl || '/images/default-reciter.png'" :alt="station.name"
@@ -210,7 +211,8 @@
                           <span :title="`${station.listeners} listeners`">
                             <i class="bi bi-headphones"></i> {{ station.listeners }}
                           </span>
-                          <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="text-theme-teal fw-semibold">
+                          <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)"
+                            class="text-theme-teal fw-semibold">
                             Currently listening
                           </span>
                           <span class="badge" :class="getStationStatus(station.id).class">
@@ -244,8 +246,9 @@
           </div>
           <!-- List View -->
           <div v-else class="list-container view-list">
-            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item" style="border:2px solid lightgrey; border-radius:8px;"
-              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id" >
+            <div v-for="station in paginatedStations" :key="station.id" class="station-list-item"
+              style="border:2px solid lightgrey; border-radius:8px;"
+              :class="{ 'active-card': currentPlayingStationId === station.id }" :id="'station-' + station.id">
               <div class="card-body">
                 <div class="d-flex align-items-center gap-3">
                   <div class="flex-grow-1">
@@ -266,10 +269,12 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mt-2">
                       <div class="d-flex align-items-center gap-2 text-muted fs-sm">
-                        <span :title="`${station.listeners} listeners`">
+                        <!-- Only show listener count if the station is playing -->
+                        <span v-if="isPlaying(station.id)" :title="`${station.listeners} listeners`">
                           <i class="bi bi-headphones"></i> {{ station.listeners }}
                         </span>
-                        <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)" class="text-theme-teal fw-semibold">
+                        <span v-if="currentPlayingStationId === station.id && isPlaying(station.id)"
+                          class="text-theme-teal fw-semibold">
                           Currently listening
                         </span>
                         <span class="badge" :class="getStationStatus(station.id).class">
@@ -321,7 +326,7 @@
     <transition name="global-audio-player">
       <div v-if="currentlyPlayingStation" class="global-audio-player shadow-lg">
         <div class="d-flex align-items-center" style="flex: 1 1 0px; justify-content: flex-start;">
-        
+
           <div>
             <h6 class="mb-0 fw-bold text-white" style="font-size: 1.1rem; font-weight: 600; letter-spacing: 0.4px;">{{
               currentlyPlayingStation.name }}</h6>
@@ -589,7 +594,7 @@ const pauseAllAudio = () => {
         break;
       }
     }
-    
+
     if (currentId) {
       currentAudio.value.pause();
       currentAudio.value.currentTime = 0;
@@ -664,7 +669,7 @@ const togglePlay = async (id) => {
     console.error(`Playback failed for station ${id}:`, error);
     playbackErrors.value[id] = 'This station is currently unavailable. Please try again later.';
     playingStates.value[id] = false;
-    
+
     const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
     if (station?.fallbackUrl) {
       console.log(`Trying fallback URL for station ${id}`);
@@ -813,9 +818,9 @@ const handlePlay = async (id, event) => {
 
   const allStationsId = Object.keys(audioRefs);
   allStationsId.forEach(stationId => {
-      if(id != stationId){
-          playingStates.value[stationId] = false;
-      }
+    if (id != stationId) {
+      playingStates.value[stationId] = false;
+    }
   })
 
   currentAudio.value = event.target;
@@ -837,11 +842,11 @@ const handlePlay = async (id, event) => {
 };
 
 const handlePause = (id) => {
-    playingStates.value[id] = false;
-    if (currentPlayingStationId.value === id) {
-        currentPlayingStationId.value = null;
-        currentAudio.value = null;
-    }
+  playingStates.value[id] = false;
+  if (currentPlayingStationId.value === id) {
+    currentPlayingStationId.value = null;
+    currentAudio.value = null;
+  }
 };
 
 const handleAudioError = (stationId, event) => {
@@ -993,17 +998,17 @@ const stopPlayback = () => {
 
 const previousStation = () => {
   if (!currentPlayingStationId.value) return;
-  
+
   // Get the current filtered stations
   const currentStations = sortedStations.value;
   const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
-  
+
   if (currentIndex === -1) return;
-  
+
   // Calculate previous index (wrap around to last if at beginning)
   const prevIndex = currentIndex === 0 ? currentStations.length - 1 : currentIndex - 1;
   const prevStation = currentStations[prevIndex];
-  
+
   // Play the previous station
   if (prevStation) {
     togglePlay(prevStation.id);
@@ -1012,17 +1017,17 @@ const previousStation = () => {
 
 const nextStation = () => {
   if (!currentPlayingStationId.value) return;
-  
+
   // Get the current filtered stations
   const currentStations = sortedStations.value;
   const currentIndex = currentStations.findIndex(station => station.id === currentPlayingStationId.value);
-  
+
   if (currentIndex === -1) return;
-  
+
   // Calculate next index (wrap around to first if at end)
   const nextIndex = (currentIndex + 1) % currentStations.length;
   const nextStation = currentStations[nextIndex];
-  
+
   // Play the next station
   if (nextStation) {
     togglePlay(nextStation.id);
@@ -1044,7 +1049,7 @@ const handleAudioPlayerClick = (event) => {
     audioPlayerJustOpened.value = false;
     return;
   }
-  
+
   // Close audio player when clicking on the backdrop
   closeAudioPlayer();
 };
@@ -1052,10 +1057,10 @@ const handleAudioPlayerClick = (event) => {
 const playAudio = (index) => {
   // ... existing code ...
   showAudioPlayer = true;
-  
+
   // Set flag to prevent immediate dismissal
   audioPlayerJustOpened.value = true;
-  
+
   // Clear the flag after a short delay
   setTimeout(() => {
     audioPlayerJustOpened.value = false;

@@ -16,7 +16,9 @@
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
                   aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                   style="max-width: 300px;" />
-                <button class="btn align-items-center justify-content-center" style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
+                <button class="btn align-items-center justify-content-center"
+                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                  type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
                 </button>
@@ -56,15 +58,14 @@
               <!-- Results Grid -->
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="school in schools" :key="school.id">
-                  <div class="card h-100">
+                  <div class="card h-100" style="display: flex; flex-direction: column;">
                     <!-- Badges -->
-                    
                     <div style="padding: 15px 15px 0 15px;">
                       <h1 class="card-title text-left fw-bold text-dark mb-3" style="font-size: 25px;">
                         {{ school.name }}
                       </h1>
                     </div>
-                    <div class="card-body pt-0">
+                    <div class="card-body pt-0" style="flex: 1;">
                       <div class="mb-2">
                         <div class="d-flex align-items-start">
                           <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
@@ -95,18 +96,19 @@
                         </small>
                       </div>
 
-                      <div class="d-flex justify-content-between align-items-center gap-2">
+                      <!-- Button container pushed to the bottom -->
+                      <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(school.lat, school.lon, school.name)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <span class="text-center w-100">
-                            <b>Get Directions</b>
-                          </span>
+                          <i class="bi bi-geo-alt me-2"></i>
+                          <b>Get Directions</b>
                         </button>
                         <a :href="school.website" target="_blank"
                           class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           style="background: #1881b9; color: white; height: 38px"
                           :class="{ disabled: !school.website }">
+                          <i class="bi bi-globe me-2"></i>
                           <b>Visit Website</b>
                         </a>
                       </div>
@@ -386,7 +388,7 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
-  position: relative; 
+  position: relative;
 }
 
 .card:hover {
@@ -408,15 +410,18 @@ export default {
 }
 
 .bg-success {
-  background-color: #00bfa6; /* Match your button color */
+  background-color: #00bfa6;
+  /* Match your button color */
 }
 
 .bg-info {
-  background-color: #17a2b8; /* Bootstrap info color for "New" */
+  background-color: #17a2b8;
+  /* Bootstrap info color for "New" */
 }
 
 .bg-primary {
-  background-color: #1881b9; /* Match your website button color */
+  background-color: #1881b9;
+  /* Match your website button color */
 }
 
 @media (max-width: 768px) {

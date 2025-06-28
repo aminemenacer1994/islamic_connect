@@ -285,7 +285,7 @@
                 </div>
 
                 <!-- Chart -->
-                <canvas ref="zakatChart" id="zakatChart" class="mb-4"></canvas>
+                <!-- <canvas ref="zakatChart" id="zakatChart" class="mb-4"></canvas> -->
 
                 <!-- Nisab Threshold -->
                 <div class="summary-item mb-4">

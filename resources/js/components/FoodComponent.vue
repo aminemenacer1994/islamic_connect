@@ -7,22 +7,22 @@
           Discover the best halal restaurants and supermarkets near you with ease! Our platform connects you to trusted,
           local halal establishments.
         </p>
-        <div class="shadow" style="border-radius: 8px; padding: 10px; ">
+        <div class="shadow" style="border-radius: 8px; padding: 10px;">
           <!-- Search Section -->
           <div class="card-body" style="padding: 5px;">
-            <div class="flex-wrap align-items-center justify-content-center gap-3 mb-4">
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 mb-4">
               <!-- Search form -->
               <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
                 style="gap: 0.5rem;">
                 <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
-                  aria-label="Search" v-model="searchQuery" autocomplete="off" style="max-width: 300px;"
-                  ref="searchInput" />
-                <button class="btn align-items-center justify-content-center"
+                  aria-label="Search for halal restaurants and supermarkets" v-model.trim="searchQuery"
+                  autocomplete="off" style="max-width: 300px;" ref="searchInput" />
+                <button class="btn d-flex align-items-center justify-content-center"
                   style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
-                  type="submit" :disabled="loading">
+                  type="submit" :disabled="loading || !searchQuery">
                   <span v-if="!loading">Search</span>
-                  <span v-else class="spinner-border spinner-border-sm"></span>
+                  <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 </button>
               </form>
             </div>
@@ -32,22 +32,24 @@
               <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <p class="mt-3">Searching for halal restaurants and supermarkets in {{ searchQuery }}...</p>
+              <p class="mt-3">Searching for halal restaurants and supermarkets in {{ searchQuery || 'your area' }}...
+              </p>
             </div>
 
             <!-- Results -->
-            <div v-if="!loading">
+            <div v-else>
               <!-- No Search State -->
-              <div v-if="!searchQuery || shops.length === 0" class="text-center py-5">
+              <div v-if="!hasSearched" class="text-center py-5">
                 <i class="bi bi-shop display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">Search for halal restaurants & supermarkets</h3>
                 <p class="text-muted">Enter a city or address to find nearby halal establishments</p>
               </div>
 
               <!-- No Results State -->
-              <div v-else-if="searchQuery && shops.length === 0" class="text-center py-5">
+              <div v-else-if="hasSearched && shops.length === 0" class="text-center py-5">
                 <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
                 <h3 class="h4 text-muted">No halal restaurants or supermarkets found</h3>
+                <p class="text-muted">Try a different city or address</p>
               </div>
 
               <!-- Results Grid -->
@@ -72,9 +74,9 @@
 
                       <div class="mb-2 d-flex align-items-center">
                         <span class="text-warning me-2">
-                          <i v-for="n in 5" :key="n" :class="getStarClass(shop.rating, n)" class="bi"></i>
+                          <i v-for="n in 5" :key="n" :class="getStarClass(shop.rating || 0, n)" class="bi"></i>
                         </span>
-                        <h6 class="mb-0">{{ shop.rating }}/5 </h6>
+                        <h6 class="mb-0">{{ (shop.rating || 0).toFixed(1) }}/5</h6>
                       </div>
 
                       <div v-if="shop.cuisine" class="mb-2">
@@ -93,13 +95,14 @@
                     </div>
 
                     <div
-                      class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2">
+                      class="card-footer mt-auto border-top-0 d-flex justify-content-between align-items-center gap-2"
+                      style="padding: 10px 15px; background: transparent;">
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
-                        @click="openGoogleMaps(shop.lat, shop.lon, shop.name)"
-                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                        <span class="text-center w-100">
-                          <b>Get Direction</b>
-                        </span>
+                        @click="openGoogleMaps(shop.lat, shop.lon, shop.name)" :disabled="!shop.lat || !shop.lon"
+                        style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                        aria-label="Get directions to {{ shop.name }}">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        <b>Get Directions</b>
                       </button>
 
                       <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
@@ -109,7 +112,8 @@
                           color: 'white',
                           height: '38px',
                           cursor: shop.phone ? 'pointer' : 'not-allowed'
-                        }">
+                        }" aria-label="Call {{ shop.name }}">
+                        <i class="bi bi-telephone me-2"></i>
                         <b>Call Shop</b>
                       </button>
                     </div>
@@ -130,7 +134,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'HalalFoodLocator',
@@ -433,7 +436,8 @@ export default {
 }
 
 .text-warning i {
-  margin-right: 4px; /* Add spacing between stars */
+  margin-right: 4px;
+  /* Add spacing between stars */
 }
 
 @media (max-width: 768px) {

@@ -96,9 +96,8 @@
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openMaps(shop.lat, shop.lon, shop.name)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <span class="text-center w-100">
-                            <b>Get Direction</b>
-                          </span>
+                          <i class="bi bi-geo-alt me-2"></i>
+                          <b>Get Direction</b>
                         </button>
 
                         <!-- Call Shop Button -->
@@ -110,6 +109,7 @@
                             height: '38px',
                             cursor: shop.phone ? 'pointer' : 'not-allowed'
                           }">
+                          <i class="bi bi-telephone me-2"></i>
                           <b>Call Shop</b>
                         </button>
                       </div>

@@ -143,7 +143,8 @@
                 <button class="btn d-flex align-items-center justify-content-center flex-grow-1 me-2"
                   @click="copyToClipboard(name)" style="background: #00bfa6; color: white; height: 38px">
                   <span class="text-center w-100">
-                    <b>Copy to Clipboard</b>
+                    <i class="bi bi-clipboard me-2"></i>
+                    <b>Copy</b>
                   </span>
                 </button>
 
@@ -151,7 +152,8 @@
                 <a class="btn d-flex align-items-center justify-content-center flex-grow-1"
                   :href="generateWhatsAppLink(name)" target="_blank" rel="noopener"
                   style="background: #00bfa6; color: white; height: 38px">
-                  <b>Share on WhatsApp</b>
+                  <i class="bi bi-whatsapp me-2"></i>
+                  <b>Share</b>
                 </a>
               </div>
             </div>

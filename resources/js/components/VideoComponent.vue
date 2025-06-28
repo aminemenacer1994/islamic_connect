@@ -52,10 +52,10 @@
           <div
             class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2">
             <a :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`" target="_blank"
-              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;">Share</a>
+              class="btn btn-sm w-100 custom-btn" style="font-size: 18px;"><i class="bi bi-share-fill"></i> Share</a>
             <a :href="video.url" :download="`video-${video.id}.mp4`" class="btn btn-sm w-100 custom-btn"
               style="font-size: 18px;" target="_blank">
-              Download
+              <i class="bi bi-download"></i> Download
             </a>
           </div>
         </div>

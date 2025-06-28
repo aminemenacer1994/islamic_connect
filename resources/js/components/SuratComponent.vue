@@ -84,10 +84,10 @@
                     style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip" data-bs-placement="right"
                     :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
-                <div class="mb-3" @click="rewindAudio(index)">
+                <!-- <div class="mb-3" @click="rewindAudio(index)">
                   <i class="bi bi-skip-backward-circle-fill" style="cursor: pointer; font-size: 1.5rem;"
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Rewind"></i>
-                </div>
+                </div> -->
                 <div class="mb-3" @click="decreaseFontSize">
                   <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-dash-circle-fill" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Decrease Font Size"></i>
@@ -96,10 +96,10 @@
                   <i style="cursor: pointer; font-size: 1.5rem;" class="bi bi-plus-circle-fill" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Increase Font Size"></i>
                 </div>
-                <div class="mb-3" @click="fastForwardAudio(index)">
+                <!-- <div class="mb-3" @click="fastForwardAudio(index)">
                   <i class="bi bi-skip-forward-circle-fill" style="cursor: pointer; font-size: 1.5rem;"
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Fast Forward"></i>
-                </div>
+                </div> -->
                 <div class="mb-3" @click="shareOnWhatsApp(ayah)">
                   <i class="bi bi-share-fill" style="cursor: pointer; font-size: 1.3rem;" data-bs-toggle="tooltip"
                     data-bs-placement="right" title="Share on WhatsApp"></i>
@@ -125,12 +125,12 @@
                     :title="isAudioPlaying[index] ? 'Pause' : 'Play'"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 3px;">
+              <!-- <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="rewindAudio(index)" style="cursor: pointer;">
                   <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Rewind"></i>
                 </div>
-              </div>
+              </div> -->
               <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="decreaseFontSize" style="cursor: pointer;">
                   <i class="bi bi-dash-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
@@ -143,12 +143,12 @@
                     data-bs-placement="top" title="Increase Font Size"></i>
                 </div>
               </div>
-              <div class="col-2 text-center" style="padding: 3px;">
+              <!-- <div class="col-2 text-center" style="padding: 3px;">
                 <div @click="fastForwardAudio(index)" style="cursor: pointer;">
                   <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.7rem;" data-bs-toggle="tooltip"
                     data-bs-placement="top" title="Fast Forward"></i>
                 </div>
-              </div>
+              </div> -->
               <div class="col-2 text-center" style="padding: 3px;">
                 <div class="mb-3" @click="shareOnWhatsApp(ayah)">
                   <i class="bi bi-whatsapp" style="cursor: pointer; font-size: 1.5rem;" data-bs-toggle="tooltip"

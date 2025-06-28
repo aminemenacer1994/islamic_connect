@@ -4,7 +4,8 @@
       <div class="col-lg-10">
         <h1 class="display-4 fw-bold text-center">Mosque Locater</h1>
         <p class="text-center container mb-4 lead">
-          Easily find nearby mosques based on your current location, complete with detailed directions to help you connect with your local community.
+          Easily find nearby mosques based on your current location, complete with detailed directions to help you
+          connect with your local community.
         </p>
 
         <div class="shadow" style="border-radius: 12px; padding: 10px; ">
@@ -19,17 +20,19 @@
                   <input id="searchInput" type="search" class="form-control" placeholder="Enter city or country..."
                     aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                     style="max-width: 300px;" />
-                    <button class="btn  align-items-center justify-content-center " style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px" type="submit" :disabled="loading">
-                      <span v-if="!loading">Search</span>
-                      <span v-else class="spinner-border spinner-border-sm"></span>
-                    </button>
+                  <button class="btn  align-items-center justify-content-center "
+                    style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                    type="submit" :disabled="loading">
+                    <span v-if="!loading">Search</span>
+                    <span v-else class="spinner-border spinner-border-sm"></span>
+                  </button>
                 </form>
               </div>
             </div>
 
             <!-- Loading State -->
 
-            
+
             <div v-if="loading" class="text-center py-5">
               <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -107,15 +110,15 @@
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(mosque.lat, mosque.lon)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
-                          <span class="text-center w-100">
-                            <b>Get Direction</b>
-                          </span>
+                          <i class="bi bi-geo-alt me-2"></i>
+                          <b>Get Direction</b>
                         </button>
 
                         <!-- WhatsApp Share Button -->
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="shareViaWhatsApp(mosque)"
                           style="background: #1881b9; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
+                          <i class="bi bi-whatsapp me-2"></i>
                           <b>Share Details</b>
                         </button>
                       </div>
