@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="container py-5" ref="qiblaFinder">
     <!-- Header -->
@@ -8,16 +7,32 @@
     </header>
 
     <!-- Search & Location -->
-    <div class="card shadow-md mb-4">
+    <div class="card shadow-sm mb-4">
       <div class="container-fluid card-body p-4">
         <h5 class="h4 card-title text-primary fw-bold mb-3">Find Your Location</h5>
         <div class="input-group mb-2">
-          <input type="text" class="form-control" placeholder="Enter a city or address" v-model="searchLocation"
-            @keyup.enter="searchQibla" ref="searchInput" />
-          <button class="btn btn-primary" @click="searchQibla" :disabled="loading" title="Search">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter a city or address"
+            v-model="searchLocation"
+            @keyup.enter="searchQibla"
+            ref="searchInput"
+          />
+          <button
+            class="btn btn-primary"
+            @click="searchQibla"
+            :disabled="loading"
+            title="Search"
+          >
             <i class="bi bi-search"></i>
           </button>
-          <button class="btn btn-outline-secondary" @click="getLocation" :disabled="loading" title="Use My Location">
+          <button
+            class="btn btn-outline-secondary"
+            @click="getLocation"
+            :disabled="loading"
+            title="Use My Location"
+          >
             <i class="bi bi-geo-alt"></i>
             <span class="d-none d-sm-inline">Use My Location</span>
           </button>
@@ -78,86 +93,159 @@
               Qibla Direction
             </h5>
           </div>
-          <div class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4">
+          <div
+            class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
+          >
             <div class="d-flex justify-content-center align-items-center mb-3">
               <div class="qibla-compass-wrapper position-relative mx-auto">
                 <div
                   class="compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light"
-                  :style="{ transform: `rotate(-${compassRotation}deg)` }">
-                  <div class="compass-label position-absolute top-0 start-50 translate-middle-x">
+                  :style="{ transform: `rotate(-${compassRotation}deg)` }"
+                >
+                  <div
+                    class="compass-label position-absolute top-0 start-50 translate-middle-x"
+                  >
                     N
                   </div>
-                  <div class="compass-label position-absolute bottom-0 start-50 translate-middle-x">
+                  <div
+                    class="compass-label position-absolute bottom-0 start-50 translate-middle-x"
+                  >
                     S
                   </div>
-                  <div class="compass-label position-absolute top-50 end-0 translate-middle-y">
+                  <div
+                    class="compass-label position-absolute top-50 end-0 translate-middle-y"
+                  >
                     E
                   </div>
-                  <div class="compass-label position-absolute top-50 start-0 translate-middle-y">
+                  <div
+                    class="compass-label position-absolute top-50 start-0 translate-middle-y"
+                  >
                     W
                   </div>
+                  <div
+                    v-for="degree in [45, 90, 135, 180, 225, 270, 315]"
+                    :key="degree"
+                    class="degree-marker position-absolute w-100 h-100"
+                    :style="{ transform: `rotate(${degree}deg)` }"
+                  >
+                    <div class="marker-line position-absolute top-0 start-50"></div>
+                  </div>
                 </div>
-                <!-- Arrow: Responsive, always points outward from center -->
-                <div class="qibla-arrow position-absolute top-50 start-50" :style="{
-                  transform: `translate(-50%, -60%) rotate(${qiblaDirection - compassRotation
-                    }deg)`,
-                }"></div>
+                <svg
+                  class="qibla-arrow position-absolute top-50 start-50"
+                  :style="{
+                    transform: `translate(-50%, -50%) rotate(${qiblaDirection - compassRotation}deg)`,
+                    'transform-origin': '25 75'
+                  }"
+                  width="50"
+                  height="150"
+                  viewBox="0 0 50 150"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color: var(--primary-color); stop-opacity: 1" />
+                      <stop offset="100%" style="stop-color: var(--primary-hover-color); stop-opacity: 1" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M25 150 L40 100 L30 30 L25 0 L20 30 L10 100 Z"
+                    fill="url(#arrowGradient)"
+                    stroke="var(--primary-hover-color)"
+                    stroke-width="3"
+                  />
+                  <path
+                    d="M25 150 L40 100 L25 90 L10 100 Z"
+                    fill="var(--primary-color)"
+                    stroke="var(--primary-hover-color)"
+                    stroke-width="2"
+                  />
+                </svg>
               </div>
             </div>
-            <ul class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50">
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+            <ul
+              class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
+            >
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Direction</span>
                 <span class="fw-bold d-flex align-items-center gap-2">
                   <i :class="['bi', directionIconClass]"></i>
                   {{ qiblaDirection?.toFixed(1) }}° ({{ qiblaCardinalDirection }})
                 </span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Bearing from North</span>
                 <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
-                <span class="text-muted">Relative Dir</span>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
+                <span class="text-muted">Relative Direction</span>
                 <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Distance</span>
-                <span class="fw-bold">{{ distanceToKaaba?.toFixed(0) }} km /
-                  {{ distanceToKaabaMiles?.toFixed(0) }} mi</span>
+                <span class="fw-bold"
+                  >{{ distanceToKaaba?.toFixed(0) }} km /
+                  {{ distanceToKaabaMiles?.toFixed(0) }} mi</span
+                >
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Your Coordinates</span>
-                <span class="fw-bold">{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span>
+                <span class="fw-bold"
+                  >{{ userLatitude?.toFixed(4) }}°, {{ userLongitude?.toFixed(4) }}°</span
+                >
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Kaaba Coordinates</span>
                 <span class="fw-bold">21.4225°, 39.8262°</span>
               </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3">
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
+              >
                 <span class="text-muted">Last Updated</span>
                 <span class="fw-bold">{{ lastUpdated }}</span>
               </li>
             </ul>
-            <!-- Qibla Info Card (Modern Layout) -->
-            <div class="alert alert-info small mb-0" style="
+            <div
+              class="alert alert-info small mb-0"
+              style="
                 background: rgba(13, 182, 145, 0.08);
                 border-color: rgba(13, 182, 145, 0.2);
                 color: rgb(13, 182, 145);
-              ">
+              "
+            >
               <i class="bi bi-info-circle"></i> Compass uses true north, not
               magnetic north. For best accuracy, calibrate your device.
             </div>
-
             <div class="container-fluid card-body">
               <div class="row g-2">
                 <div class="col-6 col-md-6">
-                  <button class="btn w-100 btn-outline-secondary" @click="speakQiblaDirection"
-                    :disabled="!qiblaDirection">
+                  <button
+                    class="btn w-100 btn-outline-secondary"
+                    @click="speakQiblaDirection"
+                    :disabled="!qiblaDirection"
+                  >
                     <i class="bi bi-volume-up"></i> Speak
                   </button>
                 </div>
                 <div class="col-6 col-md-6">
-                  <button class="btn w-100 btn-outline-secondary" @click="shareLocation" :disabled="!hasData">
+                  <button
+                    class="btn w-100 btn-outline-secondary"
+                    @click="shareLocation"
+                    :disabled="!hasData"
+                  >
                     <i class="bi bi-share"></i> Share
                   </button>
                 </div>
@@ -165,36 +253,55 @@
             </div>
           </div>
         </div>
-
       </div>
       <div class="col-lg-6 d-flex">
-        <!-- Prayer Times -->
-        <div class="card w-100 ">
-          <div class="card-header" style="padding: 10px;">
+        <div class="card card-custom h-100 w-100">
+          <div class="card-header">
             <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
               Prayer Times
             </h5>
           </div>
-          <div class=" mt-2 d-flex flex-column" style="padding: 10px;">
-            <div class="mb-3 mt-3">
-              <select class="form-select" style="padding: 10px;" v-model="calculationMethod" @change="getPrayerTimes"
-                aria-label="Prayer time calculation method">
-                <option v-for="(name, id) in calculationMethods" :key="id" :value="id">
+          <div class="card-body d-flex flex-column p-lg-4">
+            <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
+            <div class="mb-3">
+              <select
+                class="form-select"
+                v-model="calculationMethod"
+                @change="getPrayerTimes"
+                aria-label="Prayer time calculation method"
+              >
+                <option
+                  v-for="(name, id) in calculationMethods"
+                  :key="id"
+                  :value="id"
+                >
                   {{ name }}
                 </option>
               </select>
             </div>
-            <ul v-if="prayerTimes" class="list-group list-group-flush flex-grow-1">
-              <li class="list-group-item d-flex justify-content-between align-items-center"
-                v-for="(time, name) in prayerTimes" :key="name">
+            <ul
+              v-if="prayerTimes"
+              class="list-group list-group-flush flex-grow-1"
+            >
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center"
+                v-for="(time, name) in prayerTimes"
+                :key="name"
+              >
                 <span class="text-muted fw-bold">{{ name }}</span>
                 <strong class="text-muted">{{ time }}</strong>
               </li>
             </ul>
-            <div v-else class="flex-grow-1 d-flex align-items-center justify-content-center">
+            <div
+              v-else
+              class="flex-grow-1 d-flex align-items-center justify-content-center"
+            >
               <p class="text-muted">Prayer times will appear here.</p>
             </div>
-            <p v-if="timezone" class="text-muted small mt-3 mb-0 text-center">
+            <p
+              v-if="timezone"
+              class="text-muted small mt-3 mb-0 text-center"
+            >
               Timezone: {{ timezone }}
             </p>
           </div>
@@ -202,9 +309,8 @@
       </div>
     </div>
 
-    <!-- Calculation Method Explanations -->
     <div v-if="hasData" class="card card-custom mt-4">
-      <div class="card-header" style="padding: 10px;">
+      <div class="card-header">
         <h5 class="h4 card-title text-primary fw-bold mb-0" style="padding: 10px;">
           About Prayer Time Methods
         </h5>
@@ -306,8 +412,8 @@ export default {
       speechRate: 1,
       speechPitch: 1,
       lastUpdated: null,
-      magneticDeclination: 0.5, // Placeholder, replace with real value if available
-      copySuccess: false, // Tracks copy success message
+      magneticDeclination: 0.5,
+      copySuccess: false,
     };
   },
   computed: {
@@ -386,7 +492,7 @@ export default {
     },
     async fetchQiblaDirection() {
       try {
-        this.location = { lat: 51.5074, lon: -0.1278 }; // Example: London
+        this.location = { lat: 51.5074, lon: -0.1278 };
         this.userLatitude = 51.5074;
         this.userLongitude = -0.1278;
         this.calculateQibla();
@@ -490,7 +596,7 @@ export default {
       const normalizedDegrees = degrees < 0 ? degrees + 360 : degrees;
       const index = Math.round((normalizedDegrees % 360) / 22.5);
       this.qiblaCardinalDirection = directions[index % 16];
-      const R = 6371; // Earth radius in km
+      const R = 6371;
       const dLat = lat2 - lat1;
       const dLon = lon2 - lon1;
       const a =
@@ -502,11 +608,17 @@ export default {
     },
     handleOrientation(event) {
       const alpha = event.alpha;
+      let newRotation;
       if (alpha === null) {
-        this.compassRotation = event.webkitCompassHeading || 360 - event.alpha;
+        newRotation = event.webkitCompassHeading || 360 - event.alpha;
       } else {
-        this.compassRotation = 360 - alpha;
+        newRotation = 360 - alpha;
       }
+      // Smooth rotation using exponential moving average
+      const smoothingFactor = 0.1;
+      this.compassRotation = this.compassRotation
+        ? (1 - smoothingFactor) * this.compassRotation + smoothingFactor * newRotation
+        : newRotation;
       this.isCalibrated =
         (event.webkitCompassAccuracy && event.webkitCompassAccuracy < 30) ||
         this.accuracy < 30;
@@ -516,7 +628,6 @@ export default {
         this.error = "No Qibla direction available to speak.";
         return;
       }
-
       try {
         const utterance = new SpeechSynthesisUtterance(
           `The Qibla direction is ${this.qiblaDirection.toFixed(1)} degrees.`
@@ -530,10 +641,8 @@ export default {
         utterance.rate = Number(this.speechRate) || 1;
         utterance.pitch = Number(this.speechPitch) || 1;
         utterance.lang = selectedVoice?.lang || "en-US";
-
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utterance);
-
         utterance.onerror = (event) => {
           this.error = "Error during speech synthesis. Please try again.";
           console.error("Speech synthesis error:", event);
@@ -548,17 +657,14 @@ export default {
         this.error = "No location or Qibla direction available to share.";
         return;
       }
-
       try {
         const mapsUrl = `https://www.google.com/maps?q=${this.location.lat},${this.location.lon}`;
         const shareText = `Qibla Direction: ${this.qiblaDirection.toFixed(1)}°\nLocation: ${this.location.lat}, ${this.location.lon}\n${mapsUrl}`;
-
         if (window.innerWidth > 768 && !navigator.share) {
           const whatsappUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
           window.open(whatsappUrl, '_blank');
           return;
         }
-
         if (navigator.share) {
           await navigator.share({
             title: "Qibla Direction",
@@ -579,10 +685,8 @@ export default {
         this.error = "No location or Qibla direction available to copy.";
         return;
       }
-
       try {
         const textToCopy = `Qibla Direction: ${this.qiblaDirection.toFixed(1)}°\nLocation: ${this.location.lat}, ${this.location.lon}\nhttps://www.google.com/maps?q=${this.location.lat},${this.location.lon}`;
-
         if (navigator.clipboard) {
           await navigator.clipboard.writeText(textToCopy);
         } else {
@@ -599,7 +703,6 @@ export default {
           }
           document.body.removeChild(textArea);
         }
-
         this.copySuccess = true;
         setTimeout(() => {
           this.copySuccess = false;
@@ -614,7 +717,8 @@ export default {
       this.error = "";
       try {
         const response = await fetch(
-          `https://api.aladhan.com/v1/timings?latitude=${this.userLatitude
+          `https://api.aladhan.com/v1/timings?latitude=${
+            this.userLatitude
           }&longitude=${this.userLongitude}&method=${this.calculationMethod}`
         );
         const data = await response.json();
@@ -746,63 +850,99 @@ export default {
 }
 
 .qibla-compass-wrapper {
-  width: 90vw;
-  max-width: 220px;
-  height: 90vw;
-  max-height: 220px;
+  width: 40vw;
+  max-width: 300px;
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
 }
 
 .compass-dial {
   background: linear-gradient(145deg, #ffffff, #e6e6e6);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .compass-label {
   font-weight: 600;
   font-size: 1rem;
   color: #6c757d;
+  pointer-events: none;
+}
+
+.degree-marker {
+  pointer-events: none;
+}
+
+.marker-line {
+  width: 2px;
+  height: 8px;
+  background: #6c757d;
+  transform: translateX(-50%);
 }
 
 .qibla-arrow {
-  width: 0;
-  height: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 70px solid var(--primary-color);
-  transform-origin: center bottom;
-  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+  width: 20%;
+  max-width: 60px;
+  height: 50%;
+  max-height: 150px;
+  transform-origin: 25px 75px;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2)) brightness(1.1);
 }
 
 @media (max-width: 767.98px) {
   .qibla-compass-wrapper {
-    max-width: 160px;
-    max-height: 160px;
+    width: 50vw;
+    max-width: 200px;
   }
 
   .compass-label {
     font-size: 0.9rem;
   }
+
+  .marker-line {
+    height: 6px;
+  }
+
+  .qibla-arrow {
+    width: 25%;
+    max-width: 50px;
+    height: 50%;
+    max-height: 100px;
+    transform-origin: 25px 50px;
+  }
 }
 
 @media (max-width: 575.98px) {
   .qibla-compass-wrapper {
-    max-width: 120px;
-    max-height: 120px;
+    width: 60vw;
+    max-width: 150px;
   }
 
   .compass-label {
     font-size: 0.8rem;
   }
 
-  .list-group-item {
-    font-size: 0.97rem;
-    padding-left: 0.7rem !important;
-    padding-right: 0.7rem !important;
-    padding-top: 0.6rem !important;
-    padding-bottom: 0.6rem !important;
+  .marker-line {
+    height: 5px;
   }
+
+  .qibla-arrow {
+    width: 30%;
+    max-width: 45px;
+    height: 50%;
+    max-height: 75px;
+    transform-origin: 22.5px 37.5px;
+  }
+}
+
+.list-group-item {
+  font-size: 0.97rem;
+  padding-left: 0.7rem !important;
+  padding-right: 0.7rem !important;
+  padding-top: 0.6rem !important;
+  padding-bottom: 0.6rem !important;
 }
 
 .qibla-info-modern-card {
@@ -838,4 +978,3 @@ export default {
   }
 }
 </style>
-```
