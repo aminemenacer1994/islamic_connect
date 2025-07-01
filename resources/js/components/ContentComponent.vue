@@ -150,6 +150,7 @@
                       {{ podcast.language }}
                     </span>
                   </div>
+                  
                 </div>
                 <div class="audio-controls-inline">
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
@@ -1547,7 +1548,6 @@ export default {
   padding: 16px;
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1555,7 +1555,7 @@ export default {
   position: relative;
   min-width: 60px;
   min-height: 60px;
-  gap: 4px;
+  gap: 12px;
 }
 
 .control-button:hover {
