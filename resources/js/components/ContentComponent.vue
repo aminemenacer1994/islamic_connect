@@ -2,12 +2,11 @@
   <div class="container py-4">
     <!-- Header Section -->
     <div>
-      <h1 h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
+      <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
       <p class="text-center container mb-4 lead">
         Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
         thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
-        your
-        understanding of Islam.
+        your understanding of Islam.
       </p>
     </div>
 
@@ -17,7 +16,6 @@
         <h2 class="section-title">Choose Your Podcast</h2>
         <p class="section-subtitle">Click on any podcast below to start listening</p>
       </div>
-
       <div class="podcast-selection-grid">
         <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
           @click="selectPodcast(podcast)">
@@ -39,7 +37,6 @@
         <h2 class="section-title">Now Playing</h2>
         <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
       </div>
-
       <div class="selected-podcast-header">
         <div class="selected-podcast-info">
           <h3 class="selected-podcast-title">{{ selectedPodcast.name }}</h3>
@@ -55,7 +52,6 @@
           <img :src="selectedPodcast.image" :alt="selectedPodcast.name" class="selected-podcast-image">
         </div>
       </div>
-
       <div class="selected-podcast-description">
         <p>{{ selectedPodcast.desc }}</p>
       </div>
@@ -67,7 +63,6 @@
         <h2 class="section-title">Available Episodes</h2>
         <p class="section-subtitle">Click the play button to start listening</p>
       </div>
-
       <div class="episodes-filters-bar-wrapper">
         <div class="row g-3">
           <div class="col-12 col-md-3">
@@ -113,8 +108,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Loading State -->
       <div v-if="loading" class="loading-container">
         <div class="loading-spinner">
           <div class="spinner-border text-success" role="status">
@@ -124,8 +117,6 @@
         <p class="loading-text">Loading episodes, please wait...</p>
         <p class="loading-subtext">This may take a few moments</p>
       </div>
-
-      <!-- Episodes Grid -->
       <div v-else class="podcast-cards-grid border-md" style="padding: 5px;">
         <div v-for="(podcast, index) in paginatedPodcasts" :key="podcast.title" class="podcast-card-wrapper">
           <div :class="['podcast-card', { 'highlighted': playingIndex === index }]" style="padding: 1.2rem;">
@@ -142,7 +133,7 @@
                 </div>
               </div>
             </div>
-            <div class="card-body ">
+            <div class="card-body">
               <div class="podcast-card-top">
                 <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
                   :alt="selectedPodcast.name" class="episode-avatar podcast-image-clickable"
@@ -173,14 +164,11 @@
           </div>
         </div>
       </div>
-
-      <!-- Pagination -->
       <nav v-if="totalPages > 1" class="pagination-container" aria-label="Episode pagination">
         <div class="pagination-header">
           <h3 class="pagination-title">Browse More Episodes</h3>
           <p class="pagination-subtitle">Use the buttons below to see more episodes</p>
         </div>
-
         <div class="pagination-wrapper">
           <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
             class="pagination-btn pagination-btn-prev" :class="{ 'disabled': currentPage === 1 }"
@@ -188,7 +176,6 @@
             <i class="bi bi-chevron-left"></i>
             <span class="btn-text">Previous Page</span>
           </button>
-
           <div class="page-numbers">
             <template v-if="totalPages <= 7">
               <button v-for="page in totalPages" :key="page" @click="changePage(page)" class="page-number"
@@ -197,30 +184,24 @@
                 {{ page }}
               </button>
             </template>
-
             <template v-else>
               <button @click="changePage(1)" class="page-number" :class="{ 'active': currentPage === 1 }"
                 aria-label="Go to page 1">
                 1
               </button>
-
               <span v-if="currentPage > 4" class="page-ellipsis">...</span>
-
               <button v-for="page in getVisiblePages()" :key="page" @click="changePage(page)" class="page-number"
                 :class="{ 'active': currentPage === page }" :aria-label="`Go to page ${page}`"
                 :aria-current="currentPage === page ? 'page' : null">
                 {{ page }}
               </button>
-
               <span v-if="currentPage < totalPages - 3" class="page-ellipsis">...</span>
-
               <button @click="changePage(totalPages)" class="page-number"
                 :class="{ 'active': currentPage === totalPages }" :aria-label="`Go to page ${totalPages}`">
                 {{ totalPages }}
               </button>
             </template>
           </div>
-
           <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
             class="pagination-btn pagination-btn-next" :class="{ 'disabled': currentPage === totalPages }"
             aria-label="Go to next page">
@@ -228,14 +209,11 @@
             <i class="bi bi-chevron-right"></i>
           </button>
         </div>
-
         <div class="mobile-page-info">
           <span class="page-info-text">Page {{ currentPage }} of {{ totalPages }}</span>
         </div>
       </nav>
     </div>
-
-    <!-- Empty State -->
     <div v-else-if="!loading && !paginatedPodcasts.length" class="empty-state">
       <div class="empty-state-content">
         <i class="bi bi-headphones empty-state-icon"></i>
@@ -252,29 +230,26 @@
     <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
         <div class="controls">
-          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
-            <i class="bi bi-skip-backward-fill"></i>
-          </button>
-          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
-            <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
-            <i v-else class="bi bi-play-fill"></i>
-          </button>
-          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
-            <i class="bi bi-skip-forward-fill"></i>
-          </button>
-          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
-            <i class="bi bi-stop-fill"></i>
-          </button>
-          <button @click="toggleVolume" class="control-btn" title="Volume">
-            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
-          </button>
-          <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.01" @input="updateVolume" class="volume-slider"
-              :style="{ background: `linear-gradient(to right, #0db6a1 0%, #0db6a1 ${volume * 100}%, rgba(255,255,255,0.2) ${volume * 100}%, rgba(255,255,255,0.2) 100%)` }" />
+          <div class="control-group">
+            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind">
+              <i class="bi bi-skip-backward-fill"></i>
+            </button>
+            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause">
+              <i v-if="isAudioPlaying[currentlyPlayingIndex]" class="bi bi-pause-fill"></i>
+              <i v-else class="bi bi-play-fill"></i>
+            </button>
+            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward">
+              <i class="bi bi-skip-forward-fill"></i>
+            </button>
+            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
+              <i class="bi bi-stop-fill"></i>
+            </button>
           </div>
-          <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
-            formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          <button @click="closeAudioPlayer" class="control-btn" title="Close" style="margin-left: auto;">
+          <div class="info-section">
+            <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
+              formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          </div>
+          <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
@@ -294,6 +269,7 @@ export default {
   },
   data() {
     return {
+      showAudioPlayer: false,
       repeatStates: {},
       playingIndex: null,
       showProgress: {}, // Tracks which progress bars should be shown
@@ -1002,7 +978,6 @@ export default {
       this.paginatedPodcasts = this.podcasts.slice(start, end);
     },
 
-    // --- GLOBAL AUDIO PLAYER LOGIC ---
     initializeAudioElements() {
       this.audioElements = this.paginatedPodcasts.map((podcast, index) => {
         const audio = new Audio(podcast.audioUrl || '');
@@ -1013,6 +988,32 @@ export default {
         audio.addEventListener('ended', () => this.handlePodcastEnd(index));
         return audio;
       });
+    },
+    playAudio(index) {
+      if (this.currentlyPlaying !== null && this.currentlyPlaying !== this.audioElements[index]) {
+        if (this.currentlyPlaying.pause) {
+          this.currentlyPlaying.pause();
+          this.currentlyPlaying.currentTime = 0;
+        }
+      }
+      this.isAudioPlaying = this.isAudioPlaying.map((state, i) => i === index);
+      this.currentlyPlaying = this.audioElements[index];
+      this.currentlyPlayingIndex = index;
+      this.playingIndex = index;
+      this.currentlyPlaying.play().catch((err) => {
+        console.error('Play error:', err);
+        this.handlePodcastEnd(index);
+      });
+      this.isAudioPlaying[index] = true;
+      this.showAudioPlayer = true;
+      this.$nextTick(() => {
+        const player = document.querySelector('.audio-player-container');
+        if (player) player.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
+      this.audioPlayerJustOpened = true;
+      setTimeout(() => {
+        this.audioPlayerJustOpened = false;
+      }, 300);
     },
     pauseAudio(index) {
       if (this.audioElements[index]) {
@@ -1089,7 +1090,7 @@ export default {
           if (audio) audio.volume = this.volume;
         });
       }
-      // Dynamically update the seek color for the volume slider
+      // Update the --val CSS variable for the volume slider
       this.$nextTick(() => {
         const slider = document.querySelector('.volume-slider');
         if (slider) {
@@ -1106,21 +1107,15 @@ export default {
       this.currentlyPlaying = null;
       this.audioPlayerJustOpened = false;
     },
-    // --- END GLOBAL AUDIO PLAYER LOGIC ---
-
     handleAudioPlayerClick(event) {
-      // Prevent closing if the audio player was just opened
       if (this.audioPlayerJustOpened) {
         this.audioPlayerJustOpened = false;
         return;
       }
-
-      // Close audio player when clicking on the backdrop
       this.closeAudioPlayer();
     },
 
     handleKeydown(event) {
-      // Close audio player when pressing Escape key
       if (event.key === 'Escape' && this.showAudioPlayer) {
         this.closeAudioPlayer();
       }
@@ -1211,6 +1206,7 @@ export default {
   padding: 2rem 1rem;
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .main-title {
@@ -1485,10 +1481,6 @@ export default {
 }
 
 /* Card Header */
-/* .card-header {
-  padding: 20px 24px 16px;
-} */
-
 .podcast-meta {
   display: flex;
   justify-content: space-between;
@@ -1523,7 +1515,6 @@ export default {
   padding: 24px;
   display: flex;
   flex-direction: column;
-  /*gap: 24px; */
 }
 
 .podcast-title {
@@ -1569,17 +1560,13 @@ export default {
 
 .control-button:hover {
   background: rgba(13, 182, 145, 0.1);
-  transform: scale(1.05);
+  transform: scale(1);
 }
 
 .control-button i {
   font-size: 1.8rem;
   color: #495057;
   transition: color 0.2s ease;
-}
-
-.control-button:hover i {
-  color: #0db6a1;
 }
 
 .control-label {
@@ -1589,8 +1576,6 @@ export default {
   text-align: center;
   line-height: 1.2;
 }
-
-
 
 .rewind-btn,
 .forward-btn {
@@ -1655,6 +1640,7 @@ export default {
 @media (max-width: 768px) {
   .custom-audio-player {
     padding: 8px;
+    background: #212121;
   }
 
   .controls {
@@ -1674,6 +1660,7 @@ export default {
 @media (max-width: 576px) {
   .audio-player-container {
     padding: 5px;
+    background: #212121;
   }
 
   .custom-audio-player {
@@ -1695,10 +1682,6 @@ export default {
   .time {
     font-size: 0.75rem;
     min-width: 80px;
-  }
-
-  .volume-slider {
-    height: 3px;
   }
 }
 
@@ -1971,232 +1954,303 @@ export default {
   }
 }
 
-/* Audio Player Container */
+/* Audio Player Styles */
 .audio-player-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #fff;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  background: #2c2c2c;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  padding: 8px 12px;
 }
 
 .custom-audio-player {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px;
+  color: #ccc;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .controls {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  justify-content: flex-start;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.info-section {
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
 .control-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background: none;
   border: none;
-  color: white;
-  font-size: 1.3rem;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  outline: none;
-}
-
-.control-btn:focus-visible {
-  outline: 2px solid #00bfa6;
-  outline-offset: 2px;
-}
-
-.control-btn:hover,
-.control-btn:active {
-  background: rgba(0, 191, 166, 0.2);
-  color: #00bfa6;
-  transform: scale(1.1);
-}
-
-.progress-bar {
-  width: 100%;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-top: 8px;
-}
-
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, #00bfa6 0%, #23405a 100%);
-  transition: width 0.3s ease;
-}
-
-.title, .subtitle {
-  color: #23405a;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  word-break: break-word;
-}
-
-.text-content {
-  color: #333;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  word-break: break-word;
-}
-
-@media (max-width: 768px) {
-  .container, .content-container {
-    padding: 0.5rem;
-  }
-  .controls {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: stretch;
-  }
-  .control-btn {
-    width: 100%;
-    min-width: 48px;
-    min-height: 48px;
-    font-size: 1.1rem;
-  }
-  .progress-bar {
-    height: 8px;
-  }
-  .title {
-    font-size: 1.3rem;
-  }
-  .subtitle {
-    font-size: 1.1rem;
-  }
-  .text-content {
-    font-size: 0.98rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .container, .content-container {
-    padding: 0.25rem;
-  }
-  .title {
-    font-size: 1.1rem;
-  }
-  .subtitle {
-    font-size: 1rem;
-  }
-  .text-content {
-    font-size: 0.95rem;
-  }
-  .controls {
-    gap: 0.25rem;
-  }
-}
-
-.mt-1 { margin-top: 0.25rem; }
-.mt-2 { margin-top: 0.5rem; }
-.mt-3 { margin-top: 1rem; }
-.mb-1 { margin-bottom: 0.25rem; }
-.mb-2 { margin-bottom: 0.5rem; }
-.mb-3 { margin-bottom: 1rem; }
-.text-center { text-align: center; }
-.w-100 { width: 100%; }
-
-/* Make the play button in the audio player more visible */
-.custom-audio-player .play-pause {
-  background: linear-gradient(135deg, #0db6a1 0%, #00d4aa 100%);
   color: #fff;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  font-size: 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(13, 182, 145, 0.18);
-  border: 2.5px solid #fff;
-  transition: background 0.2s, transform 0.2s;
+  width: 36px;
+  height: 36px;
 }
 
-.custom-audio-player .play-pause:hover {
-  background: linear-gradient(135deg, #00d4aa 0%, #0db6a1 100%);
-  transform: scale(1.08);
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.play-pause {
+  font-size: 1.5rem;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
 }
 
 .time {
   font-size: 0.9rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.8);
-  min-width: 120px;
+  color: #ccc;
+  min-width: 70px;
   text-align: center;
+  white-space: nowrap;
 }
 
-@media (max-width: 768px) {
-  .controls {
-    gap: 12px;
-  }
-
-  .control-btn {
-    font-size: 1.1rem;
-    min-width: 40px;
-    min-height: 40px;
-  }
-
-  .time {
-    font-size: 0.8rem;
-    min-width: 100px;
-  }
-
-  .volume-bar-container {
-    position: fixed;
-    bottom: 100%;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(135deg, rgba(33, 33, 33, 0.95) 0%, rgba(52, 58, 64, 0.95) 100%);
-    backdrop-filter: blur(20px);
-    padding: 12px;
-    border-radius: 20px 20px 0 0;
-  }
-
-  .volume-slider {
-    width: 100%;
-  }
+.title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ccc;
+  min-width: 100px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (max-width: 576px) {
-  .audio-player-container {
-    padding: 5px;
-  }
+.close-btn {
+  margin-left: auto;
+  font-size: 1.2rem;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+}
 
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #555;
+  cursor: pointer;
+  position: relative;
+  margin: 4px 0;
+}
+
+.progress {
+  height: 100%;
+  background: #00ffcc;
+  position: absolute;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
   .custom-audio-player {
-    border-radius: 12px 12px 0 0;
-    padding: 6px 10px;
+    padding: 6px;
   }
 
   .controls {
     gap: 8px;
   }
 
+  .control-group {
+    gap: 8px;
+  }
+
+  .info-section {
+    gap: 8px;
+  }
+
   .control-btn {
-    padding: 6px;
-    font-size: 1rem;
-    min-width: 36px;
-    min-height: 36px;
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .play-pause {
+    font-size: 1.3rem;
+    width: 36px;
+    height: 36px;
   }
 
   .time {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    min-width: 60px;
+  }
+
+  .title {
+    font-size: 0.85rem;
     min-width: 80px;
   }
+
+  .close-btn {
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .progress-bar {
+    height: 3px;
+  }
+}
+
+@media (max-width: 768px) {
+  .audio-player-container {
+    padding: 6px 8px;
+  }
+
+  .controls {
+    gap: 6px;
+    justify-content: flex-start;
+  }
+
+  .control-group {
+    gap: 6px;
+  }
+
+  .info-section {
+    gap: 6px;
+    flex-grow: 0;
+    margin-left: auto;
+    order: 1;
+  }
+
+  .control-btn {
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .play-pause {
+    font-size: 1.2rem;
+    width: 34px;
+    height: 34px;
+  }
+
+  .time {
+    font-size: 0.8rem;
+    min-width: 50px;
+  }
+
+  .title {
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+
+  .close-btn {
+    margin-left: 0;
+    order: 2;
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .progress-bar {
+    height: 3px;
+  }
+}
+
+@media (max-width: 576px) {
+  .audio-player-container {
+    padding: 4px 6px;
+  }
+
+  .info-section {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
+    order: 1;
+  }
+
+  .control-btn {
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .play-pause {
+    font-size: 1.1rem;
+    width: 32px;
+    height: 32px;
+  }
+
+  .time {
+    font-size: 0.7rem;
+    min-width: 40px;
+  }
+
+  .title {
+    font-size: 0.7rem;
+    min-width: 60px;
+  }
+
+  .close-btn {
+    order: 2;
+    font-size: 0.9rem;
+    width: 28px;
+    height: 28px;
+  }
+
+  .progress-bar {
+    height: 2px;
+  }
+}
+
+/* Utility Classes */
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 /* Remove old styles */
@@ -2251,10 +2305,6 @@ export default {
   align-items: center;
 }
 
-.toast-container {
-  z-index: 1050;
-}
-
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -2304,59 +2354,6 @@ export default {
   font-size: 1rem;
   color: #6c757d;
   line-height: 1.6;
-}
-
-/* Podcast Section */
-.podcast-section {
-  margin-top: 2rem;
-}
-
-/* Responsive Design for Loading and Empty States */
-@media (max-width: 768px) {
-
-  .loading-container,
-  .empty-state {
-    padding: 2rem 1rem;
-    margin: 1.5rem 0;
-  }
-
-  .loading-text {
-    font-size: 1rem;
-  }
-
-  .empty-state-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-  }
-
-  .empty-state-title {
-    font-size: 1.5rem;
-  }
-
-  .empty-state-description {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 576px) {
-
-  .loading-container,
-  .empty-state {
-    padding: 1.5rem 0.5rem;
-    margin: 1rem 0;
-  }
-
-  .empty-state-icon {
-    font-size: 2.5rem;
-  }
-
-  .empty-state-title {
-    font-size: 1.3rem;
-  }
-
-  .empty-state-description {
-    font-size: 0.85rem;
-  }
 }
 
 .episode-avatar {
@@ -2420,9 +2417,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-
-
-
   .podcast-extra-info {
     font-size: 0.85rem;
   }
@@ -2450,7 +2444,6 @@ export default {
   .podcast-desc {
     font-size: 0.8rem;
   }
-
 }
 
 .search-group .form-control,
@@ -2461,10 +2454,11 @@ export default {
 }
 
 @media (max-width: 768px) {
+
   .search-group .form-control,
   .filter-group .form-select {
-      font-size: 0.9rem;
-      padding: 8px;
+    font-size: 0.9rem;
+    padding: 8px;
   }
 }
 

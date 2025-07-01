@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container py-4">
+    <div class="container py-5">
       <h1 class="main-title fw-bold">Islamic Radio Stations</h1>
 
       <p class="text-center lead" style="font-size: 1.25rem;">

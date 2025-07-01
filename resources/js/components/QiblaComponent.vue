@@ -185,7 +185,7 @@
               <li
                 class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
               >
-                <span class="text-muted">Relative Direction</span>
+                <span class="text-muted">Relative Dir</span>
                 <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
               <li

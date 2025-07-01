@@ -281,118 +281,61 @@ export default {
       }
     },
     async fetchStoresFromOverpass(coords) {
-      // Generate cache key based on coordinates and radius
-      const cacheKey = `${coords.lat}:${coords.lon}:${this.selectedRadius}`;
-      if (this.queryCache.has(cacheKey)) {
-        console.log('Returning cached results for', cacheKey);
-        return this.queryCache.get(cacheKey);
-      }
-
       let bbox = this.bbox;
       if (!bbox || !Array.isArray(bbox) || bbox.length !== 4) {
-        const radiusInDegrees = this.selectedRadius / 111320; // Convert meters to degrees
+        const radiusInDegrees = this.selectedRadius / 111320;
         bbox = [
-          Math.max(-90, coords.lat - radiusInDegrees), // south
-          Math.min(90, coords.lat + radiusInDegrees), // north
-          Math.max(-180, coords.lon - radiusInDegrees), // west
-          Math.min(180, coords.lon + radiusInDegrees), // east
-        ];
-      } else {
-        // Ensure bounding box stays within valid geographic ranges
-        bbox = [
-          Math.max(-90, Math.min(bbox[0], bbox[1])), // south
-          Math.min(90, Math.max(bbox[0], bbox[1])), // north
-          Math.max(-180, Math.min(bbox[2], bbox[3])), // west
-          Math.min(180, Math.max(bbox[2], bbox[3])), // east
+          coords.lat - radiusInDegrees,
+          coords.lat + radiusInDegrees,
+          coords.lon - radiusInDegrees,
+          coords.lon + radiusInDegrees,
         ];
       }
 
-      const [south, north, west, east] = bbox;
+      const [south, north, west, east] = [
+        Math.min(bbox[0], bbox[1]),
+        Math.max(bbox[0], bbox[1]),
+        Math.min(bbox[2], bbox[3]),
+        Math.max(bbox[2], bbox[3]),
+      ];
 
-      const unwantedShopTypes = "butcher|food|grocery|supermarket|convenience|restaurant|fast_food|deli|bakery|cafe|bar|pub|alcohol";
+      const unwantedShopTypes = "butcher|food|grocery|supermarket|convenience|restaurant|fast_food|deli|bakery|cafe|bar";
       const query = `
-        [out:json][timeout:90][maxsize:1073741824];
+        [out:json][timeout:30];
         (
-          nwr["shop"~"books|clothes|religion|gift|variety_store|general|jewelry|electronics|stationery|art|craft|perfumery|cosmetics|department_store|kiosk|textiles|toys|charity"]
-             ["name"~"islam|muslim|quran|koran|hijab|arabic|deen|halal|sunnah|abaya|thobe|miswak|oud|ramadan|eid|salah|prayer|madrasa|dawah", "i"]
+          nwr["shop"~"books|clothes|religion|gift|variety_store|general|jewelry|electronics|stationery|art|craft|perfumery|cosmetics|department_store|kiosk|textiles"]
+             ["name"~"islam|muslim|quran|hijab|arabic|deen|halal|sunnah|abaya|thobe|miswak|oud", "i"]
              ["shop"!~"${unwantedShopTypes}"]
              ["diet:halal"!="yes"]
              (${south},${west},${north},${east});
 
-          nwr["shop"]["religion"~"islam|muslim"]
+          nwr["shop"]["religion"="islam"]
              ["shop"!~"${unwantedShopTypes}"]
              ["diet:halal"!="yes"]
              (${south},${west},${north},${east});
 
-          nwr["shop"]["keywords"~"islamic|muslim|quran|koran|hijab|halal|religious|ramadan|eid|salah|prayer|madrasa|dawah", "i"]
+          nwr["shop"]["keywords"~"islamic|muslim|quran|hijab|halal|religious", "i"]
              ["shop"!~"${unwantedShopTypes}"]
              ["diet:halal"!="yes"]
              (${south},${west},${north},${east});
 
-          nwr["shop"]["description"~"islamic|muslim|halal|religious|ramadan|eid|salah|prayer|madrasa|dawah", "i"]
-             ["shop"!~"${unwantedShopTypes}"]
-             ["diet:halal"!="yes"]
-             (${south},${west},${north},${east});
-
-          nwr["access"~"muslim|islamic"]
-             ["shop"!~"${unwantedShopTypes}"]
-             ["diet:halal"!="yes"]
-             (${south},${west},${north},${east});
-
-          nwr["amenity"="marketplace"]
-             ["name"~"islam|muslim|quran|koran|hijab|arabic|deen|halal|sunnah|abaya|thobe|miswak|oud|ramadan|eid|salah|prayer|madrasa|dawah", "i"]
-             ["diet:halal"!="yes"]
-             (${south},${west},${north},${east});
-
-          nwr["destination"~"religious|islamic|muslim"]
+          nwr["shop"]["description"~"islamic|muslim|halal|religious", "i"]
              ["shop"!~"${unwantedShopTypes}"]
              ["diet:halal"!="yes"]
              (${south},${west},${north},${east});
         );
-        out body limit 1000;
+        out body;
       `;
 
-      console.log('Executing Overpass query:', query);
-
-      const maxRetries = 3;
-      let attempts = 0;
-      let elements = [];
-
-      while (attempts < maxRetries) {
-        try {
-          const response = await axios.post('https://overpass-api.de/api/interpreter', query, {
-            headers: { 'Content-Type': 'text/plain' },
-            timeout: 90000, // 90 seconds timeout for axios
-          });
-
-          elements = response.data.elements || [];
-          if (elements.length > 0) {
-            this.queryCache.set(cacheKey, elements);
-            return elements;
-          }
-
-          // If no results, try expanding the radius slightly for the next attempt
-          this.selectedRadius *= 1.5;
-          const radiusInDegrees = this.selectedRadius / 111320;
-          bbox = [
-            Math.max(-90, coords.lat - radiusInDegrees),
-            Math.min(90, coords.lat + radiusInDegrees),
-            Math.max(-180, coords.lon - radiusInDegrees),
-            Math.min(180, coords.lon + radiusInDegrees),
-          ];
-          attempts++;
-        } catch (error) {
-          console.error(`Overpass API error (attempt ${attempts + 1}/${maxRetries}):`, error);
-          if (attempts === maxRetries - 1) {
-            this.error = "Failed to fetch stores after multiple attempts. Please try again later.";
-            return [];
-          }
-          // Wait before retrying
-          await new Promise(resolve => setTimeout(resolve, 1000 * (attempts + 1)));
-          attempts++;
-        }
+      try {
+        const response = await axios.post('https://overpass-api.de/api/interpreter', query, {
+          headers: { 'Content-Type': 'text/plain' },
+        });
+        return response.data.elements || [];
+      } catch (error) {
+        console.error("Overpass API error:", error);
+        return [];
       }
-      return elements;
     },
     processStoreData(data, coords) {
       return {
@@ -600,7 +543,9 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .card-header {
+    display: flex;
     flex-direction: column;
+    align-items: center;
     text-align: center;
   }
 

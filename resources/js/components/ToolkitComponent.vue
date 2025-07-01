@@ -31,7 +31,7 @@
       </div>
 
 
-      <div class="col-md-6 col-lg-4">
+      <!-- <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
           <img src="/images/pt1.png" alt="Prayer Times" class="w-100 pt-3" style="object-fit: contain;" />
           <div class="p-3">
@@ -48,7 +48,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
