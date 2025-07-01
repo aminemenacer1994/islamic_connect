@@ -1560,7 +1560,7 @@ export default {
 
 .control-button:hover {
   background: rgba(13, 182, 145, 0.1);
-  transform: scale(1);
+  transform: scale(1.05);
 }
 
 .control-button i {
@@ -2045,7 +2045,6 @@ export default {
 }
 
 .close-btn {
-  margin-left: auto;
   font-size: 1.2rem;
   padding: 6px;
   width: 36px;
@@ -2128,14 +2127,10 @@ export default {
     justify-content: flex-start;
   }
 
-  .control-group {
-    gap: 6px;
-  }
 
   .info-section {
-    gap: 6px;
     flex-grow: 0;
-    margin-left: auto;
+    /* margin-left: auto; */
     order: 1;
   }
 
@@ -2162,7 +2157,6 @@ export default {
   }
 
   .close-btn {
-    margin-left: 0;
     order: 2;
     font-size: 1rem;
     width: 30px;
@@ -2182,7 +2176,7 @@ export default {
   .info-section {
     flex-direction: column;
     align-items: flex-start;
-    margin-left: 0;
+    /* margin-left: 0; */
     order: 1;
   }
 
@@ -2404,7 +2398,7 @@ export default {
   font-weight: 700;
   border-radius: 10px;
   padding: 2px 8px;
-  margin-left: 0.5rem;
+  /* margin-left: 0.5rem; */
   letter-spacing: 0.5px;
 }
 
@@ -2486,7 +2480,7 @@ export default {
 .audio-controls-inline {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  /* margin-left: auto; */
 }
 
 .podcast-grid {
