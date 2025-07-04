@@ -10,14 +10,13 @@
             </div>
             <h2 id="welcome-heading" class="section-title text-center">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
             <p class="section-text">
-              "In the name of Allah, the Entirely Merciful, the Especially Merciful."<br><br>
+              "In the name of Allah, the Entirely Merciful, the Especially Merciful."<br>
               Welcome to Islamic Connect, a sanctuary of knowledge where hearts and minds unite in the pursuit of
               understanding.
               We illuminate the path to acceptance through divine wisdom, fostering a community where seekers of truth
               may grow together
               in your journey toward the light of Islam.
             </p>
-            <div class="decorative-border"></div>
           </div>
         </div>
 
@@ -87,7 +86,7 @@ export default {
   z-index: 1;
 } */
 
-.text-content {
+/* .text-content {
   background-color: var(--light-grey);
   padding: 3rem;
   border-radius: 8px;
@@ -95,7 +94,7 @@ export default {
   position: relative;
   z-index: 3;
   border-left: 4px solid var(--primary-color);
-}
+} */
 
 .quran-icon {
   font-size: 2.5rem;
