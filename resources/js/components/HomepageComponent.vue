@@ -253,7 +253,7 @@
           </p>
         </div>
         <div class="col-md-6 mt-4 order-1 order-md-1">
-          <img src="/images/quran.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+          <img src="/images/companion2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 
@@ -261,7 +261,7 @@
       <!-- Second row -->
       <div class="row pt-5 pb-5 py-5 container">
         <div class="col-md-6 order-1 order-md-0">
-          <img src="/images/podcast1.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+          <img src="/images/podcast2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
         <div class="col-md-6 pb-5 order-0 order-md-1">
           <h6 class="display-4 mt-2 fw-bold text-left container">
@@ -305,7 +305,7 @@
           </h6>
         </div>
         <div class="col-md-6 order-1 order-md-1">
-          <img src="/images/surat.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+          <img src="/images/surat2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 

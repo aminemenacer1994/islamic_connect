@@ -91,7 +91,7 @@
                                     border: 1px solid #31464338; border-radius: 8px;
                                     max-height: 600px;
                                     background: white;">
-                                        
+
 
                                     <ul class="col-md-12 list-group root" id="toggle" ref="ayahList"
                                         style="list-style-type: none">
@@ -119,14 +119,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 pt-2 card-hide text-left pr-4" v-if="information != null">
-                    <h4 class="fw-bold text-left" v-if="information != null">Verse Breakdown...</h4>
-                    <div class="card content" style="
-                        border-radius: 15px;  border: 1px solid #31464338">
-                        <div class="content">
-                            <Welcome :information="information" v-if="surah != null"/>
-       
-                            <div class="container-fluid " v-if="information != null">
+                <div class="col-md-8 pt-2 card-hide text-left pr-4">
+                    <Welcome v-if="information == null" />
+                    
+                    <div v-else>
+                        <h4 class="fw-bold text-left" v-if="information == null">Verse Breakdown...</h4>
+                        <!-- breakdown content here -->
+                         
+                    </div>
+                    <div class="card content" >
+                        <div  v-if="information != null">
+                            <div class="container-fluid ">
                                 <div class="row">
                                     <NavTabs />
                                     <!-- toogle between basic/advanced -->
@@ -212,7 +215,7 @@
 
                             <div class="card-body content">
                                 <div class="tab-content text-center">
-                                    <Welcome :information="information" />
+                                    <!-- <Welcome :information="information" /> -->
 
                                     <!-- Translation Section -->
                                     <div class="tab-pane active content " id="home" role="tabpanel"
