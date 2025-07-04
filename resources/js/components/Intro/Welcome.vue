@@ -1,30 +1,27 @@
 <template>
   <section v-if="!information" aria-labelledby="welcome-heading" class="welcome-section" role="tabpanel">
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row align-items-start">
         <!-- Text column -->
-        <div class="col-lg-8 order-lg-1 order-2">
-          <div class="text-content animated-slide-up">
+        <div class="col-lg-7 order-lg-1 order-2 d-none d-lg-block">
+          <div class="text-content mt-3 animated-slide-up">
             <div class="quran-icon">
               <i class="fas fa-quran"></i>
             </div>
-            <!-- <h2 id="welcome-heading" class="section-title text-center text-dark">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2> -->
-            <p class="section-text">
-              "In the name of Allah, the Entirely Merciful, the Especially Merciful."<br>
-              Welcome to Islamic Connect, a sanctuary of knowledge where hearts and minds unite in the pursuit of
-              understanding.
-              We illuminate the path to acceptance through divine wisdom, fostering a community where seekers of truth
-              may grow together
-              in your journey toward the light of Islam.
+            <p class="section-text" style="font-size: 1.3rem;">
+              "Read in the name of your Lord who created." (Quran 96:1)<br>
+              A sacred sanctuary for reflecting on the divine words of the Quran. This space fosters spiritual growth, uniting hearts in the pursuit of Allah’s guidance and wisdom, illuminating the path to righteousness through His eternal revelation.
+            </p>
+            <p class="section-text" style="font-size: 1.3rem;">
+              Engage with the timeless verses that inspire patience, gratitude, and devotion, guiding souls toward tranquility and purpose. Let the Quran’s wisdom nurture your heart, as it calls to mindfulness and submission to the Creator’s will.
             </p>
           </div>
         </div>
 
-        <!-- Image column - hidden on mobile -->
+        <!-- Image column - hidden on mobile and tablet -->
         <div class="col-lg-4 order-lg-2 order-1 d-none d-lg-block">
-          <div >
-            <img src="images/calligraphy.png" alt="Islamic Calligraphy" class="img-fluid animated-fade-in" />
-            <div class="image-overlay"></div>
+          <div class="image-container">
+            <img src="images/calligraphy.png" alt="Quranic Calligraphy" class="img-fluid animated-fade-in" />
           </div>
         </div>
       </div>
@@ -52,8 +49,6 @@ export default {
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-
-
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -63,56 +58,28 @@ export default {
   position: relative;
   padding: 2rem;
   margin-left: -2rem;
+  background: transparent; 
 }
 
 .image-container img {
   width: 100%;
   max-width: 500px;
   border-radius: 8px;
-  box-shadow: var(--shadow);
   transition: transform 0.5s ease;
   z-index: 2;
   position: relative;
+  background: transparent; 
 }
 
-/* .image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(0,150,136,0.1) 0%, rgba(255,255,255,0) 60%);
-  border-radius: 8px;
-  z-index: 1;
-} */
-
-/* .text-content {
-  background-color: var(--light-grey);
-  padding: 3rem;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  position: relative;
-  z-index: 3;
-  border-left: 4px solid var(--primary-color);
-} */
-
-.quran-icon {
-  font-size: 2.5rem;
+/* .quran-icon {
+  font-size: 3rem;
   color: var(--primary-color);
   margin-bottom: 1.5rem;
-}
-
-.section-title {
-  color: var(--primary-color);
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
+} */
 
 .section-text {
   color: var(--text-color);
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   line-height: 1.8;
   margin-bottom: 2rem;
 }
@@ -135,16 +102,20 @@ export default {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(30px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -163,7 +134,7 @@ export default {
     min-height: auto;
     padding: 3rem 0;
   }
-  
+
   .text-content {
     padding: 2rem;
   }
@@ -173,13 +144,9 @@ export default {
   .welcome-section {
     padding: 2rem 0;
   }
-  
-  .section-title {
-    font-size: 2rem;
-  }
-  
+
   .section-text {
-    font-size: 1rem;
+    font-size: 1.6rem;
   }
 }
 
@@ -187,9 +154,9 @@ export default {
   .text-content {
     padding: 1.5rem;
   }
-  
+
   .quran-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 </style>
