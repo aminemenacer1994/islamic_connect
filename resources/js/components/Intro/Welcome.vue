@@ -8,7 +8,7 @@
             <div class="quran-icon">
               <i class="fas fa-quran"></i>
             </div>
-            <h2 id="welcome-heading" class="section-title text-center">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2>
+            <!-- <h2 id="welcome-heading" class="section-title text-center text-dark">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h2> -->
             <p class="section-text">
               "In the name of Allah, the Entirely Merciful, the Especially Merciful."<br>
               Welcome to Islamic Connect, a sanctuary of knowledge where hearts and minds unite in the pursuit of
