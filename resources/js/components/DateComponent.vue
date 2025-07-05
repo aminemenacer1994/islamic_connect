@@ -3,13 +3,15 @@
     <div class="row justify-content-center">
       <h1 class="display-5 fw-bold text-center">Date Converter</h1>
       <p class="text-center container mb-2 lead">
-        Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars!
+        Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for
+        finding Islamic dates for events, holidays, or just learning more about the calendars!
       </p>
-      <div class="alert alert-info text-center mb-3 container-fluid" >
-        <b>Did you know?</b> The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons!
+      <div class="alert alert-info text-center mb-3 container-fluid">
+        <b>Did you know?</b> The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so
+        Islamic months move through the seasons!
       </div>
       <div class="row justify-content-center">
-        <div class="col-md-12 col-lg-10">
+        <div class="col-12 col-md-12 col-lg-10">
           <div class="card">
             <div style="padding: 0.9rem; color: white; background: #00a792;">
               <h3 class="fw-bold text-center">Islamic Date Converter</h3>
@@ -17,7 +19,7 @@
             <div class="card-body">
               <form @submit.prevent="convertDate">
                 <div class="row mb-4">
-                  <div class="col-md-6 mb-3 mb-md-0">
+                  <div class="col-12 col-md-6 mb-3 mb-md-0">
                     <div class="form-floating">
                       <select class="form-select" id="sourceCalendar" v-model="sourceCalendar">
                         <option value="gregorian">Gregorian</option>
@@ -26,7 +28,7 @@
                       <label for="sourceCalendar">Source Calendar</label>
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-12 col-md-6">
                     <div class="form-floating">
                       <select class="form-select" id="targetCalendar" v-model="targetCalendar">
                         <option value="hijri">Hijri</option>
@@ -38,7 +40,7 @@
                 </div>
 
                 <div class="row g-3 mb-4 align-items-end">
-                  <div class="col-md-4">
+                  <div class="col-12 col-md-4">
                     <div class="form-floating">
                       <select class="form-select" id="day" v-model="day">
                         <option v-for="d in daysInMonth" :value="d" :key="d">{{ d }}</option>
@@ -46,7 +48,7 @@
                       <label for="day">Day</label>
                     </div>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-12 col-md-4">
                     <div class="form-floating">
                       <select class="form-select" id="month" v-model="month" @change="updateDays">
                         <option v-for="(m, index) in months" :value="index + 1" :key="index">{{ m }}</option>
@@ -54,7 +56,7 @@
                       <label for="month">Month</label>
                     </div>
                   </div>
-                  <div class="col-md-4 d-flex flex-column flex-md-row align-items-stretch gap-2">
+                  <div class="col-12 col-md-4 d-flex flex-column flex-md-row align-items-stretch gap-2">
                     <div class="form-floating flex-fill">
                       <select class="form-select" id="year" v-model="year">
                         <option v-for="y in years" :value="y" :key="y">{{ y }}</option>
@@ -65,60 +67,72 @@
                 </div>
 
                 <div class="d-flex justify-content-center gap-3 mt-3">
-                  <button class="btn btn-dark px-4" type="submit" >Submit</button>
+                  <button class="btn btn-dark px-4" type="submit">Submit</button>
                   <button class="btn btn-secondary px-4" type="button" @click="resetForm">Reset</button>
                 </div>
               </form>
 
-              <div v-if="convertedDate" class="container-fluid d-flex justify-content-center align-items-center mt-5 mb-5">
-                <div class="result-card w-100" style="max-width: 700px; background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); padding: 2.5rem 1.5rem;">
+              <div v-if="convertedDate"
+                class=" d-flex justify-content-center align-items-center mt-5 mb-5">
+                <div class="result-card w-100"
+                  style=" background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 18px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); padding: 2.5rem 1.5rem;">
                   <div class="text-center mb-4">
                     <span class="fs-2 align-middle" style="color: #00a792;">📅</span>
                     <span class="h4 fw-bold align-middle ms-2">Conversion Result</span>
                   </div>
                   <div class="row g-4 align-items-stretch mb-4">
                     <div class="col-12 col-md-6">
-                      <div class="p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center" style="border: 1px solid #e0e0e0; border-radius: 14px;">
+                      <div
+                        class="p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center"
+                        style="border: 1px solid #e0e0e0; border-radius: 14px;">
                         <div class="text-muted mb-1">Source</div>
-                        <div class="fw-bold mb-2" style="color: #00a792;">{{ sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri' }}</div>
+                        <div class="fw-bold mb-2" style="color: #00a792;">{{ sourceCalendar === 'gregorian' ?
+                          'Gregorian' : 'Hijri' }}</div>
                         <div class="fs-4 mb-1">{{ formattedSourceDate }}</div>
                       </div>
                     </div>
                     <div class="col-12 col-md-6">
-                      <div class="p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center" style="border: 1px solid #e0e0e0; border-radius: 14px;">
+                      <div
+                        class="p-4 bg-white rounded-3 border h-100 d-flex flex-column justify-content-center text-center"
+                        style="border: 1px solid #e0e0e0; border-radius: 14px;">
                         <div class="text-muted mb-1">Target</div>
-                        <div class="fw-bold mb-2" style="color: #00a792;">{{ targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri' }}</div>
+                        <div class="fw-bold mb-2" style="color: #00a792;">{{ targetCalendar === 'gregorian' ?
+                          'Gregorian' : 'Hijri' }}</div>
                         <div class="fs-4 mb-1">{{ formattedTargetDate }}</div>
                         <div class="mb-0 text-muted small">{{ targetDayName }}</div>
                       </div>
                     </div>
                   </div>
                   <hr class="my-4" style="border-color: #e0e0e0;" />
-                  <div class="d-flex flex-column align-items-center mb-4">
-                    <span class="badge rounded-pill bg-light border px-3 py-2 mb-2" style="font-size: 1rem; color: #333; border: 1px solid #e0e0e0;">
+                  <!-- <div class="d-flex flex-column align-items-center mb-4">
+                    <span class="badge rounded-pill bg-light border px-3 py-2 mb-2 w-100 w-md-auto"
+                      style="font-size: 1rem; color: #333; border: 1px solid #e0e0e0; max-width: 100%; box-sizing: border-box;">
                       <span class="me-2" style="color: #00a792;">📍</span>
                       <b>Your Location:</b>
                       <span v-if="userAddress">{{ userAddress }}</span>
                       <span v-else-if="locationError" class="text-danger">{{ locationError }}</span>
                       <span v-else class="text-muted">Detecting location...</span>
                     </span>
-                  </div>
+                  </div> -->
                   <div class="mb-2 text-center">
                     <span class="fs-5 align-middle" style="color: #00a792;">🗓️</span>
-                    <span class="fw-bold align-middle ms-2">Islamic Calendar for {{ hijriMonthName }} {{ hijriYear }}</span>
+                    <span class="fw-bold align-middle ms-2">Islamic Calendar for {{ hijriMonthName }} {{ hijriYear
+                      }}</span>
                   </div>
                   <div class="d-flex justify-content-center">
-                    <table class="table  w-auto bg-white mb-0 calendar-table" style="border-radius: 0.75rem; overflow: hidden; border: 1px solid #e0e0e0;">
+                    <table class="table w-auto bg-white mb-0 calendar-table"
+                      style="border-radius: 0.75rem; overflow: hidden; border: 1px solid #e0e0e0;">
                       <thead>
                         <tr>
-                          <th v-for="day in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']" :key="day" class="text-center small" style="background: #f8f9fa;">{{ day }}</th>
+                          <th v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="day"
+                            class="text-center small" style="background: #f8f9fa;">{{ day }}</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr v-for="week in hijriMonthGrid" :key="week[0]">
                           <td v-for="cell in week" :key="cell.day + '-' + cell.isCurrent"
-                              :class="['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']"
-                              style="vertical-align: middle; min-width: 36px; min-height: 36px;">
+                            :class="['text-center', cell.isCurrent ? 'bg-success text-white fw-bold' : '', 'small', cell.day ? 'calendar-day-cell' : '']"
+                            style="vertical-align: middle; min-width: 36px; min-height: 36px;">
                             <span v-if="cell.day">{{ cell.day }}</span>
                           </td>
                         </tr>
@@ -127,9 +141,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-footer text-muted small text-center">
-              Date conversion based on astronomical calculations
             </div>
           </div>
         </div>
@@ -452,21 +463,41 @@ export default {
   border-radius: 20px;
 }
 
-.calendar-table th, .calendar-table td {
+.calendar-table th,
+.calendar-table td {
   text-align: center;
   vertical-align: middle;
   padding: 0.5rem 0.7rem;
 }
+
 .calendar-day-cell {
   border-radius: 8px;
   transition: background 0.2s;
 }
+
 .calendar-day-cell.bg-success {
-  box-shadow: 0 2px 8px rgba(0,167,146,0.08);
+  box-shadow: 0 2px 8px rgba(0, 167, 146, 0.08);
 }
+
 @media (max-width: 768px) {
   .result-card {
     padding: 1.2rem 0.2rem !important;
+  }
+}
+@media (max-width: 600px) {
+  .badge.rounded-pill {
+    font-size: 0.875rem !important; /* Smaller font size for mobile */
+    padding: 0.5rem 1rem !important; /* Reduced padding */
+    max-width: 100%; /* Ensure badge doesn't overflow */
+    word-break: break-word; /* Prevent text overflow */
+  }
+  .result-card {
+    padding: 1.5rem 1rem !important; /* Adjust padding for result card */
+  }
+  .calendar-table td {
+    min-width: 30px !important; /* Smaller cells for mobile */
+    min-height: 30px !important;
+    font-size: 0.75rem !important; /* Smaller font for calendar */
   }
 }
 </style>

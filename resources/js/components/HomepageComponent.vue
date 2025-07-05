@@ -133,11 +133,10 @@
               <div class="card border-0 card-shadow mb-4">
                 <div class="card-body text-center">
                   <div class="my-3"><img src="images/watching.png" width="100px" /></div>
-                  <h3 class="fw-bold">Listen, Watch & Reflect</h3>
+                  <h3 class="fw-bold">Listen, Watch, Reflect</h3>
                   <p class="mt-3" style="font-size: 18px;">
                     Enjoy Quran recitations, insightful audio podcasts, and a rich image gallery of Islamic art. Learn
-                    through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere,
-                    anytime with peace, purpose, and clarity.
+                    through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere.
                   </p>
                   <div class="d-grid">
                     <button class="form-control" onclick="window.location.href='/content'"
@@ -185,40 +184,40 @@
             voice search.</p>
         </div>
         <div class="row g-4 g-md-5">
-          <div class="col-md-6  col-xl-4">
-            <div class="text-primary mb-3 container">
-              <div class="my-3"><img src="images/agenda.png" width="80px" /></div>
+          <div class="col-md-6 col-xl-4">
+            <div class="text-center">
+              <div class="my-3">
+                <img src="images/agenda.png" width="80px" alt="Notes & Reflections" />
+              </div>
+              <h3 class="fw-bold">Notes & Reflections</h3>
             </div>
-            <h3 class="fw-bold">
-              Notes & Reflections
-            </h3>
-            <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
               <strong>
                 Save personal notes, reflections, and insights while studying Quran and Islamic content.
               </strong>
             </p>
           </div>
           <div class="col-md-6 col-xl-4">
-            <div class="text-primary mb-3">
-              <div class="my-3"><img src="images/pray.png" width="80px" /></div>
+            <div class="text-center">
+              <div class="my-3">
+                <img src="images/pray.png" width="80px" alt="Duas" />
+              </div>
+              <h3 class="fw-bold">Duas Collection</h3>
             </div>
-            <h3 class="fw-bold">
-              Duas
-            </h3>
-            <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
               <strong>
                 Browse and recite authentic duas for daily life, protection, gratitude, and special occasions.
               </strong>
             </p>
           </div>
           <div class="col-md-6 col-xl-4">
-            <div class="text-primary mb-3">
-              <div class="my-3"><img src="images/praying-hands.png" width="80px" /></div>
+            <div class="text-center">
+              <div class="my-3">
+                <img src="images/praying-hands.png" width="80px" alt="Prayer Times" />
+              </div>
+              <h3 class="fw-bold">Prayer Times</h3>
             </div>
-            <h3 class="fw-bold">
-              Prayer Times
-            </h3>
-            <p class="lead container-fluid pt-3 text-left" style="line-height: 1.8em">
+            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
               <strong>
                 Access precise prayer timings based on your location, with alerts to never miss a prayer.
               </strong>
@@ -537,7 +536,7 @@
 
 
     <!-- contact -->
-    <section class="py-5" >
+    <section class="py-5">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">

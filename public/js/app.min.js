@@ -59214,7 +59214,7 @@ var _hoisted_3 = {
   "class": "row justify-content-center"
 };
 var _hoisted_4 = {
-  "class": "col-md-12 col-lg-10"
+  "class": "col-12 col-md-12 col-lg-10"
 };
 var _hoisted_5 = {
   "class": "card"
@@ -59226,13 +59226,13 @@ var _hoisted_7 = {
   "class": "row mb-4"
 };
 var _hoisted_8 = {
-  "class": "col-md-6 mb-3 mb-md-0"
+  "class": "col-12 col-md-6 mb-3 mb-md-0"
 };
 var _hoisted_9 = {
   "class": "form-floating"
 };
 var _hoisted_10 = {
-  "class": "col-md-6"
+  "class": "col-12 col-md-6"
 };
 var _hoisted_11 = {
   "class": "form-floating"
@@ -59241,21 +59241,21 @@ var _hoisted_12 = {
   "class": "row g-3 mb-4 align-items-end"
 };
 var _hoisted_13 = {
-  "class": "col-md-4"
+  "class": "col-12 col-md-4"
 };
 var _hoisted_14 = {
   "class": "form-floating"
 };
 var _hoisted_15 = ["value"];
 var _hoisted_16 = {
-  "class": "col-md-4"
+  "class": "col-12 col-md-4"
 };
 var _hoisted_17 = {
   "class": "form-floating"
 };
 var _hoisted_18 = ["value"];
 var _hoisted_19 = {
-  "class": "col-md-4 d-flex flex-column flex-md-row align-items-stretch gap-2"
+  "class": "col-12 col-md-4 d-flex flex-column flex-md-row align-items-stretch gap-2"
 };
 var _hoisted_20 = {
   "class": "form-floating flex-fill"
@@ -59266,12 +59266,11 @@ var _hoisted_22 = {
 };
 var _hoisted_23 = {
   key: 0,
-  "class": "container-fluid d-flex justify-content-center align-items-center mt-5 mb-5"
+  "class": "d-flex justify-content-center align-items-center mt-5 mb-5"
 };
 var _hoisted_24 = {
   "class": "result-card w-100",
   style: {
-    "max-width": "700px",
     "background": "#f8f9fa",
     "border": "1px solid #e0e0e0",
     "border-radius": "18px",
@@ -59324,37 +59323,15 @@ var _hoisted_34 = {
   "class": "mb-0 text-muted small"
 };
 var _hoisted_35 = {
-  "class": "d-flex flex-column align-items-center mb-4"
-};
-var _hoisted_36 = {
-  "class": "badge rounded-pill bg-light border px-3 py-2 mb-2",
-  style: {
-    "font-size": "1rem",
-    "color": "#333",
-    "border": "1px solid #e0e0e0"
-  }
-};
-var _hoisted_37 = {
-  key: 0
-};
-var _hoisted_38 = {
-  key: 1,
-  "class": "text-danger"
-};
-var _hoisted_39 = {
-  key: 2,
-  "class": "text-muted"
-};
-var _hoisted_40 = {
   "class": "mb-2 text-center"
 };
-var _hoisted_41 = {
+var _hoisted_36 = {
   "class": "fw-bold align-middle ms-2"
 };
-var _hoisted_42 = {
+var _hoisted_37 = {
   "class": "d-flex justify-content-center"
 };
-var _hoisted_43 = {
+var _hoisted_38 = {
   "class": "table w-auto bg-white mb-0 calendar-table",
   style: {
     "border-radius": "0.75rem",
@@ -59362,17 +59339,17 @@ var _hoisted_43 = {
     "border": "1px solid #e0e0e0"
   }
 };
-var _hoisted_44 = {
+var _hoisted_39 = {
   key: 0
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-5 fw-bold text-center"
-  }, "Date Converter", -1 /* HOISTED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Date Converter", -1 /* HOISTED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center container mb-2 lead"
-  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* HOISTED */)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Easily convert between the Gregorian (solar) and Hijri (Islamic lunar) calendars. This tool is perfect for finding Islamic dates for events, holidays, or just learning more about the calendars! ", -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "alert alert-info text-center mb-3 container-fluid"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Did you know?"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" The Islamic calendar is about 10-12 days shorter than the Gregorian calendar each year, so Islamic months move through the seasons! ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: {
       "padding": "0.9rem",
       "color": "white",
@@ -59459,7 +59436,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[6] || (_cache[6] = function () {
       return $options.resetForm && $options.resetForm.apply($options, arguments);
     })
-  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Reset")])], 32 /* NEED_HYDRATION */), $data.convertedDate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fs-2 align-middle",
@@ -59472,22 +59449,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "text-muted mb-1"
   }, "Source", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.sourceCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedSourceDate), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "text-muted mb-1"
-  }, "Target", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
+  }, "Target", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.targetCalendar === 'gregorian' ? 'Gregorian' : 'Hijri'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formattedTargetDate), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.targetDayName), 1 /* TEXT */)])])]), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", {
     "class": "my-4",
     style: {
       "border-color": "#e0e0e0"
     }
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    "class": "me-2",
-    style: {
-      "color": "#00a792"
-    }
-  }, "📍", -1 /* HOISTED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Your Location:", -1 /* HOISTED */)), $data.userAddress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.userAddress), 1 /* TEXT */)) : $data.locationError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.locationError), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_39, "Detecting location..."))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"d-flex flex-column align-items-center mb-4\">\n                    <span class=\"badge rounded-pill bg-light border px-3 py-2 mb-2 w-100 w-md-auto\"\n                      style=\"font-size: 1rem; color: #333; border: 1px solid #e0e0e0; max-width: 100%; box-sizing: border-box;\">\n                      <span class=\"me-2\" style=\"color: #00a792;\">📍</span>\n                      <b>Your Location:</b>\n                      <span v-if=\"userAddress\">{{ userAddress }}</span>\n                      <span v-else-if=\"locationError\" class=\"text-danger\">{{ locationError }}</span>\n                      <span v-else class=\"text-muted\">Detecting location...</span>\n                    </span>\n                  </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "fs-5 align-middle",
     style: {
       "color": "#00a792"
     }
-  }, "🗓️", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_41, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], function (day) {
+  }, "🗓️", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_36, "Islamic Calendar for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriMonthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hijriYear), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], function (day) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
       key: day,
       "class": "text-center small",
@@ -59507,11 +59479,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "min-width": "36px",
           "min-height": "36px"
         }
-      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+      }, [cell.day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cell.day), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "card-footer text-muted small text-center"
-  }, " Date conversion based on astronomical calculations ", -1 /* HOISTED */))])])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])]);
 }
 
 /***/ }),
@@ -61139,12 +61109,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     width: "100px"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "fw-bold"
-  }, "Listen, Watch & Reflect"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Listen, Watch, Reflect"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mt-3",
     style: {
       "font-size": "18px"
     }
-  }, " Enjoy Quran recitations, insightful audio podcasts, and a rich image gallery of Islamic art. Learn through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere, anytime with peace, purpose, and clarity. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Enjoy Quran recitations, insightful audio podcasts, and a rich image gallery of Islamic art. Learn through sound, visuals, and reflection, making it easier to stay spiritually engaged anywhere. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "d-grid"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "form-control",
@@ -61186,7 +61156,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "height": "48px"
     },
     type: "submit"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])])])])])], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>Features</h1></div><p class=\"lead\" data-v-2ba25654>Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize your journey with personalized notes &amp; bookmarks, and enjoy accessibility features like text-to-speech and voice search.</p></div><div class=\"row g-4 g-md-5\" data-v-2ba25654><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3 container\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/agenda.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Notes &amp; Reflections </h3><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Save personal notes, reflections, and insights while studying Quran and Islamic content. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/pray.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Duas </h3><p class=\"lead container pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Browse and recite authentic duas for daily life, protection, gratitude, and special occasions. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-primary mb-3\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/praying-hands.png\" width=\"80px\" data-v-2ba25654></div></div><h3 class=\"fw-bold\" data-v-2ba25654> Prayer Times </h3><p class=\"lead container-fluid pt-3 text-left\" style=\"line-height:1.8em;\" data-v-2ba25654><strong data-v-2ba25654> Access precise prayer timings based on your location, with alerts to never miss a prayer. </strong></p></div></div></div></section>", 1)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View more")])])])])])])])])], -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<section class=\"py-5\" style=\"background:#e3e3e3;box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><div class=\"container\" data-v-2ba25654><div class=\"row justify-content-center text-center mb-3\" data-v-2ba25654><div class=\"col-lg-8 col-xl-7\" data-v-2ba25654><h1 class=\"display-4 mb-3 fw-bold\" data-v-2ba25654>Features</h1></div><p class=\"lead\" data-v-2ba25654>Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize your journey with personalized notes &amp; bookmarks, and enjoy accessibility features like text-to-speech and voice search.</p></div><div class=\"row g-4 g-md-5\" data-v-2ba25654><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/agenda.png\" width=\"80px\" alt=\"Notes &amp; Reflections\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Notes &amp; Reflections</h3></div><p class=\"lead pt-3\" style=\"line-height:1.8em;text-align:center;\" data-v-2ba25654><strong data-v-2ba25654> Save personal notes, reflections, and insights while studying Quran and Islamic content. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/pray.png\" width=\"80px\" alt=\"Duas\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Duas Collection</h3></div><p class=\"lead pt-3\" style=\"line-height:1.8em;text-align:center;\" data-v-2ba25654><strong data-v-2ba25654> Browse and recite authentic duas for daily life, protection, gratitude, and special occasions. </strong></p></div><div class=\"col-md-6 col-xl-4\" data-v-2ba25654><div class=\"text-center\" data-v-2ba25654><div class=\"my-3\" data-v-2ba25654><img src=\"images/praying-hands.png\" width=\"80px\" alt=\"Prayer Times\" data-v-2ba25654></div><h3 class=\"fw-bold\" data-v-2ba25654>Prayer Times</h3></div><p class=\"lead pt-3\" style=\"line-height:1.8em;text-align:center;\" data-v-2ba25654><strong data-v-2ba25654> Access precise prayer timings based on your location, with alerts to never miss a prayer. </strong></p></div></div></div></section>", 1)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
     "class": "container pt-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" First row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "row py-5 container"
@@ -65291,7 +65261,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     "class": "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Halal Butcher Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Halal Butchers"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
@@ -168344,7 +168314,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n.calendar-table th[data-v-548c1d14], .calendar-table td[data-v-548c1d14] {\n  text-align: center;\n  vertical-align: middle;\n  padding: 0.5rem 0.7rem;\n}\n.calendar-day-cell[data-v-548c1d14] {\n  border-radius: 8px;\n  transition: background 0.2s;\n}\n.calendar-day-cell.bg-success[data-v-548c1d14] {\n  box-shadow: 0 2px 8px rgba(0,167,146,0.08);\n}\n@media (max-width: 768px) {\n.result-card[data-v-548c1d14] {\n    padding: 1.2rem 0.2rem !important;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-548c1d14] {\n  border-radius: 0.75rem;\n  overflow: hidden;\n}\n.form-select[data-v-548c1d14],\n.form-control[data-v-548c1d14] {\n  border-radius: 0.5rem;\n}\n.card-body[data-v-548c1d14] {\n  padding: 2rem;\n}\n.card-footer[data-v-548c1d14] {\n  padding: 1rem;\n}\n.bg-light[data-v-548c1d14] {\n  background-color: #f8f9fa !important;\n}\n.rounded[data-v-548c1d14] {\n  border-radius: 0.5rem !important;\n}\n.shadow[data-v-548c1d14] {\n  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;\n  border-radius: 20px;\n}\n.calendar-table th[data-v-548c1d14],\n.calendar-table td[data-v-548c1d14] {\n  text-align: center;\n  vertical-align: middle;\n  padding: 0.5rem 0.7rem;\n}\n.calendar-day-cell[data-v-548c1d14] {\n  border-radius: 8px;\n  transition: background 0.2s;\n}\n.calendar-day-cell.bg-success[data-v-548c1d14] {\n  box-shadow: 0 2px 8px rgba(0, 167, 146, 0.08);\n}\n@media (max-width: 768px) {\n.result-card[data-v-548c1d14] {\n    padding: 1.2rem 0.2rem !important;\n}\n}\n@media (max-width: 600px) {\n.badge.rounded-pill[data-v-548c1d14] {\n    font-size: 0.875rem !important; /* Smaller font size for mobile */\n    padding: 0.5rem 1rem !important; /* Reduced padding */\n    max-width: 100%; /* Ensure badge doesn't overflow */\n    word-break: break-word; /* Prevent text overflow */\n}\n.result-card[data-v-548c1d14] {\n    padding: 1.5rem 1rem !important; /* Adjust padding for result card */\n}\n.calendar-table td[data-v-548c1d14] {\n    min-width: 30px !important; /* Smaller cells for mobile */\n    min-height: 30px !important;\n    font-size: 0.75rem !important; /* Smaller font for calendar */\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
