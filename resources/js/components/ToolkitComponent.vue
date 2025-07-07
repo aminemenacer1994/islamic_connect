@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <h1 class="text-center fw-bold display-4 mb-4">Utility Toolkit</h1>
+    <h1 class="text-center fw-bold display-5 mb-4">Utility Toolkit</h1>
     <p class="text-center mb-4 lead">
       The Islamic Utility Toolkit is an all-encompassing digital platform thoughtfully designed to assist Muslims in
       fulfilling their daily religious obligations, advancing their educational pursuits, and nurturing their spiritual

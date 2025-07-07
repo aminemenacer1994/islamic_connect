@@ -8,7 +8,7 @@
                 experience. It offers text-to-speech, speech-to-text, and synchronized highlighting and more.
             </h1>
             <div v-if="!isVisible">
-                <h4 class="fw-bold text-left pt-2 container" v-if="information != null">Search for a word in the
+                <h4 class="fw-bold text-left pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4>
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
 
@@ -123,7 +123,7 @@
                     <Welcome v-if="information == null" />
                     
                     <div v-else>
-                        <h4 class="fw-bold text-left" v-if="information == null">Verse Breakdown...</h4>
+                        <h4 class="fw-bold text-left" >Verse Breakdown...</h4>
                         <!-- breakdown content here -->
                          
                     </div>

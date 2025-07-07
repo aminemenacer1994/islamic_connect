@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <h1 class="text-center fw-bold display-4 mb-4">Media Center</h1>
+    <h1 class="text-center fw-bold display-5 mb-4">Media Center</h1>
     <p class="text-center mb-4 lead">
       The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content.
       It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.
@@ -12,7 +12,7 @@
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card shadow-sm rounded-4 " style="border: 1px solid grey;">
-          <img src="/images/ip.png" alt="Qibla finder" class="w-100" style="object-fit: contain;" />
+          <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1" style="object-fit: contain; padding: 20px;" />
           <div class="p-3">
             <h5 class="mb-2 fw-bold display-6 text-dark text-center">Audio Podcasts</h5>
             <p class="card-text text-muted text-wrap text-center"

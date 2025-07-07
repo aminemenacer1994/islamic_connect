@@ -17,12 +17,14 @@
                   trusted Islamic content, and access AI-powered tools for a better spiritual experience anytime,
                   anywhere.</strong>
               </h2>
-              <div class="col-lg-12">
-                <div class="container controls d-block d-md-flex justify-content-start text-left">
-                  <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg me-2"
-                    onclick="window.location.href='/quran'">Get Started</button>
-                  <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg"
-                    onclick="window.location.href='/support'">Donate Today</button>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <div class="controls d-flex flex-row justify-content-start text-left">
+                    <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg me-2"
+                      onclick="window.location.href='/quran'">Get Started</button>
+                    <button style="box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;" class="btn btn-lg"
+                      onclick="window.location.href='/support'">Donate Today</button>
+                  </div>
                 </div>
               </div>
 
@@ -172,142 +174,83 @@
       </div>
     </section>
 
-    <section class="py-5" style="background: #e3e3e3; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-3">
-          <div class="col-lg-8 col-xl-7">
-            <h1 class="display-4 mb-3 fw-bold">Features</h1>
-          </div>
-          <p class="lead">Discover everything you need on Islamic Connect from Quranic recitation, tafseer, and live
-            Islamic media, to powerful tools like notes and reflections, daily duas, and accurate prayer times. Organize
-            your journey with personalized notes & bookmarks, and enjoy accessibility features like text-to-speech and
-            voice search.</p>
-        </div>
-        <div class="row g-4 g-md-5">
-          <div class="col-md-6 col-xl-4">
-            <div class="text-center">
-              <div class="my-3">
-                <img src="images/agenda.png" width="80px" alt="Notes & Reflections" />
-              </div>
-              <h3 class="fw-bold">Notes & Reflections</h3>
-            </div>
-            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
-              <strong>
-                Save personal notes, reflections, and insights while studying Quran and Islamic content.
-              </strong>
-            </p>
-          </div>
-          <div class="col-md-6 col-xl-4">
-            <div class="text-center">
-              <div class="my-3">
-                <img src="images/pray.png" width="80px" alt="Duas" />
-              </div>
-              <h3 class="fw-bold">Duas Collection</h3>
-            </div>
-            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
-              <strong>
-                Browse and recite authentic duas for daily life, protection, gratitude, and special occasions.
-              </strong>
-            </p>
-          </div>
-          <div class="col-md-6 col-xl-4">
-            <div class="text-center">
-              <div class="my-3">
-                <img src="images/praying-hands.png" width="80px" alt="Prayer Times" />
-              </div>
-              <h3 class="fw-bold">Prayer Times</h3>
-            </div>
-            <p class="lead pt-3" style="line-height: 1.8em; text-align: center;">
-              <strong>
-                Access precise prayer timings based on your location, with alerts to never miss a prayer.
-              </strong>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
     <section class="container pt-3">
-      <!-- First row -->
-      <div class="row py-5 container">
+
+      <!-- First Row -->
+      <div class="row py-5">
         <div class="col-md-6 order-0 order-md-0">
-          <p class="display-4 mt-4 fw-bold text-left container">
+          <h1 class="display-4 fw-bold text-left">
             Quran Companion Powered by AI, Built for Everyone
-          </p>
-          <p class="lead container pt-3 text-left" style="line-height: 1.8em">
+          </h1>
+          <p class="lead pt-3 text-left" style="line-height: 1.8em">
             <strong>
               Experience the Quran with advanced tools for reading, listening, and understanding. From AI Text-to-Speech
-              to screen reader support and voice search it's your accessible, intelligent way to
+              to screen reader support and voice search, it’s your accessible, intelligent way to
               connect with the Divine.
             </strong>
+          </p>
           <div class="d-grid pt-2">
-            <button class="form-control" onclick="window.location.href='/quran'"
+            <button class="form-control btn btn-lg" onclick="window.location.href='/quran'"
               style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-              type="submit">
+              type="button">
               <b>Learn more</b>
             </button>
           </div>
-          </p>
         </div>
         <div class="col-md-6 mt-4 order-1 order-md-1">
-          <img src="/images/companion2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+          <img src="/images/companion2.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 
-
-      <!-- Second row -->
-      <div class="row pt-5 pb-5 py-5 container">
-        <div class="col-md-6 order-1 order-md-0">
-          <img src="/images/podcast2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
-        </div>
-        <div class="col-md-6 pb-5 order-0 order-md-1">
-          <h6 class="display-4 mt-2 fw-bold text-left container">
+      <!-- Second Row -->
+      <div class="row py-5">
+        <div class="col-md-6 order-0 order-md-1">
+          <h1 class="display-4 mt-2 fw-bold text-left">
             Stream Your Iman Anytime, Anywhere
-          </h6>
-          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
+          </h1>
+          <p class="lead pt-3 text-left" style="line-height: 1.8em">
             <strong>
               Tune into uplifting Islamic podcasts, inspiring audio series, and live radio all in one place. Stay
               spiritually connected through sound, reflection, and knowledge on the go.
             </strong>
-            <div class="d-grid pt-2">
-              <button class="form-control" onclick="window.location.href='/content'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                type="submit">
-                <b>Learn more</b>
-              </button>
-            </div>
-          </h6>
+          </p>
+          <div class="d-grid pt-2">
+            <button class="form-control btn btn-lg mb-3" onclick="window.location.href='/content'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
+              type="button">
+              <b>Learn more</b>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6 order-1 order-md-0">
+          <img src="/images/podcast2.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
 
-
-      <!-- Third row -->
-      <div class="row pt-5 pb-5 py-5 container">
+      <!-- Third Row -->
+      <div class="row py-5">
         <div class="col-md-6 order-0 order-md-0">
-          <h5 class="display-4 mt-2 fw-bold text-left container">
+          <h1 class="display-4 mt-2 fw-bold text-left">
             Explore the Quran, Deeply and Intuitively
-          </h5>
-          <h6 class="lead container pt-3 text-left" style="line-height: 1.8em">
+          </h1>
+          <p class="lead pt-3 text-left" style="line-height: 1.8em">
             <strong>
               Search, explore, and engage with every verse. Discover tafsir, translations, and recitations with tools
               designed for simplicity, speed, and spiritual growth.
             </strong>
-            <div class="d-grid pt-2">
-              <button class="form-control" onclick="window.location.href='/surat'"
-                style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
-                type="submit">
-                <b>Learn more</b>
-              </button>
-            </div>
-          </h6>
+          </p>
+          <div class="d-grid pt-2">
+            <button class="form-control btn btn-lg mb-3" onclick="window.location.href='/surat'"
+              style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 48px"
+              type="button">
+              <b>Learn more</b>
+            </button>
+          </div>
         </div>
         <div class="col-md-6 order-1 order-md-1">
-          <img src="/images/surat2.png" class="d-block text-right w-100 img-mobile-bigger" alt="Quran companion">
+          <img src="/images/surat2.png" class="d-block w-100 img-mobile-bigger" alt="Quran companion">
         </div>
       </div>
-
     </section>
 
     <!-- AI tools & features -->
@@ -329,7 +272,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/podcasting.png" width="100px" />
+                <img src="images/podcasting.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -347,7 +290,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/voice-recognition.png" width="100px" />
+                <img src="images/voice-recognition.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -364,7 +307,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/elearning.png" width="100px" />
+                <img src="images/elearning.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -382,7 +325,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/attached-file.png" width="100px" />
+                <img src="images/attached-file.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -399,7 +342,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/highlighter.png" width="100px" />
+                <img src="images/highlighter.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">
@@ -417,7 +360,7 @@
           <div class="col-md-6">
             <div class="d-flex">
               <div class="text-primary me-4">
-                <img src="images/chat.png" width="140px" />
+                <img src="images/chat.png" width="60px" />
               </div>
               <div>
                 <h4 class="mb-2 mb-lg-3 fw-bold">

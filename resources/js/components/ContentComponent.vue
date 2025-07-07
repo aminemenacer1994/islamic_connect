@@ -2,7 +2,7 @@
   <div class="container py-4">
     <!-- Header Section -->
     <div>
-      <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
+      <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
       <p class="text-center container mb-4 lead">
         Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
         thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
@@ -2535,6 +2535,14 @@ export default {
 }
 
 @media (max-width: 768px) {
+   /* .podcast-selection-grid .podcast-selection-item {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+  .podcast-selection-grid .podcast-selection-item {
+    flex: 0 0 16.666667%; 
+    max-width: 16.666667%;
+  }  */
   .episodes-filters-bar {
     flex-direction: column;
     align-items: stretch;

@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <h1 class="text-center fw-bold display-4 mb-4">Services</h1>
+    <h1 class="text-center fw-bold display-5 mb-4">Services</h1>
     <p class="text-center mb-4 lead">
       Islamic Connect offers meaningful support to help Muslims strengthen their spiritual journey and engage more deeply with their faith.
       Our services are designed to assist individuals, families, and communities in nurturing a balanced and fulfilling Islamic life.

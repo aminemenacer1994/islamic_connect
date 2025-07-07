@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <h1 class="text-center fw-bold display-4 mb-4">Islamic Knowledge</h1>
+    <h1 class="text-center fw-bold display-5 mb-4">Islamic Knowledge</h1>
     <p class="text-center mb-4 lead">
       Islamic Connect provides a rich collection of authentic knowledge to guide, educate, and inspire.
       Whether you’re seeking to learn, reflect, or explore, this space is dedicated to sharing timeless Islamic wisdom
