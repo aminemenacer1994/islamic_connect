@@ -63,22 +63,27 @@
               <div class="card radio-card shadow-sm border-0"
                 :class="{ 'active-card': currentAudio?.src === station.url }" :id="'station-' + station.id"
                 role="article" :aria-labelledby="'station-title-' + station.id">
-                <div class="card-body d-flex justify-content-between align-items-center p-4">
-                  <div>
+                <div class=" d-flex justify-content-between align-items-center p-4">
+                  <div class="station-info">
                     <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
                       v-html="highlightSearch(station.name)"></h5>
                     <p class="card-text text-muted mb-0">{{ station.category || 'Recitation' }}</p>
                   </div>
-                  <div class="d-flex align-items-center">
+                  <div class="d-flex align-items-center gap-2">
                     <button @click="togglePlay(station.id)" class="control-btn play-pause p-0"
-                      :aria-label="isPlaying(station.id) ? 'Pause playback' : 'Play playback'">
-                      <i class="bi fs-1"
-                        :class="currentPlayingStationId === station.id && isPlaying(station.id) ? 'bi-pause-circle-fill text-theme-teal' : 'bi-play-circle-fill'"></i>
+                      :aria-label="isPlaying(station.id) ? 'Pause ' + station.name : 'Play ' + station.name"
+                      :disabled="!station.url">
+                      <i class="bi fs-1" :class="{
+                        'bi-pause-circle-fill text-theme-teal': currentPlayingStationId === station.id && isPlaying(station.id),
+                        'bi-play-circle-fill': currentPlayingStationId !== station.id || !isPlaying(station.id)
+                      }"></i>
                     </button>
-                    <button class="btn btn-icon like-button p-2 ms-2" @click="toggleLike(station)"
-                      :aria-label="isLiked(station.id) ? 'Unlike station' : 'Like station'">
-                      <i :class="isLiked(station.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"
-                        class="like-icon fs-5"></i>
+                    <button class="btn btn-icon like-button p-2" @click="toggleLike(station)"
+                      :aria-label="isLiked(station.id) ? 'Unlike ' + station.name : 'Like ' + station.name">
+                      <i :class="{
+                        'bi-heart-fill text-danger': isLiked(station.id),
+                        'bi-heart': !isLiked(station.id)
+                      }" class="like-icon fs-5"></i>
                     </button>
                     <div class="audio-player d-none">
                       <audio :ref="(el) => audioRefs[station.id] = el" :src="station.url"
@@ -1453,21 +1458,19 @@ mark {
 
 /* Responsive Design */
 @media (max-width: 576px) {
-  .pagination-nav .btn, .pagination-nav span {
-    font-size: 0.875rem; /* Slightly smaller font size on mobile */
+
+  .pagination-nav .btn,
+  .pagination-nav span {
+    font-size: 0.875rem;
+    /* Slightly smaller font size on mobile */
   }
+
   .container {
     padding: 1rem 0.5rem;
   }
 
   .radio-card {
     margin-bottom: 0.75rem;
-  }
-
-
-  .card-title {
-    font-size: 1rem;
-    max-width: 80%;
   }
 
   .like-icon,
@@ -1550,7 +1553,7 @@ mark {
     padding: 1rem 0.5rem;
   }
 
-  
+
 }
 
 @keyframes pulse {
@@ -1730,6 +1733,7 @@ mark {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 4rem;
   padding: 1.5rem;
 }
 

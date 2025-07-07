@@ -8,7 +8,7 @@
     </p>
 
     <div class="row g-4 ">
-      <div class="col-md-6 col-lg-4 d-flex pb-3">
+      <div class="col-md-6 col-lg-4 ">
         <div class="card custom-card shadow-sm rounded-4 overflow-hidden" style="border: 1px solid grey;">
           <img src="/images/sr.png" alt="Seerah Timeline" class="w-100" style="object-fit: contain;" />
           <div class="p-3">

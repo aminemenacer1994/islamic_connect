@@ -1640,21 +1640,22 @@ export default {
 /* Enhanced Responsive Design for Cards */
 @media (max-width: 768px) {
   .custom-audio-player {
+    border-radius: 15px 15px 0 0;
     padding: 8px;
     background: #212121;
   }
 
   .controls {
-    gap: 8px;
+    gap: 12px;
   }
 
   .control-btn {
-    padding: 8px;
-    font-size: 0.9rem;
+    padding: 10px;
+    font-size: 1.2rem;
   }
 
   .time {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -1662,27 +1663,25 @@ export default {
   .audio-player-container {
     padding: 5px;
     background: #212121;
+    border-radius: 15px 15px 0 0;
   }
 
   .custom-audio-player {
-    border-radius: 12px 12px 0 0;
+    border-radius: 15px 15px 0 0;
     padding: 6px 10px;
   }
 
   .controls {
-    gap: 6px;
+    gap: 12px;
   }
 
   .control-btn {
-    padding: 6px;
-    font-size: 0.8rem;
-    min-width: 36px;
-    min-height: 36px;
+    padding: 10px;
+    font-size: 1.2rem;
   }
 
   .time {
-    font-size: 0.75rem;
-    min-width: 80px;
+    font-size: 1.2rem;
   }
 }
 
@@ -1957,17 +1956,19 @@ export default {
 
 /* Audio Player Styles */
 .audio-player-container {
+  border-radius: 15px 15px 0 0;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   background: #2c2c2c;
-  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); */
   z-index: 1000;
   padding: 8px 12px;
 }
 
 .custom-audio-player {
+  border-radius: 15px 15px 0 0;
   max-width: 1200px;
   margin: 0 auto;
   padding: 8px;
@@ -2070,6 +2071,7 @@ export default {
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .custom-audio-player {
+    border-radius: 15px 15px 0 0;
     padding: 6px;
   }
 
@@ -2120,7 +2122,7 @@ export default {
 
 @media (max-width: 768px) {
   .audio-player-container {
-    padding: 6px 8px;
+    /* padding: 6px 8px; */
   }
 
   .controls {
@@ -2171,7 +2173,7 @@ export default {
 
 @media (max-width: 576px) {
   .audio-player-container {
-    padding: 4px 6px;
+    /* padding: 4px 6px; */
   }
 
   .info-section {

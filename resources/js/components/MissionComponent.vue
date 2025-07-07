@@ -644,7 +644,7 @@ export default {
 
 .control-icon {
   color: #ffffff;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: color 0.2s, transform 0.2s ease-in-out;
   padding: 8px;
@@ -802,7 +802,7 @@ export default {
     flex-wrap: wrap;
   }
   .control-icon {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     padding: 6px;
   }
   .close-icon {
@@ -845,7 +845,7 @@ export default {
     flex-wrap: wrap;
   }
   .control-icon {
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     padding: 8px;
   }
   .close-icon {
@@ -885,7 +885,7 @@ export default {
     gap: 16px;
   }
   .control-icon {
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     padding: 8px;
   }
   .close-icon {
