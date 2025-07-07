@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <select
       class="form-control right-side-form card container"
-      style="border: 1px solid black; border-radius: 8px;"
+      style="border-radius: 8px;"
       v-model="selectedAyahId"
       @change="handleAyahChange"
       :disabled="isLoading"
@@ -142,11 +142,20 @@ export default {
 
 <style scoped>
 .form-control {
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
 .desktop-hidden {
   display: none;
+}
+
+.card {
+    display: flex;
+    border-radius: 8px;
 }
 
 @media (max-width: 767px) {

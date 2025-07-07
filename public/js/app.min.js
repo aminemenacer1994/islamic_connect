@@ -74179,7 +74179,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       'mobile-visible': true
     }]),
     style: {
-      "border": "1px solid black",
       "border-radius": "8px"
     },
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -169629,7 +169628,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.form-control[data-v-5832b188] {\n  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;\n}\n.desktop-hidden[data-v-5832b188] {\n  display: none;\n}\n@media (max-width: 767px) {\n.mobile-visible[data-v-5832b188] {\n    display: block;\n}\n}\n.highlighted-ayah[data-v-5832b188] {\n  border: 3px solid #31464338;\n  padding: 10px;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-top: 20px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.form-control[data-v-5832b188] {\n  width: 100%;\n  font-size: 1rem;\n  line-height: 1.5;\n  background-color: #fff;\n  border-radius: 8px;\n}\n.desktop-hidden[data-v-5832b188] {\n  display: none;\n}\n.card[data-v-5832b188] {\n    display: flex;\n    border-radius: 8px;\n}\n@media (max-width: 767px) {\n.mobile-visible[data-v-5832b188] {\n    display: block;\n}\n}\n.highlighted-ayah[data-v-5832b188] {\n  border: 3px solid #31464338;\n  padding: 10px;\n  border-radius: 5px;\n  font-weight: bold;\n  margin-top: 20px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
