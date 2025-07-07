@@ -31,17 +31,19 @@
     <!-- Search Input -->
     <div class="container mb-4">
       <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-8">
+        <div class="col-12 col-md-10 col-lg-10"> <!-- Increased col-lg from 8 to 10 for wider search bar -->
           <div class="search-container mb-3">
             <div class="input-group search-input-group">
-              <span class="input-group-text text-white" style="background-color: #0db691;">
+              <span class="input-group-text text-white"
+                style="background-color: #0db691;  padding: 0.75rem;">
                 <i class="bi bi-search"></i>
               </span>
               <input v-model="searchQuery" type="text" class="form-control search-input"
                 placeholder="Search duas by title, Arabic words, translation, or reference" aria-label="Search Duas"
-                @input="resetPagination" />
+                @input="resetPagination" style="height: 50px; font-size: 1.2rem; padding: 0.75rem;" />
+              <!-- Increased height and font size -->
               <button v-if="searchQuery || selectedTag || selectedReference" class="btn btn-outline-secondary"
-                @click="clearSearch" aria-label="Clear search">
+                @click="clearSearch" aria-label="Clear search" style="font-size: 1.5rem; padding: 0.75rem;">
                 <i class="bi bi-x"></i>
               </button>
             </div>
