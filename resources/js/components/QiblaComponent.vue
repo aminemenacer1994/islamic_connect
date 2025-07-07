@@ -233,20 +233,24 @@
               <div class="row g-2">
                 <div class="col-6 col-md-6">
                   <button
-                    class="btn w-100 btn-outline-secondary"
+                    class="btn w-100 btn-primary text-white d-flex align-items-center justify-content-center gap-2"
                     @click="speakQiblaDirection"
                     :disabled="!qiblaDirection"
+                    title="Speak Qibla Direction"
                   >
-                    <i class="bi bi-volume-up"></i> Speak
+                    <i class="bi bi-volume-up-fill fs-5"></i>
+                    <span>Speak</span>
                   </button>
                 </div>
                 <div class="col-6 col-md-6">
                   <button
-                    class="btn w-100 btn-outline-secondary"
+                    class="btn w-100 btn-primary text-white d-flex align-items-center justify-content-center gap-2"
                     @click="shareLocation"
                     :disabled="!hasData"
+                    title="Share Location"
                   >
-                    <i class="bi bi-share"></i> Share
+                    <i class="bi bi-share-fill fs-5"></i>
+                    <span>Share</span>
                   </button>
                 </div>
               </div>
@@ -262,8 +266,12 @@
             </h5>
           </div>
           <div class="card-body d-flex flex-column p-lg-4">
-            <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
             <div class="mb-3">
+              <h6 class="text-primary fw-bold mb-2">Hijri Date</h6>
+              <p v-if="hijriDate" class="text-muted mb-3">{{ hijriDate }}</p>
+            </div>
+            <div class="mb-3">
+              <h6 class="text-primary fw-bold mb-2">Calculation Method</h6>
               <select
                 class="form-select"
                 v-model="calculationMethod"
