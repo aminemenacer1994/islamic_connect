@@ -31,7 +31,7 @@
     <!-- Search Input -->
     <div class="container mb-4">
       <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-10"> <!-- Increased col-lg from 8 to 10 for wider search bar -->
+        <div class="col-12 col-md-10 col-lg-10"> 
           <div class="search-container mb-3">
             <div class="input-group search-input-group">
               <span class="input-group-text text-white"

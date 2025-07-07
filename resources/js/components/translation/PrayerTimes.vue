@@ -46,7 +46,7 @@
         >
           <li
             class="list-group-item list-group-item-success active"
-            style="border: 2px solid rgb(0, 191, 166); border-radius: 5px"
+            style="background: rgb(13, 182, 145); border: 3px solid darkgreen; border-radius: 10px"
             aria-current="true"
             :class="{ 'border-warning': prayer === nextPrayer }"
           >
@@ -218,6 +218,7 @@ export default {
 
 .card-title {
   font-weight: bold;
+  color: white;
 }
 
 .card-text {

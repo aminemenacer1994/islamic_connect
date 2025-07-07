@@ -59674,7 +59674,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.getTagIcon(tag), "me-1"])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Increased col-lg from 8 to 10 for wider search bar "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "input-group-text text-white",
     style: {
       "background-color": "#0db691",
@@ -75309,8 +75309,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         'border-warning': prayer === $data.nextPrayer
       }]),
       style: {
-        "border": "2px solid rgb(0, 191, 166)",
-        "border-radius": "5px"
+        "background": "rgb(13, 182, 145)",
+        "border": "3px solid darkgreen",
+        "border-radius": "10px"
       },
       "aria-current": "true"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prayer), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)])], 2 /* CLASS */)]);
@@ -170012,7 +170013,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.border-warning[data-v-5ae7cc26] {\n  border-width: 3px !important;\n}\n.card-title[data-v-5ae7cc26] {\n  font-weight: bold;\n}\n.card-text[data-v-5ae7cc26] {\n  font-size: 1.2rem;\n}\n\n/* CSS Spinner */\n.spinner[data-v-5ae7cc26] {\n  border: 4px solid rgba(0, 0, 0, 0.1);\n  border-left-color: rgb(12, 208, 149);\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: spin-5ae7cc26 1s linear infinite;\n  margin: 0 auto;\n}\n@keyframes spin-5ae7cc26 {\nto {\n    transform: rotate(360deg);\n}\n}\n\n/* Transition Styles */\n.fade-enter-active[data-v-5ae7cc26],\n.fade-leave-active[data-v-5ae7cc26] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-5ae7cc26],\n.fade-leave-to[data-v-5ae7cc26] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.border-warning[data-v-5ae7cc26] {\n  border-width: 3px !important;\n}\n.card-title[data-v-5ae7cc26] {\n  font-weight: bold;\n  color: white;\n}\n.card-text[data-v-5ae7cc26] {\n  font-size: 1.2rem;\n}\n\n/* CSS Spinner */\n.spinner[data-v-5ae7cc26] {\n  border: 4px solid rgba(0, 0, 0, 0.1);\n  border-left-color: rgb(12, 208, 149);\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: spin-5ae7cc26 1s linear infinite;\n  margin: 0 auto;\n}\n@keyframes spin-5ae7cc26 {\nto {\n    transform: rotate(360deg);\n}\n}\n\n/* Transition Styles */\n.fade-enter-active[data-v-5ae7cc26],\n.fade-leave-active[data-v-5ae7cc26] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-5ae7cc26],\n.fade-leave-to[data-v-5ae7cc26] {\n  opacity: 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
