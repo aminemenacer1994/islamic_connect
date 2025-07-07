@@ -8,21 +8,23 @@
         </p>
         <div class="shadow" style="border-radius: 8px; padding: 10px;">
           <!-- Search Section -->
-          <div class="card-body" style="padding: 5px;">
-            <div class="mb-4">
-              <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
-                style="gap: 0.5rem;">
-                <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
-                <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
-                  aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
-                  style="max-width: 300px;" />
-                <button class="btn align-items-center justify-content-center"
-                  style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
-                  type="submit" :disabled="loading">
-                  <span v-if="!loading">Search</span>
-                  <span v-else class="spinner-border spinner-border-sm"></span>
-                </button>
-              </form>
+          <div class="card-body container-fluid" style="padding: 5px;">
+            <div class="row mb-4 justify-content-center">
+              <div>
+                <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
+                  style="gap: 0.5rem;">
+                  <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
+                  <input id="searchInput" type="search" class="form-control" placeholder="Enter a city"
+                    aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
+                    style="max-width: 300px;" />
+                  <button class="btn align-items-center justify-content-center"
+                    style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px"
+                    type="submit" :disabled="loading">
+                    <span v-if="!loading">Search</span>
+                    <span v-else class="spinner-border spinner-border-sm"></span>
+                  </button>
+                </form>
+              </div>
             </div>
 
             <!-- Loading State -->
@@ -97,7 +99,7 @@
                       </div>
 
                       <!-- Button container pushed to the bottom -->
-                      <div class="d-flex justify-content-between align-items-center gap-2 mt-auto">
+                      <div class="d-flex justify-content-between align-items-center gap-2 ">
                         <button class="btn d-flex align-items-center justify-content-center flex-grow-1"
                           @click="openGoogleMaps(school.lat, school.lon, school.name)"
                           style="background: #00bfa6; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px">
@@ -391,6 +393,16 @@ export default {
   position: relative;
 }
 
+.card-header {
+  padding: 1.25rem 1.5rem;
+  background-color: #2c3e50 !important;
+}
+
+.card-header .attribution small {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.7rem;
+}
+
 .card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -406,7 +418,6 @@ export default {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   border-radius: 8px;
-  color: white;
 }
 
 .bg-success {
@@ -425,17 +436,13 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .d-flex.align-items-center {
+  .card-header {
     flex-direction: column;
-    gap: 0.5rem;
+    text-align: center;
   }
 
-  .btn {
-    width: 100%;
-  }
-
-  .badges {
-    justify-content: flex-start;
+  .attribution {
+    margin-top: 0.5rem;
   }
 }
 </style>

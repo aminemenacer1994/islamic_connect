@@ -954,7 +954,7 @@ html {
 .controls {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 10px;
@@ -962,13 +962,14 @@ html {
 
 @media (max-width: 768px) {
   .controls {
-    gap: 10px;
+    flex-wrap: nowrap; /* Prevent wrapping to keep all items in one line */
+    justify-content: space-between; /* Distribute space evenly */
   }
 
-  .control-btn {
-    padding: 5px !important;
-    font-size: 1.2rem !important;
+  .controls .control-btn[title="Close"] {
+    margin-left: 0; /* Remove the margin-left: auto to align with other buttons */
   }
+  
 
   .time {
     font-size: 0.8rem !important;

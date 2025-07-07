@@ -14,7 +14,7 @@
               <!-- Search form -->
               <form class="d-flex align-items-center mb-3" role="search" @submit.prevent="searchLocation"
                 style="gap: 0.5rem;">
-                <h4 class="card-title pr-2 fw-bold" style="font-size: 25px;">Search location:</h4>
+                <h4 class="card-title pr-2 fw-bold" style="font-size: 20px;">Search location:</h4>
                 <input id="searchInput" type="search" class="form-control" placeholder="Enter city..."
                   aria-label="Search" v-model="searchQuery" @input="handleTyping" autocomplete="off"
                   style="max-width: 300px;" ref="searchInput" />
@@ -525,13 +525,13 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .d-flex.align-items-center {
+  .card-header {
     flex-direction: column;
-    gap: 0.5rem;
+    text-align: center;
   }
 
-  .btn {
-    width: 100%;
+  .attribution {
+    margin-top: 0.5rem;
   }
 }
 </style>
