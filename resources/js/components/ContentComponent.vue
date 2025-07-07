@@ -1265,6 +1265,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
+  padding: 10px;
   margin-bottom: 3rem;
 }
 

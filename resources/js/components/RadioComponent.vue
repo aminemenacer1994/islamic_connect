@@ -309,14 +309,14 @@
       </section>
 
       <!-- Pagination -->
-      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center pagination-nav">
+      <nav v-if="totalPages > 1" class="d-flex justify-content-center align-items-center pagination-nav flex-nowrap">
         <button @click="previousPage" :disabled="currentPage === 1"
-          class="btn btn-outline-teal rounded-pill px-4 me-3 fs-6" aria-label="Previous page">
+          class="btn btn-outline-teal rounded-pill px-3 px-sm-4 me-1 me-sm-3 fs-6" aria-label="Previous page">
           <b>Previous</b>
         </button>
-        <span class="fw-semibold fs-6 mx-3">Page {{ currentPage }} of {{ totalPages }}</span>
+        <span class="fw-semibold fs-6 mx-1 mx-sm-3 text-nowrap">Page {{ currentPage }} of {{ totalPages }}</span>
         <button @click="nextPage" :disabled="currentPage === totalPages"
-          class="btn btn-outline-teal rounded-pill px-4 ms-3 fs-6" aria-label="Next page">
+          class="btn btn-outline-teal rounded-pill px-3 px-sm-4 ms-1 ms-sm-3 fs-6" aria-label="Next page">
           <b>Next</b>
         </button>
       </nav>
@@ -1344,7 +1344,7 @@ mark {
 
 .pagination-nav {
   background: transparent;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .player-station-name {
@@ -1453,6 +1453,9 @@ mark {
 
 /* Responsive Design */
 @media (max-width: 576px) {
+  .pagination-nav .btn, .pagination-nav span {
+    font-size: 0.875rem; /* Slightly smaller font size on mobile */
+  }
   .container {
     padding: 1rem 0.5rem;
   }
@@ -1547,10 +1550,7 @@ mark {
     padding: 1rem 0.5rem;
   }
 
-  .pagination-nav {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
+  
 }
 
 @keyframes pulse {
