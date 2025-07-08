@@ -2,7 +2,7 @@
   <div class="container py-4">
     <!-- Header Section -->
     <div>
-      <h1 class="display-5 fw-bold text-center">Islamic Podcasts</h1>
+      <h1 class="display-4 fw-bold text-center">Islamic Podcasts</h1>
       <p class="text-center container mb-4 lead">
         Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
         thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
@@ -141,16 +141,16 @@
                 <div class="podcast-card-info">
                   <h4 class="podcast-title" v-html="highlightText(podcast.title)"></h4>
                   <div class="podcast-extra-info">
-                    <span class="duration-badge" :title="'Duration'">
+                    <!-- <span class="duration-badge" :title="'Duration'">
                       <i class="bi bi-clock" style="font-size:1.1rem;"></i>
                       {{ podcast.duration ? podcast.duration + ' min' : 'N/A' }}
-                    </span>
+                    </span> -->
                     <span class="lang-badge" :title="'Language'">
                       <i class="bi bi-translate" style="font-size:1.1rem;"></i>
                       {{ podcast.language }}
                     </span>
                   </div>
-                  
+
                 </div>
                 <div class="audio-controls-inline">
                   <button class="control-button play-btn" @click="toggleAudioPlayer(index)"
@@ -216,11 +216,11 @@
       </nav>
     </div>
     <div v-else-if="!loading && !paginatedPodcasts.length" class="empty-state">
-      <div class="empty-state-content">
+      <div class="empty-state-content text-center mb-2">
         <i class="bi bi-headphones empty-state-icon"></i>
         <h3 class="empty-state-title">No Episodes Found</h3>
         <p class="empty-state-description">Try selecting a different podcast or check back later for new episodes.</p>
-        <button class="empty-state-button" @click="selectedPodcast = null">
+        <button class="empty-state-button btn btn-success text-white mb-2" @click="selectedPodcast = null">
           <i class="bi bi-arrow-left"></i>
           <span>Choose Another Podcast</span>
         </button>
@@ -245,14 +245,25 @@
             <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop">
               <i class="bi bi-stop-fill"></i>
             </button>
+
           </div>
           <div class="info-section">
             <span class="time">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }} / {{
               formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           </div>
-          <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
-            <i class="bi bi-x-lg"></i>
-          </button>
+          <div class="audio-actions" style="display: flex; align-items: center; gap: 18px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button @click="toggleVolume" class="control-btn" title="Volume">
+                <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+              </button>
+              <input v-if="showVolumeBar" type="range" min="0" max="1" step="0.01" v-model.number="volume"
+                @input="updateVolume" class="volume-slider" style="width: 80px;" aria-label="Volume" />
+            </div>
+            <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+
         </div>
         <div class="progress-bar" @mousedown="startSeek" @click="seekAudio">
           <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
@@ -295,6 +306,8 @@ export default {
       sortBy: 'most-viewed',
       selectedDateFilter: 'select date filter',
       selectedPodcast: "",
+      volume: 1,
+      showVolumeBar: false,
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -511,6 +524,13 @@ export default {
   },
 
   methods: {
+    toggleVolume() {
+      this.showVolumeBar = !this.showVolumeBar;
+    },
+    updateVolume() {
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (audio) audio.volume = this.volume;
+    },
     onPlay(index) {
       this.$refs.audioPlayers.forEach((audio, i) => {
         if (i !== index && !audio.paused) {
@@ -1171,6 +1191,10 @@ export default {
   },
 
   watch: {
+    volume(newVal) {
+      const audio = this.audioElements[this.currentlyPlayingIndex];
+      if (audio) audio.volume = newVal;
+    },
     currentlyPlaying(newValue) {
       if (newValue !== null) {
         this.playingIndex = newValue; // Keep the highlighted card when page changes
@@ -1196,6 +1220,17 @@ export default {
 </script>
 
 <style scoped>
+.audio-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.volume-slider {
+  accent-color: #0db691;
+  vertical-align: middle;
+}
+
 .podcast-card-wrapper {
   padding: 10px;
 }
@@ -1265,7 +1300,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
-  padding: 10px;
   margin-bottom: 3rem;
 }
 
@@ -1342,7 +1376,7 @@ export default {
 .podcast-selection-name {
   padding: 1.5rem;
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   font-weight: 300;
   color: #2c3e50;
   text-align: center;
@@ -1639,49 +1673,75 @@ export default {
 
 /* Enhanced Responsive Design for Cards */
 @media (max-width: 768px) {
+  .audio-player-container {
+    border-radius: 12px 12px 0 0;
+    padding: 8px 0 0 0;
+  }
+
   .custom-audio-player {
-    border-radius: 15px 15px 0 0;
-    padding: 8px;
-    background: #212121;
+    border-radius: 14px 14px 0 0;
+    padding: 14px 18px 14px 18px;
   }
 
   .controls {
-    gap: 12px;
+    gap: 14px;
   }
 
   .control-btn {
-    padding: 10px;
-    font-size: 1.2rem;
+    padding: 12px;
+    font-size: 1.3rem;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .time {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    min-width: 90px;
   }
 }
 
 @media (max-width: 576px) {
   .audio-player-container {
-    padding: 5px;
-    background: #212121;
-    border-radius: 15px 15px 0 0;
+    padding: 6px 0 0 0;
   }
 
   .custom-audio-player {
-    border-radius: 15px 15px 0 0;
-    padding: 6px 10px;
+    border-radius: 14px 14px 0 0;
+    padding: 10px 8px 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .controls {
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-around;
+    width: 100% !important; /* Bootstrap w-100 equivalent */
   }
 
   .control-btn {
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    min-width: 40px;
+    min-height: 40px;
+    width: 100% !important;
   }
 
   .time {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    min-width: 90px;
+  }
+
+  .progress-bar-container {
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .info-section {
+    margin-left: 10px;
+    text-align: right;
   }
 }
 
@@ -1956,19 +2016,18 @@ export default {
 
 /* Audio Player Styles */
 .audio-player-container {
-  border-radius: 15px 15px 0 0;
+  border-radius: 12px 12px 0 0;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   background: #2c2c2c;
-  /* box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   padding: 8px 12px;
 }
 
 .custom-audio-player {
-  border-radius: 15px 15px 0 0;
   max-width: 1200px;
   margin: 0 auto;
   padding: 8px;
@@ -2071,7 +2130,6 @@ export default {
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .custom-audio-player {
-    border-radius: 15px 15px 0 0;
     padding: 6px;
   }
 
@@ -2122,7 +2180,7 @@ export default {
 
 @media (max-width: 768px) {
   .audio-player-container {
-    /* padding: 6px 8px; */
+    padding: 6px 8px;
   }
 
   .controls {
@@ -2173,7 +2231,7 @@ export default {
 
 @media (max-width: 576px) {
   .audio-player-container {
-    /* padding: 4px 6px; */
+    padding: 4px 6px;
   }
 
   .info-section {
@@ -2538,14 +2596,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-   /* .podcast-selection-grid .podcast-selection-item {
-    flex: 0 0 100%; 
-    max-width: 100%;
-  }
-  .podcast-selection-grid .podcast-selection-item {
-    flex: 0 0 16.666667%; 
-    max-width: 16.666667%;
-  }  */
   .episodes-filters-bar {
     flex-direction: column;
     align-items: stretch;

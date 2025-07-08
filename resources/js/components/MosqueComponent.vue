@@ -60,8 +60,8 @@
               <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div class="col" v-for="mosque in mosques" :key="mosque.id">
                   <div class="card">
-                    <div style="padding: 15px 15px 0 15px;">
-                      <h1 class="card-title fw-bold text-dark mb-3" style="font-size: 25px;">{{ mosque.name }}</h1>
+                    <div style="padding: 15px 15px 0 15px;" class="text-center">
+                      <h1 class="card-title fw-bold text-dark text-center mb-3" style="font-size: 25px;">{{ mosque.name }}</h1>
                     </div>
                     <div class="card-body pt-0">
                       <div class="mb-2">
