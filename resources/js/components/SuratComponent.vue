@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="container py-4">
     <div class="row justify-content-center text-center mb-3">
@@ -196,7 +195,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'SuratComponent',
@@ -227,8 +225,6 @@ export default {
       showAudioPlayer: false,
       isHighlighted: false,
       wordTimings: [],
-      autoScrollFrame: null,
-      cardPositions: [],
       isLoading: false
     };
   },
@@ -251,14 +247,9 @@ export default {
         this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
-        this.cardPositions = [];
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
-          this.$nextTick(() => {
-            this.cacheCardPositions();
-            this.isLoading = false;
-          });
+          this.isLoading = false;
         }).catch(() => {
           this.isLoading = false;
         });
@@ -271,13 +262,8 @@ export default {
         this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
-        this.cardPositions = [];
         this.fetchSurahDetails().then(() => {
-          this.$nextTick(() => {
-            this.cacheCardPositions();
-            this.isLoading = false;
-          });
+          this.isLoading = false;
         }).catch(() => {
           this.isLoading = false;
         });
@@ -289,14 +275,9 @@ export default {
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
-        this.cardPositions = [];
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
-          this.$nextTick(() => {
-            this.cacheCardPositions();
-            this.isLoading = false;
-          });
+          this.isLoading = false;
         }).catch(() => {
           this.isLoading = false;
         });
@@ -307,64 +288,19 @@ export default {
       this.isAudioLoading = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length).fill(null);
-      this.cardPositions = [];
       this.$nextTick(() => {
         if (this.$refs.audioCard) {
           this.initializeAudioElements();
-          this.cacheCardPositions();
         } else {
           console.warn('Audio cards not yet rendered, retrying...');
           setTimeout(() => {
             this.initializeAudioElements();
-            this.cacheCardPositions();
           }, 100);
         }
       });
     }
   },
   methods: {
-    cacheCardPositions: function () {
-      const audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
-      this.cardPositions = audioCards.map(card => card.getBoundingClientRect().top + window.scrollY);
-      console.log('Cached card positions:', this.cardPositions);
-    },
-    smoothScrollToAyah: function (index) {
-      if (index < 0 || index >= this.filteredAyahs.length || !this.$refs.audioCard?.[index]) {
-        console.warn(`Invalid index for scroll: ${index}`);
-        return;
-      }
-      const card = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard[index] : this.$refs.audioCard;
-      const stickyDropdown = this.$refs.stickyDropdown;
-      const audioPlayer = document.querySelector('.audio-player-container');
-      const stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : (this.isVisible ? 80 : 60);
-      const audioPlayerHeight = audioPlayer && this.showAudioPlayer ? audioPlayer.getBoundingClientRect().height : 0;
-      const buffer = Math.max(20, window.innerHeight * 0.05);
-      const cardTop = this.cardPositions[index] || (card.getBoundingClientRect().top + window.scrollY);
-      const targetY = cardTop - stickyHeight - buffer;
-      window.scrollTo({ top: targetY, behavior: 'smooth' });
-      console.log(`Smooth scrolling to ayah ${index + 1} at targetY=${targetY}`);
-    },
-    startAutoScroll: function () {
-      if (this.autoScrollFrame) return;
-      console.log('Starting auto-scroll for ayah', this.currentlyPlayingIndex + 1);
-      const scrollStep = () => {
-        if (!this.isAudioPlaying[this.currentlyPlayingIndex] || !this.currentlyPlaying || this.isLoading) {
-          console.log('Auto-scroll stopped: isPlaying=', this.isAudioPlaying[this.currentlyPlayingIndex], 'currentlyPlaying=', !!this.currentlyPlaying, 'isLoading=', this.isLoading);
-          this.stopAutoScroll();
-          return;
-        }
-        this.smoothScrollToAyah(this.currentlyPlayingIndex);
-        this.autoScrollFrame = requestAnimationFrame(scrollStep);
-      };
-      this.autoScrollFrame = requestAnimationFrame(scrollStep);
-    },
-    stopAutoScroll: function () {
-      if (this.autoScrollFrame) {
-        console.log('Stopping auto-scroll');
-        cancelAnimationFrame(this.autoScrollFrame);
-        this.autoScrollFrame = null;
-      }
-    },
     highlightedText: function (ayah) {
       if (!ayah.text) return "";
       const words = ayah.text.split(" ");
@@ -495,7 +431,6 @@ export default {
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
-        console.log('Audio already loaded, triggering metadata');
         this.currentlyPlaying.onloadedmetadata();
       }
       this.highlightedWordIndex = -1;
@@ -519,11 +454,6 @@ export default {
           this.isHighlighted = true;
           this.showAudioPlayer = true;
           this.preloadNextAyahs(index + 1);
-          this.$nextTick(() => {
-            this.cacheCardPositions();
-            this.smoothScrollToAyah(index);
-            this.startAutoScroll();
-          });
         }).catch(err => {
           console.error(`Play error for ayah ${index + 1}:`, err);
           if (this.currentlyPlaying.readyState < 2) {
@@ -552,7 +482,6 @@ export default {
         this.audioElements[index].pause();
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
-        this.stopAutoScroll();
       }
     },
     toggleAudioPlayer: function (index) {
@@ -577,27 +506,18 @@ export default {
         this.isAudioLoading[index] = false;
         this.progress[index] = 0;
         this.isHighlighted = false;
-        this.stopAutoScroll();
       }
     },
     rewindAudio: function (index) {
       if (this.audioElements[index]) {
         console.log(`Rewinding audio for ayah ${index + 1}`);
         this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
-        this.$nextTick(() => {
-          this.cacheCardPositions();
-          this.smoothScrollToAyah(index);
-        });
       }
     },
     fastForwardAudio: function (index) {
       if (this.audioElements[index]) {
         console.log(`Fast forwarding audio for ayah ${index + 1}`);
         this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
-        this.$nextTick(() => {
-          this.cacheCardPositions();
-          this.smoothScrollToAyah(index);
-        });
       }
     },
     updateProgress: function (index) {
@@ -618,35 +538,14 @@ export default {
     },
     toggleVisibility: function () {
       this.isVisible = !this.isVisible;
-      this.cardPositions = [];
-      this.$nextTick(() => {
-        this.cacheCardPositions();
-        if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
-          this.smoothScrollToAyah(this.currentlyPlayingIndex);
-        }
-      });
     },
     increaseFontSize: function () {
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
-      this.cardPositions = [];
-      this.$nextTick(() => {
-        this.cacheCardPositions();
-        if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
-          this.smoothScrollToAyah(this.currentlyPlayingIndex);
-        }
-      });
     },
     decreaseFontSize: function () {
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
-      this.cardPositions = [];
-      this.$nextTick(() => {
-        this.cacheCardPositions();
-        if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
-          this.smoothScrollToAyah(this.currentlyPlayingIndex);
-        }
-      });
     },
     shareOnWhatsApp: function (ayah) {
       const message =
@@ -699,9 +598,10 @@ export default {
             }))
             .filter(reciter => ![
               'elmir kuliev by 1muslimapp',
+              'Elmir kuliev 2 by 1MuslimApp',
+              'elmir kuliev 2 by 1MuslimApp',
               'elmir kuliev elevatemuslim',
               'elmir kuliev 1muslim',
-              'elmir kuliev 2muslim',
               'chinese',
               'ibrahim walk',
               'fooladvand - hedayatfar',
@@ -817,7 +717,6 @@ export default {
           this.playAudio(nextIndex);
         } else {
           console.warn(`Cannot play next ayah: index ${nextIndex} invalid or no audio element`);
-          this.stopAutoScroll();
         }
       }
     },
@@ -836,13 +735,12 @@ export default {
     },
     closeAudioPlayer: function () {
       if (this.currentlyPlayingIndex !== null) {
-        this.stopAudio(this.currentlyPlayingIndex);
+        this.stopAudio(this.currentoriginalPlayingIndex);
       }
       this.showAudioPlayer = false;
       this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
       this.isHighlighted = false;
-      this.stopAutoScroll();
     },
     syncHighlight: function () {
       const audio = this.currentlyPlaying;
@@ -865,13 +763,9 @@ export default {
     this.fetchTranslations();
     this.fetchSurahDetails().then(() => {
       this.isInitialLoad = false;
-      this.$nextTick(() => {
-        this.cacheCardPositions();
-      });
     });
   },
   beforeUnmount: function () {
-    this.stopAutoScroll();
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(audio => {
         if (audio && audio.pause) audio.pause();
@@ -961,11 +855,7 @@ html {
 }
 
 @media (max-width: 768px) {
-  .controls {
-    flex-wrap: nowrap; /* Prevent wrapping to keep all items in one line */
-    justify-content: space-between; /* Distribute space evenly */
-  }
-
+ 
   .controls .control-btn[title="Close"] {
     margin-left: 0; /* Remove the margin-left: auto to align with other buttons */
   }
