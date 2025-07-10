@@ -44907,7 +44907,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       showAudioPlayer: false,
       isHighlighted: false,
       wordTimings: [],
-      isLoading: false
+      isLoading: false,
+      cardPositions: [],
+      autoScrollFrame: null,
+      isManualScrolling: false
     };
   },
   computed: {
@@ -44928,9 +44931,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
+        this.stopAutoScroll();
+        this.cardPositions = [];
         this.fetchSurahDetails().then(function () {
           _this.resetAllAudioPlayers();
           _this.isLoading = false;
+          _this.$nextTick(function () {
+            setTimeout(function () {
+              window.scrollTo({
+                top: 0,
+                behavior: 'instant'
+              });
+              _this.ensureCardPositionsCached(function () {});
+            }, 200);
+          });
         })["catch"](function () {
           _this.isLoading = false;
         });
@@ -44943,8 +44957,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
+        this.stopAutoScroll();
+        this.cardPositions = [];
         this.fetchSurahDetails().then(function () {
           _this2.isLoading = false;
+          _this2.$nextTick(function () {
+            setTimeout(function () {
+              window.scrollTo({
+                top: 0,
+                behavior: 'instant'
+              });
+              _this2.ensureCardPositionsCached(function () {});
+            }, 200);
+          });
         })["catch"](function () {
           _this2.isLoading = false;
         });
@@ -44957,9 +44982,20 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
+        this.stopAutoScroll();
+        this.cardPositions = [];
         this.fetchSurahDetails().then(function () {
           _this3.resetAllAudioPlayers();
           _this3.isLoading = false;
+          _this3.$nextTick(function () {
+            setTimeout(function () {
+              window.scrollTo({
+                top: 0,
+                behavior: 'instant'
+              });
+              _this3.ensureCardPositionsCached(function () {});
+            }, 200);
+          });
         })["catch"](function () {
           _this3.isLoading = false;
         });
@@ -44971,30 +45007,201 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.isAudioLoading = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length).fill(null);
+      this.cardPositions = [];
       this.$nextTick(function () {
-        if (_this4.$refs.audioCard) {
-          _this4.initializeAudioElements();
-        } else {
-          console.warn('Audio cards not yet rendered, retrying...');
-          setTimeout(function () {
+        setTimeout(function () {
+          if (_this4.$refs.audioCard) {
             _this4.initializeAudioElements();
-          }, 100);
-        }
+            _this4.ensureCardPositionsCached(function () {});
+          } else {
+            console.warn('Audio cards not yet rendered, retrying...');
+            setTimeout(function () {
+              _this4.initializeAudioElements();
+              _this4.ensureCardPositionsCached(function () {});
+            }, 1000);
+          }
+        }, 200);
       });
     }
   },
   methods: {
-    highlightedText: function highlightedText(ayah) {
+    ensureCardPositionsCached: function ensureCardPositionsCached(callback) {
       var _this5 = this;
+      var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var maxAttempts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+      this.$nextTick(function () {
+        var documentHeight = document.documentElement.scrollHeight;
+        var maxValidTop = documentHeight * 0.95; // Relaxed to allow ayahs near bottom
+        var audioCards = Array.isArray(_this5.$refs.audioCard) ? _this5.$refs.audioCard : [];
+        if (!audioCards.length || !audioCards[0]) {
+          if (attempts < maxAttempts) {
+            console.warn("Audio cards not available, retrying (".concat(attempts + 1, "/").concat(maxAttempts, ")..."));
+            setTimeout(function () {
+              return _this5.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
+            }, 1000);
+          } else {
+            console.error('Failed to cache card positions after max attempts, using fallback');
+            _this5.cardPositions = _this5.fallbackCardPositions(audioCards.length);
+            callback();
+          }
+          return;
+        }
+        _this5.cardPositions = audioCards.map(function (card, index) {
+          var rect = card.getBoundingClientRect();
+          var top = rect.top + window.scrollY;
+          console.log("Ayah ".concat(index + 1, ": rect.top=").concat(rect.top, ", window.scrollY=").concat(window.scrollY, ", cardTop=").concat(top, ", documentHeight=").concat(documentHeight));
+          if (top <= 0 || top >= maxValidTop || rect.height <= 0 || isNaN(top)) {
+            console.warn("Invalid position for ayah ".concat(index + 1, ": cardTop=").concat(top, ", rect.height=").concat(rect.height));
+            return null;
+          }
+          return top;
+        });
+        var invalidIndices = _this5.cardPositions.map(function (pos, i) {
+          return pos === null ? i + 1 : null;
+        }).filter(function (i) {
+          return i !== null;
+        });
+        if (invalidIndices.length > 0) {
+          if (attempts < maxAttempts) {
+            console.warn("Invalid positions for ayahs [".concat(invalidIndices.join(', '), "], retrying (").concat(attempts + 1, "/").concat(maxAttempts, ")..."));
+            setTimeout(function () {
+              return _this5.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
+            }, 1000);
+          } else {
+            console.error("Failed to cache complete card positions after max attempts, invalid ayahs: [".concat(invalidIndices.join(', '), "]"));
+            _this5.cardPositions = _this5.fallbackCardPositions(audioCards.length);
+            callback();
+          }
+        } else {
+          console.log('Cached card positions:', _this5.cardPositions);
+          callback();
+        }
+      });
+    },
+    fallbackCardPositions: function fallbackCardPositions(length) {
+      // Fallback: Estimate card positions based on index and average card height
+      var estimatedCardHeight = 150; // Adjust based on typical card height
+      var stickyDropdown = this.$refs.stickyDropdown;
+      var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : this.isVisible ? 80 : 60;
+      return Array.from({
+        length: length
+      }, function (_, index) {
+        return stickyHeight + index * estimatedCardHeight;
+      });
+    },
+    smoothScrollToAyah: function smoothScrollToAyah(index) {
+      var _this6 = this;
+      if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
+        console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
+        return;
+      }
+      this.$nextTick(function () {
+        var audioCards = Array.isArray(_this6.$refs.audioCard) ? _this6.$refs.audioCard : [];
+        if (!audioCards[index]) {
+          console.warn("Audio card for index ".concat(index, " not found"));
+          return;
+        }
+        var documentHeight = document.documentElement.scrollHeight;
+        var maxValidTop = documentHeight * 0.95; // Relaxed to allow ayahs near bottom
+        var cardTop = _this6.cardPositions[index];
+        // Fallback: Recalculate cardTop if invalid
+        if (!cardTop || isNaN(cardTop) || cardTop <= 0 || cardTop >= maxValidTop) {
+          var rect = audioCards[index].getBoundingClientRect();
+          cardTop = rect.top + window.scrollY;
+          console.warn("Recalculated cardTop for ayah ".concat(index + 1, ": cardTop=").concat(cardTop, ", original=").concat(_this6.cardPositions[index]));
+          if (isNaN(cardTop) || cardTop <= 0 || cardTop >= maxValidTop) {
+            console.warn("Invalid recalculated cardTop (".concat(cardTop, ") for ayah ").concat(index + 1, ", skipping scroll"));
+            return;
+          }
+          _this6.cardPositions[index] = cardTop; // Update cached position
+        }
+        var stickyDropdown = _this6.$refs.stickyDropdown;
+        var audioPlayer = document.querySelector('.audio-player-container');
+        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this6.isVisible ? 80 : 60;
+        var audioPlayerHeight = _this6.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
+        var buffer = Math.max(20, window.innerHeight * 0.05);
+        var targetY = cardTop - stickyHeight - audioPlayerHeight - buffer;
+        if (targetY < 0 || targetY > maxValidTop) {
+          console.warn("Invalid targetY (".concat(targetY, ") for ayah ").concat(index + 1, ", skipping scroll"));
+          return;
+        }
+        window.scrollTo({
+          top: targetY,
+          behavior: 'smooth'
+        });
+        console.log("Smooth scrolling to ayah ".concat(index + 1, " at targetY=").concat(targetY, ", cardTop=").concat(cardTop, ", documentHeight=").concat(documentHeight));
+      });
+    },
+    startAutoScroll: function startAutoScroll() {
+      var _this7 = this;
+      if (this.autoScrollFrame || this.isManualScrolling) {
+        console.warn("Cannot start auto-scroll: frame=".concat(!!this.autoScrollFrame, ", isManualScrolling=").concat(this.isManualScrolling));
+        return;
+      }
+      // Ensure card positions are cached before starting
+      this.ensureCardPositionsCached(function () {
+        if (!_this7.cardPositions[_this7.currentlyPlayingIndex]) {
+          console.warn("Cannot start auto-scroll: invalid cardPosition for ayah ".concat(_this7.currentlyPlayingIndex + 1));
+          return;
+        }
+        console.log('Starting auto-scroll for ayah', _this7.currentlyPlayingIndex + 1);
+        var _scrollStep = function scrollStep() {
+          var _document$querySelect;
+          if (!_this7.isAudioPlaying[_this7.currentlyPlayingIndex] || !_this7.currentlyPlaying || _this7.isLoading || _this7.isManualScrolling || !_this7.cardPositions[_this7.currentlyPlayingIndex]) {
+            console.log('Auto-scroll stopped: isPlaying=', _this7.isAudioPlaying[_this7.currentlyPlayingIndex], 'currentlyPlaying=', !!_this7.currentlyPlaying, 'isLoading=', _this7.isLoading, 'isManualScrolling=', _this7.isManualScrolling, 'cardPosition=', _this7.cardPositions[_this7.currentlyPlayingIndex]);
+            _this7.stopAutoScroll();
+            return;
+          }
+          var cardTop = _this7.cardPositions[_this7.currentlyPlayingIndex];
+          var windowTop = window.scrollY;
+          var windowHeight = window.innerHeight;
+          var stickyDropdown = _this7.$refs.stickyDropdown;
+          var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this7.isVisible ? 80 : 60;
+          var audioPlayerHeight = _this7.showAudioPlayer ? ((_document$querySelect = document.querySelector('.audio-player-container')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getBoundingClientRect().height) || 0 : 0;
+          var buffer = Math.max(20, window.innerHeight * 0.05);
+          var targetY = cardTop - stickyHeight - audioPlayerHeight - buffer;
+          // Only scroll if the ayah is outside the visible viewport
+          if (cardTop < windowTop + stickyHeight || cardTop > windowTop + windowHeight - audioPlayerHeight - buffer) {
+            _this7.smoothScrollToAyah(_this7.currentlyPlayingIndex);
+          }
+          _this7.autoScrollFrame = requestAnimationFrame(_scrollStep);
+        };
+        _this7.autoScrollFrame = requestAnimationFrame(_scrollStep);
+      });
+    },
+    stopAutoScroll: function stopAutoScroll() {
+      if (this.autoScrollFrame) {
+        cancelAnimationFrame(this.autoScrollFrame);
+        this.autoScrollFrame = null;
+        console.log('Auto-scroll stopped');
+      }
+    },
+    handleManualScroll: function handleManualScroll() {
+      var _this8 = this;
+      if (this.autoScrollFrame) {
+        console.log('Manual scroll detected, stopping auto-scroll');
+        this.isManualScrolling = true;
+        this.stopAutoScroll();
+        setTimeout(function () {
+          _this8.isManualScrolling = false;
+          if (_this8.isAudioPlaying[_this8.currentlyPlayingIndex]) {
+            console.log('Resuming auto-scroll after manual scroll');
+            _this8.startAutoScroll();
+          }
+        }, 2500);
+      }
+    },
+    highlightedText: function highlightedText(ayah) {
+      var _this9 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this5.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this9.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this6 = this;
+      var _this10 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -45015,48 +45222,48 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           var audio = new Audio(ayah.audio);
           audio.preload = index < 5 ? 'auto' : 'metadata';
           audio.load();
-          audio.playbackRate = _this6.playbackSpeed;
-          audio.volume = _this6.volume;
+          audio.playbackRate = _this10.playbackSpeed;
+          audio.volume = _this10.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this6.updateProgress(index);
+            return _this10.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this6.progress[index] = 0;
-            _this6.isAudioLoading[index] = false;
+            _this10.progress[index] = 0;
+            _this10.isAudioLoading[index] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(index + 1));
-            _this6.isAudioLoading[index] = false;
-            if (index === _this6.currentlyPlayingIndex && _this6.isAudioPlaying[index]) {
-              _this6.playAudio(index);
+            _this10.isAudioLoading[index] = false;
+            if (index === _this10.currentlyPlayingIndex && _this10.isAudioPlaying[index]) {
+              _this10.playAudio(index);
             }
           });
           audio.addEventListener("ended", function () {
-            return _this6.handleAyahEnd(index);
+            return _this10.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this6$$toast;
+            var _this10$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this6.isAudioLoading[index] = false;
-            (_this6$$toast = _this6.$toast) === null || _this6$$toast === void 0 || _this6$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this10.isAudioLoading[index] = false;
+            (_this10$$toast = _this10.$toast) === null || _this10$$toast === void 0 || _this10$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this6$$toast2;
+          var _this10$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this6$$toast2 = _this6.$toast) === null || _this6$$toast2 === void 0 || _this6$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this10$$toast2 = _this10.$toast) === null || _this10$$toast2 === void 0 || _this10$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this7 = this;
+      var _this11 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this7.audioElements.length || _this7.audioElements[realIndex]) return;
+        if (realIndex >= _this11.audioElements.length || _this11.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -45065,40 +45272,40 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this7.playbackSpeed;
-          audio.volume = _this7.volume;
+          audio.playbackRate = _this11.playbackSpeed;
+          audio.volume = _this11.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this7.updateProgress(realIndex);
+            return _this11.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this7.progress[realIndex] = 0;
-            _this7.isAudioLoading[realIndex] = false;
+            _this11.progress[realIndex] = 0;
+            _this11.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this7.isAudioLoading[realIndex] = false;
+            _this11.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this7.handleAyahEnd(realIndex);
+            return _this11.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this7$$toast;
+            var _this11$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this7.isAudioLoading[realIndex] = false;
-            (_this7$$toast = _this7.$toast) === null || _this7$$toast === void 0 || _this7$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this11.isAudioLoading[realIndex] = false;
+            (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this7.audioElements[realIndex] = audio;
+          _this11.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this7$$toast2;
+          var _this11$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this7$$toast2 = _this7.$toast) === null || _this7$$toast2 === void 0 || _this7$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this11$$toast2 = _this11.$toast) === null || _this11$$toast2 === void 0 || _this11$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this8 = this;
+      var _this12 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -45120,18 +45327,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.isHighlighted = true;
       var ayah = this.filteredAyahs[index];
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this8.currentlyPlaying.duration));
-        var duration = _this8.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this12.currentlyPlaying.duration));
+        var duration = _this12.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this8.wordTimings = Array.from({
+          _this12.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this8.wordTimings = [];
+          _this12.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -45139,43 +45346,66 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this8.syncHighlight();
-        _this8.updateProgress(index);
+        _this12.syncHighlight();
+        _this12.updateProgress(index);
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this8$$toast;
+          var _this12$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this8.isAudioPlaying[index] = false;
-          _this8.isAudioLoading[index] = false;
-          _this8.isHighlighted = false;
-          (_this8$$toast = _this8.$toast) === null || _this8$$toast === void 0 || _this8$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this12.isAudioPlaying[index] = false;
+          _this12.isAudioLoading[index] = false;
+          _this12.isHighlighted = false;
+          (_this12$$toast = _this12.$toast) === null || _this12$$toast === void 0 || _this12$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this8.currentlyPlaying.play().then(function () {
+        _this12.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this8.isAudioPlaying[index] = true;
-          _this8.isAudioLoading[index] = false;
-          _this8.isHighlighted = true;
-          _this8.showAudioPlayer = true;
-          _this8.preloadNextAyahs(index + 1);
+          _this12.isAudioPlaying[index] = true;
+          _this12.isAudioLoading[index] = false;
+          _this12.isHighlighted = true;
+          _this12.showAudioPlayer = true;
+          _this12.preloadNextAyahs(index + 1);
+          _this12.$nextTick(function () {
+            setTimeout(function () {
+              _this12.ensureCardPositionsCached(function () {
+                if (_this12.isAudioPlaying[index] && _this12.cardPositions[index]) {
+                  _this12.smoothScrollToAyah(index);
+                  _this12.startAutoScroll();
+                } else {
+                  console.warn("Skipping scroll for ayah ".concat(index + 1, ": not playing or invalid card position"));
+                  // Fallback: Try recalculating positions for this ayah
+                  var audioCards = Array.isArray(_this12.$refs.audioCard) ? _this12.$refs.audioCard : [];
+                  if (audioCards[index]) {
+                    var rect = audioCards[index].getBoundingClientRect();
+                    var cardTop = rect.top + window.scrollY;
+                    if (cardTop > 0 && cardTop < document.documentElement.scrollHeight * 0.95) {
+                      _this12.cardPositions[index] = cardTop;
+                      _this12.smoothScrollToAyah(index);
+                      _this12.startAutoScroll();
+                    }
+                  }
+                }
+              });
+            }, 1000);
+          });
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this8.currentlyPlaying.readyState < 2) {
+          if (_this12.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this8$$toast2;
+            var _this12$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this8.isAudioPlaying[index] = false;
-            _this8.isAudioLoading[index] = false;
-            _this8.isHighlighted = false;
-            (_this8$$toast2 = _this8.$toast) === null || _this8$$toast2 === void 0 || _this8$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this8.handleAyahEnd(index);
+            _this12.isAudioPlaying[index] = false;
+            _this12.isAudioLoading[index] = false;
+            _this12.isHighlighted = false;
+            (_this12$$toast2 = _this12.$toast) === null || _this12$$toast2 === void 0 || _this12$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this12.handleAyahEnd(index);
           }
         });
       };
@@ -45196,6 +45426,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.audioElements[index].pause();
         this.isAudioPlaying[index] = false;
         this.isAudioLoading[index] = false;
+        this.stopAutoScroll();
       }
     },
     toggleAudioPlayer: function toggleAudioPlayer(index) {
@@ -45221,18 +45452,25 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.isAudioLoading[index] = false;
         this.progress[index] = 0;
         this.isHighlighted = false;
+        this.stopAutoScroll();
       }
     },
     rewindAudio: function rewindAudio(index) {
       if (this.audioElements[index]) {
         console.log("Rewinding audio for ayah ".concat(index + 1));
         this.audioElements[index].currentTime = Math.max(0, this.audioElements[index].currentTime - 15);
+        if (this.isAudioPlaying[index]) {
+          this.smoothScrollToAyah(index);
+        }
       }
     },
     fastForwardAudio: function fastForwardAudio(index) {
       if (this.audioElements[index]) {
         console.log("Fast forwarding audio for ayah ".concat(index + 1));
         this.audioElements[index].currentTime = Math.min(this.audioElements[index].duration, this.audioElements[index].currentTime + 20);
+        if (this.isAudioPlaying[index]) {
+          this.smoothScrollToAyah(index);
+        }
       }
     },
     updateProgress: function updateProgress(index) {
@@ -45252,15 +45490,41 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return text.replace(regex, '<span class="highlight">$1</span>');
     },
     toggleVisibility: function toggleVisibility() {
+      var _this13 = this;
       this.isVisible = !this.isVisible;
+      this.$nextTick(function () {
+        _this13.ensureCardPositionsCached(function () {
+          if (_this13.isAudioPlaying[_this13.currentlyPlayingIndex]) {
+            _this13.smoothScrollToAyah(_this13.currentlyPlayingIndex);
+          }
+        });
+      });
     },
     increaseFontSize: function increaseFontSize() {
+      var _this14 = this;
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
+      this.$nextTick(function () {
+        _this14.cardPositions = [];
+        _this14.ensureCardPositionsCached(function () {
+          if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
+            _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
+          }
+        });
+      });
     },
     decreaseFontSize: function decreaseFontSize() {
+      var _this15 = this;
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
+      this.$nextTick(function () {
+        _this15.cardPositions = [];
+        _this15.ensureCardPositionsCached(function () {
+          if (_this15.isAudioPlaying[_this15.currentlyPlayingIndex]) {
+            _this15.smoothScrollToAyah(_this15.currentlyPlayingIndex);
+          }
+        });
+      });
     },
     shareOnWhatsApp: function shareOnWhatsApp(ayah) {
       var message = 'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' + 'Arabic: ' + ayah.text + '\n\n' + 'Translation: ' + ayah.translation + '\n\n' + 'Listen here: ' + ayah.audio;
@@ -45289,29 +45553,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
     fetchSurahs: function fetchSurahs() {
-      var _this9 = this;
+      var _this16 = this;
       this.isLoading = true;
       fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (!_this9._isDestroyed) {
-          _this9.surahs = data.data || [];
+        if (!_this16._isDestroyed) {
+          _this16.surahs = data.data || [];
         }
-        _this9.isLoading = false;
+        _this16.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surahs:", error);
-        _this9.isLoading = false;
+        _this16.isLoading = false;
       });
     },
     fetchReciters: function fetchReciters() {
-      var _this10 = this;
+      var _this17 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this10.isLoading = true;
+              _this17.isLoading = true;
               _context.prev = 1;
               _context.next = 4;
               return fetch("https://api.alquran.cloud/v1/edition/format/audio");
@@ -45327,8 +45591,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 9:
               data = _context.sent;
-              if (!_this10._isDestroyed) {
-                _this10.reciters = data.data.filter(function (reciter) {
+              if (!_this17._isDestroyed) {
+                _this17.reciters = data.data.filter(function (reciter) {
                   return reciter.identifier && reciter.englishName;
                 }).map(function (reciter) {
                   return {
@@ -45339,14 +45603,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   return !['elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
                 });
               }
-              _this10.isLoading = false;
+              _this17.isLoading = false;
               _context.next = 18;
               break;
             case 14:
               _context.prev = 14;
               _context.t0 = _context["catch"](1);
               console.error("Error fetching Reciters:", _context.t0);
-              _this10.isLoading = false;
+              _this17.isLoading = false;
             case 18:
             case "end":
               return _context.stop();
@@ -45355,13 +45619,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchTranslations: function fetchTranslations() {
-      var _this11 = this;
+      var _this18 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, data, translations, _this11$$toast;
+        var response, data, translations, _this18$$toast;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _this11.isLoading = true;
+              _this18.isLoading = true;
               _context2.prev = 1;
               _context2.next = 4;
               return fetch("https://api.alquran.cloud/v1/edition/type/translation");
@@ -45377,7 +45641,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 9:
               data = _context2.sent;
-              if (!_this11._isDestroyed) {
+              if (!_this18._isDestroyed) {
                 _context2.next = 12;
                 break;
               }
@@ -45388,8 +45652,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               console.error("No translation data received from API");
-              _this11.translations = [];
-              _this11.isLoading = false;
+              _this18.translations = [];
+              _this18.isLoading = false;
               return _context2.abrupt("return");
             case 17:
               translations = data.data.map(function (translation) {
@@ -45397,7 +45661,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   identifier: translation.identifier,
                   englishName: translation.englishName || "Unknown Translation",
                   language: translation.language || "Unknown",
-                  flag: _this11.getFlagFromLanguage(translation.language || "Unknown")
+                  flag: _this18.getFlagFromLanguage(translation.language || "Unknown")
                 };
               }).filter(function (translation) {
                 return translation.flag !== '🌐';
@@ -45409,18 +45673,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 if (a.englishName > b.englishName) return 1;
                 return 0;
               });
-              _this11.translations = translations;
+              _this18.translations = translations;
               console.log('Translations fetched:', translations);
-              _this11.isLoading = false;
+              _this18.isLoading = false;
               _context2.next = 30;
               break;
             case 24:
               _context2.prev = 24;
               _context2.t0 = _context2["catch"](1);
               console.error("Error fetching Translations:", _context2.t0);
-              _this11.translations = [];
-              (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to load translations");
-              _this11.isLoading = false;
+              _this18.translations = [];
+              (_this18$$toast = _this18.$toast) === null || _this18$$toast === void 0 || _this18$$toast.error("Failed to load translations");
+              _this18.isLoading = false;
             case 30:
             case "end":
               return _context2.stop();
@@ -45429,18 +45693,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this12 = this;
+      var _this19 = this;
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
       this.isLoading = true;
       return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (_this12._isDestroyed) return;
+        if (_this19._isDestroyed) return;
         var arabicText = data.data[0];
         var translation = data.data[1];
-        _this12.surahDetails = {
-          surahNumber: _this12.selectedSurah,
+        _this19.surahDetails = {
+          surahNumber: _this19.selectedSurah,
           englishName: arabicText.englishName,
           name: arabicText.name,
           ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -45452,30 +45716,30 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             };
           })
         };
-        console.log('Surah details fetched:', _this12.surahDetails);
-        _this12.isLoading = false;
+        console.log('Surah details fetched:', _this19.surahDetails);
+        _this19.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surah details:", error);
-        _this12.isLoading = false;
+        _this19.isLoading = false;
       });
     },
     resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this13 = this;
+      var _this20 = this;
       this.$nextTick(function () {
-        if (_this13.currentlyPlaying) {
-          _this13.currentlyPlaying.pause();
-          _this13.currentlyPlaying = null;
-          _this13.currentlyPlayingIndex = 0;
+        if (_this20.currentlyPlaying) {
+          _this20.currentlyPlaying.pause();
+          _this20.currentlyPlaying = null;
+          _this20.currentlyPlayingIndex = 0;
         }
-        if (_this13.audioElements && _this13.audioElements.forEach) {
-          _this13.audioElements.forEach(function (audio) {
+        if (_this20.audioElements && _this20.audioElements.forEach) {
+          _this20.audioElements.forEach(function (audio) {
             if (audio && audio.remove) audio.remove();
           });
         }
-        _this13.initializeAudioElements();
-        _this13.isAudioPlaying = new Array(_this13.filteredAyahs.length).fill(false);
-        _this13.isAudioLoading = new Array(_this13.filteredAyahs.length).fill(false);
-        _this13.progress = new Array(_this13.filteredAyahs.length).fill(0);
+        _this20.initializeAudioElements();
+        _this20.isAudioPlaying = new Array(_this20.filteredAyahs.length).fill(false);
+        _this20.isAudioLoading = new Array(_this20.filteredAyahs.length).fill(false);
+        _this20.progress = new Array(_this20.filteredAyahs.length).fill(0);
       });
     },
     savePreference: function savePreference(key, value) {
@@ -45502,17 +45766,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume: function updateVolume() {
-      var _this14 = this;
+      var _this21 = this;
       if (this.currentlyPlaying) {
         this.currentlyPlaying.volume = this.volume;
       }
       if (this.audioElements && this.audioElements.forEach) {
         this.audioElements.forEach(function (audio) {
-          if (audio) audio.volume = _this14.volume;
+          if (audio) audio.volume = _this21.volume;
         });
       }
     },
     closeAudioPlayer: function closeAudioPlayer() {
+      var _this22 = this;
       if (this.currentlyPlayingIndex !== null) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
@@ -45520,6 +45785,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentlyPlayingIndex = 0;
       this.currentlyPlaying = null;
       this.isHighlighted = false;
+      this.stopAutoScroll();
+      this.$nextTick(function () {
+        setTimeout(function () {
+          window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+          });
+          _this22.ensureCardPositionsCached(function () {});
+        }, 200);
+      });
     },
     syncHighlight: function syncHighlight() {
       var audio = this.currentlyPlaying;
@@ -45532,26 +45807,35 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   mounted: function mounted() {
-    var _this15 = this;
+    var _this23 = this;
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
     this.selectedTranslation = "en.ahmedali";
     this.currentlyPlayingIndex = 0;
     this.isHighlighted = false;
-    this.fetchReciters();
-    this.fetchSurahs();
-    this.fetchTranslations();
-    this.fetchSurahDetails().then(function () {
-      _this15.isInitialLoad = false;
+    Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(function () {
+      _this23.isInitialLoad = false;
+      _this23.$nextTick(function () {
+        setTimeout(function () {
+          window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+          });
+          _this23.ensureCardPositionsCached(function () {});
+        }, 1000);
+      });
     });
+    window.addEventListener('scroll', this.handleManualScroll);
   },
   beforeUnmount: function beforeUnmount() {
+    this.stopAutoScroll();
     if (this.audioElements && this.audioElements.forEach) {
       this.audioElements.forEach(function (audio) {
         if (audio && audio.pause) audio.pause();
         if (audio && audio.remove) audio.remove();
       });
     }
+    window.removeEventListener('scroll', this.handleManualScroll);
   }
 });
 
@@ -168897,6 +169181,30 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.container[data-v-828f3036] {\n  min-height: 100vh;\n}\n.ayah-card-container[data-v-828f3036] {\n  transition: all 0.3s ease;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0; /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.2rem !important;\n    line-height: 2;\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    line-height: 1.6;\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
@@ -215439,6 +215747,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -298820,7 +299158,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=template&id=828f3036&scoped=true */ "./resources/js/components/SuratComponent.vue?vue&type=template&id=828f3036&scoped=true");
 /* harmony import */ var _SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=script&lang=js */ "./resources/js/components/SuratComponent.vue?vue&type=script&lang=js");
 /* harmony import */ var _SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css */ "./resources/js/components/SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+/* harmony import */ var _SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
@@ -298828,7 +299167,8 @@ __webpack_require__.r(__webpack_exports__);
 ;
 
 
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-828f3036"],['__file',"resources/js/components/SuratComponent.vue"]])
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_4__["default"])(_SuratComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_SuratComponent_vue_vue_type_template_id_828f3036_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-828f3036"],['__file',"resources/js/components/SuratComponent.vue"]])
 /* hot reload */
 if (false) {}
 
@@ -298862,6 +299202,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_0_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=0&id=828f3036&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css":
+/*!************************************************************************************************************!*\
+  !*** ./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_SuratComponent_vue_vue_type_style_index_1_id_828f3036_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/SuratComponent.vue?vue&type=style&index=1&id=828f3036&scoped=true&lang=css");
 
 
 /***/ }),
