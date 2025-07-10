@@ -44926,7 +44926,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (newVal && !this.isLoading) {
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
-        this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.fetchSurahDetails().then(function () {
@@ -44942,7 +44941,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       if (newVal && !this.isLoading) {
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
-        this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.fetchSurahDetails().then(function () {
@@ -45338,7 +45336,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                     englishName: reciter.englishName || "Unknown Reciter"
                   };
                 }).filter(function (reciter) {
-                  return !['elmir kuliev by 1muslimapp', 'Elmir kuliev 2 by 1MuslimApp', 'elmir kuliev 2 by 1MuslimApp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
+                  return !['elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
                 });
               }
               _this10.isLoading = false;
@@ -45516,7 +45514,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     closeAudioPlayer: function closeAudioPlayer() {
       if (this.currentlyPlayingIndex !== null) {
-        this.stopAudio(this.currentoriginalPlayingIndex);
+        this.stopAudio(this.currentlyPlayingIndex);
       }
       this.showAudioPlayer = false;
       this.currentlyPlayingIndex = 0;

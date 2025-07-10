@@ -244,7 +244,6 @@ export default {
       if (newVal && !this.isLoading) {
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
-        this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.fetchSurahDetails().then(() => {
@@ -259,7 +258,6 @@ export default {
       if (newVal && !this.isLoading) {
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
-        this.selectedSurah = "1";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.fetchSurahDetails().then(() => {
@@ -598,10 +596,9 @@ export default {
             }))
             .filter(reciter => ![
               'elmir kuliev by 1muslimapp',
-              'Elmir kuliev 2 by 1MuslimApp',
-              'elmir kuliev 2 by 1MuslimApp',
               'elmir kuliev elevatemuslim',
               'elmir kuliev 1muslim',
+              'elmir kuliev 2muslim',
               'chinese',
               'ibrahim walk',
               'fooladvand - hedayatfar',
@@ -735,7 +732,7 @@ export default {
     },
     closeAudioPlayer: function () {
       if (this.currentlyPlayingIndex !== null) {
-        this.stopAudio(this.currentoriginalPlayingIndex);
+        this.stopAudio(this.currentlyPlayingIndex);
       }
       this.showAudioPlayer = false;
       this.currentlyPlayingIndex = 0;
