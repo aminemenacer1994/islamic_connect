@@ -1,286 +1,341 @@
 <template>
-  <div class="container">
-    <h1 class="display-5 fw-bold text-center mb-2 mt-4">Islamic Guides</h1>
-    <p class="text-center container mb-3 guide-description lead">
-      Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims
-      and non-Muslims understand the faith more deeply.
-    </p>
+  <div class="container my-4">
+    <!-- Header -->
+    <header class="text-center mb-4">
+      
+      <h1 class="header-title">Islamic Guides</h1>
+      <p class="header-description">
+        Discover insights into the core beliefs, practices, and morals of Islam.
+      </p>
+    </header>
 
-    <div class="row mb-4">
-      <!-- Category Dropdown -->
-      <h2 class="fw-bold text-left pt-2 pb-2 container">Select an Islamic Guide:</h2>
-      <div class="mb-3 d-flex align-items-center gap-2 col-md-6">
-        <select v-model="selectedCategory" class="form-select">
-          <option value="">Select a Guide</option>
-          <option v-for="(section, index) in guide.sections" :key="index" :value="index">
-            {{ section.title }}
-          </option>
-        </select>
-      </div>
-      <!-- <h2 class="fw-bold text-left pt-2 pb-2 container" v-if="selectedCategory !== ''">Search for a Keyword:</h2>
-      <div class="col-md-6" v-if="selectedCategory !== ''">
-        <div class="mb-3 d-flex align-items-center gap-2">
-          <input type="text" v-model="searchText" class="form-control" placeholder="Search text..." />
+    <!-- Controls Section -->
+    <section class="controls-section mb-4" style="border: 1px solid #009688;">
+      <div class="row g-3 align-items-center" >
+        <!-- Category Dropdown -->
+        <div class="col-md-6">
+          <label for="category-select" class="form-label">
+            <i class="bi bi-journal-bookmark me-2"></i>Select a Guide
+          </label>
+          <select
+            id="category-select"
+            v-model="selectedCategory"
+            class="form-select"
+            aria-label="Select an Islamic guide"
+          >
+            <option value="">Choose a topic...</option>
+            <option v-for="(section, index) in guide.sections" :key="index" :value="index">
+              {{ section.title }}
+            </option>
+          </select>
         </div>
-      </div> -->
-    </div>
 
-    <!-- Add your content here -->
-    <div class="container text-left" :class="{ 'rtl-text': isArabic }">
-      <div class="row justify-content-center mb-4" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
-        <div class="col-md-12">
-          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
-            <!-- Title -->
-            <h2 class="display-6 fw-bold flex-grow-1 pb-2 mb-0">
-              <span v-html="isArabic ? highlightText(guide.sections[selectedCategory].title_ar || guide.sections[selectedCategory].title) :
-                highlightText(guide.sections[selectedCategory].title)"></span>
-            </h2>
-
-            <!-- Translate Button -->
-            <!-- <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="ms-auto pt-2">
-              <button class="btn btn-success" @click="translateContent" :disabled="isLoading">
-                {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}
+        <!-- Search Input -->
+        <div class="col-md-6" v-if="selectedCategory !== ''">
+          <label for="search-input" class="form-label">
+            <i class="bi bi-search me-2"></i>Search Content
+          </label>
+          <div class="input-group">
+          <input
+            id="search-input"
+            type="text"
+            v-model="searchText"
+            class="form-control"
+              placeholder="Search keywords..."
+            aria-label="Search guide content"
+            >
+            <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''">
+              <i class="bi bi-x"></i>
               </button>
-            </div> -->
           </div>
+        </div>
+      </div>
+    </section>
 
-          <!-- Loading Spinner -->
-          <!-- <div v-if="isLoading" class="text-center my-3">
-            <div class="spinner-border text-dark" role="status">
-              <span class="visually-hidden">Translating...</span>
+    <!-- Content Section -->
+    <section 
+      v-if="selectedCategory !== '' && guide.sections[selectedCategory]" 
+      class="mb-5"
+      id="content-section"
+    >
+      <div class="content-card card">
+        <div class="card-body">
+          <!-- Card Header -->
+          <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+              <h2 class="content-title mb-2">
+                {{ guide.sections[selectedCategory].title }}
+              </h2>
+              <div class="badge bg-primary bg-opacity-10 text-primary">
+                {{ guide.sections[selectedCategory].category || 'General' }}
+              </div>
             </div>
-            <p class="text-dark mt-2">Translating...</p>
-          </div> -->
-
-          <!-- Bootstrap Alert for Content Copy Feedback -->
-          <div id="copyAlert" class="alert" role="alert" style="display: none;">
-            <span id="alertMessage">Content copied to clipboard!</span>
+            
+            <div class="d-flex gap-2">
+              <button
+                class="btn btn-sm btn-outline-primary"
+                @click="playCurrentContent"
+                :disabled="isAudioLoading"
+              >
+                <i class="bi bi-play-fill"></i> Listen
+              </button>
+              <button
+                class="btn btn-sm btn-outline-primary"
+                @click="bookmarkGuide"
+              >
+                <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
+                Bookmark
+              </button>
+              
+              <button
+                class="btn btn-sm btn-outline-success"
+                @click="shareOnWhatsApp"
+              >
+                <i class="bi bi-share"></i> Share
+              </button>
+            </div>
           </div>
 
           <!-- Content -->
-          <div v-if="!isLoading">
-            <!-- Content with Real-Time Highlighting -->
-            <div v-if="Array.isArray(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize + 'px' }">
-              <ul class="list-unstyled selected-content">
-                <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-2">
-                  <span class="fw-medium fs-5 text-left text-dark">
-                    <span v-html="getHighlightedText(item)"></span>
-                  </span>
+          <div class="selected-content">
+            <div v-if="Array.isArray(guide.sections[selectedCategory].content)" class="content-list">
+              <ul class="list-unstyled mb-0">
+                <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-3 pb-3 border-bottom">
+                  <div class="d-flex align-items-start">
+                    <span class="badge bg-primary bg-opacity-10 text-primary me-3 mt-1">{{ index + 1 }}</span>
+                    <span v-html="getHighlightedText(item)" class="content-text"></span>
+                  </div>
                 </li>
               </ul>
             </div>
-
-
-            <p v-else class="text-dark fs-5 selected-content" :style="{ fontSize: fontSize + 'px' }">
-              <span
-                v-html="isArabic ? highlightText(guide.sections[selectedCategory].content_ar || guide.sections[selectedCategory].content) : highlightText(guide.sections[selectedCategory].content)"></span>
-            </p>
+            <div v-else class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)"></div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-
-    <hr v-if="selectedCategory !== ''" />
-
-    <!-- Action Icons: Share & Copy -->
-    <div class="container text-center d-flex pb-3 justify-content-around align-items-center"
-      v-if="selectedCategory !== ''">
-      <!-- <div class="text-center">
-        <i class="bi bi-share icon-tooltip h3 icon-hover" data-bs-toggle="tooltip" style="cursor: pointer"
-          data-bs-placement="top" title="Share" aria-label="Share content" role="button" @click="shareOnWhatsApp"></i>
-        <div class="h5">Share</div>
-      </div> -->
-
-      <div class="text-center">
-        <!-- Pause Button -->
-        <i class="bi bi-pause icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Pause"
-          role="button" @click="pauseText"
-          :class="{ 'text-muted': !isPlaying || isPaused, 'highlight-button': isPlaying }"
-          :style="{ pointerEvents: (!isPlaying || isPaused) ? 'none' : 'auto' }"></i>
-        <div class="h4" style="cursor:pointer" @click="pauseText">Pause</div>
+    <!-- Global Audio Player -->
+    <transition name="global-audio-player">
+      <div v-if="isPlaying || isPaused" class="modern-audio-player w-100">
+        <div class="audio-player-row top">
+          <div class="audio-meta text-start">
+            <div class="audio-title small-title">{{ currentPlayingContent.title }}</div>
+            <div class="audio-subtitle">{{ currentPlayingContent.category || 'Recitation' }}</div>
+          </div>
+        </div>
+        <div class="audio-player-row bottom">
+          <div class="audio-controls">
+            <button class="audio-btn" @click="stopPlayback" aria-label="Rewind">
+              <i class="bi bi-skip-backward-fill"></i>
+            </button>
+            <button class="audio-btn" @click="togglePlayPause" aria-label="Play/Pause">
+              <i class="bi" :class="isPlaying ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+            </button>
+            <button class="audio-btn" @click="stopPlayback" aria-label="Forward">
+              <i class="bi bi-skip-forward-fill"></i>
+            </button>
+            <button class="audio-btn" @click="stopPlayback" aria-label="Stop">
+              <i class="bi bi-stop-fill"></i>
+            </button>
+          </div>
+          <div class="audio-progress-wrap">
+            <div class="audio-progress-bar">
+              <div class="audio-progress" :style="{ width: (currentTime / totalDuration * 100) + '%' }"></div>
+            </div>
+          </div>
+          <div class="audio-right">
+            <i class="bi bi-volume-up-fill volume-icon"></i>
+            <input type="range" min="0" max="100" v-model.number="volume" @input="updateVolume" class="audio-volume-slider" aria-label="Volume control" />
+            <button class="audio-btn close-btn" @click="stopPlayback" aria-label="Close">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div class="text-center">
-        <!-- Play Button -->
-        <i class="bi bi-play icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Play"
-          aria-label="Play text" role="button" @click="playText"
-          :class="{ 'text-muted': isPlaying, 'highlight-button': !isPlaying }"
-          :style="{ pointerEvents: isPlaying ? 'none' : 'auto' }"></i>
-        <div class="h4" style="cursor:pointer" @click="playText">Play</div>
-      </div>
-
-      <div class="text-center">
-        <!-- Stop Button -->
-        <i class="bi bi-stop icon-tooltip h1 icon-hover" data-bs-toggle="tooltip" data-bs-placement="top" title="Stop"
-          role="button" @click="stopText" :class="{ 'text-muted': !isPlaying, 'highlight-button': isPlaying }"
-          :style="{ pointerEvents: !isPlaying ? 'none' : 'auto' }"></i>
-        <div class="h4" style="cursor:pointer" @click="stopText">Stop</div>
-      </div>
-
-
-      <!-- <div class="text-center">
-        <i @click="copyContent" style="cursor: pointer" class="bi bi-clipboard icon-tooltip h3 icon-hover"
-          data-bs-toggle="tooltip" data-bs-placement="top" title="Copy Content" aria-label="Copy content"
-          role="button"></i>
-        <div class="h5">Copy</div>
-      </div> -->
-    </div>
-
+    </transition>
   </div>
 </template>
 
 <script>
-import guide from "../guides.json"; // Adjust the path if needed
 import { ref, onMounted } from 'vue';
+import guide from '../guides.json';
 
 export default {
-  data() {
+  setup() {
+    const selectedCategory = ref('');
+    const searchText = ref('');
+    const isBookmarked = ref(false);
+    const isPlaying = ref(false);
+    const isPaused = ref(false);
+    const isAudioLoading = ref(false);
+    const isMuted = ref(false);
+    const currentTime = ref(0);
+    const totalDuration = ref(0);
+    const volume = ref(70);
+    const utterance = ref(null);
+    const currentPlayingContent = ref({
+      title: '',
+      category: ''
+    });
+    const fullText = ref('');
+
+    onMounted(() => {
+      if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.onvoiceschanged = () => {
+          // Voice setup if needed
+        };
+      }
+    });
+
     return {
-      utterance: null,
-      isArabic: false,
-      isLoading: false,
-      isPlaying: false,
-      isPaused: false,
-      ttsUtterance: null, // Store the SpeechSynthesisUtterance instance
-      selectedCategory: "",
-      searchText: "", // To track search input
-      guide: guide, // Assign imported JSON data to guide
-      fontSize: 18, // Starting font size as a regular data property
-      isArabic: false,  // Track language state
-      translatedContent: [],  // Store translated content
-      currentIndex: -1,     // Track the current word index for highlighting
-      highlightedText: [],  // Store the highlighted text array
-      voices: [],
+      selectedCategory,
+      searchText,
+      isBookmarked,
+      isPlaying,
+      isPaused,
+      isAudioLoading,
+      isMuted,
+      currentTime,
+      totalDuration,
+      volume,
+      utterance,
+      currentPlayingContent,
+      fullText,
+      guide,
     };
   },
-  mounted() {
-    if (typeof window.speechSynthesis !== 'undefined') {
-      window.speechSynthesis.onvoiceschanged = () => {
-        this.voices = window.speechSynthesis.getVoices();
-      };
-    }
-  },
   methods: {
-    translateContent() {
-      this.isLoading = true;
-      setTimeout(() => {
-        this.toggleLanguage();
-        this.isLoading = false;
-      }, 1500); // Simulate translation delay
-    },
+    playCurrentContent() {
+      this.isAudioLoading = true;
+      const selectedSection = this.guide.sections[this.selectedCategory];
+      
+      this.currentPlayingContent = {
+        title: selectedSection.title,
+        category: selectedSection.category || 'Islamic Guide'
+      };
 
-    toggleLanguage() {
-      if (this.isArabic) {
-        this.isArabic = false; // Switch back to English
-      } else if (this.guide.sections[this.selectedCategory]?.content_ar) {
-        this.isArabic = true; // Switch to Arabic if translation exists
-      } else {
-        this.fetchTranslation(); // Fetch translation if not available
+      let contentArray = selectedSection.content;
+      if (!Array.isArray(contentArray)) {
+        contentArray = typeof contentArray === 'string' ? [contentArray] : [];
       }
+      
+      this.fullText = contentArray.join(' ');
+      this.totalDuration = this.estimateDuration();
+      this.currentTime = 0;
+
+      this.playText();
     },
 
     playText() {
       if (this.isPaused) {
         window.speechSynthesis.resume();
-        this.isPaused = false;
         this.isPlaying = true;
-        this.updateAudioControlState();  // Update the control state
+        this.isPaused = false;
+        this.updateTime();
         return;
       }
 
-      const selectedSection = this.guide.sections[this.selectedCategory];
-      if (!selectedSection) return;
-
-      let contentArray = this.isArabic
-        ? selectedSection.content_ar
-        : selectedSection.content;
-
-      if (!Array.isArray(contentArray)) {
-        contentArray = typeof contentArray === 'string' ? [contentArray] : [];
-      }
-
-      if (contentArray.length === 0) return;
-
-      this.fullText = contentArray.join('. ');  // Store the full text for future use
-      this.highlightedText = this.fullText.split(' ');
-      this.currentIndex = -1;
-
       window.speechSynthesis.cancel();
-
       this.utterance = new SpeechSynthesisUtterance(this.fullText);
-      this.utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
-
-      const preferredVoice = this.voices.find(voice =>
-        this.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US')
-      ) || this.voices[0];
-
-      if (preferredVoice) this.utterance.voice = preferredVoice;
-
-      this.utterance.pitch = 1.1;
-      this.utterance.rate = 1;
+      this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
 
       this.utterance.onboundary = (event) => {
         if (event.name === 'word') {
           const textUpToBoundary = this.fullText.slice(0, event.charIndex);
-          const wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
-          this.currentIndex = wordsUpToBoundary;
-          this.$forceUpdate();
+          this.currentTime = textUpToBoundary.trim().split(/\s+/).length * this.estimateWordDuration();
         }
       };
 
       this.utterance.onend = () => {
         this.isPlaying = false;
         this.isPaused = false;
-        this.currentIndex = -1;
-        this.updateAudioControlState();  // Reset the control state after speech ends
+        this.currentTime = 0;
       };
 
       window.speechSynthesis.speak(this.utterance);
-
       this.isPlaying = true;
-      this.isPaused = false;
-      this.updateAudioControlState();  // Update the control state
+      this.isAudioLoading = false;
+      this.updateTime();
     },
 
-    // Update audio control state to highlight play and disable controls
-    updateAudioControlState() {
+    togglePlayPause() {
       if (this.isPlaying) {
-        document.body.classList.add('playing');
+        this.pauseText();
       } else {
-        document.body.classList.remove('playing');
+        this.playText();
       }
     },
 
-    // Pause Button Handler
     pauseText() {
-      if (this.isPlaying && !this.isPaused) {
+      if (this.isPlaying) {
         window.speechSynthesis.pause();
-        this.isPaused = true;
         this.isPlaying = false;
-        this.updateAudioControlState();  // Update the control state
+        this.isPaused = true;
       }
     },
 
-    // Handle Stop Button
-    stopText() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+    stopPlayback() {
+      window.speechSynthesis.cancel();
       this.isPlaying = false;
       this.isPaused = false;
-      this.currentUtterance = null; // if you have it
+      this.currentTime = 0;
+    },
+
+    seekAudio(event) {
+      // This is a simplified seek implementation
+      // Note: SpeechSynthesis API doesn't support true seeking
+      const seekPercent = event.target.value / this.totalDuration;
+      this.currentTime = this.totalDuration * seekPercent;
+      
+      if (this.isPlaying) {
+        this.stopPlayback();
+        this.playText();
+      }
+    },
+
+    toggleMute() {
+      this.isMuted = !this.isMuted;
+      if (this.utterance) {
+        this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
+      }
+    },
+
+    updateVolume() {
+      this.isMuted = this.volume === 0;
+      if (this.utterance) {
+        this.utterance.volume = this.volume / 100;
+      }
+    },
+
+    formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    },
+
+    estimateDuration() {
+      return this.fullText.split(/\s+/).length * this.estimateWordDuration();
+    },
+
+    estimateWordDuration() {
+      return 0.4; // Average 400ms per word at 1x speed
+    },
+
+    updateTime() {
+      if (this.isPlaying) {
+        this.currentTime += 0.1;
+        if (this.currentTime < this.totalDuration) {
+          setTimeout(() => this.updateTime(), 100);
+        }
+      }
     },
 
     getHighlightedText(item) {
-      if (this.currentIndex === -1) return item;
-      return item.split(' ')
-        .map((word, index) =>
-          index === this.currentIndex
-            ? `<span class="highlight-word">${word}</span>`
-            : word
-        )
-        .join(' ');
+      if (!this.isPlaying) return item;
+      const currentWordIndex = Math.floor(this.currentTime / this.estimateWordDuration());
+      return item.split(' ').map((word, index) => 
+        index === currentWordIndex ? `<span class="highlight-word">${word}</span>` : word
+      ).join(' ');
     },
 
     highlightText(text) {
@@ -289,44 +344,8 @@ export default {
       return text.replace(regex, '<mark>$1</mark>');
     },
 
-    changeFontSize(action) {
-      if (action === 'increase' && this.fontSize < 30) {
-        this.fontSize += 2;
-      } else if (action === 'decrease' && this.fontSize > 10) {
-        this.fontSize -= 2;
-      }
-    },
-
-    fetchTranslation() {
-      const selectedContent = this.guide.sections[this.selectedCategory].content;
-      const contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
-
-      const translateChunk = (text) => {
-        return fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|ar`)
-          .then(response => response.json())
-          .then(data => data.responseData.translatedText)
-          .catch(error => console.log("Translation Error:", error));
-      };
-
-      let translatedArray = [];
-      contentArray.forEach((item) => {
-        if (item.length > 500) {
-          const chunks = item.match(/(.|[\r\n]){1,500}/g);
-          chunks.forEach((chunk) => {
-            translateChunk(chunk).then((translatedChunk) => {
-              translatedArray.push(translatedChunk);
-              this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
-              this.isArabic = true;
-            });
-          });
-        } else {
-          translateChunk(item).then((translatedItem) => {
-            translatedArray.push(translatedItem);
-            this.guide.sections[this.selectedCategory].content_ar = translatedArray.join(' ');
-            this.isArabic = true;
-          });
-        }
-      });
+    bookmarkGuide() {
+      this.isBookmarked = !this.isBookmarked;
     },
 
     shareOnWhatsApp() {
@@ -337,92 +356,506 @@ export default {
       const content = Array.isArray(selectedSection.content)
         ? selectedSection.content.join('\n\n')
         : selectedSection.content;
-
-      const text = `Title: ${title}\n\nContent: ${content}`;
-      const encodedText = encodeURIComponent(text);
-      const url = `https://wa.me/?text=${encodedText}`;
-
+      const text = `*${title}*\n\n${content}\n\n— Shared via Islamic Guides`;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
-    },
-
-    copyContent() {
-      const contentToCopy = document.querySelector('.selected-content');
-      if (contentToCopy) {
-        const textToCopy = contentToCopy.innerText || contentToCopy.textContent;
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => this.showCopyAlert('Content copied to clipboard!'))
-          .catch(() => this.showCopyAlert('Failed to copy content', true));
-      } else {
-        this.showCopyAlert('No content to copy', true);
-      }
-    },
-
-    showCopyAlert(message, isError = false) {
-      const alertElement = document.getElementById('copyAlert');
-      const alertMessage = document.getElementById('alertMessage');
-
-      alertMessage.textContent = message;
-      alertElement.className = isError ? 'alert alert-danger' : 'alert alert-success';
-      alertElement.style.display = 'block';
-
-      setTimeout(() => {
-        alertElement.style.display = 'none';
-      }, 2000);
     }
   },
   watch: {
-    selectedCategory(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.stopText(); // Stop the audio/text when guide changes
-      }
-    }
-  }
-}
+    selectedCategory(newVal) {
+      this.stopPlayback();
+      this.searchText = '';
+    },
+  },
+};
 </script>
 
 <style scoped>
-/* Highlight active button */
-.highlight-button {
-  color: rgb(13, 182, 145);
-  color: rgb(0, 0, 0);
-  cursor: pointer;
+/* Base Styles */
+:root {
+  --primary-color: #00bfa6;
+  --primary-hover: #008f7a;
+  --text-color: #333;
+  --text-light: #6c757d;
+  --bg-color: #fff;
+  --border-color: #e9ecef;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Gray out inactive buttons */
-.text-muted {
-  color: #a9a9a9 !important;
-  pointer-events: none;
-  /* Prevent interaction */
+/* Typography */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Header */
+.header-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.header-description {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Controls */
+.controls-section {
+  background-color: rgba(0, 191, 166, 0.05);
+  border: 1px solid rgba(0, 191, 166, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.form-select, .form-control {
+  border-radius: 8px;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+}
+
+.form-select:focus, .form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);
+}
+
+/* Content Card */
+.content-card {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.content-card:hover {
+  transform: translateY(-3px);
+}
+
+.content-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.content-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
 }
 
 .highlight-word {
-  background-color: rgb(13, 182, 145);
-  /* Customize the highlight color */
+  background-color: var(--primary-color);
   color: white;
-  /* Light yellow for the current word */
-  transition: background-color 0.2s ease-in-out;
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
 }
 
-.rtl-text {
-  direction: rtl !important;
-  /* Force RTL direction */
-  text-align: right !important;
-  /* Force text alignment to the right */
-  word-spacing: 0.3em !important;
-  /* Increase spacing between words */
+mark {
+  background-color: #fff3a3;
+  padding: 0.1em 0.3em;
+  border-radius: 0.2em;
 }
 
-/* Custom styles can go here */
-::v-deep mark {
-  background-color: rgb(13, 182, 145);
-  /* Customize the highlight color */
+/* Buttons */
+.btn {
+  font-weight: 500;
+  transition: all 0.2s;
+  border-radius: 8px;
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
   color: white;
-  /* Customize text color for highlight */
 }
 
-/* Custom styles for the icons (optional) */
-.icon-hover:hover {
-  color: rgb(13, 182, 145);
-  /* Change icon color on hover */
+/* Modern Audio Player Styles */
+.modern-audio-player,
+.modern-audio-player.w-100 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #232323;
+  color: #fff;
+  border-radius: 0;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  padding: 1rem 1.5rem;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  transform: none;
+  width: 100vw;
+  max-width: 100vw;
+  z-index: 2000;
+}
+.audio-meta {
+  min-width: 160px;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.audio-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 0.1rem;
+}
+.small-title {
+  font-size: 1rem;
+  text-align: left;
+}
+.audio-meta.text-start {
+  text-align: left;
+}
+.audio-subtitle {
+  font-size: 0.95rem;
+  color: #bdbdbd;
+  font-weight: 400;
+}
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex: 2 1 0;
+  justify-content: center;
+}
+.audio-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.audio-btn:hover, .audio-btn:focus {
+  background: rgba(0,191,166,0.12);
+  color: #00bfa6;
+  outline: none;
+  transform: scale(1.08);
+}
+.close-btn {
+  margin-left: 0.7rem;
+  font-size: 1.3rem;
+  background: none;
+  color: #bdbdbd;
+}
+.close-btn:hover {
+  color: #ff4d4f;
+  background: rgba(255,77,79,0.08);
+}
+.audio-progress-wrap {
+  flex: 3 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  margin: 0 1.2rem;
+}
+.audio-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #444;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.audio-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);
+  border-radius: 2px;
+  transition: width 0.2s;
+}
+.audio-right {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 180px;
+  flex: 1 1 0;
+  justify-content: flex-end;
+}
+.volume-icon {
+  font-size: 1.3rem;
+  color: #bdbdbd;
+}
+.audio-volume-slider {
+  width: 90px;
+  accent-color: #00bfa6;
+  background: transparent;
+  margin: 0 0.5rem;
+  height: 4px;
+}
+.audio-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00bfa6;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,191,166,0.18);
+  cursor: pointer;
+}
+.audio-volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00bfa6;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,191,166,0.18);
+  cursor: pointer;
+}
+.audio-volume-slider:focus {
+  outline: none;
+}
+
+/* Transitions */
+.global-audio-player-enter-active,
+.global-audio-player-leave-active {
+  transition: all 0.3s ease;
+}
+
+.global-audio-player-enter-from,
+.global-audio-player-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(100%);
+}
+
+.modern-audio-player.w-100 {
+  width: 100vw;
+  left: 0;
+  transform: none;
+  border-radius: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .header-title {
+    font-size: 1.75rem;
+  }
+  
+  .header-description {
+  font-size: 1rem;
+}
+
+  .global-audio-player {
+    flex-direction: column;
+    padding: 1rem;
+    width: 100%;
+    border-radius: 0;
+    bottom: 0;
+  }
+  
+  .player-desktop {
+    display: none;
+  }
+
+  .player-mobile {
+    display: flex;
+  }
+
+  .player-section {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .player-info, .player-volume {
+    min-width: auto;
+  }
+  
+  .progress-bar-container {
+    max-width: 100%;
+  }
+  
+  .volume-slider {
+    width: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+  
+  .content-title {
+    font-size: 1.3rem;
+  }
+  
+  .content-text {
+    font-size: 1rem;
+  }
+  
+  .controls-section {
+    padding: 1rem;
+  }
+  
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .modern-audio-player {
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.7rem 0.5rem;
+    width: 100vw;
+    left: 0;
+    border-radius: 0;
+  }
+  .audio-meta, .audio-right {
+    min-width: 120px;
+  }
+  .audio-progress-wrap {
+    min-width: 120px;
+    margin: 0 0.5rem;
+  }
+}
+@media (min-width: 601px) {
+  .audio-player-row.bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+  }
+  .audio-controls {
+    order: 2;
+    gap: 1.2rem;
+    flex: 2 1 0;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .audio-progress-wrap {
+    order: 3;
+    margin: 0 1.2rem;
+    flex: 3 1 0;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .audio-right {
+    order: 4;
+    gap: 0.7rem;
+    min-width: 180px;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 600px) {
+  .modern-audio-player {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 0;
+    left: 0;
+    transform: none;
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0.2rem 0.05rem;
+    border-radius: 0;
+  }
+  .audio-player-row.top, .audio-meta, .audio-title, .audio-subtitle {
+    display: none !important;
+  }
+  .audio-player-row.bottom {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .audio-player-row.bottom > * {
+    min-width: 0;
+  }
+  .audio-controls {
+    order: 1;
+    gap: 0.3rem;
+    margin: 0;
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .audio-btn {
+    font-size: 0.95rem;
+    padding: 0.18rem 0.22rem;
+  }
+  .audio-progress-wrap {
+    order: 2;
+    margin: 0 0.1rem;
+    flex: 2 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+  .audio-progress-bar {
+    height: 3px;
+  }
+  .audio-right {
+    order: 3;
+    gap: 0.3rem;
+    min-width: 0;
+    flex: 0 0 auto;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+  }
+  .audio-volume-slider {
+    width: 22px;
+    height: 2.5px;
+  }
+  .close-btn {
+    font-size: 0.95rem;
+    margin-left: 0.18rem;
+  }
+  .volume-icon {
+    font-size: 0.95rem;
+  }
 }
 </style>

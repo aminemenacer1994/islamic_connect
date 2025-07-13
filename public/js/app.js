@@ -37995,137 +37995,166 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
- // Adjust the path if needed
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
-      utterance: null,
-      isArabic: false,
-      isLoading: false,
-      isPlaying: false,
-      isPaused: false,
-      ttsUtterance: null,
-      // Store the SpeechSynthesisUtterance instance
-      selectedCategory: "",
-      searchText: "",
-      // To track search input
-      guide: _guides_json__WEBPACK_IMPORTED_MODULE_0__,
-      // Assign imported JSON data to guide
-      fontSize: 18
-    }, "isArabic", false), "translatedContent", []), "currentIndex", -1), "highlightedText", []), "voices", []);
-  },
-  mounted: function mounted() {
-    var _this = this;
-    if (typeof window.speechSynthesis !== 'undefined') {
-      window.speechSynthesis.onvoiceschanged = function () {
-        _this.voices = window.speechSynthesis.getVoices();
-      };
-    }
+  setup: function setup() {
+    var selectedCategory = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var searchText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var isBookmarked = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isPlaying = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isPaused = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isAudioLoading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var isMuted = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var currentTime = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var totalDuration = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var volume = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(70);
+    var utterance = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    var currentPlayingContent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({
+      title: '',
+      category: ''
+    });
+    var fullText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
+      if (typeof window.speechSynthesis !== 'undefined') {
+        window.speechSynthesis.onvoiceschanged = function () {
+          // Voice setup if needed
+        };
+      }
+    });
+    return {
+      selectedCategory: selectedCategory,
+      searchText: searchText,
+      isBookmarked: isBookmarked,
+      isPlaying: isPlaying,
+      isPaused: isPaused,
+      isAudioLoading: isAudioLoading,
+      isMuted: isMuted,
+      currentTime: currentTime,
+      totalDuration: totalDuration,
+      volume: volume,
+      utterance: utterance,
+      currentPlayingContent: currentPlayingContent,
+      fullText: fullText,
+      guide: _guides_json__WEBPACK_IMPORTED_MODULE_1__
+    };
   },
   methods: {
-    translateContent: function translateContent() {
-      var _this2 = this;
-      this.isLoading = true;
-      setTimeout(function () {
-        _this2.toggleLanguage();
-        _this2.isLoading = false;
-      }, 1500); // Simulate translation delay
-    },
-    toggleLanguage: function toggleLanguage() {
-      var _this$guide$sections$;
-      if (this.isArabic) {
-        this.isArabic = false; // Switch back to English
-      } else if ((_this$guide$sections$ = this.guide.sections[this.selectedCategory]) !== null && _this$guide$sections$ !== void 0 && _this$guide$sections$.content_ar) {
-        this.isArabic = true; // Switch to Arabic if translation exists
-      } else {
-        this.fetchTranslation(); // Fetch translation if not available
-      }
-    },
-    playText: function playText() {
-      var _this3 = this;
-      if (this.isPaused) {
-        window.speechSynthesis.resume();
-        this.isPaused = false;
-        this.isPlaying = true;
-        this.updateAudioControlState(); // Update the control state
-        return;
-      }
+    playCurrentContent: function playCurrentContent() {
+      this.isAudioLoading = true;
       var selectedSection = this.guide.sections[this.selectedCategory];
-      if (!selectedSection) return;
-      var contentArray = this.isArabic ? selectedSection.content_ar : selectedSection.content;
+      this.currentPlayingContent = {
+        title: selectedSection.title,
+        category: selectedSection.category || 'Islamic Guide'
+      };
+      var contentArray = selectedSection.content;
       if (!Array.isArray(contentArray)) {
         contentArray = typeof contentArray === 'string' ? [contentArray] : [];
       }
-      if (contentArray.length === 0) return;
-      this.fullText = contentArray.join('. '); // Store the full text for future use
-      this.highlightedText = this.fullText.split(' ');
-      this.currentIndex = -1;
+      this.fullText = contentArray.join(' ');
+      this.totalDuration = this.estimateDuration();
+      this.currentTime = 0;
+      this.playText();
+    },
+    playText: function playText() {
+      var _this = this;
+      if (this.isPaused) {
+        window.speechSynthesis.resume();
+        this.isPlaying = true;
+        this.isPaused = false;
+        this.updateTime();
+        return;
+      }
       window.speechSynthesis.cancel();
       this.utterance = new SpeechSynthesisUtterance(this.fullText);
-      this.utterance.lang = this.isArabic ? 'ar-SA' : 'en-US';
-      var preferredVoice = this.voices.find(function (voice) {
-        return _this3.isArabic ? voice.lang.includes('ar') : voice.lang.includes('en-US');
-      }) || this.voices[0];
-      if (preferredVoice) this.utterance.voice = preferredVoice;
-      this.utterance.pitch = 1.1;
-      this.utterance.rate = 1;
+      this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
       this.utterance.onboundary = function (event) {
         if (event.name === 'word') {
-          var textUpToBoundary = _this3.fullText.slice(0, event.charIndex);
-          var wordsUpToBoundary = textUpToBoundary.trim().split(/\s+/).length - 1;
-          _this3.currentIndex = wordsUpToBoundary;
-          _this3.$forceUpdate();
+          var textUpToBoundary = _this.fullText.slice(0, event.charIndex);
+          _this.currentTime = textUpToBoundary.trim().split(/\s+/).length * _this.estimateWordDuration();
         }
       };
       this.utterance.onend = function () {
-        _this3.isPlaying = false;
-        _this3.isPaused = false;
-        _this3.currentIndex = -1;
-        _this3.updateAudioControlState(); // Reset the control state after speech ends
+        _this.isPlaying = false;
+        _this.isPaused = false;
+        _this.currentTime = 0;
       };
       window.speechSynthesis.speak(this.utterance);
       this.isPlaying = true;
-      this.isPaused = false;
-      this.updateAudioControlState(); // Update the control state
+      this.isAudioLoading = false;
+      this.updateTime();
     },
-    // Update audio control state to highlight play and disable controls
-    updateAudioControlState: function updateAudioControlState() {
+    togglePlayPause: function togglePlayPause() {
       if (this.isPlaying) {
-        document.body.classList.add('playing');
+        this.pauseText();
       } else {
-        document.body.classList.remove('playing');
+        this.playText();
       }
     },
-    // Pause Button Handler
     pauseText: function pauseText() {
-      if (this.isPlaying && !this.isPaused) {
+      if (this.isPlaying) {
         window.speechSynthesis.pause();
-        this.isPaused = true;
         this.isPlaying = false;
-        this.updateAudioControlState(); // Update the control state
+        this.isPaused = true;
       }
     },
-    // Handle Stop Button
-    stopText: function stopText() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
+    stopPlayback: function stopPlayback() {
+      window.speechSynthesis.cancel();
       this.isPlaying = false;
       this.isPaused = false;
-      this.currentUtterance = null; // if you have it
+      this.currentTime = 0;
+    },
+    seekAudio: function seekAudio(event) {
+      // This is a simplified seek implementation
+      // Note: SpeechSynthesis API doesn't support true seeking
+      var seekPercent = event.target.value / this.totalDuration;
+      this.currentTime = this.totalDuration * seekPercent;
+      if (this.isPlaying) {
+        this.stopPlayback();
+        this.playText();
+      }
+    },
+    toggleMute: function toggleMute() {
+      this.isMuted = !this.isMuted;
+      if (this.utterance) {
+        this.utterance.volume = this.isMuted ? 0 : this.volume / 100;
+      }
+    },
+    updateVolume: function updateVolume() {
+      this.isMuted = this.volume === 0;
+      if (this.utterance) {
+        this.utterance.volume = this.volume / 100;
+      }
+    },
+    formatTime: function formatTime(seconds) {
+      var minutes = Math.floor(seconds / 60);
+      var secs = Math.floor(seconds % 60);
+      return "".concat(minutes, ":").concat(secs < 10 ? '0' : '').concat(secs);
+    },
+    estimateDuration: function estimateDuration() {
+      return this.fullText.split(/\s+/).length * this.estimateWordDuration();
+    },
+    estimateWordDuration: function estimateWordDuration() {
+      return 0.4; // Average 400ms per word at 1x speed
+    },
+    updateTime: function updateTime() {
+      var _this2 = this;
+      if (this.isPlaying) {
+        this.currentTime += 0.1;
+        if (this.currentTime < this.totalDuration) {
+          setTimeout(function () {
+            return _this2.updateTime();
+          }, 100);
+        }
+      }
     },
     getHighlightedText: function getHighlightedText(item) {
-      var _this4 = this;
-      if (this.currentIndex === -1) return item;
+      if (!this.isPlaying) return item;
+      var currentWordIndex = Math.floor(this.currentTime / this.estimateWordDuration());
       return item.split(' ').map(function (word, index) {
-        return index === _this4.currentIndex ? "<span class=\"highlight-word\">".concat(word, "</span>") : word;
+        return index === currentWordIndex ? "<span class=\"highlight-word\">".concat(word, "</span>") : word;
       }).join(' ');
     },
     highlightText: function highlightText(text) {
@@ -38133,87 +38162,23 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       var regex = new RegExp("(".concat(this.searchText, ")"), 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     },
-    changeFontSize: function changeFontSize(action) {
-      if (action === 'increase' && this.fontSize < 30) {
-        this.fontSize += 2;
-      } else if (action === 'decrease' && this.fontSize > 10) {
-        this.fontSize -= 2;
-      }
-    },
-    fetchTranslation: function fetchTranslation() {
-      var _this5 = this;
-      var selectedContent = this.guide.sections[this.selectedCategory].content;
-      var contentArray = Array.isArray(selectedContent) ? selectedContent : [selectedContent];
-      var translateChunk = function translateChunk(text) {
-        return fetch("https://api.mymemory.translated.net/get?q=".concat(encodeURIComponent(text), "&langpair=en|ar")).then(function (response) {
-          return response.json();
-        }).then(function (data) {
-          return data.responseData.translatedText;
-        })["catch"](function (error) {
-          return console.log("Translation Error:", error);
-        });
-      };
-      var translatedArray = [];
-      contentArray.forEach(function (item) {
-        if (item.length > 500) {
-          var chunks = item.match(/(.|[\r\n]){1,500}/g);
-          chunks.forEach(function (chunk) {
-            translateChunk(chunk).then(function (translatedChunk) {
-              translatedArray.push(translatedChunk);
-              _this5.guide.sections[_this5.selectedCategory].content_ar = translatedArray.join(' ');
-              _this5.isArabic = true;
-            });
-          });
-        } else {
-          translateChunk(item).then(function (translatedItem) {
-            translatedArray.push(translatedItem);
-            _this5.guide.sections[_this5.selectedCategory].content_ar = translatedArray.join(' ');
-            _this5.isArabic = true;
-          });
-        }
-      });
+    bookmarkGuide: function bookmarkGuide() {
+      this.isBookmarked = !this.isBookmarked;
     },
     shareOnWhatsApp: function shareOnWhatsApp() {
       var selectedSection = this.guide.sections[this.selectedCategory];
       if (!selectedSection) return;
       var title = selectedSection.title;
       var content = Array.isArray(selectedSection.content) ? selectedSection.content.join('\n\n') : selectedSection.content;
-      var text = "Title: ".concat(title, "\n\nContent: ").concat(content);
-      var encodedText = encodeURIComponent(text);
-      var url = "https://wa.me/?text=".concat(encodedText);
+      var text = "*".concat(title, "*\n\n").concat(content, "\n\n\u2014 Shared via Islamic Guides");
+      var url = "https://wa.me/?text=".concat(encodeURIComponent(text));
       window.open(url, '_blank');
-    },
-    copyContent: function copyContent() {
-      var _this6 = this;
-      var contentToCopy = document.querySelector('.selected-content');
-      if (contentToCopy) {
-        var textToCopy = contentToCopy.innerText || contentToCopy.textContent;
-        navigator.clipboard.writeText(textToCopy).then(function () {
-          return _this6.showCopyAlert('Content copied to clipboard!');
-        })["catch"](function () {
-          return _this6.showCopyAlert('Failed to copy content', true);
-        });
-      } else {
-        this.showCopyAlert('No content to copy', true);
-      }
-    },
-    showCopyAlert: function showCopyAlert(message) {
-      var isError = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var alertElement = document.getElementById('copyAlert');
-      var alertMessage = document.getElementById('alertMessage');
-      alertMessage.textContent = message;
-      alertElement.className = isError ? 'alert alert-danger' : 'alert alert-success';
-      alertElement.style.display = 'block';
-      setTimeout(function () {
-        alertElement.style.display = 'none';
-      }, 2000);
     }
   },
   watch: {
-    selectedCategory: function selectedCategory(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        this.stopText(); // Stop the audio/text when guide changes
-      }
+    selectedCategory: function selectedCategory(newVal) {
+      this.stopPlayback();
+      this.searchText = '';
     }
   }
 });
@@ -44908,9 +44873,12 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       isHighlighted: false,
       wordTimings: [],
       isLoading: false,
-      cardPositions: [],
       autoScrollFrame: null,
-      isManualScrolling: false
+      autoScrollInterval: null,
+      isManualScrolling: false,
+      lastScrollTime: 0,
+      scrollAttempts: 0,
+      lastScrollPosition: null
     };
   },
   computed: {
@@ -44932,12 +44900,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.stopAutoScroll();
-        this.cardPositions = [];
+
+        // Ensure we start at the top
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
         this.fetchSurahDetails().then(function () {
           _this.resetAllAudioPlayers();
           _this.isLoading = false;
           _this.$nextTick(function () {
             setTimeout(function () {
+              // Ensure we're still at the top after content loads
               window.scrollTo({
                 top: 0,
                 behavior: 'instant'
@@ -44958,11 +44932,17 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.stopAutoScroll();
-        this.cardPositions = [];
+
+        // Ensure we start at the top
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
         this.fetchSurahDetails().then(function () {
           _this2.isLoading = false;
           _this2.$nextTick(function () {
             setTimeout(function () {
+              // Ensure we're still at the top after content loads
               window.scrollTo({
                 top: 0,
                 behavior: 'instant'
@@ -44983,12 +44963,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.stopAutoScroll();
-        this.cardPositions = [];
+
+        // Ensure we start at the top
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
         this.fetchSurahDetails().then(function () {
           _this3.resetAllAudioPlayers();
           _this3.isLoading = false;
           _this3.$nextTick(function () {
             setTimeout(function () {
+              // Ensure we're still at the top after content loads
               window.scrollTo({
                 top: 0,
                 behavior: 'instant'
@@ -45007,7 +44993,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.isAudioLoading = new Array(newAyahs.length).fill(false);
       this.progress = new Array(newAyahs.length).fill(0);
       this.audioElements = new Array(newAyahs.length).fill(null);
-      this.cardPositions = [];
       this.$nextTick(function () {
         setTimeout(function () {
           if (_this4.$refs.audioCard) {
@@ -45029,70 +45014,86 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var _this5 = this;
       var attempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
       var maxAttempts = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+      // Since we're now calculating positions in real-time, this method is simplified
       this.$nextTick(function () {
-        var documentHeight = document.documentElement.scrollHeight;
-        var maxValidTop = documentHeight * 0.95; // Relaxed to allow ayahs near bottom
         var audioCards = Array.isArray(_this5.$refs.audioCard) ? _this5.$refs.audioCard : [];
         if (!audioCards.length || !audioCards[0]) {
           if (attempts < maxAttempts) {
             console.warn("Audio cards not available, retrying (".concat(attempts + 1, "/").concat(maxAttempts, ")..."));
             setTimeout(function () {
               return _this5.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
-            }, 1000);
+            }, 500);
           } else {
-            console.error('Failed to cache card positions after max attempts, using fallback');
-            _this5.cardPositions = _this5.fallbackCardPositions(audioCards.length);
+            console.error('Failed to find audio cards after max attempts');
             callback();
           }
           return;
         }
-        _this5.cardPositions = audioCards.map(function (card, index) {
-          var rect = card.getBoundingClientRect();
-          var top = rect.top + window.scrollY;
-          console.log("Ayah ".concat(index + 1, ": rect.top=").concat(rect.top, ", window.scrollY=").concat(window.scrollY, ", cardTop=").concat(top, ", documentHeight=").concat(documentHeight));
-          if (top <= 0 || top >= maxValidTop || rect.height <= 0 || isNaN(top)) {
-            console.warn("Invalid position for ayah ".concat(index + 1, ": cardTop=").concat(top, ", rect.height=").concat(rect.height));
-            return null;
-          }
-          return top;
-        });
-        var invalidIndices = _this5.cardPositions.map(function (pos, i) {
-          return pos === null ? i + 1 : null;
-        }).filter(function (i) {
-          return i !== null;
-        });
-        if (invalidIndices.length > 0) {
-          if (attempts < maxAttempts) {
-            console.warn("Invalid positions for ayahs [".concat(invalidIndices.join(', '), "], retrying (").concat(attempts + 1, "/").concat(maxAttempts, ")..."));
-            setTimeout(function () {
-              return _this5.ensureCardPositionsCached(callback, attempts + 1, maxAttempts);
-            }, 1000);
-          } else {
-            console.error("Failed to cache complete card positions after max attempts, invalid ayahs: [".concat(invalidIndices.join(', '), "]"));
-            _this5.cardPositions = _this5.fallbackCardPositions(audioCards.length);
-            callback();
-          }
-        } else {
-          console.log('Cached card positions:', _this5.cardPositions);
-          callback();
-        }
+        console.log('Audio cards are ready for positioning');
+        callback();
       });
     },
     fallbackCardPositions: function fallbackCardPositions(length) {
-      // Fallback: Estimate card positions based on index and average card height
-      var estimatedCardHeight = 150; // Adjust based on typical card height
-      var stickyDropdown = this.$refs.stickyDropdown;
-      var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : this.isVisible ? 80 : 60;
+      // This method is no longer needed since we calculate positions in real-time
       return Array.from({
         length: length
-      }, function (_, index) {
-        return stickyHeight + index * estimatedCardHeight;
+      }, function () {
+        return 0;
       });
     },
-    smoothScrollToAyah: function smoothScrollToAyah(index) {
+    isElementVisible: function isElementVisible(element) {
+      if (!element) return false;
+      var rect = element.getBoundingClientRect();
+      var windowHeight = window.innerHeight;
+      var windowWidth = window.innerWidth;
+
+      // Check if element has valid dimensions
+      if (rect.height <= 0 || rect.width <= 0) return false;
+
+      // Check if element is within viewport bounds
+      var isInViewport = rect.top < windowHeight && rect.bottom > 0 && rect.left < windowWidth && rect.right > 0;
+      return isInViewport;
+    },
+    isElementValid: function isElementValid(element) {
+      if (!element) return false;
+      var rect = element.getBoundingClientRect();
+
+      // Check if element has valid dimensions
+      if (rect.height <= 0 || rect.width <= 0) return false;
+
+      // Check if element exists in the DOM (basic check)
+      if (!element.offsetParent && element !== document.body) return false;
+      return true;
+    },
+    getElementPosition: function getElementPosition(element) {
+      if (!element || !this.isElementValid(element)) {
+        return null;
+      }
+      try {
+        var rect = element.getBoundingClientRect();
+        var elementTop = rect.top + window.scrollY;
+
+        // Basic sanity check
+        if (isNaN(elementTop) || elementTop < 0) {
+          return null;
+        }
+
+        // Additional check for unreasonably high positions (might indicate loading issue)
+        var documentHeight = document.documentElement.scrollHeight;
+        if (elementTop > documentHeight * 0.9) {
+          console.warn("Element position seems too high: ".concat(elementTop, ", document height: ").concat(documentHeight));
+          return null;
+        }
+        return elementTop;
+      } catch (error) {
+        console.error('Error getting element position:', error);
+        return null;
+      }
+    },
+    scrollToAyahByIndex: function scrollToAyahByIndex(index) {
       var _this6 = this;
-      if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
-        console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
+      if (index < 0 || index >= this.filteredAyahs.length) {
+        console.warn("Invalid ayah index: ".concat(index));
         return;
       }
       this.$nextTick(function () {
@@ -45101,107 +45102,303 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           console.warn("Audio card for index ".concat(index, " not found"));
           return;
         }
-        var documentHeight = document.documentElement.scrollHeight;
-        var maxValidTop = documentHeight * 0.95; // Relaxed to allow ayahs near bottom
-        var cardTop = _this6.cardPositions[index];
-        // Fallback: Recalculate cardTop if invalid
-        if (!cardTop || isNaN(cardTop) || cardTop <= 0 || cardTop >= maxValidTop) {
-          var rect = audioCards[index].getBoundingClientRect();
-          cardTop = rect.top + window.scrollY;
-          console.warn("Recalculated cardTop for ayah ".concat(index + 1, ": cardTop=").concat(cardTop, ", original=").concat(_this6.cardPositions[index]));
-          if (isNaN(cardTop) || cardTop <= 0 || cardTop >= maxValidTop) {
-            console.warn("Invalid recalculated cardTop (".concat(cardTop, ") for ayah ").concat(index + 1, ", skipping scroll"));
-            return;
-          }
-          _this6.cardPositions[index] = cardTop; // Update cached position
-        }
-        var stickyDropdown = _this6.$refs.stickyDropdown;
-        var audioPlayer = document.querySelector('.audio-player-container');
-        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this6.isVisible ? 80 : 60;
-        var audioPlayerHeight = _this6.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
-        var buffer = Math.max(20, window.innerHeight * 0.05);
-        var targetY = cardTop - stickyHeight - audioPlayerHeight - buffer;
-        if (targetY < 0 || targetY > maxValidTop) {
-          console.warn("Invalid targetY (".concat(targetY, ") for ayah ").concat(index + 1, ", skipping scroll"));
+        var element = audioCards[index];
+
+        // Check if element is valid before scrolling
+        if (!_this6.isElementValid(element)) {
+          console.warn("Element for ayah ".concat(index + 1, " is not valid, skipping scroll"));
           return;
         }
+
+        // For the first ayah, ensure we're at the top first
+        if (index === 0) {
+          var currentScrollY = window.scrollY;
+          if (currentScrollY > 100) {
+            // If we're not near the top
+            console.log("First ayah detected, scrolling to top first");
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+
+            // Wait for top scroll to complete, then scroll to ayah
+            setTimeout(function () {
+              _this6.scrollToElement(element, index);
+            }, 500);
+            return;
+          }
+        }
+
+        // For other ayahs, scroll directly
+        _this6.scrollToElement(element, index);
+      });
+    },
+    scrollToElement: function scrollToElement(element, index) {
+      var _this7 = this;
+      // Use scrollIntoView for more reliable scrolling
+      try {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+        console.log("Scrolled to ayah ".concat(index + 1, " using scrollIntoView"));
+
+        // Wait a bit for the scroll to complete before allowing more scrolls
+        setTimeout(function () {
+          _this7.scrollAttempts = 0;
+          _this7.lastScrollPosition = null;
+        }, 1000);
+      } catch (error) {
+        console.error("Error scrolling to ayah ".concat(index + 1, ":"), error);
+        // Fallback: try manual scroll
+        this.smoothScrollToAyah(index);
+      }
+    },
+    smoothScrollToAyah: function smoothScrollToAyah(index) {
+      var _this8 = this;
+      if (index < 0 || index >= this.filteredAyahs.length || this.isManualScrolling) {
+        console.warn("Cannot scroll: invalid index (".concat(index, ") or manual scrolling active (").concat(this.isManualScrolling, ")"));
+        return;
+      }
+      this.$nextTick(function () {
+        var audioCards = Array.isArray(_this8.$refs.audioCard) ? _this8.$refs.audioCard : [];
+        if (!audioCards[index]) {
+          console.warn("Audio card for index ".concat(index, " not found"));
+          return;
+        }
+
+        // Get the actual element position
+        var element = audioCards[index];
+
+        // Check if element is valid (has proper dimensions and position)
+        if (!_this8.isElementValid(element)) {
+          console.warn("Element for ayah ".concat(index + 1, " is not valid or has invalid dimensions"));
+          return;
+        }
+        var rect = element.getBoundingClientRect();
+
+        // Calculate element position relative to document
+        var elementTop = rect.top + window.scrollY;
+
+        // Validate the calculated position
+        var documentHeight = document.documentElement.scrollHeight;
+        if (elementTop < 0 || elementTop > documentHeight) {
+          console.warn("Invalid element position for ayah ".concat(index + 1, ": elementTop=").concat(elementTop, ", documentHeight=").concat(documentHeight));
+          return;
+        }
+        console.log("Ayah ".concat(index + 1, " - Element top: ").concat(elementTop, ", Window scrollY: ").concat(window.scrollY, ", Rect top: ").concat(rect.top, ", Document height: ").concat(documentHeight, ", Element height: ").concat(rect.height));
+
+        // Calculate target scroll position
+        var stickyDropdown = _this8.$refs.stickyDropdown;
+        var audioPlayer = document.querySelector('.audio-player-container');
+        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this8.isVisible ? 80 : 60;
+        var audioPlayerHeight = _this8.showAudioPlayer ? (audioPlayer === null || audioPlayer === void 0 ? void 0 : audioPlayer.getBoundingClientRect().height) || 0 : 0;
+        var buffer = 50; // Fixed buffer for consistent positioning
+
+        // Calculate the target scroll position to position the ayah at the top of the viewport
+        var targetY = elementTop - stickyHeight - audioPlayerHeight - buffer;
+
+        // Ensure we don't scroll beyond document bounds
+        var maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+        var finalTargetY = Math.max(0, Math.min(targetY, maxScrollY));
+
+        // Additional validation for the final target
+        if (finalTargetY < 0 || finalTargetY > maxScrollY) {
+          console.warn("Invalid final target for ayah ".concat(index + 1, ": finalTargetY=").concat(finalTargetY, ", maxScrollY=").concat(maxScrollY));
+          return;
+        }
+        console.log("Scrolling to ayah ".concat(index + 1, ": targetY=").concat(finalTargetY, ", elementTop=").concat(elementTop, ", stickyHeight=").concat(stickyHeight, ", audioPlayerHeight=").concat(audioPlayerHeight, ", buffer=").concat(buffer));
         window.scrollTo({
-          top: targetY,
+          top: finalTargetY,
           behavior: 'smooth'
         });
-        console.log("Smooth scrolling to ayah ".concat(index + 1, " at targetY=").concat(targetY, ", cardTop=").concat(cardTop, ", documentHeight=").concat(documentHeight));
       });
     },
     startAutoScroll: function startAutoScroll() {
-      var _this7 = this;
+      var _this9 = this;
       if (this.autoScrollFrame || this.isManualScrolling) {
         console.warn("Cannot start auto-scroll: frame=".concat(!!this.autoScrollFrame, ", isManualScrolling=").concat(this.isManualScrolling));
         return;
       }
-      // Ensure card positions are cached before starting
-      this.ensureCardPositionsCached(function () {
-        if (!_this7.cardPositions[_this7.currentlyPlayingIndex]) {
-          console.warn("Cannot start auto-scroll: invalid cardPosition for ayah ".concat(_this7.currentlyPlayingIndex + 1));
+
+      // Check if elements are ready
+      var audioCards = Array.isArray(this.$refs.audioCard) ? this.$refs.audioCard : [];
+      if (!audioCards[this.currentlyPlayingIndex]) {
+        console.warn("Audio card for index ".concat(this.currentlyPlayingIndex, " not found, delaying auto-scroll start"));
+        setTimeout(function () {
+          return _this9.startAutoScroll();
+        }, 500);
+        return;
+      }
+
+      // Check if the element position is reasonable
+      var element = audioCards[this.currentlyPlayingIndex];
+      var elementTop = this.getElementPosition(element);
+      if (elementTop === null) {
+        console.warn("Element position not valid for ayah ".concat(this.currentlyPlayingIndex + 1, ", delaying auto-scroll start"));
+        setTimeout(function () {
+          return _this9.startAutoScroll();
+        }, 1000);
+        return;
+      }
+      console.log('Starting auto-scroll for ayah', this.currentlyPlayingIndex + 1);
+
+      // Reset scroll tracking
+      this.scrollAttempts = 0;
+      this.lastScrollPosition = null;
+      this.lastScrollTime = 0;
+      var _scrollStep = function scrollStep() {
+        var _document$querySelect;
+        if (!_this9.isAudioPlaying[_this9.currentlyPlayingIndex] || !_this9.currentlyPlaying || _this9.isLoading || _this9.isManualScrolling) {
+          console.log('Auto-scroll stopped: isPlaying=', _this9.isAudioPlaying[_this9.currentlyPlayingIndex], 'currentlyPlaying=', !!_this9.currentlyPlaying, 'isLoading=', _this9.isLoading, 'isManualScrolling=', _this9.isManualScrolling);
+          _this9.stopAutoScroll();
           return;
         }
-        console.log('Starting auto-scroll for ayah', _this7.currentlyPlayingIndex + 1);
-        var _scrollStep = function scrollStep() {
-          var _document$querySelect;
-          if (!_this7.isAudioPlaying[_this7.currentlyPlayingIndex] || !_this7.currentlyPlaying || _this7.isLoading || _this7.isManualScrolling || !_this7.cardPositions[_this7.currentlyPlayingIndex]) {
-            console.log('Auto-scroll stopped: isPlaying=', _this7.isAudioPlaying[_this7.currentlyPlayingIndex], 'currentlyPlaying=', !!_this7.currentlyPlaying, 'isLoading=', _this7.isLoading, 'isManualScrolling=', _this7.isManualScrolling, 'cardPosition=', _this7.cardPositions[_this7.currentlyPlayingIndex]);
-            _this7.stopAutoScroll();
-            return;
+
+        // Get current element position
+        var audioCards = Array.isArray(_this9.$refs.audioCard) ? _this9.$refs.audioCard : [];
+        if (!audioCards[_this9.currentlyPlayingIndex]) {
+          console.warn("Audio card for index ".concat(_this9.currentlyPlayingIndex, " not found during auto-scroll"));
+          _this9.stopAutoScroll();
+          return;
+        }
+        var element = audioCards[_this9.currentlyPlayingIndex];
+
+        // Get element position using the reliable method
+        var elementTop = _this9.getElementPosition(element);
+        if (elementTop === null) {
+          console.warn("Could not get valid position for ayah ".concat(_this9.currentlyPlayingIndex + 1));
+          _this9.stopAutoScroll();
+          return;
+        }
+        var rect = element.getBoundingClientRect();
+        var elementBottom = rect.bottom + window.scrollY;
+        var windowTop = window.scrollY;
+        var windowHeight = window.innerHeight;
+        var stickyDropdown = _this9.$refs.stickyDropdown;
+        var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this9.isVisible ? 80 : 60;
+        var audioPlayerHeight = _this9.showAudioPlayer ? ((_document$querySelect = document.querySelector('.audio-player-container')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getBoundingClientRect().height) || 0 : 0;
+        var buffer = 100; // Increased buffer for better following
+
+        // Calculate viewport boundaries
+        var viewportTop = windowTop + stickyHeight + buffer;
+        var viewportBottom = windowTop + windowHeight - audioPlayerHeight - buffer;
+
+        // Check if the ayah is outside the visible viewport
+        var isAboveViewport = elementTop < viewportTop;
+        var isBelowViewport = elementBottom > viewportBottom;
+
+        // Add some tolerance to prevent micro-adjustments
+        var tolerance = 50;
+        var isAboveViewportWithTolerance = elementTop < viewportTop - tolerance;
+        var isBelowViewportWithTolerance = elementBottom > viewportBottom + tolerance;
+
+        // Check if ayah is outside the viewport (less aggressive, with tolerance)
+        var isNotWellPositioned = isAboveViewportWithTolerance || isBelowViewportWithTolerance;
+        if (isNotWellPositioned) {
+          var now = Date.now();
+          // Throttle scrolling to prevent too frequent scrolls
+          if (now - _this9.lastScrollTime > 2000) {
+            // Increased to 2 seconds to prevent loops
+            // Check for infinite loop - if we're trying to scroll to the same position repeatedly
+            if (_this9.lastScrollPosition === elementTop && _this9.scrollAttempts > 3) {
+              console.warn("Infinite scroll loop detected for ayah ".concat(_this9.currentlyPlayingIndex + 1, ", stopping auto-scroll"));
+              _this9.stopAutoScroll();
+              return;
+            }
+            console.log("Ayah ".concat(_this9.currentlyPlayingIndex + 1, " needs repositioning - above: ").concat(isAboveViewport, ", below: ").concat(isBelowViewport, ", elementTop: ").concat(elementTop, ", viewportTop: ").concat(viewportTop, ", viewportBottom: ").concat(viewportBottom));
+            _this9.scrollToAyahByIndex(_this9.currentlyPlayingIndex);
+            _this9.lastScrollTime = now;
+            _this9.lastScrollPosition = elementTop;
+            _this9.scrollAttempts++;
           }
-          var cardTop = _this7.cardPositions[_this7.currentlyPlayingIndex];
-          var windowTop = window.scrollY;
-          var windowHeight = window.innerHeight;
-          var stickyDropdown = _this7.$refs.stickyDropdown;
-          var stickyHeight = stickyDropdown ? stickyDropdown.getBoundingClientRect().height : _this7.isVisible ? 80 : 60;
-          var audioPlayerHeight = _this7.showAudioPlayer ? ((_document$querySelect = document.querySelector('.audio-player-container')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getBoundingClientRect().height) || 0 : 0;
-          var buffer = Math.max(20, window.innerHeight * 0.05);
-          var targetY = cardTop - stickyHeight - audioPlayerHeight - buffer;
-          // Only scroll if the ayah is outside the visible viewport
-          if (cardTop < windowTop + stickyHeight || cardTop > windowTop + windowHeight - audioPlayerHeight - buffer) {
-            _this7.smoothScrollToAyah(_this7.currentlyPlayingIndex);
+        } else {
+          // Reset scroll attempts when ayah is well positioned
+          _this9.scrollAttempts = 0;
+          _this9.lastScrollPosition = null;
+        }
+        _this9.autoScrollFrame = requestAnimationFrame(_scrollStep);
+      };
+
+      // Start the auto-scroll loop
+      this.autoScrollFrame = requestAnimationFrame(_scrollStep);
+
+      // Also add a periodic check every 2 seconds to ensure we're following
+      this.autoScrollInterval = setInterval(function () {
+        if (_this9.isAudioPlaying[_this9.currentlyPlayingIndex] && !_this9.isManualScrolling) {
+          var _audioCards = Array.isArray(_this9.$refs.audioCard) ? _this9.$refs.audioCard : [];
+          if (_audioCards[_this9.currentlyPlayingIndex]) {
+            var _document$querySelect2;
+            var _element = _audioCards[_this9.currentlyPlayingIndex];
+            var _elementTop = _this9.getElementPosition(_element);
+            if (_elementTop === null) {
+              console.warn("Could not get valid position for ayah ".concat(_this9.currentlyPlayingIndex + 1, " in periodic check"));
+              return;
+            }
+            var windowTop = window.scrollY;
+            var stickyHeight = _this9.$refs.stickyDropdown ? _this9.$refs.stickyDropdown.getBoundingClientRect().height : _this9.isVisible ? 80 : 60;
+            var audioPlayerHeight = _this9.showAudioPlayer ? ((_document$querySelect2 = document.querySelector('.audio-player-container')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.getBoundingClientRect().height) || 0 : 0;
+            var buffer = 100;
+
+            // Check if ayah is well positioned
+            var viewportTop = windowTop + stickyHeight + buffer;
+            var viewportBottom = windowTop + window.innerHeight - audioPlayerHeight - buffer;
+            var isWellPositioned = _elementTop >= viewportTop && _elementTop <= viewportBottom;
+            if (!isWellPositioned) {
+              var now = Date.now();
+              // Throttle scrolling to prevent too frequent scrolls
+              if (now - _this9.lastScrollTime > 2000) {
+                // Increased to 2 seconds to prevent loops
+                console.log("Periodic check: Ayah ".concat(_this9.currentlyPlayingIndex + 1, " not well positioned, scrolling..."));
+                _this9.scrollToAyahByIndex(_this9.currentlyPlayingIndex);
+                _this9.lastScrollTime = now;
+              }
+            }
           }
-          _this7.autoScrollFrame = requestAnimationFrame(_scrollStep);
-        };
-        _this7.autoScrollFrame = requestAnimationFrame(_scrollStep);
-      });
+        }
+      }, 2000);
     },
     stopAutoScroll: function stopAutoScroll() {
       if (this.autoScrollFrame) {
         cancelAnimationFrame(this.autoScrollFrame);
         this.autoScrollFrame = null;
-        console.log('Auto-scroll stopped');
+        console.log('Auto-scroll frame stopped');
+      }
+      if (this.autoScrollInterval) {
+        clearInterval(this.autoScrollInterval);
+        this.autoScrollInterval = null;
+        console.log('Auto-scroll interval stopped');
       }
     },
     handleManualScroll: function handleManualScroll() {
-      var _this8 = this;
-      if (this.autoScrollFrame) {
+      var _this10 = this;
+      if (this.autoScrollFrame || this.autoScrollInterval) {
         console.log('Manual scroll detected, stopping auto-scroll');
         this.isManualScrolling = true;
         this.stopAutoScroll();
+
+        // Resume auto-scroll after a delay if audio is still playing
         setTimeout(function () {
-          _this8.isManualScrolling = false;
-          if (_this8.isAudioPlaying[_this8.currentlyPlayingIndex]) {
+          _this10.isManualScrolling = false;
+          if (_this10.isAudioPlaying[_this10.currentlyPlayingIndex]) {
             console.log('Resuming auto-scroll after manual scroll');
-            _this8.startAutoScroll();
+            _this10.startAutoScroll();
           }
-        }, 2500);
+        }, 4000); // Increased delay to give user more time
       }
     },
     highlightedText: function highlightedText(ayah) {
-      var _this9 = this;
+      var _this11 = this;
       if (!ayah.text) return "";
       var words = ayah.text.split(" ");
       return words.map(function (word, index) {
-        var isHighlighted = index === _this9.highlightedWordIndex ? "highlighted-word" : "";
+        var isHighlighted = index === _this11.highlightedWordIndex ? "highlighted-word" : "";
         return "<span class=\"".concat(isHighlighted, "\">").concat(word, "</span>");
       }).join(" ");
     },
     initializeAudioElements: function initializeAudioElements() {
-      var _this10 = this;
+      var _this12 = this;
       console.log('Initializing audio elements for', this.filteredAyahs.length, 'ayahs');
       if (!this.$refs.audioCard || !this.$refs.audioCard.length) {
         console.warn('No audio cards available for initialization');
@@ -45222,48 +45419,48 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           var audio = new Audio(ayah.audio);
           audio.preload = index < 5 ? 'auto' : 'metadata';
           audio.load();
-          audio.playbackRate = _this10.playbackSpeed;
-          audio.volume = _this10.volume;
+          audio.playbackRate = _this12.playbackSpeed;
+          audio.volume = _this12.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this10.updateProgress(index);
+            return _this12.updateProgress(index);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(audio.duration));
-            _this10.progress[index] = 0;
-            _this10.isAudioLoading[index] = false;
+            _this12.progress[index] = 0;
+            _this12.isAudioLoading[index] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(index + 1));
-            _this10.isAudioLoading[index] = false;
-            if (index === _this10.currentlyPlayingIndex && _this10.isAudioPlaying[index]) {
-              _this10.playAudio(index);
+            _this12.isAudioLoading[index] = false;
+            if (index === _this12.currentlyPlayingIndex && _this12.isAudioPlaying[index]) {
+              _this12.playAudio(index);
             }
           });
           audio.addEventListener("ended", function () {
-            return _this10.handleAyahEnd(index);
+            return _this12.handleAyahEnd(index);
           });
           audio.addEventListener("error", function (e) {
-            var _this10$$toast;
+            var _this12$$toast;
             console.error("Audio error for ayah ".concat(index + 1, ":"), e);
-            _this10.isAudioLoading[index] = false;
-            (_this10$$toast = _this10.$toast) === null || _this10$$toast === void 0 || _this10$$toast.error("Failed to load audio for ayah ".concat(index + 1));
+            _this12.isAudioLoading[index] = false;
+            (_this12$$toast = _this12.$toast) === null || _this12$$toast === void 0 || _this12$$toast.error("Failed to load audio for ayah ".concat(index + 1));
           });
           return audio;
         } catch (e) {
-          var _this10$$toast2;
+          var _this12$$toast2;
           console.error("Failed to create audio for ayah ".concat(index + 1, ":"), e);
-          (_this10$$toast2 = _this10.$toast) === null || _this10$$toast2 === void 0 || _this10$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
+          (_this12$$toast2 = _this12.$toast) === null || _this12$$toast2 === void 0 || _this12$$toast2.error("Failed to create audio for ayah ".concat(index + 1));
           return null;
         }
       });
       console.log('Audio elements initialized:', this.audioElements.length, 'elements');
     },
     preloadNextAyahs: function preloadNextAyahs(startIndex) {
-      var _this11 = this;
+      var _this13 = this;
       var maxPreload = 5;
       this.filteredAyahs.slice(startIndex, startIndex + maxPreload).forEach(function (ayah, index) {
         var realIndex = startIndex + index;
-        if (realIndex >= _this11.audioElements.length || _this11.audioElements[realIndex]) return;
+        if (realIndex >= _this13.audioElements.length || _this13.audioElements[realIndex]) return;
         if (!ayah.audio) {
           console.warn("No audio URL for ayah ".concat(realIndex + 1));
           return;
@@ -45272,40 +45469,40 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           var audio = new Audio(ayah.audio);
           audio.preload = 'metadata';
           audio.load();
-          audio.playbackRate = _this11.playbackSpeed;
-          audio.volume = _this11.volume;
+          audio.playbackRate = _this13.playbackSpeed;
+          audio.volume = _this13.volume;
           audio.addEventListener("timeupdate", function () {
-            return _this11.updateProgress(realIndex);
+            return _this13.updateProgress(realIndex);
           });
           audio.addEventListener("loadedmetadata", function () {
             console.log("Metadata loaded for ayah ".concat(realIndex + 1, ", duration: ").concat(audio.duration));
-            _this11.progress[realIndex] = 0;
-            _this11.isAudioLoading[realIndex] = false;
+            _this13.progress[realIndex] = 0;
+            _this13.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("canplay", function () {
             console.log("Audio can play for ayah ".concat(realIndex + 1));
-            _this11.isAudioLoading[realIndex] = false;
+            _this13.isAudioLoading[realIndex] = false;
           });
           audio.addEventListener("ended", function () {
-            return _this11.handleAyahEnd(realIndex);
+            return _this13.handleAyahEnd(realIndex);
           });
           audio.addEventListener("error", function (e) {
-            var _this11$$toast;
+            var _this13$$toast;
             console.error("Audio error for ayah ".concat(realIndex + 1, ":"), e);
-            _this11.isAudioLoading[realIndex] = false;
-            (_this11$$toast = _this11.$toast) === null || _this11$$toast === void 0 || _this11$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
+            _this13.isAudioLoading[realIndex] = false;
+            (_this13$$toast = _this13.$toast) === null || _this13$$toast === void 0 || _this13$$toast.error("Failed to load audio for ayah ".concat(realIndex + 1));
           });
-          _this11.audioElements[realIndex] = audio;
+          _this13.audioElements[realIndex] = audio;
         } catch (e) {
-          var _this11$$toast2;
+          var _this13$$toast2;
           console.error("Failed to create audio for ayah ".concat(realIndex + 1, ":"), e);
-          (_this11$$toast2 = _this11.$toast) === null || _this11$$toast2 === void 0 || _this11$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
+          (_this13$$toast2 = _this13.$toast) === null || _this13$$toast2 === void 0 || _this13$$toast2.error("Failed to create audio for ayah ".concat(realIndex + 1));
         }
       });
       console.log("Preloaded audio elements for ayahs ".concat(startIndex + 1, " to ").concat(Math.min(startIndex + maxPreload, this.filteredAyahs.length)));
     },
     playAudio: function playAudio(index) {
-      var _this12 = this;
+      var _this14 = this;
       console.log('Attempting to play audio for index:', index);
       if (index < 0 || index >= this.filteredAyahs.length || !this.audioElements[index]) {
         var _this$$toast;
@@ -45314,11 +45511,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         return;
       }
       this.isAudioLoading[index] = true;
+
+      // Stop any currently playing audio
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         console.log('Pausing currently playing audio');
         this.currentlyPlaying.pause();
         this.currentlyPlaying.currentTime = 0;
       }
+
+      // Update playing states
       this.isAudioPlaying = this.isAudioPlaying.map(function (state, i) {
         return i === index;
       });
@@ -45326,19 +45527,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentlyPlayingIndex = index;
       this.isHighlighted = true;
       var ayah = this.filteredAyahs[index];
+
+      // Setup metadata and word timing
       this.currentlyPlaying.onloadedmetadata = function () {
-        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this12.currentlyPlaying.duration));
-        var duration = _this12.currentlyPlaying.duration;
+        console.log("Metadata loaded for ayah ".concat(index + 1, ", duration: ").concat(_this14.currentlyPlaying.duration));
+        var duration = _this14.currentlyPlaying.duration;
         var wordCount = ayah.text.split(' ').length;
         if (wordCount > 0 && duration > 0) {
           var step = duration / wordCount;
-          _this12.wordTimings = Array.from({
+          _this14.wordTimings = Array.from({
             length: wordCount
           }, function (_, i) {
             return i * step;
           });
         } else {
-          _this12.wordTimings = [];
+          _this14.wordTimings = [];
         }
       };
       if (this.currentlyPlaying.readyState >= 1) {
@@ -45346,66 +45549,82 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
       this.highlightedWordIndex = -1;
       this.currentlyPlaying.ontimeupdate = function () {
-        _this12.syncHighlight();
-        _this12.updateProgress(index);
+        _this14.syncHighlight();
+        _this14.updateProgress(index);
       };
       var _attemptPlay = function attemptPlay() {
         var attempts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var maxAttempts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
         if (attempts >= maxAttempts) {
-          var _this12$$toast;
+          var _this14$$toast;
           console.error("Failed to play audio for ayah ".concat(index + 1, " after ").concat(maxAttempts, " attempts"));
-          _this12.isAudioPlaying[index] = false;
-          _this12.isAudioLoading[index] = false;
-          _this12.isHighlighted = false;
-          (_this12$$toast = _this12.$toast) === null || _this12$$toast === void 0 || _this12$$toast.error("Failed to play audio for ayah ".concat(index + 1));
+          _this14.isAudioPlaying[index] = false;
+          _this14.isAudioLoading[index] = false;
+          _this14.isHighlighted = false;
+          (_this14$$toast = _this14.$toast) === null || _this14$$toast === void 0 || _this14$$toast.error("Failed to play audio for ayah ".concat(index + 1));
           return;
         }
-        _this12.currentlyPlaying.play().then(function () {
+        _this14.currentlyPlaying.play().then(function () {
           console.log("Playing audio for ayah ".concat(index + 1));
-          _this12.isAudioPlaying[index] = true;
-          _this12.isAudioLoading[index] = false;
-          _this12.isHighlighted = true;
-          _this12.showAudioPlayer = true;
-          _this12.preloadNextAyahs(index + 1);
-          _this12.$nextTick(function () {
+          _this14.isAudioPlaying[index] = true;
+          _this14.isAudioLoading[index] = false;
+          _this14.isHighlighted = true;
+          _this14.showAudioPlayer = true;
+          _this14.preloadNextAyahs(index + 1);
+
+          // Start auto-scroll after a delay to ensure everything is ready
+          _this14.$nextTick(function () {
             setTimeout(function () {
-              _this12.ensureCardPositionsCached(function () {
-                if (_this12.isAudioPlaying[index] && _this12.cardPositions[index]) {
-                  _this12.smoothScrollToAyah(index);
-                  _this12.startAutoScroll();
-                } else {
-                  console.warn("Skipping scroll for ayah ".concat(index + 1, ": not playing or invalid card position"));
-                  // Fallback: Try recalculating positions for this ayah
-                  var audioCards = Array.isArray(_this12.$refs.audioCard) ? _this12.$refs.audioCard : [];
-                  if (audioCards[index]) {
-                    var rect = audioCards[index].getBoundingClientRect();
-                    var cardTop = rect.top + window.scrollY;
-                    if (cardTop > 0 && cardTop < document.documentElement.scrollHeight * 0.95) {
-                      _this12.cardPositions[index] = cardTop;
-                      _this12.smoothScrollToAyah(index);
-                      _this12.startAutoScroll();
+              if (_this14.isAudioPlaying[index]) {
+                // For the first ayah of a new surah, scroll to top first
+                if (index === 0) {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                  });
+
+                  // Wait for scroll to complete, then scroll to the ayah
+                  setTimeout(function () {
+                    if (_this14.isAudioPlaying[index]) {
+                      _this14.scrollToAyahByIndex(index);
+
+                      // Then start auto-scroll after another delay
+                      setTimeout(function () {
+                        if (_this14.isAudioPlaying[index]) {
+                          _this14.startAutoScroll();
+                        }
+                      }, 1000);
                     }
-                  }
+                  }, 500);
+                } else {
+                  // For other ayahs, scroll directly to the ayah
+                  _this14.scrollToAyahByIndex(index);
+
+                  // Then start auto-scroll after another delay
+                  setTimeout(function () {
+                    if (_this14.isAudioPlaying[index]) {
+                      _this14.startAutoScroll();
+                    }
+                  }, 500);
                 }
-              });
-            }, 1000);
+              }
+            }, 500); // Increased delay to ensure page is fully rendered
           });
         })["catch"](function (err) {
           console.error("Play error for ayah ".concat(index + 1, ":"), err);
-          if (_this12.currentlyPlaying.readyState < 2) {
+          if (_this14.currentlyPlaying.readyState < 2) {
             console.log("Audio not ready, retrying in 50ms for ayah ".concat(index + 1, " (attempt ").concat(attempts + 1, ")"));
             setTimeout(function () {
               return _attemptPlay(attempts + 1, maxAttempts);
             }, 50);
           } else {
-            var _this12$$toast2;
+            var _this14$$toast2;
             console.error("Unrecoverable play error for ayah ".concat(index + 1, ":"), err);
-            _this12.isAudioPlaying[index] = false;
-            _this12.isAudioLoading[index] = false;
-            _this12.isHighlighted = false;
-            (_this12$$toast2 = _this12.$toast) === null || _this12$$toast2 === void 0 || _this12$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
-            _this12.handleAyahEnd(index);
+            _this14.isAudioPlaying[index] = false;
+            _this14.isAudioLoading[index] = false;
+            _this14.isHighlighted = false;
+            (_this14$$toast2 = _this14.$toast) === null || _this14$$toast2 === void 0 || _this14$$toast2.error("Failed to play audio for ayah ".concat(index + 1));
+            _this14.handleAyahEnd(index);
           }
         });
       };
@@ -45490,38 +45709,38 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return text.replace(regex, '<span class="highlight">$1</span>');
     },
     toggleVisibility: function toggleVisibility() {
-      var _this13 = this;
+      var _this15 = this;
       this.isVisible = !this.isVisible;
       this.$nextTick(function () {
-        _this13.ensureCardPositionsCached(function () {
-          if (_this13.isAudioPlaying[_this13.currentlyPlayingIndex]) {
-            _this13.smoothScrollToAyah(_this13.currentlyPlayingIndex);
+        _this15.ensureCardPositionsCached(function () {
+          if (_this15.isAudioPlaying[_this15.currentlyPlayingIndex]) {
+            _this15.smoothScrollToAyah(_this15.currentlyPlayingIndex);
           }
         });
       });
     },
     increaseFontSize: function increaseFontSize() {
-      var _this14 = this;
+      var _this16 = this;
       if (this.arabicFontSize < 40) this.arabicFontSize += 2;
       if (this.translationFontSize < 30) this.translationFontSize += 2;
       this.$nextTick(function () {
-        _this14.cardPositions = [];
-        _this14.ensureCardPositionsCached(function () {
-          if (_this14.isAudioPlaying[_this14.currentlyPlayingIndex]) {
-            _this14.smoothScrollToAyah(_this14.currentlyPlayingIndex);
+        _this16.cardPositions = [];
+        _this16.ensureCardPositionsCached(function () {
+          if (_this16.isAudioPlaying[_this16.currentlyPlayingIndex]) {
+            _this16.smoothScrollToAyah(_this16.currentlyPlayingIndex);
           }
         });
       });
     },
     decreaseFontSize: function decreaseFontSize() {
-      var _this15 = this;
+      var _this17 = this;
       if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
       this.$nextTick(function () {
-        _this15.cardPositions = [];
-        _this15.ensureCardPositionsCached(function () {
-          if (_this15.isAudioPlaying[_this15.currentlyPlayingIndex]) {
-            _this15.smoothScrollToAyah(_this15.currentlyPlayingIndex);
+        _this17.cardPositions = [];
+        _this17.ensureCardPositionsCached(function () {
+          if (_this17.isAudioPlaying[_this17.currentlyPlayingIndex]) {
+            _this17.smoothScrollToAyah(_this17.currentlyPlayingIndex);
           }
         });
       });
@@ -45553,29 +45772,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       return languageFlags[lang.toLowerCase()] || '🌐';
     },
     fetchSurahs: function fetchSurahs() {
-      var _this16 = this;
+      var _this18 = this;
       this.isLoading = true;
       fetch("https://api.alquran.cloud/v1/surah").then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surahs: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (!_this16._isDestroyed) {
-          _this16.surahs = data.data || [];
+        if (!_this18._isDestroyed) {
+          _this18.surahs = data.data || [];
         }
-        _this16.isLoading = false;
+        _this18.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surahs:", error);
-        _this16.isLoading = false;
+        _this18.isLoading = false;
       });
     },
     fetchReciters: function fetchReciters() {
-      var _this17 = this;
+      var _this19 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var response, data;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
-              _this17.isLoading = true;
+              _this19.isLoading = true;
               _context.prev = 1;
               _context.next = 4;
               return fetch("https://api.alquran.cloud/v1/edition/format/audio");
@@ -45591,8 +45810,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 9:
               data = _context.sent;
-              if (!_this17._isDestroyed) {
-                _this17.reciters = data.data.filter(function (reciter) {
+              if (!_this19._isDestroyed) {
+                _this19.reciters = data.data.filter(function (reciter) {
                   return reciter.identifier && reciter.englishName;
                 }).map(function (reciter) {
                   return {
@@ -45603,14 +45822,14 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   return !['elmir kuliev by 1muslimapp', 'elmir kuliev elevatemuslim', 'elmir kuliev 1muslim', 'elmir kuliev 2muslim', 'chinese', 'ibrahim walk', 'fooladvand - hedayatfar', 'shamshad ali khan', 'youssouf leclerc'].includes(reciter.englishName.toLowerCase());
                 });
               }
-              _this17.isLoading = false;
+              _this19.isLoading = false;
               _context.next = 18;
               break;
             case 14:
               _context.prev = 14;
               _context.t0 = _context["catch"](1);
               console.error("Error fetching Reciters:", _context.t0);
-              _this17.isLoading = false;
+              _this19.isLoading = false;
             case 18:
             case "end":
               return _context.stop();
@@ -45619,13 +45838,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchTranslations: function fetchTranslations() {
-      var _this18 = this;
+      var _this20 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var response, data, translations, _this18$$toast;
+        var response, data, translations, _this20$$toast;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
-              _this18.isLoading = true;
+              _this20.isLoading = true;
               _context2.prev = 1;
               _context2.next = 4;
               return fetch("https://api.alquran.cloud/v1/edition/type/translation");
@@ -45641,7 +45860,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               return response.json();
             case 9:
               data = _context2.sent;
-              if (!_this18._isDestroyed) {
+              if (!_this20._isDestroyed) {
                 _context2.next = 12;
                 break;
               }
@@ -45652,8 +45871,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 break;
               }
               console.error("No translation data received from API");
-              _this18.translations = [];
-              _this18.isLoading = false;
+              _this20.translations = [];
+              _this20.isLoading = false;
               return _context2.abrupt("return");
             case 17:
               translations = data.data.map(function (translation) {
@@ -45661,7 +45880,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                   identifier: translation.identifier,
                   englishName: translation.englishName || "Unknown Translation",
                   language: translation.language || "Unknown",
-                  flag: _this18.getFlagFromLanguage(translation.language || "Unknown")
+                  flag: _this20.getFlagFromLanguage(translation.language || "Unknown")
                 };
               }).filter(function (translation) {
                 return translation.flag !== '🌐';
@@ -45673,18 +45892,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 if (a.englishName > b.englishName) return 1;
                 return 0;
               });
-              _this18.translations = translations;
+              _this20.translations = translations;
               console.log('Translations fetched:', translations);
-              _this18.isLoading = false;
+              _this20.isLoading = false;
               _context2.next = 30;
               break;
             case 24:
               _context2.prev = 24;
               _context2.t0 = _context2["catch"](1);
               console.error("Error fetching Translations:", _context2.t0);
-              _this18.translations = [];
-              (_this18$$toast = _this18.$toast) === null || _this18$$toast === void 0 || _this18$$toast.error("Failed to load translations");
-              _this18.isLoading = false;
+              _this20.translations = [];
+              (_this20$$toast = _this20.$toast) === null || _this20$$toast === void 0 || _this20$$toast.error("Failed to load translations");
+              _this20.isLoading = false;
             case 30:
             case "end":
               return _context2.stop();
@@ -45693,18 +45912,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchSurahDetails: function fetchSurahDetails() {
-      var _this19 = this;
+      var _this21 = this;
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
       this.isLoading = true;
       return fetch("https://api.alquran.cloud/v1/surah/".concat(this.selectedSurah, "/editions/").concat(this.selectedReciter, ",").concat(this.selectedTranslation)).then(function (response) {
         if (!response.ok) throw new Error("Failed to fetch Surah details: ".concat(response.status));
         return response.json();
       }).then(function (data) {
-        if (_this19._isDestroyed) return;
+        if (_this21._isDestroyed) return;
         var arabicText = data.data[0];
         var translation = data.data[1];
-        _this19.surahDetails = {
-          surahNumber: _this19.selectedSurah,
+        _this21.surahDetails = {
+          surahNumber: _this21.selectedSurah,
           englishName: arabicText.englishName,
           name: arabicText.name,
           ayahs: arabicText.ayahs.map(function (ayah, index) {
@@ -45716,30 +45935,30 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
             };
           })
         };
-        console.log('Surah details fetched:', _this19.surahDetails);
-        _this19.isLoading = false;
+        console.log('Surah details fetched:', _this21.surahDetails);
+        _this21.isLoading = false;
       })["catch"](function (error) {
         console.error("Error fetching Surah details:", error);
-        _this19.isLoading = false;
+        _this21.isLoading = false;
       });
     },
     resetAllAudioPlayers: function resetAllAudioPlayers() {
-      var _this20 = this;
+      var _this22 = this;
       this.$nextTick(function () {
-        if (_this20.currentlyPlaying) {
-          _this20.currentlyPlaying.pause();
-          _this20.currentlyPlaying = null;
-          _this20.currentlyPlayingIndex = 0;
+        if (_this22.currentlyPlaying) {
+          _this22.currentlyPlaying.pause();
+          _this22.currentlyPlaying = null;
+          _this22.currentlyPlayingIndex = 0;
         }
-        if (_this20.audioElements && _this20.audioElements.forEach) {
-          _this20.audioElements.forEach(function (audio) {
+        if (_this22.audioElements && _this22.audioElements.forEach) {
+          _this22.audioElements.forEach(function (audio) {
             if (audio && audio.remove) audio.remove();
           });
         }
-        _this20.initializeAudioElements();
-        _this20.isAudioPlaying = new Array(_this20.filteredAyahs.length).fill(false);
-        _this20.isAudioLoading = new Array(_this20.filteredAyahs.length).fill(false);
-        _this20.progress = new Array(_this20.filteredAyahs.length).fill(0);
+        _this22.initializeAudioElements();
+        _this22.isAudioPlaying = new Array(_this22.filteredAyahs.length).fill(false);
+        _this22.isAudioLoading = new Array(_this22.filteredAyahs.length).fill(false);
+        _this22.progress = new Array(_this22.filteredAyahs.length).fill(0);
       });
     },
     savePreference: function savePreference(key, value) {
@@ -45752,11 +45971,19 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     playNextAyah: function playNextAyah() {
+      var _this23 = this;
       if (this.filteredAyahs.length > 0) {
         var nextIndex = (this.currentlyPlayingIndex + 1) % this.filteredAyahs.length;
         if (nextIndex < this.filteredAyahs.length && this.audioElements[nextIndex]) {
           console.log("Playing next ayah: ".concat(nextIndex + 1));
-          this.playAudio(nextIndex);
+
+          // Stop current auto-scroll before starting new one
+          this.stopAutoScroll();
+
+          // Small delay to ensure smooth transition
+          setTimeout(function () {
+            _this23.playAudio(nextIndex);
+          }, 100);
         } else {
           console.warn("Cannot play next ayah: index ".concat(nextIndex, " invalid or no audio element"));
         }
@@ -45766,18 +45993,18 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.showVolumeBar = !this.showVolumeBar;
     },
     updateVolume: function updateVolume() {
-      var _this21 = this;
+      var _this24 = this;
       if (this.currentlyPlaying) {
         this.currentlyPlaying.volume = this.volume;
       }
       if (this.audioElements && this.audioElements.forEach) {
         this.audioElements.forEach(function (audio) {
-          if (audio) audio.volume = _this21.volume;
+          if (audio) audio.volume = _this24.volume;
         });
       }
     },
     closeAudioPlayer: function closeAudioPlayer() {
-      var _this22 = this;
+      var _this25 = this;
       if (this.currentlyPlayingIndex !== null) {
         this.stopAudio(this.currentlyPlayingIndex);
       }
@@ -45786,13 +46013,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.currentlyPlaying = null;
       this.isHighlighted = false;
       this.stopAutoScroll();
+
+      // Reset to top when closing audio player
       this.$nextTick(function () {
         setTimeout(function () {
           window.scrollTo({
             top: 0,
-            behavior: 'instant'
+            behavior: 'smooth'
           });
-          _this22.ensureCardPositionsCached(function () {});
+          _this25.ensureCardPositionsCached(function () {});
         }, 200);
       });
     },
@@ -45807,21 +46036,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     }
   },
   mounted: function mounted() {
-    var _this23 = this;
+    var _this26 = this;
     this.selectedSurah = "1";
     this.selectedReciter = "ar.alafasy";
     this.selectedTranslation = "en.ahmedali";
     this.currentlyPlayingIndex = 0;
     this.isHighlighted = false;
+
+    // Ensure we start at the top
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant'
+    });
     Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(function () {
-      _this23.isInitialLoad = false;
-      _this23.$nextTick(function () {
+      _this26.isInitialLoad = false;
+      _this26.$nextTick(function () {
         setTimeout(function () {
+          // Ensure we're still at the top after content loads
           window.scrollTo({
             top: 0,
             behavior: 'instant'
           });
-          _this23.ensureCardPositionsCached(function () {});
+          _this26.ensureCardPositionsCached(function () {});
         }, 1000);
       });
     });
@@ -60650,181 +60886,252 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "container"
+  "class": "container my-4"
 };
 var _hoisted_2 = {
-  "class": "row mb-4"
+  "class": "controls-section mb-4",
+  style: {
+    "border": "1px solid #009688"
+  }
 };
 var _hoisted_3 = {
-  "class": "mb-3 d-flex align-items-center gap-2 col-md-6"
+  "class": "row g-3 align-items-center"
 };
-var _hoisted_4 = ["value"];
-var _hoisted_5 = {
-  key: 0,
-  "class": "row justify-content-center mb-4"
+var _hoisted_4 = {
+  "class": "col-md-6"
 };
+var _hoisted_5 = ["value"];
 var _hoisted_6 = {
-  "class": "col-md-12"
+  key: 0,
+  "class": "col-md-6"
 };
 var _hoisted_7 = {
-  "class": "d-flex align-items-center justify-content-between mb-3 flex-wrap"
+  "class": "input-group"
 };
 var _hoisted_8 = {
-  "class": "display-6 fw-bold flex-grow-1 pb-2 mb-0"
+  key: 0,
+  "class": "mb-5",
+  id: "content-section"
 };
-var _hoisted_9 = ["innerHTML"];
+var _hoisted_9 = {
+  "class": "content-card card"
+};
 var _hoisted_10 = {
-  key: 0
+  "class": "card-body"
 };
 var _hoisted_11 = {
-  "class": "list-unstyled selected-content"
+  "class": "d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3"
 };
 var _hoisted_12 = {
-  "class": "fw-medium fs-5 text-left text-dark"
+  "class": "content-title mb-2"
 };
-var _hoisted_13 = ["innerHTML"];
-var _hoisted_14 = ["innerHTML"];
-var _hoisted_15 = {
-  key: 0
+var _hoisted_13 = {
+  "class": "badge bg-primary bg-opacity-10 text-primary"
 };
+var _hoisted_14 = {
+  "class": "d-flex gap-2"
+};
+var _hoisted_15 = ["disabled"];
 var _hoisted_16 = {
-  key: 1,
-  "class": "container text-center d-flex pb-3 justify-content-around align-items-center"
+  "class": "selected-content"
 };
 var _hoisted_17 = {
-  "class": "text-center"
+  key: 0,
+  "class": "content-list"
 };
 var _hoisted_18 = {
-  "class": "text-center"
+  "class": "list-unstyled mb-0"
 };
 var _hoisted_19 = {
-  "class": "text-center"
+  "class": "d-flex align-items-start"
+};
+var _hoisted_20 = {
+  "class": "badge bg-primary bg-opacity-10 text-primary me-3 mt-1"
+};
+var _hoisted_21 = ["innerHTML"];
+var _hoisted_22 = ["innerHTML"];
+var _hoisted_23 = {
+  key: 0,
+  "class": "modern-audio-player w-100"
+};
+var _hoisted_24 = {
+  "class": "audio-player-row top"
+};
+var _hoisted_25 = {
+  "class": "audio-meta text-start"
+};
+var _hoisted_26 = {
+  "class": "audio-title small-title"
+};
+var _hoisted_27 = {
+  "class": "audio-subtitle"
+};
+var _hoisted_28 = {
+  "class": "audio-player-row bottom"
+};
+var _hoisted_29 = {
+  "class": "audio-controls"
+};
+var _hoisted_30 = {
+  "class": "audio-progress-wrap"
+};
+var _hoisted_31 = {
+  "class": "audio-progress-bar"
+};
+var _hoisted_32 = {
+  "class": "audio-right"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-5 fw-bold text-center mb-2 mt-4"
-  }, "Islamic Guides", -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    "class": "text-center container mb-3 guide-description lead"
-  }, " Islamic guides offer clear insights into the core beliefs, practices, and morals of Islam, helping both Muslims and non-Muslims understand the faith more deeply. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    "class": "fw-bold text-left pt-2 pb-2 container"
-  }, "Select an Islamic Guide:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+    "class": "text-center mb-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "header-title"
+  }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    "class": "header-description"
+  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "category-select",
+    "class": "form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-journal-bookmark me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Select a Guide ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "category-select",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-      return $data.selectedCategory = $event;
+      return $setup.selectedCategory = $event;
     }),
-    "class": "form-select"
-  }, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    "class": "form-select",
+    "aria-label": "Select an Islamic guide"
+  }, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: ""
-  }, "Select a Guide", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections, function (section, index) {
+  }, "Choose a topic...", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.guide.sections, function (section, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: index,
       value: index
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 9 /* TEXT, PROPS */, _hoisted_4);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <h2 class=\"fw-bold text-left pt-2 pb-2 container\" v-if=\"selectedCategory !== ''\">Search for a Keyword:</h2>\n      <div class=\"col-md-6\" v-if=\"selectedCategory !== ''\">\n        <div class=\"mb-3 d-flex align-items-center gap-2\">\n          <input type=\"text\" v-model=\"searchText\" class=\"form-control\" placeholder=\"Search text...\" />\n        </div>\n      </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Add your content here "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["container text-left", {
-      'rtl-text': $data.isArabic
-    }])
-  }, [$data.selectedCategory !== '' && $data.guide.sections[$data.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    innerHTML: $data.isArabic ? $options.highlightText($data.guide.sections[$data.selectedCategory].title_ar || $data.guide.sections[$data.selectedCategory].title) : $options.highlightText($data.guide.sections[$data.selectedCategory].title)
-  }, null, 8 /* PROPS */, _hoisted_9)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translate Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"selectedCategory !== '' && guide.sections[selectedCategory]\" class=\"ms-auto pt-2\">\n              <button class=\"btn btn-success\" @click=\"translateContent\" :disabled=\"isLoading\">\n                {{ isArabic ? 'Translate to English' : 'Translate to Arabic' }}\n              </button>\n            </div> ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Spinner "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"isLoading\" class=\"text-center my-3\">\n            <div class=\"spinner-border text-dark\" role=\"status\">\n              <span class=\"visually-hidden\">Translating...</span>\n            </div>\n            <p class=\"text-dark mt-2\">Translating...</p>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Bootstrap Alert for Content Copy Feedback "), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "copyAlert",
-    "class": "alert",
-    role: "alert",
-    style: {
-      "display": "none"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    id: "alertMessage"
-  }, "Content copied to clipboard!")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), !$data.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content with Real-Time Highlighting "), Array.isArray($data.guide.sections[$data.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 9 /* TEXT, PROPS */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedCategory]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "search-input",
+    "class": "form-label"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-search me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Content ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    id: "search-input",
+    type: "text",
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $setup.searchText = $event;
+    }),
+    "class": "form-control",
+    placeholder: "Search keywords...",
+    "aria-label": "Search guide content"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.searchText]]), $setup.searchText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: $data.fontSize + 'px'
+    "class": "btn btn-outline-secondary",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $setup.searchText = '';
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.guide.sections[$data.selectedCategory].content, function (item, index) {
+  }, _cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-x"
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content Section "), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.guide.sections[$setup.selectedCategory].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.guide.sections[$setup.selectedCategory].category || 'General'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-primary",
+    onClick: _cache[3] || (_cache[3] = function () {
+      return $options.playCurrentContent && $options.playCurrentContent.apply($options, arguments);
+    }),
+    disabled: $setup.isAudioLoading
+  }, _cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-play-fill"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")]), 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-primary",
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.bookmarkGuide && $options.bookmarkGuide.apply($options, arguments);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark')
+  }, null, 2 /* CLASS */), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bookmark "))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    "class": "btn btn-sm btn-outline-success",
+    onClick: _cache[5] || (_cache[5] = function () {
+      return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
+    })
+  }, _cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-share"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [Array.isArray($setup.guide.sections[$setup.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.guide.sections[$setup.selectedCategory].content, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
-      "class": "mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      innerHTML: $options.getHighlightedText(item)
-    }, null, 8 /* PROPS */, _hoisted_13)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+      "class": "mb-3 pb-3 border-bottom"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: $options.getHighlightedText(item),
+      "class": "content-text"
+    }, null, 8 /* PROPS */, _hoisted_21)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 1,
-    "class": "text-dark fs-5 selected-content",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: $data.fontSize + 'px'
-    })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    innerHTML: $data.isArabic ? $options.highlightText($data.guide.sections[$data.selectedCategory].content_ar || $data.guide.sections[$data.selectedCategory].content) : $options.highlightText($data.guide.sections[$data.selectedCategory].content)
-  }, null, 8 /* PROPS */, _hoisted_14)], 4 /* STYLE */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("hr", _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Icons: Share & Copy "), $data.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-center\">\n        <i class=\"bi bi-share icon-tooltip h3 icon-hover\" data-bs-toggle=\"tooltip\" style=\"cursor: pointer\"\n          data-bs-placement=\"top\" title=\"Share\" aria-label=\"Share content\" role=\"button\" @click=\"shareOnWhatsApp\"></i>\n        <div class=\"h5\">Share</div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pause Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-pause icon-tooltip h1 icon-hover", {
-      'text-muted': !$data.isPlaying || $data.isPaused,
-      'highlight-button': $data.isPlaying
-    }]),
-    "data-bs-toggle": "tooltip",
-    "data-bs-placement": "top",
-    title: "Pause",
-    role: "button",
-    onClick: _cache[1] || (_cache[1] = function () {
-      return $options.pauseText && $options.pauseText.apply($options, arguments);
+    "class": "content-text",
+    innerHTML: $options.highlightText($setup.guide.sections[$setup.selectedCategory].content)
+  }, null, 8 /* PROPS */, _hoisted_22))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "global-audio-player"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn",
+        onClick: _cache[6] || (_cache[6] = function () {
+          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
+        }),
+        "aria-label": "Rewind"
+      }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-skip-backward-fill"
+      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn",
+        onClick: _cache[7] || (_cache[7] = function () {
+          return $options.togglePlayPause && $options.togglePlayPause.apply($options, arguments);
+        }),
+        "aria-label": "Play/Pause"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'])
+      }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn",
+        onClick: _cache[8] || (_cache[8] = function () {
+          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
+        }),
+        "aria-label": "Forward"
+      }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-skip-forward-fill"
+      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn",
+        onClick: _cache[9] || (_cache[9] = function () {
+          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
+        }),
+        "aria-label": "Stop"
+      }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-stop-fill"
+      }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "audio-progress",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          width: $setup.currentTime / $setup.totalDuration * 100 + '%'
+        })
+      }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-volume-up-fill volume-icon"
+      }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+        type: "range",
+        min: "0",
+        max: "100",
+        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+          return $setup.volume = $event;
+        }),
+        onInput: _cache[11] || (_cache[11] = function () {
+          return $options.updateVolume && $options.updateVolume.apply($options, arguments);
+        }),
+        "class": "audio-volume-slider",
+        "aria-label": "Volume control"
+      }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.volume, void 0, {
+        number: true
+      }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn close-btn",
+        onClick: _cache[12] || (_cache[12] = function () {
+          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
+        }),
+        "aria-label": "Close"
+      }, _cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-x-lg"
+      }, null, -1 /* HOISTED */)]))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      pointerEvents: !$data.isPlaying || $data.isPaused ? 'none' : 'auto'
-    })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "h4",
-    style: {
-      "cursor": "pointer"
-    },
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.pauseText && $options.pauseText.apply($options, arguments);
-    })
-  }, "Pause")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Play Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-play icon-tooltip h1 icon-hover", {
-      'text-muted': $data.isPlaying,
-      'highlight-button': !$data.isPlaying
-    }]),
-    "data-bs-toggle": "tooltip",
-    "data-bs-placement": "top",
-    title: "Play",
-    "aria-label": "Play text",
-    role: "button",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.playText && $options.playText.apply($options, arguments);
-    }),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      pointerEvents: $data.isPlaying ? 'none' : 'auto'
-    })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "h4",
-    style: {
-      "cursor": "pointer"
-    },
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.playText && $options.playText.apply($options, arguments);
-    })
-  }, "Play")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Stop Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi bi-stop icon-tooltip h1 icon-hover", {
-      'text-muted': !$data.isPlaying,
-      'highlight-button': $data.isPlaying
-    }]),
-    "data-bs-toggle": "tooltip",
-    "data-bs-placement": "top",
-    title: "Stop",
-    role: "button",
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $options.stopText && $options.stopText.apply($options, arguments);
-    }),
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      pointerEvents: !$data.isPlaying ? 'none' : 'auto'
-    })
-  }, null, 6 /* CLASS, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "h4",
-    style: {
-      "cursor": "pointer"
-    },
-    onClick: _cache[6] || (_cache[6] = function () {
-      return $options.stopText && $options.stopText.apply($options, arguments);
-    })
-  }, "Stop")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"text-center\">\n        <i @click=\"copyContent\" style=\"cursor: pointer\" class=\"bi bi-clipboard icon-tooltip h3 icon-hover\"\n          data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\"Copy Content\" aria-label=\"Copy content\"\n          role=\"button\"></i>\n        <div class=\"h5\">Copy</div>\n      </div> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    _: 1 /* STABLE */
+  })]);
 }
 
 /***/ }),
@@ -66706,7 +67013,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ref: "audioCard",
       key: ayah.number,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-md-12 mb-2 mt-2 ayah-card-container", {
-        highlighted: _ctx.isHighlighted && _ctx.currentlyPlayingIndex === index
+        'highlighted': _ctx.isHighlighted && _ctx.currentlyPlayingIndex === index,
+        'currently-playing': _ctx.isAudioPlaying[index]
       }])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
@@ -168674,7 +168982,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Highlight active button */\n.highlight-button[data-v-6b54700c] {\n  color: rgb(13, 182, 145);\n  color: rgb(0, 0, 0);\n  cursor: pointer;\n}\n/* Gray out inactive buttons */\n.text-muted[data-v-6b54700c] {\n  color: #a9a9a9 !important;\n  pointer-events: none;\n  /* Prevent interaction */\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: rgb(13, 182, 145);\n  /* Customize the highlight color */\n  color: white;\n  /* Light yellow for the current word */\n  transition: background-color 0.2s ease-in-out;\n}\n.rtl-text[data-v-6b54700c] {\n  direction: rtl !important;\n  /* Force RTL direction */\n  text-align: right !important;\n  /* Force text alignment to the right */\n  word-spacing: 0.3em !important;\n  /* Increase spacing between words */\n}\n/* Custom styles can go here */\n[data-v-6b54700c] mark {\n  background-color: rgb(13, 182, 145);\n  /* Customize the highlight color */\n  color: white;\n  /* Customize text color for highlight */\n}\n/* Custom styles for the icons (optional) */\n.icon-hover[data-v-6b54700c]:hover {\n  color: rgb(13, 182, 145);\n  /* Change icon color on hover */\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n.header-title[data-v-6b54700c] {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 1.2rem;\n  flex: 2 1 0;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.7rem;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 90px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    gap: 1.5rem;\n    flex-wrap: nowrap;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 2;\n    gap: 1.2rem;\n    flex: 2 1 0;\n    font-size: 1.6rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 180px;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    gap: 0.7rem;\n    min-width: 180px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    gap: 0.5rem;\n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    gap: 0.3rem;\n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    gap: 0.3rem;\n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 22px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -169205,7 +169513,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0; /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.2rem !important;\n    line-height: 2;\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    line-height: 1.6;\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nhtml[data-v-828f3036] {\n  scroll-behavior: smooth;\n}\n.highlighted[data-v-828f3036] {\n  background-color: #b5e6db;\n  border-radius: 8px;\n  animation: pulse-828f3036 0.5s ease-in-out;\n}\n.currently-playing[data-v-828f3036] {\n  background-color: #e8f5e8;\n  border: 2px solid #28a745;\n  border-radius: 8px;\n  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);\n  transform: scale(1.02);\n  transition: all 0.3s ease;\n}\n@keyframes pulse-828f3036 {\n0% {\n    border: 2px solid #00bfa6;\n}\n100% {\n    border: 2px solid transparent;\n}\n}\n.rtl-text[data-v-828f3036] {\n  direction: rtl;\n}\n.ltr-text[data-v-828f3036] {\n  direction: ltr;\n}\n.sticky-dropdown[data-v-828f3036] {\n  position: sticky;\n  z-index: 1000;\n  background-color: #343a40;\n  padding: 10px;\n  border-radius: 8px;\n  margin-bottom: 1rem;\n  transition: top 0.3s ease, height 0.3s ease;\n}\n@media (max-width: 768px) {\n.container[data-v-828f3036] {\n    padding-bottom: calc(100px + env(safe-area-inset-bottom));\n}\n}\n.audio-player-container[data-v-828f3036] {\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  z-index: 1001;\n  background-color: rgba(33, 33, 33, 0.95);\n  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);\n  border-radius: 15px 15px 0 0;\n  padding: 10px;\n  transition: transform 0.3s ease-in-out;\n}\n.container[data-v-828f3036] {\n  padding-bottom: calc(120px + env(safe-area-inset-bottom));\n}\n.custom-audio-player[data-v-828f3036] {\n  display: flex;\n  flex-direction: column;\n  color: white;\n  padding: 5px 10px;\n}\n.controls[data-v-828f3036] {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  flex-wrap: wrap;\n  justify-content: center;\n  margin-bottom: 10px;\n}\n@media (max-width: 768px) {\n.controls .control-btn[title=\"Close\"][data-v-828f3036] {\n    margin-left: 0; /* Remove the margin-left: auto to align with other buttons */\n}\n.time[data-v-828f3036] {\n    font-size: 0.8rem !important;\n    min-width: 100px;\n    text-align: center;\n}\n.volume-bar-container[data-v-828f3036] {\n    position: fixed;\n    bottom: 100%;\n    left: 0;\n    width: 100%;\n    background-color: rgba(33, 33, 33, 0.95);\n    padding: 10px;\n    border-radius: 15px 15px 0 0;\n}\n.volume-slider[data-v-828f3036] {\n    width: 100%;\n}\n}\n.control-btn[data-v-828f3036] {\n  background: none;\n  border: none;\n  color: white;\n  font-size: 1.5rem;\n  cursor: pointer;\n  padding: 8px;\n  transition: color 0.2s;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.control-btn[data-v-828f3036]:hover {\n  color: #00bfa6;\n}\n.progress-bar[data-v-828f3036] {\n  width: 100%;\n  height: 4px;\n  background-color: rgba(255, 255, 255, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.progress[data-v-828f3036] {\n  height: 100%;\n  background-color: #00bfa6;\n  transition: width 0.1s linear;\n}\n.volume-slider[data-v-828f3036] {\n  width: 100px;\n  height: 4px;\n}\n.ayah-card-container[data-v-828f3036] {\n  scroll-margin-top: 100px;\n}\n.ayah-card[data-v-828f3036] {\n  padding: 15px;\n  margin-bottom: 1rem;\n  border-radius: 10px;\n  background-color: var(--bs-body-bg);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n@media (max-width: 768px) {\n.ayah-card[data-v-828f3036] {\n    padding: 10px;\n}\n.arabic-text[data-v-828f3036] {\n    font-size: 1.2rem !important;\n    line-height: 2;\n}\n.translation-text[data-v-828f3036] {\n    font-size: 0.9rem !important;\n    line-height: 1.6;\n}\n.mobile-controls[data-v-828f3036] {\n    display: flex;\n    justify-content: center;\n    gap: 15px;\n    margin-top: 10px;\n}\n.mobile-controls .control-btn[data-v-828f3036] {\n    font-size: 1.3rem;\n}\n}\n@media (max-width: 576px) {\n.display-5[data-v-828f3036] {\n    font-size: 1.8rem;\n}\n.lead[data-v-828f3036] {\n    font-size: 1rem;\n}\nh4[data-v-828f3036] {\n    font-size: 1.1rem;\n}\n}\n@media (prefers-color-scheme: dark) {\n.ayah-card[data-v-828f3036] {\n    background-color: rgba(255, 255, 255, 0.05);\n}\n.sticky-dropdown[data-v-828f3036] {\n    background-color: rgba(52, 58, 64, 0.95);\n}\n}\n@media (hover: none) {\n.control-btn[data-v-828f3036] {\n    padding: 12px;\n    margin: 0 5px;\n}\n.control-btn[data-v-828f3036]:active {\n    transform: scale(0.95);\n}\n}\n.loading-placeholder[data-v-828f3036] {\n  text-align: center;\n  padding: 20px;\n  font-size: 1.2rem;\n  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);\n  background-size: 200% 100%;\n  animation: loading-828f3036 1.5s infinite;\n}\n@keyframes loading-828f3036 {\n0% {\n    background-position: 200% 0;\n}\n100% {\n    background-position: -200% 0;\n}\n}\n@media (max-width: 991px) {\n.hide-on-mobile-tablet[data-v-828f3036] {\n    display: none;\n}\n}\n.highlighted-word[data-v-828f3036] {\n  background: #00bfa6;\n  color: #fff;\n  border-radius: 4px;\n  padding: 0 2px;\n  transition: background 0.2s;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
