@@ -540,8 +540,7 @@ mark {
 .audio-controls {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  flex: 2 1 0;
+  gap: 0.8rem;
   justify-content: center;
 }
 .audio-btn {
@@ -598,7 +597,6 @@ mark {
 .audio-right {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
   min-width: 180px;
   flex: 1 1 0;
   justify-content: flex-end;
@@ -608,7 +606,7 @@ mark {
   color: #bdbdbd;
 }
 .audio-volume-slider {
-  width: 90px;
+  width: 120px;
   accent-color: #00bfa6;
   background: transparent;
   margin: 0 0.5rem;
@@ -720,7 +718,7 @@ mark {
   }
   
   .controls-section {
-    padding: 1rem;
+    padding: 1.2rem;
   }
   
   .btn {
@@ -753,35 +751,34 @@ mark {
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    gap: 1.5rem;
+    
     flex-wrap: nowrap;
+    /* Prevent overlap */
   }
-  .audio-controls {
-    order: 2;
-    gap: 1.2rem;
-    flex: 2 1 0;
-    font-size: 1.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .audio-player-row.bottom > * {
+    min-width: 0;
   }
   .audio-progress-wrap {
     order: 3;
     margin: 0 1.2rem;
     flex: 3 1 0;
-    min-width: 180px;
+    min-width: 120px;
+    flex-shrink: 1;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   .audio-right {
     order: 4;
-    gap: 0.7rem;
-    min-width: 180px;
+    
+    min-width: 140px;
     flex: 1 1 0;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+  }
+  .audio-progress-bar {
+    overflow: hidden;
   }
 }
 @media (max-width: 600px) {
@@ -805,7 +802,7 @@ mark {
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    gap: 0.5rem;
+    
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -815,7 +812,7 @@ mark {
   }
   .audio-controls {
     order: 1;
-    gap: 0.3rem;
+    
     margin: 0;
     font-size: 0.95rem;
     flex: 0 0 auto;
@@ -839,7 +836,7 @@ mark {
   }
   .audio-right {
     order: 3;
-    gap: 0.3rem;
+    
     min-width: 0;
     flex: 0 0 auto;
     font-size: 0.85rem;
@@ -847,7 +844,7 @@ mark {
     align-items: center;
   }
   .audio-volume-slider {
-    width: 22px;
+    width: 60px;
     height: 2.5px;
   }
   .close-btn {
