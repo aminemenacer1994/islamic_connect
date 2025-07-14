@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bookmark extends Model
 {
     protected $fillable = [
-        'surah_name', 'ayah_num', 'ayah_verse_ar', 'ayah_verse_en', 'folder_id', 'user_id'
+        'title', 'surah_name', 'ayah_num', 'ayah_verse_ar', 'ayah_verse_en', 'folder_id', 'user_id'
     ];
 
     public function folder()

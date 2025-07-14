@@ -3,7 +3,7 @@
     <!-- Header -->
     <header class="text-center mb-4">
       
-      <h1 class="header-title">Islamic Guides</h1>
+      <h1 class="header-title display-4 fw-bold">Islamic Guides</h1>
       <p class="header-description">
         Discover insights into the core beliefs, practices, and morals of Islam.
       </p>
@@ -12,22 +12,65 @@
     <!-- Controls Section -->
     <section class="controls-section mb-4" style="border: 1px solid #009688;">
       <div class="row g-3 align-items-center" >
+        <!-- Category Filter -->
+        <!-- <div class="col-12 mb-3">
+          <label class="form-label">
+            <i class="bi bi-funnel me-2"></i>Filter by Category
+          </label>
+          <div class="category-filters">
+            <button 
+              v-for="category in availableCategories" 
+              :key="category"
+              @click="filterByCategory(category)"
+              class="btn btn-sm me-2 mb-2"
+              :class="selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'"
+            >
+              <span class="badge me-1" :class="getBadgeClasses(category)">
+                {{ category }}
+              </span>
+              {{ category }}
+            </button>
+            <button 
+              @click="filterByCategory('All')"
+              class="btn btn-sm me-2 mb-2"
+              :class="selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'"
+            >
+              <i class="bi bi-collection me-1"></i>
+              All Categories
+            </button>
+          </div>
+        </div> -->
+
         <!-- Category Dropdown -->
         <div class="col-md-6">
           <label for="category-select" class="form-label">
             <i class="bi bi-journal-bookmark me-2"></i>Select a Guide
           </label>
-          <select
-            id="category-select"
-            v-model="selectedCategory"
-            class="form-select"
-            aria-label="Select an Islamic guide"
-          >
-            <option value="">Choose a topic...</option>
-            <option v-for="(section, index) in guide.sections" :key="index" :value="index">
-              {{ section.title }}
-            </option>
-          </select>
+          <div class="dropdown">
+            <button 
+              class="form-select dropdown-toggle" 
+              type="button" 
+              id="category-select"
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+            >
+              {{ selectedCategory !== '' ? guide.sections[selectedCategory].title : 'Choose a topic...' }}
+            </button>
+            <ul class="dropdown-menu w-100" aria-labelledby="category-select">
+              <li v-for="(section, index) in filteredSections" :key="index">
+                <a 
+                  class="dropdown-item d-flex align-items-center justify-content-between" 
+                  href="#"
+                  @click.prevent="selectedCategory = guide.sections.indexOf(section)"
+                >
+                  <span class="guide-title">{{ section.title }}</span>
+                  <span class="badge ms-2" :class="getBadgeClasses(section.title)">
+                    {{ getCategoryName(section.title) }}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <!-- Search Input -->
@@ -66,8 +109,8 @@
               <h2 class="content-title mb-2">
                 {{ guide.sections[selectedCategory].title }}
               </h2>
-              <div class="badge bg-primary bg-opacity-10 text-primary">
-                {{ guide.sections[selectedCategory].category || 'General' }}
+              <div class="badge" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
+                {{ getCategoryName(guide.sections[selectedCategory].title) }}
               </div>
             </div>
             
@@ -82,9 +125,11 @@
               <button
                 class="btn btn-sm btn-outline-primary"
                 @click="bookmarkGuide"
+                :disabled="!isAuthenticated"
+                :title="!isAuthenticated ? 'Please login to bookmark' : ''"
               >
                 <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
-                Bookmark
+                {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
               </button>
               
               <button
@@ -153,12 +198,23 @@
         </div>
       </div>
     </transition>
+
+    <!-- Alert Messages -->
+    <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+      {{ alertMessage }}
+      <button type="button" class="btn-close" @click="showAlert = false"></button>
+    </div>
+    <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" @click="showErrorAlert = false"></button>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from 'vue';
 import guide from '../guides.json';
+import axios from 'axios';
 
 export default {
   setup() {
@@ -178,6 +234,29 @@ export default {
       category: ''
     });
     const fullText = ref('');
+    const isAuthenticated = ref(false);
+    const userId = ref(null);
+    const showAlert = ref(false);
+    const showErrorAlert = ref(false);
+    const alertMessage = ref('');
+    const errorMessage = ref('');
+    const selectedCategoryFilter = ref('All');
+    const availableCategories = ref([]);
+
+    const checkAuthentication = async () => {
+      try {
+        const response = await fetch('/api/userId');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.userId) {
+            isAuthenticated.value = true;
+            userId.value = data.userId;
+          }
+        }
+      } catch (error) {
+        console.error('Error checking authentication:', error);
+      }
+    };
 
     onMounted(() => {
       if (typeof window.speechSynthesis !== 'undefined') {
@@ -185,7 +264,113 @@ export default {
           // Voice setup if needed
         };
       }
+      
+      // Check authentication status
+      checkAuthentication();
+      
+      // Initialize available categories
+      initializeCategories();
     });
+
+    const initializeCategories = () => {
+      const categories = new Set();
+      guide.sections.forEach(section => {
+        const category = getCategoryName(section.title);
+        categories.add(category);
+      });
+      availableCategories.value = Array.from(categories).sort();
+    };
+
+    const getCategoryName = (title) => {
+      const categoryMap = {
+        // Theology & Beliefs
+        'The Concept of Tawhid': 'Theology',
+        'The Concept of Tawheed': 'Theology',
+        'The Role of the Quran': 'Theology',
+        'The Concept of Prophethood': 'Theology',
+        'The Role of Prophets and Messengers': 'Theology',
+        'Angels in Islam': 'Theology',
+        'The Islamic Concept of Afterlife': 'Theology',
+        'The Islamic Concept of the Afterlife': 'Theology',
+        'The Significance of the Night of Ascension': 'Theology',
+        'Islamic Philosophy and Theology': 'Theology',
+        
+        // Five Pillars & Worship
+        'The Five Pillars of Islam': 'Worship',
+        'The Importance of Fasting': 'Worship',
+        'The Significance of Hajj': 'Worship',
+        'The Importance of Dua': 'Worship',
+        'The Importance of Dhikr': 'Worship',
+        'Islamic Calendar and Festivals': 'Worship',
+        
+        // Ethics & Character
+        'Islamic Ethics and Morality': 'Ethics',
+        'The Importance of Good Character': 'Ethics',
+        'The Concept of Righteousness': 'Ethics',
+        'The Concept of Forgiveness': 'Ethics',
+        'The Concept of Mercy': 'Ethics',
+        'The Importance of Gratitude': 'Ethics',
+        'The Concept of Gratitude': 'Ethics',
+        
+        // Social Justice & Community
+        'Social Justice in Islam': 'Social Justice',
+        'The Concept of Justice': 'Social Justice',
+        'The Islamic Concept of Justice': 'Social Justice',
+        'Islam and the Concept of Community': 'Community',
+        'Islamic Teachings on Tolerance': 'Community',
+        'Islamic Views on Peace': 'Community',
+        
+        // Family & Relationships
+        'Islamic Family Law': 'Family',
+        'Islamic Views on Marriage': 'Family',
+        'The Role of Women in Islam': 'Family',
+        
+        // Finance & Economics
+        'Islamic Perspective on Wealth': 'Finance',
+        'The Role of Islamic Charity': 'Finance',
+        'Islamic Views on Financial Transactions': 'Finance',
+        
+        // Health & Well-being
+        'Islamic Views on Health': 'Health',
+        
+        // Education & Knowledge
+        'Islamic Education and Knowledge': 'Education',
+        'The Importance of Knowledge': 'Education',
+        'The Importance of Seeking Knowledge': 'Education',
+        
+        // Law & Halal/Haram
+        'Halal and Haram in Islam': 'Law',
+        
+        // Environment
+        'Islam and Environmental Stewardship': 'Environment',
+        
+        // Daily Life
+        'The Importance of the Quran in Daily Life': 'Daily Life'
+      };
+      
+      return categoryMap[title] || 'General';
+    };
+
+    const getBadgeClasses = (title) => {
+      const category = getCategoryName(title);
+      const badgeClasses = {
+        'Theology': 'bg-primary',
+        'Worship': 'bg-success',
+        'Ethics': 'bg-info',
+        'Social Justice': 'bg-warning',
+        'Community': 'bg-secondary',
+        'Family': 'bg-danger',
+        'Finance': 'bg-dark',
+        'Health': 'bg-success',
+        'Education': 'bg-primary',
+        'Law': 'bg-warning',
+        'Environment': 'bg-success',
+        'Daily Life': 'bg-info',
+        'General': 'bg-primary'
+      };
+      
+      return badgeClasses[category] || badgeClasses['General'];
+    };
 
     return {
       selectedCategory,
@@ -201,10 +386,84 @@ export default {
       utterance,
       currentPlayingContent,
       fullText,
+      isAuthenticated,
+      userId,
+      showAlert,
+      showErrorAlert,
+      alertMessage,
+      errorMessage,
+      selectedCategoryFilter,
+      availableCategories,
       guide,
+      checkAuthentication,
+      initializeCategories,
+      getCategoryName,
+      getBadgeClasses,
     };
   },
+  computed: {
+    filteredSections() {
+      if (this.selectedCategoryFilter === 'All') {
+        return this.guide.sections;
+      }
+      return this.guide.sections.filter(section => 
+        this.getCategoryName(section.title) === this.selectedCategoryFilter
+      );
+    }
+  },
   methods: {
+    filterByCategory(category) {
+      this.selectedCategoryFilter = category;
+      this.selectedCategory = ''; // Reset selected category when filtering
+    },
+
+    async bookmarkGuide() {
+      if (!this.isAuthenticated) {
+        this.showErrorAlert = true;
+        this.errorMessage = 'Please login to bookmark guides';
+        this.hideAlertAfterDelay();
+        return;
+      }
+
+      if (this.selectedCategory === '') {
+        this.showErrorAlert = true;
+        this.errorMessage = 'Please select a guide first';
+        this.hideAlertAfterDelay();
+        return;
+      }
+
+      const selectedSection = this.guide.sections[this.selectedCategory];
+      const content = Array.isArray(selectedSection.content) 
+        ? selectedSection.content.join('\n\n') 
+        : selectedSection.content;
+
+      const formData = {
+        title: selectedSection.title,
+        content: content,
+        category: selectedSection.category || 'Islamic Guide'
+      };
+
+      try {
+        const response = await axios.post('/bookmarks', formData);
+        this.isBookmarked = true;
+        this.showAlert = true;
+        this.alertMessage = response.data.message || 'Guide bookmarked successfully!';
+        this.hideAlertAfterDelay();
+      } catch (error) {
+        console.error('Error bookmarking guide:', error);
+        this.showErrorAlert = true;
+        this.errorMessage = error.response?.data?.message || 'Failed to bookmark guide. Please try again.';
+        this.hideAlertAfterDelay();
+      }
+    },
+
+    hideAlertAfterDelay() {
+      setTimeout(() => {
+        this.showAlert = false;
+        this.showErrorAlert = false;
+      }, 3000);
+    },
+
     playCurrentContent() {
       this.isAudioLoading = true;
       const selectedSection = this.guide.sections[this.selectedCategory];
@@ -344,10 +603,6 @@ export default {
       return text.replace(regex, '<mark>$1</mark>');
     },
 
-    bookmarkGuide() {
-      this.isBookmarked = !this.isBookmarked;
-    },
-
     shareOnWhatsApp() {
       const selectedSection = this.guide.sections[this.selectedCategory];
       if (!selectedSection) return;
@@ -359,12 +614,13 @@ export default {
       const text = `*${title}*\n\n${content}\n\n— Shared via Islamic Guides`;
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
-    }
+    },
   },
   watch: {
     selectedCategory(newVal) {
       this.stopPlayback();
       this.searchText = '';
+      this.isBookmarked = false; // Reset bookmark status when changing guides
     },
   },
 };
@@ -400,12 +656,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--primary-color);
 }
 
-.header-title {
+/* .header-title {
   font-size: 2rem;
   font-weight: 800;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
-}
+} */
 
 .header-description {
   font-size: 1.1rem;
@@ -853,6 +1109,197 @@ mark {
   }
   .volume-icon {
     font-size: 0.95rem;
+  }
+}
+
+/* Badge Styles */
+.badge {
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Badge Color Schemes */
+.badge.bg-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-color: #667eea;
+}
+
+.badge.bg-success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+  color: white !important;
+  border-color: #11998e;
+}
+
+.badge.bg-info {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+  color: white !important;
+  border-color: #4facfe;
+}
+
+.badge.bg-warning {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+  color: white !important;
+  border-color: #fa709a;
+}
+
+.badge.bg-secondary {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;
+  color: #333 !important;
+  border-color: #a8edea;
+}
+
+.badge.bg-danger {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;
+  color: white !important;
+  border-color: #ff9a9e;
+}
+
+.badge.bg-dark {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+  color: white !important;
+  border-color: #2c3e50;
+}
+
+/* Responsive Badge Adjustments */
+@media (max-width: 768px) {
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .badge {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* Dropdown Styles */
+.dropdown-menu {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f8f9fa;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(2px);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.guide-title {
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+  margin-right: 0.5rem;
+}
+
+.dropdown-item .badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Custom Scrollbar for Dropdown */
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Category Filter Styles */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-filters .btn {
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.category-filters .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.category-filters .btn-primary {
+  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);
+  border-color: #00bfa6;
+  color: white;
+}
+
+.category-filters .btn-outline-primary {
+  color: #00bfa6;
+  border-color: #00bfa6;
+  background: transparent;
+}
+
+.category-filters .btn-outline-primary:hover {
+  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);
+  color: white;
+  border-color: #00bfa6;
+}
+
+.category-filters .badge {
+  font-size: 0.6rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+}
+
+/* Responsive adjustments for category filters */
+@media (max-width: 768px) {
+  .category-filters {
+    gap: 0.3rem;
+  }
+  
+  .category-filters .btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .category-filters .badge {
+    font-size: 0.5rem;
+    padding: 0.15rem 0.3rem;
   }
 }
 </style>
