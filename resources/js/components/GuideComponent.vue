@@ -1,243 +1,241 @@
 <template>
-  <transition name="fade">
-    <div class="container my-4" v-if="showContainer">
-      <!-- Header -->
-      <transition name="fade-down">
-        <header class="text-center mb-4" v-if="showHeader">
-          
-          <h1 class="header-title display-4 fw-bold">Islamic Guides</h1>
-          <p class="header-description">
-            Discover insights into the core beliefs, practices, and morals of Islam.
-          </p>
-        </header>
-      </transition>
+  <div class="container my-4">
+    <!-- Header -->
+    <header class="text-center mb-4">
+      
+      <h1 class="header-title display-4 fw-bold">Islamic Guides</h1>
+      <p class="header-description">
+        Discover insights into the core beliefs, practices, and morals of Islam.
+      </p>
+    </header>
 
-      <!-- Controls Section -->
-      <transition name="fade-up">
-        <section class="controls-section mb-4" style="border: 1px solid #009688;" v-if="showControls">
-          <div class="row g-3 align-items-center" >
-            <!-- Category Filter -->
-            <!-- <div class="col-12 mb-3">
-              <label class="form-label">
-                <i class="bi bi-funnel me-2"></i>Filter by Category
-              </label>
-              <div class="category-filters">
-                <button 
-                  v-for="category in availableCategories" 
-                  :key="category"
-                  @click="filterByCategory(category)"
-                  class="btn btn-sm me-2 mb-2"
-                  :class="selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'"
-                >
-                  <span class="badge me-1" :class="getBadgeClasses(category)">
-                    {{ category }}
-                  </span>
-                  {{ category }}
-                </button>
-                <button 
-                  @click="filterByCategory('All')"
-                  class="btn btn-sm me-2 mb-2"
-                  :class="selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'"
-                >
-                  <i class="bi bi-collection me-1"></i>
-                  All Categories
-                </button>
-              </div>
-            </div> -->
-
-            <!-- Category Dropdown -->
-            <div class="col-md-6">
-              <label for="category-select" class="form-label">
-                <i class="bi bi-journal-bookmark me-2"></i>Select a Guide
-              </label>
-              <div class="dropdown">
-                <button 
-                  class="form-select dropdown-toggle" 
-                  type="button" 
-                  id="category-select"
-                  data-bs-toggle="dropdown" 
-                  aria-expanded="false"
-                >
-                  {{ selectedCategory !== '' ? guide.sections[selectedCategory].title : 'Choose a topic...' }}
-                </button>
-                <transition name="fade-slide">
-                  <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length">
-                    <li v-for="(section, index) in filteredSections" :key="index"
-                        :style="{ transitionDelay: (index * 60) + 'ms' }">
-                      <a 
-                        class="dropdown-item d-flex align-items-center justify-content-between" 
-                        href="#"
-                        @click.prevent="selectedCategory = guide.sections.indexOf(section)"
-                      >
-                        <span class="guide-title">{{ section.title }}</span>
-                        <span class="badge ms-2" :class="getBadgeClasses(section.title)">
-                          {{ getCategoryName(section.title) }}
-                        </span>
-                      </a>
-                    </li>
-                  </ul>
-                </transition>
-              </div>
-            </div>
-
-            <!-- Search Input -->
-            <div class="col-md-6" v-if="selectedCategory !== ''">
-              <label for="search-input" class="form-label">
-                <i class="bi bi-search me-2"></i>Search Content
-              </label>
-              <div class="input-group">
-              <input
-                id="search-input"
-                type="text"
-                v-model="searchText"
-                class="form-control"
-                  placeholder="Search keywords..."
-                aria-label="Search guide content"
-                >
-                <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''">
-                  <i class="bi bi-x"></i>
-                  </button>
-              </div>
-            </div>
+    <!-- Controls Section -->
+    <section class="controls-section mb-4" style="border: 1px solid #009688;">
+      <div class="row g-3 align-items-center" >
+        <!-- Category Filter -->
+        <!-- <div class="col-12 mb-3">
+          <label class="form-label">
+            <i class="bi bi-funnel me-2"></i>Filter by Category
+          </label>
+          <div class="category-filters">
+            <button 
+              v-for="category in availableCategories" 
+              :key="category"
+              @click="filterByCategory(category)"
+              class="btn btn-sm me-2 mb-2"
+              :class="selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'"
+            >
+              <span class="badge me-1" :class="getBadgeClasses(category)">
+                {{ category }}
+              </span>
+              {{ category }}
+            </button>
+            <button 
+              @click="filterByCategory('All')"
+              class="btn btn-sm me-2 mb-2"
+              :class="selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'"
+            >
+              <i class="bi bi-collection me-1"></i>
+              All Categories
+            </button>
           </div>
-        </section>
-      </transition>
+        </div> -->
 
-      <!-- Content Section -->
-      <transition name="fade-slide">
-        <section 
-          v-if="selectedCategory !== '' && guide.sections[selectedCategory]" 
-          class="mb-5"
-          id="content-section"
-        >
-          <div class="content-card card">
-            <div class="card-body">
-              <!-- Card Header -->
-              <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                <div>
-                  <h2 class="content-title mb-2">
-                    {{ guide.sections[selectedCategory].title }}
-                  </h2>
-                  <div class="badge" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
-                    {{ getCategoryName(guide.sections[selectedCategory].title) }}
-                  </div>
+        <!-- Category Dropdown -->
+        <div class="col-md-6">
+          <label for="category-select" class="form-label">
+            <i class="bi bi-journal-bookmark me-2"></i>Select a Guide
+          </label>
+          <div class="dropdown">
+            <button 
+              class="form-select dropdown-toggle" 
+              type="button" 
+              id="category-select"
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
+            >
+              {{ selectedCategory !== '' ? guide.sections[selectedCategory].title : 'Choose a topic...' }}
+            </button>
+            <transition name="fade-slide">
+              <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length">
+                <li v-for="(section, index) in filteredSections" :key="index">
+                  <a 
+                    class="dropdown-item d-flex align-items-center justify-content-between" 
+                    href="#"
+                    @click.prevent="selectedCategory = guide.sections.indexOf(section)"
+                  >
+                    <span class="guide-title">{{ section.title }}</span>
+                    <span class="badge ms-2" :class="getBadgeClasses(section.title)">
+                      {{ getCategoryName(section.title) }}
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </transition>
+          </div>
+        </div>
+
+        <!-- Search Input -->
+        <div class="col-md-6" v-if="selectedCategory !== ''">
+          <label for="search-input" class="form-label">
+            <i class="bi bi-search me-2"></i>Search Content
+          </label>
+          <div class="input-group">
+          <input
+            id="search-input"
+            type="text"
+            v-model="searchText"
+            class="form-control"
+              placeholder="Search keywords..."
+            aria-label="Search guide content"
+            >
+            <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''">
+              <i class="bi bi-x"></i>
+              </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Section -->
+    <transition name="fade-slide">
+      <section 
+        v-if="selectedCategory !== '' && guide.sections[selectedCategory]" 
+        class="mb-5"
+        id="content-section"
+      >
+        <div class="content-card card">
+          <div class="card-body">
+            <!-- Card Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+              <div>
+                <h2 class="content-title mb-2">
+                  {{ guide.sections[selectedCategory].title }}
+                </h2>
+                <div class="badge" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
+                  {{ getCategoryName(guide.sections[selectedCategory].title) }}
                 </div>
-                
-                <transition name="fade-scale">
-                  <div class="d-flex gap-2" key="button-group">
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      @click="playCurrentContent"
-                      :disabled="isAudioLoading"
-                    >
-                      <i class="bi bi-play-fill"></i> Listen
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      @click="bookmarkGuide"
-                      :disabled="!isAuthenticated"
-                      :title="!isAuthenticated ? 'Please login to bookmark' : ''"
-                    >
-                      <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
-                      {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
-                    </button>
-                    
-                    <button
-                      class="btn btn-sm btn-outline-success"
-                      @click="shareOnWhatsApp"
-                    >
-                      <i class="bi bi-share"></i> Share
-                    </button>
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      @click="printGuide"
-                    >
-                      <i class="bi bi-printer"></i> Print
-                    </button>
-                  </div>
-                </transition>
+                <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="guide-meta mt-2 text-muted small">
+                  <span title="Total number of words in this guide section.">Word count: {{ wordCount }}</span> |
+                  <span title="Estimated time to read this section at 200 words per minute.">Read time: {{ readTime }} min</span> |
+                  <span title="Estimated time to listen to this section at 150 words per minute.">Listen time: {{ listenTime }} min</span>
+                </div>
               </div>
+              
+              <transition name="fade-scale">
+                <div class="d-flex gap-2" key="button-group">
+                  <button
+                    class="btn btn-sm btn-outline-primary"
+                    @click="playCurrentContent"
+                    :disabled="isAudioLoading"
+                  >
+                    <i class="bi bi-play-fill"></i> Listen
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary"
+                    @click="bookmarkGuide"
+                    :disabled="!isAuthenticated"
+                    :title="!isAuthenticated ? 'Please login to bookmark' : ''"
+                  >
+                    <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
+                    {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
+                  </button>
+                  
+                  <button
+                    class="btn btn-sm btn-outline-success"
+                    @click="shareOnWhatsApp"
+                  >
+                    <i class="bi bi-share"></i> Share
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-primary"
+                    @click="printGuide"
+                  >
+                    <i class="bi bi-printer"></i> Print
+                  </button>
+                </div>
+              </transition>
+            </div>
 
-              <!-- Content -->
-              <div class="selected-content">
-                <template v-if="Array.isArray(guide.sections[selectedCategory].content)">
-                  <transition-group name="stagger-fade" tag="ul" class="list-unstyled mb-0">
-                    <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-3 pb-3 border-bottom">
-                      <div class="d-flex align-items-start">
-                        <span class="badge bg-primary bg-opacity-10 text-primary me-3 mt-1">{{ index + 1 }}</span>
-                        <span v-html="getHighlightedText(item)" class="content-text"></span>
-                      </div>
-                    </li>
-                  </transition-group>
-                </template>
-                <template v-else>
-                  <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)"></div>
-                </template>
-              </div>
-            </div>
-          </div>
-        </section>
-      </transition>
-
-      <!-- Global Audio Player -->
-      <transition name="global-audio-player">
-        <div v-if="isPlaying || isPaused" class="modern-audio-player w-100">
-          <div class="audio-player-row top">
-            <div class="audio-meta text-start">
-              <div class="audio-title small-title">{{ currentPlayingContent.title }}</div>
-              <div class="audio-subtitle">{{ currentPlayingContent.category || 'Recitation' }}</div>
-            </div>
-          </div>
-          <div class="audio-player-row bottom">
-            <div class="audio-controls">
-              <button class="audio-btn" @click="stopPlayback" aria-label="Rewind">
-                <i class="bi bi-skip-backward-fill"></i>
-              </button>
-              <button class="audio-btn" @click="togglePlayPause" aria-label="Play/Pause">
-                <i class="bi" :class="isPlaying ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-              </button>
-              <button class="audio-btn" @click="stopPlayback" aria-label="Forward">
-                <i class="bi bi-skip-forward-fill"></i>
-              </button>
-              <button class="audio-btn" @click="stopPlayback" aria-label="Stop">
-                <i class="bi bi-stop-fill"></i>
-              </button>
-            </div>
-            <div class="audio-progress-wrap">
-              <div class="audio-progress-bar">
-                <div class="audio-progress" :style="{ width: (currentTime / totalDuration * 100) + '%' }"></div>
-              </div>
-            </div>
-            <div class="audio-right">
-              <i class="bi bi-volume-up-fill volume-icon"></i>
-              <input type="range" min="0" max="100" v-model.number="volume" @input="updateVolume" class="audio-volume-slider" aria-label="Volume control" />
-              <button class="audio-btn close-btn" @click="stopPlayback" aria-label="Close">
-                <i class="bi bi-x-lg"></i>
-              </button>
+            <!-- Content -->
+            <div class="selected-content">
+              <template v-if="Array.isArray(guide.sections[selectedCategory].content)">
+                <transition-group name="stagger-fade" tag="ul" class="list-unstyled mb-0">
+                  <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-3 pb-3 border-bottom">
+                    <div class="d-flex align-items-start">
+                      <span class="badge bg-primary bg-opacity-10 text-primary me-3 mt-1">{{ index + 1 }}</span>
+                      <span v-html="getHighlightedText(item)" class="content-text"></span>
+                    </div>
+                  </li>
+                </transition-group>
+              </template>
+              <template v-else>
+                <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)"></div>
+              </template>
             </div>
           </div>
         </div>
-      </transition>
+      </section>
+    </transition>
 
-      <!-- Alert Messages -->
-      <transition name="fade-slide">
-        <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
-          {{ alertMessage }}
-          <button type="button" class="btn-close" @click="showAlert = false"></button>
+    <!-- Global Audio Player -->
+    <transition name="global-audio-player">
+      <div v-if="isPlaying || isPaused" class="modern-audio-player w-100">
+        <div class="audio-player-row top">
+          <div class="audio-meta text-start">
+            <div class="audio-title small-title">{{ currentPlayingContent.title }}</div>
+            <div class="audio-subtitle">{{ currentPlayingContent.category || 'Recitation' }}</div>
+          </div>
         </div>
-      </transition>
-      <transition name="fade-slide">
-        <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
-          {{ errorMessage }}
-          <button type="button" class="btn-close" @click="showErrorAlert = false"></button>
+        <div class="audio-player-row bottom">
+          <div class="audio-controls">
+            <button class="audio-btn" @click="stopPlayback" aria-label="Rewind">
+              <i class="bi bi-skip-backward-fill"></i>
+            </button>
+            <button class="audio-btn" @click="togglePlayPause" aria-label="Play/Pause">
+              <i class="bi" :class="isPlaying ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+            </button>
+            <button class="audio-btn" @click="stopPlayback" aria-label="Forward">
+              <i class="bi bi-skip-forward-fill"></i>
+            </button>
+            <button class="audio-btn" @click="stopPlayback" aria-label="Stop">
+              <i class="bi bi-stop-fill"></i>
+            </button>
+          </div>
+          <div class="audio-progress-wrap">
+            <div class="audio-progress-bar">
+              <div class="audio-progress" :style="{ width: (currentTime / totalDuration * 100) + '%' }"></div>
+            </div>
+          </div>
+          <div class="audio-right">
+            <i class="bi bi-volume-up-fill volume-icon"></i>
+            <input type="range" min="0" max="100" v-model.number="volume" @input="updateVolume" class="audio-volume-slider" aria-label="Volume control" />
+            <button class="audio-btn close-btn" @click="stopPlayback" aria-label="Close">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
         </div>
-      </transition>
-    </div>
-  </transition>
+      </div>
+    </transition>
+
+    <!-- Alert Messages -->
+    <transition name="fade-slide">
+      <div v-if="showAlert" class="alert alert-success alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        {{ alertMessage }}
+        <button type="button" class="btn-close" @click="showAlert = false"></button>
+      </div>
+    </transition>
+    <transition name="fade-slide">
+      <div v-if="showErrorAlert" class="alert alert-danger alert-dismissible fade show position-fixed" style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" @click="showErrorAlert = false"></button>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import guide from '../guides.json';
 import axios from 'axios';
 
@@ -267,9 +265,27 @@ export default {
     const errorMessage = ref('');
     const selectedCategoryFilter = ref('All');
     const availableCategories = ref([]);
-    const showHeader = ref(false);
-    const showControls = ref(false);
-    const showContainer = ref(false);
+
+    // Word count, read time, listen time
+    const wordCount = computed(() => {
+      if (selectedCategory.value === '' || !guide.sections[selectedCategory.value]) return 0;
+      const section = guide.sections[selectedCategory.value];
+      let text = '';
+      if (Array.isArray(section.content)) {
+        text = section.content.join(' ');
+      } else {
+        text = section.content || '';
+      }
+      return text.trim().split(/\s+/).filter(Boolean).length;
+    });
+    const readTime = computed(() => {
+      // 200 words per minute
+      return Math.max(1, Math.ceil(wordCount.value / 200));
+    });
+    const listenTime = computed(() => {
+      // 150 words per minute
+      return Math.max(1, Math.ceil(wordCount.value / 150));
+    });
 
     const checkAuthentication = async () => {
       try {
@@ -287,9 +303,6 @@ export default {
     };
 
     onMounted(() => {
-      showHeader.value = true;
-      showControls.value = true;
-      showContainer.value = true;
       if (typeof window.speechSynthesis !== 'undefined') {
         window.speechSynthesis.onvoiceschanged = () => {
           // Voice setup if needed
@@ -430,9 +443,9 @@ export default {
       initializeCategories,
       getCategoryName,
       getBadgeClasses,
-      showHeader,
-      showControls,
-      showContainer,
+      wordCount,
+      readTime,
+      listenTime,
     };
   },
   computed: {
@@ -810,11 +823,6 @@ mark {
   font-weight: 500;
   transition: all 0.2s;
   border-radius: 8px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 8px rgba(0,191,166,0.12);
 }
 
 .btn-outline-primary {
@@ -1200,7 +1208,6 @@ mark {
   letter-spacing: 0.5px;
   border: 1px solid transparent;
   transition: all 0.3s ease;
-  animation: pop-in 0.5s;
 }
 
 .badge:hover {
@@ -1279,13 +1286,6 @@ mark {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #f8f9fa;
   transition: all 0.2s ease;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s, transform 0.4s;
-}
-.dropdown-menu .dropdown-item {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .dropdown-item:hover {
@@ -1431,45 +1431,5 @@ mark {
 }
 .stagger-fade-leave-to {
   opacity: 0;
-}
-
-.fade-down-enter-active {
-  transition: opacity 0.7s, transform 0.7s;
-}
-.fade-down-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
-}
-.fade-down-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-up-enter-active {
-  transition: opacity 0.7s, transform 0.7s;
-}
-.fade-up-enter-from {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.fade-up-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-enter-active {
-  transition: opacity 0.8s;
-}
-.fade-enter-from {
-  opacity: 0;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-
-@keyframes pop-in {
-  0% { transform: scale(0.7); opacity: 0; }
-  80% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); }
 }
 </style>
