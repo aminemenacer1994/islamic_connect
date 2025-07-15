@@ -38031,6 +38031,24 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var errorMessage = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
     var selectedCategoryFilter = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('All');
     var availableCategories = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
+    // Progress tracker state
+    var readingProgress = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(0);
+    var audioProgress = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+      if (!totalDuration.value || totalDuration.value === 0) return 0;
+      return Math.min(100, Math.max(0, currentTime.value / totalDuration.value * 100));
+    });
+    var contentSectionRef = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
+    // Font size state
+    var minFontSize = 1.1;
+    var maxFontSize = 2.5;
+    var fontSize = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(1.5); // default for title, content will be fontSize - 0.2
+
+    function increaseFontSize() {
+      if (fontSize.value < maxFontSize) fontSize.value += 0.1;
+    }
+    function decreaseFontSize() {
+      if (fontSize.value > minFontSize) fontSize.value -= 0.1;
+    }
 
     // Word count, read time, listen time
     var wordCount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
@@ -38104,7 +38122,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
 
       // Initialize available categories
       initializeCategories();
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(function () {
+        window.addEventListener('scroll', handleScroll, {
+          passive: true
+        });
+        window.addEventListener('resize', handleScroll, {
+          passive: true
+        });
+        updateReadingProgress();
+      });
     });
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.watch)(selectedCategory, function () {
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(function () {
+        updateReadingProgress();
+      });
+    });
+
+    // Clean up listeners
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', function () {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      });
+    }
     var initializeCategories = function initializeCategories() {
       var categories = new Set();
       _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections.forEach(function (section) {
@@ -38190,6 +38230,34 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       };
       return badgeClasses[category] || badgeClasses['General'];
     };
+    function updateReadingProgress() {
+      var el = contentSectionRef.value;
+      if (!el) {
+        readingProgress.value = 0;
+        return;
+      }
+      var content = el.querySelector('.content-card');
+      if (!content) {
+        readingProgress.value = 0;
+        return;
+      }
+      var rect = content.getBoundingClientRect();
+      var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      var contentHeight = content.scrollHeight;
+      // Calculate how much of the content is visible
+      var visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      visible = Math.max(0, visible);
+      var progress = 0;
+      if (contentHeight > 0) {
+        // Use scroll position within the content card
+        var scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
+        progress = Math.min(100, Math.max(0, scrollTop / (contentHeight - rect.height) * 100));
+      }
+      readingProgress.value = Math.round(progress);
+    }
+    function handleScroll() {
+      updateReadingProgress();
+    }
     return {
       selectedCategory: selectedCategory,
       searchText: searchText,
@@ -38219,7 +38287,15 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       getBadgeClasses: getBadgeClasses,
       wordCount: wordCount,
       readTime: readTime,
-      listenTime: listenTime
+      listenTime: listenTime,
+      fontSize: fontSize,
+      minFontSize: minFontSize,
+      maxFontSize: maxFontSize,
+      increaseFontSize: increaseFontSize,
+      decreaseFontSize: decreaseFontSize,
+      readingProgress: readingProgress,
+      audioProgress: audioProgress,
+      contentSectionRef: contentSectionRef
     };
   },
   computed: {
@@ -61204,82 +61280,88 @@ var _hoisted_11 = {
 var _hoisted_12 = {
   key: 0,
   "class": "mb-5",
-  id: "content-section"
+  id: "content-section",
+  ref: "contentSectionRef"
 };
 var _hoisted_13 = {
-  "class": "content-card card"
+  key: 0,
+  "class": "progress-tracker-container"
 };
-var _hoisted_14 = {
-  "class": "card-body"
-};
-var _hoisted_15 = {
-  "class": "d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3"
-};
+var _hoisted_14 = ["aria-valuenow"];
+var _hoisted_15 = ["aria-valuenow"];
 var _hoisted_16 = {
-  "class": "content-title mb-2"
+  "class": "progress-labels d-flex justify-content-between small mt-1"
 };
 var _hoisted_17 = {
+  key: 0
+};
+var _hoisted_18 = {
+  "class": "content-card card"
+};
+var _hoisted_19 = {
+  "class": "card-body"
+};
+var _hoisted_20 = {
+  "class": "d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3"
+};
+var _hoisted_21 = {
   key: 0,
   "class": "guide-meta mt-2 text-muted small"
 };
-var _hoisted_18 = {
+var _hoisted_22 = {
   title: "Total number of words in this guide section."
 };
-var _hoisted_19 = {
-  title: "Estimated time to read this section at 200 words per minute."
-};
-var _hoisted_20 = {
-  title: "Estimated time to listen to this section at 150 words per minute."
-};
-var _hoisted_21 = {
+var _hoisted_23 = {
   "class": "d-flex gap-2",
   key: "button-group"
 };
-var _hoisted_22 = ["disabled"];
-var _hoisted_23 = ["disabled", "title"];
-var _hoisted_24 = {
+var _hoisted_24 = ["disabled"];
+var _hoisted_25 = ["disabled", "title", "aria-pressed"];
+var _hoisted_26 = ["disabled"];
+var _hoisted_27 = ["disabled"];
+var _hoisted_28 = {
   "class": "selected-content"
 };
-var _hoisted_25 = {
+var _hoisted_29 = {
   "class": "d-flex align-items-start"
 };
-var _hoisted_26 = {
+var _hoisted_30 = {
   "class": "badge bg-primary bg-opacity-10 text-primary me-3 mt-1"
 };
-var _hoisted_27 = ["innerHTML"];
-var _hoisted_28 = ["innerHTML"];
-var _hoisted_29 = {
+var _hoisted_31 = ["innerHTML"];
+var _hoisted_32 = ["innerHTML"];
+var _hoisted_33 = {
   key: 0,
   "class": "modern-audio-player w-100"
 };
-var _hoisted_30 = {
+var _hoisted_34 = {
   "class": "audio-player-row top"
 };
-var _hoisted_31 = {
+var _hoisted_35 = {
   "class": "audio-meta text-start"
 };
-var _hoisted_32 = {
+var _hoisted_36 = {
   "class": "audio-title small-title"
 };
-var _hoisted_33 = {
+var _hoisted_37 = {
   "class": "audio-subtitle"
 };
-var _hoisted_34 = {
+var _hoisted_38 = {
   "class": "audio-player-row bottom"
 };
-var _hoisted_35 = {
+var _hoisted_39 = {
   "class": "audio-controls"
 };
-var _hoisted_36 = {
+var _hoisted_40 = {
   "class": "audio-progress-wrap"
 };
-var _hoisted_37 = {
+var _hoisted_41 = {
   "class": "audio-progress-bar"
 };
-var _hoisted_38 = {
+var _hoisted_42 = {
   "class": "audio-right"
 };
-var _hoisted_39 = {
+var _hoisted_43 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fade show position-fixed",
   style: {
@@ -61289,7 +61371,7 @@ var _hoisted_39 = {
   },
   role: "alert"
 };
-var _hoisted_40 = {
+var _hoisted_44 = {
   key: 0,
   "class": "alert alert-danger alert-dismissible fade show position-fixed",
   style: {
@@ -61306,7 +61388,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "header-title display-4 fw-bold"
   }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "header-description"
-  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 mb-3\">\n          <label class=\"form-label\">\n            <i class=\"bi bi-funnel me-2\"></i>Filter by Category\n          </label>\n          <div class=\"category-filters\">\n            <button \n              v-for=\"category in availableCategories\" \n              :key=\"category\"\n              @click=\"filterByCategory(category)\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <span class=\"badge me-1\" :class=\"getBadgeClasses(category)\">\n                {{ category }}\n              </span>\n              {{ category }}\n            </button>\n            <button \n              @click=\"filterByCategory('All')\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <i class=\"bi bi-collection me-1\"></i>\n              All Categories\n            </button>\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 mb-3\">\n          <label class=\"form-label\">\n            <i class=\"bi bi-funnel me-2\"></i>Filter by Category\n          </label>\n          <div class=\"category-filters\">\n            <button \n              v-for=\"category in availableCategories\" \n              :key=\"category\"\n              @click=\"filterByCategory(category)\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <span class=\"badge me-1\" :class=\"getBadgeClasses(category)\">\n                {{ category }}\n              </span>\n              {{ category }}\n            </button>\n            <button \n              @click=\"filterByCategory('All')\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <i class=\"bi bi-collection me-1\"></i>\n              All Categories\n            </button>\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "category-select",
     "class": "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -61330,7 +61412,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "search-input",
     "class": "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -61350,19 +61432,45 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.searchText = '';
     })
-  }, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x"
   }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade-slide"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.guide.sections[$setup.selectedCategory].title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      return [$setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        "class": "progress-bar reading-progress",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          width: $setup.readingProgress + '%'
+        }),
+        role: "progressbar",
+        "aria-valuenow": $setup.readingProgress,
+        "aria-valuemin": "0",
+        "aria-valuemax": "100",
+        "aria-label": "Reading progress"
+      }, null, 12 /* STYLE, PROPS */, _hoisted_14), $setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: 0,
+        "class": "progress-bar audio-progress",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          width: $setup.audioProgress + '%'
+        }),
+        role: "progressbar",
+        "aria-valuenow": $setup.audioProgress,
+        "aria-valuemin": "0",
+        "aria-valuemax": "100",
+        "aria-label": "Audio progress"
+      }, null, 12 /* STYLE, PROPS */, _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17, "Listen: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round($setup.audioProgress)) + "%", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+        "class": "content-title mb-2",
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          fontSize: $setup.fontSize + 'rem'
+        })
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.guide.sections[$setup.selectedCategory].title), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge", $setup.getBadgeClasses($setup.guide.sections[$setup.selectedCategory].title)])
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName($setup.guide.sections[$setup.selectedCategory].title)), 3 /* TEXT, CLASS */), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_18, "Word count: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.wordCount), 1 /* TEXT */), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" | ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, "Read time: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.readTime) + " min", 1 /* TEXT */), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" | ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_20, "Listen time: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.listenTime) + " min", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getCategoryName($setup.guide.sections[$setup.selectedCategory].title)), 3 /* TEXT, CLASS */), $setup.selectedCategory !== '' && $setup.guide.sections[$setup.selectedCategory] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_22, "Word count: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.wordCount), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
         name: "fade-scale"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-primary",
             onClick: _cache[2] || (_cache[2] = function () {
               return $options.playCurrentContent && $options.playCurrentContent.apply($options, arguments);
@@ -61370,16 +61478,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             disabled: $setup.isAudioLoading
           }, _cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-play-fill"
-          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")]), 8 /* PROPS */, _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")]), 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-primary",
             onClick: _cache[3] || (_cache[3] = function () {
               return $options.bookmarkGuide && $options.bookmarkGuide.apply($options, arguments);
             }),
             disabled: !$setup.isAuthenticated,
-            title: !$setup.isAuthenticated ? 'Please login to bookmark' : ''
+            title: !$setup.isAuthenticated ? 'Please login to bookmark' : '',
+            "aria-pressed": $setup.isBookmarked
           }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark')
-          }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isBookmarked ? 'Bookmarked' : 'Bookmark'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isBookmarked ? 'Bookmarked' : 'Bookmark'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-success",
             onClick: _cache[4] || (_cache[4] = function () {
               return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
@@ -61393,10 +61502,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             })
           }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-printer"
-          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print ")]))])];
+          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "btn btn-sm btn-outline-secondary",
+            onClick: _cache[6] || (_cache[6] = function () {
+              return $setup.decreaseFontSize && $setup.decreaseFontSize.apply($setup, arguments);
+            }),
+            disabled: $setup.fontSize <= $setup.minFontSize,
+            title: "Decrease font size",
+            "aria-label": "Decrease font size"
+          }, " - ", 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "btn btn-sm btn-outline-secondary",
+            onClick: _cache[7] || (_cache[7] = function () {
+              return $setup.increaseFontSize && $setup.increaseFontSize.apply($setup, arguments);
+            }),
+            disabled: $setup.fontSize >= $setup.maxFontSize,
+            title: "Increase font size",
+            "aria-label": "Increase font size"
+          }, " + ", 8 /* PROPS */, _hoisted_27)])];
         }),
         _: 1 /* STABLE */
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [Array.isArray($setup.guide.sections[$setup.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [Array.isArray($setup.guide.sections[$setup.selectedCategory].content) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
         key: 0,
         name: "stagger-fade",
         tag: "ul",
@@ -61407,27 +61532,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
               key: index,
               "class": "mb-3 pb-3 border-bottom"
-            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+            }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
               innerHTML: $options.getHighlightedText(item),
-              "class": "content-text"
-            }, null, 8 /* PROPS */, _hoisted_27)])]);
+              "class": "content-text",
+              style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+                fontSize: $setup.fontSize - 0.2 + 'rem'
+              })
+            }, null, 12 /* STYLE, PROPS */, _hoisted_31)])]);
           }), 128 /* KEYED_FRAGMENT */))];
         }),
         _: 1 /* STABLE */
       })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: 1,
         "class": "content-text",
-        innerHTML: $options.highlightText($setup.guide.sections[$setup.selectedCategory].content)
-      }, null, 8 /* PROPS */, _hoisted_28))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+        innerHTML: $options.highlightText($setup.guide.sections[$setup.selectedCategory].content),
+        style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+          fontSize: $setup.fontSize - 0.2 + 'rem'
+        })
+      }, null, 12 /* STYLE, PROPS */, _hoisted_32))])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "global-audio-player"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[6] || (_cache[6] = function () {
+        onClick: _cache[8] || (_cache[8] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Rewind"
@@ -61435,7 +61566,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bi bi-skip-backward-fill"
       }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[7] || (_cache[7] = function () {
+        onClick: _cache[9] || (_cache[9] = function () {
           return $options.togglePlayPause && $options.togglePlayPause.apply($options, arguments);
         }),
         "aria-label": "Play/Pause"
@@ -61443,7 +61574,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'])
       }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[8] || (_cache[8] = function () {
+        onClick: _cache[10] || (_cache[10] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Forward"
@@ -61451,27 +61582,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "bi bi-skip-forward-fill"
       }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[9] || (_cache[9] = function () {
+        onClick: _cache[11] || (_cache[11] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Stop"
       }, _cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-stop-fill"
-      }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "audio-progress",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           width: $setup.currentTime / $setup.totalDuration * 100 + '%'
         })
-      }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-volume-up-fill volume-icon"
       }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "range",
         min: "0",
         max: "100",
-        "onUpdate:modelValue": _cache[10] || (_cache[10] = function ($event) {
+        "onUpdate:modelValue": _cache[12] || (_cache[12] = function ($event) {
           return $setup.volume = $event;
         }),
-        onInput: _cache[11] || (_cache[11] = function () {
+        onInput: _cache[13] || (_cache[13] = function () {
           return $options.updateVolume && $options.updateVolume.apply($options, arguments);
         }),
         "class": "audio-volume-slider",
@@ -61480,7 +61611,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         number: true
       }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn close-btn",
-        onClick: _cache[12] || (_cache[12] = function () {
+        onClick: _cache[14] || (_cache[14] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Close"
@@ -61493,10 +61624,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "fade-slide"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[13] || (_cache[13] = function ($event) {
+        onClick: _cache[15] || (_cache[15] = function ($event) {
           return $setup.showAlert = false;
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
@@ -61506,10 +61637,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "fade-slide"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[14] || (_cache[14] = function ($event) {
+        onClick: _cache[16] || (_cache[16] = function ($event) {
           return $setup.showErrorAlert = false;
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
@@ -169404,7 +169535,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n/* Progress Tracker Styles */\n.progress-tracker-container[data-v-6b54700c] {\n  position: relative;\n  margin-bottom: 0.5rem;\n  width: 100%;\n}\n.progress-bar[data-v-6b54700c] {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n  position: relative;\n  margin-bottom: 2px;\n  transition: width 0.3s;\n}\n.progress-bar.reading-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);\n  z-index: 1;\n}\n.progress-bar.audio-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n  margin-top: -6px;\n  opacity: 0.85;\n  z-index: 2;\n}\n.progress-labels[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #888;\n  margin-top: 2px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

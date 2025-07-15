@@ -103,22 +103,29 @@
         v-if="selectedCategory !== '' && guide.sections[selectedCategory]" 
         class="mb-5"
         id="content-section"
+        ref="contentSectionRef"
       >
+        <!-- Progress Tracker -->
+        <div class="progress-tracker-container" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
+          <div class="progress-bar reading-progress" :style="{ width: readingProgress + '%' }" role="progressbar" :aria-valuenow="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
+          <div v-if="isPlaying || isPaused" class="progress-bar audio-progress" :style="{ width: audioProgress + '%' }" role="progressbar" :aria-valuenow="audioProgress" aria-valuemin="0" aria-valuemax="100" aria-label="Audio progress"></div>
+          <div class="progress-labels d-flex justify-content-between small mt-1">
+            <span v-if="isPlaying || isPaused">Listen: {{ Math.round(audioProgress) }}%</span>
+          </div>
+        </div>
         <div class="content-card card">
           <div class="card-body">
             <!-- Card Header -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
               <div>
-                <h2 class="content-title mb-2">
+                <h2 class="content-title mb-2" :style="{ fontSize: fontSize + 'rem' }">
                   {{ guide.sections[selectedCategory].title }}
                 </h2>
                 <div class="badge" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
                   {{ getCategoryName(guide.sections[selectedCategory].title) }}
                 </div>
                 <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="guide-meta mt-2 text-muted small">
-                  <span title="Total number of words in this guide section.">Word count: {{ wordCount }}</span> |
-                  <span title="Estimated time to read this section at 200 words per minute.">Read time: {{ readTime }} min</span> |
-                  <span title="Estimated time to listen to this section at 150 words per minute.">Listen time: {{ listenTime }} min</span>
+                  <span title="Total number of words in this guide section.">Word count: {{ wordCount }}</span>
                 </div>
               </div>
               
@@ -136,6 +143,7 @@
                     @click="bookmarkGuide"
                     :disabled="!isAuthenticated"
                     :title="!isAuthenticated ? 'Please login to bookmark' : ''"
+                    :aria-pressed="isBookmarked"
                   >
                     <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
                     {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
@@ -153,6 +161,24 @@
                   >
                     <i class="bi bi-printer"></i> Print
                   </button>
+                  <button
+                    class="btn btn-sm btn-outline-secondary"
+                    @click="decreaseFontSize"
+                    :disabled="fontSize <= minFontSize"
+                    title="Decrease font size"
+                    aria-label="Decrease font size"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="btn btn-sm btn-outline-secondary"
+                    @click="increaseFontSize"
+                    :disabled="fontSize >= maxFontSize"
+                    title="Increase font size"
+                    aria-label="Increase font size"
+                  >
+                    +
+                  </button>
                 </div>
               </transition>
             </div>
@@ -164,13 +190,13 @@
                   <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-start">
                       <span class="badge bg-primary bg-opacity-10 text-primary me-3 mt-1">{{ index + 1 }}</span>
-                      <span v-html="getHighlightedText(item)" class="content-text"></span>
+                      <span v-html="getHighlightedText(item)" class="content-text" :style="{ fontSize: fontSize - 0.2 + 'rem' }"></span>
                     </div>
                   </li>
                 </transition-group>
               </template>
               <template v-else>
-                <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)"></div>
+                <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize - 0.2 + 'rem' }"></div>
               </template>
             </div>
           </div>
@@ -235,7 +261,7 @@
 </template>
 
 <script>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import guide from '../guides.json';
 import axios from 'axios';
 
@@ -265,6 +291,24 @@ export default {
     const errorMessage = ref('');
     const selectedCategoryFilter = ref('All');
     const availableCategories = ref([]);
+    // Progress tracker state
+    const readingProgress = ref(0);
+    const audioProgress = computed(() => {
+      if (!totalDuration.value || totalDuration.value === 0) return 0;
+      return Math.min(100, Math.max(0, (currentTime.value / totalDuration.value) * 100));
+    });
+    const contentSectionRef = ref(null);
+    // Font size state
+    const minFontSize = 1.1;
+    const maxFontSize = 2.5;
+    const fontSize = ref(1.5); // default for title, content will be fontSize - 0.2
+
+    function increaseFontSize() {
+      if (fontSize.value < maxFontSize) fontSize.value += 0.1;
+    }
+    function decreaseFontSize() {
+      if (fontSize.value > minFontSize) fontSize.value -= 0.1;
+    }
 
     // Word count, read time, listen time
     const wordCount = computed(() => {
@@ -314,7 +358,27 @@ export default {
       
       // Initialize available categories
       initializeCategories();
+
+      nextTick(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll, { passive: true });
+        updateReadingProgress();
+      });
     });
+
+    watch(selectedCategory, () => {
+      nextTick(() => {
+        updateReadingProgress();
+      });
+    });
+
+    // Clean up listeners
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', () => {
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      });
+    }
 
     const initializeCategories = () => {
       const categories = new Set();
@@ -416,6 +480,36 @@ export default {
       return badgeClasses[category] || badgeClasses['General'];
     };
 
+    function updateReadingProgress() {
+      const el = contentSectionRef.value;
+      if (!el) {
+        readingProgress.value = 0;
+        return;
+      }
+      const content = el.querySelector('.content-card');
+      if (!content) {
+        readingProgress.value = 0;
+        return;
+      }
+      const rect = content.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+      const contentHeight = content.scrollHeight;
+      // Calculate how much of the content is visible
+      let visible = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+      visible = Math.max(0, visible);
+      let progress = 0;
+      if (contentHeight > 0) {
+        // Use scroll position within the content card
+        const scrollTop = window.scrollY + (windowHeight - rect.height) / 2 - rect.top;
+        progress = Math.min(100, Math.max(0, (scrollTop / (contentHeight - rect.height)) * 100));
+      }
+      readingProgress.value = Math.round(progress);
+    }
+
+    function handleScroll() {
+      updateReadingProgress();
+    }
+
     return {
       selectedCategory,
       searchText,
@@ -446,6 +540,14 @@ export default {
       wordCount,
       readTime,
       listenTime,
+      fontSize,
+      minFontSize,
+      maxFontSize,
+      increaseFontSize,
+      decreaseFontSize,
+      readingProgress,
+      audioProgress,
+      contentSectionRef,
     };
   },
   computed: {
@@ -1431,5 +1533,35 @@ mark {
 }
 .stagger-fade-leave-to {
   opacity: 0;
+}
+
+/* Progress Tracker Styles */
+.progress-tracker-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+.progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #e0e0e0;
+  position: relative;
+  margin-bottom: 2px;
+  transition: width 0.3s;
+}
+.progress-bar.reading-progress {
+  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);
+  z-index: 1;
+}
+.progress-bar.audio-progress {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  margin-top: -6px;
+  opacity: 0.85;
+  z-index: 2;
+}
+.progress-labels {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 2px;
 }
 </style>
