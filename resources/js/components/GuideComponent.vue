@@ -138,6 +138,12 @@
               >
                 <i class="bi bi-share"></i> Share
               </button>
+              <button
+                class="btn btn-sm btn-outline-primary"
+                @click="printGuide"
+              >
+                <i class="bi bi-printer"></i> Print
+              </button>
             </div>
           </div>
 
@@ -615,13 +621,52 @@ export default {
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
     },
+
+    printGuide() {
+      const selectedSection = this.guide.sections[this.selectedCategory];
+      if (!selectedSection) return;
+
+      const title = selectedSection.title;
+      const badge = `<span class="badge ${this.getBadgeClasses(selectedSection.title)}" style="font-size:1rem;padding:0.5rem 1rem;">${this.getCategoryName(selectedSection.title)}</span>`;
+      const content = Array.isArray(selectedSection.content)
+        ? `<ul style="padding-left:1.5rem;">${selectedSection.content.map((item, i) => `<li style="margin-bottom:1rem;">${item}</li>`).join('')}</ul>`
+        : `<div>${selectedSection.content}</div>`;
+
+      const printWindow = window.open('', '', 'width=800,height=600');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Guide - ${title}</title>
+            <style>
+              body { font-family: 'Inter', Arial, sans-serif; padding: 2rem; color: #222; background: #fff; }
+              .print-title { font-size: 2rem; font-weight: bold; margin-bottom: 0.5rem; color: #00bfa6; }
+              .print-badge { margin-bottom: 1.5rem; display: inline-block; }
+              .print-content { font-size: 1.1rem; line-height: 1.7; margin-top: 1.5rem; }
+              ul { margin: 0; padding-left: 1.5rem; }
+              li { margin-bottom: 1rem; }
+            </style>
+          </head>
+          <body>
+            <div class="print-title">${title}</div>
+            <div class="print-badge">${badge}</div>
+            <div class="print-content">${content}</div>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
   },
   watch: {
     selectedCategory(newVal) {
       this.stopPlayback();
       this.searchText = '';
       this.isBookmarked = false; // Reset bookmark status when changing guides
-    },
+    }
   },
 };
 </script>
