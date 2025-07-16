@@ -25,26 +25,39 @@
 
         <div class="fw-bold display-6 text-center mb-3">{{ events[currentIndex].title }}</div>
 
-        <div class="time-estimates d-flex justify-content-center gap-4 mb-3">
-          <span>
-            <i class="bi bi-book me-1" style="font-size: 1.25rem;"></i>
-            <strong>Read:</strong> {{ readTime }} min
-          </span>
-          <span>
-            <i class="bi bi-headphones me-1" style="font-size: 1.25rem;"></i>
-            <strong>Listen:</strong> {{ listenTime }} min
-          </span>
-          <span>
-            <i class="bi bi-file-earmark-word me-1" style="font-size: 1.25rem;"></i>
-            <strong>Words:</strong> {{ wordCount }}
-          </span>
+        <!-- Combined Controls and Info Row -->
+        <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
+          <!-- Time Estimates -->
+          <div class="d-flex gap-2 gap-sm-4 text-center">
+            <span class="small">
+              <i class="bi bi-book me-1"></i>
+              <strong>Read:</strong> {{ readTime }}m
+            </span>
+            <span class="small">
+              <i class="bi bi-headphones me-1"></i>
+              <strong>Listen:</strong> {{ listenTime }}m
+            </span>
+            <span class="small">
+              <i class="bi bi-file-earmark-word me-1"></i>
+              <strong>Words:</strong> {{ wordCount }}
+            </span>
+          </div>
         </div>
 
-        <!-- Toggle Audio Player -->
-        <div class="text-center mb-3">
-          <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
-            style="cursor: pointer; font-size: 2rem;" data-bs-toggle="tooltip" data-bs-placement="top"
-            :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'" @click="toggleAudioPlayer(currentIndex)"></i>
+        <!-- AI Summary and Play Button Row -->
+        <div class="d-flex justify-content-center align-items-center gap-3 gap-md-4 mb-3 mb-md-4">
+          <!-- AI Summary Button -->
+          <button class="btn btn-sm btn-outline-dark" @click="summarizeEvent" :disabled="summaryLoading">
+            <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
+            <span class="ms-1 ms-sm-2">{{ summaryLoading ? 'Generating...' : 'AI Summary' }}</span>
+          </button>
+          
+          <!-- Play Button -->
+          <div class="text-center">
+            <i class="bi" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"
+              style="cursor: pointer; font-size: 1.75rem;" data-bs-toggle="tooltip" data-bs-placement="top"
+              :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'" @click="toggleAudioPlayer(currentIndex)"></i>
+          </div>
         </div>
 
         <!-- Styled Text desc -->
@@ -57,8 +70,43 @@
           textShadow: fontSettings.textShadow,
           textDecoration: fontSettings.textDecoration,
           fontFamily: fontSettings.fontFamily,
-          padding: '1rem'
+          padding: '0.75rem',
+          fontSize: Math.max(14, fontSize) + 'px'
         }" v-html="highlightedDescription"></h5>
+
+        <!-- AI Summary Section (Inline) -->
+        <transition name="fade-slide">
+          <div v-if="summaryText" class="ai-summary-inline mt-3 mt-md-4 p-2 p-md-3 rounded" ref="summarySection" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 1px solid #dee2e6;">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="mb-0 text-primary small">
+                <i class="bi bi-robot me-1 me-sm-2"></i>
+                AI Summary
+              </h6>
+              <button 
+                class="btn btn-sm btn-outline-secondary"
+                @click="toggleSummary"
+                :title="showSummary ? 'Hide Summary' : 'Show Summary'"
+              >
+                <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+              </button>
+            </div>
+            
+            <transition name="fade-slide">
+              <div v-if="showSummary">
+                <div class="summary-text small" v-html="summaryText"></div>
+                <div class="summary-footer mt-2 pt-2 border-top">
+                  <small class="text-muted">
+                    <i class="bi bi-info-circle me-1"></i>
+                    AI-generated summary of key points from this event.
+                  </small>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </transition>
+        <div v-if="summaryError" class="alert alert-danger mt-2">
+          {{ summaryError }}
+        </div>
 
         <!-- Offcanvas Settings Panel -->
         <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="settingsOffcanvas"
@@ -142,9 +190,9 @@
           <i class="bi bi-gear-fill fs-4"></i>
         </div> -->
 
-        <div class="controls text-center mt-4">
-          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2">Previous</button>
-          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary">Next</button>
+        <div class="controls text-center mt-3 mt-md-4">
+          <button @click="prev" :disabled="currentIndex === 0" class="btn btn-primary me-2 btn-sm">Previous</button>
+          <button @click="next" :disabled="currentIndex === events.length - 1" class="btn btn-primary btn-sm">Next</button>
         </div>
       </div>
     </transition>
@@ -221,6 +269,10 @@ export default {
       tempFontSize: 18,
       scrollDirection: 'up',
       searchQuery: '',
+      summaryText: '',
+      summaryLoading: false,
+      summaryError: '',
+      showSummary: true,
     };
   },
   computed: {
@@ -594,6 +646,74 @@ export default {
       const url = `https://wa.me/?text=${message}`;
       window.open(url, '_blank');
     },
+    async summarizeEvent() {
+      this.summaryLoading = true;
+      this.summaryText = '';
+      this.summaryError = '';
+      try {
+        await new Promise(resolve => setTimeout(resolve, 700));
+        const description = this.stripHtml(this.events[this.currentIndex]?.description || '');
+        if (!description) {
+          this.summaryText = '<em>No summary available for this event.</em>';
+          this.summaryLoading = false;
+          return;
+        }
+        // Split into sentences
+        const sentences = description.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 20);
+        // Keywords and important terms
+        const keywords = [
+          'Prophet', 'Muhammad', 'Mecca', 'Medina', 'revelation', 'migration', 'battle', 'companions', 'Islam', 'Qur\'an', 'message', 'peace', 'community', 'faith', 'Allah', 'year', 'event', 'significant', 'important', 'victory', 'treaty', 'journey', 'miracle', 'birth', 'death', 'leadership', 'mission', 'struggle', 'persecution', 'hijrah', 'expedition', 'conquest', 'farewell', 'sermon',
+          'Hijrah', 'Badr', 'Uhud', 'Hudaybiyyah', 'Isra', 'Mi\'raj', 'Ansar', 'Muhajirun', 'Sahabah', 'Quraish', 'Kaaba', 'Yathrib'
+        ];
+        // Score sentences by keyword matches and position
+        const scored = sentences.map((sentence, idx) => {
+          let score = 0;
+          keywords.forEach(kw => {
+            if (sentence.toLowerCase().includes(kw.toLowerCase())) score += 2;
+          });
+          if (idx === 0) score += 1.5;
+          if (idx === sentences.length - 1) score += 1;
+          return { sentence, score };
+        });
+        scored.sort((a, b) => b.score - a.score || sentences.indexOf(a.sentence) - sentences.indexOf(b.sentence));
+        // Remove duplicates
+        const seen = new Set();
+        const unique = scored.filter(({ sentence }) => {
+          const s = sentence.trim();
+          if (seen.has(s)) return false;
+          seen.add(s);
+          return true;
+        });
+        // Take top 4, always include the first sentence for context
+        const summarySentences = [unique[0]?.sentence]
+          .concat(unique.slice(1, 4).map(s => s.sentence))
+          .filter(Boolean);
+        // Highlight important names/dates
+        const highlight = s =>
+          s.replace(/(Prophet Muhammad|Mecca|Medina|Qur'an|Allah|Hijrah|Badr|Uhud|Hudaybiyyah|Isra|Mi'raj|Ansar|Muhajirun|Sahabah|Quraish|Kaaba|Yathrib|\b\d{3,4}\b)/g, '<b>$1</b>');
+        let summary = '';
+        summarySentences.forEach(sentence => {
+          summary += `<p style=\"margin-bottom:1em;\">${highlight(sentence.trim())}</p>`;
+        });
+        if (summarySentences.length === 0) {
+          summary = '<em>No summary available for this event.</em>';
+        }
+        this.summaryText = summary;
+        // Auto-scroll to summary section
+        this.$nextTick(() => {
+          if (this.$refs.summarySection) {
+            this.$refs.summarySection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      } catch (err) {
+        this.summaryError = err.message || 'Error generating summary.';
+      } finally {
+        this.summaryLoading = false;
+      }
+    },
+    toggleSummary() {
+      this.showSummary = !this.showSummary;
+    },
   },
   watch: {
     fontSettings: {
@@ -603,7 +723,9 @@ export default {
       deep: true,
     },
     currentIndex() {
-      this.updateTotalTime();
+      this.summaryText = '';
+      this.summaryError = '';
+      this.showSummary = true;
     },
   },
 };
@@ -1050,5 +1172,138 @@ mark {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.ai-summary-inline {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dee2e6;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.ai-summary-inline .summary-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.ai-summary-inline .summary-footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid #e9ecef;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .timeline-badge {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .display-6 {
+    font-size: 1.5rem;
+  }
+  
+  .display-5 {
+    font-size: 1.75rem;
+  }
+  
+  .event-box {
+    padding: 15px;
+  }
+  
+  .ai-summary-inline {
+    padding: 0.75rem;
+    margin-top: 1rem;
+  }
+  
+  .ai-summary-inline .summary-text {
+    font-size: 0.9rem;
+  }
+  
+  .controls button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .timeline-badge {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .display-6 {
+    font-size: 1.25rem;
+  }
+  
+  .display-5 {
+    font-size: 1.5rem;
+  }
+  
+  .event-box {
+    padding: 12px;
+  }
+  
+  .ai-summary-inline {
+    padding: 0.5rem;
+  }
+  
+  .ai-summary-inline .summary-text {
+    font-size: 0.85rem;
+  }
+  
+  .controls button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .time-estimates span {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-badge {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .display-6 {
+    font-size: 1.1rem;
+  }
+  
+  .display-5 {
+    font-size: 1.3rem;
+  }
+  
+  .event-box {
+    padding: 10px;
+  }
+  
+  .ai-summary-inline {
+    padding: 0.4rem;
+  }
+  
+  .ai-summary-inline .summary-text {
+    font-size: 0.8rem;
+  }
+  
+  .controls button {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.8rem;
+  }
 }
 </style>
