@@ -79,6 +79,14 @@
         <div class="col-md-6" v-if="selectedCategory !== ''">
           <label for="search-input" class="form-label">
             <i class="bi bi-search me-2"></i>Search Content
+            <button 
+              class="btn btn-sm btn-link text-decoration-none ms-1" 
+              @click="showHelpModal = true"
+              title="Search Help"
+              aria-label="Search help"
+            >
+              <i class="bi bi-question-circle"></i>
+            </button>
           </label>
           <div class="input-group">
           <input
@@ -88,11 +96,31 @@
             class="form-control"
               placeholder="Search keywords..."
             aria-label="Search guide content"
-            >
+            @focus="showSuggestions = true"
+            @input="showSuggestions = true; highlightedIndex = -1;"
+            @keydown.down.prevent="highlightedIndex = Math.min(highlightedIndex + 1, suggestions.length - 1)"
+            @keydown.up.prevent="highlightedIndex = Math.max(highlightedIndex - 1, 0)"
+            @keydown.enter.prevent="suggestions[highlightedIndex] && selectSuggestion(suggestions[highlightedIndex])"
+            @blur="setTimeout(() => showSuggestions = false, 100)"
+          >
             <button v-if="searchText" class="btn btn-outline-secondary" @click="searchText = ''">
               <i class="bi bi-x"></i>
               </button>
           </div>
+          <!-- Autocomplete Suggestions Dropdown -->
+          <ul v-if="showSuggestions && suggestions.length" class="autocomplete-suggestions">
+            <li
+              v-for="(suggestion, idx) in suggestions"
+              :key="idx"
+              :class="{ highlighted: idx === highlightedIndex }"
+              @mousedown.prevent="selectSuggestion(suggestion)"
+              @mouseover="highlightedIndex = idx"
+            >
+              <span v-html="highlightSuggestion(suggestion.value)"></span>
+              <span v-if="suggestion.type === 'title'" class="suggestion-type">Title</span>
+              <span v-else class="suggestion-type">Content</span>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -257,6 +285,114 @@
         <button type="button" class="btn-close" @click="showErrorAlert = false"></button>
       </div>
     </transition>
+
+    <!-- Search Help Modal -->
+    <div v-if="showHelpModal" class="modal-overlay" @click="showHelpModal = false">
+      <div class="help-modal" @click.stop>
+        <div class="help-modal-header">
+          <h3 class="help-modal-title">
+            <i class="bi bi-search me-2"></i>
+            Search Suggestions Guide
+          </h3>
+          <button class="help-modal-close" @click="showHelpModal = false" aria-label="Close help">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        
+        <div class="help-modal-body">
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-lightbulb me-2"></i>
+              How It Works
+            </h4>
+            <p class="help-text">
+              The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides.
+            </p>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-keyboard me-2"></i>
+              Keyboard Navigation
+            </h4>
+            <div class="help-shortcuts">
+              <div class="shortcut-item">
+                <kbd>↑</kbd> <span>Move up through suggestions</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>↓</kbd> <span>Move down through suggestions</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Enter</kbd> <span>Select highlighted suggestion</span>
+              </div>
+              <div class="shortcut-item">
+                <kbd>Esc</kbd> <span>Close suggestions dropdown</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-mouse me-2"></i>
+              Mouse Navigation
+            </h4>
+            <ul class="help-list">
+              <li>Hover over any suggestion to highlight it</li>
+              <li>Click on a suggestion to select it</li>
+              <li>Click outside the dropdown to close it</li>
+            </ul>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-tags me-2"></i>
+              Suggestion Types
+            </h4>
+            <div class="suggestion-types">
+              <div class="suggestion-type-example">
+                <span class="suggestion-type-badge title">Title</span>
+                <span class="suggestion-type-desc">Matches guide section titles</span>
+              </div>
+              <div class="suggestion-type-example">
+                <span class="suggestion-type-badge content">Content</span>
+                <span class="suggestion-type-desc">Matches text within guide content</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-search me-2"></i>
+              Search Tips
+            </h4>
+            <ul class="help-list">
+              <li>Start typing any word to see matching suggestions</li>
+              <li>Suggestions are case-insensitive</li>
+              <li>Selecting a suggestion will automatically switch to that guide section</li>
+              <li>Use the clear button (×) to reset your search</li>
+            </ul>
+          </div>
+
+          <div class="help-section">
+            <h4 class="help-section-title">
+              <i class="bi bi-info-circle me-2"></i>
+              Example
+            </h4>
+            <div class="help-example">
+              <p class="help-text">
+                Try typing <strong>"prayer"</strong> to see suggestions for prayer-related content, or <strong>"quran"</strong> for Quran-related guides.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="help-modal-footer">
+          <button class="btn btn-primary" @click="showHelpModal = false">
+            Got it!
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -302,6 +438,9 @@ export default {
     const minFontSize = 1.1;
     const maxFontSize = 2.5;
     const fontSize = ref(1.5); // default for title, content will be fontSize - 0.2
+    const showSuggestions = ref(false);
+    const highlightedIndex = ref(-1);
+    const showHelpModal = ref(false);
 
     function increaseFontSize() {
       if (fontSize.value < maxFontSize) fontSize.value += 0.1;
@@ -510,6 +649,41 @@ export default {
       updateReadingProgress();
     }
 
+    // Suggestions computed property
+    const suggestions = computed(() => {
+      if (!searchText.value) return [];
+      const text = searchText.value.toLowerCase();
+      return guide.sections
+        .map((section, idx) => {
+          if (section.title.toLowerCase().includes(text)) {
+            return { type: 'title', value: section.title, index: idx };
+          }
+          if (typeof section.content === 'string' && section.content.toLowerCase().includes(text)) {
+            return { type: 'content', value: section.content.slice(0, 100) + '...', index: idx };
+          }
+          if (Array.isArray(section.content)) {
+            const found = section.content.find(item => item.toLowerCase().includes(text));
+            if (found) {
+              return { type: 'content', value: found.slice(0, 100) + '...', index: idx };
+            }
+          }
+          return null;
+        })
+        .filter(Boolean)
+        .slice(0, 7);
+    });
+
+    function selectSuggestion(suggestion) {
+      searchText.value = suggestion.value;
+      showSuggestions.value = false;
+      selectedCategory.value = suggestion.index;
+    }
+    function highlightSuggestion(text) {
+      if (!searchText.value) return text;
+      const regex = new RegExp(`(${searchText.value})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    }
+
     return {
       selectedCategory,
       searchText,
@@ -548,6 +722,12 @@ export default {
       readingProgress,
       audioProgress,
       contentSectionRef,
+      showSuggestions,
+      highlightedIndex,
+      suggestions,
+      selectSuggestion,
+      highlightSuggestion,
+      showHelpModal,
     };
   },
   computed: {
@@ -1563,5 +1743,302 @@ mark {
   font-size: 0.85rem;
   color: #888;
   margin-top: 2px;
+}
+.autocomplete-suggestions {
+  position: absolute;
+  z-index: 1000;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
+  margin-top: 0.2rem;
+  list-style: none;
+  padding: 0;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.autocomplete-suggestions li {
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+.autocomplete-suggestions li.highlighted,
+.autocomplete-suggestions li:hover {
+  background: #f8f9fa;
+}
+.suggestion-type {
+  font-size: 0.75rem;
+  color: #888;
+  margin-left: 0.5rem;
+  background: #f1f1f1;
+  border-radius: 8px;
+  padding: 0.1rem 0.5rem;
+}
+@media (max-width: 768px) {
+  .autocomplete-suggestions li {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Help Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.help-modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.help-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.help-modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.help-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.help-modal-close:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.help-modal-body {
+  padding: 1.5rem;
+}
+
+.help-section {
+  margin-bottom: 2rem;
+}
+
+.help-section:last-child {
+  margin-bottom: 0;
+}
+
+.help-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+}
+
+.help-text {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.help-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.shortcut-item kbd {
+  background: #333;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: monospace;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.help-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-list li {
+  padding: 0.5rem 0;
+  color: #666;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.help-list li::before {
+  content: "•";
+  color: var(--primary-color);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.suggestion-types {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.suggestion-type-example {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.suggestion-type-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-type-badge.title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.suggestion-type-badge.content {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+
+.suggestion-type-desc {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.help-example {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.help-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsive Help Modal */
+@media (max-width: 768px) {
+  .help-modal {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .help-modal-header {
+    padding: 1rem 1rem 0.75rem;
+  }
+  
+  .help-modal-title {
+    font-size: 1.1rem;
+  }
+  
+  .help-modal-body {
+    padding: 1rem;
+  }
+  
+  .help-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .help-section-title {
+    font-size: 1rem;
+  }
+  
+  .shortcut-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .suggestion-type-example {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .help-modal {
+    margin: 0.5rem;
+  }
+  
+  .help-modal-header {
+    padding: 0.75rem 0.75rem 0.5rem;
+  }
+  
+  .help-modal-body {
+    padding: 0.75rem;
+  }
+  
+  .help-modal-footer {
+    padding: 0.75rem;
+  }
 }
 </style>
