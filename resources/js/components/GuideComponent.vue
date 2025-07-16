@@ -815,7 +815,13 @@ export default {
 
     function scrollToSummary() {
       if (summarySectionRef.value) {
+        // Try scrollIntoView with smooth behavior
         summarySectionRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // If a fixed header exists, add an offset (e.g., 80px)
+        setTimeout(() => {
+          const y = summarySectionRef.value.getBoundingClientRect().top + window.pageYOffset - 80;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }, 350); // Wait for scrollIntoView to finish
       }
     }
 
