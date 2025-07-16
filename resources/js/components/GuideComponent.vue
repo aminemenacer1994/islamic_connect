@@ -209,8 +209,8 @@
             </div>
 
             <!-- AI Summary Section -->
-            <transition name="fade-slide">
-              <div v-if="summaryText" class="ai-summary-section mt-4">
+            <transition name="fade-slide" @after-enter="scrollToSummary">
+              <div v-if="summaryText" class="ai-summary-section mt-4" ref="summarySectionRef">
                 <div class="summary-header d-flex align-items-center justify-content-between mb-3">
                   <h4 class="summary-title mb-0">
                     <i class="bi bi-robot me-2 text-info"></i>
@@ -459,6 +459,7 @@ export default {
     const isSummaryLoading = ref(false);
     const summaryText = ref('');
     const showSummary = ref(true);
+    const summarySectionRef = ref(null);
 
     function increaseFontSize() {
       if (fontSize.value < maxFontSize) fontSize.value += 0.1;
@@ -730,11 +731,14 @@ export default {
         showAlert.value = true;
         alertMessage.value = 'AI summary generated successfully!';
         hideAlertAfterDelay();
-        
+        // Auto-scroll to summary section after rendering
+        nextTick(() => {
+          if (summarySectionRef.value) {
+            summarySectionRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
       } catch (error) {
         console.error('Error generating summary:', error);
-        // showErrorAlert.value = true;
-        // errorMessage.value = 'Failed to generate summary. Please try again.';
         hideAlertAfterDelay();
       } finally {
         isSummaryLoading.value = false;
@@ -809,6 +813,12 @@ export default {
       showSummary.value = !showSummary.value;
     }
 
+    function scrollToSummary() {
+      if (summarySectionRef.value) {
+        summarySectionRef.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
     return {
       selectedCategory,
       searchText,
@@ -859,6 +869,8 @@ export default {
       showSummary,
       generateSummary,
       toggleSummary,
+      summarySectionRef,
+      scrollToSummary,
     };
   },
   computed: {
