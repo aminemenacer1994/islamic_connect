@@ -38045,6 +38045,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     var showSuggestions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
     var highlightedIndex = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(-1);
     var showHelpModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    // AI Summary state
+    var isSummaryLoading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+    var summaryText = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
+    var showSummary = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
     function increaseFontSize() {
       if (fontSize.value < maxFontSize) fontSize.value += 0.1;
     }
@@ -38305,6 +38309,123 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       var regex = new RegExp("(".concat(searchText.value, ")"), 'gi');
       return text.replace(regex, '<mark>$1</mark>');
     }
+
+    // AI Summary methods
+    function generateSummary() {
+      return _generateSummary.apply(this, arguments);
+    }
+    function _generateSummary() {
+      _generateSummary = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var selectedSection, content, summary;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(selectedCategory.value === '')) {
+                _context2.next = 5;
+                break;
+              }
+              showErrorAlert.value = true;
+              errorMessage.value = 'Please select a guide first';
+              hideAlertAfterDelay();
+              return _context2.abrupt("return");
+            case 5:
+              isSummaryLoading.value = true;
+              selectedSection = _guides_json__WEBPACK_IMPORTED_MODULE_1__.sections[selectedCategory.value];
+              _context2.prev = 7;
+              _context2.next = 10;
+              return new Promise(function (resolve) {
+                return setTimeout(resolve, 1500);
+              });
+            case 10:
+              content = Array.isArray(selectedSection.content) ? selectedSection.content.join(' ') : selectedSection.content; // Generate summary using frontend logic
+              summary = generateAISummary(selectedSection.title, content, getCategoryName(selectedSection.title));
+              summaryText.value = summary;
+              showSummary.value = true;
+              showAlert.value = true;
+              alertMessage.value = 'AI summary generated successfully!';
+              hideAlertAfterDelay();
+              _context2.next = 23;
+              break;
+            case 19:
+              _context2.prev = 19;
+              _context2.t0 = _context2["catch"](7);
+              console.error('Error generating summary:', _context2.t0);
+              // showErrorAlert.value = true;
+              // errorMessage.value = 'Failed to generate summary. Please try again.';
+              hideAlertAfterDelay();
+            case 23:
+              _context2.prev = 23;
+              isSummaryLoading.value = false;
+              return _context2.finish(23);
+            case 26:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, null, [[7, 19, 23, 26]]);
+      }));
+      return _generateSummary.apply(this, arguments);
+    }
+    function generateAISummary(title, content, category) {
+      // Extract key sentences and create a structured summary
+      var sentences = content.split(/[.!?]+/).filter(function (s) {
+        return s.trim().length > 10;
+      });
+      var keyPoints = [];
+
+      // Extract important concepts based on category
+      var categoryKeywords = {
+        'Theology': ['Allah', 'God', 'faith', 'belief', 'divine', 'spiritual', 'religious'],
+        'Worship': ['prayer', 'worship', 'fasting', 'hajj', 'dua', 'dhikr', 'ritual'],
+        'Ethics': ['morality', 'character', 'good', 'righteous', 'forgiveness', 'mercy', 'gratitude'],
+        'Social Justice': ['justice', 'equality', 'rights', 'community', 'society', 'fairness'],
+        'Family': ['marriage', 'family', 'women', 'relationships', 'husband', 'wife', 'children'],
+        'Finance': ['wealth', 'charity', 'financial', 'money', 'economic', 'business'],
+        'Health': ['health', 'wellness', 'medical', 'physical', 'mental', 'hygiene'],
+        'Education': ['knowledge', 'learning', 'education', 'study', 'wisdom', 'intellectual'],
+        'Law': ['halal', 'haram', 'law', 'legal', 'permissible', 'forbidden'],
+        'Environment': ['environment', 'nature', 'stewardship', 'earth', 'creation', 'sustainability']
+      };
+      var keywords = categoryKeywords[category] || ['important', 'key', 'essential', 'fundamental'];
+
+      // Find sentences containing keywords
+      var relevantSentences = sentences.filter(function (sentence) {
+        return keywords.some(function (keyword) {
+          return sentence.toLowerCase().includes(keyword.toLowerCase());
+        });
+      });
+
+      // Take first few relevant sentences or first few sentences if no keywords found
+      var summarySentences = relevantSentences.length > 0 ? relevantSentences.slice(0, 3) : sentences.slice(0, 2);
+
+      // Create structured summary
+      var summary = "<p><strong>Key Points:</strong></p><ul>";
+      summarySentences.forEach(function (sentence) {
+        var cleanSentence = sentence.trim().replace(/^[,\s]+/, '');
+        if (cleanSentence.length > 20) {
+          summary += "<li>".concat(cleanSentence, ".</li>");
+        }
+      });
+      summary += "</ul>";
+
+      // Add category-specific insights
+      var categoryInsights = {
+        'Theology': '<p><strong>Spiritual Significance:</strong> This guide explores fundamental Islamic beliefs and theological concepts that form the foundation of Muslim faith and practice.</p>',
+        'Worship': '<p><strong>Practical Application:</strong> This guide provides essential information about Islamic worship practices and their spiritual benefits.</p>',
+        'Ethics': '<p><strong>Moral Framework:</strong> This guide outlines Islamic ethical principles that guide personal conduct and character development.</p>',
+        'Social Justice': '<p><strong>Community Values:</strong> This guide emphasizes Islamic teachings on justice, equality, and social responsibility.</p>',
+        'Family': '<p><strong>Family Life:</strong> This guide covers Islamic perspectives on family relationships and marital harmony.</p>',
+        'Finance': '<p><strong>Economic Principles:</strong> This guide explains Islamic financial ethics and economic practices.</p>',
+        'Health': '<p><strong>Wellness Guidance:</strong> This guide provides Islamic perspectives on health and well-being.</p>',
+        'Education': '<p><strong>Knowledge Pursuit:</strong> This guide emphasizes the importance of education and knowledge in Islam.</p>',
+        'Law': '<p><strong>Legal Framework:</strong> This guide explains Islamic legal principles and what is permissible or forbidden.</p>',
+        'Environment': '<p><strong>Environmental Stewardship:</strong> This guide covers Islamic teachings on environmental responsibility.</p>'
+      };
+      summary += categoryInsights[category] || '<p><strong>Overview:</strong> This guide provides important Islamic teachings and practical guidance for daily life.</p>';
+      return summary;
+    }
+    function toggleSummary() {
+      showSummary.value = !showSummary.value;
+    }
     return {
       selectedCategory: selectedCategory,
       searchText: searchText,
@@ -38348,7 +38469,13 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       suggestions: suggestions,
       selectSuggestion: selectSuggestion,
       highlightSuggestion: highlightSuggestion,
-      showHelpModal: showHelpModal
+      showHelpModal: showHelpModal,
+      // AI Summary
+      isSummaryLoading: isSummaryLoading,
+      summaryText: summaryText,
+      showSummary: showSummary,
+      generateSummary: generateSummary,
+      toggleSummary: toggleSummary
     };
   },
   computed: {
@@ -38369,28 +38496,28 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     bookmarkGuide: function bookmarkGuide() {
       var _this2 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var selectedSection, content, formData, response, _error$response;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+        return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
             case 0:
               if (_this2.isAuthenticated) {
-                _context2.next = 5;
+                _context3.next = 5;
                 break;
               }
               _this2.showErrorAlert = true;
               _this2.errorMessage = 'Please login to bookmark guides';
               _this2.hideAlertAfterDelay();
-              return _context2.abrupt("return");
+              return _context3.abrupt("return");
             case 5:
               if (!(_this2.selectedCategory === '')) {
-                _context2.next = 10;
+                _context3.next = 10;
                 break;
               }
               _this2.showErrorAlert = true;
               _this2.errorMessage = 'Please select a guide first';
               _this2.hideAlertAfterDelay();
-              return _context2.abrupt("return");
+              return _context3.abrupt("return");
             case 10:
               selectedSection = _this2.guide.sections[_this2.selectedCategory];
               content = Array.isArray(selectedSection.content) ? selectedSection.content.join('\n\n') : selectedSection.content;
@@ -38399,29 +38526,29 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 content: content,
                 category: selectedSection.category || 'Islamic Guide'
               };
-              _context2.prev = 13;
-              _context2.next = 16;
+              _context3.prev = 13;
+              _context3.next = 16;
               return axios__WEBPACK_IMPORTED_MODULE_2__["default"].post('/bookmarks', formData);
             case 16:
-              response = _context2.sent;
+              response = _context3.sent;
               _this2.isBookmarked = true;
               _this2.showAlert = true;
               _this2.alertMessage = response.data.message || 'Guide bookmarked successfully!';
               _this2.hideAlertAfterDelay();
-              _context2.next = 29;
+              _context3.next = 29;
               break;
             case 23:
-              _context2.prev = 23;
-              _context2.t0 = _context2["catch"](13);
-              console.error('Error bookmarking guide:', _context2.t0);
+              _context3.prev = 23;
+              _context3.t0 = _context3["catch"](13);
+              console.error('Error bookmarking guide:', _context3.t0);
               _this2.showErrorAlert = true;
-              _this2.errorMessage = ((_error$response = _context2.t0.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || 'Failed to bookmark guide. Please try again.';
+              _this2.errorMessage = ((_error$response = _context3.t0.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || 'Failed to bookmark guide. Please try again.';
               _this2.hideAlertAfterDelay();
             case 29:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
-        }, _callee2, null, [[13, 23]]);
+        }, _callee3, null, [[13, 23]]);
       }))();
     },
     hideAlertAfterDelay: function hideAlertAfterDelay() {
@@ -38576,6 +38703,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         printWindow.print();
         printWindow.close();
       }, 500);
+    },
+    toggleSummary: function toggleSummary() {
+      this.showSummary = !this.showSummary;
     }
   },
   watch: {
@@ -38583,6 +38713,8 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       this.stopPlayback();
       this.searchText = '';
       this.isBookmarked = false; // Reset bookmark status when changing guides
+      this.summaryText = ''; // Hide summary when changing guides
+      this.showSummary = false;
     }
   }
 });
@@ -61387,7 +61519,7 @@ var _hoisted_29 = {
   key: "button-group"
 };
 var _hoisted_30 = ["disabled"];
-var _hoisted_31 = ["disabled", "title", "aria-pressed"];
+var _hoisted_31 = ["disabled", "title"];
 var _hoisted_32 = ["disabled"];
 var _hoisted_33 = ["disabled"];
 var _hoisted_34 = {
@@ -61403,36 +61535,52 @@ var _hoisted_37 = ["innerHTML"];
 var _hoisted_38 = ["innerHTML"];
 var _hoisted_39 = {
   key: 0,
-  "class": "modern-audio-player w-100"
+  "class": "ai-summary-section mt-4"
 };
 var _hoisted_40 = {
-  "class": "audio-player-row top"
+  "class": "summary-header d-flex align-items-center justify-content-between mb-3"
 };
-var _hoisted_41 = {
-  "class": "audio-meta text-start"
-};
+var _hoisted_41 = ["title"];
 var _hoisted_42 = {
-  "class": "audio-title small-title"
+  key: 0,
+  "class": "summary-content"
 };
 var _hoisted_43 = {
-  "class": "audio-subtitle"
+  "class": "summary-card"
 };
-var _hoisted_44 = {
-  "class": "audio-player-row bottom"
-};
+var _hoisted_44 = ["innerHTML"];
 var _hoisted_45 = {
-  "class": "audio-controls"
+  key: 0,
+  "class": "modern-audio-player w-100"
 };
 var _hoisted_46 = {
-  "class": "audio-progress-wrap"
+  "class": "audio-player-row top"
 };
 var _hoisted_47 = {
-  "class": "audio-progress-bar"
+  "class": "audio-meta text-start"
 };
 var _hoisted_48 = {
-  "class": "audio-right"
+  "class": "audio-title small-title"
 };
 var _hoisted_49 = {
+  "class": "audio-subtitle"
+};
+var _hoisted_50 = {
+  "class": "audio-player-row bottom"
+};
+var _hoisted_51 = {
+  "class": "audio-controls"
+};
+var _hoisted_52 = {
+  "class": "audio-progress-wrap"
+};
+var _hoisted_53 = {
+  "class": "audio-progress-bar"
+};
+var _hoisted_54 = {
+  "class": "audio-right"
+};
+var _hoisted_55 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fade show position-fixed",
   style: {
@@ -61442,7 +61590,7 @@ var _hoisted_49 = {
   },
   role: "alert"
 };
-var _hoisted_50 = {
+var _hoisted_56 = {
   key: 0,
   "class": "alert alert-danger alert-dismissible fade show position-fixed",
   style: {
@@ -61452,20 +61600,20 @@ var _hoisted_50 = {
   },
   role: "alert"
 };
-var _hoisted_51 = {
+var _hoisted_57 = {
   "class": "help-modal-header"
 };
-var _hoisted_52 = {
+var _hoisted_58 = {
   "class": "help-modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     "class": "text-center mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "header-title display-4 fw-bold"
   }, "Islamic Guides"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "header-description"
-  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Filter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-12 mb-3\">\n          <label class=\"form-label\">\n            <i class=\"bi bi-funnel me-2\"></i>Filter by Category\n          </label>\n          <div class=\"category-filters\">\n            <button \n              v-for=\"category in availableCategories\" \n              :key=\"category\"\n              @click=\"filterByCategory(category)\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === category ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <span class=\"badge me-1\" :class=\"getBadgeClasses(category)\">\n                {{ category }}\n              </span>\n              {{ category }}\n            </button>\n            <button \n              @click=\"filterByCategory('All')\"\n              class=\"btn btn-sm me-2 mb-2\"\n              :class=\"selectedCategoryFilter === 'All' ? 'btn-primary' : 'btn-outline-primary'\"\n            >\n              <i class=\"bi bi-collection me-1\"></i>\n              All Categories\n            </button>\n          </div>\n        </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Discover insights into the core beliefs, practices, and morals of Islam. ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "category-select",
     "class": "form-label"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -61489,16 +61637,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_11, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), $setup.selectedCategory !== '' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_11, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search me-2"
-  }, null, -1 /* HOISTED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Content ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Search Content ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-sm btn-link text-decoration-none ms-1",
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.showHelpModal = true;
     }),
     title: "Search Help",
     "aria-label": "Search help"
-  }, _cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-question-circle"
   }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "search-input",
@@ -61534,7 +61682,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = function ($event) {
       return $setup.searchText = '';
     })
-  }, _cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x"
   }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Autocomplete Suggestions Dropdown "), $setup.showSuggestions && $setup.suggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.suggestions, function (suggestion, idx) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -61593,33 +61741,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               return $options.playCurrentContent && $options.playCurrentContent.apply($options, arguments);
             }),
             disabled: $setup.isAudioLoading
-          }, _cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-play-fill"
-          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")]), 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-            "class": "btn btn-sm btn-outline-primary",
-            onClick: _cache[10] || (_cache[10] = function () {
-              return $options.bookmarkGuide && $options.bookmarkGuide.apply($options, arguments);
-            }),
-            disabled: !$setup.isAuthenticated,
-            title: !$setup.isAuthenticated ? 'Please login to bookmark' : '',
-            "aria-pressed": $setup.isBookmarked
-          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($setup.isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark')
-          }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isBookmarked ? 'Bookmarked' : 'Bookmark'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Listen ")]), 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                    class=\"btn btn-sm btn-outline-primary\"\n                    @click=\"bookmarkGuide\"\n                    :disabled=\"!isAuthenticated\"\n                    :title=\"!isAuthenticated ? 'Please login to bookmark' : ''\"\n                    :aria-pressed=\"isBookmarked\"\n                  >\n                    <i :class=\"isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'\"></i>\n                    {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}\n                  </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-success",
-            onClick: _cache[11] || (_cache[11] = function () {
+            onClick: _cache[10] || (_cache[10] = function () {
               return $options.shareOnWhatsApp && $options.shareOnWhatsApp.apply($options, arguments);
             })
-          }, _cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-share"
           }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-primary",
-            onClick: _cache[12] || (_cache[12] = function () {
+            onClick: _cache[11] || (_cache[11] = function () {
               return $options.printGuide && $options.printGuide.apply($options, arguments);
             })
-          }, _cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+          }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
             "class": "bi bi-printer"
           }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print ")])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "btn btn-sm btn-outline-dark",
+            onClick: _cache[12] || (_cache[12] = function () {
+              return $setup.generateSummary && $setup.generateSummary.apply($setup, arguments);
+            }),
+            disabled: $setup.isSummaryLoading,
+            title: $setup.isSummaryLoading ? 'Generating summary...' : 'Generate AI Summary'
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isSummaryLoading ? 'bi-hourglass-split' : 'bi-robot'])
+          }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.isSummaryLoading ? 'Generating...' : 'AI Summary'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
             "class": "btn btn-sm btn-outline-secondary",
             onClick: _cache[13] || (_cache[13] = function () {
               return $setup.decreaseFontSize && $setup.decreaseFontSize.apply($setup, arguments);
@@ -61666,24 +61813,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: $setup.fontSize - 0.2 + 'rem'
         })
-      }, null, 12 /* STYLE, PROPS */, _hoisted_38))])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+      }, null, 12 /* STYLE, PROPS */, _hoisted_38))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AI Summary Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+        name: "fade-slide"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [$setup.summaryText ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+            "class": "summary-title mb-0"
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": "bi bi-robot me-2 text-info"
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" AI Summary ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+            "class": "btn btn-sm btn-outline-secondary",
+            onClick: _cache[15] || (_cache[15] = function () {
+              return $options.toggleSummary && $options.toggleSummary.apply($options, arguments);
+            }),
+            title: $setup.showSummary ? 'Hide Summary' : 'Show Summary'
+          }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+            "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.showSummary ? 'bi-chevron-up' : 'bi-chevron-down'])
+          }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.showSummary ? 'Hide' : 'Show'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+            name: "fade-slide"
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [$setup.showSummary ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+                "class": "summary-text",
+                innerHTML: $setup.summaryText
+              }, null, 8 /* PROPS */, _hoisted_44), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+                "class": "summary-footer mt-3 pt-3 border-top"
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+                "class": "text-muted"
+              }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+                "class": "bi bi-info-circle me-1"
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" This summary was generated by AI to help you understand the key points of this guide. ")])], -1 /* HOISTED */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+            }),
+            _: 1 /* STABLE */
+          })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
+        }),
+        _: 1 /* STABLE */
+      })])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Audio Player "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "global-audio-player"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.isPlaying || $setup.isPaused ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPlayingContent.category || 'Recitation'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[15] || (_cache[15] = function () {
+        onClick: _cache[16] || (_cache[16] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Rewind"
-      }, _cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-skip-backward-fill"
       }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[16] || (_cache[16] = function () {
+        onClick: _cache[17] || (_cache[17] = function () {
           return $options.togglePlayPause && $options.togglePlayPause.apply($options, arguments);
         }),
         "aria-label": "Play/Pause"
@@ -61691,35 +61873,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $setup.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'])
       }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn",
-        onClick: _cache[17] || (_cache[17] = function () {
-          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
-        }),
-        "aria-label": "Forward"
-      }, _cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        "class": "bi bi-skip-forward-fill"
-      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        "class": "audio-btn",
         onClick: _cache[18] || (_cache[18] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
+        "aria-label": "Forward"
+      }, _cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        "class": "bi bi-skip-forward-fill"
+      }, null, -1 /* HOISTED */)])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        "class": "audio-btn",
+        onClick: _cache[19] || (_cache[19] = function () {
+          return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
+        }),
         "aria-label": "Stop"
-      }, _cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-stop-fill"
-      }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         "class": "audio-progress",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           width: $setup.currentTime / $setup.totalDuration * 100 + '%'
         })
-      }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, null, 4 /* STYLE */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-volume-up-fill volume-icon"
       }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         type: "range",
         min: "0",
         max: "100",
-        "onUpdate:modelValue": _cache[19] || (_cache[19] = function ($event) {
+        "onUpdate:modelValue": _cache[20] || (_cache[20] = function ($event) {
           return $setup.volume = $event;
         }),
-        onInput: _cache[20] || (_cache[20] = function () {
+        onInput: _cache[21] || (_cache[21] = function () {
           return $options.updateVolume && $options.updateVolume.apply($options, arguments);
         }),
         "class": "audio-volume-slider",
@@ -61728,11 +61910,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         number: true
       }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         "class": "audio-btn close-btn",
-        onClick: _cache[21] || (_cache[21] = function () {
+        onClick: _cache[22] || (_cache[22] = function () {
           return $options.stopPlayback && $options.stopPlayback.apply($options, arguments);
         }),
         "aria-label": "Close"
-      }, _cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, _cache[42] || (_cache[42] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-x-lg"
       }, null, -1 /* HOISTED */)]))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
@@ -61741,10 +61923,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "fade-slide"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.showAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.alertMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[22] || (_cache[22] = function ($event) {
+        onClick: _cache[23] || (_cache[23] = function ($event) {
           return $setup.showAlert = false;
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
@@ -61754,10 +61936,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     name: "fade-slide"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      return [$setup.showErrorAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.errorMessage) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[23] || (_cache[23] = function ($event) {
+        onClick: _cache[24] || (_cache[24] = function ($event) {
           return $setup.showErrorAlert = false;
         })
       })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
@@ -61766,27 +61948,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Help Modal "), $setup.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     "class": "modal-overlay",
-    onClick: _cache[27] || (_cache[27] = function ($event) {
+    onClick: _cache[28] || (_cache[28] = function ($event) {
       return $setup.showHelpModal = false;
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "help-modal",
-    onClick: _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    onClick: _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "help-modal-title"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-search me-2"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search Suggestions Guide ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "help-modal-close",
-    onClick: _cache[24] || (_cache[24] = function ($event) {
+    onClick: _cache[25] || (_cache[25] = function ($event) {
       return $setup.showHelpModal = false;
     }),
     "aria-label": "Close help"
-  }, _cache[41] || (_cache[41] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[44] || (_cache[44] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-x-lg"
-  }, null, -1 /* HOISTED */)]))]), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"help-modal-body\" data-v-6b54700c><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-lightbulb me-2\" data-v-6b54700c></i> How It Works </h4><p class=\"help-text\" data-v-6b54700c> The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides. </p></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-keyboard me-2\" data-v-6b54700c></i> Keyboard Navigation </h4><div class=\"help-shortcuts\" data-v-6b54700c><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↑</kbd> <span data-v-6b54700c>Move up through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↓</kbd> <span data-v-6b54700c>Move down through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Enter</kbd> <span data-v-6b54700c>Select highlighted suggestion</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Esc</kbd> <span data-v-6b54700c>Close suggestions dropdown</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-mouse me-2\" data-v-6b54700c></i> Mouse Navigation </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Hover over any suggestion to highlight it</li><li data-v-6b54700c>Click on a suggestion to select it</li><li data-v-6b54700c>Click outside the dropdown to close it</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-tags me-2\" data-v-6b54700c></i> Suggestion Types </h4><div class=\"suggestion-types\" data-v-6b54700c><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge title\" data-v-6b54700c>Title</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches guide section titles</span></div><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge content\" data-v-6b54700c>Content</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches text within guide content</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-search me-2\" data-v-6b54700c></i> Search Tips </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Start typing any word to see matching suggestions</li><li data-v-6b54700c>Suggestions are case-insensitive</li><li data-v-6b54700c>Selecting a suggestion will automatically switch to that guide section</li><li data-v-6b54700c>Use the clear button (×) to reset your search</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-info-circle me-2\" data-v-6b54700c></i> Example </h4><div class=\"help-example\" data-v-6b54700c><p class=\"help-text\" data-v-6b54700c> Try typing <strong data-v-6b54700c>&quot;prayer&quot;</strong> to see suggestions for prayer-related content, or <strong data-v-6b54700c>&quot;quran&quot;</strong> for Quran-related guides. </p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* HOISTED */)]))]), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"help-modal-body\" data-v-6b54700c><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-lightbulb me-2\" data-v-6b54700c></i> How It Works </h4><p class=\"help-text\" data-v-6b54700c> The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides. </p></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-keyboard me-2\" data-v-6b54700c></i> Keyboard Navigation </h4><div class=\"help-shortcuts\" data-v-6b54700c><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↑</kbd> <span data-v-6b54700c>Move up through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>↓</kbd> <span data-v-6b54700c>Move down through suggestions</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Enter</kbd> <span data-v-6b54700c>Select highlighted suggestion</span></div><div class=\"shortcut-item\" data-v-6b54700c><kbd data-v-6b54700c>Esc</kbd> <span data-v-6b54700c>Close suggestions dropdown</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-mouse me-2\" data-v-6b54700c></i> Mouse Navigation </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Hover over any suggestion to highlight it</li><li data-v-6b54700c>Click on a suggestion to select it</li><li data-v-6b54700c>Click outside the dropdown to close it</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-tags me-2\" data-v-6b54700c></i> Suggestion Types </h4><div class=\"suggestion-types\" data-v-6b54700c><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge title\" data-v-6b54700c>Title</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches guide section titles</span></div><div class=\"suggestion-type-example\" data-v-6b54700c><span class=\"suggestion-type-badge content\" data-v-6b54700c>Content</span><span class=\"suggestion-type-desc\" data-v-6b54700c>Matches text within guide content</span></div></div></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-search me-2\" data-v-6b54700c></i> Search Tips </h4><ul class=\"help-list\" data-v-6b54700c><li data-v-6b54700c>Start typing any word to see matching suggestions</li><li data-v-6b54700c>Suggestions are case-insensitive</li><li data-v-6b54700c>Selecting a suggestion will automatically switch to that guide section</li><li data-v-6b54700c>Use the clear button (×) to reset your search</li></ul></div><div class=\"help-section\" data-v-6b54700c><h4 class=\"help-section-title\" data-v-6b54700c><i class=\"bi bi-info-circle me-2\" data-v-6b54700c></i> Example </h4><div class=\"help-example\" data-v-6b54700c><p class=\"help-text\" data-v-6b54700c> Try typing <strong data-v-6b54700c>&quot;prayer&quot;</strong> to see suggestions for prayer-related content, or <strong data-v-6b54700c>&quot;quran&quot;</strong> for Quran-related guides. </p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": "btn btn-primary",
-    onClick: _cache[25] || (_cache[25] = function ($event) {
+    onClick: _cache[26] || (_cache[26] = function ($event) {
       return $setup.showHelpModal = false;
     })
   }, " Got it! ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
@@ -169678,7 +169860,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n/* Progress Tracker Styles */\n.progress-tracker-container[data-v-6b54700c] {\n  position: relative;\n  margin-bottom: 0.5rem;\n  width: 100%;\n}\n.progress-bar[data-v-6b54700c] {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n  position: relative;\n  margin-bottom: 2px;\n  transition: width 0.3s;\n}\n.progress-bar.reading-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);\n  z-index: 1;\n}\n.progress-bar.audio-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n  margin-top: -6px;\n  opacity: 0.85;\n  z-index: 2;\n}\n.progress-labels[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #888;\n  margin-top: 2px;\n}\n.autocomplete-suggestions[data-v-6b54700c] {\n  position: absolute;\n  z-index: 1000;\n  background: #fff;\n  border: 1px solid #e9ecef;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n  width: 100%;\n  margin-top: 0.2rem;\n  list-style: none;\n  padding: 0;\n  max-height: 260px;\n  overflow-y: auto;\n}\n.autocomplete-suggestions li[data-v-6b54700c] {\n  padding: 0.7rem 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  gap: 0.7rem;\n}\n.autocomplete-suggestions li.highlighted[data-v-6b54700c],\n.autocomplete-suggestions li[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n}\n.suggestion-type[data-v-6b54700c] {\n  font-size: 0.75rem;\n  color: #888;\n  margin-left: 0.5rem;\n  background: #f1f1f1;\n  border-radius: 8px;\n  padding: 0.1rem 0.5rem;\n}\n@media (max-width: 768px) {\n.autocomplete-suggestions li[data-v-6b54700c] {\n    padding: 0.5rem 0.7rem;\n    font-size: 0.95rem;\n}\n}\n/* Help Modal Styles */\n.modal-overlay[data-v-6b54700c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 1rem;\n}\n.help-modal[data-v-6b54700c] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);\n  max-width: 600px;\n  width: 100%;\n  max-height: 90vh;\n  overflow-y: auto;\n  animation: modalSlideIn-6b54700c 0.3s ease-out;\n}\n@keyframes modalSlideIn-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(-20px) scale(0.95);\n}\nto {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.help-modal-header[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1.5rem 1.5rem 1rem;\n  border-bottom: 1px solid #e9ecef;\n}\n.help-modal-title[data-v-6b54700c] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: var(--primary-color);\n}\n.help-modal-close[data-v-6b54700c] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  color: #6c757d;\n  cursor: pointer;\n  padding: 0.25rem;\n  border-radius: 4px;\n  transition: all 0.2s;\n}\n.help-modal-close[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n  color: #333;\n}\n.help-modal-body[data-v-6b54700c] {\n  padding: 1.5rem;\n}\n.help-section[data-v-6b54700c] {\n  margin-bottom: 2rem;\n}\n.help-section[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.help-section-title[data-v-6b54700c] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #333;\n  margin-bottom: 0.75rem;\n  display: flex;\n  align-items: center;\n}\n.help-text[data-v-6b54700c] {\n  color: #666;\n  line-height: 1.6;\n  margin-bottom: 0;\n}\n.help-shortcuts[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.shortcut-item[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem;\n  background: #f8f9fa;\n  border-radius: 6px;\n}\n.shortcut-item kbd[data-v-6b54700c] {\n  background: #333;\n  color: white;\n  padding: 0.25rem 0.5rem;\n  border-radius: 4px;\n  font-size: 0.85rem;\n  font-family: monospace;\n  min-width: 2rem;\n  text-align: center;\n}\n.help-list[data-v-6b54700c] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.help-list li[data-v-6b54700c] {\n  padding: 0.5rem 0;\n  color: #666;\n  position: relative;\n  padding-left: 1.5rem;\n}\n.help-list li[data-v-6b54700c]::before {\n  content: \"•\";\n  color: var(--primary-color);\n  font-weight: bold;\n  position: absolute;\n  left: 0;\n}\n.suggestion-types[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n}\n.suggestion-type-badge[data-v-6b54700c] {\n  padding: 0.25rem 0.5rem;\n  border-radius: 12px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.suggestion-type-badge.title[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n}\n.suggestion-type-badge.content[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n  color: white;\n}\n.suggestion-type-desc[data-v-6b54700c] {\n  color: #666;\n  font-size: 0.9rem;\n}\n.help-example[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  padding: 1rem;\n  border-radius: 8px;\n  border-left: 4px solid var(--primary-color);\n}\n.help-modal-footer[data-v-6b54700c] {\n  padding: 1rem 1.5rem;\n  border-top: 1px solid #e9ecef;\n  display: flex;\n  justify-content: flex-end;\n}\n/* Responsive Help Modal */\n@media (max-width: 768px) {\n.help-modal[data-v-6b54700c] {\n    margin: 1rem;\n    max-height: calc(100vh - 2rem);\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 1rem 1rem 0.75rem;\n}\n.help-modal-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 1rem;\n}\n.help-section[data-v-6b54700c] {\n    margin-bottom: 1.5rem;\n}\n.help-section-title[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.shortcut-item[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n}\n@media (max-width: 576px) {\n.modal-overlay[data-v-6b54700c] {\n    padding: 0.5rem;\n}\n.help-modal[data-v-6b54700c] {\n    margin: 0.5rem;\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 0.75rem 0.75rem 0.5rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.help-modal-footer[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Base Styles */\n[data-v-6b54700c]:root {\n  --primary-color: #00bfa6;\n  --primary-hover: #008f7a;\n  --text-color: #333;\n  --text-light: #6c757d;\n  --bg-color: #fff;\n  --border-color: #e9ecef;\n  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);\n}\n/* Typography */\nbody[data-v-6b54700c] {\n  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;\n  color: var(--text-color);\n  line-height: 1.6;\n}\nh1[data-v-6b54700c], h2[data-v-6b54700c], h3[data-v-6b54700c], h4[data-v-6b54700c], h5[data-v-6b54700c], h6[data-v-6b54700c] {\n  font-weight: 700;\n  line-height: 1.3;\n}\n/* Header */\n.header-icon[data-v-6b54700c] {\n  font-size: 2.5rem;\n  color: var(--primary-color);\n}\n/* .header-title {\n  font-size: 2rem;\n  font-weight: 800;\n  color: var(--primary-color);\n  margin-bottom: 0.5rem;\n} */\n.header-description[data-v-6b54700c] {\n  font-size: 1.1rem;\n  color: var(--text-light);\n  max-width: 600px;\n  margin: 0 auto;\n}\n/* Controls */\n.controls-section[data-v-6b54700c] {\n  background-color: rgba(0, 191, 166, 0.05);\n  border: 1px solid rgba(0, 191, 166, 0.1);\n  border-radius: 12px;\n  padding: 1.5rem;\n}\n.form-label[data-v-6b54700c] {\n  font-weight: 600;\n  margin-bottom: 0.5rem;\n  color: var(--text-color);\n}\n.form-select[data-v-6b54700c], .form-control[data-v-6b54700c] {\n  border-radius: 8px;\n  padding: 0.75rem;\n  border: 1px solid var(--border-color);\n  font-size: 1rem;\n}\n.form-select[data-v-6b54700c]:focus, .form-control[data-v-6b54700c]:focus {\n  border-color: var(--primary-color);\n  box-shadow: 0 0 0 0.2rem rgba(0, 191, 166, 0.25);\n}\n/* Content Card */\n.content-card[data-v-6b54700c] {\n  border-radius: 12px;\n  border: 1px solid var(--border-color);\n  box-shadow: var(--card-shadow);\n  overflow: hidden;\n  transition: transform 0.3s;\n}\n.content-card[data-v-6b54700c]:hover {\n  transform: translateY(-3px);\n}\n.content-title[data-v-6b54700c] {\n  font-size: 1.5rem;\n  margin-bottom: 0.5rem;\n}\n.content-text[data-v-6b54700c] {\n  font-size: 1.1rem;\n  line-height: 1.8;\n}\n.highlight-word[data-v-6b54700c] {\n  background-color: var(--primary-color);\n  color: white;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\nmark[data-v-6b54700c] {\n  background-color: #fff3a3;\n  padding: 0.1em 0.3em;\n  border-radius: 0.2em;\n}\n/* Buttons */\n.btn[data-v-6b54700c] {\n  font-weight: 500;\n  transition: all 0.2s;\n  border-radius: 8px;\n}\n.btn-outline-primary[data-v-6b54700c] {\n  color: var(--primary-color);\n  border-color: var(--primary-color);\n}\n.btn-outline-primary[data-v-6b54700c]:hover {\n  background-color: var(--primary-color);\n  color: white;\n}\n/* Modern Audio Player Styles */\n.modern-audio-player[data-v-6b54700c],\n.modern-audio-player.w-100[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  background: #232323;\n  color: #fff;\n  border-radius: 0;\n  box-shadow: 0 4px 32px rgba(0,0,0,0.18);\n  padding: 1rem 1.5rem;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  transform: none;\n  width: 100vw;\n  max-width: 100vw;\n  z-index: 2000;\n}\n.audio-meta[data-v-6b54700c] {\n  min-width: 160px;\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n.audio-title[data-v-6b54700c] {\n  font-weight: 700;\n  font-size: 1.15rem;\n  color: #fff;\n  margin-bottom: 0.1rem;\n}\n.small-title[data-v-6b54700c] {\n  font-size: 1rem;\n  text-align: left;\n}\n.audio-meta.text-start[data-v-6b54700c] {\n  text-align: left;\n}\n.audio-subtitle[data-v-6b54700c] {\n  font-size: 0.95rem;\n  color: #bdbdbd;\n  font-weight: 400;\n}\n.audio-controls[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.8rem;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c] {\n  background: none;\n  border: none;\n  color: #fff;\n  font-size: 1.6rem;\n  padding: 0.5rem 0.7rem;\n  border-radius: 50%;\n  transition: background 0.2s, color 0.2s, transform 0.1s;\n  cursor: pointer;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.audio-btn[data-v-6b54700c]:hover, .audio-btn[data-v-6b54700c]:focus {\n  background: rgba(0,191,166,0.12);\n  color: #00bfa6;\n  outline: none;\n  transform: scale(1.08);\n}\n.close-btn[data-v-6b54700c] {\n  margin-left: 0.7rem;\n  font-size: 1.3rem;\n  background: none;\n  color: #bdbdbd;\n}\n.close-btn[data-v-6b54700c]:hover {\n  color: #ff4d4f;\n  background: rgba(255,77,79,0.08);\n}\n.audio-progress-wrap[data-v-6b54700c] {\n  flex: 3 1 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 180px;\n  margin: 0 1.2rem;\n}\n.audio-progress-bar[data-v-6b54700c] {\n  width: 100%;\n  height: 4px;\n  background: #444;\n  border-radius: 2px;\n  overflow: hidden;\n  position: relative;\n}\n.audio-progress[data-v-6b54700c] {\n  height: 100%;\n  background: linear-gradient(90deg, #00bfa6 0%, #008f7a 100%);\n  border-radius: 2px;\n  transition: width 0.2s;\n}\n.audio-right[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  min-width: 180px;\n  flex: 1 1 0;\n  justify-content: flex-end;\n}\n.volume-icon[data-v-6b54700c] {\n  font-size: 1.3rem;\n  color: #bdbdbd;\n}\n.audio-volume-slider[data-v-6b54700c] {\n  width: 120px;\n  accent-color: #00bfa6;\n  background: transparent;\n  margin: 0 0.5rem;\n  height: 4px;\n}\n.audio-volume-slider[data-v-6b54700c]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  appearance: none;\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]::-moz-range-thumb {\n  width: 16px;\n  height: 16px;\n  border-radius: 50%;\n  background: #00bfa6;\n  border: 2px solid #fff;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.18);\n  cursor: pointer;\n}\n.audio-volume-slider[data-v-6b54700c]:focus {\n  outline: none;\n}\n/* Transitions */\n.global-audio-player-enter-active[data-v-6b54700c],\n.global-audio-player-leave-active[data-v-6b54700c] {\n  transition: all 0.3s ease;\n}\n.global-audio-player-enter-from[data-v-6b54700c],\n.global-audio-player-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateX(-50%) translateY(100%);\n}\n.modern-audio-player.w-100[data-v-6b54700c] {\n  width: 100vw;\n  left: 0;\n  transform: none;\n  border-radius: 0;\n}\n/* Responsive Adjustments */\n@media (max-width: 768px) {\n.container[data-v-6b54700c] {\n    padding-left: 1rem;\n    padding-right: 1rem;\n}\n.header-title[data-v-6b54700c] {\n    font-size: 1.75rem;\n}\n.header-description[data-v-6b54700c] {\n  font-size: 1rem;\n}\n.global-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    padding: 1rem;\n    width: 100%;\n    border-radius: 0;\n    bottom: 0;\n}\n.player-desktop[data-v-6b54700c] {\n    display: none;\n}\n.player-mobile[data-v-6b54700c] {\n    display: flex;\n}\n.player-section[data-v-6b54700c] {\n    width: 100%;\n    margin-bottom: 0.5rem;\n}\n.player-info[data-v-6b54700c], .player-volume[data-v-6b54700c] {\n    min-width: auto;\n}\n.progress-bar-container[data-v-6b54700c] {\n    max-width: 100%;\n}\n.volume-slider[data-v-6b54700c] {\n    width: 60px;\n}\n}\n@media (max-width: 576px) {\n.header-title[data-v-6b54700c] {\n    font-size: 1.5rem;\n}\n.content-title[data-v-6b54700c] {\n    font-size: 1.3rem;\n}\n.content-text[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.controls-section[data-v-6b54700c] {\n    padding: 1.2rem;\n}\n.btn[data-v-6b54700c] {\n    padding: 0.25rem 0.5rem;\n    font-size: 0.9rem;\n}\n}\n@media (max-width: 900px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-wrap: wrap;\n    gap: 1rem;\n    padding: 0.7rem 0.5rem;\n    width: 100vw;\n    left: 0;\n    border-radius: 0;\n}\n.audio-meta[data-v-6b54700c], .audio-right[data-v-6b54700c] {\n    min-width: 120px;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    min-width: 120px;\n    margin: 0 0.5rem;\n}\n}\n@media (min-width: 601px) {\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    /* Prevent overlap */\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 3;\n    margin: 0 1.2rem;\n    flex: 3 1 0;\n    min-width: 120px;\n    flex-shrink: 1;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.audio-right[data-v-6b54700c] {\n    order: 4;\n    \n    min-width: 140px;\n    flex: 1 1 0;\n    display: flex;\n    align-items: center;\n    justify-content: flex-end;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    overflow: hidden;\n}\n}\n@media (max-width: 600px) {\n.modern-audio-player[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: stretch;\n    border-radius: 0;\n    left: 0;\n    transform: none;\n    width: 100vw;\n    max-width: 100vw;\n    padding: 0.2rem 0.05rem;\n    border-radius: 0;\n}\n.audio-player-row.top[data-v-6b54700c], .audio-meta[data-v-6b54700c], .audio-title[data-v-6b54700c], .audio-subtitle[data-v-6b54700c] {\n    display: none !important;\n}\n.audio-player-row.bottom[data-v-6b54700c] {\n    display: flex !important;\n    flex-direction: row;\n    align-items: center;\n    width: 100%;\n    justify-content: space-between;\n    \n    flex-wrap: nowrap;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.audio-player-row.bottom[data-v-6b54700c] > * {\n    min-width: 0;\n}\n.audio-controls[data-v-6b54700c] {\n    order: 1;\n    \n    margin: 0;\n    font-size: 0.95rem;\n    flex: 0 0 auto;\n    display: flex;\n    align-items: center;\n}\n.audio-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    padding: 0.18rem 0.22rem;\n}\n.audio-progress-wrap[data-v-6b54700c] {\n    order: 2;\n    margin: 0 0.1rem;\n    flex: 2 1 0;\n    min-width: 0;\n    display: flex;\n    align-items: center;\n}\n.audio-progress-bar[data-v-6b54700c] {\n    height: 3px;\n}\n.audio-right[data-v-6b54700c] {\n    order: 3;\n    \n    min-width: 0;\n    flex: 0 0 auto;\n    font-size: 0.85rem;\n    display: flex;\n    align-items: center;\n}\n.audio-volume-slider[data-v-6b54700c] {\n    width: 60px;\n    height: 2.5px;\n}\n.close-btn[data-v-6b54700c] {\n    font-size: 0.95rem;\n    margin-left: 0.18rem;\n}\n.volume-icon[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n/* Badge Styles */\n.badge[data-v-6b54700c] {\n  font-weight: 600;\n  padding: 0.5rem 0.75rem;\n  border-radius: 20px;\n  font-size: 0.85rem;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n  border: 1px solid transparent;\n  transition: all 0.3s ease;\n}\n.badge[data-v-6b54700c]:hover {\n  transform: translateY(-1px);\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n/* Custom Badge Color Schemes */\n.badge.bg-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;\n  color: white !important;\n  border-color: #667eea;\n}\n.badge.bg-success[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;\n  color: white !important;\n  border-color: #11998e;\n}\n.badge.bg-info[data-v-6b54700c] {\n  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;\n  color: white !important;\n  border-color: #4facfe;\n}\n.badge.bg-warning[data-v-6b54700c] {\n  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;\n  color: white !important;\n  border-color: #fa709a;\n}\n.badge.bg-secondary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;\n  color: #333 !important;\n  border-color: #a8edea;\n}\n.badge.bg-danger[data-v-6b54700c] {\n  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%) !important;\n  color: white !important;\n  border-color: #ff9a9e;\n}\n.badge.bg-dark[data-v-6b54700c] {\n  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;\n  color: white !important;\n  border-color: #2c3e50;\n}\n/* Responsive Badge Adjustments */\n@media (max-width: 768px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.75rem;\n    padding: 0.4rem 0.6rem;\n}\n}\n@media (max-width: 576px) {\n.badge[data-v-6b54700c] {\n    font-size: 0.7rem;\n    padding: 0.35rem 0.5rem;\n}\n}\n/* Dropdown Styles */\n.dropdown-menu[data-v-6b54700c] {\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #e9ecef;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n  border-radius: 8px;\n}\n.dropdown-item[data-v-6b54700c] {\n  padding: 0.75rem 1rem;\n  border-bottom: 1px solid #f8f9fa;\n  transition: all 0.2s ease;\n}\n.dropdown-item[data-v-6b54700c]:hover {\n  background-color: #f8f9fa;\n  transform: translateX(2px);\n}\n.dropdown-item[data-v-6b54700c]:last-child {\n  border-bottom: none;\n}\n.guide-title[data-v-6b54700c] {\n  font-weight: 500;\n  color: #333;\n  flex: 1;\n  margin-right: 0.5rem;\n}\n.dropdown-item .badge[data-v-6b54700c] {\n  font-size: 0.7rem;\n  padding: 0.25rem 0.5rem;\n  flex-shrink: 0;\n}\n/* Custom Scrollbar for Dropdown */\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar {\n  width: 6px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb {\n  background: #c1c1c1;\n  border-radius: 3px;\n}\n.dropdown-menu[data-v-6b54700c]::-webkit-scrollbar-thumb:hover {\n  background: #a8a8a8;\n}\n/* Category Filter Styles */\n.category-filters[data-v-6b54700c] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n  border-radius: 20px;\n  font-weight: 500;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.category-filters .btn[data-v-6b54700c]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);\n}\n.category-filters .btn-primary[data-v-6b54700c] {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  border-color: #00bfa6;\n  color: white;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c] {\n  color: #00bfa6;\n  border-color: #00bfa6;\n  background: transparent;\n}\n.category-filters .btn-outline-primary[data-v-6b54700c]:hover {\n  background: linear-gradient(135deg, #00bfa6 0%, #008f7a 100%);\n  color: white;\n  border-color: #00bfa6;\n}\n.category-filters .badge[data-v-6b54700c] {\n  font-size: 0.6rem;\n  padding: 0.2rem 0.4rem;\n  border-radius: 10px;\n}\n/* Responsive adjustments for category filters */\n@media (max-width: 768px) {\n.category-filters[data-v-6b54700c] {\n    gap: 0.3rem;\n}\n.category-filters .btn[data-v-6b54700c] {\n    font-size: 0.8rem;\n    padding: 0.4rem 0.6rem;\n}\n.category-filters .badge[data-v-6b54700c] {\n    font-size: 0.5rem;\n    padding: 0.15rem 0.3rem;\n}\n}\n/* Animations */\n.fade-slide-enter-active[data-v-6b54700c], .fade-slide-leave-active[data-v-6b54700c] {\n  transition: opacity 0.5s, transform 0.5s;\n}\n.fade-slide-enter-from[data-v-6b54700c], .fade-slide-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.fade-slide-enter-to[data-v-6b54700c], .fade-slide-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.fade-scale-enter-active[data-v-6b54700c], .fade-scale-leave-active[data-v-6b54700c] {\n  transition: opacity 0.4s, transform 0.4s;\n}\n.fade-scale-enter-from[data-v-6b54700c], .fade-scale-leave-to[data-v-6b54700c] {\n  opacity: 0;\n  transform: scale(0.95);\n}\n.fade-scale-enter-to[data-v-6b54700c], .fade-scale-leave-from[data-v-6b54700c] {\n  opacity: 1;\n  transform: scale(1);\n}\n.stagger-fade-enter-active[data-v-6b54700c] {\n  transition: all 0.5s;\n  transition-delay: var(--stagger-delay, 0ms);\n}\n.stagger-fade-enter-from[data-v-6b54700c] {\n  opacity: 0;\n  transform: translateY(20px);\n}\n.stagger-fade-enter-to[data-v-6b54700c] {\n  opacity: 1;\n  transform: translateY(0);\n}\n.stagger-fade-leave-active[data-v-6b54700c] {\n  transition: opacity 0.3s;\n}\n.stagger-fade-leave-to[data-v-6b54700c] {\n  opacity: 0;\n}\n/* Progress Tracker Styles */\n.progress-tracker-container[data-v-6b54700c] {\n  position: relative;\n  margin-bottom: 0.5rem;\n  width: 100%;\n}\n.progress-bar[data-v-6b54700c] {\n  height: 6px;\n  border-radius: 3px;\n  background: #e0e0e0;\n  position: relative;\n  margin-bottom: 2px;\n  transition: width 0.3s;\n}\n.progress-bar.reading-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #00bfa6 0%, #38ef7d 100%);\n  z-index: 1;\n}\n.progress-bar.audio-progress[data-v-6b54700c] {\n  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);\n  margin-top: -6px;\n  opacity: 0.85;\n  z-index: 2;\n}\n.progress-labels[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #888;\n  margin-top: 2px;\n}\n.autocomplete-suggestions[data-v-6b54700c] {\n  position: absolute;\n  z-index: 1000;\n  background: #fff;\n  border: 1px solid #e9ecef;\n  border-radius: 8px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n  width: 100%;\n  margin-top: 0.2rem;\n  list-style: none;\n  padding: 0;\n  max-height: 260px;\n  overflow-y: auto;\n}\n.autocomplete-suggestions li[data-v-6b54700c] {\n  padding: 0.7rem 1rem;\n  cursor: pointer;\n  transition: background 0.2s;\n  display: flex;\n  align-items: center;\n  gap: 0.7rem;\n}\n.autocomplete-suggestions li.highlighted[data-v-6b54700c],\n.autocomplete-suggestions li[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n}\n.suggestion-type[data-v-6b54700c] {\n  font-size: 0.75rem;\n  color: #888;\n  margin-left: 0.5rem;\n  background: #f1f1f1;\n  border-radius: 8px;\n  padding: 0.1rem 0.5rem;\n}\n@media (max-width: 768px) {\n.autocomplete-suggestions li[data-v-6b54700c] {\n    padding: 0.5rem 0.7rem;\n    font-size: 0.95rem;\n}\n}\n/* Help Modal Styles */\n.modal-overlay[data-v-6b54700c] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 9999;\n  padding: 1rem;\n}\n.help-modal[data-v-6b54700c] {\n  background: white;\n  border-radius: 12px;\n  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);\n  max-width: 600px;\n  width: 100%;\n  max-height: 90vh;\n  overflow-y: auto;\n  animation: modalSlideIn-6b54700c 0.3s ease-out;\n}\n@keyframes modalSlideIn-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(-20px) scale(0.95);\n}\nto {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.help-modal-header[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  padding: 1.5rem 1.5rem 1rem;\n  border-bottom: 1px solid #e9ecef;\n}\n.help-modal-title[data-v-6b54700c] {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n  color: var(--primary-color);\n}\n.help-modal-close[data-v-6b54700c] {\n  background: none;\n  border: none;\n  font-size: 1.25rem;\n  color: #6c757d;\n  cursor: pointer;\n  padding: 0.25rem;\n  border-radius: 4px;\n  transition: all 0.2s;\n}\n.help-modal-close[data-v-6b54700c]:hover {\n  background: #f8f9fa;\n  color: #333;\n}\n.help-modal-body[data-v-6b54700c] {\n  padding: 1.5rem;\n}\n.help-section[data-v-6b54700c] {\n  margin-bottom: 2rem;\n}\n.help-section[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.help-section-title[data-v-6b54700c] {\n  font-size: 1.1rem;\n  font-weight: 600;\n  color: #333;\n  margin-bottom: 0.75rem;\n  display: flex;\n  align-items: center;\n}\n.help-text[data-v-6b54700c] {\n  color: #666;\n  line-height: 1.6;\n  margin-bottom: 0;\n}\n.help-shortcuts[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n.shortcut-item[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.5rem;\n  background: #f8f9fa;\n  border-radius: 6px;\n}\n.shortcut-item kbd[data-v-6b54700c] {\n  background: #333;\n  color: white;\n  padding: 0.25rem 0.5rem;\n  border-radius: 4px;\n  font-size: 0.85rem;\n  font-family: monospace;\n  min-width: 2rem;\n  text-align: center;\n}\n.help-list[data-v-6b54700c] {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.help-list li[data-v-6b54700c] {\n  padding: 0.5rem 0;\n  color: #666;\n  position: relative;\n  padding-left: 1.5rem;\n}\n.help-list li[data-v-6b54700c]::before {\n  content: \"•\";\n  color: var(--primary-color);\n  font-weight: bold;\n  position: absolute;\n  left: 0;\n}\n.suggestion-types[data-v-6b54700c] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n  display: flex;\n  align-items: center;\n  gap: 0.75rem;\n  padding: 0.75rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n}\n.suggestion-type-badge[data-v-6b54700c] {\n  padding: 0.25rem 0.5rem;\n  border-radius: 12px;\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.5px;\n}\n.suggestion-type-badge.title[data-v-6b54700c] {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n}\n.suggestion-type-badge.content[data-v-6b54700c] {\n  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);\n  color: white;\n}\n.suggestion-type-desc[data-v-6b54700c] {\n  color: #666;\n  font-size: 0.9rem;\n}\n.help-example[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  padding: 1rem;\n  border-radius: 8px;\n  border-left: 4px solid var(--primary-color);\n}\n.help-modal-footer[data-v-6b54700c] {\n  padding: 1rem 1.5rem;\n  border-top: 1px solid #e9ecef;\n  display: flex;\n  justify-content: flex-end;\n}\n/* Responsive Help Modal */\n@media (max-width: 768px) {\n.help-modal[data-v-6b54700c] {\n    margin: 1rem;\n    max-height: calc(100vh - 2rem);\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 1rem 1rem 0.75rem;\n}\n.help-modal-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 1rem;\n}\n.help-section[data-v-6b54700c] {\n    margin-bottom: 1.5rem;\n}\n.help-section-title[data-v-6b54700c] {\n    font-size: 1rem;\n}\n.shortcut-item[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.suggestion-type-example[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n}\n@media (max-width: 576px) {\n.modal-overlay[data-v-6b54700c] {\n    padding: 0.5rem;\n}\n.help-modal[data-v-6b54700c] {\n    margin: 0.5rem;\n}\n.help-modal-header[data-v-6b54700c] {\n    padding: 0.75rem 0.75rem 0.5rem;\n}\n.help-modal-body[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.help-modal-footer[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n}\n/* AI Summary Styles */\n.ai-summary-section[data-v-6b54700c] {\n  border-top: 2px solid #e9ecef;\n  padding-top: 1.5rem;\n}\n.summary-header[data-v-6b54700c] {\n  border-bottom: 1px solid #f8f9fa;\n  padding-bottom: 0.75rem;\n}\n.summary-title[data-v-6b54700c] {\n  font-size: 1.2rem;\n  font-weight: 600;\n  color: #333;\n  display: flex;\n  align-items: center;\n}\n.summary-content[data-v-6b54700c] {\n  animation: fadeInUp-6b54700c 0.4s ease-out;\n}\n@keyframes fadeInUp-6b54700c {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.summary-card[data-v-6b54700c] {\n  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);\n  border: 1px solid #dee2e6;\n  border-radius: 12px;\n  padding: 1.5rem;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n}\n.summary-text[data-v-6b54700c] {\n  font-size: 1rem;\n  line-height: 1.7;\n  color: #333;\n  margin-bottom: 0;\n}\n.summary-text p[data-v-6b54700c] {\n  margin-bottom: 1rem;\n}\n.summary-text p[data-v-6b54700c]:last-child {\n  margin-bottom: 0;\n}\n.summary-text strong[data-v-6b54700c] {\n  color: var(--primary-color);\n  font-weight: 600;\n}\n.summary-footer[data-v-6b54700c] {\n  font-size: 0.85rem;\n  color: #6c757d;\n  border-top: 1px solid #dee2e6;\n}\n.summary-footer i[data-v-6b54700c] {\n  color: var(--primary-color);\n}\n/* Loading animation for summary button */\n.btn-outline-info[data-v-6b54700c]:disabled {\n  opacity: 0.7;\n  cursor: not-allowed;\n}\n.btn-outline-info:disabled i[data-v-6b54700c] {\n  animation: spin-6b54700c 1s linear infinite;\n}\n@keyframes spin-6b54700c {\nfrom {\n    transform: rotate(0deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n/* Responsive AI Summary */\n@media (max-width: 768px) {\n.ai-summary-section[data-v-6b54700c] {\n    padding-top: 1rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 1rem;\n}\n.summary-title[data-v-6b54700c] {\n    font-size: 1.1rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.95rem;\n}\n}\n@media (max-width: 576px) {\n.summary-header[data-v-6b54700c] {\n    flex-direction: column;\n    align-items: flex-start;\n    gap: 0.5rem;\n}\n.summary-card[data-v-6b54700c] {\n    padding: 0.75rem;\n}\n.summary-text[data-v-6b54700c] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
