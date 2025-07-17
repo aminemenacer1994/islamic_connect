@@ -152,29 +152,205 @@ export default {
             },
             {
               title: "Entering Ihram",
-              description: `At the Miqat, change into Ihram, make the intention for Hajj, and recite the Talbiyah: <br><em>Labbaik Allahumma Labbaik...</em> (Here I am, O Allah, here I am).` ,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Purify your intention (niyyah) for Hajj, seeking only Allah's pleasure.<br>
+    - Repent for past mistakes and seek forgiveness from Allah and others.<br>
+    - Increase your prayers, recite Qur'an, and make abundant dhikr.<br>
+    - Make dua for ease, acceptance, and safety for yourself and fellow pilgrims.<br>
+    - Reflect on the significance of Ihram as a symbol of equality and humility before Allah.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Take a full bath (ghusl), trim nails, and remove unwanted body hair.<br>
+    - Men wear two white, unstitched cloths; women wear modest, simple dress.<br>
+    - Settle debts and ensure your family is cared for; leave clear instructions and emergency contacts.<br>
+    - Inform your employer and arrange for time off.<br>
+    - Write a will and inform your loved ones of your travel plans.<br>
+    - Seek forgiveness and resolve disputes with family, friends, and community members.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Ensure you have unscented toiletries, Ihram belt, and all travel documents (passport, visa, tickets, hotel info).<br>
+    - Pack a small bag for valuables, a prayer mat, reusable water bottle, snacks, and a first-aid kit.<br>
+    - Arrange for necessary vaccinations and bring any required medications.<br>
+    - Prepare a list of emergency contacts and keep copies of important documents.<br>
+    <br>
+    <strong>At the Miqat:</strong><br>
+    - Make the intention for Hajj: “Labbayka Allahumma Hajj” (O Allah, I am here to perform Hajj).<br>
+    - Recite the Talbiyah aloud:<br>
+    <em>Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik. Innal Hamda, Wan-Ni'mata, Laka wal-Mulk, Laa Shareeka Lak.</em><br>
+    (Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Surely all praise, grace, and dominion are Yours, and You have no partner.)<br>
+    - Continue reciting Talbiyah frequently throughout Hajj.<br>
+    <br>
+    <strong>Ihram Restrictions:</strong><br>
+    - Avoid cutting hair/nails, using perfume, hunting, and marital relations.<br>
+    - Do not cover your head (men) or face (women), and avoid wearing stitched clothing (men).<br>
+    - Avoid arguments, bad language, and harming others.<br>
+    - Do not use scented soap or deodorant.<br>
+    <br>
+    <strong>Spiritual Focus:</strong><br>
+    - Recite Talbiyah frequently, reflect on its meaning, and maintain humility and patience.<br>
+    - Remember that you are in a sacred state and every action is magnified in reward.<br>
+    - Be patient with fellow pilgrims and help those in need.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - Carry unscented toiletries, keep your Ihram clean, and be mindful of your behavior as you are now in a sacred state.<br>
+    - Use a money belt or pouch to keep valuables safe.<br>
+    - Stay hydrated and rest when possible.
+  `,
               dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
               warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
-              dos: ["Recite Talbiyah often", "Maintain cleanliness"],
+              dos: ["Recite Talbiyah often", "Maintain cleanliness", "Make intention with sincerity"],
               donts: ["Break Ihram rules", "Argue or fight"],
             },
             {
               title: "Tawaf al-Qudum (Arrival Tawaf)",
-              description: `Circle the Kaaba seven times counterclockwise, starting from the Black Stone. Pray two rak'ahs at Maqam Ibrahim and drink Zamzam water.`,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Make dua for acceptance and focus on the significance of entering Masjid al-Haram.<br>
+    - Reflect on the honor of being in the holiest mosque and the footsteps of the Prophets.<br>
+    - Prepare your heart for humility and awe before Allah.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Ensure you are in a state of wudu (ablution) before entering the mosque.<br>
+    - Plan your route and meeting points with your group in case you get separated.<br>
+    - Be aware of the crowd and keep your belongings secure.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Know the location of your hotel and the mosque entrances/exits.<br>
+    - Carry a small bag for your shoes and valuables.<br>
+    - Have a water bottle and light snacks if needed.<br>
+    <br>
+    <strong>Entering the Mosque:</strong><br>
+    - Enter Masjid al-Haram with your right foot, reciting the dua for entering a mosque.<br>
+    - Pause and take in the sight of the Kaaba, making dua upon first sight.<br>
+    <br>
+    <strong>Starting Tawaf:</strong><br>
+    - Proceed to the Black Stone (Hajar al-Aswad), face it, and if possible, kiss or touch it. If not, point towards it and say “Bismillah, Allahu Akbar.”<br>
+    - Be patient and do not push or harm others to reach the Black Stone.<br>
+    <br>
+    <strong>Performing Tawaf:</strong><br>
+    - Circle the Kaaba seven times counterclockwise, starting and ending at the Black Stone.<br>
+    - Men should perform the first three circuits briskly (raml) if possible.<br>
+    - Stay close to your group and be mindful of the elderly and children.<br>
+    <br>
+    <strong>Supplications:</strong><br>
+    - There are no fixed supplications; recite dhikr, Qur’an, or personal prayers.<br>
+    - Between the Yemeni Corner and the Black Stone, recite:<br>
+    <em>Rabbana atina fid-dunya hasanah wa fil-akhirati hasanah wa qina 'adhaban-nar.</em><br>
+    - Make dua for yourself, your family, and the Ummah.<br>
+    <br>
+    <strong>After Tawaf:</strong><br>
+    - Pray two rak’ahs behind Maqam Ibrahim (or anywhere in the mosque if crowded).<br>
+    - Drink Zamzam water and make dua for your needs.<br>
+    - Rest and reflect on the blessing of completing Tawaf.<br>
+    <br>
+    <strong>Etiquette:</strong><br>
+    - Be patient, avoid pushing, and help others if possible.<br>
+    - Lower your voice and maintain a respectful demeanor.<br>
+    - Focus on the spiritual significance of being in the holiest mosque.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - Keep your shoes in a bag and remember where you entered.<br>
+    - Stay hydrated and take breaks if needed.<br>
+    - If you get lost, ask mosque staff for help.
+  `,
               dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
-              dos: ["Stay calm in crowds", "Help others if possible"],
-              donts: ["Push or harm others", "Rush the ritual"],
+              dos: ["Stay calm in crowds", "Help others if possible", "Pray two rak'ahs after Tawaf", "Drink Zamzam water"],
+              donts: ["Push or harm others", "Rush the ritual", "Forget to make dua"],
             },
             {
               title: "Sa'i between Safa and Marwah",
-              description: `Walk seven times between the hills of Safa and Marwah, remembering Hajar's search for water. End with dua and reflection.`,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Reflect on the story of Hajar and the mercy of Allah.<br>
+    - Remind yourself of the importance of perseverance and trust in Allah’s plan.<br>
+    - Make dua for steadfastness and acceptance.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Ensure you are hydrated and have comfortable footwear.<br>
+    - If you are with a group, agree on a meeting point in case you get separated.<br>
+    - Be aware of the elderly, children, and those with special needs.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Know the starting and ending points (Safa and Marwah).<br>
+    - Familiarize yourself with the location of restrooms and water stations.<br>
+    - Carry a small bag for your shoes and personal items.<br>
+    <br>
+    <strong>Starting Sa’i:</strong><br>
+    - After Tawaf, proceed to Safa. Face the Kaaba, make dua, and begin Sa’i.<br>
+    - Recite the verse: <em>Inna as-Safa wal-Marwah min sha'a'irillah...</em><br>
+    <br>
+    <strong>The Walk:</strong><br>
+    - Walk briskly between the green markers (men only), and walk normally elsewhere.<br>
+    - Complete seven circuits between Safa and Marwah, starting at Safa and ending at Marwah.<br>
+    - Pause at each end to make dua and reflect.<br>
+    <br>
+    <strong>Supplications:</strong><br>
+    - Recite prayers and duas throughout. At each end (Safa and Marwah), face the Kaaba, raise your hands, and make dua.<br>
+    - Use recommended supplications or speak from your heart.<br>
+    <br>
+    <strong>Etiquette:</strong><br>
+    - Be considerate of others, especially the elderly and those with children.<br>
+    - Avoid running in crowded areas.<br>
+    - Maintain focus and humility.<br>
+    <br>
+    <strong>Completion:</strong><br>
+    - At the end, thank Allah for the opportunity and make dua for acceptance.<br>
+    - Rest and hydrate after completing Sa’i.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - If you feel tired, take a break at the designated rest areas.<br>
+    - Keep your group together and help those who need assistance.<br>
+    - If you are unsure about any part of the ritual, ask a guide or scholar on site.
+  `,
               dua: "Rabbighfir warham innaka antal-Azizul-Akram",
-              dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i"],
-              donts: ["Run in unsafe areas", "Distract others"],
+              dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i", "Be considerate of others"],
+              donts: ["Run in unsafe areas", "Distract others", "Forget to make dua"],
             },
             {
               title: "Standing at Arafat (Wuquf)",
-              description: `On the 9th of Dhul Hijjah, stand in prayer and supplication at Arafat from noon to sunset. This is the heart of Hajj. Seek forgiveness and make heartfelt duas.`,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Prepare your heart for the most important day of Hajj.<br>
+    - Make sincere repentance and seek forgiveness for all past sins.<br>
+    - Increase your dhikr and recitation of Qur’an.<br>
+    - Make a list of duas for yourself, your family, and the Ummah.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Pack an umbrella, sunscreen, and extra water for the day.<br>
+    - Bring a prayer mat and a small cushion or chair if needed.<br>
+    - Coordinate with your group for meals and rest times.<br>
+    - Know the location of your tent and the boundaries of Arafat.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Arrive at Arafat before Dhuhr and settle in your designated area.<br>
+    - Keep your identification and Hajj permit with you at all times.<br>
+    - Familiarize yourself with the location of medical tents and restrooms.<br>
+    <br>
+    <strong>Timing:</strong><br>
+    - On the 9th of Dhul Hijjah, after Dhuhr, gather at the plain of Arafat.<br>
+    - Listen to the Hajj sermon if possible.<br>
+    <br>
+    <strong>What to Do:</strong><br>
+    - Stand anywhere within the boundaries of Arafat. Spend the afternoon in prayer, supplication, and reflection.<br>
+    - Focus on making heartfelt duas and seeking Allah’s mercy.<br>
+    - Avoid unnecessary conversation and distractions.<br>
+    <br>
+    <strong>Supplications:</strong><br>
+    - Make heartfelt duas for yourself, your family, the Ummah, and all your needs. The best dua is:<br>
+    <em>La ilaha illallah wahdahu la sharika lahu, lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadir.</em><br>
+    - Recite Qur’an and ask Allah for forgiveness and guidance.<br>
+    <br>
+    <strong>Spiritual Focus:</strong><br>
+    - Seek forgiveness, repent, and renew your commitment to Allah.<br>
+    - Many pilgrims are moved to tears by the spiritual intensity of this day.<br>
+    - Remember that Arafat is the essence of Hajj; missing it invalidates the pilgrimage.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - Stay hydrated, use an umbrella for shade, and be patient with the crowds.<br>
+    - Take breaks in the shade and avoid standing in the sun for long periods.<br>
+    - If you feel unwell, seek help from medical staff immediately.
+  `,
               dua: "There is no god but Allah alone, He has no partner...",
               warning: "Missing Arafat invalidates Hajj.",
               dos: ["Pray for yourself and others", "Stay hydrated"],
@@ -182,14 +358,96 @@ export default {
             },
             {
               title: "Muzdalifah & Mina",
-              description: `After sunset, travel to Muzdalifah, collect pebbles, pray, and rest. Proceed to Mina for stoning the Jamarat (pillars) and sacrifice an animal. Shave or trim hair to exit Ihram.`,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Continue to recite Talbiyah and reflect on the blessings of Hajj.<br>
+    - Make dua for a safe journey and acceptance of your efforts.<br>
+    - Remember the example of the Prophet (ﷺ) and his patience during Hajj.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Pack a sleeping mat or lightweight blanket for Muzdalifah.<br>
+    - Bring snacks, water, and a flashlight for the night.<br>
+    - Stay with your group and agree on a meeting point.<br>
+    - Be considerate of others who are tired or unwell.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Collect 49 or 70 small pebbles for the stoning ritual at Mina.<br>
+    - Know the route from Arafat to Muzdalifah and then to Mina.<br>
+    - Keep your identification and valuables secure.<br>
+    <br>
+    <strong>After Sunset:</strong><br>
+    - Leave Arafat for Muzdalifah calmly, reciting Talbiyah.<br>
+    - Pray Maghrib and Isha combined upon arrival.<br>
+    <br>
+    <strong>At Muzdalifah:</strong><br>
+    - Rest under the open sky and spend the night in worship, dhikr, and rest.<br>
+    - Collect pebbles for the stoning ritual.<br>
+    <br>
+    <strong>Supplications:</strong><br>
+    - Make dua for forgiveness, safety, and a successful completion of Hajj.<br>
+    - Recite Qur’an and reflect on the journey so far.<br>
+    <br>
+    <strong>Proceed to Mina:</strong><br>
+    - After Fajr, head to Mina for the stoning of the Jamarat (pillars).<br>
+    - Stay with your group and follow the instructions of the Hajj authorities.<br>
+    <br>
+    <strong>Stoning the Jamarat:</strong><br>
+    - Throw seven pebbles at the largest pillar (Jamrat al-Aqabah) on the 10th, then at all three pillars on the following days.<br>
+    - Recite “Allahu Akbar” with each throw.<br>
+    - Be patient and avoid pushing in the crowds.<br>
+    <br>
+    <strong>Sacrifice:</strong><br>
+    - Arrange for the sacrifice of an animal (Qurbani) if required.<br>
+    - Thank Allah for the opportunity to fulfill this Sunnah.<br>
+    <br>
+    <strong>Shaving/Trimming Hair:</strong><br>
+    - Men should shave or trim their hair; women cut a small portion. This marks partial exit from Ihram.<br>
+    - Make dua for renewal and purification.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - Follow safety instructions, be patient, and help others.<br>
+    - Rest when possible and stay hydrated.<br>
+    - If you feel overwhelmed, seek help from Hajj staff or volunteers.
+  `,
               dua: "Allahumma taqabbal minna (O Allah, accept from us)",
               dos: ["Follow safety instructions", "Be patient in crowds"],
               donts: ["Throw stones at people", "Neglect Sunnah practices"],
             },
             {
               title: "Farewell Tawaf (Tawaf al-Wada)",
-              description: `Before leaving Makkah, perform a final Tawaf around the Kaaba. Make dua for acceptance and safe return.`,
+              description: `
+    <strong>Spiritual Preparation:</strong><br>
+    - Reflect on the completion of your Hajj and the blessings you have received.<br>
+    - Make dua for acceptance and forgiveness of any shortcomings.<br>
+    - Express gratitude to Allah for allowing you to complete the pilgrimage.<br>
+    <br>
+    <strong>Practical & Social Preparation:</strong><br>
+    - Pack your belongings and ensure nothing is left behind.<br>
+    - Inform your group or family of your departure plans.<br>
+    - Settle any outstanding matters at your accommodation.<br>
+    <br>
+    <strong>Logistical Preparation:</strong><br>
+    - Confirm your travel arrangements and keep your documents ready.<br>
+    - Plan your route to the airport or next destination.<br>
+    - Allow enough time for the Farewell Tawaf and travel to your departure point.<br>
+    <br>
+    <strong>Before Departure:</strong><br>
+    - Before leaving Makkah, perform a final Tawaf around the Kaaba.<br>
+    - Make sure all your group members are present.<br>
+    <br>
+    <strong>Supplications:</strong><br>
+    - Make dua for acceptance, forgiveness, and a safe return home.<br>
+    - Ask Allah to grant you the opportunity to return for Hajj or Umrah.<br>
+    <br>
+    <strong>Etiquette:</strong><br>
+    - Do not delay your departure after this Tawaf. It is a farewell to the Sacred House.<br>
+    - Maintain humility and gratitude as you leave.<br>
+    <br>
+    <strong>Practical Tips:</strong><br>
+    - Ensure you have all your belongings, and help fellow pilgrims if needed.<br>
+    - Take a moment to reflect on your journey and the lessons learned.<br>
+    - Stay in touch with your group and travel safely.
+  `,
               dua: "O Allah, accept my Hajj and forgive my shortcomings.",
               dos: ["Express gratitude", "Pray for a safe journey home"],
               donts: ["Delay departure unnecessarily", "Forget to make dua"],
