@@ -41019,26 +41019,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
-function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+// Debounce utility
+function debounce(fn, delay) {
+  var timeout;
+  return function () {
+    var _this = this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      return fn.apply(_this, args);
+    }, delay);
+  };
+}
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'PrayerTimes',
   data: function data() {
     return {
       city: '',
       country: '',
+      countryList: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'],
+      citySuggestions: [],
+      showCitySuggestions: false,
       latitude: null,
       longitude: null,
+      debugInfo: '',
       method: '2',
       methodOptions: {
         0: 'Shia Ithna-Ashari (Jafari)',
@@ -41061,18 +41076,45 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       submitted: false,
       useCurrentLocation: true,
       monthName: '',
-      year: ''
+      year: '',
+      errorMessage: ''
     };
   },
   mounted: function mounted() {
-    this.getCurrentLocation();
+    // Load user preferences from localStorage if available
+    var savedCity = localStorage.getItem('prayer_city');
+    var savedCountry = localStorage.getItem('prayer_country');
+    var savedMethod = localStorage.getItem('prayer_method');
+    if (savedCity && savedCountry && savedMethod) {
+      this.city = savedCity;
+      this.country = savedCountry;
+      this.method = savedMethod;
+      this.useCurrentLocation = false;
+      // Try to geocode and fetch prayer times for saved location
+      this.submitSearch();
+    } else {
+      this.getCurrentLocation();
+    }
   },
-  methods: _defineProperty(_defineProperty(_defineProperty(_defineProperty(_defineProperty({
+  methods: {
     formatTime: function formatTime(time) {
-      return time ? time.split(' ')[0] : '--:--';
+      if (!time) return '--:--';
+      var _time$split$0$split = time.split(' ')[0].split(':'),
+        _time$split$0$split2 = _slicedToArray(_time$split$0$split, 2),
+        hourStr = _time$split$0$split2[0],
+        minuteStr = _time$split$0$split2[1];
+      var hour = parseInt(hourStr, 10);
+      var minute = parseInt(minuteStr, 10);
+      var period = hour >= 12 ? 'PM' : 'AM';
+      if (hour === 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour -= 12;
+      }
+      return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
     },
     getCurrentLocation: function getCurrentLocation() {
-      var _this = this;
+      var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var position, _position$coords, latitude, longitude, location;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -41082,10 +41124,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
                 _context.next = 3;
                 break;
               }
-              _this.setDefaultLocation();
+              _this2.setDefaultLocation();
               return _context.abrupt("return");
             case 3:
-              _this.loading = true;
+              _this2.loading = true;
               _context.prev = 4;
               _context.next = 7;
               return new Promise(function (resolve, reject) {
@@ -41095,16 +41137,16 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               position = _context.sent;
               _position$coords = position.coords, latitude = _position$coords.latitude, longitude = _position$coords.longitude;
               _context.next = 11;
-              return _this.reverseGeocode(latitude, longitude);
+              return _this2.reverseGeocode(latitude, longitude);
             case 11:
               location = _context.sent;
-              _this.city = location.city;
-              _this.country = location.country;
-              _this.latitude = latitude;
-              _this.longitude = longitude;
-              _this.useCurrentLocation = true;
+              _this2.city = location.city;
+              _this2.country = location.country;
+              _this2.latitude = latitude;
+              _this2.longitude = longitude;
+              _this2.useCurrentLocation = true;
               _context.next = 19;
-              return _this.fetchPrayerTimes();
+              return _this2.fetchPrayerTimes();
             case 19:
               _context.next = 25;
               break;
@@ -41112,7 +41154,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               _context.prev = 21;
               _context.t0 = _context["catch"](4);
               console.error('Geolocation failed:', _context.t0);
-              _this.setDefaultLocation();
+              _this2.setDefaultLocation();
             case 25:
             case "end":
               return _context.stop();
@@ -41136,7 +41178,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               data = _context2.sent;
               return _context2.abrupt("return", {
                 city: data.address.city || data.address.town || data.address.village || 'Unknown',
-                country: (data.address.country_code || 'us').toUpperCase()
+                country: data.address.country || 'United Kingdom'
               });
             case 7:
             case "end":
@@ -41146,152 +41188,220 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     fetchPrayerTimes: function fetchPrayerTimes() {
-      var _this2 = this;
+      var _this3 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-        var date, month, year, timezone, url, response, data;
+        var date, month, year, timezone, url, response, data, gregorian;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
             case 0:
-              _this2.loading = true;
+              _this3.loading = true;
+              _this3.errorMessage = '';
               date = new Date();
               month = date.getMonth() + 1;
-              year = date.getFullYear();
-              timezone = 'Europe/London'; // Explicitly set timezone
-              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this2.latitude, "&longitude=").concat(_this2.longitude, "&method=").concat(_this2.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(timezone), "&school=0");
-              _context3.prev = 6;
-              _context3.next = 9;
+              year = date.getFullYear(); // Use browser timezone for Aladhan API
+              timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+              url = "https://api.aladhan.com/v1/calendar?latitude=".concat(_this3.latitude, "&longitude=").concat(_this3.longitude, "&method=").concat(_this3.method, "&month=").concat(month, "&year=").concat(year, "&timezonestring=").concat(encodeURIComponent(timezone), "&school=0");
+              _context3.prev = 7;
+              _context3.next = 10;
               return fetch(url);
-            case 9:
+            case 10:
               response = _context3.sent;
-              _context3.next = 12;
+              _context3.next = 13;
               return response.json();
-            case 12:
+            case 13:
               data = _context3.sent;
-              console.log('API Response:', data); // Log the response
               if (data.code === 200 && data.data) {
-                _this2.prayerData = data.data;
+                _this3.prayerData = data.data;
+                if (data.data.length > 0) {
+                  gregorian = data.data[0].date.gregorian;
+                  _this3.monthName = gregorian.month.en;
+                  _this3.year = gregorian.year;
+                }
               } else {
-                _this2.prayerData = [];
+                _this3.prayerData = [];
               }
               _context3.next = 21;
               break;
             case 17:
               _context3.prev = 17;
-              _context3.t0 = _context3["catch"](6);
-              console.error('Failed to fetch prayer times:', _context3.t0);
-              _this2.prayerData = [];
+              _context3.t0 = _context3["catch"](7);
+              _this3.errorMessage = 'Failed to fetch prayer times. Please try again.';
+              _this3.prayerData = [];
             case 21:
               _context3.prev = 21;
-              _this2.loading = false;
-              _this2.submitted = true;
+              _this3.loading = false;
+              _this3.submitted = true;
               return _context3.finish(21);
             case 25:
             case "end":
               return _context3.stop();
           }
-        }, _callee3, null, [[6, 17, 21, 25]]);
+        }, _callee3, null, [[7, 17, 21, 25]]);
       }))();
     },
-    isDST: function isDST() {
-      var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
-      var jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-      var jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-      return Math.max(jan, jul) !== date.getTimezoneOffset();
-    }
-  }, "formatTime", function formatTime(time) {
-    if (!time) return '--:--';
-    var _time$split$0$split = time.split(' ')[0].split(':'),
-      _time$split$0$split2 = _slicedToArray(_time$split$0$split, 2),
-      hourStr = _time$split$0$split2[0],
-      minuteStr = _time$split$0$split2[1];
-    var hour = parseInt(hourStr, 10);
-    var minute = parseInt(minuteStr, 10);
-
-    // ✅ FIXED HERE
-    if (this.isDST()) {
-      hour += 1;
-    }
-    var period = hour >= 12 ? 'PM' : 'AM';
-    if (hour === 0) {
-      hour = 12;
-    } else if (hour > 12) {
-      hour -= 12;
-    }
-    return "".concat(hour, ":").concat(minute.toString().padStart(2, '0'), " ").concat(period);
-  }), "submitSearch", function submitSearch() {
-    var _this3 = this;
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-      var geo;
-      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-        while (1) switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.prev = 0;
-            _this3.useCurrentLocation = false;
-            _context4.next = 4;
-            return _this3.geocodeCity(_this3.city);
-          case 4:
-            geo = _context4.sent;
-            _this3.latitude = geo.lat;
-            _this3.longitude = geo.lon;
-            _context4.next = 9;
-            return _this3.fetchPrayerTimes();
-          case 9:
-            _context4.next = 16;
-            break;
-          case 11:
-            _context4.prev = 11;
-            _context4.t0 = _context4["catch"](0);
-            console.error('Geocoding error:', _context4.t0);
-            _this3.prayerData = [];
-            _this3.submitted = true;
-          case 16:
-          case "end":
-            return _context4.stop();
-        }
-      }, _callee4, null, [[0, 11]]);
-    }))();
-  }), "geocodeCity", function geocodeCity(city) {
-    return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-      var url, res, data;
-      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-        while (1) switch (_context5.prev = _context5.next) {
-          case 0:
-            url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(city), "&format=json&limit=1");
-            _context5.next = 3;
-            return fetch(url);
-          case 3:
-            res = _context5.sent;
-            _context5.next = 6;
-            return res.json();
-          case 6:
-            data = _context5.sent;
-            if (data.length) {
+    submitSearch: function submitSearch() {
+      var _this4 = this;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
+        var geo;
+        return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
+            case 0:
+              _this4.errorMessage = '';
+              if (!(!_this4.city || !_this4.country)) {
+                _context4.next = 4;
+                break;
+              }
+              _this4.errorMessage = 'Please enter both city and country.';
+              return _context4.abrupt("return");
+            case 4:
+              // Save user preferences to localStorage
+              localStorage.setItem('prayer_city', _this4.city);
+              localStorage.setItem('prayer_country', _this4.country);
+              localStorage.setItem('prayer_method', _this4.method);
+              _context4.prev = 7;
+              _this4.useCurrentLocation = false;
+              _context4.next = 11;
+              return _this4.geocodeCity(_this4.city, _this4.country);
+            case 11:
+              geo = _context4.sent;
+              _this4.latitude = geo.lat;
+              _this4.longitude = geo.lon;
+              if (geo.country) {
+                _this4.country = geo.country;
+              }
+              _context4.next = 17;
+              return _this4.fetchPrayerTimes();
+            case 17:
+              _context4.next = 24;
+              break;
+            case 19:
+              _context4.prev = 19;
+              _context4.t0 = _context4["catch"](7);
+              _this4.errorMessage = 'Could not find the specified city/country. Please try again.';
+              _this4.prayerData = [];
+              _this4.submitted = true;
+            case 24:
+            case "end":
+              return _context4.stop();
+          }
+        }, _callee4, null, [[7, 19]]);
+      }))();
+    },
+    geocodeCity: function geocodeCity(city) {
+      var _arguments = arguments;
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var country, query, url, res, data, detectedCountry;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) switch (_context5.prev = _context5.next) {
+            case 0:
+              country = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : '';
+              query = city;
+              if (country) {
+                query += ', ' + country;
+              }
+              url = "https://nominatim.openstreetmap.org/search?q=".concat(encodeURIComponent(query), "&format=json&limit=1&addressdetails=1");
+              _context5.next = 6;
+              return fetch(url);
+            case 6:
+              res = _context5.sent;
               _context5.next = 9;
+              return res.json();
+            case 9:
+              data = _context5.sent;
+              if (data.length) {
+                _context5.next = 12;
+                break;
+              }
+              throw new Error('Invalid location');
+            case 12:
+              // Auto-fill country if available
+              detectedCountry = '';
+              if (data[0].address && data[0].address.country) {
+                detectedCountry = data[0].address.country;
+              }
+              return _context5.abrupt("return", {
+                lat: parseFloat(data[0].lat),
+                lon: parseFloat(data[0].lon),
+                country: detectedCountry
+              });
+            case 15:
+            case "end":
+              return _context5.stop();
+          }
+        }, _callee5);
+      }))();
+    },
+    resetFields: function resetFields() {
+      this.useCurrentLocation = true;
+      // Remove saved preferences if user chooses current location
+      localStorage.removeItem('prayer_city');
+      localStorage.removeItem('prayer_country');
+      localStorage.removeItem('prayer_method');
+      this.getCurrentLocation();
+    },
+    setDefaultLocation: function setDefaultLocation() {
+      this.city = 'Nottingham';
+      this.country = 'United Kingdom';
+      this.latitude = 52.9548;
+      this.longitude = -1.1581;
+      this.useCurrentLocation = false;
+      this.fetchPrayerTimes();
+    },
+    // --- City autocomplete logic ---
+    onCityInput: debounce( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+      var url, res, data;
+      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+        while (1) switch (_context6.prev = _context6.next) {
+          case 0:
+            this.showCitySuggestions = true;
+            if (this.city) {
+              _context6.next = 4;
               break;
             }
-            throw new Error('Invalid location');
-          case 9:
-            return _context5.abrupt("return", {
-              lat: parseFloat(data[0].lat),
-              lon: parseFloat(data[0].lon)
-            });
-          case 10:
+            this.citySuggestions = [];
+            return _context6.abrupt("return");
+          case 4:
+            url = "https://nominatim.openstreetmap.org/search?city=".concat(encodeURIComponent(this.city), "&country=").concat(encodeURIComponent(this.country), "&format=json&addressdetails=1&limit=5");
+            _context6.prev = 5;
+            _context6.next = 8;
+            return fetch(url);
+          case 8:
+            res = _context6.sent;
+            _context6.next = 11;
+            return res.json();
+          case 11:
+            data = _context6.sent;
+            this.citySuggestions = data;
+            _context6.next = 18;
+            break;
+          case 15:
+            _context6.prev = 15;
+            _context6.t0 = _context6["catch"](5);
+            this.citySuggestions = [];
+          case 18:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
-      }, _callee5);
-    }))();
-  }), "resetFields", function resetFields() {
-    this.useCurrentLocation = true;
-    this.getCurrentLocation();
-  }), "setDefaultLocation", function setDefaultLocation() {
-    this.city = 'Nottingham';
-    this.country = 'UK';
-    this.latitude = 52.9548;
-    this.longitude = -1.1581;
-    this.useCurrentLocation = false;
-    this.fetchPrayerTimes();
-  })
+      }, _callee6, this, [[5, 15]]);
+    })), 400),
+    selectCitySuggestion: function selectCitySuggestion(suggestion) {
+      this.city = suggestion.address.city || suggestion.address.town || suggestion.address.village || suggestion.display_name.split(',')[0];
+      if (suggestion.address && suggestion.address.country) {
+        this.country = suggestion.address.country;
+      }
+      // Save user preferences to localStorage
+      localStorage.setItem('prayer_city', this.city);
+      localStorage.setItem('prayer_country', this.country);
+      this.citySuggestions = [];
+      this.showCitySuggestions = false;
+    },
+    hideCitySuggestions: function hideCitySuggestions() {
+      var _this5 = this;
+      setTimeout(function () {
+        _this5.showCitySuggestions = false;
+      }, 200);
+    }
+  }
 });
 
 /***/ }),
@@ -50468,6 +50578,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
@@ -50483,18 +50599,112 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       settingsOpen: false,
       currentTab: 'hajj',
       copySuccess: false,
+      showAISummary: false,
       guides: {
         hajj: {
           title: "Hajj Guide",
-          text1: "Hajj is the annual pilgrimage to MakkMBAah that every Muslim must perform at least once in their lifetime if they are able. It takes place during Dhul Hijjah, the 12th month of the Islamic calendar, and involves a series of sacred rituals performed over several days. These include wearing Ihram, performing Tawaf around the Kaaba, standing at Arafat, stoning the pillars at Mina, and sacrificing an animal in remembrance of Prophet Ibrahim's devotion.",
-          text2: "Pilgrims also trim or shave their hair, drink Zamzam water, and follow a specific route that symbolizes humility, unity, and devotion to Allah. The journey fosters spiritual renewal, repentance, and brotherhood among Muslims from around the world. It's essential to prepare spiritually, financially, and physically before undertaking this profound act of worship.",
-          text3: "Modern logistics and guides make Hajj more accessible, but it is vital to approach it with sincerity, knowledge of the rites, and an understanding of its deeper spiritual significance. The Hajj experience is life-changing, instilling patience, humility, and immense gratitude in those who complete it."
+          summary: "Hajj is the annual pilgrimage to Makkah, required once in a lifetime for those able. It involves a series of sacred rituals over several days, fostering spiritual renewal, unity, and devotion.",
+          steps: [{
+            title: "Preparation & Intention (Niyyah)",
+            description: "\n                  <strong>Spiritual Preparation:</strong><br>\n                  - Begin by sincerely purifying your intention (niyyah) for Hajj, seeking only Allah's pleasure.<br>\n                  - Engage in self-reflection, repentance, and ask forgiveness from Allah and from anyone you may have wronged.<br>\n                  - Increase acts of worship: pray extra prayers, read Qur'an, and make abundant dhikr.<br>\n                  - Make dua for ease, acceptance, and safety for yourself and fellow pilgrims.<br><br>\n                  <strong>Practical & Social Preparation:</strong><br>\n                  - Settle all debts and outstanding obligations. Ensure your family and dependents are cared for in your absence.<br>\n                  - Write a will and inform your loved ones of your travel plans.<br>\n                  - Seek forgiveness and resolve disputes with family, friends, and community members.<br>\n                  - Attend Hajj seminars or study reliable guides to understand the rites and logistics.<br><br>\n                  <strong>Logistical Preparation:</strong><br>\n                  - Ensure your passport, visa, and travel documents are valid and up to date.<br>\n                  - Pack Ihram clothing (two white, unstitched cloths for men; modest dress for women), comfortable shoes, toiletries (unscented), and a small bag for valuables.<br>\n                  - Prepare a list of emergency contacts and keep copies of important documents.<br>\n                  - Arrange for necessary vaccinations and bring any required medications.<br>\n                  - Pack a prayer mat, reusable water bottle, snacks, and a small first-aid kit.<br><br>\n                  <strong>Family & Community:</strong><br>\n                  - Inform your employer and arrange for time off.<br>\n                  - Assign someone to look after your affairs at home.<br>\n                  - Share your itinerary and contact details with family.<br><br>\n                  <strong>Mindset:</strong><br>\n                  - Approach Hajj with humility, patience, and gratitude.<br>\n                  - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>\n                  - Remember the immense reward and spiritual transformation that Hajj offers.<br><br>\n                  <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/hajj-guide/' target='_blank'>IslamicFinder Hajj Guide</a></em>\n                  <div v-if=\"showAISummary\" class=\"alert alert-secondary mt-3\">\n                    <strong>AI-Generated Summary:</strong> <br>\n                    Preparing for Hajj is a holistic process involving spiritual cleansing, practical planning, and social responsibility. Sincerely purify your intention, seek forgiveness, and resolve all obligations before you leave. Study the rites, pack essentials, and ensure your family is cared for. Approach the journey with humility and patience, ready for both challenges and immense spiritual growth.\n                  </div>\n                  <button class=\"btn btn-outline-info btn-sm mt-2\" @click.prevent=\"showAISummary = !showAISummary\">\n                    {{ showAISummary ? 'Hide' : 'Show' }} AI-Generated Summary\n                  </button>\n                ",
+            dua: "O Allah, grant me a Hajj free of hypocrisy and showing off, and grant me forgiveness and mercy.",
+            dos: ["Study the rites of Hajj", "Settle debts and obligations", "Pack essentials and Ihram"],
+            donts: ["Neglect family responsibilities", "Travel without proper documentation"]
+          }, {
+            title: "Entering Ihram",
+            description: "At the Miqat, change into Ihram, make the intention for Hajj, and recite the Talbiyah: <br><em>Labbaik Allahumma Labbaik...</em> (Here I am, O Allah, here I am).",
+            dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
+            warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
+            dos: ["Recite Talbiyah often", "Maintain cleanliness"],
+            donts: ["Break Ihram rules", "Argue or fight"]
+          }, {
+            title: "Tawaf al-Qudum (Arrival Tawaf)",
+            description: "Circle the Kaaba seven times counterclockwise, starting from the Black Stone. Pray two rak'ahs at Maqam Ibrahim and drink Zamzam water.",
+            dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
+            dos: ["Stay calm in crowds", "Help others if possible"],
+            donts: ["Push or harm others", "Rush the ritual"]
+          }, {
+            title: "Sa'i between Safa and Marwah",
+            description: "Walk seven times between the hills of Safa and Marwah, remembering Hajar's search for water. End with dua and reflection.",
+            dua: "Rabbighfir warham innaka antal-Azizul-Akram",
+            dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i"],
+            donts: ["Run in unsafe areas", "Distract others"]
+          }, {
+            title: "Standing at Arafat (Wuquf)",
+            description: "On the 9th of Dhul Hijjah, stand in prayer and supplication at Arafat from noon to sunset. This is the heart of Hajj. Seek forgiveness and make heartfelt duas.",
+            dua: "There is no god but Allah alone, He has no partner...",
+            warning: "Missing Arafat invalidates Hajj.",
+            dos: ["Pray for yourself and others", "Stay hydrated"],
+            donts: ["Leave Arafat before sunset", "Waste time in idle talk"]
+          }, {
+            title: "Muzdalifah & Mina",
+            description: "After sunset, travel to Muzdalifah, collect pebbles, pray, and rest. Proceed to Mina for stoning the Jamarat (pillars) and sacrifice an animal. Shave or trim hair to exit Ihram.",
+            dua: "Allahumma taqabbal minna (O Allah, accept from us)",
+            dos: ["Follow safety instructions", "Be patient in crowds"],
+            donts: ["Throw stones at people", "Neglect Sunnah practices"]
+          }, {
+            title: "Farewell Tawaf (Tawaf al-Wada)",
+            description: "Before leaving Makkah, perform a final Tawaf around the Kaaba. Make dua for acceptance and safe return.",
+            dua: "O Allah, accept my Hajj and forgive my shortcomings.",
+            dos: ["Express gratitude", "Pray for a safe journey home"],
+            donts: ["Delay departure unnecessarily", "Forget to make dua"]
+          }],
+          references: [{
+            title: "IslamicFinder Hajj Guide",
+            url: "https://www.islamicfinder.org/knowledge/islamic-guides/hajj-guide/"
+          }, {
+            title: "Muslim Hands Hajj Guide",
+            url: "https://muslimhands.org.uk/latest/2017/06/a-step-by-step-guide-to-hajj"
+          }, {
+            title: "YouTube: Hajj Documentary",
+            url: "https://www.youtube.com/watch?v=1eR3gG9QK9w"
+          }]
         },
         umrah: {
           title: "Umrah Guide",
-          text1: "Umrah is a non-mandatory pilgrimage to Makkah that can be performed at any time of the year. Although it is shorter than Hajj, it holds immense spiritual value and involves specific rites including entering the state of Ihram, performing Tawaf around the Kaaba, praying at Maqam Ibrahim, and walking between the hills of Safa and Marwah (Sa'i).",
-          text2: "Pilgrims also shave or trim their hair at the end of Umrah to mark the completion of the ritual. It is an act of devotion and purification, offering a deeply personal and spiritual experience. Many Muslims perform Umrah multiple times in their lives, especially during the holy month of Ramadan for added blessings.",
-          text3: "Umrah encourages reflection, self-discipline, and a break from worldly distractions. It's a chance to renew one's faith, seek forgiveness, and strengthen the bond with Allah. With fewer logistical challenges than Hajj, it serves as a beautiful introduction to the sacred journey."
+          summary: "Umrah is a non-mandatory pilgrimage to Makkah, performed any time of year. It involves Ihram, Tawaf, Sa'i, and shaving or trimming hair, offering spiritual renewal and blessings.",
+          steps: [{
+            title: "Preparation & Intention (Niyyah)",
+            description: "\n                <strong>Spiritual Preparation:</strong><br>\n                - Sincerely purify your intention (niyyah) for Umrah, seeking only Allah's pleasure and reward.<br>\n                - Repent for past mistakes, seek forgiveness from Allah and from anyone you may have wronged.<br>\n                - Increase acts of worship: pray extra prayers, read Qur'an, and make abundant dhikr.<br>\n                - Make dua for ease, acceptance, and safety for yourself and fellow pilgrims.<br><br>\n                <strong>Practical & Social Preparation:</strong><br>\n                - Settle all debts and outstanding obligations. Ensure your family and dependents are cared for in your absence.<br>\n                - Write a will and inform your loved ones of your travel plans.<br>\n                - Seek forgiveness and resolve disputes with family, friends, and community members.<br>\n                - Attend Umrah seminars or study reliable guides to understand the rites and logistics.<br><br>\n                <strong>Logistical Preparation:</strong><br>\n                - Ensure your passport, visa, and travel documents are valid and up to date.<br>\n                - Pack Ihram clothing (two white, unstitched cloths for men; modest dress for women), comfortable shoes, toiletries (unscented), and a small bag for valuables.<br>\n                - Prepare a list of emergency contacts and keep copies of important documents.<br>\n                - Arrange for necessary vaccinations and bring any required medications.<br>\n                - Pack a prayer mat, reusable water bottle, snacks, and a small first-aid kit.<br><br>\n                <strong>Family & Community:</strong><br>\n                - Inform your employer and arrange for time off.<br>\n                - Assign someone to look after your affairs at home.<br>\n                - Share your itinerary and contact details with family.<br><br>\n                <strong>Mindset:</strong><br>\n                - Approach Umrah with humility, patience, and gratitude.<br>\n                - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>\n                - Remember the immense reward and spiritual transformation that Umrah offers.<br><br>\n                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>\n              ",
+            dua: "O Allah, I intend to perform Umrah, make it easy for me and accept it from me.",
+            dos: ["Study the rites of Umrah", "Pack essentials and Ihram", "Settle debts and obligations"],
+            donts: ["Neglect spiritual preparation", "Forget travel documents"]
+          }, {
+            title: "Entering Ihram at Miqat",
+            description: "\n                <strong>At the Miqat (designated boundary):</strong><br>\n                - Change into Ihram clothing before crossing the Miqat. Men wear two white, unstitched cloths; women wear modest, simple dress.<br>\n                - Make the intention (niyyah) for Umrah: \"Labbayka Allahumma Umrah\" (O Allah, I am here to perform Umrah).<br>\n                - Recite the Talbiyah aloud: <br>\n                  <em>Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik. Innal Hamda, Wan-Ni'mata, Laka wal-Mulk, Laa Shareeka Lak.</em><br>\n                  (Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Surely all praise, grace, and dominion are Yours, and You have no partner.)<br><br>\n                <strong>Ihram Restrictions:</strong><br>\n                - Do not cut hair or nails, use perfume, or engage in marital relations.<br>\n                - Avoid arguments, foul language, and harming others.<br>\n                - Maintain cleanliness and dignity.<br><br>\n                <strong>Spiritual Focus:</strong><br>\n                - Recite Talbiyah frequently and reflect on its meaning.<br>\n                - Make dua for acceptance and ease.<br><br>\n                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>\n              ",
+            dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
+            warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
+            dos: ["Recite Talbiyah often", "Maintain cleanliness", "Make intention with sincerity"],
+            donts: ["Break Ihram rules", "Argue or fight"]
+          }, {
+            title: "Tawaf (Circumambulation of the Kaaba)",
+            description: "\n                <strong>Performing Tawaf:</strong><br>\n                - Enter Masjid al-Haram with your right foot, reciting the dua for entering the mosque.<br>\n                - Proceed to the Black Stone (Hajar al-Aswad), face it, and if possible, kiss or touch it. If not, point towards it and say \"Bismillah, Allahu Akbar\".<br>\n                - Circle the Kaaba seven times counterclockwise, starting and ending at the Black Stone. Remain calm and patient, especially in crowds.<br>\n                - Recite prayers, dhikr, and personal duas throughout. There are no fixed supplications; speak from your heart.<br>\n                - After completing seven circuits, pray two rak'ahs behind Maqam Ibrahim (if possible), or anywhere in the mosque if crowded.<br>\n                - Drink Zamzam water and make dua for your needs.<br><br>\n                <strong>Etiquette:</strong><br>\n                - Be mindful of others, avoid pushing, and help those in need.<br>\n                - Maintain humility and focus on the spiritual significance of Tawaf.<br><br>\n                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>\n              ",
+            dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
+            dos: ["Stay calm in crowds", "Help others if possible", "Pray two rak'ahs after Tawaf", "Drink Zamzam water"],
+            donts: ["Push or harm others", "Rush the ritual", "Forget to make dua"]
+          }, {
+            title: "Sa'i between Safa and Marwah",
+            description: "\n                <strong>Performing Sa'i:</strong><br>\n                - After Tawaf, proceed to the hill of Safa. Face the Kaaba, make dua, and begin Sa'i.<br>\n                - Walk briskly between the green markers (men only), and walk normally elsewhere.<br>\n                - Complete seven circuits between Safa and Marwah, starting at Safa and ending at Marwah.<br>\n                - Reflect on the story of Hajar, her perseverance, and Allah's mercy.<br>\n                - Recite prayers and duas throughout. There are recommended supplications, but you may also make personal duas.<br>\n                - At the end, face the Kaaba, make dua, and thank Allah for the opportunity.<br><br>\n                <strong>Etiquette:</strong><br>\n                - Be considerate of others, especially the elderly and those with children.<br>\n                - Maintain focus and humility.<br><br>\n                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>\n              ",
+            dua: "Rabbighfir warham innaka antal-Azizul-Akram",
+            dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i", "Be considerate of others"],
+            donts: ["Run in unsafe areas", "Distract others", "Forget to make dua"]
+          }, {
+            title: "Shaving or Trimming Hair (Tahallul)",
+            description: "\n                <strong>Completion of Umrah:</strong><br>\n                - After completing Sa'i, men should shave (halq) or trim (taqsir) their hair. Shaving is preferred for men, but trimming is also accepted.<br>\n                - Women should cut a small portion (about a fingertip's length) from their hair.<br>\n                - This act symbolizes humility, renewal, and the completion of Umrah.<br>\n                - After this, all Ihram restrictions are lifted.<br><br>\n                <strong>Spiritual Reflection:</strong><br>\n                - Thank Allah for enabling you to complete Umrah.<br>\n                - Make dua for acceptance and for your loved ones.<br>\n                - Reflect on the lessons of humility, obedience, and gratitude.<br><br>\n                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>\n              ",
+            dua: "Allahumma taqabbal minni (O Allah, accept from me)",
+            dos: ["Thank Allah for the opportunity", "Pray for acceptance", "Reflect on the experience"],
+            donts: ["Forget to make dua", "Leave before completing all rites"]
+          }],
+          references: [{
+            title: "IslamicFinder Umrah Guide",
+            url: "https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/"
+          }, {
+            title: "Muslim Hands Umrah Guide",
+            url: "https://muslimhands.org.uk/latest/2017/06/a-step-by-step-guide-to-umrah"
+          }, {
+            title: "YouTube: Umrah Documentary",
+            url: "https://www.youtube.com/watch?v=2Q1kzQ7vQnA"
+          }]
         }
       },
       readTime: 0,
@@ -50531,7 +50741,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     toggleSpeech: function toggleSpeech() {
       var _this2 = this;
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _this2$currentContent, title, text1, text2, text3, text;
+        var _this2$currentContent, title, summary, steps, text;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -50542,8 +50752,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
               alert("Text-to-speech is not supported in this browser.");
               return _context.abrupt("return");
             case 3:
-              _this2$currentContent = _this2.currentContent, title = _this2$currentContent.title, text1 = _this2$currentContent.text1, text2 = _this2$currentContent.text2, text3 = _this2$currentContent.text3;
-              text = "".concat(title || '', " ").concat(text1 || '', " ").concat(text2 || '', " ").concat(text3 || '').trim();
+              _this2$currentContent = _this2.currentContent, title = _this2$currentContent.title, summary = _this2$currentContent.summary, steps = _this2$currentContent.steps;
+              text = "".concat(title || '', " ").concat(summary || '', " ").concat((steps || []).map(function (s) {
+                return s.title + ' ' + s.description;
+              }).join(' ')).trim();
               if (text) {
                 _context.next = 8;
                 break;
@@ -50626,7 +50838,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           while (1) switch (_context2.prev = _context2.next) {
             case 0:
               _this3.isCopying = true;
-              textToCopy = [_this3.currentContent.text1, _this3.currentContent.text2, _this3.currentContent.text3].filter(Boolean).join("\n\n");
+              textToCopy = [_this3.currentContent.title, _this3.currentContent.summary].concat(_toConsumableArray((_this3.currentContent.steps || []).map(function (s) {
+                return s.title + '\n' + s.description;
+              }))).filter(Boolean).join("\n\n");
               _context2.prev = 2;
               _context2.next = 5;
               return navigator.clipboard.writeText(textToCopy);
@@ -50654,7 +50868,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }))();
     },
     calculateReadTimeAndWordCount: function calculateReadTimeAndWordCount() {
-      var text = [this.currentContent.text1, this.currentContent.text2, this.currentContent.text3].filter(Boolean).join(" ");
+      var text = [this.currentContent.title, this.currentContent.summary].concat(_toConsumableArray((this.currentContent.steps || []).map(function (s) {
+        return s.title + ' ' + s.description;
+      }))).filter(Boolean).join(" ");
       this.wordCount = text.trim().split(/\s+/).filter(Boolean).length;
       this.readTime = Math.ceil(this.wordCount / 200);
       this.listeningTime = Math.ceil(this.wordCount / 150);
@@ -64475,47 +64691,64 @@ var _hoisted_2 = {
   }
 };
 var _hoisted_3 = {
-  "class": "flex-grow-1"
+  "class": "flex-grow-1 position-relative"
 };
 var _hoisted_4 = {
+  key: 0,
+  "class": "list-group position-absolute w-100 z-3",
+  style: {
+    "max-height": "200px",
+    "overflow-y": "auto"
+  }
+};
+var _hoisted_5 = ["onMousedown"];
+var _hoisted_6 = {
   "class": "flex-grow-1"
 };
-var _hoisted_5 = ["value"];
-var _hoisted_6 = {
+var _hoisted_7 = ["value"];
+var _hoisted_8 = {
+  "class": "flex-grow-1"
+};
+var _hoisted_9 = ["value"];
+var _hoisted_10 = {
   "class": "d-flex gap-2"
 };
-var _hoisted_7 = {
-  key: 0,
-  "class": "text-center my-5"
-};
-var _hoisted_8 = {
-  key: 1,
-  "class": "alert alert-light text-center py-2 shadow-sm border-lg"
-};
-var _hoisted_9 = {
-  "class": "table-responsive table-scroll mt-3"
-};
-var _hoisted_10 = {
-  "class": "table table-hover table-bordered text-center align-middle"
-};
 var _hoisted_11 = {
-  "class": "fw-semibold"
+  key: 0,
+  "class": "alert alert-danger text-center my-2"
 };
 var _hoisted_12 = {
+  key: 1,
+  "class": "text-center my-5"
+};
+var _hoisted_13 = {
   key: 2,
+  "class": "alert alert-light text-center py-2 shadow-sm border-lg"
+};
+var _hoisted_14 = {
+  "class": "table-responsive table-scroll mt-3"
+};
+var _hoisted_15 = {
+  "class": "table table-hover table-bordered text-center align-middle"
+};
+var _hoisted_16 = {
+  "class": "fw-semibold"
+};
+var _hoisted_17 = {
+  key: 3,
   "class": "alert alert-warning text-center mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "text-center fw-bold display-4 py-2 mt-4 mb-2"
-  }, "Prayer Times Calendar", -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Prayer Times Calendar", -1 /* HOISTED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "text-center mb-4 lead container"
   }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.submitSearch && $options.submitSearch.apply($options, arguments);
     }, ["prevent"])),
     "class": "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "city",
     "class": "form-label fw-bold"
   }, "City", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -64524,12 +64757,48 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.city = $event;
     }),
     "class": "form-control",
+    required: "",
+    autocomplete: "off",
+    onInput: _cache[1] || (_cache[1] = function () {
+      return $options.onCityInput && $options.onCityInput.apply($options, arguments);
+    }),
+    onFocus: _cache[2] || (_cache[2] = function ($event) {
+      return $data.showCitySuggestions = true;
+    }),
+    onBlur: _cache[3] || (_cache[3] = function () {
+      return $options.hideCitySuggestions && $options.hideCitySuggestions.apply($options, arguments);
+    })
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]]), $data.showCitySuggestions && $data.citySuggestions.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("ul", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.citySuggestions, function (suggestion) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: suggestion.display_name,
+      "class": "list-group-item list-group-item-action",
+      onMousedown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+        return $options.selectCitySuggestion(suggestion);
+      }, ["prevent"])
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.display_name), 41 /* TEXT, PROPS, NEED_HYDRATION */, _hoisted_5);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "for": "country",
+    "class": "form-label fw-bold"
+  }, "Country", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "country",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.country = $event;
+    }),
+    "class": "form-select",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.city]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "",
+    disabled: ""
+  }, "Select Country", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.countryList, function (c) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: c,
+      value: c
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(c), 9 /* TEXT, PROPS */, _hoisted_7);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.country]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "methodSelect"
   }, "Select Calculation Method:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "methodSelect",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
       return $data.method = $event;
     }),
     "class": "form-select"
@@ -64537,8 +64806,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: id,
       value: id
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_5);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_9);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     "class": "btn btn-primary px-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -64546,25 +64815,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     "class": "btn btn-outline-secondary px-4",
-    onClick: _cache[2] || (_cache[2] = function () {
+    onClick: _cache[6] || (_cache[6] = function () {
       return $options.resetFields && $options.resetFields.apply($options, arguments);
     })
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-geo-alt me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" My Location ")]))])], 32 /* NEED_HYDRATION */), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_7, _cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" My Location ")]))])], 32 /* NEED_HYDRATION */), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     "class": "visually-hidden"
   }, "Loading...")], -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mt-2"
-  }, "Fetching prayer times for your location...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? ' (Current Location)' : ' (Search Results)') + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_10, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
+  }, "Fetching prayer times for your location...", -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? ' (Current Location)' : ' (Search Results)') + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
     "class": "table-secondary sticky-top"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")])], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerData, function (day) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: day.date.gregorian.date
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.gregorian.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length === 0 && $data.submitted && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date.gregorian.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Fajr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Sunrise)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Dhuhr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Asr)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Maghrib)), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(day.timings.Isha)), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length === 0 && $data.submitted && !$data.loading && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-exclamation-triangle-fill me-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No prayer times found. Please check your city/country or try another method. ")]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
 }
@@ -70635,7 +70904,7 @@ var _hoisted_2 = {
   "class": "text-center mb-5"
 };
 var _hoisted_3 = {
-  "class": "nav nav-pills justify-content-center gap-3 fw-semibold mb-5",
+  "class": "nav nav-pills justify-content-center gap-2 gap-md-3 fw-semibold mb-5 flex-wrap",
   role: "tablist"
 };
 var _hoisted_4 = {
@@ -70649,60 +70918,76 @@ var _hoisted_6 = {
 };
 var _hoisted_7 = ["aria-selected"];
 var _hoisted_8 = {
-  "class": "row g-4 align-items-stretch justify-content-center"
+  "class": "row g-3 g-md-4 align-items-stretch justify-content-center"
 };
 var _hoisted_9 = {
-  "class": "col-12 col-lg-8"
+  "class": "col-12 col-md-10 col-lg-8"
 };
 var _hoisted_10 = {
-  "class": "p-4 p-md-5 animate__animated animate__fadeInRight"
+  "class": "p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2"
 };
 var _hoisted_11 = {
-  "class": "h2 fw-bold text-center mb-4"
+  "class": "h2 fw-bold text-center mb-3"
 };
 var _hoisted_12 = {
-  "class": "d-flex flex-wrap justify-content-center gap-2 mb-4"
+  "class": "info-row d-flex flex-wrap justify-content-center gap-2 mb-3"
 };
 var _hoisted_13 = {
-  "class": "badge bg-light text-dark px-3 py-2"
+  "class": "badge info-badge"
 };
 var _hoisted_14 = {
-  "class": "badge bg-light text-dark px-3 py-2"
+  "class": "badge info-badge"
 };
 var _hoisted_15 = {
-  "class": "badge bg-light text-dark px-3 py-2"
+  "class": "badge info-badge"
 };
 var _hoisted_16 = {
-  "class": "content-text"
+  "class": "mb-3"
 };
 var _hoisted_17 = {
-  "class": "text-justify mb-4",
-  style: {
-    "font-size": "1.2rem"
-  }
+  "class": "accordion mb-3",
+  id: "guideSteps"
 };
-var _hoisted_18 = {
-  "class": "text-justify mb-4",
-  style: {
-    "font-size": "1.2rem"
-  }
+var _hoisted_18 = ["id"];
+var _hoisted_19 = ["data-bs-target", "aria-expanded", "aria-controls"];
+var _hoisted_20 = ["id", "aria-labelledby"];
+var _hoisted_21 = {
+  "class": "accordion-body"
 };
-var _hoisted_19 = {
-  "class": "text-justify mb-4",
-  style: {
-    "font-size": "1.2rem"
-  }
-};
-var _hoisted_20 = {
-  "class": "d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4"
-};
-var _hoisted_21 = ["disabled"];
-var _hoisted_22 = ["href"];
+var _hoisted_22 = ["innerHTML"];
 var _hoisted_23 = {
-  "class": "fab-container"
+  key: 0,
+  "class": "alert alert-success rounded-4 shadow-sm mt-2"
 };
-var _hoisted_24 = ["title", "disabled"];
+var _hoisted_24 = ["innerHTML"];
 var _hoisted_25 = {
+  key: 1,
+  "class": "alert alert-warning rounded-4 shadow-sm mt-2"
+};
+var _hoisted_26 = ["innerHTML"];
+var _hoisted_27 = {
+  key: 2,
+  "class": "alert alert-primary rounded-4 shadow-sm mt-2"
+};
+var _hoisted_28 = {
+  "class": "mb-0"
+};
+var _hoisted_29 = {
+  key: 3,
+  "class": "alert alert-danger rounded-4 shadow-sm mt-2"
+};
+var _hoisted_30 = {
+  "class": "mb-0"
+};
+var _hoisted_31 = {
+  key: 0,
+  "class": "mt-3"
+};
+var _hoisted_32 = {
+  "class": "list-unstyled"
+};
+var _hoisted_33 = ["href"];
+var _hoisted_34 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x",
   role: "alert",
@@ -70714,9 +70999,9 @@ var _hoisted_25 = {
   }
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    "class": "display-4 fw-bold mb-4 animate__animated animate__fadeIn"
-  }, " Hajj & Umrah Guides ", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    "class": "display-4 fw-bold mb-4"
+  }, " Hajj & Umrah Guides ", -1 /* HOISTED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mx-auto description text-muted",
     style: {
       "max-width": "900px",
@@ -70738,7 +71023,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "hajj",
     "aria-selected": $data.currentTab === 'hajj'
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-moon-stars me-2"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ")]), 10 /* CLASS, PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["nav-link custom-tab px-4 py-2", {
@@ -70754,64 +71039,100 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "tab",
     "aria-controls": "umrah",
     "aria-selected": $data.currentTab === 'umrah'
-  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-person-walking me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 10 /* CLASS, PROPS */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-book me-2"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-book me-2"
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read Time:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-headphones me-2"
-  }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-file-earmark-word me-2"
-  }, null, -1 /* HOISTED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-circle-fill me-2 text-custom"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-circle-fill me-2 text-custom"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text2), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-circle-fill me-2 text-custom"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.text3), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "custom-tab px-3 py-2",
-    onClick: _cache[2] || (_cache[2] = function () {
-      return $options.copyText && $options.copyText.apply($options, arguments);
-    }),
-    disabled: $data.isCopying
-  }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-clipboard me-2"
-  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isCopying ? 'Copying...' : 'Copy to Clipboard'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    "class": "custom-tab px-3 py-2 text-center",
-    href: "https://wa.me/?text=".concat(encodeURIComponent($options.currentContent.title + '\n\n' + $options.currentContent.text1 + '\n\n' + $options.currentContent.text2 + '\n\n' + $options.currentContent.text3)),
-    target: "_blank",
-    rel: "noopener"
-  }, _cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-whatsapp me-2"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Share on WhatsApp ")]), 8 /* PROPS */, _hoisted_22)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "fab-single",
-    onClick: _cache[3] || (_cache[3] = function () {
-      return $options.toggleSpeech && $options.toggleSpeech.apply($options, arguments);
-    }),
-    title: $data.isSpeaking ? $data.isPaused ? 'Resume' : 'Pause' : 'Play',
-    disabled: !$data.isSpeechAvailable
+  }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-book me-1"
+  }, null, -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-headphones me-1"
+  }, null, -1 /* HOISTED */)), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-file-earmark-word me-1"
+  }, null, -1 /* HOISTED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_16, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.isSpeaking && !$data.isPaused ? 'bi bi-pause-fill' : 'bi bi-play-fill')
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    "class": "fab-single mt-2",
-    onClick: _cache[4] || (_cache[4] = function () {
-      return $options.toggleSettings && $options.toggleSettings.apply($options, arguments);
-    }),
-    title: "Settings"
-  }, _cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-gear-fill"
-  }, null, -1 /* HOISTED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
-    name: "fade"
+    "class": "bi bi-list-ol me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step-by-Step Guide")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.steps, function (step, idx) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: idx,
+      "class": "accordion-item rounded-4 mb-2 shadow-sm border border-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+      "class": "accordion-header",
+      id: "heading".concat(idx)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-button fw-bold fs-6", {
+        collapsed: idx !== 0
+      }]),
+      type: "button",
+      "data-bs-toggle": "collapse",
+      "data-bs-target": "#collapse".concat(idx),
+      "aria-expanded": idx === 0 ? 'true' : 'false',
+      "aria-controls": "collapse".concat(idx)
+    }, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-check2-circle me-2 text-custom"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_19)], 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      id: "collapse".concat(idx),
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
+        show: idx === 0
+      }]),
+      "aria-labelledby": "heading".concat(idx),
+      "data-bs-parent": "#guideSteps"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      "class": "mb-2",
+      innerHTML: step.description
+    }, null, 8 /* PROPS */, _hoisted_22), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-journal-richtext me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dua")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: step.dua
+    }, null, 8 /* PROPS */, _hoisted_24)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-exclamation-triangle me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Warning")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: step.warning
+    }, null, 8 /* PROPS */, _hoisted_26)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-hand-thumbs-up me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Do's")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.dos, function (doItem, dIdx) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: dIdx
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doItem), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+      "class": "mb-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-hand-thumbs-down me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don'ts")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_30, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.donts, function (dontItem, dIdx) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: dIdx
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dontItem), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_20)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_31, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "section-title mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-link-45deg me-2"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("References & Further Reading")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.references, function (ref, rIdx) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: rIdx
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: ref.url,
+      target: "_blank",
+      rel: "noopener",
+      "class": "text-decoration-underline"
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.title), 9 /* TEXT, PROPS */, _hoisted_33)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade-slow-top"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-check-circle-fill me-2"
-      }, null, -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* HOISTED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[5] || (_cache[5] = function ($event) {
+        onClick: _cache[2] || (_cache[2] = function ($event) {
           return $data.copySuccess = false;
         }),
         "aria-label": "Close"
@@ -170340,7 +170661,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n.position-relative[data-v-02228b8a] { position: relative;\n}\n.z-3[data-v-02228b8a] { z-index: 3;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -170775,7 +171096,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fab-container[data-v-2c27c8a7] {\n  position: fixed;\n  bottom: 2rem;\n  right: 2rem;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  z-index: 1200;\n}\n.fab-single[data-v-2c27c8a7] {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background-color: #00bfa6;\n  color: white;\n  font-size: 0.9rem;\n  border: none;\n  outline: none;\n  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  transition: all 0.3s ease;\n}\n.fab-single[data-v-2c27c8a7]:hover {\n  background-color: #009688;\n  transform: scale(1.1);\n}\n.fab-single[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  cursor: not-allowed;\n}\n.fab-single i[data-v-2c27c8a7] {\n  color: white;\n}\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.3rem;\n  padding: 0.5rem 1.5rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.3s ease;\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 8px rgba(0, 191, 166, 0.2);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.text-justify[data-v-2c27c8a7] {\n  text-align: justify;\n}\n.fade-enter-active[data-v-2c27c8a7],\n.fade-leave-active[data-v-2c27c8a7] {\n  transition: opacity 0.3s ease;\n}\n.fade-enter-from[data-v-2c27c8a7],\n.fade-leave-to[data-v-2c27c8a7] {\n  opacity: 0;\n}\n.content-text[data-v-2c27c8a7] {\n  max-height: 400px;\n  overflow-y: hidden;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.alert-success[data-v-2c27c8a7] {\n  background-color: rgba(223, 250, 241, 0.9) !important;\n  color: #00bfa6 !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.1rem;\n  padding: 0.5rem 1.2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.2s cubic-bezier(.4,2,.3,1);\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 1px 4px rgba(0,191,166,0.06);\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.10);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.guide-card[data-v-2c27c8a7] {\n  background: #fff;\n  border-radius: 1.2rem;\n  box-shadow: 0 4px 16px rgba(0,191,166,0.06), 0 1.5px 4px rgba(0,0,0,0.03);\n  border: 2px solid #e6f3f2;\n}\n.info-row[data-v-2c27c8a7] {\n  gap: 0.5rem !important;\n}\n.info-badge[data-v-2c27c8a7] {\n  background: #f5f5f7;\n  color: #333;\n  font-size: 1rem;\n  font-weight: 500;\n  border-radius: 1.5rem;\n  padding: 0.4rem 1rem;\n  display: flex;\n  align-items: center;\n  min-width: 90px;\n  justify-content: center;\n  border: 1.5px solid #e0e0e0;\n}\n@media (max-width: 600px) {\n.guide-card[data-v-2c27c8a7] {\n    padding: 1.1rem !important;\n    border-radius: 0.7rem;\n}\n.section-title[data-v-2c27c8a7] {\n    font-size: 1.1rem;\n}\n.info-badge[data-v-2c27c8a7] {\n    font-size: 0.95rem;\n    padding: 0.35rem 0.7rem;\n    min-width: 70px;\n}\n.accordion-button[data-v-2c27c8a7] {\n    font-size: 0.98rem !important;\n    padding: 0.7rem 1rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n    border-radius: 0.7rem !important;\n}\n}\n.section-title[data-v-2c27c8a7] {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: #222;\n  letter-spacing: 0.5px;\n}\n.section-title i[data-v-2c27c8a7] {\n  color: #888;\n}\n.accordion-item[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  margin-bottom: 0.7rem;\n  border: 2px solid #e0e0e0 !important;\n  box-shadow: 0 1px 4px rgba(0,0,0,0.04);\n}\n.accordion-button[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  font-size: 1.08rem;\n  font-weight: 600;\n  background: #f5f5f7;\n  color: #222;\n  transition: background 0.2s, color 0.2s;\n}\n.accordion-button[data-v-2c27c8a7]:not(.collapsed) {\n  background: #e6f3f2;\n  color: #00bfa6;\n}\n.accordion-body[data-v-2c27c8a7] {\n  font-size: 1.02rem;\n  background: #f8fdfc;\n  border-radius: 0.8rem;\n  padding: 1.1rem;\n}\n.alert-info[data-v-2c27c8a7], .alert-warning[data-v-2c27c8a7], .alert-primary[data-v-2c27c8a7], .alert-danger[data-v-2c27c8a7], .alert-success[data-v-2c27c8a7] {\n  font-size: 0.98rem;\n  border-radius: 0.8rem;\n  box-shadow: 0 1px 4px rgba(0,191,166,0.06);\n}\nul.list-unstyled[data-v-2c27c8a7] {\n  padding-left: 0;\n}\nul.list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.5rem;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

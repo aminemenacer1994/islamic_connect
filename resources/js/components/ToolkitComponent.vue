@@ -7,9 +7,6 @@
       growth.
     </p>
 
-
-
-
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card  rounded-4 overflow-hidden" style="border: 1px solid grey; ">

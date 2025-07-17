@@ -10,9 +10,24 @@
       <!-- Input Form -->
       <form @submit.prevent="submitSearch"
         class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 position-relative">
           <label for="city" class="form-label fw-bold">City</label>
-          <input id="city" v-model="city" class="form-control" required />
+          <input id="city" v-model="city" class="form-control" required autocomplete="off"
+            @input="onCityInput" @focus="showCitySuggestions = true" @blur="hideCitySuggestions" />
+          <ul v-if="showCitySuggestions && citySuggestions.length" class="list-group position-absolute w-100 z-3" style="max-height: 200px; overflow-y: auto;">
+            <li v-for="suggestion in citySuggestions" :key="suggestion.display_name" class="list-group-item list-group-item-action"
+              @mousedown.prevent="selectCitySuggestion(suggestion)">
+              {{ suggestion.display_name }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="flex-grow-1">
+          <label for="country" class="form-label fw-bold">Country</label>
+          <select id="country" v-model="country" class="form-select" required>
+            <option value="" disabled>Select Country</option>
+            <option v-for="c in countryList" :key="c" :value="c">{{ c }}</option>
+          </select>
         </div>
 
         <div class="flex-grow-1">
@@ -34,6 +49,7 @@
         </div>
       </form>
 
+      <div v-if="errorMessage" class="alert alert-danger text-center my-2">{{ errorMessage }}</div>
 
       <div v-if="loading" class="text-center my-5">
         <div class="spinner-border text-primary" role="status">
@@ -73,7 +89,7 @@
         </div>
       </div>
 
-      <div v-if="prayerData.length === 0 && submitted && !loading" class="alert alert-warning text-center mt-4">
+      <div v-if="prayerData.length === 0 && submitted && !loading && !errorMessage" class="alert alert-warning text-center mt-4">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         No prayer times found. Please check your city/country or try another method.
       </div>
@@ -82,14 +98,48 @@
 </template>
 
 <script>
+// Debounce utility
+function debounce(fn, delay) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 export default {
   name: 'PrayerTimes',
   data() {
     return {
       city: '',
       country: '',
+      countryList: [
+        'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan',
+        'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia',
+        'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi',
+        'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros',
+        'Congo', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic',
+        'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia',
+        'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada',
+        'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia',
+        'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan',
+        'Kenya', 'Kiribati', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya',
+        'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands',
+        'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique',
+        'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea',
+        'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru',
+        'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
+        'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia',
+        'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname',
+        'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago',
+        'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay',
+        'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
+      ],
+      citySuggestions: [],
+      showCitySuggestions: false,
       latitude: null,
       longitude: null,
+      debugInfo: '',
       method: '2',
       methodOptions: {
         0: 'Shia Ithna-Ashari (Jafari)',
@@ -112,15 +162,39 @@ export default {
       submitted: false,
       useCurrentLocation: true,
       monthName: '',
-      year: ''
+      year: '',
+      errorMessage: ''
     };
   },
   mounted() {
-    this.getCurrentLocation();
+    // Load user preferences from localStorage if available
+    const savedCity = localStorage.getItem('prayer_city');
+    const savedCountry = localStorage.getItem('prayer_country');
+    const savedMethod = localStorage.getItem('prayer_method');
+    if (savedCity && savedCountry && savedMethod) {
+      this.city = savedCity;
+      this.country = savedCountry;
+      this.method = savedMethod;
+      this.useCurrentLocation = false;
+      // Try to geocode and fetch prayer times for saved location
+      this.submitSearch();
+    } else {
+      this.getCurrentLocation();
+    }
   },
   methods: {
     formatTime(time) {
-      return time ? time.split(' ')[0] : '--:--';
+      if (!time) return '--:--';
+      const [hourStr, minuteStr] = time.split(' ')[0].split(':');
+      let hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+      const period = hour >= 12 ? 'PM' : 'AM';
+      if (hour === 0) {
+        hour = 12;
+      } else if (hour > 12) {
+        hour -= 12;
+      }
+      return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
     },
     async getCurrentLocation() {
       if (!navigator.geolocation) {
@@ -150,95 +224,131 @@ export default {
       const data = await res.json();
       return {
         city: data.address.city || data.address.town || data.address.village || 'Unknown',
-        country: (data.address.country_code || 'us').toUpperCase()
+        country: (data.address.country || 'United Kingdom')
       };
     },
     async fetchPrayerTimes() {
       this.loading = true;
+      this.errorMessage = '';
       const date = new Date();
       const month = date.getMonth() + 1;
       const year = date.getFullYear();
-      const timezone = 'Europe/London'; // Explicitly set timezone
-
+      // Use browser timezone for Aladhan API
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const url = `https://api.aladhan.com/v1/calendar?latitude=${this.latitude}&longitude=${this.longitude}&method=${this.method}&month=${month}&year=${year}&timezonestring=${encodeURIComponent(timezone)}&school=0`;
-
       try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log('API Response:', data); // Log the response
         if (data.code === 200 && data.data) {
           this.prayerData = data.data;
+          if (data.data.length > 0) {
+            const gregorian = data.data[0].date.gregorian;
+            this.monthName = gregorian.month.en;
+            this.year = gregorian.year;
+          }
         } else {
           this.prayerData = [];
         }
       } catch (err) {
-        console.error('Failed to fetch prayer times:', err);
+        this.errorMessage = 'Failed to fetch prayer times. Please try again.';
         this.prayerData = [];
       } finally {
         this.loading = false;
         this.submitted = true;
       }
     },
-    isDST(date = new Date()) {
-      const jan = new Date(date.getFullYear(), 0, 1).getTimezoneOffset();
-      const jul = new Date(date.getFullYear(), 6, 1).getTimezoneOffset();
-      return Math.max(jan, jul) !== date.getTimezoneOffset();
-    },
-    formatTime(time) {
-      if (!time) return '--:--';
-
-      const [hourStr, minuteStr] = time.split(' ')[0].split(':');
-      let hour = parseInt(hourStr, 10);
-      const minute = parseInt(minuteStr, 10);
-
-      // ✅ FIXED HERE
-      if (this.isDST()) {
-        hour += 1;
-      }
-
-      const period = hour >= 12 ? 'PM' : 'AM';
-      if (hour === 0) {
-        hour = 12;
-      } else if (hour > 12) {
-        hour -= 12;
-      }
-
-      return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
-    },
     async submitSearch() {
+      this.errorMessage = '';
+      if (!this.city || !this.country) {
+        this.errorMessage = 'Please enter both city and country.';
+        return;
+      }
+      // Save user preferences to localStorage
+      localStorage.setItem('prayer_city', this.city);
+      localStorage.setItem('prayer_country', this.country);
+      localStorage.setItem('prayer_method', this.method);
       try {
         this.useCurrentLocation = false;
-        const geo = await this.geocodeCity(this.city);
+        const geo = await this.geocodeCity(this.city, this.country);
         this.latitude = geo.lat;
         this.longitude = geo.lon;
+        if (geo.country) {
+          this.country = geo.country;
+        }
         await this.fetchPrayerTimes();
       } catch (err) {
-        console.error('Geocoding error:', err);
+        this.errorMessage = 'Could not find the specified city/country. Please try again.';
         this.prayerData = [];
         this.submitted = true;
       }
     },
-    async geocodeCity(city) {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`;
+    async geocodeCity(city, country = '') {
+      let query = city;
+      if (country) {
+        query += ', ' + country;
+      }
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1`;
       const res = await fetch(url);
       const data = await res.json();
       if (!data.length) throw new Error('Invalid location');
+      // Auto-fill country if available
+      let detectedCountry = '';
+      if (data[0].address && data[0].address.country) {
+        detectedCountry = data[0].address.country;
+      }
       return {
         lat: parseFloat(data[0].lat),
-        lon: parseFloat(data[0].lon)
+        lon: parseFloat(data[0].lon),
+        country: detectedCountry
       };
     },
     resetFields() {
       this.useCurrentLocation = true;
+      // Remove saved preferences if user chooses current location
+      localStorage.removeItem('prayer_city');
+      localStorage.removeItem('prayer_country');
+      localStorage.removeItem('prayer_method');
       this.getCurrentLocation();
     },
     setDefaultLocation() {
       this.city = 'Nottingham';
-      this.country = 'UK';
+      this.country = 'United Kingdom';
       this.latitude = 52.9548;
       this.longitude = -1.1581;
       this.useCurrentLocation = false;
       this.fetchPrayerTimes();
+    },
+    // --- City autocomplete logic ---
+    onCityInput: debounce(async function () {
+      this.showCitySuggestions = true;
+      if (!this.city) {
+        this.citySuggestions = [];
+        return;
+      }
+      const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(this.city)}&country=${encodeURIComponent(this.country)}&format=json&addressdetails=1&limit=5`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        this.citySuggestions = data;
+      } catch (e) {
+        this.citySuggestions = [];
+      }
+    }, 400),
+    selectCitySuggestion(suggestion) {
+      this.city = suggestion.address.city || suggestion.address.town || suggestion.address.village || suggestion.display_name.split(',')[0];
+      if (suggestion.address && suggestion.address.country) {
+        this.country = suggestion.address.country;
+      }
+      // Save user preferences to localStorage
+      localStorage.setItem('prayer_city', this.city);
+      localStorage.setItem('prayer_country', this.country);
+      this.citySuggestions = [];
+      this.showCitySuggestions = false;
+    },
+    hideCitySuggestions() {
+      setTimeout(() => {
+        this.showCitySuggestions = false;
+      }, 200);
     }
   }
 };
@@ -273,14 +383,15 @@ tbody tr:hover {
   background-color: #e8f4ff;
 }
 
-@media (max-width: 576px) {
+.position-relative { position: relative; }
+.z-3 { z-index: 3; }
 
+@media (max-width: 576px) {
   table thead th,
   table tbody td {
     font-size: 0.85rem;
     padding: 0.4rem;
   }
-
   .btn {
     font-size: 0.9rem;
   }
