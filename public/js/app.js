@@ -50658,7 +50658,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }, {
             title: "Hajj At A Glance (Rituals Chart)",
             url: "https://www.hajjataglance.com/"
-          }]
+          }],
+          faq: [{
+            question: "Can I perform Hajj on behalf of someone else?",
+            answer: "Yes, you may perform Hajj on behalf of someone who is deceased or physically unable, provided you have completed your own obligatory Hajj first."
+          }, {
+            question: "What if I miss a ritual or make a mistake?",
+            answer: "Consult a qualified scholar or Hajj guide immediately. Some mistakes can be rectified with a sacrifice or fidya, while others may require repeating the ritual."
+          }, {
+            question: "Is it necessary to travel with a group?",
+            answer: "While not obligatory, traveling with a reputable group is highly recommended for safety, logistics, and guidance."
+          }, {
+            question: "Can women perform Hajj without a mahram?",
+            answer: "Regulations may vary by country and year. Traditionally, a mahram is required, but some authorities allow women in safe, organized groups. Check current Saudi regulations."
+          }],
+          commonMistakes: ["Not clarifying intention (niyyah) before rituals.", "Breaking Ihram rules (using perfume, cutting hair/nails, etc.).", "Pushing or being impatient in crowds during Tawaf or Sa'i.", "Missing the day of Arafat or leaving before sunset.", "Throwing stones at the wrong pillars or at people instead of the Jamarat.", "Neglecting to make dua or reflect spiritually during the rites.", "Delaying the Farewell Tawaf unnecessarily.", "Not seeking help or clarification when unsure about a ritual."]
         },
         umrah: {
           title: "Umrah Guide",
@@ -50704,7 +50718,21 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
           }, {
             title: "Hajj At A Glance (Umrah)",
             url: "https://www.hajjataglance.com/"
-          }]
+          }],
+          faq: [{
+            question: "Can I perform Umrah at any time of the year?",
+            answer: "Yes, Umrah can be performed at any time except during the days of Hajj."
+          }, {
+            question: "Is Ihram required for Umrah?",
+            answer: "Yes, entering the state of Ihram at the Miqat is mandatory for Umrah."
+          }, {
+            question: "Can women perform Umrah alone?",
+            answer: "Regulations may vary. Traditionally, a mahram is required, but some authorities allow women in safe, organized groups. Check current Saudi regulations."
+          }, {
+            question: "What if I make a mistake during Umrah?",
+            answer: "Consult a qualified scholar or Umrah guide. Many mistakes can be rectified with a sacrifice or fidya."
+          }],
+          commonMistakes: ["Not making intention (niyyah) clearly at Miqat.", "Breaking Ihram rules (using perfume, cutting hair/nails, etc.).", "Pushing or being impatient in crowds during Tawaf or Sa'i.", "Not performing the required number of Tawaf or Sa'i circuits.", "Neglecting to make dua or reflect spiritually during the rites.", "Leaving before shaving/trimming hair (Tahallul).", "Not seeking help or clarification when unsure about a ritual."]
         }
       },
       readTime: 0,
@@ -50878,6 +50906,9 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     toggleSettings: function toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
       console.log('Settings toggled:', this.settingsOpen);
+    },
+    printGuide: function printGuide() {
+      window.print();
     }
   }
 });
@@ -70926,80 +70957,89 @@ var _hoisted_8 = {
 var _hoisted_9 = {
   "class": "col-12 col-md-10 col-lg-8"
 };
-var _hoisted_10 = ["aria-labelledby", "id"];
-var _hoisted_11 = {
+var _hoisted_10 = {
+  "class": "d-flex justify-content-end align-items-center mb-3 no-print"
+};
+var _hoisted_11 = ["aria-labelledby", "id"];
+var _hoisted_12 = {
   "class": "h1 fw-bold text-center mb-3"
 };
-var _hoisted_12 = {
-  "class": "info-row d-flex flex-wrap justify-content-center gap-2 mb-4",
-  "aria-label": "Guide info badges"
-};
 var _hoisted_13 = {
-  "class": "badge info-badge"
-};
-var _hoisted_14 = {
-  "class": "badge info-badge"
-};
-var _hoisted_15 = {
-  "class": "badge info-badge"
-};
-var _hoisted_16 = {
   "class": "mt-3"
 };
-var _hoisted_17 = {
+var _hoisted_14 = {
   "class": "accordion mb-3",
   id: "guideSteps",
   role: "region",
   "aria-label": "Step-by-step guide"
 };
-var _hoisted_18 = ["id"];
-var _hoisted_19 = ["data-bs-target", "aria-expanded", "aria-controls", "id", "aria-label"];
-var _hoisted_20 = ["id", "aria-labelledby", "aria-label"];
-var _hoisted_21 = {
+var _hoisted_15 = ["id"];
+var _hoisted_16 = ["data-bs-target", "aria-expanded", "aria-controls", "id", "aria-label"];
+var _hoisted_17 = ["id", "aria-labelledby", "aria-label"];
+var _hoisted_18 = {
   "class": "accordion-body"
 };
-var _hoisted_22 = ["innerHTML"];
-var _hoisted_23 = {
+var _hoisted_19 = ["innerHTML"];
+var _hoisted_20 = {
   key: 0,
   "class": "alert alert-success rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Dua"
 };
-var _hoisted_24 = ["innerHTML"];
-var _hoisted_25 = {
+var _hoisted_21 = ["innerHTML"];
+var _hoisted_22 = {
   key: 1,
   "class": "alert alert-warning rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Warning"
 };
-var _hoisted_26 = ["innerHTML"];
-var _hoisted_27 = {
+var _hoisted_23 = ["innerHTML"];
+var _hoisted_24 = {
   key: 2,
   "class": "alert alert-primary rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Do's"
 };
-var _hoisted_28 = {
+var _hoisted_25 = {
   "class": "mb-0"
 };
-var _hoisted_29 = {
+var _hoisted_26 = {
   key: 3,
   "class": "alert alert-danger rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Don'ts"
 };
-var _hoisted_30 = {
+var _hoisted_27 = {
   "class": "mb-0"
 };
-var _hoisted_31 = {
+var _hoisted_28 = {
   key: 0,
+  "class": "mt-4"
+};
+var _hoisted_29 = ["id"];
+var _hoisted_30 = ["id"];
+var _hoisted_31 = ["data-bs-target", "aria-controls", "aria-label"];
+var _hoisted_32 = ["id", "aria-labelledby", "data-bs-parent", "aria-label"];
+var _hoisted_33 = {
+  "class": "accordion-body"
+};
+var _hoisted_34 = ["innerHTML"];
+var _hoisted_35 = {
+  key: 1,
+  "class": "mt-4"
+};
+var _hoisted_36 = {
+  "class": "list-unstyled ms-2"
+};
+var _hoisted_37 = {
+  key: 2,
   "class": "mt-3"
 };
-var _hoisted_32 = {
+var _hoisted_38 = {
   "class": "list-unstyled"
 };
-var _hoisted_33 = ["href", "aria-label"];
-var _hoisted_34 = {
+var _hoisted_39 = ["href", "aria-label"];
+var _hoisted_40 = {
   key: 0,
   "class": "alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x",
   role: "alert",
@@ -71015,9 +71055,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip to main content link for screen readers and keyboard users "), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "#main-content",
     "class": "visually-hidden-focusable skip-link"
-  }, "Skip to main content", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  }, "Skip to main content", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     "class": "display-4 fw-bold mb-4"
-  }, " Hajj & Umrah Guides ", -1 /* HOISTED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Hajj & Umrah Guides ", -1 /* HOISTED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     "class": "mx-auto description text-muted",
     style: {
       "max-width": "900px",
@@ -71043,7 +71083,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.switchTab('hajj');
     }, ["enter", "space"])),
     "aria-label": 'Show Hajj Guide'
-  }, _cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-moon-stars me-2",
     "aria-hidden": "true"
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ")]), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -71063,29 +71103,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $options.switchTab('umrah');
     }, ["enter", "space"])),
     "aria-label": 'Show Umrah Guide'
-  }, _cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, _cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-person-walking me-2",
     "aria-hidden": "true"
-  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ")]), 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Print Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[4] || (_cache[4] = function () {
+      return $options.printGuide && $options.printGuide.apply($options, arguments);
+    }),
+    "class": "btn btn-outline-secondary btn-sm print-btn",
+    "aria-label": "Print this guide as PDF"
+  }, _cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-printer me-2",
+    "aria-hidden": "true"
+  }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ")]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     "class": "p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2",
     "aria-labelledby": $data.currentTab + '-tab',
     id: $data.currentTab + '-panel',
     role: "tabpanel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-book me-1",
-    "aria-hidden": "true"
-  }, null, -1 /* HOISTED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Read:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.readTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-headphones me-1",
-    "aria-hidden": "true"
-  }, null, -1 /* HOISTED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Listen:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.listeningTime) + " min", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    "class": "bi bi-file-earmark-word me-1",
-    "aria-hidden": "true"
-  }, null, -1 /* HOISTED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Words:", -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.wordCount), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_16, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"info-row d-flex flex-wrap justify-content-center gap-2 mb-4\" aria-label=\"Guide info badges\">\n              <span class=\"badge info-badge\"><i class=\"bi bi-book me-1\" aria-hidden=\"true\"></i><strong>Read: </strong> {{ readTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-headphones me-1\" aria-hidden=\"true\"></i><strong>Listen:</strong> {{ listeningTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-file-earmark-word me-1\" aria-hidden=\"true\"></i><strong>Words: </strong> {{ wordCount }}</span>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-list-ol me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step-by-Step Guide")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.steps, function (step, idx) {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step-by-Step Guide")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.steps, function (step, idx) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: idx,
       "class": "accordion-item rounded-4 mb-2 shadow-sm border border-2"
@@ -71105,10 +71145,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       role: "button",
       tabindex: "0",
       "aria-label": 'Expand step: ' + step.title
-    }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-check2-circle me-2 text-custom",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_19)], 8 /* PROPS */, _hoisted_18), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_16)], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: "collapse".concat(idx),
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
         show: idx === 0
@@ -71117,68 +71157,120 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-parent": "#guideSteps",
       role: "region",
       "aria-label": 'Step details: ' + step.title
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": "mb-2",
       innerHTML: step.description
-    }, null, 8 /* PROPS */, _hoisted_22), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_19), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-journal-richtext me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dua")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.dua
-    }, null, 8 /* PROPS */, _hoisted_24)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_21)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-exclamation-triangle me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Warning")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.warning
-    }, null, 8 /* PROPS */, _hoisted_26)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_23)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-hand-thumbs-up me-2",
       "aria-hidden": "true"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Do's")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.dos, function (doItem, dIdx) {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Do's")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.dos, function (doItem, dIdx) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doItem), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       "class": "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bi bi-hand-thumbs-down me-2",
       "aria-hidden": "true"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don'ts")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_30, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.donts, function (dontItem, dIdx) {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don'ts")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.donts, function (dontItem, dIdx) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dontItem), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_20)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_31, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_17)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), $options.currentContent.faq && $options.currentContent.faq.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_28, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "section-title mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-question-circle me-2",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Frequently Asked Questions")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "accordion",
+    id: $data.currentTab + '-faq',
+    role: "region",
+    "aria-label": "Frequently Asked Questions"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.faq, function (item, idx) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: idx,
+      "class": "accordion-item rounded-4 mb-2 shadow-sm border border-2"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+      "class": "accordion-header",
+      id: "faq-heading-".concat($data.currentTab, "-").concat(idx)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      "class": "accordion-button fw-bold fs-6 collapsed",
+      type: "button",
+      "data-bs-toggle": "collapse",
+      "data-bs-target": "#faq-collapse-".concat($data.currentTab, "-").concat(idx),
+      "aria-expanded": "false",
+      "aria-controls": "faq-collapse-".concat($data.currentTab, "-").concat(idx),
+      "aria-label": 'Expand FAQ: ' + item.question
+    }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-question-lg me-2 text-custom",
+      "aria-hidden": "true"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      id: "faq-collapse-".concat($data.currentTab, "-").concat(idx),
+      "class": "accordion-collapse collapse",
+      "aria-labelledby": "faq-heading-".concat($data.currentTab, "-").concat(idx),
+      "data-bs-parent": "#".concat($data.currentTab, "-faq"),
+      role: "region",
+      "aria-label": 'FAQ answer: ' + item.question
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: item.answer
+    }, null, 8 /* PROPS */, _hoisted_34)])], 8 /* PROPS */, _hoisted_32)]);
+  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_29)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Mistakes Section "), $options.currentContent.commonMistakes && $options.currentContent.commonMistakes.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_35, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    "class": "section-title mb-2"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    "class": "bi bi-exclamation-diamond me-2",
+    "aria-hidden": "true"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Common Mistakes")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.commonMistakes, function (mistake, mIdx) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: mIdx,
+      "class": "mb-2 d-flex align-items-start"
+    }, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      "class": "bi bi-x-circle-fill text-danger me-2",
+      "aria-hidden": "true"
+    }, null, -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mistake), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_37, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     "class": "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "bi bi-link-45deg me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("References & Further Reading")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.references, function (ref, rIdx) {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("References & Further Reading")], -1 /* HOISTED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.references, function (ref, rIdx) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: rIdx
+      key: rIdx,
+      "class": "me-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: ref.url,
       target: "_blank",
       rel: "noopener",
       "class": "text-decoration-underline",
       "aria-label": 'Reference: ' + ref.title
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.title), 9 /* TEXT, PROPS */, _hoisted_33)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.title), 9 /* TEXT, PROPS */, _hoisted_39)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade-slow-top"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      return [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         "class": "bi bi-check-circle-fill me-2",
         "aria-hidden": "true"
       }, null, -1 /* HOISTED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* HOISTED */)), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         "class": "btn-close",
-        onClick: _cache[4] || (_cache[4] = function ($event) {
+        onClick: _cache[5] || (_cache[5] = function ($event) {
           return $data.copySuccess = false;
         }),
         "aria-label": "Close"
@@ -171142,7 +171234,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.1rem;\n  padding: 0.5rem 1.2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.2s cubic-bezier(.4,2,.3,1);\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 1px 4px rgba(0,191,166,0.06);\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.10);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.guide-card[data-v-2c27c8a7] {\n  background: #fff;\n  border-radius: 1.2rem;\n  /* Remove heavy box-shadow and border for a cleaner look */\n  box-shadow: none;\n  border: none;\n  padding: 1.5rem 1.2rem;\n}\n.info-row[data-v-2c27c8a7] {\n  gap: 0.7rem !important;\n  margin-bottom: 1.2rem !important;\n  flex-wrap: nowrap !important;\n}\n.info-badge[data-v-2c27c8a7] {\n  background: none;\n  color: #666;\n  font-size: 0.98rem;\n  font-weight: 400;\n  border-radius: 0;\n  padding: 0.18rem 0.7rem 0.18rem 0.5rem;\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  justify-content: center;\n  border: none;\n  box-shadow: none;\n  margin-right: 0.35rem;\n  margin-left: 0.35rem;\n}\n.info-badge i[data-v-2c27c8a7] {\n  font-size: 1.01em;\n  margin-right: 0.3em;\n  color: #b0b0b0;\n}\n@media (max-width: 600px) {\n.info-row[data-v-2c27c8a7] {\n    gap: 0.3rem !important;\n    margin-bottom: 0.7rem !important;\n    flex-wrap: nowrap !important;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.info-badge[data-v-2c27c8a7] {\n    font-size: 0.93rem;\n    padding: 0.13rem 0.4rem 0.13rem 0.3rem;\n    margin-right: 0.18rem;\n    margin-left: 0.18rem;\n    white-space: nowrap;\n}\n}\n.section-title[data-v-2c27c8a7] {\n  font-size: 1.2rem;\n  font-weight: 700;\n  color: #222;\n  letter-spacing: 0.5px;\n}\n.section-title i[data-v-2c27c8a7] {\n  color: #888;\n}\n.accordion-item[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  margin-bottom: 0.7rem;\n  /* Remove border and box-shadow for a cleaner look */\n  border: none !important;\n  box-shadow: none;\n  background: #fff;\n}\n.accordion-button[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  font-size: 1.08rem;\n  font-weight: 600;\n  background: #f9f9fa;\n  color: #222;\n  transition: background 0.2s, color 0.2s;\n  border: none;\n  box-shadow: none;\n}\n.accordion-button[data-v-2c27c8a7]:not(.collapsed) {\n  background: #f1f7f6;\n  color: #00bfa6;\n}\n.accordion-body[data-v-2c27c8a7] {\n  font-size: 1.02rem;\n  background: #fff;\n  border-radius: 0.8rem;\n  padding: 1.1rem 0.5rem 0.7rem 0.5rem;\n  border-top: 1px solid #f0f0f0;\n  box-shadow: none;\n}\n.alert-info[data-v-2c27c8a7], .alert-warning[data-v-2c27c8a7], .alert-primary[data-v-2c27c8a7], .alert-danger[data-v-2c27c8a7], .alert-success[data-v-2c27c8a7] {\n  font-size: 0.98rem;\n  border-radius: 0.8rem;\n  box-shadow: none;\n  border: none;\n  margin-bottom: 0.7rem;\n  padding: 0.7rem 1rem;\n}\nul.list-unstyled[data-v-2c27c8a7] {\n  padding-left: 0;\n}\nul.list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.5rem;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.clean-tabs[data-v-2c27c8a7] {\n  gap: 1.2rem;\n  margin-bottom: 2.2rem !important;\n  margin-top: 0.7rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n  background: none;\n  border: none;\n  border-radius: 0;\n  color: #555;\n  font-size: 1.01rem;\n  font-weight: 500;\n  padding: 0.45rem 0.7rem 0.25rem 0.7rem;\n  margin-bottom: -2px;\n  border-bottom: 1.5px solid transparent;\n  transition: color 0.18s, border-bottom 0.18s;\n  min-width: 80px;\n  letter-spacing: 0.01em;\n}\n.clean-tab-btn.active[data-v-2c27c8a7], .clean-tab-btn[data-v-2c27c8a7]:focus {\n  color: #00bfa6;\n  border-bottom: 1.5px solid #00bfa6;\n  background: none;\n  font-weight: 600;\n}\n.clean-tab-btn[data-v-2c27c8a7]:hover {\n  color: #009688;\n  background: none;\n  border-bottom: 1.5px solid #b2dfdb;\n}\n@media (max-width: 600px) {\n.clean-tabs[data-v-2c27c8a7] {\n    gap: 0.5rem;\n    margin-bottom: 1.2rem !important;\n    margin-top: 0.3rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n    font-size: 0.97rem;\n    padding: 0.35rem 0.5rem 0.18rem 0.5rem;\n    min-width: 60px;\n}\n}\n/* Visually hidden but focusable skip link for accessibility */\n.skip-link[data-v-2c27c8a7] {\n  position: absolute;\n  left: -999px;\n  top: auto;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  z-index: 10000;\n  background: #fff;\n  color: #00bfa6;\n  border-radius: 0.3rem;\n  padding: 0.5rem 1rem;\n  font-weight: bold;\n  outline: none;\n  transition: left 0.2s;\n}\n.skip-link[data-v-2c27c8a7]:focus {\n  left: 1rem;\n  top: 1rem;\n  width: auto;\n  height: auto;\n  outline: 2px solid #00bfa6;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.10);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.1rem;\n  padding: 0.5rem 1.2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.2s cubic-bezier(.4,2,.3,1);\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 1px 4px rgba(0,191,166,0.06);\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.10);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.guide-card[data-v-2c27c8a7] {\n  background: #fff;\n  border-radius: 1.2rem;\n  box-shadow: none;\n  border: none;\n  padding: 2.2rem 1.5rem 2rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.info-row[data-v-2c27c8a7] {\n  gap: 1.1rem !important;\n  margin-bottom: 2.2rem !important;\n  flex-wrap: wrap !important;\n  justify-content: center;\n}\n.info-badge[data-v-2c27c8a7] {\n  background: none;\n  color: #666;\n  font-size: 1.01rem;\n  font-weight: 400;\n  border-radius: 0.4rem;\n  padding: 0.28rem 1.1rem 0.28rem 0.8rem;\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  justify-content: center;\n  border: none;\n  box-shadow: none;\n  margin-right: 0.5rem;\n  margin-left: 0.5rem;\n  margin-bottom: 0.2rem;\n}\n.info-badge i[data-v-2c27c8a7] {\n  font-size: 1.01em;\n  margin-right: 0.3em;\n  color: #b0b0b0;\n}\n@media (max-width: 600px) {\n.info-row[data-v-2c27c8a7] {\n    gap: 0.2rem !important;\n    margin-bottom: 1.1rem !important;\n    flex-wrap: wrap !important;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.info-badge[data-v-2c27c8a7] {\n    font-size: 0.95rem;\n    padding: 0.13rem 0.5rem 0.13rem 0.3rem;\n    margin-right: 0.18rem;\n    margin-left: 0.18rem;\n    margin-bottom: 0.15rem;\n    white-space: nowrap;\n}\n.guide-card[data-v-2c27c8a7] {\n    padding: 1.1rem 0.5rem 1.2rem 0.5rem;\n    margin-bottom: 1.2rem;\n}\n.section-title[data-v-2c27c8a7] {\n    margin-top: 1.2rem;\n    margin-bottom: 0.7rem;\n    padding-bottom: 0.1rem;\n}\nsection[data-v-2c27c8a7] {\n    margin-top: 1.1rem;\n    margin-bottom: 1.1rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n    margin-bottom: 0.7rem;\n}\n.accordion-body[data-v-2c27c8a7] {\n    padding: 0.8rem 0.3rem 0.7rem 0.3rem;\n}\n.alert-info[data-v-2c27c8a7], .alert-warning[data-v-2c27c8a7], .alert-primary[data-v-2c27c8a7], .alert-danger[data-v-2c27c8a7], .alert-success[data-v-2c27c8a7] {\n    padding: 0.7rem 0.6rem;\n    margin-bottom: 0.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n    margin-left: 0.5rem !important;\n}\nsection .list-unstyled[data-v-2c27c8a7] {\n    gap: 0.5rem 0.7rem;\n}\n}\n.section-title[data-v-2c27c8a7] {\n  font-size: 1.22rem;\n  font-weight: 700;\n  color: #222;\n  letter-spacing: 0.5px;\n  margin-top: 2.5rem;\n  margin-bottom: 1.2rem;\n  padding-bottom: 0.2rem;\n  border-bottom: 1px solid #f2f2f2;\n}\n.section-title i[data-v-2c27c8a7] {\n  color: #888;\n}\nsection[data-v-2c27c8a7] {\n  margin-top: 2.2rem;\n  margin-bottom: 2.2rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  margin-bottom: 1.2rem;\n  border: none !important;\n  box-shadow: none;\n  background: #fff;\n}\n.accordion-button[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  font-size: 1.08rem;\n  font-weight: 600;\n  background: #f9f9fa;\n  color: #222;\n  transition: background 0.2s, color 0.2s;\n  border: none;\n  box-shadow: none;\n  padding: 1.2rem 1.3rem 1.2rem 1.3rem;\n}\n.accordion-button[data-v-2c27c8a7]:not(.collapsed) {\n  background: #f1f7f6;\n  color: #00bfa6;\n}\n.accordion-body[data-v-2c27c8a7] {\n  font-size: 1.04rem;\n  background: #fff;\n  border-radius: 0.8rem;\n  padding: 1.3rem 1.2rem 1.2rem 1.2rem;\n  border-top: 1px solid #f0f0f0;\n  box-shadow: none;\n  margin-bottom: 0.2rem;\n}\n.alert-info[data-v-2c27c8a7], .alert-warning[data-v-2c27c8a7], .alert-primary[data-v-2c27c8a7], .alert-danger[data-v-2c27c8a7], .alert-success[data-v-2c27c8a7] {\n  font-size: 1.01rem;\n  border-radius: 0.8rem;\n  box-shadow: none;\n  border: none;\n  margin-bottom: 1.2rem;\n  padding: 1.2rem 1.3rem;\n}\nul.list-unstyled[data-v-2c27c8a7] {\n  padding-left: 0;\n  margin-bottom: 0.5rem;\n}\nul.list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.8rem;\n  line-height: 1.7;\n}\n/* FAQ and Common Mistakes spacing */\n.accordion#hajj-faq[data-v-2c27c8a7], .accordion#umrah-faq[data-v-2c27c8a7] {\n  margin-bottom: 1.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n  margin-left: 1.2rem !important;\n}\n/* Reference links horizontal gap */\nsection .list-unstyled[data-v-2c27c8a7] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1.2rem 2.2rem;\n}\nsection .list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.2rem;\n  margin-right: 0;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.clean-tabs[data-v-2c27c8a7] {\n  gap: 1.2rem;\n  margin-bottom: 2.2rem !important;\n  margin-top: 0.7rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n  background: none;\n  border: none;\n  border-radius: 0;\n  color: #555;\n  font-size: 1.01rem;\n  font-weight: 500;\n  padding: 0.45rem 0.7rem 0.25rem 0.7rem;\n  margin-bottom: -2px;\n  border-bottom: 1.5px solid transparent;\n  transition: color 0.18s, border-bottom 0.18s;\n  min-width: 80px;\n  letter-spacing: 0.01em;\n}\n.clean-tab-btn.active[data-v-2c27c8a7], .clean-tab-btn[data-v-2c27c8a7]:focus {\n  color: #00bfa6;\n  border-bottom: 1.5px solid #00bfa6;\n  background: none;\n  font-weight: 600;\n}\n.clean-tab-btn[data-v-2c27c8a7]:hover {\n  color: #009688;\n  background: none;\n  border-bottom: 1.5px solid #b2dfdb;\n}\n@media (max-width: 600px) {\n.clean-tabs[data-v-2c27c8a7] {\n    gap: 0.5rem;\n    margin-bottom: 1.2rem !important;\n    margin-top: 0.3rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n    font-size: 0.97rem;\n    padding: 0.35rem 0.5rem 0.18rem 0.5rem;\n    min-width: 60px;\n}\n}\n/* Visually hidden but focusable skip link for accessibility */\n.skip-link[data-v-2c27c8a7] {\n  position: absolute;\n  left: -999px;\n  top: auto;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  z-index: 10000;\n  background: #fff;\n  color: #00bfa6;\n  border-radius: 0.3rem;\n  padding: 0.5rem 1rem;\n  font-weight: bold;\n  outline: none;\n  transition: left 0.2s;\n}\n.skip-link[data-v-2c27c8a7]:focus {\n  left: 1rem;\n  top: 1rem;\n  width: auto;\n  height: auto;\n  outline: 2px solid #00bfa6;\n  box-shadow: 0 2px 8px rgba(0,191,166,0.10);\n}\n.print-btn[data-v-2c27c8a7] {\n  font-size: 1rem;\n  padding: 0.35rem 1.1rem;\n  border-radius: 0.5rem;\n  border-width: 1.5px;\n  transition: background 0.18s, color 0.18s;\n  box-shadow: none;\n}\n.print-btn i[data-v-2c27c8a7] {\n  font-size: 1.1em;\n}\n@media print {\nbody[data-v-2c27c8a7] * {\n    visibility: hidden !important;\n    box-shadow: none !important;\n    background: #fff !important;\n    color: #222 !important;\n}\n#main-content[data-v-2c27c8a7], #main-content[data-v-2c27c8a7] * {\n    visibility: visible !important;\n    color: #222 !important;\n    background: #fff !important;\n    box-shadow: none !important;\n}\n.no-print[data-v-2c27c8a7], .no-print[data-v-2c27c8a7] * {\n    display: none !important;\n}\n.guide-card[data-v-2c27c8a7] {\n    box-shadow: none !important;\n    border: none !important;\n    background: #fff !important;\n    color: #222 !important;\n    padding: 0 !important;\n    margin: 0 !important;\n}\n.section-title[data-v-2c27c8a7] {\n    border-bottom: 1px solid #eee !important;\n    margin-top: 2rem !important;\n    margin-bottom: 1rem !important;\n    color: #111 !important;\n}\n.accordion-item[data-v-2c27c8a7], .accordion-button[data-v-2c27c8a7], .accordion-body[data-v-2c27c8a7], .alert[data-v-2c27c8a7], .info-badge[data-v-2c27c8a7] {\n    background: #fff !important;\n    color: #222 !important;\n    box-shadow: none !important;\n    border: none !important;\n}\n.alert[data-v-2c27c8a7] {\n    padding: 0.7rem 1rem !important;\n    margin-bottom: 0.7rem !important;\n}\n.info-row[data-v-2c27c8a7], .clean-tabs[data-v-2c27c8a7], .skip-link[data-v-2c27c8a7], .alert-dismissible[data-v-2c27c8a7], .position-fixed[data-v-2c27c8a7] {\n    display: none !important;\n}\na[data-v-2c27c8a7] {\n    color: #222 !important;\n    text-decoration: underline !important;\n}\n@page {\n    margin: 1.5cm;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

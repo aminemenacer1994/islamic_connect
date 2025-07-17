@@ -37,13 +37,19 @@
       </div>
       <div class="row g-3 g-md-4 align-items-stretch justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
+          <!-- Print Button -->
+          <div class="d-flex justify-content-end align-items-center mb-3 no-print">
+            <button @click="printGuide" class="btn btn-outline-secondary btn-sm print-btn" aria-label="Print this guide as PDF">
+              <i class="bi bi-printer me-2" aria-hidden="true"></i> Print / Save as PDF
+            </button>
+          </div>
           <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'" :id="currentTab + '-panel'" role="tabpanel">
             <h1 class="h1 fw-bold text-center mb-3">{{ currentContent.title }}</h1>
-            <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4" aria-label="Guide info badges">
-              <span class="badge info-badge"><i class="bi bi-book me-1" aria-hidden="true"></i><strong>Read:</strong> {{ readTime }} min</span>
+            <!-- <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4" aria-label="Guide info badges">
+              <span class="badge info-badge"><i class="bi bi-book me-1" aria-hidden="true"></i><strong>Read: </strong> {{ readTime }} min</span>
               <span class="badge info-badge"><i class="bi bi-headphones me-1" aria-hidden="true"></i><strong>Listen:</strong> {{ listeningTime }} min</span>
-              <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1" aria-hidden="true"></i><strong>Words:</strong> {{ wordCount }}</span>
-            </div>
+              <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1" aria-hidden="true"></i><strong>Words: </strong> {{ wordCount }}</span>
+            </div> -->
             <section class="mt-3">
               <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2" aria-hidden="true"></i>Step-by-Step Guide</h3>
               <div class="accordion mb-3" id="guideSteps" role="region" aria-label="Step-by-step guide">
@@ -86,10 +92,42 @@
                 </div>
               </div>
             </section>
+            <!-- FAQ Section -->
+            <section v-if="currentContent.faq && currentContent.faq.length" class="mt-4">
+              <h3 class="section-title mb-2"><i class="bi bi-question-circle me-2" aria-hidden="true"></i>Frequently Asked Questions</h3>
+              <div class="accordion" :id="currentTab + '-faq'" role="region" aria-label="Frequently Asked Questions">
+                <div v-for="(item, idx) in currentContent.faq" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
+                  <h2 class="accordion-header" :id="`faq-heading-${currentTab}-${idx}`">
+                    <button class="accordion-button fw-bold fs-6 collapsed" type="button" data-bs-toggle="collapse"
+                      :data-bs-target="`#faq-collapse-${currentTab}-${idx}`" aria-expanded="false"
+                      :aria-controls="`faq-collapse-${currentTab}-${idx}`" :aria-label="'Expand FAQ: ' + item.question">
+                      <i class="bi bi-question-lg me-2 text-custom" aria-hidden="true"></i>{{ item.question }}
+                    </button>
+                  </h2>
+                  <div :id="`faq-collapse-${currentTab}-${idx}`" class="accordion-collapse collapse"
+                    :aria-labelledby="`faq-heading-${currentTab}-${idx}`" :data-bs-parent="`#${currentTab}-faq`" role="region"
+                    :aria-label="'FAQ answer: ' + item.question">
+                    <div class="accordion-body">
+                      <span v-html="item.answer"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Common Mistakes Section -->
+            <section v-if="currentContent.commonMistakes && currentContent.commonMistakes.length" class="mt-4">
+              <h3 class="section-title mb-2"><i class="bi bi-exclamation-diamond me-2" aria-hidden="true"></i>Common Mistakes</h3>
+              <ul class="list-unstyled ms-2">
+                <li v-for="(mistake, mIdx) in currentContent.commonMistakes" :key="mIdx" class="mb-2 d-flex align-items-start">
+                  <i class="bi bi-x-circle-fill text-danger me-2" aria-hidden="true"></i>
+                  <span>{{ mistake }}</span>
+                </li>
+              </ul>
+            </section>
             <section v-if="currentContent.references && currentContent.references.length" class="mt-3">
               <h3 class="section-title mb-2"><i class="bi bi-link-45deg me-2" aria-hidden="true"></i>References & Further Reading</h3>
               <ul class="list-unstyled">
-                <li v-for="(ref, rIdx) in currentContent.references" :key="rIdx">
+                <li v-for="(ref, rIdx) in currentContent.references" :key="rIdx" class="me-3">
                   <a :href="ref.url" target="_blank" rel="noopener" class="text-decoration-underline" :aria-label="'Reference: ' + ref.title">{{ ref.title }}</a>
                 </li>
               </ul>
@@ -470,6 +508,34 @@ export default {
             { title: "Official Saudi Hajj Portal (Nusuk)", url: "https://hajj.nusuk.sa/" },
             { title: "CBHUK: Hajj 2025 Guidance", url: "https://cbhuk.org/news/hajj/hajj-2025-guidance-for-british-pilgrims-nusuk-hajj/" },
             { title: "Hajj At A Glance (Rituals Chart)", url: "https://www.hajjataglance.com/" },
+          ],
+          faq: [
+            {
+              question: "Can I perform Hajj on behalf of someone else?",
+              answer: "Yes, you may perform Hajj on behalf of someone who is deceased or physically unable, provided you have completed your own obligatory Hajj first."
+            },
+            {
+              question: "What if I miss a ritual or make a mistake?",
+              answer: "Consult a qualified scholar or Hajj guide immediately. Some mistakes can be rectified with a sacrifice or fidya, while others may require repeating the ritual."
+            },
+            {
+              question: "Is it necessary to travel with a group?",
+              answer: "While not obligatory, traveling with a reputable group is highly recommended for safety, logistics, and guidance."
+            },
+            {
+              question: "Can women perform Hajj without a mahram?",
+              answer: "Regulations may vary by country and year. Traditionally, a mahram is required, but some authorities allow women in safe, organized groups. Check current Saudi regulations."
+            }
+          ],
+          commonMistakes: [
+            "Not clarifying intention (niyyah) before rituals.",
+            "Breaking Ihram rules (using perfume, cutting hair/nails, etc.).",
+            "Pushing or being impatient in crowds during Tawaf or Sa'i.",
+            "Missing the day of Arafat or leaving before sunset.",
+            "Throwing stones at the wrong pillars or at people instead of the Jamarat.",
+            "Neglecting to make dua or reflect spiritually during the rites.",
+            "Delaying the Farewell Tawaf unnecessarily.",
+            "Not seeking help or clarification when unsure about a ritual."
           ]
         },
         umrah: {
@@ -593,6 +659,33 @@ export default {
             { title: "Official Saudi Umrah Portal (Nusuk)", url: "https://www.nusuk.sa/" },
             { title: "CBHUK: Umrah Guide", url: "https://cbhuk.org/hajj-umrah-guide/umrah-guide/" },
             { title: "Hajj At A Glance (Umrah)", url: "https://www.hajjataglance.com/" },
+          ],
+          faq: [
+            {
+              question: "Can I perform Umrah at any time of the year?",
+              answer: "Yes, Umrah can be performed at any time except during the days of Hajj."
+            },
+            {
+              question: "Is Ihram required for Umrah?",
+              answer: "Yes, entering the state of Ihram at the Miqat is mandatory for Umrah."
+            },
+            {
+              question: "Can women perform Umrah alone?",
+              answer: "Regulations may vary. Traditionally, a mahram is required, but some authorities allow women in safe, organized groups. Check current Saudi regulations."
+            },
+            {
+              question: "What if I make a mistake during Umrah?",
+              answer: "Consult a qualified scholar or Umrah guide. Many mistakes can be rectified with a sacrifice or fidya."
+            }
+          ],
+          commonMistakes: [
+            "Not making intention (niyyah) clearly at Miqat.",
+            "Breaking Ihram rules (using perfume, cutting hair/nails, etc.).",
+            "Pushing or being impatient in crowds during Tawaf or Sa'i.",
+            "Not performing the required number of Tawaf or Sa'i circuits.",
+            "Neglecting to make dua or reflect spiritually during the rites.",
+            "Leaving before shaving/trimming hair (Tahallul).",
+            "Not seeking help or clarification when unsure about a ritual."
           ]
         }
       },
@@ -731,6 +824,9 @@ export default {
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
       console.log('Settings toggled:', this.settingsOpen);
+    },
+    printGuide() {
+      window.print();
     }
   }
 };
@@ -770,31 +866,33 @@ export default {
 .guide-card {
   background: #fff;
   border-radius: 1.2rem;
-  /* Remove heavy box-shadow and border for a cleaner look */
   box-shadow: none;
   border: none;
-  padding: 1.5rem 1.2rem;
+  padding: 2.2rem 1.5rem 2rem 1.5rem;
+  margin-bottom: 2.2rem;
 }
 .info-row {
-  gap: 0.7rem !important;
-  margin-bottom: 1.2rem !important;
-  flex-wrap: nowrap !important;
+  gap: 1.1rem !important;
+  margin-bottom: 2.2rem !important;
+  flex-wrap: wrap !important;
+  justify-content: center;
 }
 .info-badge {
   background: none;
   color: #666;
-  font-size: 0.98rem;
+  font-size: 1.01rem;
   font-weight: 400;
-  border-radius: 0;
-  padding: 0.18rem 0.7rem 0.18rem 0.5rem;
+  border-radius: 0.4rem;
+  padding: 0.28rem 1.1rem 0.28rem 0.8rem;
   display: flex;
   align-items: center;
   min-width: 0;
   justify-content: center;
   border: none;
   box-shadow: none;
-  margin-right: 0.35rem;
-  margin-left: 0.35rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 .info-badge i {
   font-size: 1.01em;
@@ -803,33 +901,70 @@ export default {
 }
 @media (max-width: 600px) {
   .info-row {
-    gap: 0.3rem !important;
-    margin-bottom: 0.7rem !important;
-    flex-wrap: nowrap !important;
+    gap: 0.2rem !important;
+    margin-bottom: 1.1rem !important;
+    flex-wrap: wrap !important;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
   .info-badge {
-    font-size: 0.93rem;
-    padding: 0.13rem 0.4rem 0.13rem 0.3rem;
+    font-size: 0.95rem;
+    padding: 0.13rem 0.5rem 0.13rem 0.3rem;
     margin-right: 0.18rem;
     margin-left: 0.18rem;
+    margin-bottom: 0.15rem;
     white-space: nowrap;
+  }
+  .guide-card {
+    padding: 1.1rem 0.5rem 1.2rem 0.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .section-title {
+    margin-top: 1.2rem;
+    margin-bottom: 0.7rem;
+    padding-bottom: 0.1rem;
+  }
+  section {
+    margin-top: 1.1rem;
+    margin-bottom: 1.1rem;
+  }
+  .accordion-item {
+    margin-bottom: 0.7rem;
+  }
+  .accordion-body {
+    padding: 0.8rem 0.3rem 0.7rem 0.3rem;
+  }
+  .alert-info, .alert-warning, .alert-primary, .alert-danger, .alert-success {
+    padding: 0.7rem 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+  .ms-2 {
+    margin-left: 0.5rem !important;
+  }
+  section .list-unstyled {
+    gap: 0.5rem 0.7rem;
   }
 }
 .section-title {
-  font-size: 1.2rem;
+  font-size: 1.22rem;
   font-weight: 700;
   color: #222;
   letter-spacing: 0.5px;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid #f2f2f2;
 }
 .section-title i {
   color: #888;
 }
+section {
+  margin-top: 2.2rem;
+  margin-bottom: 2.2rem;
+}
 .accordion-item {
   border-radius: 1rem !important;
-  margin-bottom: 0.7rem;
-  /* Remove border and box-shadow for a cleaner look */
+  margin-bottom: 1.2rem;
   border: none !important;
   box-shadow: none;
   background: #fff;
@@ -843,32 +978,53 @@ export default {
   transition: background 0.2s, color 0.2s;
   border: none;
   box-shadow: none;
+  padding: 1.2rem 1.3rem 1.2rem 1.3rem;
 }
 .accordion-button:not(.collapsed) {
   background: #f1f7f6;
   color: #00bfa6;
 }
 .accordion-body {
-  font-size: 1.02rem;
+  font-size: 1.04rem;
   background: #fff;
   border-radius: 0.8rem;
-  padding: 1.1rem 0.5rem 0.7rem 0.5rem;
+  padding: 1.3rem 1.2rem 1.2rem 1.2rem;
   border-top: 1px solid #f0f0f0;
   box-shadow: none;
+  margin-bottom: 0.2rem;
 }
 .alert-info, .alert-warning, .alert-primary, .alert-danger, .alert-success {
-  font-size: 0.98rem;
+  font-size: 1.01rem;
   border-radius: 0.8rem;
   box-shadow: none;
   border: none;
-  margin-bottom: 0.7rem;
-  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+  padding: 1.2rem 1.3rem;
 }
 ul.list-unstyled {
   padding-left: 0;
+  margin-bottom: 0.5rem;
 }
 ul.list-unstyled li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+  line-height: 1.7;
+}
+/* FAQ and Common Mistakes spacing */
+.accordion#hajj-faq, .accordion#umrah-faq {
+  margin-bottom: 1.7rem;
+}
+.ms-2 {
+  margin-left: 1.2rem !important;
+}
+/* Reference links horizontal gap */
+section .list-unstyled {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 2.2rem;
+}
+section .list-unstyled li {
+  margin-bottom: 0.2rem;
+  margin-right: 0;
 }
 .text-custom {
   color: #00bfa6;
@@ -939,6 +1095,68 @@ ul.list-unstyled li {
   height: auto;
   outline: 2px solid #00bfa6;
   box-shadow: 0 2px 8px rgba(0,191,166,0.10);
+}
+.print-btn {
+  font-size: 1rem;
+  padding: 0.35rem 1.1rem;
+  border-radius: 0.5rem;
+  border-width: 1.5px;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: none;
+}
+.print-btn i {
+  font-size: 1.1em;
+}
+@media print {
+  body * {
+    visibility: hidden !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #222 !important;
+  }
+  #main-content, #main-content * {
+    visibility: visible !important;
+    color: #222 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+  .no-print, .no-print * {
+    display: none !important;
+  }
+  .guide-card {
+    box-shadow: none !important;
+    border: none !important;
+    background: #fff !important;
+    color: #222 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .section-title {
+    border-bottom: 1px solid #eee !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+    color: #111 !important;
+  }
+  .accordion-item, .accordion-button, .accordion-body, .alert, .info-badge {
+    background: #fff !important;
+    color: #222 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .alert {
+    padding: 0.7rem 1rem !important;
+    margin-bottom: 0.7rem !important;
+  }
+  .info-row, .clean-tabs, .skip-link, .alert-dismissible, .position-fixed {
+    display: none !important;
+  }
+  a {
+    color: #222 !important;
+    text-decoration: underline !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
 }
 </style>
 
