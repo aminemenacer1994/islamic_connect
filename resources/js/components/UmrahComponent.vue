@@ -1,92 +1,112 @@
 <template>
-  <div class="container-fluid py-4">
-    <div class="text-center mb-5">
-      <h1 class="display-4 fw-bold mb-4">
-        Hajj & Umrah Guides
-      </h1>
-      <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
-        <i class="bi bi-info-circle me-2"></i>These guides provide essential knowledge on the rituals, historical
-        background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
-      </p>
-      <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }"
-            @click="switchTab('hajj')" id="hajj-tab" type="button"
-            role="tab" aria-controls="hajj" :aria-selected="currentTab === 'hajj'">
-            <i class="bi bi-moon-stars me-2"></i>Hajj Guides
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'umrah' }"
-            @click="switchTab('umrah')" id="umrah-tab" type="button"
-            role="tab" aria-controls="umrah" :aria-selected="currentTab === 'umrah'">
-            <i class="bi bi-person-walking me-2"></i>Umrah Guides
-          </button>
-        </li>
-      </ul>
-    </div>
-    <div class="row g-3 g-md-4 align-items-stretch justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8">
-        <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2">
-          <h1 class="h2 fw-bold text-center mb-3"><i class="bi bi-book me-2"></i>{{ currentContent.title }}</h1>
-          <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4">
-            <span class="badge info-badge"><i class="bi bi-book me-1"></i><strong>Read:</strong> {{ readTime }} min</span>
-            <span class="badge info-badge"><i class="bi bi-headphones me-1"></i><strong>Listen:</strong> {{ listeningTime }} min</span>
-            <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1"></i><strong>Words:</strong> {{ wordCount }}</span>
-          </div>
-          <section class="mt-3">
-            <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2"></i>Step-by-Step Guide</h3>
-            <div class="accordion mb-3" id="guideSteps">
-              <div v-for="(step, idx) in currentContent.steps" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
-                <h2 class="accordion-header" :id="`heading${idx}`">
-                  <button class="accordion-button fw-bold fs-6" :class="{collapsed: idx !== 0}" type="button" data-bs-toggle="collapse"
-                    :data-bs-target="`#collapse${idx}`" :aria-expanded="idx === 0 ? 'true' : 'false'" :aria-controls="`collapse${idx}`">
-                    <i class="bi bi-check2-circle me-2 text-custom"></i>{{ step.title }}
-                  </button>
-                </h2>
-                <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}" :aria-labelledby="`heading${idx}`" data-bs-parent="#guideSteps">
-                  <div class="accordion-body">
-                    <div class="mb-2" v-html="step.description"></div>
-                    <div v-if="step.dua" class="alert alert-success rounded-4 shadow-sm mt-2">
-                      <h5 class="mb-2"><i class="bi bi-journal-richtext me-2"></i>Dua</h5>
-                      <span v-html="step.dua"></span>
-                    </div>
-                    <div v-if="step.warning" class="alert alert-warning rounded-4 shadow-sm mt-2">
-                      <h5 class="mb-2"><i class="bi bi-exclamation-triangle me-2"></i>Warning</h5>
-                      <span v-html="step.warning"></span>
-                    </div>
-                    <div v-if="step.dos" class="alert alert-primary rounded-4 shadow-sm mt-2">
-                      <h5 class="mb-2"><i class="bi bi-hand-thumbs-up me-2"></i>Do's</h5>
-                      <ul class="mb-0"><li v-for="(doItem, dIdx) in step.dos" :key="dIdx">{{ doItem }}</li></ul>
-                    </div>
-                    <div v-if="step.donts" class="alert alert-danger rounded-4 shadow-sm mt-2">
-                      <h5 class="mb-2"><i class="bi bi-hand-thumbs-down me-2"></i>Don'ts</h5>
-                      <ul class="mb-0"><li v-for="(dontItem, dIdx) in step.donts" :key="dIdx">{{ dontItem }}</li></ul>
+  <div>
+    <!-- Skip to main content link for screen readers and keyboard users -->
+    <a href="#main-content" class="visually-hidden-focusable skip-link">Skip to main content</a>
+    <div class="container-fluid py-4" id="main-content" tabindex="-1">
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-4">
+          Hajj & Umrah Guides
+        </h1>
+        <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
+          <i class="bi bi-info-circle me-2" aria-hidden="true"></i>These guides provide essential knowledge on the rituals, historical
+          background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
+        </p>
+        <!-- Tabs with ARIA roles and keyboard navigation -->
+        <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist" aria-label="Hajj and Umrah Guides Tabs">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }"
+              @click="switchTab('hajj')" id="hajj-tab" type="button"
+              role="tab" aria-controls="hajj-panel" :aria-selected="currentTab === 'hajj' ? 'true' : 'false'"
+              tabindex="0"
+              @keydown.enter.space="switchTab('hajj')"
+              :aria-label="'Show Hajj Guide'">
+              <i class="bi bi-moon-stars me-2" aria-hidden="true"></i>Hajj Guides
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'umrah' }"
+              @click="switchTab('umrah')" id="umrah-tab" type="button"
+              role="tab" aria-controls="umrah-panel" :aria-selected="currentTab === 'umrah' ? 'true' : 'false'"
+              tabindex="0"
+              @keydown.enter.space="switchTab('umrah')"
+              :aria-label="'Show Umrah Guide'">
+              <i class="bi bi-person-walking me-2" aria-hidden="true"></i>Umrah Guides
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="row g-3 g-md-4 align-items-stretch justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+          <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'" :id="currentTab + '-panel'" role="tabpanel">
+            <h1 class="h1 fw-bold text-center mb-3">{{ currentContent.title }}</h1>
+            <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4" aria-label="Guide info badges">
+              <span class="badge info-badge"><i class="bi bi-book me-1" aria-hidden="true"></i><strong>Read:</strong> {{ readTime }} min</span>
+              <span class="badge info-badge"><i class="bi bi-headphones me-1" aria-hidden="true"></i><strong>Listen:</strong> {{ listeningTime }} min</span>
+              <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1" aria-hidden="true"></i><strong>Words:</strong> {{ wordCount }}</span>
+            </div>
+            <section class="mt-3">
+              <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2" aria-hidden="true"></i>Step-by-Step Guide</h3>
+              <div class="accordion mb-3" id="guideSteps" role="region" aria-label="Step-by-step guide">
+                <div v-for="(step, idx) in currentContent.steps" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
+                  <h2 class="accordion-header" :id="`heading${idx}`">
+                    <button class="accordion-button fw-bold fs-6" :class="{collapsed: idx !== 0}"
+                      type="button" data-bs-toggle="collapse"
+                      :data-bs-target="`#collapse${idx}`" :aria-expanded="idx === 0 ? 'true' : 'false'"
+                      :aria-controls="`collapse${idx}`"
+                      :id="`step-tab-${idx}`"
+                      role="button"
+                      tabindex="0"
+                      :aria-label="'Expand step: ' + step.title">
+                      <i class="bi bi-check2-circle me-2 text-custom" aria-hidden="true"></i>{{ step.title }}
+                    </button>
+                  </h2>
+                  <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}"
+                    :aria-labelledby="`heading${idx}`" data-bs-parent="#guideSteps" role="region"
+                    :aria-label="'Step details: ' + step.title">
+                    <div class="accordion-body">
+                      <div class="mb-2" v-html="step.description"></div>
+                      <div v-if="step.dua" class="alert alert-success rounded-4 shadow-sm mt-2" role="region" aria-label="Dua">
+                        <h5 class="mb-2"><i class="bi bi-journal-richtext me-2" aria-hidden="true"></i>Dua</h5>
+                        <span v-html="step.dua"></span>
+                      </div>
+                      <div v-if="step.warning" class="alert alert-warning rounded-4 shadow-sm mt-2" role="region" aria-label="Warning">
+                        <h5 class="mb-2"><i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>Warning</h5>
+                        <span v-html="step.warning"></span>
+                      </div>
+                      <div v-if="step.dos" class="alert alert-primary rounded-4 shadow-sm mt-2" role="region" aria-label="Do's">
+                        <h5 class="mb-2"><i class="bi bi-hand-thumbs-up me-2" aria-hidden="true"></i>Do's</h5>
+                        <ul class="mb-0"><li v-for="(doItem, dIdx) in step.dos" :key="dIdx">{{ doItem }}</li></ul>
+                      </div>
+                      <div v-if="step.donts" class="alert alert-danger rounded-4 shadow-sm mt-2" role="region" aria-label="Don'ts">
+                        <h5 class="mb-2"><i class="bi bi-hand-thumbs-down me-2" aria-hidden="true"></i>Don'ts</h5>
+                        <ul class="mb-0"><li v-for="(dontItem, dIdx) in step.donts" :key="dIdx">{{ dontItem }}</li></ul>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <section v-if="currentContent.references && currentContent.references.length" class="mt-3">
-            <h3 class="section-title mb-2"><i class="bi bi-link-45deg me-2"></i>References & Further Reading</h3>
-            <ul class="list-unstyled">
-              <li v-for="(ref, rIdx) in currentContent.references" :key="rIdx">
-                <a :href="ref.url" target="_blank" rel="noopener" class="text-decoration-underline">{{ ref.title }}</a>
-              </li>
-            </ul>
-          </section>
+            </section>
+            <section v-if="currentContent.references && currentContent.references.length" class="mt-3">
+              <h3 class="section-title mb-2"><i class="bi bi-link-45deg me-2" aria-hidden="true"></i>References & Further Reading</h3>
+              <ul class="list-unstyled">
+                <li v-for="(ref, rIdx) in currentContent.references" :key="rIdx">
+                  <a :href="ref.url" target="_blank" rel="noopener" class="text-decoration-underline" :aria-label="'Reference: ' + ref.title">{{ ref.title }}</a>
+                </li>
+              </ul>
+            </section>
+          </div>
         </div>
+        <transition name="fade-slow-top">
+          <div v-if="copySuccess"
+            class="alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x"
+            role="alert"
+            aria-live="polite"
+            style="background-color: rgba(223, 250, 241, 0.9); color: #00bfa6; z-index: 1100; max-width: 500px;">
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i><strong>Success:</strong> Guide copied to clipboard!
+            <button type="button" class="btn-close" @click="copySuccess = false" aria-label="Close"></button>
+          </div>
+        </transition>
       </div>
-      <transition name="fade-slow-top">
-        <div v-if="copySuccess"
-          class="alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x"
-          role="alert"
-          style="background-color: rgba(223, 250, 241, 0.9); color: #00bfa6; z-index: 1100; max-width: 500px;">
-          <i class="bi bi-check-circle-fill me-2"></i><strong>Success:</strong> Guide copied to clipboard!
-          <button type="button" class="btn-close" @click="copySuccess = false" aria-label="Close"></button>
-        </div>
-      </transition>
     </div>
   </div>
 </template>
@@ -894,6 +914,31 @@ ul.list-unstyled li {
     padding: 0.35rem 0.5rem 0.18rem 0.5rem;
     min-width: 60px;
   }
+}
+/* Visually hidden but focusable skip link for accessibility */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 10000;
+  background: #fff;
+  color: #00bfa6;
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  outline: none;
+  transition: left 0.2s;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  outline: 2px solid #00bfa6;
+  box-shadow: 0 2px 8px rgba(0,191,166,0.10);
 }
 </style>
 
