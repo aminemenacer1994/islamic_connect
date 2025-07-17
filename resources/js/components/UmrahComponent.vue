@@ -8,17 +8,17 @@
         <i class="bi bi-info-circle me-2"></i>These guides provide essential knowledge on the rituals, historical
         background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
       </p>
-      <ul class="nav nav-pills justify-content-center gap-2 gap-md-3 fw-semibold mb-5 flex-wrap" role="tablist">
+      <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link custom-tab px-4 py-2" :class="{ active: currentTab === 'hajj' }"
-            @click="switchTab('hajj')" id="hajj-tab" data-bs-toggle="tab" data-bs-target="#hajj" type="button"
+          <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }"
+            @click="switchTab('hajj')" id="hajj-tab" type="button"
             role="tab" aria-controls="hajj" :aria-selected="currentTab === 'hajj'">
             <i class="bi bi-moon-stars me-2"></i>Hajj Guides
           </button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link custom-tab px-4 py-2" :class="{ active: currentTab === 'umrah' }"
-            @click="switchTab('umrah')" id="umrah-tab" data-bs-toggle="tab" data-bs-target="#umrah" type="button"
+          <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'umrah' }"
+            @click="switchTab('umrah')" id="umrah-tab" type="button"
             role="tab" aria-controls="umrah" :aria-selected="currentTab === 'umrah'">
             <i class="bi bi-person-walking me-2"></i>Umrah Guides
           </button>
@@ -29,12 +29,12 @@
       <div class="col-12 col-md-10 col-lg-8">
         <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2">
           <h1 class="h2 fw-bold text-center mb-3"><i class="bi bi-book me-2"></i>{{ currentContent.title }}</h1>
-          <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-3">
+          <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4">
             <span class="badge info-badge"><i class="bi bi-book me-1"></i><strong>Read:</strong> {{ readTime }} min</span>
             <span class="badge info-badge"><i class="bi bi-headphones me-1"></i><strong>Listen:</strong> {{ listeningTime }} min</span>
             <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1"></i><strong>Words:</strong> {{ wordCount }}</span>
           </div>
-          <section class="mb-3">
+          <section class="mt-3">
             <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2"></i>Step-by-Step Guide</h3>
             <div class="accordion mb-3" id="guideSteps">
               <div v-for="(step, idx) in currentContent.steps" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
@@ -137,14 +137,7 @@ export default {
                   - Approach Hajj with humility, patience, and gratitude.<br>
                   - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                   - Remember the immense reward and spiritual transformation that Hajj offers.<br><br>
-                  <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/hajj-guide/' target='_blank'>IslamicFinder Hajj Guide</a></em>
-                  <div v-if="showAISummary" class="alert alert-secondary mt-3">
-                    <strong>AI-Generated Summary:</strong> <br>
-                    Preparing for Hajj is a holistic process involving spiritual cleansing, practical planning, and social responsibility. Sincerely purify your intention, seek forgiveness, and resolve all obligations before you leave. Study the rites, pack essentials, and ensure your family is cared for. Approach the journey with humility and patience, ready for both challenges and immense spiritual growth.
-                  </div>
-                  <button class="btn btn-outline-info btn-sm mt-2" @click.prevent="showAISummary = !showAISummary">
-                    {{ showAISummary ? 'Hide' : 'Show' }} AI-Generated Summary
-                  </button>
+                  <em>Reference: <a href='https://www.islamicfinder.org/knowledge/hajj-guide/' target='_blank'>IslamicFinder Hajj Guide</a></em>
                 `,
               dua: "O Allah, grant me a Hajj free of hypocrisy and showing off, and grant me forgiveness and mercy.",
               dos: ["Study the rites of Hajj", "Settle debts and obligations", "Pack essentials and Ihram"],
@@ -454,9 +447,9 @@ export default {
             },
           ],
           references: [
-            { title: "IslamicFinder Hajj Guide", url: "https://www.islamicfinder.org/knowledge/islamic-guides/hajj-guide/" },
-            { title: "Muslim Hands Hajj Guide", url: "https://muslimhands.org.uk/latest/2017/06/a-step-by-step-guide-to-hajj" },
-            { title: "YouTube: Hajj Documentary", url: "https://www.youtube.com/watch?v=1eR3gG9QK9w" },
+            { title: "Official Saudi Hajj Portal (Nusuk)", url: "https://hajj.nusuk.sa/" },
+            { title: "CBHUK: Hajj 2025 Guidance", url: "https://cbhuk.org/news/hajj/hajj-2025-guidance-for-british-pilgrims-nusuk-hajj/" },
+            { title: "Hajj At A Glance (Rituals Chart)", url: "https://www.hajjataglance.com/" },
           ]
         },
         umrah: {
@@ -490,7 +483,7 @@ export default {
                 - Approach Umrah with humility, patience, and gratitude.<br>
                 - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                 - Remember the immense reward and spiritual transformation that Umrah offers.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
               `,
               dua: "O Allah, I intend to perform Umrah, make it easy for me and accept it from me.",
               dos: ["Study the rites of Umrah", "Pack essentials and Ihram", "Settle debts and obligations"],
@@ -512,7 +505,7 @@ export default {
                 <strong>Spiritual Focus:</strong><br>
                 - Recite Talbiyah frequently and reflect on its meaning.<br>
                 - Make dua for acceptance and ease.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
               `,
               dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
               warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
@@ -532,7 +525,7 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be mindful of others, avoid pushing, and help those in need.<br>
                 - Maintain humility and focus on the spiritual significance of Tawaf.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
               `,
               dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
               dos: ["Stay calm in crowds", "Help others if possible", "Pray two rak'ahs after Tawaf", "Drink Zamzam water"],
@@ -551,7 +544,7 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be considerate of others, especially the elderly and those with children.<br>
                 - Maintain focus and humility.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
               `,
               dua: "Rabbighfir warham innaka antal-Azizul-Akram",
               dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i", "Be considerate of others"],
@@ -569,7 +562,7 @@ export default {
                 - Thank Allah for enabling you to complete Umrah.<br>
                 - Make dua for acceptance and for your loved ones.<br>
                 - Reflect on the lessons of humility, obedience, and gratitude.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
               `,
               dua: "Allahumma taqabbal minni (O Allah, accept from me)",
               dos: ["Thank Allah for the opportunity", "Pray for acceptance", "Reflect on the experience"],
@@ -577,9 +570,9 @@ export default {
             },
           ],
           references: [
-            { title: "IslamicFinder Umrah Guide", url: "https://www.islamicfinder.org/knowledge/islamic-guides/umrah-guide/" },
-            { title: "Muslim Hands Umrah Guide", url: "https://muslimhands.org.uk/latest/2017/06/a-step-by-step-guide-to-umrah" },
-            { title: "YouTube: Umrah Documentary", url: "https://www.youtube.com/watch?v=2Q1kzQ7vQnA" },
+            { title: "Official Saudi Umrah Portal (Nusuk)", url: "https://www.nusuk.sa/" },
+            { title: "CBHUK: Umrah Guide", url: "https://cbhuk.org/hajj-umrah-guide/umrah-guide/" },
+            { title: "Hajj At A Glance (Umrah)", url: "https://www.hajjataglance.com/" },
           ]
         }
       },
@@ -757,44 +750,51 @@ export default {
 .guide-card {
   background: #fff;
   border-radius: 1.2rem;
-  box-shadow: 0 4px 16px rgba(0,191,166,0.06), 0 1.5px 4px rgba(0,0,0,0.03);
-  border: 2px solid #e6f3f2;
+  /* Remove heavy box-shadow and border for a cleaner look */
+  box-shadow: none;
+  border: none;
+  padding: 1.5rem 1.2rem;
 }
 .info-row {
-  gap: 0.5rem !important;
+  gap: 0.7rem !important;
+  margin-bottom: 1.2rem !important;
+  flex-wrap: nowrap !important;
 }
 .info-badge {
-  background: #f5f5f7;
-  color: #333;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 1.5rem;
-  padding: 0.4rem 1rem;
+  background: none;
+  color: #666;
+  font-size: 0.98rem;
+  font-weight: 400;
+  border-radius: 0;
+  padding: 0.18rem 0.7rem 0.18rem 0.5rem;
   display: flex;
   align-items: center;
-  min-width: 90px;
+  min-width: 0;
   justify-content: center;
-  border: 1.5px solid #e0e0e0;
+  border: none;
+  box-shadow: none;
+  margin-right: 0.35rem;
+  margin-left: 0.35rem;
+}
+.info-badge i {
+  font-size: 1.01em;
+  margin-right: 0.3em;
+  color: #b0b0b0;
 }
 @media (max-width: 600px) {
-  .guide-card {
-    padding: 1.1rem !important;
-    border-radius: 0.7rem;
-  }
-  .section-title {
-    font-size: 1.1rem;
+  .info-row {
+    gap: 0.3rem !important;
+    margin-bottom: 0.7rem !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .info-badge {
-    font-size: 0.95rem;
-    padding: 0.35rem 0.7rem;
-    min-width: 70px;
-  }
-  .accordion-button {
-    font-size: 0.98rem !important;
-    padding: 0.7rem 1rem;
-  }
-  .accordion-item {
-    border-radius: 0.7rem !important;
+    font-size: 0.93rem;
+    padding: 0.13rem 0.4rem 0.13rem 0.3rem;
+    margin-right: 0.18rem;
+    margin-left: 0.18rem;
+    white-space: nowrap;
   }
 }
 .section-title {
@@ -809,31 +809,40 @@ export default {
 .accordion-item {
   border-radius: 1rem !important;
   margin-bottom: 0.7rem;
-  border: 2px solid #e0e0e0 !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  /* Remove border and box-shadow for a cleaner look */
+  border: none !important;
+  box-shadow: none;
+  background: #fff;
 }
 .accordion-button {
   border-radius: 1rem !important;
   font-size: 1.08rem;
   font-weight: 600;
-  background: #f5f5f7;
+  background: #f9f9fa;
   color: #222;
   transition: background 0.2s, color 0.2s;
+  border: none;
+  box-shadow: none;
 }
 .accordion-button:not(.collapsed) {
-  background: #e6f3f2;
+  background: #f1f7f6;
   color: #00bfa6;
 }
 .accordion-body {
   font-size: 1.02rem;
-  background: #f8fdfc;
+  background: #fff;
   border-radius: 0.8rem;
-  padding: 1.1rem;
+  padding: 1.1rem 0.5rem 0.7rem 0.5rem;
+  border-top: 1px solid #f0f0f0;
+  box-shadow: none;
 }
 .alert-info, .alert-warning, .alert-primary, .alert-danger, .alert-success {
   font-size: 0.98rem;
   border-radius: 0.8rem;
-  box-shadow: 0 1px 4px rgba(0,191,166,0.06);
+  box-shadow: none;
+  border: none;
+  margin-bottom: 0.7rem;
+  padding: 0.7rem 1rem;
 }
 ul.list-unstyled {
   padding-left: 0;
@@ -843,6 +852,48 @@ ul.list-unstyled li {
 }
 .text-custom {
   color: #00bfa6;
+}
+.clean-tabs {
+  gap: 1.2rem;
+  margin-bottom: 2.2rem !important;
+  margin-top: 0.7rem;
+}
+.clean-tab-btn {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: #555;
+  font-size: 1.01rem;
+  font-weight: 500;
+  padding: 0.45rem 0.7rem 0.25rem 0.7rem;
+  margin-bottom: -2px;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.18s, border-bottom 0.18s;
+  min-width: 80px;
+  letter-spacing: 0.01em;
+}
+.clean-tab-btn.active, .clean-tab-btn:focus {
+  color: #00bfa6;
+  border-bottom: 1.5px solid #00bfa6;
+  background: none;
+  font-weight: 600;
+}
+.clean-tab-btn:hover {
+  color: #009688;
+  background: none;
+  border-bottom: 1.5px solid #b2dfdb;
+}
+@media (max-width: 600px) {
+  .clean-tabs {
+    gap: 0.5rem;
+    margin-bottom: 1.2rem !important;
+    margin-top: 0.3rem;
+  }
+  .clean-tab-btn {
+    font-size: 0.97rem;
+    padding: 0.35rem 0.5rem 0.18rem 0.5rem;
+    min-width: 60px;
+  }
 }
 </style>
 
