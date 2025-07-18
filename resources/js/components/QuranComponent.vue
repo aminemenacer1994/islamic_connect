@@ -1,5 +1,19 @@
 <template>
     <div id="app">
+        <!-- Voice Navigation Button -->
+        <div style="position: fixed; top: 30px; right: 30px; z-index: 9999;">
+            <button
+                :class="['btn', 'btn-primary', 'rounded-circle', isVoiceListening ? 'pulse-mic' : '']"
+                style="width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 2rem;"
+                @click="toggleVoiceNavigation"
+                :aria-pressed="isVoiceListening"
+                :title="isVoiceListening ? 'Listening...' : 'Voice Navigation'"
+            >
+                <i :class="isVoiceListening ? 'bi bi-mic-fill text-danger' : 'bi bi-mic'" />
+            </button>
+            <div v-if="isVoiceListening" style="margin-top: 0.5rem; color: #0db6a1; font-weight: bold; text-align: center; font-size: 0.95rem;">Listening...</div>
+            <div v-if="voiceError" class="alert alert-danger mt-2 p-2" style="font-size: 0.9rem;">{{ voiceError }}</div>
+        </div>
         <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
@@ -1081,7 +1095,10 @@ export default {
                 name_en: "",
                 name_ar: "",
             }),
-            loading: false
+            loading: false,
+            isVoiceListening: false,
+            voiceRecognition: null,
+            voiceError: '',
         };
     },
     computed: {
@@ -1983,6 +2000,79 @@ export default {
                     }.bind(this)
                 );
         },
+        toggleVoiceNavigation() {
+            if (this.isVoiceListening) {
+                this.stopVoiceRecognition();
+            } else {
+                this.startVoiceRecognition();
+            }
+        },
+        startVoiceRecognition() {
+            this.voiceError = '';
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                this.voiceError = 'Speech recognition is not supported in this browser.';
+                return;
+            }
+            if (this.voiceRecognition) {
+                this.voiceRecognition.abort();
+                this.voiceRecognition = null;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.onstart = () => {
+                this.isVoiceListening = true;
+            };
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                this.handleVoiceCommand(transcript);
+            };
+            recognition.onerror = (event) => {
+                this.voiceError = 'Voice recognition error: ' + event.error;
+                this.isVoiceListening = false;
+            };
+            recognition.onend = () => {
+                this.isVoiceListening = false;
+            };
+            this.voiceRecognition = recognition;
+            recognition.start();
+        },
+        stopVoiceRecognition() {
+            if (this.voiceRecognition) {
+                this.voiceRecognition.abort();
+                this.voiceRecognition = null;
+            }
+            this.isVoiceListening = false;
+        },
+        handleVoiceCommand(transcript) {
+            // Navigation commands
+            if (transcript.includes('next')) {
+                this.goToNextAyah();
+            } else if (transcript.includes('previous') || transcript.includes('back')) {
+                this.goToPreviousAyah();
+            } else if (transcript.includes('first')) {
+                this.goToFirstAyah();
+            } else if (transcript.includes('last')) {
+                this.goToLastAyah();
+            } else if (transcript.includes('verse') && transcript.match(/\d+/)) {
+                // e.g., 'go to verse 5'
+                const match = transcript.match(/verse (\d+)/);
+                if (match && match[1]) {
+                    const verseNum = parseInt(match[1]);
+                    if (!isNaN(verseNum) && verseNum > 0 && verseNum <= this.ayat.length) {
+                        this.selectAyah(verseNum - 1);
+                    } else {
+                        this.voiceError = 'Verse number out of range.';
+                    }
+                } else {
+                    this.voiceError = 'Could not recognize verse number.';
+                }
+            } else {
+                this.voiceError = 'Command not recognized. Try: next, previous, first, last, or "go to verse [number]".';
+            }
+        },
     },
     created() {
         this.userId = localStorage.getItem("userId");
@@ -2025,6 +2115,12 @@ export default {
                 this.selectedIndexAyah = parseInt(newVal) - 1;
             }
         },
+    },
+    beforeUnmount() {
+        if (this.voiceRecognition) {
+            this.voiceRecognition.abort();
+            this.voiceRecognition = null;
+        }
     },
 };
 </script>
@@ -2226,5 +2322,14 @@ p {
 .premium-features li {
     margin: 0.5rem 0;
     color: #28a745;
+}
+
+.pulse-mic {
+    animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(13,182,161,0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(13,182,161,0); }
+    100% { box-shadow: 0 0 0 0 rgba(13,182,161,0); }
 }
 </style>
