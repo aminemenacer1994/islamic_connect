@@ -18,7 +18,7 @@
               @click="switchTab('hajj')" id="hajj-tab" type="button"
               role="tab" aria-controls="hajj-panel" :aria-selected="currentTab === 'hajj' ? 'true' : 'false'"
               tabindex="0"
-              @keydown.enter.space="switchTab('hajj')"
+              @keydown="handleTabKeydown($event, 'hajj')"
               :aria-label="'Show Hajj Guide'">
               <i class="bi bi-moon-stars me-2" aria-hidden="true"></i>Hajj Guides
             </button>
@@ -28,7 +28,7 @@
               @click="switchTab('umrah')" id="umrah-tab" type="button"
               role="tab" aria-controls="umrah-panel" :aria-selected="currentTab === 'umrah' ? 'true' : 'false'"
               tabindex="0"
-              @keydown.enter.space="switchTab('umrah')"
+              @keydown="handleTabKeydown($event, 'umrah')"
               :aria-label="'Show Umrah Guide'">
               <i class="bi bi-person-walking me-2" aria-hidden="true"></i>Umrah Guides
             </button>
@@ -158,11 +158,9 @@ export default {
       isSpeaking: false,
       isPaused: false,
       isCopying: false,
-      isSpeechAvailable: !!window.speechSynthesis,
-      settingsOpen: false,
+      isSpeechAvailable: !!(typeof window !== 'undefined' && window.speechSynthesis),
       currentTab: 'hajj',
       copySuccess: false,
-      showAISummary: false,
       guides: {
         hajj: {
           title: "Hajj Guide",
@@ -195,8 +193,7 @@ export default {
                   - Approach Hajj with humility, patience, and gratitude.<br>
                   - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                   - Remember the immense reward and spiritual transformation that Hajj offers.<br><br>
-                  <em>Reference: <a href='https://www.islamicfinder.org/knowledge/hajj-guide/' target='_blank'>IslamicFinder Hajj Guide</a></em>
-                `,
+                  `,
               dua: "O Allah, grant me a Hajj free of hypocrisy and showing off, and grant me forgiveness and mercy.",
               dos: ["Study the rites of Hajj", "Settle debts and obligations", "Pack essentials and Ihram"],
               donts: ["Neglect family responsibilities", "Travel without proper documentation"],
@@ -569,8 +566,7 @@ export default {
                 - Approach Umrah with humility, patience, and gratitude.<br>
                 - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                 - Remember the immense reward and spiritual transformation that Umrah offers.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
-              `,
+                `,
               dua: "O Allah, I intend to perform Umrah, make it easy for me and accept it from me.",
               dos: ["Study the rites of Umrah", "Pack essentials and Ihram", "Settle debts and obligations"],
               donts: ["Neglect spiritual preparation", "Forget travel documents"],
@@ -591,8 +587,7 @@ export default {
                 <strong>Spiritual Focus:</strong><br>
                 - Recite Talbiyah frequently and reflect on its meaning.<br>
                 - Make dua for acceptance and ease.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
-              `,
+                `,
               dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
               warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
               dos: ["Recite Talbiyah often", "Maintain cleanliness", "Make intention with sincerity"],
@@ -611,8 +606,7 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be mindful of others, avoid pushing, and help those in need.<br>
                 - Maintain humility and focus on the spiritual significance of Tawaf.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
-              `,
+                `,
               dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
               dos: ["Stay calm in crowds", "Help others if possible", "Pray two rak'ahs after Tawaf", "Drink Zamzam water"],
               donts: ["Push or harm others", "Rush the ritual", "Forget to make dua"],
@@ -630,8 +624,7 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be considerate of others, especially the elderly and those with children.<br>
                 - Maintain focus and humility.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
-              `,
+                `,
               dua: "Rabbighfir warham innaka antal-Azizul-Akram",
               dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i", "Be considerate of others"],
               donts: ["Run in unsafe areas", "Distract others", "Forget to make dua"],
@@ -648,8 +641,7 @@ export default {
                 - Thank Allah for enabling you to complete Umrah.<br>
                 - Make dua for acceptance and for your loved ones.<br>
                 - Reflect on the lessons of humility, obedience, and gratitude.<br><br>
-                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
-              `,
+                `,
               dua: "Allahumma taqabbal minni (O Allah, accept from me)",
               dos: ["Thank Allah for the opportunity", "Pray for acceptance", "Reflect on the experience"],
               donts: ["Forget to make dua", "Leave before completing all rites"],
@@ -710,11 +702,16 @@ export default {
     this.stopSpeech();
   },
   methods: {
+    handleTabKeydown(event, tab) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        this.switchTab(tab);
+      }
+    },
     switchTab(tab) {
       if (this.currentTab === tab) return;
       this.currentTab = tab;
       this.stopSpeech();
-      this.settingsOpen = false;
       this.$nextTick(() => {
         this.calculateReadTimeAndWordCount();
       });
@@ -822,8 +819,7 @@ export default {
       this.listeningTime = Math.ceil(this.wordCount / 150);
     },
     toggleSettings() {
-      this.settingsOpen = !this.settingsOpen;
-      console.log('Settings toggled:', this.settingsOpen);
+      // Removed unused settingsOpen variable and method body
     },
     printGuide() {
       window.print();
