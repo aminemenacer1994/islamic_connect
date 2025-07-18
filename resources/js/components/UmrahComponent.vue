@@ -8,28 +8,26 @@
           Hajj & Umrah Guides
         </h1>
         <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
-          <i class="bi bi-info-circle me-2" aria-hidden="true"></i>These guides provide essential knowledge on the rituals, historical
+          <i class="bi bi-info-circle me-2" aria-hidden="true"></i>These guides provide essential knowledge on the
+          rituals, historical
           background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
         </p>
         <!-- Tabs with ARIA roles and keyboard navigation -->
-        <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist" aria-label="Hajj and Umrah Guides Tabs">
+        <ul class="nav nav-tabs justify-content-center mb-4 clean-tabs" role="tablist"
+          aria-label="Hajj and Umrah Guides Tabs">
           <li class="nav-item" role="presentation">
-            <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }"
-              @click="switchTab('hajj')" id="hajj-tab" type="button"
-              role="tab" aria-controls="hajj-panel" :aria-selected="currentTab === 'hajj' ? 'true' : 'false'"
-              tabindex="0"
-              @keydown="handleTabKeydown($event, 'hajj')"
-              :aria-label="'Show Hajj Guide'">
+            <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'hajj' }" @click="switchTab('hajj')"
+              id="hajj-tab" type="button" role="tab" aria-controls="hajj-panel"
+              :aria-selected="currentTab === 'hajj' ? 'true' : 'false'" tabindex="0"
+              @keydown.enter.space="switchTab('hajj')" :aria-label="'Show Hajj Guide'">
               <i class="bi bi-moon-stars me-2" aria-hidden="true"></i>Hajj Guides
             </button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link clean-tab-btn" :class="{ active: currentTab === 'umrah' }"
-              @click="switchTab('umrah')" id="umrah-tab" type="button"
-              role="tab" aria-controls="umrah-panel" :aria-selected="currentTab === 'umrah' ? 'true' : 'false'"
-              tabindex="0"
-              @keydown="handleTabKeydown($event, 'umrah')"
-              :aria-label="'Show Umrah Guide'">
+              @click="switchTab('umrah')" id="umrah-tab" type="button" role="tab" aria-controls="umrah-panel"
+              :aria-selected="currentTab === 'umrah' ? 'true' : 'false'" tabindex="0"
+              @keydown.enter.space="switchTab('umrah')" :aria-label="'Show Umrah Guide'">
               <i class="bi bi-person-walking me-2" aria-hidden="true"></i>Umrah Guides
             </button>
           </li>
@@ -39,11 +37,17 @@
         <div class="col-12 col-md-10 col-lg-8">
           <!-- Print Button -->
           <div class="d-flex justify-content-end align-items-center mb-3 no-print">
-            <button @click="printGuide" class="btn btn-outline-secondary btn-sm print-btn" aria-label="Print this guide as PDF">
+            <button @click="printGuide" class="btn btn-outline-secondary btn-sm print-btn"
+              aria-label="Print this guide as PDF">
               <i class="bi bi-printer me-2" aria-hidden="true"></i> Print / Save as PDF
             </button>
           </div>
-          <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'" :id="currentTab + '-panel'" role="tabpanel">
+          <!-- Map Visualization -->
+          <div class="mb-4" style="height: 350px;">
+            <div id="ritual-map" style="width: 100%; height: 100%; border: 2px solid lightgray; border-radius: 2%; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; overflow: hidden;"></div>
+          </div>
+          <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'"
+            :id="currentTab + '-panel'" role="tabpanel">
             <h1 class="h1 fw-bold text-center mb-3">{{ currentContent.title }}</h1>
             <!-- <div class="info-row d-flex flex-wrap justify-content-center gap-2 mb-4" aria-label="Guide info badges">
               <span class="badge info-badge"><i class="bi bi-book me-1" aria-hidden="true"></i><strong>Read: </strong> {{ readTime }} min</span>
@@ -51,41 +55,47 @@
               <span class="badge info-badge"><i class="bi bi-file-earmark-word me-1" aria-hidden="true"></i><strong>Words: </strong> {{ wordCount }}</span>
             </div> -->
             <section class="mt-3">
-              <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2" aria-hidden="true"></i>Step-by-Step Guide</h3>
+              <h3 class="section-title mb-2"><i class="bi bi-list-ol me-2" aria-hidden="true"></i>Step-by-Step Guide
+              </h3>
               <div class="accordion mb-3" id="guideSteps" role="region" aria-label="Step-by-step guide">
-                <div v-for="(step, idx) in currentContent.steps" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
+                <div v-for="(step, idx) in currentContent.steps" :key="idx"
+                  class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
                   <h2 class="accordion-header" :id="`heading${idx}`">
-                    <button class="accordion-button fw-bold fs-6" :class="{collapsed: idx !== 0}"
-                      type="button" data-bs-toggle="collapse"
-                      :data-bs-target="`#collapse${idx}`" :aria-expanded="idx === 0 ? 'true' : 'false'"
-                      :aria-controls="`collapse${idx}`"
-                      :id="`step-tab-${idx}`"
-                      role="button"
-                      tabindex="0"
-                      :aria-label="'Expand step: ' + step.title">
+                    <button class="accordion-button fw-bold fs-6" :class="{ collapsed: idx !== 0 }" type="button"
+                      data-bs-toggle="collapse" :data-bs-target="`#collapse${idx}`"
+                      :aria-expanded="idx === 0 ? 'true' : 'false'" :aria-controls="`collapse${idx}`"
+                      :id="`step-tab-${idx}`" role="button" tabindex="0" :aria-label="'Expand step: ' + step.title">
                       <i class="bi bi-check2-circle me-2 text-custom" aria-hidden="true"></i>{{ step.title }}
                     </button>
                   </h2>
-                  <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{show: idx === 0}"
+                  <div :id="`collapse${idx}`" class="accordion-collapse collapse" :class="{ show: idx === 0 }"
                     :aria-labelledby="`heading${idx}`" data-bs-parent="#guideSteps" role="region"
                     :aria-label="'Step details: ' + step.title">
                     <div class="accordion-body">
                       <div class="mb-2" v-html="step.description"></div>
-                      <div v-if="step.dua" class="alert alert-success rounded-4 shadow-sm mt-2" role="region" aria-label="Dua">
+                      <div v-if="step.dua" class="alert alert-success rounded-4 shadow-sm mt-2" role="region"
+                        aria-label="Dua">
                         <h5 class="mb-2"><i class="bi bi-journal-richtext me-2" aria-hidden="true"></i>Dua</h5>
                         <span v-html="step.dua"></span>
                       </div>
-                      <div v-if="step.warning" class="alert alert-warning rounded-4 shadow-sm mt-2" role="region" aria-label="Warning">
+                      <div v-if="step.warning" class="alert alert-warning rounded-4 shadow-sm mt-2" role="region"
+                        aria-label="Warning">
                         <h5 class="mb-2"><i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>Warning</h5>
                         <span v-html="step.warning"></span>
                       </div>
-                      <div v-if="step.dos" class="alert alert-primary rounded-4 shadow-sm mt-2" role="region" aria-label="Do's">
+                      <div v-if="step.dos" class="alert alert-primary rounded-4 shadow-sm mt-2" role="region"
+                        aria-label="Do's">
                         <h5 class="mb-2"><i class="bi bi-hand-thumbs-up me-2" aria-hidden="true"></i>Do's</h5>
-                        <ul class="mb-0"><li v-for="(doItem, dIdx) in step.dos" :key="dIdx">{{ doItem }}</li></ul>
+                        <ul class="mb-0">
+                          <li v-for="(doItem, dIdx) in step.dos" :key="dIdx">{{ doItem }}</li>
+                        </ul>
                       </div>
-                      <div v-if="step.donts" class="alert alert-danger rounded-4 shadow-sm mt-2" role="region" aria-label="Don'ts">
+                      <div v-if="step.donts" class="alert alert-danger rounded-4 shadow-sm mt-2" role="region"
+                        aria-label="Don'ts">
                         <h5 class="mb-2"><i class="bi bi-hand-thumbs-down me-2" aria-hidden="true"></i>Don'ts</h5>
-                        <ul class="mb-0"><li v-for="(dontItem, dIdx) in step.donts" :key="dIdx">{{ dontItem }}</li></ul>
+                        <ul class="mb-0">
+                          <li v-for="(dontItem, dIdx) in step.donts" :key="dIdx">{{ dontItem }}</li>
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -94,9 +104,11 @@
             </section>
             <!-- FAQ Section -->
             <section v-if="currentContent.faq && currentContent.faq.length" class="mt-4">
-              <h3 class="section-title mb-2"><i class="bi bi-question-circle me-2" aria-hidden="true"></i>Frequently Asked Questions</h3>
+              <h3 class="section-title mb-2"><i class="bi bi-question-circle me-2" aria-hidden="true"></i>Frequently
+                Asked Questions</h3>
               <div class="accordion" :id="currentTab + '-faq'" role="region" aria-label="Frequently Asked Questions">
-                <div v-for="(item, idx) in currentContent.faq" :key="idx" class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
+                <div v-for="(item, idx) in currentContent.faq" :key="idx"
+                  class="accordion-item rounded-4 mb-2 shadow-sm border border-2">
                   <h2 class="accordion-header" :id="`faq-heading-${currentTab}-${idx}`">
                     <button class="accordion-button fw-bold fs-6 collapsed" type="button" data-bs-toggle="collapse"
                       :data-bs-target="`#faq-collapse-${currentTab}-${idx}`" aria-expanded="false"
@@ -105,8 +117,8 @@
                     </button>
                   </h2>
                   <div :id="`faq-collapse-${currentTab}-${idx}`" class="accordion-collapse collapse"
-                    :aria-labelledby="`faq-heading-${currentTab}-${idx}`" :data-bs-parent="`#${currentTab}-faq`" role="region"
-                    :aria-label="'FAQ answer: ' + item.question">
+                    :aria-labelledby="`faq-heading-${currentTab}-${idx}`" :data-bs-parent="`#${currentTab}-faq`"
+                    role="region" :aria-label="'FAQ answer: ' + item.question">
                     <div class="accordion-body">
                       <span v-html="item.answer"></span>
                     </div>
@@ -116,19 +128,23 @@
             </section>
             <!-- Common Mistakes Section -->
             <section v-if="currentContent.commonMistakes && currentContent.commonMistakes.length" class="mt-4">
-              <h3 class="section-title mb-2"><i class="bi bi-exclamation-diamond me-2" aria-hidden="true"></i>Common Mistakes</h3>
+              <h3 class="section-title mb-2"><i class="bi bi-exclamation-diamond me-2" aria-hidden="true"></i>Common
+                Mistakes</h3>
               <ul class="list-unstyled ms-2">
-                <li v-for="(mistake, mIdx) in currentContent.commonMistakes" :key="mIdx" class="mb-2 d-flex align-items-start">
+                <li v-for="(mistake, mIdx) in currentContent.commonMistakes" :key="mIdx"
+                  class="mb-2 d-flex align-items-start">
                   <i class="bi bi-x-circle-fill text-danger me-2" aria-hidden="true"></i>
                   <span>{{ mistake }}</span>
                 </li>
               </ul>
             </section>
             <section v-if="currentContent.references && currentContent.references.length" class="mt-3">
-              <h3 class="section-title mb-2"><i class="bi bi-link-45deg me-2" aria-hidden="true"></i>References & Further Reading</h3>
+              <h3 class="section-title mb-2"><i class="bi bi-link-45deg me-2" aria-hidden="true"></i>References &
+                Further Reading</h3>
               <ul class="list-unstyled">
                 <li v-for="(ref, rIdx) in currentContent.references" :key="rIdx" class="me-3">
-                  <a :href="ref.url" target="_blank" rel="noopener" class="text-decoration-underline" :aria-label="'Reference: ' + ref.title">{{ ref.title }}</a>
+                  <a :href="ref.url" target="_blank" rel="noopener" class="text-decoration-underline"
+                    :aria-label="'Reference: ' + ref.title">{{ ref.title }}</a>
                 </li>
               </ul>
             </section>
@@ -137,10 +153,10 @@
         <transition name="fade-slow-top">
           <div v-if="copySuccess"
             class="alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x"
-            role="alert"
-            aria-live="polite"
+            role="alert" aria-live="polite"
             style="background-color: rgba(223, 250, 241, 0.9); color: #00bfa6; z-index: 1100; max-width: 500px;">
-            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i><strong>Success:</strong> Guide copied to clipboard!
+            <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i><strong>Success:</strong> Guide copied to
+            clipboard!
             <button type="button" class="btn-close" @click="copySuccess = false" aria-label="Close"></button>
           </div>
         </transition>
@@ -150,6 +166,18 @@
 </template>
 
 <script>
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 export default {
   name: 'HajjUmrahGuides',
   data() {
@@ -158,9 +186,11 @@ export default {
       isSpeaking: false,
       isPaused: false,
       isCopying: false,
-      isSpeechAvailable: !!(typeof window !== 'undefined' && window.speechSynthesis),
+      isSpeechAvailable: !!window.speechSynthesis,
+      settingsOpen: false,
       currentTab: 'hajj',
       copySuccess: false,
+      showAISummary: false,
       guides: {
         hajj: {
           title: "Hajj Guide",
@@ -193,7 +223,8 @@ export default {
                   - Approach Hajj with humility, patience, and gratitude.<br>
                   - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                   - Remember the immense reward and spiritual transformation that Hajj offers.<br><br>
-                  `,
+                  <em>Reference: <a href='https://www.islamicfinder.org/knowledge/hajj-guide/' target='_blank'>IslamicFinder Hajj Guide</a></em>
+                `,
               dua: "O Allah, grant me a Hajj free of hypocrisy and showing off, and grant me forgiveness and mercy.",
               dos: ["Study the rites of Hajj", "Settle debts and obligations", "Pack essentials and Ihram"],
               donts: ["Neglect family responsibilities", "Travel without proper documentation"],
@@ -566,7 +597,8 @@ export default {
                 - Approach Umrah with humility, patience, and gratitude.<br>
                 - Mentally prepare for crowds, physical exertion, and possible discomforts.<br>
                 - Remember the immense reward and spiritual transformation that Umrah offers.<br><br>
-                `,
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+              `,
               dua: "O Allah, I intend to perform Umrah, make it easy for me and accept it from me.",
               dos: ["Study the rites of Umrah", "Pack essentials and Ihram", "Settle debts and obligations"],
               donts: ["Neglect spiritual preparation", "Forget travel documents"],
@@ -587,7 +619,8 @@ export default {
                 <strong>Spiritual Focus:</strong><br>
                 - Recite Talbiyah frequently and reflect on its meaning.<br>
                 - Make dua for acceptance and ease.<br><br>
-                `,
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+              `,
               dua: "Labbaik Allahumma Labbaik, Labbaik Laa Shareeka Laka Labbaik...",
               warning: "Ihram restrictions apply: avoid cutting hair/nails, using perfume, or engaging in marital relations.",
               dos: ["Recite Talbiyah often", "Maintain cleanliness", "Make intention with sincerity"],
@@ -606,7 +639,8 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be mindful of others, avoid pushing, and help those in need.<br>
                 - Maintain humility and focus on the spiritual significance of Tawaf.<br><br>
-                `,
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+              `,
               dua: "SubhanAllah, Alhamdulillah, Allahu Akbar (recite any dua from the heart)",
               dos: ["Stay calm in crowds", "Help others if possible", "Pray two rak'ahs after Tawaf", "Drink Zamzam water"],
               donts: ["Push or harm others", "Rush the ritual", "Forget to make dua"],
@@ -624,7 +658,8 @@ export default {
                 <strong>Etiquette:</strong><br>
                 - Be considerate of others, especially the elderly and those with children.<br>
                 - Maintain focus and humility.<br><br>
-                `,
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+              `,
               dua: "Rabbighfir warham innaka antal-Azizul-Akram",
               dos: ["Reflect on Hajar's perseverance", "Recite duas during Sa'i", "Be considerate of others"],
               donts: ["Run in unsafe areas", "Distract others", "Forget to make dua"],
@@ -641,7 +676,8 @@ export default {
                 - Thank Allah for enabling you to complete Umrah.<br>
                 - Make dua for acceptance and for your loved ones.<br>
                 - Reflect on the lessons of humility, obedience, and gratitude.<br><br>
-                `,
+                <em>Reference: <a href='https://www.islamicfinder.org/knowledge/umrah-guide/' target='_blank'>IslamicFinder Umrah Guide</a></em>
+              `,
               dua: "Allahumma taqabbal minni (O Allah, accept from me)",
               dos: ["Thank Allah for the opportunity", "Pray for acceptance", "Reflect on the experience"],
               donts: ["Forget to make dua", "Leave before completing all rites"],
@@ -683,7 +719,12 @@ export default {
       },
       readTime: 0,
       listeningTime: 0,
-      wordCount: 0
+      wordCount: 0,
+      map: null,
+      markers: [],
+      routeLine: null,
+      animatedRoute: null,
+      ritualLocations: {},
     };
   },
   computed: {
@@ -695,25 +736,25 @@ export default {
     this.calculateReadTimeAndWordCount();
     window.addEventListener('beforeunload', this.stopSpeech);
     window.addEventListener('visibilitychange', this.handleTabChange);
+    this.initMap();
   },
   beforeUnmount() {
     window.removeEventListener('beforeunload', this.stopSpeech);
     window.removeEventListener('visibilitychange', this.handleTabChange);
     this.stopSpeech();
+    if (this.map) {
+      this.map.remove();
+    }
   },
   methods: {
-    handleTabKeydown(event, tab) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        this.switchTab(tab);
-      }
-    },
     switchTab(tab) {
       if (this.currentTab === tab) return;
       this.currentTab = tab;
       this.stopSpeech();
+      this.settingsOpen = false;
       this.$nextTick(() => {
         this.calculateReadTimeAndWordCount();
+        this.updateMapRoute();
       });
     },
     async toggleSpeech() {
@@ -819,10 +860,72 @@ export default {
       this.listeningTime = Math.ceil(this.wordCount / 150);
     },
     toggleSettings() {
-      // Removed unused settingsOpen variable and method body
+      this.settingsOpen = !this.settingsOpen;
+      console.log('Settings toggled:', this.settingsOpen);
     },
     printGuide() {
       window.print();
+    },
+    initMap() {
+      // Ritual locations (approximate lat/lng)
+      this.ritualLocations = {
+        hajj: [
+          { name: 'Kaaba', coords: [21.4225, 39.8262] },
+          { name: 'Safa', coords: [21.4227, 39.8270] },
+          { name: 'Marwah', coords: [21.4231, 39.8280] },
+          { name: 'Mina', coords: [21.4147, 39.8945] },
+          { name: 'Arafat', coords: [21.3556, 39.9833] },
+          { name: 'Muzdalifah', coords: [21.3667, 39.9400] },
+        ],
+        umrah: [
+          { name: 'Kaaba', coords: [21.4225, 39.8262] },
+          { name: 'Safa', coords: [21.4227, 39.8270] },
+          { name: 'Marwah', coords: [21.4231, 39.8280] },
+        ]
+      };
+      this.map = L.map('ritual-map', {
+        center: [21.4225, 39.8262],
+        zoom: 13,
+        scrollWheelZoom: false,
+        zoomControl: false,
+        attributionControl: false
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+      }).addTo(this.map);
+      this.updateMapRoute();
+    },
+    updateMapRoute() {
+      if (!this.map) return;
+      // Remove previous markers and polylines
+      if (this.markers) {
+        this.markers.forEach(m => this.map.removeLayer(m));
+      }
+      if (this.routeLine) {
+        this.map.removeLayer(this.routeLine);
+      }
+      if (this.animatedRoute) {
+        this.map.removeLayer(this.animatedRoute);
+      }
+      const locations = this.ritualLocations[this.currentTab];
+      this.markers = locations.map(loc => {
+        return L.marker(loc.coords, { title: loc.name }).addTo(this.map).bindPopup(`<b>${loc.name}</b>`);
+      });
+      // Draw route with shadow/glow and animation
+      this.routeLine = L.polyline(locations.map(l => l.coords), { color: '#00bfa6', weight: 7, opacity: 0.5 }).addTo(this.map);
+      this.animatedRoute = L.polyline([], { color: '#009688', weight: 4, opacity: 0.9 }).addTo(this.map);
+      let i = 0;
+      const coords = locations.map(l => l.coords);
+      const animate = () => {
+        if (i <= coords.length) {
+          this.animatedRoute.setLatLngs(coords.slice(0, i));
+          i++;
+          setTimeout(animate, 180);
+        }
+      };
+      animate();
+      // Fit map to route
+      this.map.fitBounds(this.routeLine.getBounds(), { padding: [30, 30] });
     }
   }
 };
@@ -836,29 +939,33 @@ export default {
   padding: 0.5rem 1.2rem;
   border-radius: 50px;
   border: 2px solid transparent;
-  transition: all 0.2s cubic-bezier(.4,2,.3,1);
+  transition: all 0.2s cubic-bezier(.4, 2, .3, 1);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 4px rgba(0,191,166,0.06);
+  box-shadow: 0 1px 4px rgba(0, 191, 166, 0.06);
 }
+
 .custom-tab:hover {
   background-color: #d1ecea;
   color: #009688;
-  box-shadow: 0 2px 8px rgba(0,191,166,0.10);
+  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);
 }
+
 .custom-tab.active {
   background-color: #00bfa6;
   color: white;
   border-color: #009688;
   box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);
 }
+
 .custom-tab:disabled {
   background-color: #6c757d;
   color: white;
   cursor: not-allowed;
 }
+
 .guide-card {
   background: #fff;
   border-radius: 1.2rem;
@@ -867,12 +974,14 @@ export default {
   padding: 2.2rem 1.5rem 2rem 1.5rem;
   margin-bottom: 2.2rem;
 }
+
 .info-row {
   gap: 1.1rem !important;
   margin-bottom: 2.2rem !important;
   flex-wrap: wrap !important;
   justify-content: center;
 }
+
 .info-badge {
   background: none;
   color: #666;
@@ -890,11 +999,17 @@ export default {
   margin-left: 0.5rem;
   margin-bottom: 0.2rem;
 }
+
 .info-badge i {
   font-size: 1.01em;
   margin-right: 0.3em;
   color: #b0b0b0;
 }
+
+#ritual-map {
+  box-shadow: 0 2px 12px rgba(0, 191, 166, 0.10);
+}
+
 @media (max-width: 600px) {
   .info-row {
     gap: 0.2rem !important;
@@ -903,6 +1018,7 @@ export default {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
   .info-badge {
     font-size: 0.95rem;
     padding: 0.13rem 0.5rem 0.13rem 0.3rem;
@@ -911,36 +1027,49 @@ export default {
     margin-bottom: 0.15rem;
     white-space: nowrap;
   }
+
   .guide-card {
     padding: 1.1rem 0.5rem 1.2rem 0.5rem;
     margin-bottom: 1.2rem;
   }
+
   .section-title {
     margin-top: 1.2rem;
     margin-bottom: 0.7rem;
     padding-bottom: 0.1rem;
   }
+
   section {
     margin-top: 1.1rem;
     margin-bottom: 1.1rem;
   }
+
   .accordion-item {
     margin-bottom: 0.7rem;
   }
+
   .accordion-body {
     padding: 0.8rem 0.3rem 0.7rem 0.3rem;
   }
-  .alert-info, .alert-warning, .alert-primary, .alert-danger, .alert-success {
+
+  .alert-info,
+  .alert-warning,
+  .alert-primary,
+  .alert-danger,
+  .alert-success {
     padding: 0.7rem 0.6rem;
     margin-bottom: 0.7rem;
   }
+
   .ms-2 {
     margin-left: 0.5rem !important;
   }
+
   section .list-unstyled {
     gap: 0.5rem 0.7rem;
   }
 }
+
 .section-title {
   font-size: 1.22rem;
   font-weight: 700;
@@ -951,13 +1080,16 @@ export default {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid #f2f2f2;
 }
+
 .section-title i {
   color: #888;
 }
+
 section {
   margin-top: 2.2rem;
   margin-bottom: 2.2rem;
 }
+
 .accordion-item {
   border-radius: 1rem !important;
   margin-bottom: 1.2rem;
@@ -965,6 +1097,7 @@ section {
   box-shadow: none;
   background: #fff;
 }
+
 .accordion-button {
   border-radius: 1rem !important;
   font-size: 1.08rem;
@@ -976,10 +1109,12 @@ section {
   box-shadow: none;
   padding: 1.2rem 1.3rem 1.2rem 1.3rem;
 }
+
 .accordion-button:not(.collapsed) {
   background: #f1f7f6;
   color: #00bfa6;
 }
+
 .accordion-body {
   font-size: 1.04rem;
   background: #fff;
@@ -989,7 +1124,12 @@ section {
   box-shadow: none;
   margin-bottom: 0.2rem;
 }
-.alert-info, .alert-warning, .alert-primary, .alert-danger, .alert-success {
+
+.alert-info,
+.alert-warning,
+.alert-primary,
+.alert-danger,
+.alert-success {
   font-size: 1.01rem;
   border-radius: 0.8rem;
   box-shadow: none;
@@ -997,39 +1137,49 @@ section {
   margin-bottom: 1.2rem;
   padding: 1.2rem 1.3rem;
 }
+
 ul.list-unstyled {
   padding-left: 0;
   margin-bottom: 0.5rem;
 }
+
 ul.list-unstyled li {
   margin-bottom: 0.8rem;
   line-height: 1.7;
 }
+
 /* FAQ and Common Mistakes spacing */
-.accordion#hajj-faq, .accordion#umrah-faq {
+.accordion#hajj-faq,
+.accordion#umrah-faq {
   margin-bottom: 1.7rem;
 }
+
 .ms-2 {
   margin-left: 1.2rem !important;
 }
+
 /* Reference links horizontal gap */
 section .list-unstyled {
   display: flex;
   flex-wrap: wrap;
   gap: 1.2rem 2.2rem;
 }
+
 section .list-unstyled li {
   margin-bottom: 0.2rem;
   margin-right: 0;
 }
+
 .text-custom {
   color: #00bfa6;
 }
+
 .clean-tabs {
   gap: 1.2rem;
   margin-bottom: 2.2rem !important;
   margin-top: 0.7rem;
 }
+
 .clean-tab-btn {
   background: none;
   border: none;
@@ -1044,29 +1194,35 @@ section .list-unstyled li {
   min-width: 80px;
   letter-spacing: 0.01em;
 }
-.clean-tab-btn.active, .clean-tab-btn:focus {
+
+.clean-tab-btn.active,
+.clean-tab-btn:focus {
   color: #00bfa6;
   border-bottom: 1.5px solid #00bfa6;
   background: none;
   font-weight: 600;
 }
+
 .clean-tab-btn:hover {
   color: #009688;
   background: none;
   border-bottom: 1.5px solid #b2dfdb;
 }
+
 @media (max-width: 600px) {
   .clean-tabs {
     gap: 0.5rem;
     margin-bottom: 1.2rem !important;
     margin-top: 0.3rem;
   }
+
   .clean-tab-btn {
     font-size: 0.97rem;
     padding: 0.35rem 0.5rem 0.18rem 0.5rem;
     min-width: 60px;
   }
 }
+
 /* Visually hidden but focusable skip link for accessibility */
 .skip-link {
   position: absolute;
@@ -1084,14 +1240,16 @@ section .list-unstyled li {
   outline: none;
   transition: left 0.2s;
 }
+
 .skip-link:focus {
   left: 1rem;
   top: 1rem;
   width: auto;
   height: auto;
   outline: 2px solid #00bfa6;
-  box-shadow: 0 2px 8px rgba(0,191,166,0.10);
+  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);
 }
+
 .print-btn {
   font-size: 1rem;
   padding: 0.35rem 1.1rem;
@@ -1100,9 +1258,11 @@ section .list-unstyled li {
   transition: background 0.18s, color 0.18s;
   box-shadow: none;
 }
+
 .print-btn i {
   font-size: 1.1em;
 }
+
 @media print {
   body * {
     visibility: hidden !important;
@@ -1110,15 +1270,20 @@ section .list-unstyled li {
     background: #fff !important;
     color: #222 !important;
   }
-  #main-content, #main-content * {
+
+  #main-content,
+  #main-content * {
     visibility: visible !important;
     color: #222 !important;
     background: #fff !important;
     box-shadow: none !important;
   }
-  .no-print, .no-print * {
+
+  .no-print,
+  .no-print * {
     display: none !important;
   }
+
   .guide-card {
     box-shadow: none !important;
     border: none !important;
@@ -1127,29 +1292,43 @@ section .list-unstyled li {
     padding: 0 !important;
     margin: 0 !important;
   }
+
   .section-title {
     border-bottom: 1px solid #eee !important;
     margin-top: 2rem !important;
     margin-bottom: 1rem !important;
     color: #111 !important;
   }
-  .accordion-item, .accordion-button, .accordion-body, .alert, .info-badge {
+
+  .accordion-item,
+  .accordion-button,
+  .accordion-body,
+  .alert,
+  .info-badge {
     background: #fff !important;
     color: #222 !important;
     box-shadow: none !important;
     border: none !important;
   }
+
   .alert {
     padding: 0.7rem 1rem !important;
     margin-bottom: 0.7rem !important;
   }
-  .info-row, .clean-tabs, .skip-link, .alert-dismissible, .position-fixed {
+
+  .info-row,
+  .clean-tabs,
+  .skip-link,
+  .alert-dismissible,
+  .position-fixed {
     display: none !important;
   }
+
   a {
     color: #222 !important;
     text-decoration: underline !important;
   }
+
   @page {
     margin: 1.5cm;
   }
@@ -1158,14 +1337,17 @@ section .list-unstyled li {
 
 <style>
 @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
 ::selection {
   background-color: #00bfa6;
   color: white;
 }
+
 a {
   color: #00bfa6;
   text-decoration: none;
 }
+
 a:hover {
   color: #009688;
 }
