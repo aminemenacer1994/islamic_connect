@@ -1,96 +1,5 @@
 <template>
     <div id="app">
-        <!-- Voice Navigation Toolbar -->
-        <div class="voice-toolbar" role="region" aria-label="Voice Navigation Toolbar">
-            <button
-                :class="['btn', 'btn-primary', 'rounded-circle', isVoiceListening ? 'pulse-mic' : '']"
-                style="width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 2rem;"
-                @click="toggleVoiceNavigation"
-                :aria-pressed="isVoiceListening"
-                :title="isVoiceListening ? 'Listening...' : 'Voice Navigation'"
-            >
-                <i :class="isVoiceListening ? 'bi bi-mic-fill text-danger' : 'bi bi-mic'" />
-            </button>
-            <select v-model="voiceLang" @change="saveVoiceLang" class="form-select form-select-sm ms-2" style="width: 120px; height: 40px; font-size: 1rem;" aria-label="Select voice recognition language">
-                <option v-for="lang in supportedVoiceLangs" :key="lang.code" :value="lang.code">{{ lang.label }}</option>
-            </select>
-            <button class="btn btn-outline-secondary ms-2" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;" @click="showHelpModal = true" aria-label="Show voice help guide" title="Voice Help Guide">
-                <i class="bi bi-question-circle"></i>
-            </button>
-            <div v-if="isVoiceListening" style="margin-left: 1rem; color: #0db6a1; font-weight: bold; font-size: 0.95rem; align-self: center;">Listening...</div>
-            <div v-if="voiceError" class="alert alert-danger ms-2 p-2" style="font-size: 0.9rem; align-self: center;">{{ voiceError }}</div>
-        </div>
-        <!-- Voice Help Modal -->
-        <div v-if="showHelpModal" class="voice-help-modal" tabindex="-1" @keydown.esc="showHelpModal = false" @click.self="showHelpModal = false" role="dialog" aria-modal="true" aria-labelledby="voiceHelpTitle">
-            <div class="voice-help-content" ref="helpModalContent" tabindex="0">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 id="voiceHelpTitle" class="h4 mb-0">Voice Navigation Help</h2>
-                    <button class="btn btn-sm btn-outline-secondary" @click="showHelpModal = false" aria-label="Close help guide"><i class="bi bi-x-lg"></i></button>
-                </div>
-                <p class="mb-3">You can control the Quran Companion using your voice. Try these commands (in any supported language):</p>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <h5>English</h5>
-                        <ul class="list-unstyled ms-2">
-                            <li><b>next</b> – Go to next verse</li>
-                            <li><b>previous</b> / <b>back</b> – Go to previous verse</li>
-                            <li><b>first</b> – Go to first verse</li>
-                            <li><b>last</b> – Go to last verse</li>
-                            <li><b>bookmark</b> – Bookmark current verse</li>
-                            <li><b>open note</b> – Open note modal</li>
-                            <li><b>close note</b> – Close note modal</li>
-                            <li><b>expand</b> – Expand content</li>
-                            <li><b>collapse</b> – Collapse content</li>
-                            <li><b>full screen</b> – Enter full screen</li>
-                            <li><b>exit full screen</b> – Exit full screen</li>
-                            <li><b>search [term]</b> – Search for a word</li>
-                            <li><b>go to surah [number]</b> – Jump to a surah</li>
-                            <li><b>go to ayah [number]</b> – Jump to a verse</li>
-                            <li><b>read translation</b> – Read translation aloud</li>
-                            <li><b>read tafseer</b> – Read tafseer aloud</li>
-                            <li><b>read transliteration</b> – Read transliteration aloud</li>
-                            <li><b>stop reading</b> – Stop reading aloud</li>
-                            <li><b>help</b> – Show this help guide</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <h5>العربية</h5>
-                        <ul class="list-unstyled ms-2">
-                            <li><b>التالي</b> – الآية التالية</li>
-                            <li><b>السابق</b> / <b>رجوع</b> – الآية السابقة</li>
-                            <li><b>الأول</b> – أول آية</li>
-                            <li><b>الأخير</b> – آخر آية</li>
-                            <li><b>إشارة مرجعية</b> – إضافة إشارة مرجعية</li>
-                            <li><b>افتح الملاحظة</b> – فتح الملاحظة</li>
-                            <li><b>اغلق الملاحظة</b> – إغلاق الملاحظة</li>
-                            <li><b>توسيع</b> – توسيع المحتوى</li>
-                            <li><b>طي</b> – طي المحتوى</li>
-                            <li><b>شاشة كاملة</b> – وضع ملء الشاشة</li>
-                            <li><b>خروج من الشاشة الكاملة</b> – الخروج من ملء الشاشة</li>
-                            <li><b>ابحث عن [كلمة]</b> – البحث عن كلمة</li>
-                            <li><b>اذهب إلى السورة [رقم]</b> – الانتقال إلى سورة</li>
-                            <li><b>اذهب إلى الآية [رقم]</b> – الانتقال إلى آية</li>
-                            <li><b>اقرأ الترجمة</b> – قراءة الترجمة</li>
-                            <li><b>اقرأ التفسير</b> – قراءة التفسير</li>
-                            <li><b>اقرأ التحويل الصوتي</b> – قراءة التحويل الصوتي</li>
-                            <li><b>توقف عن القراءة</b> – إيقاف القراءة</li>
-                            <li><b>مساعدة</b> – عرض دليل المساعدة</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <h5>Other Supported Languages</h5>
-                        <ul class="list-unstyled ms-2">
-                            <li><b>Français, Türkçe, Bahasa Indonesia, Urdu</b> – Use similar commands in your language (see language selector above).</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="text-end mt-3">
-                    <button class="btn btn-success" @click="showHelpModal = false" aria-label="Close help guide">Close</button>
-                </div>
-            </div>
-        </div>
         <div class="py-4 text-center ">
             <Title />
             <!-- <ChatBot /> -->
@@ -938,20 +847,7 @@ export default {
         }
         this.loadBackgroundColor();
         this.prepareAyahText();
-        // Auto-start voice navigation if not already listening and not on mobile Safari
-        if (!this.isVoiceListening && !/iP(ad|hone|od).*Safari/i.test(navigator.userAgent)) {
-            setTimeout(() => {
-                this.startVoiceRecognition();
-            }, 1000);
-        }
-        // Focus trap for help modal
-        this.$watch('showHelpModal', (val) => {
-            if (val) {
-                this.$nextTick(() => {
-                    this.$refs.helpModalContent?.focus();
-                });
-            }
-        });
+
     },
 
     data() {
@@ -1185,21 +1081,7 @@ export default {
                 name_en: "",
                 name_ar: "",
             }),
-            loading: false,
-            isVoiceListening: false,
-            voiceRecognition: null,
-            voiceError: '',
-            voiceLang: localStorage.getItem('voiceLang') || 'en-US',
-            supportedVoiceLangs: [
-                { code: 'en-US', label: 'English' },
-                { code: 'ar-SA', label: 'العربية' },
-                { code: 'fr-FR', label: 'Français' },
-                { code: 'tr-TR', label: 'Türkçe' },
-                { code: 'id-ID', label: 'Bahasa Indonesia' },
-                { code: 'ur-PK', label: 'اردو' },
-                // Add more as needed
-            ],
-            showHelpModal: false,
+            loading: false
         };
     },
     computed: {
@@ -2101,164 +1983,6 @@ export default {
                     }.bind(this)
                 );
         },
-        toggleVoiceNavigation() {
-            if (this.isVoiceListening) {
-                this.stopVoiceRecognition();
-            } else {
-                this.startVoiceRecognition();
-            }
-        },
-        startVoiceRecognition() {
-            this.voiceError = '';
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                this.voiceError = 'Speech recognition is not supported in this browser.';
-                return;
-            }
-            if (this.voiceRecognition) {
-                this.voiceRecognition.abort();
-                this.voiceRecognition = null;
-            }
-            const recognition = new SpeechRecognition();
-            recognition.lang = this.voiceLang;
-            recognition.continuous = true;
-            recognition.interimResults = false;
-            recognition.onstart = () => {
-                this.isVoiceListening = true;
-            };
-            recognition.onresult = (event) => {
-                const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-                this.handleVoiceCommand(transcript, recognition.lang);
-            };
-            recognition.onerror = (event) => {
-                this.voiceError = 'Voice recognition error: ' + event.error;
-                this.isVoiceListening = false;
-            };
-            recognition.onend = () => {
-                this.isVoiceListening = false;
-                // Auto-restart for continuous experience
-                if (!this.voiceError && !document.hidden) {
-                    setTimeout(() => this.startVoiceRecognition(), 500);
-                }
-            };
-            this.voiceRecognition = recognition;
-            recognition.start();
-        },
-        stopVoiceRecognition() {
-            if (this.voiceRecognition) {
-                this.voiceRecognition.abort();
-                this.voiceRecognition = null;
-            }
-            this.isVoiceListening = false;
-        },
-        handleVoiceCommand(transcript, lang) {
-            // Command map: English and Arabic (add more as needed)
-            const commands = [
-                // Navigation
-                { phrases: ['next', 'التالي'], action: this.goToNextAyah },
-                { phrases: ['previous', 'back', 'السابق', 'رجوع'], action: this.goToPreviousAyah },
-                { phrases: ['first', 'الأول'], action: this.goToFirstAyah },
-                { phrases: ['last', 'الأخير'], action: this.goToLastAyah },
-                // Bookmark
-                { phrases: ['bookmark', 'إشارة مرجعية'], action: this.submitForm },
-                // Notes
-                { phrases: ['open note', 'افتح الملاحظة'], action: () => this.openModal('translationNote') },
-                { phrases: ['close note', 'اغلق الملاحظة'], action: () => this.openModal('translationNote') },
-                // Expand/collapse
-                { phrases: ['expand', 'توسيع'], action: this.toggleExpand },
-                { phrases: ['collapse', 'طي'], action: this.toggleExpand },
-                // Full screen
-                { phrases: ['full screen', 'شاشة كاملة'], action: this.toggleFullScreen },
-                { phrases: ['exit full screen', 'خروج من الشاشة الكاملة'], action: this.toggleFullScreen },
-                // Search
-                { phrases: ['search', 'ابحث عن'], action: (t) => this.handleSearchCommand(t) },
-                // Go to surah/ayah
-                { phrases: ['go to surah', 'اذهب إلى السورة'], action: (t) => this.handleGoToSurahCommand(t) },
-                { phrases: ['go to ayah', 'اذهب إلى الآية'], action: (t) => this.handleGoToAyahCommand(t) },
-                // Read aloud
-                { phrases: ['read translation', 'اقرأ الترجمة'], action: () => this.readAloud('translation') },
-                { phrases: ['read tafseer', 'اقرأ التفسير'], action: () => this.readAloud('tafseer') },
-                { phrases: ['read transliteration', 'اقرأ التحويل الصوتي'], action: () => this.readAloud('transliteration') },
-                { phrases: ['stop reading', 'توقف عن القراءة'], action: this.stopReadingAloud },
-                // Help
-                { phrases: ['help', 'مساعدة'], action: this.showVoiceHelp },
-            ];
-            // Try to match command
-            let matched = false;
-            for (const cmd of commands) {
-                for (const phrase of cmd.phrases) {
-                    if (transcript.startsWith(phrase)) {
-                        matched = true;
-                        if (typeof cmd.action === 'function') {
-                            cmd.action(transcript);
-                        }
-                        break;
-                    }
-                }
-                if (matched) break;
-            }
-            if (!matched) {
-                // Try number-based navigation
-                const surahMatch = transcript.match(/surah (\d+)|سورة (\d+)/);
-                const ayahMatch = transcript.match(/ayah (\d+)|آية (\d+)/);
-                if (surahMatch && surahMatch[1]) {
-                    this.updateSelectedSurah(parseInt(surahMatch[1]));
-                    matched = true;
-                } else if (ayahMatch && ayahMatch[1]) {
-                    this.selectAyah(parseInt(ayahMatch[1]) - 1);
-                    matched = true;
-                }
-            }
-            if (!matched) {
-                this.voiceError = 'Command not recognized. Try: next, previous, bookmark, open note, search, go to surah/ayah, read translation, help...';
-            } else {
-                this.voiceError = '';
-            }
-        },
-        handleSearchCommand(transcript) {
-            // Extract search term after 'search' or 'ابحث عن'
-            const term = transcript.replace(/^(search|ابحث عن)\s*/, '');
-            if (term) {
-                this.searchTerm = term;
-                this.isAdvancedSearchVisible = true;
-            }
-        },
-        handleGoToSurahCommand(transcript) {
-            const match = transcript.match(/surah (\d+)|سورة (\d+)/);
-            if (match && match[1]) {
-                this.updateSelectedSurah(parseInt(match[1]));
-            }
-        },
-        handleGoToAyahCommand(transcript) {
-            const match = transcript.match(/ayah (\d+)|آية (\d+)/);
-            if (match && match[1]) {
-                this.selectAyah(parseInt(match[1]) - 1);
-            }
-        },
-        readAloud(type) {
-            let text = '';
-            if (type === 'translation' && this.information?.translation) {
-                text = typeof this.information.translation === 'object' ? this.information.translation.text : this.information.translation;
-            } else if (type === 'tafseer' && this.tafseer) {
-                text = this.tafseer;
-            } else if (type === 'transliteration' && this.information?.transliteration) {
-                text = this.information.transliteration;
-            }
-            if (text) {
-                const utterance = new window.SpeechSynthesisUtterance(text);
-                utterance.lang = this.voiceLang;
-                window.speechSynthesis.speak(utterance);
-            }
-        },
-        stopReadingAloud() {
-            window.speechSynthesis.cancel();
-        },
-        showVoiceHelp() {
-            this.voiceError = 'Voice commands: next, previous, bookmark, open note, search [term], go to surah/ayah [number], read translation, help...';
-        },
-        saveVoiceLang() {
-            localStorage.setItem('voiceLang', this.voiceLang);
-        },
     },
     created() {
         this.userId = localStorage.getItem("userId");
@@ -2301,12 +2025,6 @@ export default {
                 this.selectedIndexAyah = parseInt(newVal) - 1;
             }
         },
-    },
-    beforeUnmount() {
-        if (this.voiceRecognition) {
-            this.voiceRecognition.abort();
-            this.voiceRecognition = null;
-        }
     },
 };
 </script>
@@ -2508,61 +2226,5 @@ p {
 .premium-features li {
     margin: 0.5rem 0;
     color: #28a745;
-}
-
-.pulse-mic {
-    animation: pulse 1.2s infinite;
-}
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(13,182,161,0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(13,182,161,0); }
-    100% { box-shadow: 0 0 0 0 rgba(13,182,161,0); }
-}
-
-.voice-toolbar {
-    position: fixed;
-    top: 30px;
-    right: 30px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255,255,255,0.95);
-    border-radius: 32px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    padding: 0.5rem 1rem;
-}
-.pulse-mic {
-    animation: pulse 1.2s infinite;
-}
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(13,182,161,0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(13,182,161,0); }
-    100% { box-shadow: 0 0 0 0 rgba(13,182,161,0); }
-}
-
-.voice-help-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.35);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.voice-help-content {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-    max-width: 700px;
-    width: 95vw;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 2rem 2rem 1.5rem 2rem;
-    outline: none;
 }
 </style>

@@ -106,8 +106,6 @@
         </div>
       </div>
 
-      <hr class="container" />
-
       <h3 class="fw-bold mb-3">All Allah's Names</h3>
 
       <!-- Names Grid -->

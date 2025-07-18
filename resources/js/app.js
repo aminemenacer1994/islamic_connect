@@ -97,7 +97,6 @@ import AthkarComponenet from "./components/AthkarComponenet.vue";
 import FinanceComponent from "./components/FinanceComponent.vue";
 import ZakatComponent from "./components/ZakatComponent.vue";
 
-
 const app = createApp({
   data() {
     return {
@@ -219,5 +218,4 @@ app.component('food-component', FoodComponent);
 app.component('school-component', SchoolComponent);
 app.component('welfare-component', WelfareComponent);
 app.component('books-component', BooksComponent);
-
 app.mount("#app");
