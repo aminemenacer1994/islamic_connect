@@ -55,139 +55,112 @@
                 </div>
               </div>
 
-              <!-- Advanced Search Controls -->
-              <div class="bg-light rounded-3 p-4 border mb-3">
-                <div class="row g-3 align-items-end">
-                  <div class="col-12 d-flex flex-column flex-md-row align-items-stretch gap-3">
-                    <div class="flex-shrink-0" style="min-width:220px;">
-                      <label class="form-label fw-bold text-dark mb-2">
-                        <i class="bi bi-sort-down me-1"></i>Sort By
-                      </label>
-                      <select
-                        v-model="sortBy"
-                        class="form-select border-0 shadow-sm mb-2"
-                        :class="{ 'form-select-lg': $isLargeScreen }"
-                        @change="updateSuggestions"
-                        style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
-                      >
-                        <option value="relevance">Relevance</option>
-                        <option value="term">Term (A-Z)</option>
-                        <option value="term-desc">Term (Z-A)</option>
-                        <option value="subject">Subject</option>
-                        <option value="recent">Recently Viewed</option>
-                        <option value="favorites">Favorites First</option>
-                      </select>
+              <!-- Cleaned Up Search Controls -->
+              <div class="mb-3">
+                <div class="row g-2 align-items-center flex-nowrap">
+                  <div class="col-12 col-md-9">
+                    <div class="input-group shadow-sm rounded-pill bg-white">
+                      <input
+                        id="searchQuery"
+                        type="text"
+                        v-model="searchQuery"
+                        class="form-control border-0 bg-white rounded-pill ps-4 pe-0 py-3"
+                        placeholder="Search terms, meanings, references..."
+                        aria-label="Search Islamic Dictionary"
+                        @input="updateSuggestions"
+                        @focus="updateSuggestions"
+                        @blur="delayHideSuggestions"
+                        @keydown.down.prevent="navigateSuggestions(1)"
+                        @keydown.up.prevent="navigateSuggestions(-1)"
+                        @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
+                        @keydown.escape="showSuggestions = false"
+                        autocomplete="off"
+                        spellcheck="false"
+                        style="box-shadow: none;"
+                      />
+                      <span class="input-group-text bg-white border-0 pe-0">
+                        <i class="bi bi-search text-secondary"></i>
+                      </span>
+                      <span v-if="searchQuery" class="input-group-text bg-white border-0 px-2">
+                        <button class="btn btn-link p-0 text-secondary" @click="clearSearch" aria-label="Clear search" title="Clear search">
+                          <i class="bi bi-x-lg"></i>
+                        </button>
+                      </span>
+                      <span class="input-group-text bg-white border-0 px-2">
+                        <button class="btn btn-link p-0 text-secondary" :disabled="!isSpeechSupported" @click="toggleVoiceSearch" aria-label="Toggle voice search" :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'">
+                          <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
+                        </button>
+                      </span>
+                      <span class="input-group-text bg-white border-0 px-2">
+                        <button class="btn btn-link p-0 text-secondary" @click="toggleAdvancedSearch" aria-label="Toggle advanced search" :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'">
+                          <i class="bi bi-sliders"></i>
+                        </button>
+                      </span>
                     </div>
-                    <div class="flex-grow-1">
-                      <label for="searchQuery" class="form-label fw-bold text-dark mb-2">
-                        <i class="bi bi-search me-1"></i>Search Terms
-                      </label>
-                      <div class="position-relative">
-                        <div class="input-group shadow-sm mb-2" :class="{ 'input-group-lg': $isLargeScreen }">
-                          <span class="input-group-text bg-white border-0">
-                            <i class="bi bi-search text-secondary"></i>
-                          </span>
-                        <input
-                          id="searchQuery"
-                          type="text"
-                          v-model="searchQuery"
-                          class="form-control border-0 py-2 py-md-3"
-                          :class="{ 'fs-5': $isLargeScreen }"
-                            placeholder="Search terms, meanings, references, or use advanced syntax..."
-                          aria-label="Search Islamic Dictionary"
-                            @input="updateSuggestions"
-                            @focus="updateSuggestions"
-                          @blur="delayHideSuggestions"
-                          @keydown.down.prevent="navigateSuggestions(1)"
-                          @keydown.up.prevent="navigateSuggestions(-1)"
-                          @keydown.enter.prevent="selectSuggestion(highlightedIndex)"
-                            @keydown.escape="showSuggestions = false"
-                          autocomplete="off"
-                          spellcheck="false"
-                            style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
-                        />
-                          <div class="input-group-append">
-                          <button
-                            v-if="searchQuery"
-                              class="btn btn-outline-secondary border-0 px-2"
-                            type="button"
-                            @click="clearSearch"
-                            aria-label="Clear search"
-                            title="Clear search"
-                          >
-                            <i class="bi bi-x-lg"></i>
-                          </button>
-                          <button
-                              class="btn btn-outline-secondary border-0 px-2"
-                            type="button"
-                            :disabled="!isSpeechSupported"
-                            :title="isSpeechSupported ? 'Start voice search' : 'Voice search not supported'"
-                            @click="toggleVoiceSearch"
-                            aria-label="Toggle voice search"
-                          >
-                            <i class="bi bi-mic" :class="{ 'text-danger pulse': isListening }"></i>
-                          </button>
-                            <button
-                              class="btn btn-outline-secondary border-0 px-2"
-                              type="button"
-                              @click="toggleAdvancedSearch"
-                              :title="showAdvancedSearch ? 'Hide advanced search' : 'Show advanced search'"
-                              aria-label="Toggle advanced search"
-                            >
-                              <i class="bi bi-sliders"></i>
-                            </button>
-                        </div>
-                        </div>
-
-                        <!-- Enhanced Suggestions Dropdown -->
-                        <div
-                          v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
-                          class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white"
-                          role="listbox"
-                          :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
-                          style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;"
+                    <!-- Suggestions Dropdown -->
+                    <div
+                      v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
+                      class="position-absolute w-100 shadow-lg rounded-bottom border mt-1 bg-white"
+                      role="listbox"
+                      :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
+                      style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;"
+                    >
+                      <div class="p-2 border-bottom bg-light">
+                        <small class="text-muted">
+                          <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required words
+                        </small>
+                      </div>
+                      <div class="list-group list-group-flush">
+                        <button
+                          v-for="(suggestion, index) in filteredSuggestions"
+                          :key="index"
+                          type="button"
+                          class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2"
+                          :class="{ 'active': index === highlightedIndex }"
+                          @mousedown.prevent="selectSuggestion(index)"
+                          @mouseover="highlightedIndex = index"
+                          :id="'suggestion-' + index"
+                          role="option"
+                          :aria-selected="index === highlightedIndex"
                         >
-                          <div class="p-2 border-bottom bg-light">
-                            <small class="text-muted">
-                              <i class="bi bi-lightbulb me-1"></i>Search tips: Use quotes for exact phrases, + for required words
-                            </small>
+                          <div class="d-flex flex-column">
+                            <span class="fw-bold">{{ suggestion.term }}</span>
+                            <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
                           </div>
-                          <div class="list-group list-group-flush">
-                            <button
-                              v-for="(suggestion, index) in filteredSuggestions"
-                              :key="index"
-                              type="button"
-                              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0 px-3 py-2"
-                              :class="{ 'active': index === highlightedIndex }"
-                              @mousedown.prevent="selectSuggestion(index)"
-                              @mouseover="highlightedIndex = index"
-                              :id="'suggestion-' + index"
-                              role="option"
-                              :aria-selected="index === highlightedIndex"
-                            >
-                              <div class="d-flex flex-column">
-                                <span class="fw-bold">{{ suggestion.term }}</span>
-                                <small class="text-muted">{{ suggestion.meaning.substring(0, 60) }}...</small>
-                              </div>
-                              <div class="d-flex flex-column align-items-end">
-                                <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject }}</span>
-                                <small class="text-muted">{{ getMatchType(suggestion) }}</small>
-                              </div>
-                            </button>
+                          <div class="d-flex flex-column align-items-end">
+                            <span class="badge" style="background-color: #e0fff8; color: #00bfa6;">{{ suggestion.subject }}</span>
+                            <small class="text-muted">{{ getMatchType(suggestion) }}</small>
                           </div>
-                          <div class="p-2 border-top bg-light">
-                            <small class="text-muted">
-                              <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to select • Esc to clear
-                            </small>
-                          </div>
-                        </div>
+                        </button>
+                      </div>
+                      <div class="p-2 border-top bg-light">
+                        <small class="text-muted">
+                          <i class="bi bi-arrow-up me-1"></i><i class="bi bi-arrow-down me-1"></i>Navigate • Enter to select • Esc to clear
+                        </small>
                       </div>
                     </div>
                   </div>
+                  <div class="col-12 col-md-3 mt-2 mt-md-0">
+                    <select
+                      v-model="sortBy"
+                      class="form-select border-0 shadow-sm rounded-pill"
+                      aria-label="Sort by"
+                      style="background: #f8fafb; border: 1.5px solid #d1e0e7;"
+                    >
+                      <option value="relevance">Relevance</option>
+                      <option value="term">Term (A-Z)</option>
+                      <option value="term-desc">Term (Z-A)</option>
+                      <option value="subject">Subject</option>
+                      <option value="recent">Recently Viewed</option>
+                      <option value="favorites">Favorites First</option>
+                    </select>
+                  </div>
                 </div>
+              </div>
 
-                <!-- Advanced Search Panel -->
-                <div v-if="showAdvancedSearch" class="mt-4 p-3 bg-light rounded border">
+              <!-- Advanced Search Panel -->
+              <transition name="fade">
+                <div v-if="showAdvancedSearch" class="mt-3 p-3 bg-light rounded border">
                   <h6 class="fw-bold mb-3">
                     <i class="bi bi-gear me-1"></i>Advanced Search Options
                   </h6>
@@ -224,7 +197,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </transition>
             </div>
             
             <!-- Navigation toggles -->
@@ -872,6 +845,6 @@ export default {
   .nav-pills .nav-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
-  }
+}
 }
 </style>
